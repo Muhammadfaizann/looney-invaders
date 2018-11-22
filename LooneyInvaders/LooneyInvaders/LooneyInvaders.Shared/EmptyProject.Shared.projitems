@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>8311f5ba-d8ba-4ae4-84ae-16e22cd4d574</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LooneyInvaders</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\CCLayerColorExt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\CCNodeExt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\CCSpriteButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\CCSpriteTwoStateButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameDelegate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards7Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards6Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards8Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards5Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\PauseScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\PlayerNameLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\SplashScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\GetMoreCreditsScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\LossScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\PrivacyPolicyScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\BattlegroundPickerLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\AboutGameScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\VictoryScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\WeaponUpgradeScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\GetReadyForNextAttackLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\WeaponPickerLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\GameInfoScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\GamePlayLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MainScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards1Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\EnemyPickerLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards4Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards3Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards2Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\SettingsScreenLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\IProduct.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\IPurchaseService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\Product.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\Purchase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\PurchaseError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\TransactionStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AdMobManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Explosion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Bomb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Battleground.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Bullet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Enemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GameEnvironment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GunSmoke.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Laser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\LaserSpark.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Leaderboard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\LeaderboardItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\LeaderboardManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\NetworkConnectionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PurchaseManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\RewardsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SocialNetworkShareManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\UserManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\VibrationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Weapon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\DeviceInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\IDeviceInfoService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DateTimeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\PushNotificationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\IOpenSettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\INotificationAllowedService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Services\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\PNS\" />
+  </ItemGroup>
+</Project>

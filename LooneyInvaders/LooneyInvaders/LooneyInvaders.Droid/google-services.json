@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "924679137742",
+    "firebase_url": "https://looneyinvaders.firebaseio.com",
+    "project_id": "looneyinvaders",
+    "storage_bucket": "looneyinvaders.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924679137742:android:1542f4db72fa83cd",
+        "android_client_info": {
+          "package_name": "com.init.looney_invaders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924679137742-voaq1l0kka4c1guj3aljltnf3rtsugt5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.init.looney_invaders",
+            "certificate_hash": "0b4e57b618ae150e3f06e0c0ed5607a2edc584f6"
+          }
+        },
+        {
+          "client_id": "924679137742-fae1grmpklf4bf9kvrqp7hh4jq4qtr0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqbNvlkbxCxDyYn4_VbYIIgX7UDMFvHLs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924679137742-fae1grmpklf4bf9kvrqp7hh4jq4qtr0i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "924679137742-8ubl9i7qju0280jpneesh32qo89rmjcm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sinremorse.looneyinvaders"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
