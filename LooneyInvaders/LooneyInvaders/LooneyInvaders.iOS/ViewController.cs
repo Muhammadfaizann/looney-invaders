@@ -419,6 +419,10 @@ namespace LooneyInvaders.iOS
                 }
             }
             catch (App42NotFoundException nfe) { }
+            catch (System.Net.WebException webex)
+            {
+                return null;
+            }
 
             return null;
         }
