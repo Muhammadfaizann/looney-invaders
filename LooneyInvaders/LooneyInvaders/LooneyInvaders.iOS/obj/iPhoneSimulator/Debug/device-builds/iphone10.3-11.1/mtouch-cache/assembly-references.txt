@@ -1,0 +1,29 @@
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhoneSimulator/Debug/LooneyInvadersiOS.exe
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/mscorlib.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/../../64bits/Xamarin.iOS.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/Mono.Security.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.Xml.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.Core.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/CocosSharp.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/MonoGame.Framework.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.Runtime.Serialization.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.ServiceModel.Internals.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/OpenTK-1.0.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xamarin.Google.iOS.MobileAds.7.27.0.3/lib/Xamarin.iOS10/Google.MobileAds.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/App42_CSHARP_SDK_2.3.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugins.Settings.4.0.0.7/lib/xamarinios10/Plugin.Settings.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/Facades/System.Runtime.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/System.ComponentModel.Composition.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/Facades/System.Threading.Tasks.dll
+/Library/Frameworks/Xamarin.iOS.framework/Versions/12.2.1.11/lib/mono/Xamarin.iOS/Facades/System.Threading.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.iOS.Bindings.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Crashes.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Crashes.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Crashes.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.iOS.Bindings.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Analytics.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Analytics.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Analytics.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Analytics.iOS.Bindings.dll

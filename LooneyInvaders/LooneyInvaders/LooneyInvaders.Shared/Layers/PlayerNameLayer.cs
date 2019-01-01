@@ -17,7 +17,8 @@ namespace LooneyInvaders.Layers
 
         string strInput;
         CCLabel lblInputLabel;
-        CCLabel lblInput;
+		CCLabel lblInput;
+        CCLabel lblCursor;
 
         List<CCSpriteButton> caps;
         List<CCSpriteButton> small;
@@ -52,6 +53,13 @@ namespace LooneyInvaders.Layers
             lblInput.Scale = 2;
             lblInput.ZOrder = 1000;
 
+            //create cursor
+			lblCursor = new CCLabel("I", "Fonts/AktivGroteskBold", 16, CCLabelFormat.SpriteFont);
+			lblCursor.Scale = 2;
+			lblCursor.Position = new CCPoint(lblInput.BoundingBox.MaxX, 500);
+			this.AddChild(lblCursor);
+			Schedule(BlinkCursor, 0.03f);
+            
             string slova;
 
             int spX = 80;
@@ -78,7 +86,6 @@ namespace LooneyInvaders.Layers
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                     btnSlovo.OnClick += btnSlovo_OnClick;
-
                     //CCLabel lblSlovo = this.AddLabelCentered(1136 / 2 + (i - 6) * spX + padX, keyboardY + padY, slova[i].ToString(), "Fonts/AktivGroteskBold", 16);
                     //lblSlovo.Color = new CCColor3B(0, 0, 0);
                     //lblSlovo.Scale = 2;
@@ -110,7 +117,6 @@ namespace LooneyInvaders.Layers
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                 }
-
                 //CCLabel lblSlovo = this.AddLabelCentered(1136 / 2 + spX / 2 + (i - 6) * spX + padX, keyboardY - spX + padY, slova[i].ToString(), "Fonts/AktivGroteskBold", 16);
                 //lblSlovo.Color = new CCColor3B(0, 0, 0);
                 //lblSlovo.Scale = 2;
@@ -141,8 +147,6 @@ namespace LooneyInvaders.Layers
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                 }
-
-
                 //CCLabel lblSlovo = this.AddLabelCentered(1136 / 2 + spX + (i - 6) * spX + padX, keyboardY - (spX * 2) + padY, slova[i].ToString(), "Fonts/AktivGroteskBold", 16);
                 //lblSlovo.Color = new CCColor3B(0, 0, 0);
                 //lblSlovo.Scale = 2;
@@ -173,8 +177,6 @@ namespace LooneyInvaders.Layers
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                 }
-
-
                 //CCLabel lblSlovo = this.AddLabelCentered(1136 / 2 + spX * 3 / 2 + (i - 6) * spX + padX, keyboardY - (spX * 3) + padY, slova[i].ToString(), "Fonts/AktivGroteskBold", 16);
                 //lblSlovo.Color = new CCColor3B(0, 0, 0);
                 //lblSlovo.Scale = 2;
@@ -189,8 +191,6 @@ namespace LooneyInvaders.Layers
             btnShift = this.AddTwoStateButton(1136 / 2 - 6 * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_shift_single_letter_untapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_untapped.png");
             btnShift.ButtonType = BUTTON_TYPE.OnOff;
             btnShift.OnClick += btnShift_OnClick;
-
-
         }
 
         private void btnShift_OnClick(object sender, EventArgs e)
@@ -199,7 +199,6 @@ namespace LooneyInvaders.Layers
             btnShift.SetStateImages();
             if (btnShift.State == 1)
             {
-  
                 foreach (CCSpriteButton btnSlovo in caps)
                 {
                     btnSlovo.Visible = false;
@@ -208,11 +207,9 @@ namespace LooneyInvaders.Layers
                 {
                     btnSlovo.Visible = true;
                 }
-
             }
             else
             {
-
                 foreach (CCSpriteButton btnSlovo in caps)
                 {
                     btnSlovo.Visible = true;
@@ -222,10 +219,23 @@ namespace LooneyInvaders.Layers
                     btnSlovo.Visible = false;
                 }
             }
-
-
         }
 
+		double _tick = 0;
+        void BlinkCursor(float dt)
+		{
+			_tick++;
+
+			if (strInput.Length > 0)
+				lblCursor.Position = new CCPoint(lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500);
+			else
+				lblCursor.Position = new CCPoint(1136 / 2, 500);
+
+			if (_tick % 20 == 0)
+			{
+				lblCursor.Visible = !lblCursor.Visible;
+			}
+		}
 
         private void btnSlovo_OnClick(object sender, EventArgs e)
         {
@@ -259,7 +269,6 @@ namespace LooneyInvaders.Layers
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
             }
-            
         }
 
         private void BtnBack_OnClick(object sender, EventArgs e)
@@ -270,7 +279,6 @@ namespace LooneyInvaders.Layers
                 _layerBack.isCartoonFadeIn = false;
                 Director.PopScene();
                 //this.TransitionToPoppedLayerCartoonStyle();
-                
             }
             else
             {
@@ -280,13 +288,19 @@ namespace LooneyInvaders.Layers
             }
         }
 
-       
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-            if (strInput.Length == 0)
+			if (String.IsNullOrWhiteSpace(strInput))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 lblInputLabel.Text = "Please enter player name below";
+                return;
+            }
+
+			if (strInput.Length < 3 || (strInput.Length > 0 && !char.IsLetter(strInput[0])))
+            {
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+				lblInputLabel.Text = "Player name must be more than 3 symbols and start from letter";
                 return;
             }
 
@@ -329,7 +343,5 @@ namespace LooneyInvaders.Layers
                 this.TransitionToLayerCartoonStyle(new MainScreenLayer());
             }
         }
-
-    
     }
 }

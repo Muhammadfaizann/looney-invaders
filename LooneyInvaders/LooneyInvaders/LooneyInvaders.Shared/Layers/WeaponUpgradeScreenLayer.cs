@@ -78,7 +78,8 @@ namespace LooneyInvaders.Layers
         CCSprite _lblWeaponUpgraded;
 
         bool isForwardTapped = false;
-        bool isBackTapped = false;
+		bool isBackTapped = false;
+        bool _isPopupShiving = false;
 
         public WeaponUpgradeScreenLayer(int selectedEnemy, int selectedWeapon, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1)
         {
@@ -147,13 +148,13 @@ namespace LooneyInvaders.Layers
             else if (selectedWeapon == (int)WEAPONS.BAZOOKA) this.SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
             else if (selectedWeapon == (int)WEAPONS.HYBRID) this.SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+			_btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
             _btnBack.OnClick += BtnBack_OnClick;
             _btnBack.ButtonType = BUTTON_TYPE.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+			_btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
             _btnForward.OnClick += BtnForward_OnClick;
             _btnForward.ButtonType = BUTTON_TYPE.Forward;
 
@@ -367,7 +368,6 @@ namespace LooneyInvaders.Layers
 
         private void showGameTip()
         {            
-            _btnBack.Enabled = false;
             _btnCalibreDecrease.Enabled = false;
             _btnCalibreIncrease.Enabled = false;
             _btnFirespeedIncrease.Enabled = false;
@@ -385,13 +385,12 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = true;
             _btnGetCredits.Enabled = true;
             _btnCancel.Enabled = true;
+			_isPopupShiving = true;
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
-
         }
                 
         private void hideGameTip()
         {
-            _btnBack.Enabled = true;
             _btnCalibreDecrease.Enabled = true;
             _btnCalibreIncrease.Enabled = true;
             _btnFirespeedIncrease.Enabled = true;
@@ -409,6 +408,7 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = false;
             _btnGetCredits.Enabled = false;
             _btnCancel.Enabled = false;
+			_isPopupShiving = false;
         }
 
         private void BtnCancel_OnClick(object sender, EventArgs e)
@@ -628,6 +628,12 @@ namespace LooneyInvaders.Layers
 
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
+			if(_isPopupShiving)
+			{
+				GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+			}
+
             isForwardTapped = false;
             isBackTapped = true;
 
@@ -645,6 +651,12 @@ namespace LooneyInvaders.Layers
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
+			if (_isPopupShiving)
+            {
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+            }
+
             isForwardTapped = true;
             isBackTapped = false;
 
@@ -669,7 +681,6 @@ namespace LooneyInvaders.Layers
 
         private void showGameTipNoBuy()
         {
-            _btnBack.Enabled = false;
             _btnCalibreDecrease.Enabled = false;
             _btnCalibreIncrease.Enabled = false;
             _btnFirespeedIncrease.Enabled = false;
@@ -687,13 +698,13 @@ namespace LooneyInvaders.Layers
             _btnNoBuyExit.Visible = true;
             _btnNoBuyBack.Enabled = true;
             _btnNoBuyExit.Enabled = true;
+			_isPopupShiving = true;
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
 
         }
 
         private void hideGameTipNoBuy()
         {
-            _btnBack.Enabled = true;
             _btnCalibreDecrease.Enabled = true;
             _btnCalibreIncrease.Enabled = true;
             _btnFirespeedIncrease.Enabled = true;
@@ -711,6 +722,7 @@ namespace LooneyInvaders.Layers
             _btnNoBuyExit.Visible = false;
             _btnNoBuyBack.Enabled = false;
             _btnNoBuyExit.Enabled = false;
+			_isPopupShiving = false;
         }
 
         private void _btnNoBuyExit_OnClick(object sender, EventArgs e)

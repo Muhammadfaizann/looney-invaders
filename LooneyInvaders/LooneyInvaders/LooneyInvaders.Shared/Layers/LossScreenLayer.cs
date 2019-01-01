@@ -789,7 +789,7 @@ namespace LooneyInvaders.Layers
         private void showAd(float dt)
         {
             AdMobManager.HideBanner();
-            AdMobManager.ShowInterstitial();
+            AdMobManager.ShowInterstitial(0);
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)

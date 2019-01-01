@@ -1,0 +1,199 @@
+Function=xamarin_timezone_get_data
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/mscorlib.dll
+Function=xamarin_GetFolderPath
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/mscorlib.dll
+Function=xamarin_log
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/mscorlib.dll
+Function=xamarin_find_protocol_wrapper_type
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Xamarin.iOS.dll
+Function=xamarin_release_block_on_main_thread
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Xamarin.iOS.dll
+Function=xamarin_get_block_descriptor
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Xamarin.iOS.dll
+Function=UIApplicationMain
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Xamarin.iOS.dll
+Function=xamarin_start_wwan
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=CreateZStream
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=CloseZStream
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=Flush
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=ReadZStream
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=WriteZStream
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/System.dll
+Function=GADAdSizeFromCGSize
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=GADAdSizeFullWidthPortraitWithHeight
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=GADAdSizeFullWidthLandscapeWithHeight
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=GADAdSizeEqualToSize
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=CGSizeFromGADAdSize
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=IsGADAdSizeValid
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=GADAdSizeIsFluid
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=NSStringFromGADAdSize
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=NSValueFromGADAdSize
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Function=GADAdSizeFromNSValue
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeBanner
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeFluid
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeFullBanner
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeInvalid
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeLargeBanner
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeLeaderboard
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeMediumRectangle
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeSkyscraper
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeSmartBannerLandscape
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADAdSizeSmartBannerPortrait
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=GADNativeCustomTemplateAdMediaViewKey
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeCustomTemplateAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kGADSimulatorID
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADRequest
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADRequestError
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADRewardBasedVideoAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADAdChoicesView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADAdLoader
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADAdLoaderOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADAdReward
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADAudioVideoManager
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADBannerView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADCorrelator
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADCorrelatorAdLoaderOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADCustomEventExtras
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADCustomEventRequest
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADDebugOptionsViewController
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADDefaultInAppPurchase
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADDynamicHeightSearchRequest
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADExtras
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADInAppPurchase
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADInterstitial
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADMediatedNativeAdNotificationSource
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADMediaView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADMobileAds
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADMultipleAdsAdLoaderOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAdImage
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAdImageAdLoaderOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAdViewAdOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAppInstallAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeAppInstallAdView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeContentAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeContentAdView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADNativeExpressAdView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADSearchBannerView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADSearchRequest
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADVideoController
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_GADVideoOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_DFPBannerView
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_DFPBannerViewOptions
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_DFPCustomRenderedAd
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_DFPInterstitial
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+Field=kDFPSimulatorID
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_DFPRequest
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Google.MobileAds.dll
+ObjectiveCClass=OBJC_CLASS_$_MSPush
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Push.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSPushNotification
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Push.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSCrashes
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSErrorAttachmentLog
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSErrorReport
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSException
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSStackFrame
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSWrapperCrashesHelper
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSWrapperException
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSWrapperExceptionManager
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Crashes.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSAppCenter
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSCustomProperties
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSDevice
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSLogger
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSServiceAbstract
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSWrapperLogger
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSWrapperSdk
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSAnalytics
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Analytics.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSEventLog
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Analytics.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSLogWithProperties
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Analytics.iOS.Bindings.dll
+ObjectiveCClass=OBJC_CLASS_$_MSPageLog
+	/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/mtouch-cache/32/1-Link/Microsoft.AppCenter.Analytics.iOS.Bindings.dll
+Function=mono_pmip

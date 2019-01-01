@@ -480,7 +480,7 @@ namespace LooneyInvaders.Layers
         {
             showAd.Enabled = false;
             AdMobManager.HideBanner();
-            AdMobManager.ShowInterstitial();
+            AdMobManager.ShowInterstitial(0);
         }
 
         private void showMultiplierAdCancel_Onclick(object sender, EventArgs e)

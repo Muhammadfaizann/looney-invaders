@@ -12,7 +12,7 @@ namespace LooneyInvaders.Model
         {
             byte[] data = Encoding.ASCII.GetBytes("token=12345qwerty&hero_id=" + rewardId);
 
-            WebRequest request = WebRequest.Create("http://dev3.looneyinvaders.com/wp-json/codegenerator/v1/make/");
+            WebRequest request = WebRequest.Create("http://www.looneyinvaders.com/wp-json/codegenerator/v1/make/");
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = data.Length;

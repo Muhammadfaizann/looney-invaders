@@ -7,16 +7,19 @@ using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Model;
 
-
 namespace LooneyInvaders.Layers
 {
     public class SplashScreenLayer : CCLayerColorExt
     {
         float _musicTime;
         bool? _backgroundLoading = false;
+        public bool EnabledTouch { get; set; } = false;
 
         public SplashScreenLayer()
-        {   
+        {
+            
+            this.Enabled = false;
+            this.EnabledTouch = false;
             this.SetBackground("UI/Splash-screen-background-2.jpg");
             Settings.Instance.ApplyValues(false);
 
@@ -38,12 +41,15 @@ namespace LooneyInvaders.Layers
 
         bool b = true;
 
+        public object Content { get; private set; }
+
         private void switchBackground(float dt)
         {
             if (b)
             {
                 this.SetBackground("UI/Splash-screen-background-1.jpg");
                 b = false;
+               
             }
             else
             {

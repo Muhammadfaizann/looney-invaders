@@ -44,7 +44,10 @@ namespace LooneyInvaders.iOS
                 motionManager = new CMMotionManager();
                 motionManager.StartDeviceMotionUpdates();
 
-                GameDelegate.GetGyro = getGyro;
+
+                //------------ Prabhjot -----------//
+                //     GameDelegate.GetGyro = getGyro;
+
 
                 GameView.MultipleTouchEnabled = true;
 
@@ -418,10 +421,8 @@ namespace LooneyInvaders.iOS
                     }
                 }
             }
-            catch (App42NotFoundException nfe) { }
-            catch (System.Net.WebException webex)
-            {
-                return null;
+            catch (App42NotFoundException nfe) {
+                Console.WriteLine(nfe.Message);
             }
 
             return null;
@@ -498,12 +499,16 @@ namespace LooneyInvaders.iOS
                     }
                 }
             }
-            catch (App42NotFoundException nfe) { }
+            catch (App42NotFoundException nfe) {
+            
+            }
         }
+
 
         private async void refreshLeaderboardsAsync(LooneyInvaders.Model.Leaderboard leaderboard)
         {
-            await Task.Run(() => refreshLeaderboards(leaderboard));
+            //---------- Prabhjot Singh ------//
+            // await Task.Run(() => refreshLeaderboards(leaderboard));
         }
 
         private void refreshLeaderboards(LooneyInvaders.Model.Leaderboard leaderboard)

@@ -7,6 +7,9 @@ using LooneyInvaders.Classes;
 using LooneyInvaders.Shared;
 using LooneyInvaders.PNS;
 
+#if __IOS__
+using Foundation;
+#endif
 namespace LooneyInvaders.Layers
 {
     public class GamePlayLayer : CCLayerColorExt
@@ -183,7 +186,21 @@ namespace LooneyInvaders.Layers
         public GamePlayLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, ENEMIES selectedEnemyForPickerScreens = ENEMIES.ALIENS, LAUNCH_MODE launchMode = LAUNCH_MODE.DEFAULT/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
-			this.EnableMultiTouch = true;
+            this.EnableMultiTouch = true;
+
+            // ----------- Prabhjot ----------- //
+
+            Settings.isFromGameScreen = true;
+
+#if __IOS__
+            NSObject _indexPathNotification;
+            _indexPathNotification = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("PlayToEnd"), (obj) => {
+
+                BtnBack_OnClick(null, null);
+
+            });
+
+#endif
 
             GameAnimation.Instance.FreeAllSpriteSheets(false);
 
@@ -1442,7 +1459,7 @@ namespace LooneyInvaders.Layers
             elapsedTime = 0;
             wavePass = 1136;
 
-			Settings.Instance.ShowSteeringTip = true;
+            Settings.Instance.ShowSteeringTip = true;
 
             if (SelectedEnemy == ENEMIES.ALIENS && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
             {
@@ -1497,7 +1514,7 @@ namespace LooneyInvaders.Layers
         CCSprite gameTipExplanation;
         CCSprite gameTipArrow;
         CCSprite gameTipTarget;
-		CCSpriteButton okIGotIt;
+        CCSpriteButton okIGotIt;
 
         private void showTiltInstruction(float dt)
         {
@@ -1515,44 +1532,44 @@ namespace LooneyInvaders.Layers
             okIGotIt.OnClick += okIGotIt_OnClick;
         }
 
-		private void showTouchInstruction(float dt)
+        private void showTouchInstruction(float dt)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
-			gameTipBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/touch-steering-instructions-notification-background.png", 1002);
-			gameTipExplanation = this.AddImage(100, 30, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
-            
+            gameTipBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/touch-steering-instructions-notification-background.png", 1002);
+            gameTipExplanation = this.AddImage(100, 30, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
+
             gameTipCheckMark = this.AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
             gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
             gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
 
             okIGotIt = this.AddButton(660, 10, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
-			okIGotIt.OnClick += okIGotIt_OnClickTouch;
+            okIGotIt.OnClick += okIGotIt_OnClickTouch;
         }
 
-		private void showSteeringTip(float dt)
-		{
-			Settings.Instance.ShowSteeringTip = false;
+        private void showSteeringTip(float dt)
+        {
+            Settings.Instance.ShowSteeringTip = false;
 
-			if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow)
-			{
-				if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
-				{
-					this.ScheduleOnce(showTiltInstruction, 1);
-				}
-				else if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
-				{
-					this.ScheduleOnce(showTouchInstruction, 1);
-				}
-			}
-			else
-			{
-				CreateBtnBack();
-			}
-		}
+            if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow)
+            {
+                if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
+                {
+                    this.ScheduleOnce(showTiltInstruction, 1);
+                }
+                else if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
+                {
+                    this.ScheduleOnce(showTouchInstruction, 1);
+                }
+            }
+            else
+            {
+                CreateBtnBack();
+            }
+        }
 
         private void CreateBtnBack()
-		{
-			Schedule(UpdateAll);
+        {
+            Schedule(UpdateAll);
             btnBack = this.AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
             btnBack.OnClick += BtnBack_OnClick;
             btnBack.ButtonType = BUTTON_TYPE.Back;
@@ -1561,7 +1578,7 @@ namespace LooneyInvaders.Layers
             btnSettings.OnClick += btnSettings_OnClick;
 
             SetUpSteering(launchMode == LAUNCH_MODE.DEFAULT);
-		}
+        }
 
         private void gameTipCheckMark_OnClick(object sender, EventArgs e)
         {
@@ -1596,7 +1613,7 @@ namespace LooneyInvaders.Layers
 
         }
 
-		private void okIGotIt_OnClickTouch(object sender, EventArgs e)
+        private void okIGotIt_OnClickTouch(object sender, EventArgs e)
         {
             Settings.Instance.GameTipGamePlayShow = gameTipCheckMark.State == 1 ? false : true;
 
@@ -1606,12 +1623,12 @@ namespace LooneyInvaders.Layers
             this.RemoveChild(gameTipTarget, true);
             this.RemoveChild(gameTipCheckMark, true);
             this.RemoveChild(okIGotIt, true);
-            
-			Settings.Instance.ShowSteeringTip = false;
+
+            Settings.Instance.ShowSteeringTip = false;
 
             SetUpSteering(launchMode == LAUNCH_MODE.DEFAULT);
 
-			CreateBtnBack();
+            CreateBtnBack();
 
             Schedule(UpdateAll);
         }
@@ -1674,8 +1691,13 @@ namespace LooneyInvaders.Layers
             //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
             //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
 
+            Console.WriteLine("Settings Button Clicked");
+
+
+            // -------- Prabhjot Singh ------- //
+            Settings.isFromGameScreen = false;
             CCScene newScene = new CCScene(this.GameView);
-			newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
+            newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
             Director.PushScene(newScene);
 
         }
@@ -1778,8 +1800,9 @@ namespace LooneyInvaders.Layers
         CCSprite gamePauseFriendlyLabel;
         CCSpriteTwoStateButton gamePauseFriendlyCheckMark;
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        public void BtnBack_OnClick(object sender, EventArgs e)
         {
+            Settings.isFromGameScreen = false;
             this.UnscheduleAll();
             this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
 
@@ -1857,6 +1880,7 @@ namespace LooneyInvaders.Layers
 
         private void btnContinue_OnClick(object sender, EventArgs e)
         {
+            Settings.isFromGameScreen = true;
             this.RemoveChild(gamePauseBackground, true);
             gamePauseBackground = null;
             this.RemoveChild(btnJust, true);
@@ -2003,8 +2027,8 @@ namespace LooneyInvaders.Layers
             clearAll();
             this.Enabled = false;
 
-			SetGameDuration();
-            
+            SetGameDuration();
+
             if (launchMode == LAUNCH_MODE.WEAPON_TEST)
             {
                 AdMobManager.HideBanner();
@@ -2035,7 +2059,7 @@ namespace LooneyInvaders.Layers
                 elapsedTime = 1;
             }
             clearAll();
-			SetGameDuration();
+            SetGameDuration();
 
             if (launchMode == LAUNCH_MODE.WEAPON_TEST)
             {
@@ -2058,10 +2082,10 @@ namespace LooneyInvaders.Layers
             }
         }
 
-		private void SetGameDuration()
-		{
-			Settings.Instance.SetTodaySessionDuration((int)elapsedTime);
-		}
+        private void SetGameDuration()
+        {
+            Settings.Instance.SetTodaySessionDuration((int)elapsedTime);
+        }
 
         CCLabel label = null;
 
@@ -2436,7 +2460,8 @@ namespace LooneyInvaders.Layers
                 var tilt = 0f;
                 var pitch = 0f;
 
-                GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
+                //---------- Prabhjot Singh ------//
+                //      GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
 
                 pitch = pitch >= 90 ? 180 - pitch : pitch;
 
@@ -4088,6 +4113,8 @@ namespace LooneyInvaders.Layers
 
         void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
+
+
             var movementButtonBoundingBox = btnMovement.BoundingBoxTransformedToWorld;
             var fireButtonBoundingBox = btnFire.BoundingBoxTransformedToWorld;
 
@@ -4104,16 +4131,16 @@ namespace LooneyInvaders.Layers
                 }
                 else if (isCannonMoving && RectangleNear(movementButtonBoundingBox, touch.Location, 0, 60))
                 {
-					isCannonMoving = true;
+                    isCannonMoving = true;
                     MoveCannon(touch.Location.X);
                 }
-				else if(isCannonMoving && RectangleNear(new CCRect(movementButtonBoundingBox.MinX, movementButtonBoundingBox.MinY - 60, movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX, movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60), touch.Location, 65, 65))
-				{
-					isCannonMoving = false;
+                else if (isCannonMoving && RectangleNear(new CCRect(movementButtonBoundingBox.MinX, movementButtonBoundingBox.MinY - 60, movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX, movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60), touch.Location, 65, 65))
+                {
+                    isCannonMoving = false;
                     speedTo = 0;
                     this.EndTouchOnBtn(btnMovement);
-				}
-                else if (isCannonShooting && RectangleNear(fireButtonBoundingBox, touch.Location, 50,50))
+                }
+                else if (isCannonShooting && RectangleNear(fireButtonBoundingBox, touch.Location, 50, 50))
                 {
                     isCannonShooting = false;
                     this.EndTouchOnBtn(btnFire);
@@ -4170,6 +4197,7 @@ namespace LooneyInvaders.Layers
 
         void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
+
             if (btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
             {
                 isCannonMoving = false;

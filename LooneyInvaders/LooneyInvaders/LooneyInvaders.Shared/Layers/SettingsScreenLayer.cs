@@ -11,7 +11,7 @@ namespace LooneyInvaders.Layers
 {
     public class SettingsScreenLayer : CCLayerColorExt
     {
-		IOpenSettingsService _openSettingsService;
+        IOpenSettingsService _openSettingsService;
 
         CCSpriteTwoStateButton _btnMusicState;
         CCSpriteTwoStateButton _btnMusicStyle;
@@ -19,14 +19,14 @@ namespace LooneyInvaders.Layers
         CCSpriteTwoStateButton _btnBattleGroundStyle;
         CCSpriteTwoStateButton _btnVibrationState;
         CCSpriteTwoStateButton _btnAdvertisements;
-		CCSpriteTwoStateButton _btnNotifications;
+        CCSpriteTwoStateButton _btnNotifications;
         CCSpriteTwoStateButton _btnPushNotifications;
         CCSpriteTwoStateButton _btnVoiceOvers;
         CCSpriteTwoStateButton _btnSwearing;
         CCSpriteTwoStateButton _btnControlType;
         CCSpriteTwoStateButton _btnHandeness;
 
-		CCSpriteButton _btnBack;
+        CCSpriteButton _btnBack;
 
         CCSpriteButton _btnForward;
         CCSpriteButton _btnMusicMinus;
@@ -65,11 +65,11 @@ namespace LooneyInvaders.Layers
         List<CCSprite> canonSpeedIndicator;
 
         CCSprite _tiltAngle;
-		string _fromPage;
+        string _fromPage;
 
-		public string Test { get; set; }
+        public string Test { get; set; }
 
-		public SettingsScreenLayer(GamePlayLayer layerBack = null, string fromPage = null)
+        public SettingsScreenLayer(GamePlayLayer layerBack = null, string fromPage = null)
         {
             titlAngleIndicator = new List<CCSprite>();
             canonSpeedIndicator = new List<CCSprite>();
@@ -83,19 +83,19 @@ namespace LooneyInvaders.Layers
 
             this._layerBack = layerBack;
             this.SetBackground("UI/background.jpg");
-			_fromPage = fromPage;
+            _fromPage = fromPage;
 
             _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
             _btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
-            
+
             _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
             _btnForward.OnClick += BtnForward_OnClick;
 
             this.AddImage(319, 574, "UI/Settings_settings_text.png", 1500);
 
             _pg1 = new CCNodeExt();
-			_pg1.AddImage(786, 594, "UI/Settings_page1-3_text.png");
+            _pg1.AddImage(786, 594, "UI/Settings_page1-3_text.png");
 
             _pg1.AddImage(68, 481, "UI/Settings-music-text.png");
             _btnMusicState = _pg1.AddTwoStateButton(245, 477, "UI/Settings-on_off-button-untapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-untapped.png");
@@ -146,9 +146,9 @@ namespace LooneyInvaders.Layers
             this.AddChild(_pg1);
 
             _pg2 = new CCNodeExt();
-			_pg2.AddImage(786, 594, "UI/Settings_page2-3_text.png");
+            _pg2.AddImage(786, 594, "UI/Settings_page2-3_text.png");
 
-			_pg2.AddImage(71, 468, "UI/Settings_your_player_name_text.png");
+            _pg2.AddImage(71, 468, "UI/Settings_your_player_name_text.png");
             _lblPlayerName = _pg2.AddLabel(546, 494, Player.Instance.Name, "Fonts/AktivGroteskBold", 16);
             _lblPlayerName.Scale = 2;
 
@@ -168,7 +168,7 @@ namespace LooneyInvaders.Layers
             _btnBattleGroundStyle = _pg2.AddTwoStateButton(590, 238, "UI/Settings-realistic-button-untapped.png", "UI/Settings-realistic-button-tapped.png", "UI/Settings-cartonic-button-untapped.png", "UI/Settings-cartonic-button-tapped.png");
             _btnBattleGroundStyle.OnClick += BtnBattleGroundStyle_OnClick;
 
-			_pg2.AddImage(72, 164, "UI/game-instructions-text.png");
+            _pg2.AddImage(72, 164, "UI/game-instructions-text.png");
 
             _btnNotifications = _pg2.AddTwoStateButton(580, 162, "UI/Settings-on_off-button-untapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-untapped.png");
             _btnNotifications.ButtonType = BUTTON_TYPE.Silent;
@@ -180,11 +180,11 @@ namespace LooneyInvaders.Layers
             _btnAdvertisements.ButtonType = BUTTON_TYPE.Silent;
             _btnAdvertisements.OnClick += BtnAdvertisements_OnClick;
 
-			_pg2.AddImage(72, 12, "UI/push-notifications-text.png");
+            _pg2.AddImage(72, 12, "UI/push-notifications-text.png");
 
-			_btnPushNotifications = _pg2.AddTwoStateButton(580, 10, "UI/Settings-on_off-button-untapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-untapped.png");
-			_btnPushNotifications.ButtonType = BUTTON_TYPE.Silent;
-			_btnPushNotifications.OnClick += BtnPushNotifications_OnClick;
+            _btnPushNotifications = _pg2.AddTwoStateButton(580, 10, "UI/Settings-on_off-button-untapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-tapped.png", "UI/Settings-on_off-button-untapped.png");
+            _btnPushNotifications.ButtonType = BUTTON_TYPE.Silent;
+            _btnPushNotifications.OnClick += BtnPushNotifications_OnClick;
 
             _imgAdvertisementsTip = this.AddImage(14, 8, "UI/Settings-notification-background-with-text.png", 1500);
             _imgAdvertisementsTip.Visible = false;
@@ -196,7 +196,7 @@ namespace LooneyInvaders.Layers
 
             _btnCancel = this.AddButton(637, 30, "UI/Settings-notification-cancel-button-untapped.png", "UI/Settings-notification-cancel-button-tapped.png", 1600);
             _btnCancel.OnClick += _btnCancel_OnClick; ;
-            _btnCancel.Visible = false;         
+            _btnCancel.Visible = false;
 
             this.AddChild(_pg2);
             _pg2.Visible = false;
@@ -208,8 +208,8 @@ namespace LooneyInvaders.Layers
             //_steeringTestLayer = new GamePlayLayer(ENEMIES.TRUMP, (WEAPONS)0, BATTLEGROUNDS.CURTAINS, false, 1, 1, 1, 3, ENEMIES.TRUMP, LAUNCH_MODE.STEERING_TEST);
             //_pg3.AddChild(_steeringTestLayer);
 
-			_pg3.AddImage(786, 594, "UI/Settings_page3-3_text.png", 100);
-            
+            _pg3.AddImage(786, 594, "UI/Settings_page3-3_text.png", 100);
+
             //Setting up control settings button and label
             _pg3.AddImage(68, 464, "UI/Settings_steering-system_text.png", 100);
             _btnControlType = _pg3.AddTwoStateButton(488, 461, "UI/Settings_tilt-steering-button-untapped.png", "UI/Settings_tilt-steering-button-tapped.png", "UI/Settings_touch-steering-button-untapped.png", "UI/Settings_touch-steering-button-tapped.png");
@@ -254,9 +254,9 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(MUSIC.MAIN_MENU, false);
 
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
-			_openSettingsService = new OpenSettingsService();
+            _openSettingsService = new OpenSettingsService();
 
-			SetAdditionalBackBtn();
+            SetAdditionalBackBtn();
         }
 
         private void _btnCancel_OnClick(object sender, EventArgs e)
@@ -377,11 +377,11 @@ namespace LooneyInvaders.Layers
             _btnNotifications.State = settings.NotificationsEnabled == true ? 1 : 2;
             _btnNotifications.SetStateImages();
 
-			var notificationsAllowed = new NotificationAllowedService();
+            var notificationsAllowed = new NotificationAllowedService();
             Settings.Instance.IsPushNotificationEnabled = notificationsAllowed.IsNotificationsAllowed();
 
-			_btnPushNotifications.State = settings.IsPushNotificationEnabled == true ? 1 : 2;
-			_btnPushNotifications.SetStateImages();
+            _btnPushNotifications.State = settings.IsPushNotificationEnabled == true ? 1 : 2;
+            _btnPushNotifications.SetStateImages();
 
             _btnAdvertisements.State = settings.Advertisements == true ? 1 : 2;
             _btnAdvertisements.SetStateImages();
@@ -573,14 +573,14 @@ namespace LooneyInvaders.Layers
             refreshSettings();
         }
 
-		private void BtnPushNotifications_OnClick(object sender, EventArgs e)
+        private void BtnPushNotifications_OnClick(object sender, EventArgs e)
         {
-			_btnPushNotifications.ChangeState();
+            _btnPushNotifications.ChangeState();
 
-			_openSettingsService.OpenNotificationSettings();
+            _openSettingsService.OpenNotificationSettings();
 
-			refreshSettings();
-		}      
+            refreshSettings();
+        }
 
         private void BtnVoiceOvers_OnClick(object sender, EventArgs e)
         {
@@ -836,45 +836,45 @@ namespace LooneyInvaders.Layers
         }
 
         private void SetAdditionalBackBtn()
-		{
-			CCSpriteButton btnBackThrowPg2;
-			CCSpriteButton btnBackThrowPg3;
-
-			if(_fromPage == GameConstants.NavigationParam.MainScreen)
-			{
-				btnBackThrowPg2 = _pg2.AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
-				btnBackThrowPg3 = _pg3.AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
-			}
-			else //if(_fromPage == GameConstants.NavigationParam.GameScreen)
-			{
-				btnBackThrowPg2 = _pg2.AddButton(148, 578, "UI/back-to-battle-button-untapped.png", "UI/back-to-battle-button-tapped.png", 100, BUTTON_TYPE.Back);
-				btnBackThrowPg3 = _pg3.AddButton(148, 578, "UI/back-to-battle-button-untapped.png", "UI/back-to-battle-button-tapped.png", 100, BUTTON_TYPE.Back);
-			}
-
-			btnBackThrowPg2.OnClick += BtnBackThrow_OnClick;
-			btnBackThrowPg3.OnClick += BtnBackThrow_OnClick;
-
-			Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
-		}
-
-		private void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
-			if(_fromPage == GameConstants.NavigationParam.MainScreen)
+            CCSpriteButton btnBackThrowPg2;
+            CCSpriteButton btnBackThrowPg3;
+
+            if (_fromPage == GameConstants.NavigationParam.MainScreen)
             {
-				PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
+                btnBackThrowPg2 = _pg2.AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
+                btnBackThrowPg3 = _pg3.AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
+            }
+            else //if(_fromPage == GameConstants.NavigationParam.GameScreen)
+            {
+                btnBackThrowPg2 = _pg2.AddButton(148, 578, "UI/back-to-battle-button-untapped.png", "UI/back-to-battle-button-tapped.png", 100, BUTTON_TYPE.Back);
+                btnBackThrowPg3 = _pg3.AddButton(148, 578, "UI/back-to-battle-button-untapped.png", "UI/back-to-battle-button-tapped.png", 100, BUTTON_TYPE.Back);
+            }
+
+            btnBackThrowPg2.OnClick += BtnBackThrow_OnClick;
+            btnBackThrowPg3.OnClick += BtnBackThrow_OnClick;
+
+            Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
+        }
+
+        private void BtnBackThrow_OnClick(object sender, EventArgs e)
+        {
+            if (_fromPage == GameConstants.NavigationParam.MainScreen)
+            {
+                PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
                 this.TransitionToLayerCartoonStyle(new MainScreenLayer());
             }
-            else if(_fromPage == GameConstants.NavigationParam.GameScreen)
+            else if (_fromPage == GameConstants.NavigationParam.GameScreen)
             {
-				PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
-				Shared.GameDelegate.OnBackButton -= BtnBackThrow_OnClick;
+                PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
+                Shared.GameDelegate.OnBackButton -= BtnBackThrow_OnClick;
                 _layerBack.isCartoonFadeIn = false;
                 Director.PopScene();
                 _layerBack.Continue();
             }
-            
-			if (_pg1.Visible)
+
+            if (_pg1.Visible)
             {
                 Shared.GameDelegate.ClearOnBackButtonEvent();
             }

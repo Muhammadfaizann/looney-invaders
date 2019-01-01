@@ -16,7 +16,6 @@
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
@@ -35,7 +34,6 @@
     <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <Debugger>Xamarin</Debugger>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
@@ -49,7 +47,6 @@
     <DefineConstants>TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <Debugger>Xamarin</Debugger>
     <DebugSymbols>False</DebugSymbols>
@@ -57,9 +54,6 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="App42_CSHARP_SDK_2.0">
-      <HintPath>..\..\..\App42_CSHARP_SDK_2.0.dll</HintPath>
-    </Reference>
     <Reference Include="CocosSharp, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\MonoAndroid10\CocosSharp.dll</HintPath>
       <Private>True</Private>
@@ -92,9 +86,6 @@
     </Reference>
     <Reference Include="Plugin.Connectivity.Abstractions">
       <HintPath>..\..\packages\Xam.Plugin.Connectivity.3.1.1\lib\MonoAndroid10\Plugin.Connectivity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Connectivity">
-      <HintPath>..\..\packages\Xam.Plugin.Connectivity.3.1.1\lib\MonoAndroid10\Plugin.Connectivity.dll</HintPath>
     </Reference>
     <Reference Include="HockeySDK.AndroidBindings">
       <HintPath>..\..\packages\HockeySDK.Xamarin.5.1.2\lib\MonoAndroid403\HockeySDK.AndroidBindings.dll</HintPath>
@@ -224,6 +215,12 @@
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Plus">
       <HintPath>..\..\packages\Xamarin.GooglePlayServices.Plus.60.1142.1\lib\MonoAndroid80\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.3.1.1\lib\MonoAndroid10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="App42_CSHARP_SDK_2.3">
+      <HintPath>..\..\..\App42_CSHARP_SDK_2.3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

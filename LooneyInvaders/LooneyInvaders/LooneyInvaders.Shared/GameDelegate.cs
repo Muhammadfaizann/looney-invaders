@@ -40,8 +40,8 @@ namespace LooneyInvaders.Shared
                 //var contentSearchPaths = new List<string>() { "Fonts", "Sounds" };
                 CCSizeI viewSize = gameView.ViewSize;
 
-                int width = 1136;
-                int height = 640;
+                int width = 1136;  //1136;  // 2436
+                int height = 640; //640;    // 1125
 
                 // Set world dimensions
                 gameView.DesignResolution = new CCSizeI(width, height);

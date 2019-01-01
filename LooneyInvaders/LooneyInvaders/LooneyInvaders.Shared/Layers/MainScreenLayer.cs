@@ -53,7 +53,18 @@ namespace LooneyInvaders.Layers
         public MainScreenLayer()
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
-            if (NetworkConnectionManager.IsInternetConnectionAvailable())
+
+
+            //------------ Prabhjot -----------//
+
+            //SetTimer();
+
+            this.Enabled = false;
+            this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
+            btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
+            btnRanking.OnClick += BtnRanking_OnClick;
+
+            /*if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
                 btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
@@ -64,7 +75,11 @@ namespace LooneyInvaders.Layers
                 this.SetBackground("UI/Main-screen-background-spotlights-off.jpg");
                 btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png");
                 btnRanking.ButtonType = BUTTON_TYPE.CannotTap;
-            }
+            }*/
+
+
+
+
 
             /*
             this.AddImage(170, 275, "UI/Main-screen-highest_score-text.png");
@@ -159,6 +174,32 @@ namespace LooneyInvaders.Layers
 
 			CheckForNotification();
         }
+
+
+        //------------ Prabhjot -----------//
+
+        System.Threading.Timer timer;
+        private void SetTimer()
+        {
+           var backgroundTask = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
+            {
+                var startTimeSpan = TimeSpan.FromSeconds(1);
+                var periodTimeSpan = TimeSpan.FromSeconds(0);
+
+                timer = new System.Threading.Timer((e) =>
+                {
+                    //Code
+                    this.Enabled = true;
+                    Console.WriteLine("Touch Enabled");
+
+                }, null, startTimeSpan, periodTimeSpan);
+
+            }));
+            backgroundTask.Start();
+
+        }
+
+
 
         private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)
         {
@@ -488,6 +529,10 @@ namespace LooneyInvaders.Layers
             {
                 ScheduleOnce(showNotificationTip, 1);
             }
+
+            //------------ Prabhjot -----------//
+
+            SetTimer();
         }
 
         private void showNotificationTip(float dt)

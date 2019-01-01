@@ -46,7 +46,7 @@ namespace LooneyInvaders.Model
             LoadInterstitialHandler?.Invoke();
         }
 
-        public static void ShowInterstitial()
+        public static void ShowInterstitial(double sec)
         {
             ShowInterstitialHandler?.Invoke();
         }

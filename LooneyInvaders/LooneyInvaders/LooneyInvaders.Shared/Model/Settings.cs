@@ -13,6 +13,7 @@ namespace LooneyInvaders.Model
     /// </summary>
     public class Settings
     {
+        public static bool isFromGameScreen = false;
         private static Settings _instance = null;
         public static Settings Instance
         {
@@ -66,6 +67,7 @@ namespace LooneyInvaders.Model
                 CCAudioEngine.SharedEngine.StopBackgroundMusic();
                 CCAudioEngine.SharedEngine.BackgroundMusicVolume = 0;
                 GameEnvironment.MusicPlaying = null;
+                
             }
             else
             {
@@ -247,12 +249,14 @@ namespace LooneyInvaders.Model
             set { _showSteeringTip = value; CrossSettings.Current.AddOrUpdateValue("showSteeringTip", value); }
         }
 
-		private bool _isPushNotificationEnabled;
+		private bool _isPushNotificationEnabled = true;
         public bool IsPushNotificationEnabled
         {
 			get { return _isPushNotificationEnabled; }
 			set { _isPushNotificationEnabled = value; CrossSettings.Current.AddOrUpdateValue("isPushNotificationEnabled", value); }
         }
+
+
 
 		public int GetTodaySessionDuration()
         {
@@ -276,6 +280,7 @@ namespace LooneyInvaders.Model
 			get { return _timeWhenPageAdsLeaved; }
 			set { _timeWhenPageAdsLeaved = value; CrossSettings.Current.AddOrUpdateValue("TimeWhenPageAdsLeaved", value); }
         }
+
 
         public void SetTodaySessionDuration(int duration, bool clearAll = false)
         {
