@@ -1852,7 +1852,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -1921,7 +1921,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -1964,20 +1964,20 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7F804);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7F604);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x7F704);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x7F504);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -1997,7 +1997,7 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7FB04);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7F904);
 	}
 @end
 
@@ -2012,7 +2012,7 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7FD04);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x7FB04);
 	}
 @end
 
@@ -2054,13 +2054,13 @@ exception_handling:;
 	-(void) xamarinFireSelector:(NSTimer *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_5 (self, _cmd, &managed_method, p0, 0x7FF04);
+		native_to_managed_trampoline_5 (self, _cmd, &managed_method, p0, 0x7FD04);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2076,14 +2076,14 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80204);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80004);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x80104);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x7FF04);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [Foundation_NSDispatcher class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -2103,7 +2103,7 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80404);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80204);
 	}
 @end
 
@@ -2118,7 +2118,7 @@ exception_handling:;
 	-(void) xamarinApplySelector
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80604);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x80404);
 	}
 @end
 
@@ -2167,7 +2167,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -2211,80 +2211,80 @@ exception_handling:;
 	-(UIWindow *) window
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_7 (self, _cmd, &managed_method, 0x31E00);
+		return native_to_managed_trampoline_7 (self, _cmd, &managed_method, 0x32000);
 	}
 
 	-(void) setWindow:(UIWindow *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_8 (self, _cmd, &managed_method, p0, 0x31F00);
+		native_to_managed_trampoline_8 (self, _cmd, &managed_method, p0, 0x32100);
 	}
 
 	-(BOOL) application:(UIApplication *)p0 didFinishLaunchingWithOptions:(NSDictionary *)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_9 (self, _cmd, &managed_method, p0, p1, 0x32000);
+		return native_to_managed_trampoline_9 (self, _cmd, &managed_method, p0, p1, 0x32200);
 	}
 
 	-(void) application:(UIApplication *)p0 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_10 (self, _cmd, &managed_method, p0, p1, 0x32100);
+		native_to_managed_trampoline_10 (self, _cmd, &managed_method, p0, p1, 0x32300);
 	}
 
 	-(void) application:(UIApplication *)p0 didFailToRegisterForRemoteNotificationsWithError:(NSError *)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_11 (self, _cmd, &managed_method, p0, p1, 0x32200);
+		native_to_managed_trampoline_11 (self, _cmd, &managed_method, p0, p1, 0x32400);
 	}
 
 	-(void) application:(UIApplication *)p0 didReceiveRemoteNotification:(NSDictionary *)p1 fetchCompletionHandler:(id)p2
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_12 (self, _cmd, &managed_method, p0, p1, p2, 0x32300);
+		native_to_managed_trampoline_12 (self, _cmd, &managed_method, p0, p1, p2, 0x32500);
 	}
 
 	-(void) applicationWillResignActive:(UIApplication *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32400);
+		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32600);
 	}
 
 	-(void) applicationDidEnterBackground:(UIApplication *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32500);
+		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32700);
 	}
 
 	-(void) applicationWillEnterForeground:(UIApplication *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32600);
+		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32800);
 	}
 
 	-(void) applicationDidBecomeActive:(UIApplication *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32700);
+		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32900);
 	}
 
 	-(void) applicationWillTerminate:(UIApplication *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32800);
+		native_to_managed_trampoline_13 (self, _cmd, &managed_method, p0, 0x32A00);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x32C00);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x32E00);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -2321,43 +2321,43 @@ exception_handling:;
 	-(id) GameView
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_14 (self, _cmd, &managed_method, 0x35100);
+		return native_to_managed_trampoline_14 (self, _cmd, &managed_method, 0x35300);
 	}
 
 	-(void) setGameView:(id)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_15 (self, _cmd, &managed_method, p0, 0x35200);
+		native_to_managed_trampoline_15 (self, _cmd, &managed_method, p0, 0x35400);
 	}
 
 	-(void) viewDidLoad
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x33000);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x33200);
 	}
 
 	-(void) viewWillDisappear:(BOOL)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_16 (self, _cmd, &managed_method, p0, 0x33600);
+		native_to_managed_trampoline_16 (self, _cmd, &managed_method, p0, 0x33800);
 	}
 
 	-(void) viewDidAppear:(BOOL)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_16 (self, _cmd, &managed_method, p0, 0x33700);
+		native_to_managed_trampoline_16 (self, _cmd, &managed_method, p0, 0x33900);
 	}
 
 	-(void) didReceiveMemoryWarning
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x33800);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x33A00);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2447,7 +2447,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2479,7 +2479,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2522,20 +2522,20 @@ exception_handling:;
 	+(void) drain:(NSObject *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_20 (self, _cmd, &managed_method, p0, 0x87C04);
+		native_to_managed_trampoline_20 (self, _cmd, &managed_method, p0, 0x87A04);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x87A04);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x87804);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -2590,7 +2590,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) initWithCoder:(NSCoder *)p0
@@ -2698,7 +2698,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -2765,7 +2765,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2855,7 +2855,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -2959,7 +2959,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -3007,7 +3007,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 @end
 
@@ -3768,7 +3768,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -3856,7 +3856,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -3953,7 +3953,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4014,7 +4014,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4122,7 +4122,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4219,7 +4219,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4325,7 +4325,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4424,7 +4424,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4486,7 +4486,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4552,7 +4552,7 @@ exception_handling:;
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
@@ -4581,7 +4581,7 @@ exception_handling:;
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1422);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1424);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4619,20 +4619,20 @@ exception_handling:;
 	-(void) push:(id)p0 didReceivePushNotification:(id)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0xE20);
+		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0xE22);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1120);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1122);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4655,7 +4655,7 @@ exception_handling:;
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x3326);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x3328);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4708,44 +4708,44 @@ exception_handling:;
 	-(BOOL) crashes:(id)p0 shouldProcessErrorReport:(id)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_36 (self, _cmd, &managed_method, p0, p1, 0x5524);
+		return native_to_managed_trampoline_36 (self, _cmd, &managed_method, p0, p1, 0x5526);
 	}
 
 	-(NSArray *) attachmentsWithCrashes:(id)p0 forErrorReport:(id)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_37 (self, _cmd, &managed_method, p0, p1, 0x5624);
+		return native_to_managed_trampoline_37 (self, _cmd, &managed_method, p0, p1, 0x5626);
 	}
 
 	-(void) crashes:(id)p0 willSendErrorReport:(id)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0x5724);
+		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0x5726);
 	}
 
 	-(void) crashes:(id)p0 didSucceedSendingErrorReport:(id)p1
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0x5824);
+		native_to_managed_trampoline_34 (self, _cmd, &managed_method, p0, p1, 0x5826);
 	}
 
 	-(void) crashes:(id)p0 didFailSendingErrorReport:(id)p1 withError:(NSError *)p2
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_38 (self, _cmd, &managed_method, p0, p1, p2, 0x5924);
+		native_to_managed_trampoline_38 (self, _cmd, &managed_method, p0, p1, p2, 0x5926);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x5A24);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x5A26);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4767,7 +4767,7 @@ exception_handling:;
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x3C26);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x3C28);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4812,32 +4812,32 @@ exception_handling:;
 	-(void) willSetUpCrashHandlers
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x1F26);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x1F28);
 	}
 
 	-(void) didSetUpCrashHandlers
 	{
 		static MonoMethod *managed_method = NULL;
-		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x2026);
+		native_to_managed_trampoline_2 (self, _cmd, &managed_method, 0x2028);
 	}
 
 	-(BOOL) shouldEnableUncaughtExceptionHandler
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_29 (self, _cmd, &managed_method, 0x2126);
+		return native_to_managed_trampoline_29 (self, _cmd, &managed_method, 0x2128);
 	}
 
 	-(BOOL) conformsToProtocol:(void *)p0
 	{
 		static MonoMethod *managed_method = NULL;
-		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x85004);
+		return native_to_managed_trampoline_3 (self, _cmd, &managed_method, p0, 0x84E04);
 	}
 
 	-(id) init
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1E26);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1E28);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4863,7 +4863,7 @@ exception_handling:;
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x6428);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x642A);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -4888,7 +4888,7 @@ exception_handling:;
 	{
 		static MonoMethod *managed_method = NULL;
 		bool call_super = false;
-		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x132E);
+		id rv = native_to_managed_trampoline_1 (self, _cmd, &managed_method, &call_super, 0x1330);
 		if (call_super && rv) {
 			struct objc_super super = {  rv, [NSObject class] };
 			rv = ((id (*)(objc_super*, SEL)) objc_msgSendSuper) (&super, @selector (init));
@@ -5095,35 +5095,35 @@ exception_handling:;
 		{ NULL, 0xA316 /* #190 'DFPBannerView' => 'Google.MobileAds.DoubleClick.BannerView, Google.MobileAds' */ },
 		{ NULL, 0xB216 /* #191 'Google_MobileAds_DoubleClick_Interstitial__CustomRenderedInterstitialDelegate' => 'Google.MobileAds.DoubleClick.Interstitial+_CustomRenderedInterstitialDelegate, Google.MobileAds' */ },
 		{ NULL, 0xB116 /* #192 'DFPInterstitial' => 'Google.MobileAds.DoubleClick.Interstitial, Google.MobileAds' */ },
-		{ NULL, 0x622 /* #193 'MSPushDelegate' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPushDelegate, Microsoft.AppCenter.Push.iOS.Bindings' */ },
-		{ NULL, 0x420 /* #194 'Microsoft_AppCenter_Push_iOS_PushDelegate' => 'Microsoft.AppCenter.Push.iOS.PushDelegate, Microsoft.AppCenter.Push' */ },
-		{ NULL, 0x322 /* #195 'MSPush' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPush, Microsoft.AppCenter.Push.iOS.Bindings' */ },
-		{ NULL, 0x722 /* #196 'MSPushNotification' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPushNotification, Microsoft.AppCenter.Push.iOS.Bindings' */ },
-		{ NULL, 0xD26 /* #197 'MSCrashesDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashesDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1524 /* #198 'Microsoft_AppCenter_Crashes_Crashes_CrashesDelegate' => 'Microsoft.AppCenter.Crashes.Crashes+CrashesDelegate, Microsoft.AppCenter.Crashes' */ },
-		{ NULL, 0xA26 /* #199 'MSCrashes' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashes, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1026 /* #200 'MSCrashHandlerSetupDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashHandlerSetupDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1126 /* #201 'MSErrorAttachmentLog' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSErrorAttachmentLog, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1226 /* #202 'MSErrorReport' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSErrorReport, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1326 /* #203 'MSException' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSException, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1426 /* #204 'MSStackFrame' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSStackFrame, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1526 /* #205 'MSWrapperCrashesHelper' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperCrashesHelper, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1626 /* #206 'MSWrapperException' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperException, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x1726 /* #207 'MSWrapperExceptionManager' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperExceptionManager, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0x726 /* #208 'Microsoft_AppCenter_Crashes_iOS_Bindings_CrashesInitializationDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.CrashesInitializationDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
-		{ NULL, 0xB28 /* #209 'MSAppCenter' => 'Microsoft.AppCenter.iOS.Bindings.MSAppCenter, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0xC28 /* #210 'MSCustomProperties' => 'Microsoft.AppCenter.iOS.Bindings.MSCustomProperties, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0x1428 /* #211 'MSWrapperSdk' => 'Microsoft.AppCenter.iOS.Bindings.MSWrapperSdk, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0xD28 /* #212 'MSDevice' => 'Microsoft.AppCenter.iOS.Bindings.MSDevice, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0xE28 /* #213 'MSLogger' => 'Microsoft.AppCenter.iOS.Bindings.MSLogger, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0x1128 /* #214 'MSService' => 'Microsoft.AppCenter.iOS.Bindings.MSService, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0x1228 /* #215 'MSServiceAbstract' => 'Microsoft.AppCenter.iOS.Bindings.MSServiceAbstract, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0x1328 /* #216 'MSWrapperLogger' => 'Microsoft.AppCenter.iOS.Bindings.MSWrapperLogger, Microsoft.AppCenter.iOS.Bindings' */ },
-		{ NULL, 0x32E /* #217 'MSAnalytics' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSAnalytics, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
-		{ NULL, 0x62E /* #218 'MSAnalyticsDelegate' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSAnalyticsDelegate, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
-		{ NULL, 0x82E /* #219 'MSLogWithProperties' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSLogWithProperties, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
-		{ NULL, 0x72E /* #220 'MSEventLog' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSEventLog, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
-		{ NULL, 0x92E /* #221 'MSPageLog' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSPageLog, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
+		{ NULL, 0x624 /* #193 'MSPushDelegate' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPushDelegate, Microsoft.AppCenter.Push.iOS.Bindings' */ },
+		{ NULL, 0x422 /* #194 'Microsoft_AppCenter_Push_iOS_PushDelegate' => 'Microsoft.AppCenter.Push.iOS.PushDelegate, Microsoft.AppCenter.Push' */ },
+		{ NULL, 0x324 /* #195 'MSPush' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPush, Microsoft.AppCenter.Push.iOS.Bindings' */ },
+		{ NULL, 0x724 /* #196 'MSPushNotification' => 'Microsoft.AppCenter.Push.iOS.Bindings.MSPushNotification, Microsoft.AppCenter.Push.iOS.Bindings' */ },
+		{ NULL, 0xD28 /* #197 'MSCrashesDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashesDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1526 /* #198 'Microsoft_AppCenter_Crashes_Crashes_CrashesDelegate' => 'Microsoft.AppCenter.Crashes.Crashes+CrashesDelegate, Microsoft.AppCenter.Crashes' */ },
+		{ NULL, 0xA28 /* #199 'MSCrashes' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashes, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1028 /* #200 'MSCrashHandlerSetupDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSCrashHandlerSetupDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1128 /* #201 'MSErrorAttachmentLog' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSErrorAttachmentLog, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1228 /* #202 'MSErrorReport' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSErrorReport, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1328 /* #203 'MSException' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSException, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1428 /* #204 'MSStackFrame' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSStackFrame, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1528 /* #205 'MSWrapperCrashesHelper' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperCrashesHelper, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1628 /* #206 'MSWrapperException' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperException, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x1728 /* #207 'MSWrapperExceptionManager' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.MSWrapperExceptionManager, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0x728 /* #208 'Microsoft_AppCenter_Crashes_iOS_Bindings_CrashesInitializationDelegate' => 'Microsoft.AppCenter.Crashes.iOS.Bindings.CrashesInitializationDelegate, Microsoft.AppCenter.Crashes.iOS.Bindings' */ },
+		{ NULL, 0xB2A /* #209 'MSAppCenter' => 'Microsoft.AppCenter.iOS.Bindings.MSAppCenter, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0xC2A /* #210 'MSCustomProperties' => 'Microsoft.AppCenter.iOS.Bindings.MSCustomProperties, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0x142A /* #211 'MSWrapperSdk' => 'Microsoft.AppCenter.iOS.Bindings.MSWrapperSdk, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0xD2A /* #212 'MSDevice' => 'Microsoft.AppCenter.iOS.Bindings.MSDevice, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0xE2A /* #213 'MSLogger' => 'Microsoft.AppCenter.iOS.Bindings.MSLogger, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0x112A /* #214 'MSService' => 'Microsoft.AppCenter.iOS.Bindings.MSService, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0x122A /* #215 'MSServiceAbstract' => 'Microsoft.AppCenter.iOS.Bindings.MSServiceAbstract, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0x132A /* #216 'MSWrapperLogger' => 'Microsoft.AppCenter.iOS.Bindings.MSWrapperLogger, Microsoft.AppCenter.iOS.Bindings' */ },
+		{ NULL, 0x330 /* #217 'MSAnalytics' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSAnalytics, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
+		{ NULL, 0x630 /* #218 'MSAnalyticsDelegate' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSAnalyticsDelegate, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
+		{ NULL, 0x830 /* #219 'MSLogWithProperties' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSLogWithProperties, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
+		{ NULL, 0x730 /* #220 'MSEventLog' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSEventLog, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
+		{ NULL, 0x930 /* #221 'MSPageLog' => 'Microsoft.AppCenter.Analytics.iOS.Bindings.MSPageLog, Microsoft.AppCenter.Analytics.iOS.Bindings' */ },
 		{ NULL, 0 },
 	};
 
@@ -5148,6 +5148,7 @@ exception_handling:;
 		"Plugin.Settings", 
 		"Plugin.Connectivity", 
 		"Plugin.Connectivity.Abstractions", 
+		"NotificationCenter", 
 		"Microsoft.AppCenter.Push", 
 		"Microsoft.AppCenter.Push.iOS.Bindings", 
 		"Microsoft.AppCenter.Crashes", 
@@ -5159,11 +5160,11 @@ exception_handling:;
 	};
 
 	static const MTProtocolWrapperMap __xamarin_protocol_wrapper_map [] = {
-		{ 0x422 /* Microsoft.AppCenter.Push.iOS.Bindings.IMSPushDelegate */, 0x522 /* MSPushDelegateWrapper */ },
-		{ 0x42E /* Microsoft.AppCenter.Analytics.iOS.Bindings.IMSAnalyticsDelegate */, 0x52E /* MSAnalyticsDelegateWrapper */ },
-		{ 0xB26 /* Microsoft.AppCenter.Crashes.iOS.Bindings.IMSCrashesDelegate */, 0xC26 /* MSCrashesDelegateWrapper */ },
-		{ 0xE26 /* Microsoft.AppCenter.Crashes.iOS.Bindings.IMSCrashHandlerSetupDelegate */, 0xF26 /* MSCrashHandlerSetupDelegateWrapper */ },
-		{ 0xF28 /* Microsoft.AppCenter.iOS.Bindings.IMSService */, 0x1028 /* MSServiceWrapper */ },
+		{ 0x424 /* Microsoft.AppCenter.Push.iOS.Bindings.IMSPushDelegate */, 0x524 /* MSPushDelegateWrapper */ },
+		{ 0x430 /* Microsoft.AppCenter.Analytics.iOS.Bindings.IMSAnalyticsDelegate */, 0x530 /* MSAnalyticsDelegateWrapper */ },
+		{ 0xB28 /* Microsoft.AppCenter.Crashes.iOS.Bindings.IMSCrashesDelegate */, 0xC28 /* MSCrashesDelegateWrapper */ },
+		{ 0xE28 /* Microsoft.AppCenter.Crashes.iOS.Bindings.IMSCrashHandlerSetupDelegate */, 0xF28 /* MSCrashHandlerSetupDelegateWrapper */ },
+		{ 0xF2A /* Microsoft.AppCenter.iOS.Bindings.IMSService */, 0x102A /* MSServiceWrapper */ },
 		{ 0x1D16 /* Google.MobileAds.IAdLoaderDelegate */, 0x1E16 /* AdLoaderDelegateWrapper */ },
 		{ 0x2116 /* Google.MobileAds.IAdNetworkExtras */, 0x2216 /* AdNetworkExtrasWrapper */ },
 		{ 0x2516 /* Google.MobileAds.IAdSizeDelegate */, 0x2616 /* AdSizeDelegateWrapper */ },
@@ -5220,7 +5221,7 @@ exception_handling:;
 		__xamarin_skipped_map,
 		__xamarin_protocol_wrapper_map,
 		{ NULL, NULL },
-		24,
+		25,
 		222,
 		130,
 		0,

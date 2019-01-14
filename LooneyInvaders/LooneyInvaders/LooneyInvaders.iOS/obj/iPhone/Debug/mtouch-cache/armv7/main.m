@@ -16,6 +16,7 @@ extern void *mono_aot_module_App42_CSHARP_SDK_2_3_info;
 extern void *mono_aot_module_Plugin_Settings_info;
 extern void *mono_aot_module_Plugin_Connectivity_info;
 extern void *mono_aot_module_Plugin_Connectivity_Abstractions_info;
+extern void *mono_aot_module_NotificationCenter_info;
 extern void *mono_aot_module_Microsoft_AppCenter_Push_info;
 extern void *mono_aot_module_Microsoft_AppCenter_Push_iOS_Bindings_info;
 extern void *mono_aot_module_Microsoft_AppCenter_Crashes_info;
@@ -43,6 +44,7 @@ void xamarin_register_modules_impl ()
 	mono_aot_register_module (mono_aot_module_Plugin_Settings_info);
 	mono_aot_register_module (mono_aot_module_Plugin_Connectivity_info);
 	mono_aot_register_module (mono_aot_module_Plugin_Connectivity_Abstractions_info);
+	mono_aot_register_module (mono_aot_module_NotificationCenter_info);
 	mono_aot_register_module (mono_aot_module_Microsoft_AppCenter_Push_info);
 	mono_aot_register_module (mono_aot_module_Microsoft_AppCenter_Push_iOS_Bindings_info);
 	mono_aot_register_module (mono_aot_module_Microsoft_AppCenter_Crashes_info);

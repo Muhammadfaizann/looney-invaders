@@ -8518,7 +8518,7 @@ _mono_aot_file_info:
 	.long 120,2352,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 146,199,129,3,188,220,77,110,180,56,38,122,72,246,225,183
+	.byte 227,223,54,219,241,22,4,131,153,230,172,195,199,190,75,127
 	.globl _mono_aot_module_Microsoft_AppCenter_Push_info
 	.align 3
 _mono_aot_module_Microsoft_AppCenter_Push_info:

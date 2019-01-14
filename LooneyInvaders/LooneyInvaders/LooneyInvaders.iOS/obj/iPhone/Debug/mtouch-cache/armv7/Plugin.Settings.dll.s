@@ -6106,7 +6106,7 @@ _mono_aot_file_info:
 	.long 152,1696,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 143,135,190,217,117,49,77,123,130,252,79,8,60,68,125,18
+	.byte 153,236,144,141,157,141,70,158,213,237,252,113,193,87,42,186
 	.globl _mono_aot_module_Plugin_Settings_info
 	.align 2
 _mono_aot_module_Plugin_Settings_info:

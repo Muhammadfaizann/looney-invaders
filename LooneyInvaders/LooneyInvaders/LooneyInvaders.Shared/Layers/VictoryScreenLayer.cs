@@ -916,15 +916,15 @@ namespace LooneyInvaders.Layers
             }
             else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
             {
-                sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
+                sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
             if (isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && score == LeaderboardManager.PlayerRankRegularWeekly.Score)
             {
-                sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
+                sl.AddImageLabelCentered(837, 285, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
             else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
             {
-                sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
+                sl.AddImageCentered(837, 285, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
             if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
             {

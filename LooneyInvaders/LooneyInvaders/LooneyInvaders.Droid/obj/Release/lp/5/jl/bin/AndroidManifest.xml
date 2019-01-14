@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.microsoft.appcenter"
-    android:versionCode="37"
-    android:versionName="1.8.0" >
+    android:versionCode="40"
+    android:versionName="1.11.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="27" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="28" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

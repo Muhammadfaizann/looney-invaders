@@ -24,9 +24,11 @@
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.iOS.Bindings.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.iOS.Bindings.dll"
+"-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Mindscape.Raygun4Net.Xamarin.iOS.Unified.6.0.0/lib/xamarinios10/Mindscape.Raygun4Net.Xamarin.iOS.Unified.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/MonoGame.Framework.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/MonoGame.Framework.Net.dll"
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/mscorlib.dll
+-r=/Users/gaurav/Desktop/NotificationCenter.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/OpenTK-1.0.dll
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.dll"
@@ -35,6 +37,7 @@
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Xml.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Xml.Linq.dll
+"-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xamarin.Essentials.1.0.0/lib/xamarinios10/Xamarin.Essentials.dll"
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Xamarin.iOS.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/Microsoft.Win32.Primitives.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/Microsoft.Win32.Registry.AccessControl.dll
@@ -190,11 +193,14 @@
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.1.12.0/lib/Xamarin.iOS10/Microsoft.AppCenter.iOS.Bindings.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Microsoft.AppCenter.Push.1.11.0/lib/Xamarin.iOS10/Microsoft.AppCenter.Push.iOS.Bindings.dll"
+"-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Mindscape.Raygun4Net.Xamarin.iOS.Unified.6.0.0/lib/xamarinios10/Mindscape.Raygun4Net.Xamarin.iOS.Unified.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/MonoGame.Framework.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/CocosSharp.1.7.1.0/lib/Xamarin.iOS10/MonoGame.Framework.Net.dll"
+-r=/Users/gaurav/Desktop/NotificationCenter.dll
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.Abstractions.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugin.Connectivity.3.2.0/lib/Xamarin.iOS10/Plugin.Connectivity.dll"
 "-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xam.Plugins.Settings.4.0.0.7/lib/xamarinios10/Plugin.Settings.dll"
+"-r=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/packages/Xamarin.Essentials.1.0.0/lib/xamarinios10/Xamarin.Essentials.dll"
 --target-framework=Xamarin.iOS,v1.0
 "--root-assembly=/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/LooneyInvadersiOS.exe"
 

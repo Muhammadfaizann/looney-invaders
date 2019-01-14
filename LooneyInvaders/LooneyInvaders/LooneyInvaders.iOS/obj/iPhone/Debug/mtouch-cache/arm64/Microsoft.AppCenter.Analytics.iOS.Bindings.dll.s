@@ -6614,7 +6614,7 @@ _mono_aot_file_info:
 	.long 112,1424,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 10,173,103,84,245,158,108,4,146,40,38,68,244,192,40,143
+	.byte 231,43,55,104,190,185,172,91,186,244,214,169,8,118,61,116
 	.globl _mono_aot_module_Microsoft_AppCenter_Analytics_iOS_Bindings_info
 	.align 3
 _mono_aot_module_Microsoft_AppCenter_Analytics_iOS_Bindings_info:

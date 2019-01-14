@@ -40,14 +40,25 @@ namespace LooneyInvaders.Model
 
     public enum ENEMIES : int { PUTIN, KIM, HITLER, BUSH, ALIENS, TRUMP }
     public enum WEAPONS : int { STANDARD, COMPACT, BAZOOKA, HYBRID }
-    public enum BATTLEGROUNDS : int { POLAND, DENMARK, NORWAY, FRANCE, ENGLAND, // Hitler
-                                      VIETNAM, IRAQ, AFGHANISTAN, LIBYA, RUSSIA, // Bush
-                                      GEORGIA, UKRAINE, SYRIA, ESTONIA, FINLAND, // Putin
-                                      SOUTH_KOREA, ISRAEL, JAPAN, GREAT_BRITAIN, UNITED_STATES, // Kim
-                                      MOON,
-                                      WHITE_HOUSE,
-                                      CURTAINS //Steering demo battleground
-                                    }
+    /*  public enum BATTLEGROUNDS : int { POLAND, DENMARK, NORWAY, FRANCE, ENGLAND, // Hitler
+                                        VIETNAM, IRAQ, AFGHANISTAN, LIBYA, RUSSIA, // Bush
+                                        GEORGIA, UKRAINE, SYRIA, ESTONIA, FINLAND, // Putin
+                                        SOUTH_KOREA, ISRAEL, JAPAN, GREAT_BRITAIN, UNITED_STATES, // Kim
+                                        MOON,
+                                        WHITE_HOUSE,
+                                        CURTAINS //Steering demo battleground
+                                      }*/
+
+    public enum BATTLEGROUNDS : int
+    {
+        LIBYA, DENMARK, NORWAY, FRANCE, ENGLAND, // Hitler
+        VIETNAM, IRAQ, AFGHANISTAN, POLAND, RUSSIA, // Bush
+        GEORGIA, UKRAINE, SYRIA, ESTONIA, FINLAND, // Putin
+        SOUTH_KOREA, ISRAEL, JAPAN, GREAT_BRITAIN, UNITED_STATES, // Kim
+        MOON,
+        WHITE_HOUSE,
+        CURTAINS //Steering demo battleground
+    }
 
     public enum ENEMYSTATE : int { NORMAL, DAMAGE1, DAMAGE2, GRIMACE1, GRIMACE2 }
 

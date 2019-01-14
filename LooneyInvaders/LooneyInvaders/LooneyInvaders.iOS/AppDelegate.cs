@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
+using NotificationCenter;
 
 namespace LooneyInvaders.iOS
 {
@@ -76,10 +77,11 @@ namespace LooneyInvaders.iOS
 
             // ----------- Prabhjot ----------- //
 
-            if (Settings.isFromGameScreen == true)
-            {
-                NSNotificationCenter.DefaultCenter.PostNotificationName("PlayToEnd", null);
-            }
+            //if (Settings.isFromGameScreen == true)
+            //{
+                //NSNotificationCenter.DefaultCenter.PostNotificationName("PlayToEnd", null);
+                NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+            //}
 
         }
 
@@ -118,10 +120,13 @@ namespace LooneyInvaders.iOS
             //manager.StartManager();
             //manager.Authenticator.AuthenticateInstallation();
 
-         var   keyForNotification = "4cd7f485-df2b-40b9-ad4c-f9e08623a548";
 
-            AppCenter.Start(keyForNotification,typeof(Crashes), typeof(Analytics));
+            //--------- Prabhjot ---------//
 
+            var keyForNotification = "4cd7f485-df2b-40b9-ad4c-f9e08623a548";
+
+            AppCenter.Start(keyForNotification, typeof(Crashes), typeof(Analytics));
+            Crashes.SetEnabledAsync(true);
         }
 
         private void SetSessionInfo()

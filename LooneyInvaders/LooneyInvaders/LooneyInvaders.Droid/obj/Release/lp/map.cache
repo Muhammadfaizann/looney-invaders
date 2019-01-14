@@ -45,3 +45,10 @@ Xamarin.GooglePlayServices.Gass
 Xamarin.GooglePlayServices.Plus
 Xamarin.GooglePlayServices.Tasks
 Xamarin.InAppBilling
+Microsoft.AppCenter.Analytics.Android.Bindings
+Microsoft.AppCenter.Analytics
+Microsoft.AppCenter.Crashes.Android.Bindings
+Microsoft.AppCenter.Crashes
+Mindscape.Raygun4Net.Xamarin.Android
+Xamarin.Android.Support.CustomTabs
+Xamarin.Essentials

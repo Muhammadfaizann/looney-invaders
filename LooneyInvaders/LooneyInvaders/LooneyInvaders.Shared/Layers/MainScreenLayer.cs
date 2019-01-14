@@ -184,11 +184,14 @@ namespace LooneyInvaders.Layers
            var backgroundTask = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
             {
                 var startTimeSpan = TimeSpan.FromSeconds(1);
+                // = new System.Threading.Timer(dueTime:)
+                
                 var periodTimeSpan = TimeSpan.FromSeconds(0);
 
                 timer = new System.Threading.Timer((e) =>
                 {
                     //Code
+
                     this.Enabled = true;
                     Console.WriteLine("Touch Enabled");
 
@@ -200,8 +203,7 @@ namespace LooneyInvaders.Layers
         }
 
 
-
-        private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)
+    private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)
         {
             btnProNotificationCheckMark.ChangeState();
             btnProNotificationCheckMark.SetStateImages();

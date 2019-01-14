@@ -3511,7 +3511,7 @@ _mono_aot_file_info:
 	.long 120,2352,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 229,86,57,136,46,34,148,203,119,126,182,119,245,46,57,21
+	.byte 65,77,29,173,144,149,167,79,173,187,96,144,5,65,201,167
 	.globl _mono_aot_module_Microsoft_AppCenter_Push_info
 	.align 2
 _mono_aot_module_Microsoft_AppCenter_Push_info:

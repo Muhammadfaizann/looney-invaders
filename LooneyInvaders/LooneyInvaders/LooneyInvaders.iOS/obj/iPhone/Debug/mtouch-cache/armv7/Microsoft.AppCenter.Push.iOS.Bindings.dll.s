@@ -1539,7 +1539,7 @@ _mono_aot_file_info:
 	.long 72,848,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 48,163,151,151,13,147,244,147,240,205,114,151,199,216,185,152
+	.byte 247,193,81,185,76,187,222,154,243,224,211,121,168,202,246,173
 	.globl _mono_aot_module_Microsoft_AppCenter_Push_iOS_Bindings_info
 	.align 2
 _mono_aot_module_Microsoft_AppCenter_Push_iOS_Bindings_info:

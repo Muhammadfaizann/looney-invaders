@@ -84,6 +84,9 @@ namespace LooneyInvaders.Layers
             
             if (_musicTime <= 0)
             {
+                //---------- Prabhjot ----------//
+                GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+
                 TransitionToLayer(new MainScreenLayer());
             }
 

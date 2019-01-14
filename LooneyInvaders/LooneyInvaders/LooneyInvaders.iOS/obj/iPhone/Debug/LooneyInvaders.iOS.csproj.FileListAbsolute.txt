@@ -13,6 +13,7 @@
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Microsoft.AppCenter.iOS.Bindings.dll
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Microsoft.AppCenter.Push.dll
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Microsoft.AppCenter.Push.iOS.Bindings.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Mindscape.Raygun4Net.Xamarin.iOS.Unified.dll
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/MonoGame.Framework.dll
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/MonoGame.Framework.Net.dll
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Plugin.Connectivity.Abstractions.dll
@@ -1270,7 +1271,12 @@
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/optimized/Content/Images/Hd/Animations/StandardCannonRotate-0.plist
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/optimized/Content/Images/Hd/Animations/StandardCannonRotate-1.plist
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/optimized/
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/LooneyInvaders.iOS.csprojAssemblyReference.cache
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/LooneyInvaders.iOS.csproj.CoreCompileInputs.cache
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/LooneyInvaders.iOS.csproj.CopyComplete
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/LooneyInvadersiOS.exe
 /Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/obj/iPhone/Debug/LooneyInvadersiOS.pdb
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Xamarin.Essentials.dll
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Xamarin.Essentials.pdb
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/Xamarin.Essentials.xml
+/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/bin/iPhone/Debug/NotificationCenter.dll

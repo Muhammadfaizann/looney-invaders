@@ -923,7 +923,7 @@ _mono_aot_file_info:
 	.long 32,936,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 187,165,61,229,56,194,196,134,153,221,90,37,183,125,0,166
+	.byte 44,10,157,218,87,131,64,192,159,85,143,48,96,149,88,206
 	.globl _mono_aot_module_Microsoft_AppCenter_Analytics_info
 	.align 3
 _mono_aot_module_Microsoft_AppCenter_Analytics_info:

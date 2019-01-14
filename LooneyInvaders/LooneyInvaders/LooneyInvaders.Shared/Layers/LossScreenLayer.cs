@@ -565,6 +565,8 @@ namespace LooneyInvaders.Layers
                 scoreNode.AddImageLabelCentered(700, 380, LeaderboardManager.PlayerRankProDaily.Score.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : (alienScore > LeaderboardManager.PlayerRankProDaily.Score ? "red" : (alienScore < LeaderboardManager.PlayerRankProDaily.Score ? "green" : "yellow")));
                 scoreNode.AddImageLabelCentered(700, 314, LeaderboardManager.PlayerRankProDaily.LevelsCompleted.ToString(), 50, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : (alienWave > LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "red" : (alienWave < LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "green" : "yellow")));
                 scoreNode.AddImageLabelCentered(700, 247, LeaderboardManager.PlayerRankProDaily.Rank.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : "green");
+
+                //------------ Prabhjot ------------//
                 //week
                 scoreNode.AddImageLabelCentered(847, 380, LeaderboardManager.PlayerRankProWeekly.Score.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProWeekly.Score ? null : (alienScore > LeaderboardManager.PlayerRankProWeekly.Score ? "red" : (alienScore < LeaderboardManager.PlayerRankProWeekly.Score ? "green" : "yellow")));
                 scoreNode.AddImageLabelCentered(847, 314, LeaderboardManager.PlayerRankProWeekly.LevelsCompleted.ToString(), 50, alienScore == LeaderboardManager.PlayerRankProWeekly.Score ? null : (alienWave > LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "red" : (alienWave < LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "green" : "yellow")));

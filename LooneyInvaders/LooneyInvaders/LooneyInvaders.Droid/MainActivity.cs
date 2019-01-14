@@ -30,6 +30,9 @@ using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter;
 using Android.Support.V4.App;
 using LooneyInvaders.Services.PNS;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Analytics;
+using NotificationCenter;
 
 namespace LooneyInvaders.Droid
 {
@@ -39,7 +42,7 @@ namespace LooneyInvaders.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-			if (MainActivity.Instance == null) return;
+            if (MainActivity.Instance == null) return;
 
             if (MainActivity.Instance._adBanner != null) MainActivity.Instance._adBanner.Resume();
             CCGameView gameView = (CCGameView)MainActivity.Instance.FindViewById(Resource.Id.GameView);
@@ -56,12 +59,12 @@ namespace LooneyInvaders.Droid
         AlwaysRetainTaskState = true,
         //Immersive = true,
         //LaunchMode = LaunchMode.SingleInstance,
-		LaunchMode = LaunchMode.SingleTop,
+        LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden,
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public class MainActivity : Activity, ISensorEventListener
     {
-		public const string HOCKEYAPP_KEY = "9316a9e8222e467a8fdc7ffc7e7c2f21";
+        public const string HOCKEYAPP_KEY = "9316a9e8222e467a8fdc7ffc7e7c2f21";
 
         public static MainActivity Instance;
 
@@ -80,32 +83,32 @@ namespace LooneyInvaders.Droid
         GoogleApiClient mGoogleApiClient;
         SensorManager sensorManager;
 
-		private void HockeyAppInit()
+        private void HockeyAppInit()
         {
-//#if !DEBUG
-            HockeyApp.Android.CrashManager.Register (this, HOCKEYAPP_KEY);
-            HockeyApp.Android.Metrics.MetricsManager.Register (Application, HOCKEYAPP_KEY);
-//#endif
+            //#if !DEBUG
+//HockeyApp.Android.CrashManager.Register(this, HOCKEYAPP_KEY);
+           // HockeyApp.Android.Metrics.MetricsManager.Register(Application, HOCKEYAPP_KEY);
+            //#endif
         }
 
-		private void SetSessionInfo()
+        private void SetSessionInfo()
         {
             var count = Settings.Instance.GetSessionsCount();
-			Settings.Instance.SetSessionsCount(count + 1);
-			Settings.Instance.SetTodaySessionDuration(0, true);
-			Settings.Instance.IsAskForNotificationToday = false;
+            Settings.Instance.SetSessionsCount(count + 1);
+            Settings.Instance.SetTodaySessionDuration(0, true);
+            Settings.Instance.IsAskForNotificationToday = false;
         }
 
-		private void CheckNotificationPremissions()
+        private void CheckNotificationPremissions()
         {
-			var notificationsAllowed = new NotificationAllowedService();
-			var res = notificationsAllowed.IsNotificationsAllowed();
-			Settings.Instance.IsPushNotificationEnabled = res;
+            var notificationsAllowed = new NotificationAllowedService();
+            var res = notificationsAllowed.IsNotificationsAllowed();
+            Settings.Instance.IsPushNotificationEnabled = res;
         }
 
         #region -- Push notification --
 
-		protected override void OnNewIntent(Android.Content.Intent intent)
+        protected override void OnNewIntent(Android.Content.Intent intent)
         {
             base.OnNewIntent(intent);
             Push.CheckLaunchedFromNotification(this, intent);
@@ -113,12 +116,23 @@ namespace LooneyInvaders.Droid
 
         #endregion
 
-		async protected override void OnCreate(Bundle bundle)
-        {
-			HockeyAppInit();
-			SetSessionInfo();
-			CheckNotificationPremissions();
+       // override on
 
+
+         protected override void OnCreate(Bundle bundle)
+        {
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
+                    typeof(Analytics), typeof(Crashes));
+            Crashes.SetEnabledAsync(true);
+
+
+
+            // AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
+            HockeyAppInit();
+            SetSessionInfo();
+            CheckNotificationPremissions();
+           // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(bundle);
             Instance = this;
             // remove navigation bar
@@ -249,11 +263,11 @@ namespace LooneyInvaders.Droid
             {
                 return true;
             }
-			catch (System.Net.WebException webex)
-			{
-				return true;
-			}
-            
+            catch (System.Net.WebException webex)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -492,20 +506,20 @@ namespace LooneyInvaders.Droid
             Sensor mag = sensorManager.GetDefaultSensor(SensorType.MagneticField);
             sensorManager.RegisterListener(this, mag, SensorDelay.Game);
 
-			try
-			{
-				if (!String.IsNullOrWhiteSpace(music))
-					CCAudioEngine.SharedEngine.PlayBackgroundMusic(music, true);
-			}
-			catch (Exception ex)
-			{
-				var t = ex;
-			}
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(music))
+                    CCAudioEngine.SharedEngine.PlayBackgroundMusic(music, true);
+            }
+            catch (Exception ex)
+            {
+                var t = ex;
+            }
         }
 
         string music = String.Empty;
-        
-		protected override void OnPause()
+
+        protected override void OnPause()
         {
             if (_adBanner != null) _adBanner.Pause();
             CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
@@ -516,10 +530,12 @@ namespace LooneyInvaders.Droid
 
             music = GameEnvironment.MusicPlaying;
             CCAudioEngine.SharedEngine?.StopBackgroundMusic();
-			if(!_isAdsShoving)
-			    Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
-			_isAdsShoving = false;
-            
+            if (!_isAdsShoving)
+                Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
+            _isAdsShoving = false;
+
+            NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+
             base.OnPause();
         }
 
@@ -564,12 +580,12 @@ namespace LooneyInvaders.Droid
             _adBanner.Visibility = ViewStates.Invisible;
         }
 
-		private bool _isAdsShoving;
+        private bool _isAdsShoving;
 
         public void ShowInterstitial()
         {
-			_isAdsShoving = true;
-			Settings.Instance.TimeWhenPageAdsLeaved = default(DateTime);
+            _isAdsShoving = true;
+            Settings.Instance.TimeWhenPageAdsLeaved = default(DateTime);
             this.RunOnUiThread(new Action(showInterstitialUIThread));
         }
 
@@ -618,7 +634,7 @@ namespace LooneyInvaders.Droid
                 svc = null;
             }
 
-			base.OnDestroy();
+            base.OnDestroy();
         }
 
         async Task MakePurchase(IProduct product)
@@ -677,7 +693,7 @@ namespace LooneyInvaders.Droid
                 }
             }
             catch (App42NotFoundException nfe) { }
-			catch (System.Net.WebException webex)
+            catch (System.Net.WebException webex)
             {
                 return null;
             }
@@ -698,19 +714,19 @@ namespace LooneyInvaders.Droid
                 LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularMonthly = null;
                 LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularAlltime = null;
 
-				double gameScoreRegular = LooneyInvaders.Model.LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
+                double gameScoreRegular = LooneyInvaders.Model.LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
 
-				try
-				{
-					scoreBoardService.SaveUserScore("Looney Earth Daily", Player.Instance.Name, gameScoreRegular);
-					scoreBoardService.SaveUserScore("Looney Earth Weekly", Player.Instance.Name, gameScoreRegular);
-					scoreBoardService.SaveUserScore("Looney Earth Monthly", Player.Instance.Name, gameScoreRegular);
-					scoreBoardService.SaveUserScore("Looney Earth Alltime", Player.Instance.Name, gameScoreRegular);
-				}
-				catch (Exception ex)
-				{
-					var t = ex;
-				}
+                try
+                {
+                    scoreBoardService.SaveUserScore("Looney Earth Daily", Player.Instance.Name, gameScoreRegular);
+                    scoreBoardService.SaveUserScore("Looney Earth Weekly", Player.Instance.Name, gameScoreRegular);
+                    scoreBoardService.SaveUserScore("Looney Earth Monthly", Player.Instance.Name, gameScoreRegular);
+                    scoreBoardService.SaveUserScore("Looney Earth Alltime", Player.Instance.Name, gameScoreRegular);
+                }
+                catch (Exception ex)
+                {
+                    var t = ex;
+                }
 
                 LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularDaily = getPlayerRanking(scoreBoardService, "Looney Earth Daily", LooneyInvaders.Model.LeaderboardType.REGULAR);
                 LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularWeekly = getPlayerRanking(scoreBoardService, "Looney Earth Weekly", LooneyInvaders.Model.LeaderboardType.REGULAR);
@@ -763,9 +779,10 @@ namespace LooneyInvaders.Droid
                 }
             }
             catch (App42NotFoundException nfe) { }
-			catch (Exception ex){
-				var t = 1;
-			}
+            catch (Exception ex)
+            {
+                var t = 1;
+            }
         }
 
         public override void OnBackPressed()

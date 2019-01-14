@@ -6,6 +6,7 @@ using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Shared;
 using LooneyInvaders.PNS;
+using NotificationCenter;
 
 #if __IOS__
 using Foundation;
@@ -189,7 +190,7 @@ namespace LooneyInvaders.Layers
             this.EnableMultiTouch = true;
 
             // ----------- Prabhjot ----------- //
-
+            //this.ScheduleOnce(Victory, 1);
             Settings.isFromGameScreen = true;
 
 #if __IOS__
@@ -201,6 +202,12 @@ namespace LooneyInvaders.Layers
             });
 
 #endif
+
+
+
+            NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
+
+
 
             GameAnimation.Instance.FreeAllSpriteSheets(false);
 
@@ -1507,6 +1514,12 @@ namespace LooneyInvaders.Layers
             */
             //this.ScheduleOnce(Victory, 40);
 
+        }
+
+
+        private void OnSwitchIsOn(object p_object)
+        {
+            BtnBack_OnClick(null, null);
         }
 
         CCSpriteTwoStateButton gameTipCheckMark;

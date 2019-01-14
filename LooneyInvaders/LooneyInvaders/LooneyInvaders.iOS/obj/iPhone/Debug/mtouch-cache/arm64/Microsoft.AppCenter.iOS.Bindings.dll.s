@@ -17063,7 +17063,7 @@ _mono_aot_file_info:
 	.long 256,2688,0,0,0,0,0,0
 	.long 0,0,0,0,0,0,0,0
 	.long 0,0
-	.byte 184,127,107,132,51,147,222,198,156,104,117,76,187,215,136,96
+	.byte 44,248,14,34,135,55,44,35,42,106,102,150,222,140,60,96
 	.globl _mono_aot_module_Microsoft_AppCenter_iOS_Bindings_info
 	.align 3
 _mono_aot_module_Microsoft_AppCenter_iOS_Bindings_info:

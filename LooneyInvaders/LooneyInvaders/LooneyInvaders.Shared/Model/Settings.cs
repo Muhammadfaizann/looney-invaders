@@ -143,7 +143,7 @@ namespace LooneyInvaders.Model
             set { _soundVolume = value; CrossSettings.Current.AddOrUpdateValue("soundVolume", value); this.ApplyValues(); }
         }
 
-        private int _musicStyle = (int)MUSIC_STYLE.Instrumental;
+        private int _musicStyle = (int)MUSIC_STYLE.Beatbox;
         public MUSIC_STYLE MusicStyle
         {
             get { return (MUSIC_STYLE)_musicStyle; }
@@ -157,7 +157,7 @@ namespace LooneyInvaders.Model
             set { _vibration = value; CrossSettings.Current.AddOrUpdateValue("vibration", value); this.ApplyValues(); }
         }
 
-        private int _battlegroundStyle = (int)BATTLEGROUND_STYLE.Realistic;
+        private int _battlegroundStyle = (int)BATTLEGROUND_STYLE.Cartonic;
         public BATTLEGROUND_STYLE BattlegroundStyle
         {
             get { return (BATTLEGROUND_STYLE)_battlegroundStyle; }
