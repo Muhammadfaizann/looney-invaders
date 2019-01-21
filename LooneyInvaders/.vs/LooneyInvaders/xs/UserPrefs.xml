@@ -1,23 +1,36 @@
 ﻿<Properties StartupConfiguration="{BE3D33F9-4D81-4074-BCFC-92CE7F332F2C}|Default">
-  <MonoDevelop.Ide.ItemProperties.LooneyInvaders.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.4f9c2c365ec2bf8ae08d4f860c66d7a4baf68092" />
-  <MonoDevelop.Ide.ItemProperties.LooneyInvaders.Droid PreferredExecutionTarget="Android.Android_Accelerated_Oreo" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LooneyInvaders/LooneyInvaders.Droid/MainActivity.cs">
+  <MonoDevelop.Ide.ItemProperties.LooneyInvaders.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.7e1bc73bfdbc4dde0fa74a258ba103a0e4d283f8" automaticSigning="False" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="LooneyInvaders/LooneyInvaders.iOS/Properties/AssemblyInfo.cs">
     <Files>
-      <File FileName="LooneyInvaders/LooneyInvaders.Droid/MainActivity.cs" Line="118" Column="23" />
-      <File FileName="LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" Line="83" Column="1" />
-      <File FileName="LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" Line="1522" Column="1" />
+      <File FileName="LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" Line="208" Column="13" />
+      <File FileName="LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" Line="87" Column="1" />
+      <File FileName="LooneyInvaders/LooneyInvaders.iOS/Properties/AssemblyInfo.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="LooneyInvaders" expanded="True">
+            <Node name="LooneyInvaders.iOS" expanded="True">
+              <Node name="Properties" expanded="True">
+                <Node name="AssemblyInfo.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppStore|iPhone" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint enabled="false" file="/Users/tpetrovic/projects/looney-invaders/LooneyInvaders/LooneyInvaders/LooneyInvaders.Shared/Model/GameEnvironment.cs" relfile="LooneyInvaders/LooneyInvaders.Shared/Model/GameEnvironment.cs" line="95" column="1" />
+      <Breakpoint file="/Users/tpetrovic/projects/looney-invaders/LooneyInvaders/LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" relfile="LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" line="1522" column="1" />
+      <Breakpoint file="/Users/tpetrovic/projects/looney-invaders/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" relfile="LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" line="83" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../../LooneyInvaders/LooneyInvaders.Shared/Layers/GetMoreCreditsScreenLayer.cs" line="301" offsetX="627" offsetY="4500" expression="Player.Instance.LastAdWatchDay.Date" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint enabled="false" file="/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.Shared/Model/GameEnvironment.cs" relfile="LooneyInvaders/LooneyInvaders.Shared/Model/GameEnvironment.cs" line="95" column="1" />
-      <Breakpoint file="/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" relfile="LooneyInvaders/LooneyInvaders.Shared/Layers/GamePlayLayer.cs" line="1522" column="1" />
-      <Breakpoint file="/Volumes/DATA/Looney Invaders/LooneyInvadersApp/LooneyInvaders/LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" relfile="LooneyInvaders/LooneyInvaders.iOS/AppDelegate.cs" line="83" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.LooneyInvaders.Droid PreferredExecutionTarget="Android.Android_Accelerated_Oreo" />
 </Properties>

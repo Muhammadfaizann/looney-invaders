@@ -245,7 +245,7 @@
       <HintPath>bin\Android\Debug\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="NotificationCenter">
-      <HintPath>..\..\..\..\..\..\..\Users\gaurav\Desktop\NotificationCenter.dll</HintPath>
+      <HintPath>..\..\..\NotificationCenter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
