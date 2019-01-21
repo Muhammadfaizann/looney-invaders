@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -121,14 +121,14 @@ namespace LooneyInvaders.Droid
 
          protected override void OnCreate(Bundle bundle)
         {
+
+            //---------- Prabhjot ---------//
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
                     typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
 
 
-
-            // AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             HockeyAppInit();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -187,11 +187,8 @@ namespace LooneyInvaders.Droid
 
 
 #if (DEBUG == false)
-                // set up in-game purchases
-                svc = new PurchaseService(API_KEY);
-                await svc.Init(this);
-                Task<bool> svcResume = svc.Resume();
-                if (svcResume != null) await svcResume;
+            // set up in-game purchases
+           InGamePurchasesAsync();
 
                 LooneyInvaders.Model.PurchaseManager.PurchaseHandler = purchaseProduct;
                 LooneyInvaders.Model.VibrationManager.VibrationHandler = Vibrate;
@@ -213,6 +210,15 @@ namespace LooneyInvaders.Droid
             // start the game
             CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
             gameView.ViewCreated += GameDelegate.LoadGame;
+        }
+
+        //In-Game Purchases
+        private async Task InGamePurchasesAsync()
+        {
+            svc = new PurchaseService(API_KEY);
+            await svc.Init(this);
+            Task<bool> svcResume = svc.Resume();
+            if (svcResume != null) await svcResume;
         }
 
         private bool UsernameGUIDInsertHandler(string guid)
@@ -534,7 +540,12 @@ namespace LooneyInvaders.Droid
                 Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
             _isAdsShoving = false;
 
-            NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+            // ----------- Prabhjot ----------- //
+
+            if (Settings.isFromGameScreen == true)
+            {
+                NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+            }
 
             base.OnPause();
         }
@@ -788,6 +799,7 @@ namespace LooneyInvaders.Droid
         public override void OnBackPressed()
         {
             GameDelegate.FireBackButtonPressed();
+          
         }
 
         private async void refreshLeaderboardsAsync(LooneyInvaders.Model.Leaderboard leaderboard)
@@ -918,6 +930,9 @@ namespace LooneyInvaders.Droid
                 Toast.MakeText(this, "No App Available", ToastLength.Long).Show();
             }
         }
+
+
+
     }
 }
 

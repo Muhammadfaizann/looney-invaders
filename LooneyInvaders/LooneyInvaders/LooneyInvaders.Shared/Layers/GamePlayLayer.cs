@@ -2474,7 +2474,7 @@ namespace LooneyInvaders.Layers
                 var pitch = 0f;
 
                 //---------- Prabhjot Singh ------//
-                //      GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
+                      GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
 
                 pitch = pitch >= 90 ? 180 - pitch : pitch;
 
