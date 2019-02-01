@@ -540,12 +540,17 @@ namespace LooneyInvaders.Droid
                 Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
             _isAdsShoving = false;
 
+<<<<<<< HEAD
+            //---------- Prabhjot ---------//
+            NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+=======
             // ----------- Prabhjot ----------- //
 
             if (Settings.isFromGameScreen == true)
             {
                 NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
             }
+>>>>>>> 8db6ebe7b3256da0f76b37dd297a24ecce3f90b4
 
             base.OnPause();
         }
