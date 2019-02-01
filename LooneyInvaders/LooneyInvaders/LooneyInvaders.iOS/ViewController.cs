@@ -133,7 +133,7 @@ namespace LooneyInvaders.iOS
                 if (JsonDocList.Count == 0) return true; // no user
                 if (JsonDocList[0].GetJsonDoc().Contains(LooneyInvaders.Model.UserManager.UserGUID)) return true; // this user
             }
-            catch (App42NotFoundException nfe)
+            catch (App42Exception nfe)
             {
                 return true;
             }
@@ -508,7 +508,7 @@ namespace LooneyInvaders.iOS
         private async void refreshLeaderboardsAsync(LooneyInvaders.Model.Leaderboard leaderboard)
         {
             //---------- Prabhjot Singh ------//
-            // await Task.Run(() => refreshLeaderboards(leaderboard));
+             await Task.Run(() => refreshLeaderboards(leaderboard));
         }
 
         private void refreshLeaderboards(LooneyInvaders.Model.Leaderboard leaderboard)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Microsoft.Xna.Framework;
@@ -701,10 +701,28 @@ namespace LooneyInvaders.Layers
 			_isPopupShiving = true;
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
 
+		// ---------- Prabhjot ----------//
+
+            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, BUTTON_TYPE.Forward);
+
+            _btnBack.Enabled = false;
+            _btnForward.Enabled = false;
+
         }
 
         private void hideGameTipNoBuy()
         {
+
+ 		//-------- Prabhjot ----------//
+
+            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+
+            _btnBack.Enabled = true;
+            _btnForward.Enabled = true;
+                
+
             _btnCalibreDecrease.Enabled = true;
             _btnCalibreIncrease.Enabled = true;
             _btnFirespeedIncrease.Enabled = true;

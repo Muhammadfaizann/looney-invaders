@@ -192,7 +192,7 @@ namespace LooneyInvaders.Layers
             // ----------- Prabhjot ----------- //
             //this.ScheduleOnce(Victory, 1);
             Settings.isFromGameScreen = true;
-
+/*
 #if __IOS__
             NSObject _indexPathNotification;
             _indexPathNotification = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("PlayToEnd"), (obj) => {
@@ -202,7 +202,7 @@ namespace LooneyInvaders.Layers
             });
 
 #endif
-
+*/
 
 
             NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
@@ -2287,6 +2287,12 @@ namespace LooneyInvaders.Layers
             }
             else
             {
+
+		//---------- Prabhjot ----------//
+
+                btnBack.Enabled = false;
+                btnSettings.Enabled = false;
+
                 gameOver = true;
                 gameOverLabel = this.AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-game-over...-text.png", 1010);
                 gameOverLabel.Scale = 0.8f;
@@ -4136,6 +4142,12 @@ namespace LooneyInvaders.Layers
                 if (RectangleWithin(movementButtonBoundingBox, touch.Location))
                 {
                     isCannonMoving = true;
+
+			//--------- Prabhjot ----------//
+                    //int steerinButtonX = 3;
+                    //int steeringButtonY = 2;
+                    //btnMovement = AddButton(steerinButtonX, steeringButtonY, "UI/Controls/Steering arrow/080-transparent-movement-arrow-tapped.png", "UI/Controls/Steering arrow/040-transparent-movement-arrow-untapped.png", 200, BUTTON_TYPE.Silent);
+
                     MoveCannon(touch.Location.X);
                 }
                 else if (RectangleWithin(fireButtonBoundingBox, touch.Location))

@@ -127,7 +127,7 @@ namespace LooneyInvaders.Droid
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
                     typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
-
+	    MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
 
             HockeyAppInit();
             SetSessionInfo();
@@ -158,7 +158,7 @@ namespace LooneyInvaders.Droid
             this.WindowManager.DefaultDisplay.GetRealSize(size);
 
             _adBanner = new AdView(Application.Context);
-            _adBanner.AdSize = AdSize.Banner;
+            _adBanner.AdSize = AdSize.SmartBanner;
             _adBanner.AdUnitId = "ca-app-pub-5373308786713201/9938442971";
             _adBanner.Id = 999;
             _adBanner.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
