@@ -81,6 +81,9 @@ namespace LooneyInvaders.Layers
 		bool isBackTapped = false;
         bool _isPopupShiving = false;
 
+        //----------- Prabhjot ----------//
+        bool _isShowGameTipViewLoaded = false;
+
         public WeaponUpgradeScreenLayer(int selectedEnemy, int selectedWeapon, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
@@ -367,7 +370,15 @@ namespace LooneyInvaders.Layers
         }
 
         private void showGameTip()
-        {            
+        {
+            //------------- Prabhjot ---------------//
+
+            _isShowGameTipViewLoaded = true;
+
+            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
+
+
             _btnCalibreDecrease.Enabled = false;
             _btnCalibreIncrease.Enabled = false;
             _btnFirespeedIncrease.Enabled = false;
@@ -391,6 +402,15 @@ namespace LooneyInvaders.Layers
                 
         private void hideGameTip()
         {
+
+            //------------- Prabhjot ---------------//
+
+            _isShowGameTipViewLoaded = false;
+
+            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+
+
             _btnCalibreDecrease.Enabled = true;
             _btnCalibreIncrease.Enabled = true;
             _btnFirespeedIncrease.Enabled = true;
@@ -628,7 +648,16 @@ namespace LooneyInvaders.Layers
 
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
-			if(_isPopupShiving)
+            //return;
+
+            //------------- Prabhjot ---------------//
+            //if (_isShowGameTipViewLoaded == true)
+            //{
+            //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            //    return;
+            //}
+
+            if (_isPopupShiving)
 			{
 				GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 return;
@@ -651,7 +680,15 @@ namespace LooneyInvaders.Layers
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-			if (_isPopupShiving)
+
+            //------------- Prabhjot ---------------//
+            //if (_isShowGameTipViewLoaded == true)
+            //{
+            //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            //    return;
+            //}
+
+            if (_isPopupShiving)
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 return;

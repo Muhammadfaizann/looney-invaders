@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Microsoft.Xna.Framework;
@@ -557,6 +557,9 @@ namespace LooneyInvaders.Layers
 
         private void BtnNotifications_OnClick(object sender, EventArgs e)
         {
+            //------------ Prabhjot ------------//
+            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP);
+
             _btnNotifications.ChangeState();
 
             if (_btnNotifications.State == 1)
@@ -575,6 +578,9 @@ namespace LooneyInvaders.Layers
 
         private void BtnPushNotifications_OnClick(object sender, EventArgs e)
         {
+            //------------ Prabhjot ------------//
+            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP);
+
             _btnPushNotifications.ChangeState();
 
             _openSettingsService.OpenNotificationSettings();

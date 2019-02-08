@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Xamarin.Essentials;
@@ -95,14 +95,14 @@ namespace LooneyInvaders.Layers
 
             //------------ Prabhjot -----------//
 
-            /*if(Player.Instance.FacebookLikeUsed)
-            {
-                _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            }
-            else
-            {
-                _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            }*/
+            //if(Player.Instance.FacebookLikeUsed)
+            //{
+            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
+            //}
+            //else
+            //{
+            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
+            //}
 
             _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
 
@@ -190,18 +190,23 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
 
-
-
+            //-------------- Prabhjot -------------//
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 Console.WriteLine("No Net");
 
-                _btn2000 = this.AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
+                _btn2000 = this.AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
                 _btn2000.Enabled = false;
                 _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
                 _btn4000.Enabled = false;
                 return;
             }
+            if (Player.Instance.FacebookLikeUsed)
+            {
+                _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
+                return;
+            }
+
 
 
         }
@@ -219,17 +224,18 @@ namespace LooneyInvaders.Layers
         private void btn4000_OnClick(object sender, EventArgs e)
         {
 
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            //if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            //{
+            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
+            //    _btn4000.Enabled = false;
+            //    return;
+            //}
+
+            if (Player.Instance.FacebookLikeUsed || !NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-                _btn4000.Enabled = false;
-                return;
-            }
-
-            if (Player.Instance.FacebookLikeUsed)
-            {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                //return;
+                return;
             }
 
             GameEnvironment.OpenWebPage("http://www.facebook.com/looneyinvaders");
@@ -299,6 +305,7 @@ namespace LooneyInvaders.Layers
             {
                 _btn2000 = this.AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
                 _btn2000.Enabled = false;
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 return;
             }
 

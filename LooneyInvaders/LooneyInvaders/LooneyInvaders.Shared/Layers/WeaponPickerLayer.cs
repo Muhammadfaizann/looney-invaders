@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Microsoft.Xna.Framework;
@@ -47,6 +47,9 @@ namespace LooneyInvaders.Layers
         CCSprite _imgGameTipCredits;
         CCSpriteButton _btnGetCredits;
         CCSpriteButton _btnCancel;
+
+        //----------- Prabhjot ----------//
+        bool _isShowGameTipViewLoaded = false;
 
         public WeaponPickerLayer(int selectedEnemy, bool gameTipAvailable = true)
         {
@@ -469,8 +472,16 @@ namespace LooneyInvaders.Layers
         private void showGameTip()
         {
             _isHoldAnimations = true;
-            _btnBack.Enabled = false;
-            _btnForward.Enabled = false;
+
+            //------------- Prabhjot ---------------//
+
+            //_btnBack.Enabled = false;
+            //_btnForward.Enabled = false;
+
+            _isShowGameTipViewLoaded = true;
+
+            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
             _imgGameTip = this.AddImage(14, 8, "UI/Choose-your-weapon-notification-background-with-all-text.png", 1500);
             _imgGameTipArrow = this.AddImage(210, 155, "UI/game-tip-notification-arrow.png", 1510);
@@ -502,6 +513,13 @@ namespace LooneyInvaders.Layers
             _btnBack.Enabled = true;
             _btnForward.Enabled = true;
             _isHoldAnimations = false;
+
+            //------------- Prabhjot ---------------//
+            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+
+            _isShowGameTipViewLoaded = false;
+
             this.ScheduleOnce(delayedBow, 1f);
 
         }
@@ -514,6 +532,14 @@ namespace LooneyInvaders.Layers
 
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
+
+            //------------- Prabhjot ---------------//
+            if (_isShowGameTipViewLoaded == true)
+            {
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+            }
+
             Shared.GameDelegate.ClearOnBackButtonEvent();
             CCAudioEngine.SharedEngine.StopAllEffects();
             _isHoldAnimations = true;
@@ -525,6 +551,13 @@ namespace LooneyInvaders.Layers
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
+            //------------- Prabhjot ---------------//
+            if (_isShowGameTipViewLoaded == true)
+            {
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+            }
+
             if (_selectedWeapon == (int)WEAPONS.HYBRID)
             {
                 this.UnscheduleAll();

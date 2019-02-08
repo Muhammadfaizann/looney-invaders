@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using CocosSharp;
@@ -34,7 +34,7 @@ namespace LooneyInvaders.Layers
                 _musicTime = 5;
             }
 
-            this.Schedule(waitForMusicToEnd, 1f);
+            this.Schedule(waitForMusicToEnd, 0.5f);
 
            
         }
@@ -81,11 +81,19 @@ namespace LooneyInvaders.Layers
             _musicTime -= dt;
 
             DateTime date = DateTime.Now;
-            
-            if (_musicTime <= 0)
+
+            if (_musicTime <= 1.2)
             {
                 //---------- Prabhjot ----------//
                 GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+     
+            }
+
+
+            if (_musicTime <= 0)
+            {
+                //---------- Prabhjot ----------//
+                //GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
 
                 TransitionToLayer(new MainScreenLayer());
             }

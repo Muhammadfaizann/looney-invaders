@@ -508,7 +508,7 @@ namespace LooneyInvaders.iOS
         private async void refreshLeaderboardsAsync(LooneyInvaders.Model.Leaderboard leaderboard)
         {
             //---------- Prabhjot Singh ------//
-             await Task.Run(() => refreshLeaderboards(leaderboard));
+            // await Task.Run(() => refreshLeaderboards(leaderboard));
         }
 
         private void refreshLeaderboards(LooneyInvaders.Model.Leaderboard leaderboard)

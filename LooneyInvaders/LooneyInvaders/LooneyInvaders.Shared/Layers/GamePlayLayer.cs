@@ -184,6 +184,10 @@ namespace LooneyInvaders.Layers
 
         private CCEventListenerTouchAllAtOnce touchListener;
 
+        //-------------- Prabhjot -------------//
+        bool isGameOver = false;
+
+
         public GamePlayLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, ENEMIES selectedEnemyForPickerScreens = ENEMIES.ALIENS, LAUNCH_MODE launchMode = LAUNCH_MODE.DEFAULT/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
@@ -192,19 +196,6 @@ namespace LooneyInvaders.Layers
             // ----------- Prabhjot ----------- //
             //this.ScheduleOnce(Victory, 1);
             Settings.isFromGameScreen = true;
-/*
-#if __IOS__
-            NSObject _indexPathNotification;
-            _indexPathNotification = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("PlayToEnd"), (obj) => {
-
-                BtnBack_OnClick(null, null);
-
-            });
-
-#endif
-*/
-
-
             NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
 
 
@@ -1706,8 +1697,14 @@ namespace LooneyInvaders.Layers
 
             Console.WriteLine("Settings Button Clicked");
 
+            //------------- Prabhjot --------------//
+            if (isGameOver == true)
+            {
+                //btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+            }
 
-            // -------- Prabhjot Singh ------- //
             Settings.isFromGameScreen = false;
             CCScene newScene = new CCScene(this.GameView);
             newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
@@ -1815,6 +1812,14 @@ namespace LooneyInvaders.Layers
 
         public void BtnBack_OnClick(object sender, EventArgs e)
         {
+            //------------- Prabhjot --------------//
+            if (isGameOver == true)
+            {
+                //btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-untapped.png", 100, BUTTON_TYPE.Back);
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                return;
+            }
+
             Settings.isFromGameScreen = false;
             this.UnscheduleAll();
             this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
@@ -2290,9 +2295,14 @@ namespace LooneyInvaders.Layers
 
 		//---------- Prabhjot ----------//
 
-                btnBack.Enabled = false;
-                btnSettings.Enabled = false;
+                //btnBack.Enabled = false;
+                // btnSettings.Enabled = false;
 
+                btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+                btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+
+
+                isGameOver = true;
                 gameOver = true;
                 gameOverLabel = this.AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-game-over...-text.png", 1010);
                 gameOverLabel.Scale = 0.8f;
@@ -2304,10 +2314,12 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_GAME_OVER);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
+                    //isGameOver = false;
                     this.ScheduleOnce(CalloutGameOver, 0.2f);
                 }
                 else
                 {
+                    isGameOver = true;
                     if (VoiceGameOver != "") CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
                 }
             }

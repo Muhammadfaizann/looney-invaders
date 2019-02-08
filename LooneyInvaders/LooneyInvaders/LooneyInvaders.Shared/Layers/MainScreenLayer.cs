@@ -59,12 +59,12 @@ namespace LooneyInvaders.Layers
 
             //SetTimer();
 
-            this.Enabled = false;
-            this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
-            btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-            btnRanking.OnClick += BtnRanking_OnClick;
+            //this.Enabled = false;
+            //this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
+            //btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
+            //btnRanking.OnClick += BtnRanking_OnClick;
 
-            /*if (NetworkConnectionManager.IsInternetConnectionAvailable())
+            if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
                 btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
@@ -73,9 +73,10 @@ namespace LooneyInvaders.Layers
             else
             {
                 this.SetBackground("UI/Main-screen-background-spotlights-off.jpg");
-                btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png");
+                btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
                 btnRanking.ButtonType = BUTTON_TYPE.CannotTap;
-            }*/
+                               
+            }
 
 
 
