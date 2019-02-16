@@ -583,9 +583,13 @@ namespace LooneyInvaders.Layers
 
             _btnPushNotifications.ChangeState();
 
-            _openSettingsService.OpenNotificationSettings();
+            this.ScheduleOnce(openSettings, 0.50f);
 
             refreshSettings();
+        }
+        private void openSettings(float obj)
+        {
+            _openSettingsService.OpenNotificationSettings();
         }
 
         private void BtnVoiceOvers_OnClick(object sender, EventArgs e)

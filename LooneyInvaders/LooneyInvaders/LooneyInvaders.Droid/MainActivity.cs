@@ -33,6 +33,10 @@ using LooneyInvaders.Services.PNS;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using NotificationCenter;
+using Android.Support.V4.Content;
+using Android.Nfc;
+using Android.Support.Design.Widget;
+using static Android.Resource;
 
 namespace LooneyInvaders.Droid
 {
@@ -132,6 +136,8 @@ namespace LooneyInvaders.Droid
             HockeyAppInit();
             SetSessionInfo();
             CheckNotificationPremissions();
+            //toGetPermissionsForStorage();
+
            // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(bundle);
             Instance = this;
@@ -159,16 +165,19 @@ namespace LooneyInvaders.Droid
 
             _adBanner = new AdView(Application.Context);
             _adBanner.AdSize = AdSize.SmartBanner;
-            _adBanner.AdUnitId = "ca-app-pub-5373308786713201/9938442971";
+            _adBanner.AdUnitId = "ca-app-pub-5373308786713201/9938442971"; // Android
+            //_adBanner.AdUnitId = "ca-app-pub-5373308786713201/3891909370";   // iOS
             _adBanner.Id = 999;
-            _adBanner.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
+            _adBanner.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent);
             ViewGroup.LayoutParams adParams = new ViewGroup.LayoutParams(size.X, _adBanner.AdSize.GetHeightInPixels(Application.Context));
             _adBanner.SetY(0);
             _adBanner.SetX(0);
 
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
-            requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6");
+            requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
+            //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
+
             _adBanner.LoadAd(requestbuilder.Build());
 
             _adBanner.Visibility = ViewStates.Invisible;
@@ -212,6 +221,45 @@ namespace LooneyInvaders.Droid
             gameView.ViewCreated += GameDelegate.LoadGame;
         }
 
+       /* private void toGetPermissionsForStorage()
+        {
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int)Android.Content.PM.Permission.Granted &&
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int)Android.Content.PM.Permission.Granted)
+            {
+                // We have permission, go ahead and use the camera.
+            }
+            else
+            {
+                // Camera permission is not granted. If necessary display rationale & request.
+                if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
+                {
+                    // Provide an additional rationale to the user if the permission was not granted
+                    // and the user would benefit from additional context for the use of the permission.
+                    // For example if the user has previously denied the permission.
+                    Console.WriteLine("Displaying camera permission rationale to provide additional context.");
+
+                    var requiredPermissions = new System.String[] { Manifest.Permission.ReadExternalStorage };
+                    Snackbar.Make(Layout,
+                                   Resource.String.permission_location_rationale,
+                                   Snackbar.LengthIndefinite)
+                            .SetAction(Resource.String.ok,
+                                       new Action<View>(delegate (View obj) {
+                                           ActivityCompat.RequestPermissions(this, requiredPermissions, REQUEST_LOCATION);
+                                       }
+                            )
+                    ).Show();
+                }
+                else
+                {
+                    ActivityCompat.RequestPermissions(this, new System.String[] { Manifest.Permission.ReadExternalStorage }, REQUEST_LOCATION);
+                }
+            }
+        }*/
+
+        // Storage Permissions
+
+
+
         //In-Game Purchases
         private async Task InGamePurchasesAsync()
         {
@@ -241,7 +289,7 @@ namespace LooneyInvaders.Droid
             LooneyInvaders.Model.UserManager.UserGUID = guid;
             LooneyInvaders.Model.Player.Instance.Name = playerName;
 
-            json = "{\"name\":\"" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
+            json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
             storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
 
             return true;
@@ -629,7 +677,8 @@ namespace LooneyInvaders.Droid
 
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
-            requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6");
+            requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
+            //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); //MY device
             _intAd.LoadAd(requestbuilder.Build());
         }
 
@@ -816,7 +865,7 @@ namespace LooneyInvaders.Droid
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
 
-            String gameName;
+            string gameName;
 
             if (leaderboard.Type == Model.LeaderboardType.REGULAR) gameName = "Looney Earth";
             else if (leaderboard.Type == Model.LeaderboardType.PRO) gameName = "Looney Moon";

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Plugin.Settings;
@@ -11,6 +11,7 @@ namespace LooneyInvaders.Model
     public class Player
     {
         private static Player _instance = null;
+        public bool isProLevelSelected = false;
         public static Player Instance
         {
             get

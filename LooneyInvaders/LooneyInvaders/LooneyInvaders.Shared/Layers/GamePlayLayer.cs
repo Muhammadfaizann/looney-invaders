@@ -211,6 +211,11 @@ namespace LooneyInvaders.Layers
 
             if (this.launchMode == LAUNCH_MODE.DEFAULT)
             {
+                if(selectedEnemy == ENEMIES.ALIENS)
+                {
+                    selectedBattleground = BATTLEGROUNDS.MOON;
+                }
+
                 Player.Instance.SetQuickGame(selectedEnemy, selectedBattleground, selectedWeapon);
             }
 
@@ -2059,6 +2064,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
+                Settings.isFromGameScreen = false;
                 this.TransitionToLayerCartoonStyle(new LossScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, score, wave));
             }
         }
@@ -2096,6 +2102,7 @@ namespace LooneyInvaders.Layers
             }
             if (launchMode == LAUNCH_MODE.DEFAULT)
             {
+                Settings.isFromGameScreen = false;
                 this.TransitionToLayerCartoonStyle(new VictoryScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, Convert.ToDecimal(elapsedTime), Convert.ToDecimal((bulletsFired - bulletsMissed) * 100) / Convert.ToDecimal(bulletsFired), lives.Count, WinsInSuccession + 1));
             }
         }

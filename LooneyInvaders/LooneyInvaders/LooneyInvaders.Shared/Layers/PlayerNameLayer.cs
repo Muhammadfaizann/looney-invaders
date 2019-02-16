@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Microsoft.Xna.Framework;
@@ -267,6 +267,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
+                _btnForward = this.AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_tapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
             }
         }
@@ -293,14 +294,15 @@ namespace LooneyInvaders.Layers
 			if (String.IsNullOrWhiteSpace(strInput))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                lblInputLabel.Text = "Please enter player name below";
+                lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
+                //lblInputLabel.Text = "Please enter player name below";
                 return;
             }
 
 			if (strInput.Length < 3 || (strInput.Length > 0 && !char.IsLetter(strInput[0])))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-				lblInputLabel.Text = "Player name must be more than 3 symbols and start from letter";
+				lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 return;
             }
 

@@ -171,7 +171,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 _isHoldAnimations = false;
-                this.ScheduleOnce(delayedTalk, 1.0f);
+                //this.ScheduleOnce(delayedTalk, 1.0f); // Commented by ----------- Prabhjot -------------
             }
         }
         

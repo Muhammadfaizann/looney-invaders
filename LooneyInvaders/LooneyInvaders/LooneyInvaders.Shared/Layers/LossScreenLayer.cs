@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CocosSharp;
 using Microsoft.Xna.Framework;
@@ -154,6 +154,10 @@ namespace LooneyInvaders.Layers
 
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
+                //-------------- Prabhjot ----------------//
+                youAreDefeated = this.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
+                youAreDefeated.Opacity = 0;
+                this.SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
                 this.Schedule(fadeYouAreDefeated);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
@@ -209,7 +213,16 @@ namespace LooneyInvaders.Layers
             CCSpriteButton mainMenu = getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += mainMenu_OnClick;
 
-            CCSpriteButton revenge = getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+            CCSpriteButton revenge;
+            if (Player.Instance.isProLevelSelected == true)
+            {
+                revenge = getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+            }
+            else
+            {
+                revenge = getRevengeNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+            }
+
             revenge.ButtonType = BUTTON_TYPE.Rewind;
             revenge.OnClick += revenge_OnClick;
 
@@ -553,10 +566,12 @@ namespace LooneyInvaders.Layers
             creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-            btnContinue.Visible = false;
+            //btnContinue = scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+            btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
             btnContinue.OnClick += BtnContinue_OnClick;
 
             mainMenu = scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
+            mainMenu.Visible = true; // Previously this line was not written --- Changed by Prabhjot
             mainMenu.OnClick += mainMenu_OnClick;
 
             if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null)

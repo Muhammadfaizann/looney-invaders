@@ -372,9 +372,7 @@ namespace LooneyInvaders.Layers
         private void showGameTip()
         {
             //------------- Prabhjot ---------------//
-
-            _isShowGameTipViewLoaded = true;
-
+            
             _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
             _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
@@ -404,8 +402,6 @@ namespace LooneyInvaders.Layers
         {
 
             //------------- Prabhjot ---------------//
-
-            _isShowGameTipViewLoaded = false;
 
             _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
             _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
@@ -651,17 +647,17 @@ namespace LooneyInvaders.Layers
             //return;
 
             //------------- Prabhjot ---------------//
-            //if (_isShowGameTipViewLoaded == true)
-            //{
-            //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-            //    return;
-            //}
-
-            if (_isPopupShiving)
-			{
-				GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            if (_isShowGameTipViewLoaded == true)
+            {
+                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 return;
-			}
+            }
+
+   //         if (_isPopupShiving)
+			//{
+			//	GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+   //             return;
+			//}
 
             isForwardTapped = false;
             isBackTapped = true;
@@ -682,17 +678,17 @@ namespace LooneyInvaders.Layers
         {
 
             //------------- Prabhjot ---------------//
-            //if (_isShowGameTipViewLoaded == true)
-            //{
-            //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-            //    return;
-            //}
-
-            if (_isPopupShiving)
+            if (_isShowGameTipViewLoaded == true)
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 return;
             }
+
+            //if (_isPopupShiving)
+            //{
+            //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            //    return;
+            //}
 
             isForwardTapped = true;
             isBackTapped = false;
@@ -740,6 +736,8 @@ namespace LooneyInvaders.Layers
 
 		// ---------- Prabhjot ----------//
 
+            _isShowGameTipViewLoaded = true;
+
             _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, BUTTON_TYPE.Back);
             _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, BUTTON_TYPE.Forward);
 
@@ -752,6 +750,8 @@ namespace LooneyInvaders.Layers
         {
 
  		//-------- Prabhjot ----------//
+
+            _isShowGameTipViewLoaded = false;
 
             _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
             _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
@@ -782,7 +782,14 @@ namespace LooneyInvaders.Layers
 
         private void _btnNoBuyExit_OnClick(object sender, EventArgs e)
         {
-            if(isForwardTapped) this.TransitionToLayer(new BattlegroundPickerLayer(this._selectedEnemy, this._selectedWeapon));
+            if (_selectedWeapon == (int)WEAPONS.HYBRID)
+            {
+                this.UnscheduleAll();
+                this.TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)this._selectedWeapon, BATTLEGROUNDS.MOON, false));
+                return;
+            }
+
+            if (isForwardTapped) this.TransitionToLayer(new BattlegroundPickerLayer(this._selectedEnemy, this._selectedWeapon));
             else this.TransitionToLayer(new WeaponPickerLayer(this._selectedEnemy, this._selectedWeapon));
         }
 

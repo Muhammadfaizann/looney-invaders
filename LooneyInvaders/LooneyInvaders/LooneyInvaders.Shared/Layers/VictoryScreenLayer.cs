@@ -717,8 +717,20 @@ namespace LooneyInvaders.Layers
             creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             //--------- Prabhjot ----------//
+
+            if(Player.Instance.isProLevelSelected == true)
+            {
+                btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+
+            }
+            else
+            {
+                btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+
+            }
+
             //btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+            //btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             btnContinue.Visible = false;
             btnContinue.OnClick += BtnContinue_OnClick;
 
@@ -1056,12 +1068,12 @@ namespace LooneyInvaders.Layers
 
         private void shareTwitter_OnClick(object sender, EventArgs e)
         {
-            //SocialNetworkShareManager.ShareLayer("twitter", this);
+            SocialNetworkShareManager.ShareLayer("twitter", this);
         }
 
         private void shareFacebook_OnClick(object sender, EventArgs e)
         {
-            //SocialNetworkShareManager.ShareLayer("facebook", this);
+            SocialNetworkShareManager.ShareLayer("facebook", this);
         }
 
         private void cancelBtn_OnClick(object sender, EventArgs e)
