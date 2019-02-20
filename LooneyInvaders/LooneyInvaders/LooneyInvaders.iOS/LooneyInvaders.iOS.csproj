@@ -351,6 +351,10 @@
     <BundleResource Include="Content\Images\Hd\UI\touch-steering-instructions-notification-background.png" />
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
+    <BundleResource Include="Content\Images\Hd\UI\get-more-firepower-implement-upgrade-button-tapped.png" />
+    <BundleResource Include="Content\Images\Hd\UI\get-more-firepower-implement-upgrade-button-untapped.png" />
+    <BundleResource Include="Content\Images\Hd\UI\get-more-firepower-test-upgrade-button-tapped.png" />
+    <BundleResource Include="Content\Images\Hd\UI\get-more-firepower-test-upgrade-button-untapped.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\AktivGroteskBold-16.xnb" />

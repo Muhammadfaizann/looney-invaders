@@ -18,7 +18,7 @@ namespace LooneyInvaders.Layers
         CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
 
         CCSprite _centerImage;
-        CCSprite[] _images = new CCSprite[6];
+        CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
         bool _isSwiping = false;
         bool _isSwipingEnabled = true;
         int _selectedWeapon;
@@ -136,7 +136,8 @@ namespace LooneyInvaders.Layers
                 _images[2].Scale = 1.0f;
                 _images[2].Tag = (int)WEAPONS.STANDARD;
 
-                _images[3] = this.AddImage(990, 260, "UI/compact-sprayer_bow_00.png", 0);
+                //----------------- Prabhjot -----------------//
+                /*_images[3] = this.AddImage(990, 260, "UI/compact-sprayer_bow_00.png", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[3].Scale = 0.6f;
                 _images[3].Tag = (int)WEAPONS.COMPACT;
@@ -150,7 +151,7 @@ namespace LooneyInvaders.Layers
                 _images[5].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[5].Scale = 0.6f;
                 _images[5].Tag = (int)WEAPONS.STANDARD;
-
+                */
                 _selectedWeapon = (int)WEAPONS.STANDARD;
 
                 _imgWeaponDescription = this.AddImage(795, 15, "UI/Choose-your-weapon-standard-gun-text-board-all.png", 1000);
@@ -630,8 +631,15 @@ namespace LooneyInvaders.Layers
                     //img.PositionY = 230 - (75 * distancePercentage);
                 }
 
-                if (img.PositionX > 2250) img.PositionX = -270 + img.PositionX - 2250;
-                else if (img.PositionX < -270) img.PositionX = 2250 + img.PositionX + 270;
+
+                 // circular motion
+                 //if (img.PositionX > 2250) img.PositionX = -270 + img.PositionX - 2250;
+                 //else if (img.PositionX < -270) img.PositionX = 2250 + img.PositionX + 270;
+
+                 if (_centerImage == null) _centerImage = img;
+                 else if (Math.Abs(570 - img.PositionX) < Math.Abs(570 - _centerImage.PositionX)) _centerImage = img;
+
+
 
                 if (_centerImage == null)
                 {

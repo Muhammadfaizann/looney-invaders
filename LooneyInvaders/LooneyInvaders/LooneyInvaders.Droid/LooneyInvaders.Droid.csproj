@@ -533,6 +533,10 @@
     <AndroidAsset Include="Assets\Content\Images\Hd\UI\push-notification-yes-button-untapped.png" />
     <AndroidAsset Include="Assets\Content\Images\Hd\UI\push-notifications-text.png" />
     <AndroidAsset Include="Assets\Content\Images\Hd\UI\touch-steering-instructions-notification-background.png" />
+    <AndroidAsset Include="Assets\Content\Images\Hd\UI\get-more-firepower-implement-upgrade-button-tapped.png" />
+    <AndroidAsset Include="Assets\Content\Images\Hd\UI\get-more-firepower-implement-upgrade-button-untapped.png" />
+    <AndroidAsset Include="Assets\Content\Images\Hd\UI\get-more-firepower-test-upgrade-button-tapped.png" />
+    <AndroidAsset Include="Assets\Content\Images\Hd\UI\get-more-firepower-test-upgrade-button-untapped.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

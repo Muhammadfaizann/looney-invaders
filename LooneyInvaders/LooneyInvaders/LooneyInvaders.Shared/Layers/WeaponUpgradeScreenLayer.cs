@@ -248,10 +248,10 @@ namespace LooneyInvaders.Layers
             _lblYourCredits = this.AddImage(640, 192, "UI/get-more-firepower-your-credits-text.png");
             _lblCredits = this.AddImageLabelRightAligned(1090, 192, "30000", 55);
 
-            _btnTestModification = this.AddButton(2, 80, "UI/get-more-firepower-test-modification-button-untapped.png", "UI/get-more-firepower-test-modification-button-tapped.png");
+            _btnTestModification = this.AddButton(2, 80, "UI/get-more-firepower-test-upgrade-button-untapped.png", "UI/get-more-firepower-test-upgrade-button-tapped.png");
             _btnTestModification.OnClick += _btnTestModification_OnClick;
 
-            _btnBuy = this.AddButton(2, 10, "UI/get-more-firepower-buy-modification-button-untapped.png", "UI/get-more-firepower-buy-modification-button-tapped.png");
+            _btnBuy = this.AddButton(2, 10, "UI/get-more-firepower-implement-upgrade-button-untapped.png", "UI/get-more-firepower-implement-upgrade-button-tapped.png");
             _btnBuy.ButtonType = BUTTON_TYPE.Silent;
             _btnBuy.OnClick += BtnBuy_OnClick;
 

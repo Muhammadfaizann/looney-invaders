@@ -562,7 +562,7 @@ namespace LooneyInvaders.Droid
 
             try
             {
-                if (!String.IsNullOrWhiteSpace(music))
+                if (!string.IsNullOrWhiteSpace(music))
                     CCAudioEngine.SharedEngine.PlayBackgroundMusic(music, true);
             }
             catch (Exception ex)
@@ -571,7 +571,7 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        string music = String.Empty;
+        string music = string.Empty;
 
         protected override void OnPause()
         {
