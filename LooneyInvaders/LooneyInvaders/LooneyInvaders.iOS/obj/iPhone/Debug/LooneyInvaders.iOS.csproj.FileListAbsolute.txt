@@ -1,8 +1,0 @@
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\ibtool\_BundleResourceWithLogicalName.items
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\actool\_PartialAppManifest.items
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\actool\_BundleResourceWithLogicalName.items
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\coremlc\_PartialAppManifest.items
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\coremlc\_BundleResourceWithLogicalName.items
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\optimized\
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\LooneyInvaders.iOS.csprojAssemblyReference.cache
-d:\Projects\Chainers\looney-invaders\LooneyInvaders\LooneyInvaders\LooneyInvaders.iOS\obj\iPhone\Debug\LooneyInvaders.iOS.csproj.CoreCompileInputs.cache
