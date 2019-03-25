@@ -8,8 +8,6 @@ namespace LooneyInvaders.Layers
 {
     public class VictoryScreenLayer : CCLayerColorExt
     {
-        private const double TOLERANCE = 0.0001;
-
         public BATTLEGROUNDS SelectedBattleground;
         public ENEMIES SelectedEnemy;
         public WEAPONS SelectedWeapon;
@@ -554,47 +552,47 @@ namespace LooneyInvaders.Layers
         private void ShowRecordNotification(float dt)
         {
 
-            if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
+            if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
             {
                 Player.Instance.Credits += 30000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
             {
                 Player.Instance.Credits += 15000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
             {
                 Player.Instance.Credits += 30000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
             {
                 Player.Instance.Credits += 20000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
             {
                 Player.Instance.Credits += 10000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
             {
                 Player.Instance.Credits += 15000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
             {
                 Player.Instance.Credits += 10000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
             {
                 Player.Instance.Credits += 5000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
@@ -602,15 +600,15 @@ namespace LooneyInvaders.Layers
             else
             {
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
-                if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < TOLERANCE)
+                if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < AppConstants.TOLERANCE)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
                 }
-                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
+                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
                 }
-                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
+                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
                 }
@@ -658,10 +656,10 @@ namespace LooneyInvaders.Layers
             }
 
             if (_isWeHaveScores
-                && (Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < TOLERANCE
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+                && (Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < AppConstants.TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE)
                 && !_recordNotificationShown)
             {
                 ScheduleOnce(ShowRecordNotification, 0.5f);
@@ -698,17 +696,17 @@ namespace LooneyInvaders.Layers
             _scoreNode.AddImageLabelCentered(155, 432, _score.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
             _scoreNode.AddImageLabelCentered(155, 311, Accuracy.ToString("0") + "%", 50);
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE)
             {
                 _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
                 _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
             }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE)
             {
                 _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-week-title-text.png", 3);
                 _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE)
             {
                 _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-day-title-text.png", 3);
                 _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
@@ -746,20 +744,20 @@ namespace LooneyInvaders.Layers
             if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && LeaderboardManager.PlayerRankRegularWeekly != null && LeaderboardManager.PlayerRankRegularMonthly != null)
             {
                 //day
-                _scoreNode.AddImageLabelCentered(700, 432, LeaderboardManager.PlayerRankRegularDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularDaily.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularDaily.Score ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(700, 367, LeaderboardManager.PlayerRankRegularDaily.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularDaily.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularDaily.Time ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(700, 311, LeaderboardManager.PlayerRankRegularDaily.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(700, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : "green");
+                _scoreNode.AddImageLabelCentered(700, 432, LeaderboardManager.PlayerRankRegularDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularDaily.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularDaily.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 367, LeaderboardManager.PlayerRankRegularDaily.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularDaily.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularDaily.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 311, LeaderboardManager.PlayerRankRegularDaily.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE ? null : "green");
                 //week
-                _scoreNode.AddImageLabelCentered(847, 432, LeaderboardManager.PlayerRankRegularWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularWeekly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularWeekly.Score ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(847, 367, LeaderboardManager.PlayerRankRegularWeekly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularWeekly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularWeekly.Time ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(847, 311, LeaderboardManager.PlayerRankRegularWeekly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(847, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : "green");
+                _scoreNode.AddImageLabelCentered(847, 432, LeaderboardManager.PlayerRankRegularWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularWeekly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularWeekly.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 367, LeaderboardManager.PlayerRankRegularWeekly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularWeekly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularWeekly.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 311, LeaderboardManager.PlayerRankRegularWeekly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE ? null : "green");
                 //month
-                _scoreNode.AddImageLabelCentered(1011, 432, LeaderboardManager.PlayerRankRegularMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularMonthly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularMonthly.Score ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(1011, 367, LeaderboardManager.PlayerRankRegularMonthly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularMonthly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularMonthly.Time ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(1011, 311, LeaderboardManager.PlayerRankRegularMonthly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "green" : "yellow")));
-                _scoreNode.AddImageLabelCentered(1011, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : "green");
+                _scoreNode.AddImageLabelCentered(1011, 432, LeaderboardManager.PlayerRankRegularMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularMonthly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularMonthly.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 367, LeaderboardManager.PlayerRankRegularMonthly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularMonthly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularMonthly.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 311, LeaderboardManager.PlayerRankRegularMonthly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE ? null : "green");
 
                 _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
                 _yes.OnClick += yes_OnClick;
@@ -929,23 +927,23 @@ namespace LooneyInvaders.Layers
 
             _sl.AddImageLabel(420, 295, _score.ToString(), 52);
 
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.TOLERANCE)
             {
                 _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
             }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE)
             {
                 _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.TOLERANCE)
             {
                 _sl.AddImageLabelCentered(837, 285, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE)
             {
                 _sl.AddImageCentered(837, 285, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.TOLERANCE)
             {
                 _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
             }

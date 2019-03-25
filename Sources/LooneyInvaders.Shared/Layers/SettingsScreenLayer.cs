@@ -59,7 +59,7 @@ namespace LooneyInvaders.Layers
         GamePlayLayer _steeringTestLayer;
 
         readonly List<CCSprite> _titlAngleIndicator;
-        readonly List<CCSprite> canonSpeedIndicator;
+        readonly List<CCSprite> _canonSpeedIndicator;
 
         CCSprite _tiltAngle;
         readonly string _fromPage;
@@ -69,7 +69,7 @@ namespace LooneyInvaders.Layers
         public SettingsScreenLayer(GamePlayLayer layerBack = null, string fromPage = null)
         {
             _titlAngleIndicator = new List<CCSprite>();
-            canonSpeedIndicator = new List<CCSprite>();
+            _canonSpeedIndicator = new List<CCSprite>();
 
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Voiceover on VO_mono.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Voiceover off VO_mono.wav");
@@ -192,7 +192,7 @@ namespace LooneyInvaders.Layers
             _btnNoAdvertisements.OnClick += _btnNoAdvertisements_OnClick;
 
             _btnCancel = AddButton(637, 30, "UI/Settings-notification-cancel-button-untapped.png", "UI/Settings-notification-cancel-button-tapped.png", 1600);
-            _btnCancel.OnClick += _btnCancel_OnClick; ;
+            _btnCancel.OnClick += _btnCancel_OnClick;
             _btnCancel.Visible = false;
 
             AddChild(_pg2);
@@ -246,9 +246,9 @@ namespace LooneyInvaders.Layers
             AddChild(_pg3);
             _pg3.Visible = false;
 
-            refreshSettings();
+            RefreshSettings();
 
-            GameEnvironment.PlayMusic(MUSIC.MAIN_MENU, false);
+            GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
 
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
             _openSettingsService = new OpenSettingsService();
@@ -258,7 +258,7 @@ namespace LooneyInvaders.Layers
 
         private void _btnCancel_OnClick(object sender, EventArgs e)
         {
-            hideAdvertisementsTip();
+            HideAdvertisementsTip();
         }
 
         public void RefreshPlayerName()
@@ -268,7 +268,7 @@ namespace LooneyInvaders.Layers
             _lblPlayerName.Scale = 2;
         }
 
-        private void showAdvertisementsTip()
+        private void ShowAdvertisementsTip()
         {
             _btnMusicState.Enabled = false;
             _btnMusicStyle.Enabled = false;
@@ -288,7 +288,7 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = true;
         }
 
-        private void hideAdvertisementsTip()
+        private void HideAdvertisementsTip()
         {
             _btnMusicState.Enabled = true;
             _btnMusicStyle.Enabled = true;
@@ -308,7 +308,7 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = false;
         }
 
-        private void refreshSettings()
+        private void RefreshSettings()
         {
             Settings settings = Settings.Instance;
 
@@ -390,7 +390,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.SoundVolume < 8)
             {
                 Settings.Instance.SoundVolume++;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_VOLUME_CHANGE);
             }
             else
@@ -404,7 +404,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.SoundVolume > 0)
             {
                 Settings.Instance.SoundVolume--;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_VOLUME_CHANGE);
             }
             else
@@ -418,7 +418,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.MusicVolume < 8)
             {
                 Settings.Instance.MusicVolume++;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
             }
             else
@@ -432,7 +432,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.MusicVolume > 0)
             {
                 Settings.Instance.MusicVolume--;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
             }
             else
@@ -444,7 +444,7 @@ namespace LooneyInvaders.Layers
         private void BtnRexetSensitivity_OnClick(object sender, EventArgs e)
         {
             Settings.Instance.SensitivityLevel = 4;
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnSenseLevelPlus_OnClick(object sender, EventArgs e)
@@ -452,7 +452,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.SensitivityLevel < 8)
             {
                 Settings.Instance.SensitivityLevel++;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
 
                 if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
@@ -475,7 +475,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.SensitivityLevel > 1)
             {
                 Settings.Instance.SensitivityLevel--;
-                refreshSettings();
+                RefreshSettings();
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
 
                 if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
@@ -496,7 +496,7 @@ namespace LooneyInvaders.Layers
         private void BtnAdvertisements_OnClick(object sender, EventArgs e)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-            showAdvertisementsTip();
+            ShowAdvertisementsTip();
         }
 
         private void BtnVibrationState_OnClick(object sender, EventArgs e)
@@ -510,7 +510,7 @@ namespace LooneyInvaders.Layers
             }
             else Settings.Instance.Vibration = false;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnSoundState_OnClick(object sender, EventArgs e)
@@ -519,7 +519,7 @@ namespace LooneyInvaders.Layers
             if (_btnSoundState.State == 1) Settings.Instance.SoundEnabled = true;
             else Settings.Instance.SoundEnabled = false;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnMusicState_OnClick(object sender, EventArgs e)
@@ -529,7 +529,7 @@ namespace LooneyInvaders.Layers
             if (_btnMusicState.State == 1) Settings.Instance.MusicEnabled = true;
             else Settings.Instance.MusicEnabled = false;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnBattleGroundStyle_OnClick(object sender, EventArgs e)
@@ -539,7 +539,7 @@ namespace LooneyInvaders.Layers
             if (_btnBattleGroundStyle.State == 1) Settings.Instance.BattlegroundStyle = BATTLEGROUND_STYLE.Realistic;
             else Settings.Instance.BattlegroundStyle = BATTLEGROUND_STYLE.Cartonic;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnMusicStyle_OnClick(object sender, EventArgs e)
@@ -549,7 +549,7 @@ namespace LooneyInvaders.Layers
             if (_btnMusicStyle.State == 1) Settings.Instance.MusicStyle = MUSIC_STYLE.Instrumental;
             else Settings.Instance.MusicStyle = MUSIC_STYLE.Beatbox;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnNotifications_OnClick(object sender, EventArgs e)
@@ -570,7 +570,7 @@ namespace LooneyInvaders.Layers
             }
             else Settings.Instance.NotificationsEnabled = false;
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnPushNotifications_OnClick(object sender, EventArgs e)
@@ -580,11 +580,11 @@ namespace LooneyInvaders.Layers
 
             _btnPushNotifications.ChangeState();
 
-            ScheduleOnce(openSettings, 0.50f);
+            ScheduleOnce(OpenSettings, 0.50f);
 
-            refreshSettings();
+            RefreshSettings();
         }
-        private void openSettings(float obj)
+        private void OpenSettings(float obj)
         {
             _openSettingsService.OpenNotificationSettings();
         }
@@ -599,7 +599,7 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Voiceover on VO_mono.wav");
             else
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Voiceover off VO_mono.wav");
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnSwearing_OnClick(object sender, EventArgs e)
@@ -615,7 +615,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             CCAudioEngine.SharedEngine.PlayEffect($"Sounds/swearing_{state}_vo_mono.wav");
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void BtnBack_OnClick(object sender, EventArgs e)
@@ -628,7 +628,7 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
                     Shared.GameDelegate.OnBackButton -= BtnBack_OnClick;
-                    _layerBack.isCartoonFadeIn = false;
+                    _layerBack.IsCartoonFadeIn = false;
                     Director.PopScene();
                     _layerBack.Continue();
                     //this.TransitionToPoppedLayerCartoonStyle();
@@ -647,7 +647,7 @@ namespace LooneyInvaders.Layers
                 _pg3.Visible = false;
 
                 _steeringTestLayer.StopAllActions();
-                _pg3.RemoveChild(_steeringTestLayer, true);
+                _pg3.RemoveChild(_steeringTestLayer);
                 GameEnvironment.PlayMusic(MUSIC.MAIN_MENU, true);
 
                 _btnForward.Visible = true;
@@ -690,7 +690,7 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                    _layerBack.isCartoonFadeIn = false;
+                    _layerBack.IsCartoonFadeIn = false;
                     Director.PopScene();
                     _layerBack.Continue();
                     //this.TransitionToPoppedLayerCartoonStyle();
@@ -714,7 +714,7 @@ namespace LooneyInvaders.Layers
 
         private void _btnNoAdvertisements_OnClick(object sender, EventArgs e)
         {
-            hideAdvertisementsTip();
+            HideAdvertisementsTip();
             PurchaseManager.Purchase("ads_off");
             Enabled = false;
         }
@@ -739,7 +739,7 @@ namespace LooneyInvaders.Layers
             _btnHandeness.ChangeState();
 
             Settings.Instance.RightHanded = _btnHandeness.State == 1;
-            refreshSettings();
+            RefreshSettings();
 
             _steeringTestLayer.SetUpSteering(true);
         }
@@ -766,7 +766,7 @@ namespace LooneyInvaders.Layers
 
             _steeringTestLayer.SetUpSteering(true);
 
-            refreshSettings();
+            RefreshSettings();
         }
 
         private void AddCanonSpeedIndicatorLevel()
@@ -781,11 +781,11 @@ namespace LooneyInvaders.Layers
 
             foreach (var item in speed)
             {
-                canonSpeedIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_{item}.png", 100));
+                _canonSpeedIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_{item}.png", 100));
                 initPosition += 27;
             }
 
-            canonSpeedIndicator.Add(_pg3.AddImage(initPosition + 10, 156, "UI/number_57_%.png", 100));
+            _canonSpeedIndicator.Add(_pg3.AddImage(initPosition + 10, 156, "UI/number_57_%.png", 100));
         }
 
         private void RemoveGyroSensitivityLevel()
@@ -798,7 +798,7 @@ namespace LooneyInvaders.Layers
 
         private void RemoveManualSensitivityLevel()
         {
-            foreach (var item in canonSpeedIndicator)
+            foreach (var item in _canonSpeedIndicator)
             {
                 _pg3.RemoveChild(item);
             }
@@ -876,7 +876,7 @@ namespace LooneyInvaders.Layers
             {
                 PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
                 Shared.GameDelegate.OnBackButton -= BtnBackThrow_OnClick;
-                _layerBack.isCartoonFadeIn = false;
+                _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
                 _layerBack.Continue();
             }
@@ -888,7 +888,7 @@ namespace LooneyInvaders.Layers
             else if (!_pg2.Visible)
             {
                 _steeringTestLayer.StopAllActions();
-                _pg3.RemoveChild(_steeringTestLayer, true);
+                _pg3.RemoveChild(_steeringTestLayer);
                 GameEnvironment.PlayMusic(MUSIC.MAIN_MENU, true);
 
                 Unschedule(UpdateSteeringSpeedIndicator);

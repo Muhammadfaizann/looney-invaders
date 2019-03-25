@@ -44,7 +44,7 @@ namespace LooneyInvaders.Model
         public bool PreloadNextSpriteSheet()
         {
             // for phones with less than 500 MB RAM, we don't preload
-            if (GameEnvironment.GetTotalRAMSizeMB() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
 
             if (PreloadNextSpriteSheetEnemies()) return true;
             if (PreloadNextSpriteSheetWeapons()) return true;
@@ -120,7 +120,7 @@ namespace LooneyInvaders.Model
 
         public bool PreloadNextSpriteSheetEnemies()
         {
-            if (GameEnvironment.GetTotalRAMSizeMB() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
 
             if (_ssAdolfTalk.Count < 2)
             {
@@ -215,7 +215,7 @@ namespace LooneyInvaders.Model
 
         public bool PreloadNextSpriteSheetWeapons()
         {
-            if (GameEnvironment.GetTotalRAMSizeMB() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
 
             if (_ssStandardBow.Count < 2)
             {

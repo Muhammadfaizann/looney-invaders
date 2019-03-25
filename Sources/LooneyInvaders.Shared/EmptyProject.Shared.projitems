@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CCNodeExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CCSpriteButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CCSpriteTwoStateButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameDelegate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards7Layer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\MyStatsAndRewards6Layer.cs" />
@@ -28,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Layers\AboutGameScreenLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\VictoryScreenLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\WeaponUpgradeScreenLayer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Layers\GetReadyForNextAttackLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\WeaponPickerLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\GameInfoScreenLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\GamePlayLayer.cs" />

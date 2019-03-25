@@ -1,11 +1,6 @@
 using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Layers
 {
@@ -17,10 +12,9 @@ namespace LooneyInvaders.Layers
 
         public SplashScreenLayer()
         {
-            
-            this.Enabled = false;
-            this.EnabledTouch = false;
-            this.SetBackground("UI/Splash-screen-background-2.jpg");
+            Enabled = false;
+            EnabledTouch = false;
+            SetBackground("UI/Splash-screen-background-2.jpg");
             Settings.Instance.ApplyValues(false);
 
             GameEnvironment.PlayMusic(MUSIC.SPLASH_SCREEN);
@@ -34,49 +28,47 @@ namespace LooneyInvaders.Layers
                 _musicTime = 5;
             }
 
-            this.Schedule(waitForMusicToEnd, 0.5f);
-
-           
+            Schedule(WaitForMusicToEnd, 0.5f);
         }
 
-        bool b = true;
+        bool _b = true;
 
-        public object Content { get; private set; }
+        public object Content { get; protected set; }
 
-        private void switchBackground(float dt)
+        private void SwitchBackground(float dt)
         {
-            if (b)
+            if (_b)
             {
-                this.SetBackground("UI/Splash-screen-background-1.jpg");
-                b = false;
-               
+                SetBackground("UI/Splash-screen-background-1.jpg");
+                _b = false;
+
             }
             else
             {
-                this.SetBackground("UI/Splash-screen-background-2.jpg");
-                b = true;
+                SetBackground("UI/Splash-screen-background-2.jpg");
+                _b = true;
             }
         }
 
 
-        private void waitForMusicToEnd(float dt)
+        private void WaitForMusicToEnd(float dt)
         {
             if (_backgroundLoading != null)
             {
                 if (!_backgroundLoading.Value)
                 {
-                    this.SetBackground("UI/Splash-screen-background-1.jpg");
+                    SetBackground("UI/Splash-screen-background-1.jpg");
                     _backgroundLoading = true;
                 }
                 else
                 {
-                    this.Schedule(switchBackground, 1f);
+                    Schedule(SwitchBackground, 1f);
 
-                    this.SetBackground("UI/Splash-screen-background-2.jpg");
+                    SetBackground("UI/Splash-screen-background-2.jpg");
                     _backgroundLoading = null;
                 }
             }
-           
+
 
             _musicTime -= dt;
 
@@ -86,7 +78,7 @@ namespace LooneyInvaders.Layers
             {
                 //---------- Prabhjot ----------//
                 GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
-     
+
             }
 
 

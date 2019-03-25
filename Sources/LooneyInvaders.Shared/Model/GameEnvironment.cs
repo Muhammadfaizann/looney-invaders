@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CocosSharp;
-using LooneyInvaders.Classes;
 
 namespace LooneyInvaders.Model
 {
     public class GameEnvironment
     {
         public static string ImageDirectory = "Images/Hd/";
-        
+
         public static CCBlendFunc BlendFuncDefault
         {
             get
             {
 #if __IOS__
-                    return CCBlendFunc.AlphaBlend;
+                return CCBlendFunc.AlphaBlend;
 #endif
 #if __ANDROID__
                 return CCBlendFunc.NonPremultiplied;
@@ -23,7 +20,7 @@ namespace LooneyInvaders.Model
             }
         }
 
-        public static long GetTotalRAMSizeMB()
+        public static long GetTotalRamSizeMb()
         {
 #if __ANDROID__
             
@@ -61,7 +58,7 @@ namespace LooneyInvaders.Model
             }
             if (MusicPlaying == conditionMusic)
             {
-                PlayMusic(newMusic, false);
+                PlayMusic(newMusic);
             }
         }
 
@@ -69,14 +66,17 @@ namespace LooneyInvaders.Model
 
 
 
-        public static void PlayMusic( MUSIC music, bool fromStart = false)
+        public static void PlayMusic(MUSIC music, bool fromStart = false)
         {
-            CCLayerColorExt layer = null;
             if (music == MUSIC.MAIN_MENU)
             {
-                if (MusicPlaying == "Sounds/Victory.mp3" || MusicPlaying == "Sounds/07 - Looney Invaders Victory FINAL_part1_intro_segment.mp3" || MusicPlaying == "Sounds/07 - Looney Invaders Victory FINAL_part1_intro_segment.mp3") return;
+                if (MusicPlaying == "Sounds/Victory.mp3" || MusicPlaying == "Sounds/07 - Looney Invaders Victory FINAL_part1_intro_segment.mp3" || MusicPlaying == "Sounds/07 - Looney Invaders Victory FINAL_part1_intro_segment.mp3")
+                    return;
 
-                    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) PlayMusic("Sounds/Main Menu Loopable2.mp3", false);
+                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental)
+                {
+                    PlayMusic("Sounds/Main Menu Loopable2.mp3");
+                }
                 else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox)
                 {
                     if (MusicPlaying != "Sounds/02 - Main Menu FINAL_part1_intro_segment.mp3" && MusicPlaying != "Sounds/02 - Main Menu FINAL_part2_loop_segment.mp3")
@@ -85,15 +85,15 @@ namespace LooneyInvaders.Model
                         System.Threading.Tasks.Task.Run(() => PlayWithDelayConditionally("Sounds/02 - Main Menu FINAL_part1_intro_segment.mp3", "Sounds/02 - Main Menu FINAL_part2_loop_segment.mp3", DateTime.Now.AddMilliseconds(54885)));
                         //PlayWithDelayConditionallyDelegate p = PlayWithDelayConditionally;
                         //IAsyncResult res = p.BeginInvoke("Sounds/02 - Main Menu FINAL_part1_intro_segment.mp3", "Sounds/02 - Main Menu FINAL_part2_loop_segment.mp3", 54885, null, null);
-
                     }
-
                 }
             }
             else if (music == MUSIC.SPLASH_SCREEN)
             {
-                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) PlayMusicOnce("Sounds/Splash Intro instrumental.mp3");
-                else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) PlayMusicOnce("Sounds/01 - Splash Intro FINAL.mp3");
+                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental)
+                    PlayMusicOnce("Sounds/Splash Intro instrumental.mp3");
+                else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox)
+                    PlayMusicOnce("Sounds/01 - Splash Intro FINAL.mp3");
             }
             else if (music == MUSIC.GAMEOVER)
             {
@@ -142,8 +142,8 @@ namespace LooneyInvaders.Model
             }
             else if (music == MUSIC.BATTLE_WAVE_1)
             {
-                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) PlayMusic("Sounds/Battle (MAJOR EDIT) wave 1 tune.mp3", false);
-                else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) PlayMusic("Sounds/04 - Looney Invaders Battle Theme (Wave 1) FINAL.mp3", false);
+                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) PlayMusic("Sounds/Battle (MAJOR EDIT) wave 1 tune.mp3");
+                else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) PlayMusic("Sounds/04 - Looney Invaders Battle Theme (Wave 1) FINAL.mp3");
             }
             else if (music == MUSIC.BATTLE_WAVE_2)
             {
@@ -254,7 +254,7 @@ namespace LooneyInvaders.Model
         {
             if (newMusic == "") return;
 
-            if (newMusic != MusicPlaying || fromStart == true || !CCAudioEngine.SharedEngine.BackgroundMusicPlaying)
+            if (newMusic != MusicPlaying || fromStart || !CCAudioEngine.SharedEngine.BackgroundMusicPlaying)
             {
                 CCAudioEngine.SharedEngine.StopBackgroundMusic();
                 MusicPlaying = newMusic;
@@ -272,7 +272,7 @@ namespace LooneyInvaders.Model
         {
             CCAudioEngine.SharedEngine.StopBackgroundMusic();
             MusicPlaying = newMusic;
-            CCAudioEngine.SharedEngine.PlayBackgroundMusic(MusicPlaying,false);
+            CCAudioEngine.SharedEngine.PlayBackgroundMusic(MusicPlaying);
         }
 
         public static void OpenWebPage(string url)
@@ -287,7 +287,7 @@ namespace LooneyInvaders.Model
             Android.App.Application.Context.StartActivity(intent);
 #endif
         }
-        
+
         public static int? PlaySoundEffect(SOUNDEFFECT soundEffect)
         {
             if (soundEffect == SOUNDEFFECT.MENU_TAP)
@@ -517,7 +517,7 @@ namespace LooneyInvaders.Model
             }
             else if (soundEffect == SOUNDEFFECT.ALIEN_LASER)
             {
-                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental)  return CCAudioEngine.SharedEngine.PlayEffect("Sounds/NEW LAZER 2.wav");
+                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/NEW LAZER 2.wav");
                 else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien lazer compo (6 & 10).wav");
             }
             else if (soundEffect == SOUNDEFFECT.ALIEN_SPIT)
@@ -807,7 +807,7 @@ namespace LooneyInvaders.Model
             }
             else if (soundEffect == SOUNDEFFECT.ALIEN_LASER)
             {
-                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental)  CCAudioEngine.SharedEngine.PreloadEffect("Sounds/NEW LAZER 2.wav");
+                if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) CCAudioEngine.SharedEngine.PreloadEffect("Sounds/NEW LAZER 2.wav");
                 else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Alien lazer compo (6 & 10).wav");
             }
             else if (soundEffect == SOUNDEFFECT.ALIEN_SPIT)

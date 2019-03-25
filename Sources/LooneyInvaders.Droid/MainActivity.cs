@@ -55,7 +55,6 @@ namespace LooneyInvaders.Droid
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public class MainActivity : Activity, ISensorEventListener
     {
-        private readonly double TOLERANCE = 0.0001;
         //public const string HOCKEYAPP_KEY = "9316a9e8222e467a8fdc7ffc7e7c2f21";
 
         public static MainActivity Instance;
@@ -755,7 +754,7 @@ namespace LooneyInvaders.Droid
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
             ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
 
-            if (Math.Abs(levelsCompleted - (-1)) < TOLERANCE) // regular scoreboard
+            if (Math.Abs(levelsCompleted - (-1)) < AppConstants.TOLERANCE) // regular scoreboard
             {
                 LeaderboardManager.PlayerRankRegularDaily = null;
                 LeaderboardManager.PlayerRankRegularWeekly = null;

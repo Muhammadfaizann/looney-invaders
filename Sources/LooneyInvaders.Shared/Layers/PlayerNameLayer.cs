@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
@@ -10,54 +9,54 @@ namespace LooneyInvaders.Layers
     public class PlayerNameLayer : CCLayerColorExt
     {
         CCSpriteButton _btnForward;
-        CCSprite _imgPage;
-        CCSprite _imgPageNumber;
+        //CCSprite _imgPage;
+        //CCSprite _imgPageNumber;
 
-        int _activePage = 1;
+        //int _activePage = 1;
 
-        string strInput;
-        readonly CCLabel lblInputLabel;
-        readonly CCLabel lblInput;
-        readonly CCLabel lblCursor;
+        string _strInput;
+        readonly CCLabel _lblInputLabel;
+        readonly CCLabel _lblInput;
+        readonly CCLabel _lblCursor;
 
-        readonly List<CCSpriteButton> caps;
-        readonly List<CCSpriteButton> small;
+        readonly List<CCSpriteButton> _caps;
+        readonly List<CCSpriteButton> _small;
 
-        readonly CCSpriteTwoStateButton btnShift;
+        readonly CCSpriteTwoStateButton _btnShift;
 
         readonly SettingsScreenLayer _layerBack;
 
 
         public PlayerNameLayer(SettingsScreenLayer layerBack = null)
         {
-            this._layerBack = layerBack;
-            this.SetBackground("UI/background.jpg");
+            _layerBack = layerBack;
+            SetBackground("UI/background.jpg");
 
             //this.AddImage(292, 565, "UI/about-the-game-title-text.png", 500);
 
-            CCSpriteButton btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
             btnBack.OnClick += BtnBack_OnClick;
             btnBack.ButtonType = BUTTON_TYPE.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-            _btnForward = this.AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
+            _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
             _btnForward.OnClick += BtnForward_OnClick;
             _btnForward.ButtonType = BUTTON_TYPE.Silent;
 
-            strInput = Player.Instance.Name;
+            _strInput = Player.Instance.Name;
 
-            lblInputLabel = this.AddLabelCentered(1136 / 2, 550, "Please enter player name below", "Fonts/AktivGroteskBold", 14);
+            _lblInputLabel = AddLabelCentered(1136 / 2, 550, "Please enter player name below", "Fonts/AktivGroteskBold", 14);
 
-            lblInput = this.AddLabelCentered(1136 / 2, 500, strInput, "Fonts/AktivGroteskBold", 16);
-            lblInput.Scale = 2;
-            lblInput.ZOrder = 1000;
+            _lblInput = AddLabelCentered(1136 / 2, 500, _strInput, "Fonts/AktivGroteskBold", 16);
+            _lblInput.Scale = 2;
+            _lblInput.ZOrder = 1000;
 
             //create cursor
-            lblCursor = new CCLabel("I", "Fonts/AktivGroteskBold", 16, CCLabelFormat.SpriteFont);
-            lblCursor.Scale = 2;
-            lblCursor.Position = new CCPoint(lblInput.BoundingBox.MaxX, 500);
-            this.AddChild(lblCursor);
+            _lblCursor = new CCLabel("I", "Fonts/AktivGroteskBold", 16, CCLabelFormat.SpriteFont);
+            _lblCursor.Scale = 2;
+            _lblCursor.Position = new CCPoint(_lblInput.BoundingBox.MaxX, 500);
+            AddChild(_lblCursor);
             Schedule(BlinkCursor, 0.03f);
 
             string slova;
@@ -67,8 +66,8 @@ namespace LooneyInvaders.Layers
             //int padY = 48;
             //int padX = 45;
 
-            caps = new List<CCSpriteButton>();
-            small = new List<CCSpriteButton>();
+            _caps = new List<CCSpriteButton>();
+            _small = new List<CCSpriteButton>();
 
             slova = "1234567890-";
             for (int i = 0; i < slova.Length; i++)
@@ -76,13 +75,13 @@ namespace LooneyInvaders.Layers
                 CCSpriteButton btnSlovo;
                 if (slova[i] == '-')
                 {
-                    btnSlovo = this.AddButton(1136 / 2 + (i - 6) * spX, keyboardY, "Keyboard/Keyboard_del_untapped.png", "Keyboard/Keyboard_del_tapped.png", 100, BUTTON_TYPE.Regular);
+                    btnSlovo = AddButton(1136 / 2 + (i - 6) * spX, keyboardY, "Keyboard/Keyboard_del_untapped.png", "Keyboard/Keyboard_del_tapped.png");
                     btnSlovo.ZOrder = 1000;
                     btnSlovo.OnClick += btnBackSpace_OnClick;
                 }
                 else
                 {
-                    btnSlovo = this.AddButton(1136 / 2 + (i - 6) * spX, keyboardY, "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    btnSlovo = AddButton(1136 / 2 + (i - 6) * spX, keyboardY, "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                     btnSlovo.OnClick += btnSlovo_OnClick;
@@ -97,22 +96,22 @@ namespace LooneyInvaders.Layers
             {
                 if (slova[i] != '@')
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                     btnSlovo.Visible = false;
-                    caps.Add(btnSlovo);
+                    _caps.Add(btnSlovo);
 
-                    btnSlovo = this.AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    btnSlovo = AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i].ToString().ToLower()[0];
                     btnSlovo.ZOrder = 1000;
-                    small.Add(btnSlovo);
+                    _small.Add(btnSlovo);
                 }
                 else
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX / 2 + (i - 6) * spX, keyboardY - spX, "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
@@ -127,22 +126,22 @@ namespace LooneyInvaders.Layers
             {
                 if (slova[i] != ':')
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Visible = false;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
-                    caps.Add(btnSlovo);
+                    _caps.Add(btnSlovo);
 
-                    btnSlovo = this.AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    btnSlovo = AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i].ToString().ToLower()[0];
                     btnSlovo.ZOrder = 1000;
-                    small.Add(btnSlovo);
+                    _small.Add(btnSlovo);
                 }
                 else
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Keyboard_double_dot_untapped.png", "Keyboard/Keyboard_double_dot_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX + (i - 6) * spX, keyboardY - (spX * 2), "Keyboard/Keyboard_double_dot_untapped.png", "Keyboard/Keyboard_double_dot_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
@@ -157,22 +156,22 @@ namespace LooneyInvaders.Layers
             {
                 if (slova[i] != '.' && slova[i] != '-')
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
                     btnSlovo.Visible = false;
-                    caps.Add(btnSlovo);
+                    _caps.Add(btnSlovo);
 
-                    btnSlovo = this.AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    btnSlovo = AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_untapped.png", "Keyboard/Small letters/Keyboard_" + slova[i].ToString().ToLower() + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i].ToString().ToLower()[0];
                     btnSlovo.ZOrder = 1000;
-                    small.Add(btnSlovo);
+                    _small.Add(btnSlovo);
                 }
                 else
                 {
-                    CCSpriteButton btnSlovo = this.AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png", 100, BUTTON_TYPE.Regular);
+                    CCSpriteButton btnSlovo = AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
                     btnSlovo.Slovo = slova[i];
                     btnSlovo.ZOrder = 1000;
@@ -183,38 +182,38 @@ namespace LooneyInvaders.Layers
                 //lblSlovo.ZOrder = 1001;
             }
 
-            CCSpriteButton btnRazmak = this.AddButton(1136 / 2 - 220, keyboardY - (spX * 4), "Keyboard/Keyboard_spacebar_untapped.png", "Keyboard/Keyboard_spacebar_untapped.png", 100, BUTTON_TYPE.Regular);
+            CCSpriteButton btnRazmak = AddButton(1136 / 2 - 220, keyboardY - (spX * 4), "Keyboard/Keyboard_spacebar_untapped.png", "Keyboard/Keyboard_spacebar_untapped.png");
             btnRazmak.OnClick += btnSlovo_OnClick;
             btnRazmak.Slovo = ' ';
             btnRazmak.ZOrder = 1000;
 
-            btnShift = this.AddTwoStateButton(1136 / 2 - 6 * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_shift_single_letter_untapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_untapped.png");
-            btnShift.ButtonType = BUTTON_TYPE.OnOff;
-            btnShift.OnClick += btnShift_OnClick;
+            _btnShift = AddTwoStateButton(1136 / 2 - 6 * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_shift_single_letter_untapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_untapped.png");
+            _btnShift.ButtonType = BUTTON_TYPE.OnOff;
+            _btnShift.OnClick += btnShift_OnClick;
         }
 
         private void btnShift_OnClick(object sender, EventArgs e)
         {
-            btnShift.ChangeState();
-            btnShift.SetStateImages();
-            if (btnShift.State == 1)
+            _btnShift.ChangeState();
+            _btnShift.SetStateImages();
+            if (_btnShift.State == 1)
             {
-                foreach (CCSpriteButton btnSlovo in caps)
+                foreach (CCSpriteButton btnSlovo in _caps)
                 {
                     btnSlovo.Visible = false;
                 }
-                foreach (CCSpriteButton btnSlovo in small)
+                foreach (CCSpriteButton btnSlovo in _small)
                 {
                     btnSlovo.Visible = true;
                 }
             }
             else
             {
-                foreach (CCSpriteButton btnSlovo in caps)
+                foreach (CCSpriteButton btnSlovo in _caps)
                 {
                     btnSlovo.Visible = true;
                 }
-                foreach (CCSpriteButton btnSlovo in small)
+                foreach (CCSpriteButton btnSlovo in _small)
                 {
                     btnSlovo.Visible = false;
                 }
@@ -226,24 +225,23 @@ namespace LooneyInvaders.Layers
         {
             _tick++;
 
-            if (strInput.Length > 0)
-                lblCursor.Position = new CCPoint(lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500);
-            else
-                lblCursor.Position = new CCPoint(1136 / 2, 500);
+            _lblCursor.Position = _strInput.Length > 0
+                ? new CCPoint(_lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500)
+                : new CCPoint(568, 500);
 
-            if (_tick % 20 == 0)
+            if (Math.Abs(_tick % 20) < AppConstants.TOLERANCE)
             {
-                lblCursor.Visible = !lblCursor.Visible;
+                _lblCursor.Visible = !_lblCursor.Visible;
             }
         }
 
         private void btnSlovo_OnClick(object sender, EventArgs e)
         {
-            if (strInput.Length < 15)
+            if (_strInput.Length < 15)
             {
-                strInput = strInput + ((CCSpriteButton)sender).Slovo;
-                lblInput.Text = strInput;
-                if (strInput.Length == 1 && btnShift.State != 1)
+                _strInput = _strInput + ((CCSpriteButton)sender).Slovo;
+                _lblInput.Text = _strInput;
+                if (_strInput.Length == 1 && _btnShift.State != 1)
                 {
                     btnShift_OnClick(sender, e);
                 }
@@ -256,18 +254,18 @@ namespace LooneyInvaders.Layers
 
         private void btnBackSpace_OnClick(object sender, EventArgs e)
         {
-            if (strInput.Length > 0)
+            if (_strInput.Length > 0)
             {
-                strInput = strInput.Substring(0, strInput.Length - 1);
-                lblInput.Text = strInput;
-                if (strInput.Length == 0 && btnShift.State == 1)
+                _strInput = _strInput.Substring(0, _strInput.Length - 1);
+                _lblInput.Text = _strInput;
+                if (_strInput.Length == 0 && _btnShift.State == 1)
                 {
                     btnShift_OnClick(sender, e);
                 }
             }
             else
             {
-                _btnForward = this.AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_tapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
+                _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_tapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
             }
         }
@@ -277,7 +275,7 @@ namespace LooneyInvaders.Layers
             if (_layerBack != null)
             {
                 Shared.GameDelegate.OnBackButton -= BtnBack_OnClick;
-                _layerBack.isCartoonFadeIn = false;
+                _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
                 //this.TransitionToPoppedLayerCartoonStyle();
             }
@@ -285,44 +283,44 @@ namespace LooneyInvaders.Layers
             {
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
-                this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+                TransitionToLayerCartoonStyle(new MainScreenLayer());
             }
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(strInput))
+            if (String.IsNullOrWhiteSpace(_strInput))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
+                _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 //lblInputLabel.Text = "Please enter player name below";
                 return;
             }
 
-            if (strInput.Length < 3 || (strInput.Length > 0 && !char.IsLetter(strInput[0])))
+            if (_strInput.Length < 3 || (_strInput.Length > 0 && !char.IsLetter(_strInput[0])))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
+                _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 return;
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                lblInputLabel.Text = "You have to be connected to internet to change your player name";
+                _lblInputLabel.Text = "You have to be connected to internet to change your player name";
                 return;
             }
 
-            if (!UserManager.CheckIsUsernameFree(strInput))
+            if (!UserManager.CheckIsUsernameFree(_strInput))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                lblInputLabel.Text = "Player name already taken, please try another one";
+                _lblInputLabel.Text = "Player name already taken, please try another one";
                 return;
             }
 
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_FORWARD);
-            UserManager.ChangeUsername(strInput);
-            lblInputLabel.Text = "Player name changed";
+            UserManager.ChangeUsername(_strInput);
+            _lblInputLabel.Text = "Player name changed";
 
             LeaderboardManager.BestScorePro_Score = 0;
             LeaderboardManager.BestScorePro_LevelsCompleted = 0;
@@ -335,14 +333,14 @@ namespace LooneyInvaders.Layers
 
             if (_layerBack != null)
             {
-                _layerBack.isCartoonFadeIn = false;
+                _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
                 //this.TransitionToPoppedLayerCartoonStyle();
                 _layerBack.RefreshPlayerName();
             }
             else
             {
-                this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+                TransitionToLayerCartoonStyle(new MainScreenLayer());
             }
         }
     }

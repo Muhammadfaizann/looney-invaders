@@ -48,7 +48,7 @@ namespace LooneyInvaders.Layers
             // tu se vrati na pocetni layer
             if (_imgBruises.Visible)
             {
-                _layerBack.isCartoonFadeIn = false;
+                _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
                 _layerBack.Continue();
                 _imgBruises.Visible = false;

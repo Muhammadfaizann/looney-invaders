@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Classes
@@ -16,24 +14,21 @@ namespace LooneyInvaders.Classes
         public BUTTON_TYPE ButtonType { get; set; }
 
         public char Slovo;
-        
+
 
         public CCSpriteButton(string imageNameUntapped, string imageNameTapped, BUTTON_TYPE buttonType = BUTTON_TYPE.Regular) : base(imageNameUntapped)
-        {            
-            this.ImageNameUntapped = imageNameUntapped;
-            this.ImageNameTapped = imageNameTapped;
-            this.ButtonType = buttonType;            
+        {
+            ImageNameUntapped = imageNameUntapped;
+            ImageNameTapped = imageNameTapped;
+            ButtonType = buttonType;
         }
 
         internal void FireOnClick()
         {
-            if (OnClick != null)
-            {
-                OnClick(this, EventArgs.Empty);
-            }
-			#if __ANDROID__
-			    this.BlendFunc = CCBlendFunc.NonPremultiplied;
-            #endif
+            OnClick?.Invoke(this, EventArgs.Empty);
+#if __ANDROID__
+            BlendFunc = CCBlendFunc.NonPremultiplied;
+#endif
         }
     }
 }

@@ -796,12 +796,12 @@ namespace LooneyInvaders.Layers
                 SsLaserSparks = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienLaserHittingWithoutLaser.plist");
             }
 
-            for (int i = 1; i < 6; i++)
+            for (var i = 1; i < 6; i++)
             {
                 cache.AddImage(GameEnvironment.ImageDirectory + "Animations/get-ready-for-next-attack-countdown-(" + i.ToString() + ").png");
             }
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 cache.AddImage(GameEnvironment.ImageDirectory + "UI/number_50_" + i.ToString() + ".png");
             }
@@ -1393,13 +1393,13 @@ namespace LooneyInvaders.Layers
 
 
 
-            for (int i = 0; i < (LivesLeft > -1 ? LivesLeft : Weapon.GetLives(SelectedWeapon) - 1); i++)
+            for (var i = 0; i < (LivesLeft > -1 ? LivesLeft : Weapon.GetLives(SelectedWeapon) - 1); i++)
             {
-                CCSprite life = AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
+                var life = AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
                 _lives.Add(life);
             }
 
-            for (int i = 0; i < _magazineSize; i++)
+            for (var i = 0; i < _magazineSize; i++)
             {
                 CCSprite ammo;
                 if (SelectedWeapon == WEAPONS.HYBRID)
@@ -1416,11 +1416,11 @@ namespace LooneyInvaders.Layers
 
 
 
-            for (int j = 2; j >= 0; j--)
+            for (var j = 2; j >= 0; j--)
             {
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
-                    Enemy enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
+                    var enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
                     _enemies.Add(enemy);
                     enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
@@ -1703,7 +1703,7 @@ namespace LooneyInvaders.Layers
             }
 
             Settings.isFromGameScreen = false;
-            CCScene newScene = new CCScene(GameView);
+            var newScene = new CCScene(GameView);
             newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
             Director.PushScene(newScene);
 
@@ -1871,7 +1871,7 @@ namespace LooneyInvaders.Layers
             //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
             //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
 
-            CCScene newScene = new CCScene(GameView);
+            var newScene = new CCScene(GameView);
             newScene.AddLayer(new PauseScreenLayer(this));
             Director.PushScene(newScene);
 
@@ -1969,7 +1969,7 @@ namespace LooneyInvaders.Layers
             if (_ammos.Count > 0 && _playerExplosion == null && _gunCoolness <= 0)
             {
                 //GameDelegate.Vibrate(100);
-                GunSmoke gunSmoke = new GunSmoke(this, Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2) + 5, Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY));
+                var gunSmoke = new GunSmoke(this, Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2) + 5, Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY));
                 _gunSmokes.Add(gunSmoke);
                 CCSprite bulletSprite;
                 if (SelectedWeapon == WEAPONS.HYBRID)
@@ -1990,7 +1990,7 @@ namespace LooneyInvaders.Layers
                     bulletSprite.PositionY -= 30;
                 }
                 //bullet.PositionY -= bullet.ContentSize.Height*bulletScale;
-                Bullet bullet = new Bullet();
+                var bullet = new Bullet();
                 bullet.Sprite = bulletSprite;
                 bullet.Power = _bulletPower;
                 _bullets.Add(bullet);
@@ -2070,7 +2070,7 @@ namespace LooneyInvaders.Layers
             {
                 _bulletsFired = 1;
             }
-            if (Math.Abs(_elapsedTime) < TOLERANCE)
+            if (Math.Abs(_elapsedTime) < AppConstants.TOLERANCE)
             {
                 _elapsedTime = 1;
             }
@@ -2108,7 +2108,6 @@ namespace LooneyInvaders.Layers
 
         CCSprite _nextWaveSprite;
         CCSprite[] _nextWaveNumberSprites;
-        private readonly double TOLERANCE = 0.0001;
 
         void NextWave(float dt)
         {
@@ -2116,7 +2115,7 @@ namespace LooneyInvaders.Layers
             _nextWaveSprite = null;
             if (_nextWaveNumberSprites != null)
             {
-                foreach (CCSprite waveDigit in _nextWaveNumberSprites)
+                foreach (var waveDigit in _nextWaveNumberSprites)
                 {
                     RemoveChild(waveDigit);
                 }
@@ -2127,7 +2126,7 @@ namespace LooneyInvaders.Layers
             if (_timeLabel.Visible)
             {
                 _timeLabel.Opacity = byte.MaxValue;
-                foreach (CCSprite timeDigit in _time)
+                foreach (var timeDigit in _time)
                 {
                     timeDigit.Opacity = byte.MaxValue;
                 }
@@ -2172,11 +2171,11 @@ namespace LooneyInvaders.Layers
             }
             _goingDownCurrentSpeed = _goingDownSpeed;
             _firstGoingDown = true;
-            for (int j = _wave > 8 ? 4 : (_wave > 5 ? 3 : 2); j >= 0; j--)
+            for (var j = _wave > 8 ? 4 : (_wave > 5 ? 3 : 2); j >= 0; j--)
             {
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
-                    Enemy enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
+                    var enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
                     _enemies.Add(enemy);
                     enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
@@ -2239,8 +2238,8 @@ namespace LooneyInvaders.Layers
 
         bool InRectangle(CCRect rect, List<CCPoint> points, float offsetX, float offsetY, int reduceRectX = 0, int reduceRectY = 0)
         {
-            CCRect r = new CCRect(rect.LowerLeft.X + reduceRectX, rect.LowerLeft.Y + reduceRectY, rect.Size.Width - reduceRectX * 2, rect.Size.Height - reduceRectY * 2);
-            foreach (CCPoint point in points)
+            var r = new CCRect(rect.LowerLeft.X + reduceRectX, rect.LowerLeft.Y + reduceRectY, rect.Size.Width - reduceRectX * 2, rect.Size.Height - reduceRectY * 2);
+            foreach (var point in points)
             {
                 if (r.ContainsPoint(new CCPoint(point.X + offsetX, offsetY - point.Y))) return true;
             }
@@ -2250,7 +2249,7 @@ namespace LooneyInvaders.Layers
         float InRectangleTopY(CCRect rect, List<CCPoint> points, float offsetX, float offsetY)
         {
             float topY = -1;
-            foreach (CCPoint point in points)
+            foreach (var point in points)
             {
                 if (rect.ContainsPoint(new CCPoint(point.X + offsetX, offsetY - point.Y)) && offsetY - point.Y > topY) topY = offsetY - point.Y;
             }
@@ -2338,11 +2337,11 @@ namespace LooneyInvaders.Layers
 
         private void AnimateButtons(float dt)
         {
-            int fireButtonX = 918;
-            int fireButtonY = 2;
+            var fireButtonX = 918;
+            var fireButtonY = 2;
 
-            int steerinButtonX = 3;
-            int steeringButtonY = 2;
+            var steerinButtonX = 3;
+            var steeringButtonY = 2;
 
             if (!Settings.Instance.RightHanded)
             {
@@ -2397,7 +2396,7 @@ namespace LooneyInvaders.Layers
                 {
                     _lastDisplayedScore = _score;
 
-                    foreach (CCSprite spr in _time)
+                    foreach (var spr in _time)
                     {
                         RemoveChild(spr);
                     }
@@ -2432,7 +2431,7 @@ namespace LooneyInvaders.Layers
                 {
                     _lastDisplayedTime = Convert.ToInt32(_elapsedTime);
 
-                    foreach (CCSprite spr in _time)
+                    foreach (var spr in _time)
                     {
                         RemoveChild(spr);
                     }
@@ -2442,9 +2441,9 @@ namespace LooneyInvaders.Layers
             }
             //}
 
-            for (int i = 0; i < _multipliers.Count;)
+            for (var i = 0; i < _multipliers.Count;)
             {
-                CCSprite multiplier = _multipliers[i];
+                var multiplier = _multipliers[i];
                 if (multiplier.Opacity > 240)
                 {
                     multiplier.PositionX += (1096 - multiplier.PositionX) / (255 - multiplier.Opacity);
@@ -2628,7 +2627,7 @@ namespace LooneyInvaders.Layers
                         _player.PositionX -= _speedTo * _playerSpeed;
                     }
 
-                    if (Math.Abs(ControlMovement) < TOLERANCE)
+                    if (Math.Abs(ControlMovement) < AppConstants.TOLERANCE)
                     {
                         _movingTime = 0;
                     }
@@ -2655,7 +2654,7 @@ namespace LooneyInvaders.Layers
 
             if (_reload > 0)
             {
-                bool timeForSound = _reload > 0.8;
+                var timeForSound = _reload > 0.8;
                 _reload = _reload - dt;
                 if (_reload <= 0.8 && timeForSound)
                 {
@@ -2670,7 +2669,7 @@ namespace LooneyInvaders.Layers
                 }
                 if (_reload <= 0)
                 {
-                    for (int i = 0; i < _magazineSize; i++)
+                    for (var i = 0; i < _magazineSize; i++)
                     {
                         CCSprite ammo;
                         if (SelectedWeapon == WEAPONS.HYBRID)
@@ -2688,18 +2687,18 @@ namespace LooneyInvaders.Layers
             }
 
 
-            for (int i = 0; i < _gunSmokes.Count;)
+            for (var i = 0; i < _gunSmokes.Count;)
             {
-                GunSmoke gunSmoke = _gunSmokes[i];
+                var gunSmoke = _gunSmokes[i];
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
-                    int sheet = 0;
+                    var sheet = 0;
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 11) sheet = 1;
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 18) sheet = 2;
 
                     if (gunSmoke.Sprite.Texture != SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").Texture)
                     {
-                        CCSprite newGunSmoke = new CCSprite(SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
+                        var newGunSmoke = new CCSprite(SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
                         newGunSmoke.AnchorPoint = new CCPoint(0.5f, 0);
                         newGunSmoke.PositionX = gunSmoke.Sprite.PositionX;
                         newGunSmoke.PositionY = gunSmoke.Sprite.PositionY;
@@ -2748,9 +2747,9 @@ namespace LooneyInvaders.Layers
             }
 
 
-            for (int i = 0; i < _explos.Count;)
+            for (var i = 0; i < _explos.Count;)
             {
-                Explosion explo = _explos[i];
+                var explo = _explos[i];
                 explo.Sprite.TextureRectInPixels = SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_" + Convert.ToInt32(explo.Explo).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                 explo.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                 explo.Sprite.PositionY += 1;
@@ -2770,10 +2769,10 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            for (int i = 0; i < _bullets.Count;)
+            for (var i = 0; i < _bullets.Count;)
             {
 
-                CCSprite bullet = _bullets[i].Sprite;
+                var bullet = _bullets[i].Sprite;
 
                 bullet.PositionY += 10;
 
@@ -2801,28 +2800,28 @@ namespace LooneyInvaders.Layers
                         _flyingSaucerExplosionFrame = 0;
                         AddChild(_flyingSaucerExplosion, 25);
 
-                        Explosion explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
+                        var explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
                         _explos.Add(explo);
 
                         CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_EXPLOSION);
                         _flyingSaucerWait = 10000000;
 
-                        CCSprite life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
+                        var life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
                         _lives.Add(life);
                     }
 
-                    for (int j = 0; j < _enemies.Count; j++)
+                    for (var j = 0; j < _enemies.Count; j++)
                     {
-                        Enemy enemy = _enemies[j];
+                        var enemy = _enemies[j];
 
                         if (!enemy.Killed && InRectangle(rec, EnemyCollisionPoints, enemy.Sprite.PositionX - enemy.Sprite.ContentSize.Width / 2, enemy.Sprite.PositionY))
                         {
-                            float eh = enemy.Health;
+                            var eh = enemy.Health;
                             enemy.Health -= _bullets[i].Power;
                             _bullets[i].Power -= eh;
 
-                            Explosion explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
+                            var explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
                             _explos.Add(explo);
 
                             switch (_random.Next(3))
@@ -2873,7 +2872,7 @@ namespace LooneyInvaders.Layers
                                     {
                                         _scoreMultiplier = _scoreMultiplier * 2;
                                         _killsWithoutMiss = 0;
-                                        CCSprite multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
+                                        var multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
                                         multiplier.Opacity = 200;
                                         _multipliers.Add(multiplier);
                                     }
@@ -2903,7 +2902,7 @@ namespace LooneyInvaders.Layers
                             {
                                 if (VoiceEnemyWound1 != null)
                                 {
-                                    int r = _random.Next(VoiceEnemyWound3 == null ? 2 : 3);
+                                    var r = _random.Next(VoiceEnemyWound3 == null ? 2 : 3);
                                     switch (r)
                                     {
                                         case 2:
@@ -2976,7 +2975,7 @@ namespace LooneyInvaders.Layers
 
                 if (bullet.Opacity == 0 || bullet.PositionY > 650)
                 {
-                    if (Math.Abs(_bullets[i].Power - _bulletPower) < TOLERANCE)
+                    if (Math.Abs(_bullets[i].Power - _bulletPower) < AppConstants.TOLERANCE)
                     {
                         _bulletsMissed++;
                         _killsWithoutMiss = 0;
@@ -3008,10 +3007,10 @@ namespace LooneyInvaders.Layers
 
 
 
-            for (int i = 0; i < _bombs.Count;)
+            for (var i = 0; i < _bombs.Count;)
             {
-                bool bombRemoved = false;
-                Bomb bomb = _bombs[i];
+                var bombRemoved = false;
+                var bomb = _bombs[i];
 
                 if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
                 bomb.Sprite.PositionY -= bomb.SpeedY;
@@ -3085,7 +3084,7 @@ namespace LooneyInvaders.Layers
                         //bombRemoved = true;
                         PlayerExplode();
 
-                        Explosion explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
+                        var explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
                         _explos.Add(explo);
 
 
@@ -3144,7 +3143,7 @@ namespace LooneyInvaders.Layers
                     {
                         if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
                         {
-                            CCSprite newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
+                            var newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
                             newPlayerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
                             newPlayerExplosion.PositionX = _playerExplosion.PositionX;
                             newPlayerExplosion.PositionY = _playerExplosion.PositionY;
@@ -3212,9 +3211,9 @@ namespace LooneyInvaders.Layers
 
             }
 
-            for (int i = 0; i < _sparks.Count;)
+            for (var i = 0; i < _sparks.Count;)
             {
-                LaserSpark laserSpark = _sparks[i];
+                var laserSpark = _sparks[i];
 
                 laserSpark.Frame++;
                 if (laserSpark.Frame > 40)
@@ -3229,14 +3228,14 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            bool bounce = false;
+            var bounce = false;
 
             //bool inFsRect = false;
-            CCRect fsRect = new CCRect(0, 550, 1136, 230);
+            var fsRect = new CCRect(0, 550, 1136, 230);
 
-            for (int i = 0; i < _enemies.Count; i++)
+            for (var i = 0; i < _enemies.Count; i++)
             {
-                Enemy enemy = _enemies[i];
+                var enemy = _enemies[i];
 
 
                 if (!enemy.Killed)
@@ -3245,9 +3244,9 @@ namespace LooneyInvaders.Layers
                     // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
                     //inFsRect = true;
 
-                    if (enemy.Sprite.PositionX - enemy.floatX > _wavePass && Math.Abs(enemy.waveAY) < TOLERANCE)
+                    if (enemy.Sprite.PositionX - enemy.floatX > _wavePass && Math.Abs(enemy.waveAY) < AppConstants.TOLERANCE)
                     {
-                        enemy.waveAY = Math.Abs(_enemySpeed) < TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
+                        enemy.waveAY = Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
                     }
 
                     if (Math.Abs(enemy.floatX + enemy.floatVX) < 12 && Math.Abs(enemy.floatY + enemy.floatVY) < 2)
@@ -3261,8 +3260,8 @@ namespace LooneyInvaders.Layers
                     {
                         if (_random.Next(20) == 0)
                         {
-                            enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
-                            enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                            enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                            enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                         }
                     }
                     if (enemy.floatX > 8 && enemy.floatVX > 0)
@@ -3286,13 +3285,13 @@ namespace LooneyInvaders.Layers
 
                     if (_random.Next(90) == 0)
                     {
-                        enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
-                        enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                     }
                     if (_random.Next(400) == 0)
                     {
-                        enemy.floatVX = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
-                        enemy.floatVY = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVX = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVY = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                     }
 
                     if (enemy.Spit != null)
@@ -3322,7 +3321,7 @@ namespace LooneyInvaders.Layers
                     {
                         if (SelectedEnemy == ENEMIES.ALIENS)
                         {
-                            int r = _random.Next(3);
+                            var r = _random.Next(3);
                             switch (r)
                             {
                                 case 0:
@@ -3338,7 +3337,7 @@ namespace LooneyInvaders.Layers
                         }
                         else
                         {
-                            int r = _random.Next(4);
+                            var r = _random.Next(4);
                             switch (r)
                             {
                                 case 0:
@@ -3384,7 +3383,7 @@ namespace LooneyInvaders.Layers
                     if (enemy.AttachedBomb != null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
                     {
                         enemy.BombOut();
-                        int r = _random.Next(3);
+                        var r = _random.Next(3);
                         switch (r)
                         {
                             case 0:
@@ -3412,11 +3411,11 @@ namespace LooneyInvaders.Layers
                         enemy.Sprite.PositionX += _enemyCurrentSpeed;
                         if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0);
                     }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < TOLERANCE && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.TOLERANCE && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
                     {
                         bounce = true;
                     }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < TOLERANCE && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.TOLERANCE && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
                     {
                         bounce = true;
                     }
@@ -3443,9 +3442,9 @@ namespace LooneyInvaders.Layers
                         enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                     }
 
-                    if (Math.Abs(_updateTillNextBomb) < TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LAUNCH_MODE.DEFAULT && !_firstGoingDown && (SelectedEnemy != ENEMIES.ALIENS || enemy.State == ENEMYSTATE.NORMAL))
+                    if (Math.Abs(_updateTillNextBomb) < AppConstants.TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LAUNCH_MODE.DEFAULT && !_firstGoingDown && (SelectedEnemy != ENEMIES.ALIENS || enemy.State == ENEMYSTATE.NORMAL))
                     {
-                        Bomb bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0), enemy.Sprite.PositionY - 21);
+                        var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0), enemy.Sprite.PositionY - 21);
                         _bombs.Add(bomb);
                         enemy.AttachedBomb = bomb;
                         enemy.OpenForBomb();
@@ -3455,12 +3454,12 @@ namespace LooneyInvaders.Layers
 
                     if (enemy.LensFlare != null)
                     {
-                        int sheet = 0;
+                        var sheet = 0;
                         if (Convert.ToInt32(enemy.LensFlareFrame) > 41) sheet = 1;
 
                         if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
                         {
-                            CCSprite newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
+                            var newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
                             newLensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
                             newLensFlare.PositionX = enemy.Sprite.PositionX;
                             newLensFlare.PositionY = enemy.Sprite.PositionY - 28;
@@ -3486,10 +3485,10 @@ namespace LooneyInvaders.Layers
 
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
-                        bool hasEnemyBelow = false;
-                        CCRect r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
+                        var hasEnemyBelow = false;
+                        var r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
 
-                        foreach (Enemy x in _enemies)
+                        foreach (var x in _enemies)
                         {
                             if (x != enemy && r.IntersectsRect(x.Sprite.BoundingBox))
                             {
@@ -3590,10 +3589,10 @@ namespace LooneyInvaders.Layers
                     if (enemy.LaserLeftSparkCooloff > 0) enemy.LaserLeftSparkCooloff--;
                     if (enemy.LaserRightSparkCooloff > 0) enemy.LaserRightSparkCooloff--;
 
-                    bool laserRemoved = false;
-                    for (int j = 0; j < enemy.Lasers.Count;)
+                    var laserRemoved = false;
+                    for (var j = 0; j < enemy.Lasers.Count;)
                     {
-                        Laser laser = enemy.Lasers[j];
+                        var laser = enemy.Lasers[j];
                         laser.y += laser.Sprite.ContentSize.Height;
                         if (laser.Left)
                         {
@@ -3615,9 +3614,9 @@ namespace LooneyInvaders.Layers
                         {
                             if (_playerExplosion == null || _playerExploding < 25)
                             {
-                                CCRect r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                float y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - (-1)) > TOLERANCE)
+                                var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
+                                var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                if (Math.Abs(y - (-1)) > AppConstants.TOLERANCE)
                                 {
                                     laser.LaserHit = true;
                                     laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
@@ -3706,7 +3705,7 @@ namespace LooneyInvaders.Layers
                                 }
                                 enemy.LaserTop.PositionX = enemy.Sprite.PositionX;
                                 enemy.LaserTop.PositionY = enemy.Sprite.PositionY - 35;
-                                Laser laser = new Laser(this, true);
+                                var laser = new Laser(this, true);
                                 laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
                                 laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.y - laser.Sprite.ContentSize.Height - 35;
                                 enemy.Lasers.Add(laser);
@@ -3726,10 +3725,10 @@ namespace LooneyInvaders.Layers
                         RemoveChild(enemy.LaserTop);
                         enemy.LaserTop = null;
                     }
-                    bool laserRemoved = false;
-                    for (int j = 0; j < enemy.Lasers.Count;)
+                    var laserRemoved = false;
+                    for (var j = 0; j < enemy.Lasers.Count;)
                     {
-                        Laser laser = enemy.Lasers[j];
+                        var laser = enemy.Lasers[j];
                         laser.y += laser.Sprite.ContentSize.Height;
                         if (laser.Left)
                         {
@@ -3751,9 +3750,9 @@ namespace LooneyInvaders.Layers
                         {
                             if (_playerExplosion == null || _playerExploding < 25)
                             {
-                                CCRect r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                float y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - (-1)) > TOLERANCE)
+                                var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
+                                var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                if (Math.Abs(y - (-1)) > AppConstants.TOLERANCE)
                                 {
                                     laser.LaserHit = true;
                                     laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
@@ -4057,7 +4056,7 @@ namespace LooneyInvaders.Layers
 
             if (_wavePass > 0)
             {
-                _wavePass -= Math.Abs(_enemySpeed) < TOLERANCE ? 4 : _enemySpeed * 3;
+                _wavePass -= Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 4 : _enemySpeed * 3;
             }
 
 
@@ -4086,14 +4085,14 @@ namespace LooneyInvaders.Layers
                 if (_timeLabel.Visible)
                 {
                     _timeLabel.Opacity = _nextWaveSprite.Opacity;
-                    foreach (CCSprite timeDigit in _time)
+                    foreach (var timeDigit in _time)
                     {
                         timeDigit.Opacity = _nextWaveSprite.Opacity;
                     }
                 }
                 if (_nextWaveNumberSprites != null)
                 {
-                    foreach (CCSprite waveDigit in _nextWaveNumberSprites)
+                    foreach (var waveDigit in _nextWaveNumberSprites)
                     {
                         waveDigit.Opacity = _nextWaveSprite.Opacity;
                     }
@@ -4115,10 +4114,10 @@ namespace LooneyInvaders.Layers
 
             //int sensitivity = Settings.Instance.SensitivityLevel;
 
-            bool forward = touchXPosition >= movementButtonBoundingBox.Center.X;
+            var forward = touchXPosition >= movementButtonBoundingBox.Center.X;
 
             //float centerX = movementButtonBoundingBox.Center.X;
-            int maxSensitivityLavel = 8;
+            var maxSensitivityLavel = 8;
 
             float btnSensitivity = GetSensitivityLvlOnPressedBtn(touchXPosition);
 
@@ -4276,11 +4275,11 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
             {
-                int fireButtonX = 918;
-                int fireButtonY = 2;
+                var fireButtonX = 918;
+                var fireButtonY = 2;
 
-                int steerinButtonX = 3;
-                int steeringButtonY = 2;
+                var steerinButtonX = 3;
+                var steeringButtonY = 2;
 
                 if (!Settings.Instance.RightHanded)
                 {
