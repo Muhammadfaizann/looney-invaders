@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CocosSharp;
+﻿using CocosSharp;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Model
@@ -16,18 +13,18 @@ namespace LooneyInvaders.Model
 
         public LaserSpark(GamePlayLayer gamePlayLayer, float x, float y)
         {
-            this._gamePlayLayer = gamePlayLayer;
-            this.Sprite = new CCSprite(gamePlayLayer.SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
-            this.Sprite.AnchorPoint = new CCPoint(0.5f, 0.25f);
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-            this.Sprite.Position = new CCPoint(x, y);
-            this._gamePlayLayer.AddChild(this.Sprite, 100);
+            _gamePlayLayer = gamePlayLayer;
+            Sprite = new CCSprite(gamePlayLayer.SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+            Sprite.AnchorPoint = new CCPoint(0.5f, 0.25f);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            Sprite.Position = new CCPoint(x, y);
+            _gamePlayLayer.AddChild(Sprite, 100);
         }
 
         public bool Destroy()
         {
-            this._gamePlayLayer.RemoveChild(Sprite, true);
-            this.Sprite = null;
+            _gamePlayLayer.RemoveChild(Sprite);
+            Sprite = null;
             return true;
         }
     }

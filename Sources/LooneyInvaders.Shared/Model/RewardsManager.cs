@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Collections.Generic;
 using System.Text;
 
 namespace LooneyInvaders.Model
@@ -21,13 +20,13 @@ namespace LooneyInvaders.Model
                 stream.Write(data, 0, data.Length);
             }
 
-            string responseContent = null;
+            string responseContent;
 
             using (WebResponse response = request.GetResponse())
             {
                 using (Stream stream = response.GetResponseStream())
                 {
-                    using (StreamReader sr99 = new StreamReader(stream))
+                    using (StreamReader sr99 = new StreamReader(stream ?? throw new InvalidOperationException()))
                     {
                         responseContent = sr99.ReadToEnd();
                     }
@@ -43,27 +42,27 @@ namespace LooneyInvaders.Model
             return code;
         }
 
-        public static string GetWeaponRewardCode(WEAPONS weapon)
+        public static string GetWeaponRewardCode(Weapons weapon)
         {
-            string weapon_id = "";
+            string weaponId = "";
 
-            if (weapon == WEAPONS.STANDARD) weapon_id = "std_gun";
-            else if (weapon == WEAPONS.COMPACT) weapon_id = "sprayer";
-            else if (weapon == WEAPONS.BAZOOKA) weapon_id = "bazooka";
+            if (weapon == Weapons.Standard) weaponId = "std_gun";
+            else if (weapon == Weapons.Compact) weaponId = "sprayer";
+            else if (weapon == Weapons.Bazooka) weaponId = "bazooka";
 
-            return GetRewardCode(weapon_id);
+            return GetRewardCode(weaponId);
         }
-        
-        public static string GetEnemyRewardCode(ENEMIES enemy)
+
+        public static string GetEnemyRewardCode(Enemies enemy)
         {
-            string enemy_id = "";
+            string enemyId = "";
 
-            if (enemy == ENEMIES.HITLER) enemy_id = "hitler";
-            else if (enemy == ENEMIES.BUSH) enemy_id = "bush";
-            else if (enemy == ENEMIES.PUTIN) enemy_id = "putin";
-            else if (enemy == ENEMIES.KIM) enemy_id = "kim";
+            if (enemy == Enemies.Hitler) enemyId = "hitler";
+            else if (enemy == Enemies.Bush) enemyId = "bush";
+            else if (enemy == Enemies.Putin) enemyId = "putin";
+            else if (enemy == Enemies.Kim) enemyId = "kim";
 
-            return GetRewardCode(enemy_id);
+            return GetRewardCode(enemyId);
         }
     }
 }

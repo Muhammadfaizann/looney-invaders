@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LooneyInvaders.Model
 {
@@ -20,25 +18,28 @@ namespace LooneyInvaders.Model
         public static event EventHandler OnInterstitialAdFailedToLoad;
 
         public static void ClearEvents()
-        { 
+        {
             OnInterstitialAdOpened = null;
             OnInterstitialAdClosed = null;
             OnInterstitialAdFailedToLoad = null;
         }
 
         public static void ShowBannerTop()
-        {   
-            if(LooneyInvaders.Model.Settings.Instance.Advertisements == true) ShowBannerTopHandler?.Invoke();
+        {
+            if (Settings.Instance.Advertisements) 
+                ShowBannerTopHandler?.Invoke();
         }
 
         public static void ShowBannerBottom()
         {
-            if (LooneyInvaders.Model.Settings.Instance.Advertisements == true) ShowBannerBottomHandler?.Invoke();
+            if (Settings.Instance.Advertisements) 
+                ShowBannerBottomHandler?.Invoke();
         }
 
         public static void HideBanner()
         {
-            if (LooneyInvaders.Model.Settings.Instance.Advertisements == true) HideBannerHandler?.Invoke();
+            if (Settings.Instance.Advertisements) 
+                HideBannerHandler?.Invoke();
         }
 
         public static void LoadInterstitial()

@@ -8,9 +8,9 @@ namespace LooneyInvaders.Layers
 {
     public class VictoryScreenLayer : CCLayerColorExt
     {
-        public BATTLEGROUNDS SelectedBattleground;
-        public ENEMIES SelectedEnemy;
-        public WEAPONS SelectedWeapon;
+        public Battlegrounds SelectedBattleground;
+        public Enemies SelectedEnemy;
+        public Weapons SelectedWeapon;
 
         public decimal Time;
         public decimal Accuracy;
@@ -31,10 +31,10 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _yes;
         private CCSpriteButton _no;
 
-        readonly BATTLEGROUNDS _nextBattleGround;
-        readonly ENEMIES _nextEnemy;
+        readonly Battlegrounds _nextBattleGround;
+        readonly Enemies _nextEnemy;
 
-        public VictoryScreenLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, decimal time, decimal accuracy, int livesLeft = -1, int winsInSuccession = 0)
+        public VictoryScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, decimal time, decimal accuracy, int livesLeft = -1, int winsInSuccession = 0)
         {
             Time = time;
             Accuracy = accuracy;
@@ -49,140 +49,140 @@ namespace LooneyInvaders.Layers
             _nextEnemy = selectedEnemy;
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
-                    _nextBattleGround = BATTLEGROUNDS.LIBYA;
+                case Battlegrounds.Afghanistan:
+                    _nextBattleGround = Battlegrounds.Libya;
                     break;
-                case BATTLEGROUNDS.DENMARK:
-                    _nextBattleGround = BATTLEGROUNDS.NORWAY;
+                case Battlegrounds.Denmark:
+                    _nextBattleGround = Battlegrounds.Norway;
                     break;
-                case BATTLEGROUNDS.ENGLAND:
-                    _nextEnemy = ENEMIES.BUSH;
-                    _nextBattleGround = BATTLEGROUNDS.VIETNAM;
+                case Battlegrounds.England:
+                    _nextEnemy = Enemies.Bush;
+                    _nextBattleGround = Battlegrounds.Vietnam;
                     break;
-                case BATTLEGROUNDS.ESTONIA:
-                    _nextBattleGround = BATTLEGROUNDS.FINLAND;
+                case Battlegrounds.Estonia:
+                    _nextBattleGround = Battlegrounds.Finland;
                     break;
-                case BATTLEGROUNDS.FINLAND:
-                    _nextEnemy = ENEMIES.KIM;
-                    _nextBattleGround = BATTLEGROUNDS.SOUTH_KOREA;
+                case Battlegrounds.Finland:
+                    _nextEnemy = Enemies.Kim;
+                    _nextBattleGround = Battlegrounds.SouthKorea;
                     break;
-                case BATTLEGROUNDS.FRANCE:
-                    _nextBattleGround = BATTLEGROUNDS.ENGLAND;
+                case Battlegrounds.France:
+                    _nextBattleGround = Battlegrounds.England;
                     break;
-                case BATTLEGROUNDS.GEORGIA:
-                    _nextBattleGround = BATTLEGROUNDS.UKRAINE;
+                case Battlegrounds.Georgia:
+                    _nextBattleGround = Battlegrounds.Ukraine;
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
-                    _nextBattleGround = BATTLEGROUNDS.UNITED_STATES;
+                case Battlegrounds.GreatBritain:
+                    _nextBattleGround = Battlegrounds.UnitedStates;
                     break;
-                case BATTLEGROUNDS.IRAQ:
-                    _nextBattleGround = BATTLEGROUNDS.AFGHANISTAN;
+                case Battlegrounds.Iraq:
+                    _nextBattleGround = Battlegrounds.Afghanistan;
                     break;
-                case BATTLEGROUNDS.ISRAEL:
-                    _nextBattleGround = BATTLEGROUNDS.JAPAN;
+                case Battlegrounds.Israel:
+                    _nextBattleGround = Battlegrounds.Japan;
                     break;
-                case BATTLEGROUNDS.JAPAN:
-                    _nextBattleGround = BATTLEGROUNDS.GREAT_BRITAIN;
+                case Battlegrounds.Japan:
+                    _nextBattleGround = Battlegrounds.GreatBritain;
                     break;
-                case BATTLEGROUNDS.LIBYA:
-                    _nextBattleGround = BATTLEGROUNDS.RUSSIA;
+                case Battlegrounds.Libya:
+                    _nextBattleGround = Battlegrounds.Russia;
                     break;
-                case BATTLEGROUNDS.NORWAY:
-                    _nextBattleGround = BATTLEGROUNDS.FRANCE;
+                case Battlegrounds.Norway:
+                    _nextBattleGround = Battlegrounds.France;
                     break;
-                case BATTLEGROUNDS.POLAND:
-                    _nextBattleGround = BATTLEGROUNDS.DENMARK;
+                case Battlegrounds.Poland:
+                    _nextBattleGround = Battlegrounds.Denmark;
                     break;
-                case BATTLEGROUNDS.RUSSIA:
-                    _nextEnemy = ENEMIES.PUTIN;
-                    _nextBattleGround = BATTLEGROUNDS.GEORGIA;
+                case Battlegrounds.Russia:
+                    _nextEnemy = Enemies.Putin;
+                    _nextBattleGround = Battlegrounds.Georgia;
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
-                    _nextBattleGround = BATTLEGROUNDS.ISRAEL;
+                case Battlegrounds.SouthKorea:
+                    _nextBattleGround = Battlegrounds.Israel;
                     break;
-                case BATTLEGROUNDS.SYRIA:
-                    _nextBattleGround = BATTLEGROUNDS.ESTONIA;
+                case Battlegrounds.Syria:
+                    _nextBattleGround = Battlegrounds.Estonia;
                     break;
-                case BATTLEGROUNDS.UKRAINE:
-                    _nextBattleGround = BATTLEGROUNDS.SYRIA;
+                case Battlegrounds.Ukraine:
+                    _nextBattleGround = Battlegrounds.Syria;
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
-                    _nextBattleGround = BATTLEGROUNDS.MOON;
-                    _nextEnemy = ENEMIES.ALIENS;
-                    selectedWeapon = WEAPONS.HYBRID;
+                case Battlegrounds.UnitedStates:
+                    _nextBattleGround = Battlegrounds.Moon;
+                    _nextEnemy = Enemies.Aliens;
+                    selectedWeapon = Weapons.Hybrid;
                     break;
-                case BATTLEGROUNDS.VIETNAM:
-                    _nextBattleGround = BATTLEGROUNDS.IRAQ;
+                case Battlegrounds.Vietnam:
+                    _nextBattleGround = Battlegrounds.Iraq;
                     break;
             }
 
             Player.Instance.SetQuickGame(_nextEnemy, _nextBattleGround, selectedWeapon);
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/You just saved VO_mono.wav");
                 switch (SelectedBattleground)
                 {
-                    case BATTLEGROUNDS.AFGHANISTAN:
+                    case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Afghanistan VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.DENMARK:
+                    case Battlegrounds.Denmark:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Denmark VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ENGLAND:
+                    case Battlegrounds.England:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/England VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ESTONIA:
+                    case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Estonia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.FINLAND:
+                    case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Finland VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.FRANCE:
+                    case Battlegrounds.France:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/France VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.GEORGIA:
+                    case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Georgia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.GREAT_BRITAIN:
+                    case Battlegrounds.GreatBritain:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Great Britain VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.IRAQ:
+                    case Battlegrounds.Iraq:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Irak VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ISRAEL:
+                    case Battlegrounds.Israel:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Israel VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.JAPAN:
+                    case Battlegrounds.Japan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Japan VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.LIBYA:
+                    case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Libya VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.NORWAY:
+                    case Battlegrounds.Norway:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Norway VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.POLAND:
+                    case Battlegrounds.Poland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Poland VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.RUSSIA:
+                    case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Russia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.SOUTH_KOREA:
+                    case Battlegrounds.SouthKorea:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/South Korea VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.SYRIA:
+                    case Battlegrounds.Syria:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Syria VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.UKRAINE:
+                    case Battlegrounds.Ukraine:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Ukraine VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.UNITED_STATES:
+                    case Battlegrounds.UnitedStates:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/USA VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.VIETNAM:
+                    case Battlegrounds.Vietnam:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Vietnam VO_mono.wav");
                         break;
                 }
@@ -193,103 +193,103 @@ namespace LooneyInvaders.Layers
 
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-afghanistan.png", 2);
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-denmark.png", 2);
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-england.png", 2);
-                    if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ENGLAND) == 0)
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.England) == 0)
                     {
                         _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-hitler-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-estonia.png", 2);
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-finland.png", 2);
-                    if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.FINLAND) == 0)
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.Finland) == 0)
                     {
                         _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-putin-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     SetBackground("UI/Victory scenes/France-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-france.png", 2);
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-georgia.png", 2);
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-great-britain.png", 2);
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-iraq.png", 2);
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-israel.png", 2);
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-japan.png", 2);
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-libya.png", 2);
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-norway.png", 2);
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-poland.png", 2);
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-russia.png", 2);
-                    if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.RUSSIA) == 0)
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.Russia) == 0)
                     {
                         _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-george-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-south-korea.png", 2);
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-syria.png", 2);
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-ukraine.png", 2);
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-united-states.png", 2);
-                    if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.UNITED_STATES) == 0)
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.UnitedStates) == 0)
                     {
                         _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-kim-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
                     break;
@@ -346,7 +346,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 _defeated.Visible = false;
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.RewardNotification);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     ScheduleOnce(ShowDefeated, 2.8f);
@@ -365,7 +365,7 @@ namespace LooneyInvaders.Layers
             _isWeHaveScores = LeaderboardManager.SubmitScoreRegular(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
             _isDoneWaitingForScores = true;
 
-            GameEnvironment.PlayMusic(MUSIC.VICTORY);
+            GameEnvironment.PlayMusic(Music.Victory);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
@@ -379,64 +379,64 @@ namespace LooneyInvaders.Layers
         {
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Afghanistan VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Denmark VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/England VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Estonia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Finland VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/France VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Great Britain VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Irak VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Israel VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Japan VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Libya VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Norway VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Russia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/South Korea VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Syria VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Ukraine VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/USA VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vietnam VO_mono.wav");
                     break;
             }
@@ -451,7 +451,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowMultiplierAd(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
 
             _multiplierNode = new CCNodeExt();
 
@@ -495,7 +495,7 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
             Player.Instance.Credits += _score * WinsInSuccession - _score;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
@@ -505,7 +505,7 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             AdMobManager.ShowBannerBottom();
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
@@ -518,7 +518,7 @@ namespace LooneyInvaders.Layers
         {
 
             _defeated.Visible = true;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             if (Settings.Instance.VoiceoversEnabled)
             {
                 ScheduleOnce(CalloutCongratulations, 1f);
@@ -618,7 +618,7 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             if (Settings.Instance.VoiceoversEnabled)
             {
                 ScheduleOnce(CalloutCongratulations, 1f);
@@ -721,7 +721,7 @@ namespace LooneyInvaders.Layers
 
             //--------- Prabhjot ----------//
 
-            if (Player.Instance.isProLevelSelected)
+            if (Player.Instance.IsProLevelSelected)
             {
                 _btnContinue = _scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
 
@@ -789,7 +789,7 @@ namespace LooneyInvaders.Layers
 
             AddChild(_scoreNode);
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
+            GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
             Schedule(FadeScore);
         }
 
@@ -839,83 +839,83 @@ namespace LooneyInvaders.Layers
 
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     //sl.SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-afghanistan.png", 2);
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     //sl.SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-denmark.png", 2);
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-england.png", 2);
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     //sl.SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-estonia.png", 2);
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     //sl.SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-finland.png", 2);
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     //sl.SetBackground("UI/Victory scenes/France-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-france.png", 2);
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     //sl.SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-georgia.png", 2);
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-great-britain.png", 2);
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     //sl.SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-iraq.png", 2);
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     //sl.SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-israel.png", 2);
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     //sl.SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-japan.png", 2);
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     //sl.SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-libya.png", 2);
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     //sl.SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-norway.png", 2);
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     //sl.SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-poland.png", 2);
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     //sl.SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-russia.png", 2);
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     //sl.SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-south-korea.png", 2);
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     //sl.SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-syria.png", 2);
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     //sl.SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-ukraine.png", 2);
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     //sl.SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-united-states.png", 2);
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     //sl.SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-vietnam.png", 2);
                     break;
@@ -1131,14 +1131,14 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
 
-            if (_nextBattleGround == BATTLEGROUNDS.MOON)
+            if (_nextBattleGround == Battlegrounds.Moon)
             {
                 AdMobManager.HideBanner();
                 TransitionToLayerCartoonStyle(new EnemyPickerLayer());
             }
             else
             {
-                TransitionToLayerCartoonStyle(new GamePlayLayer(_nextEnemy, SelectedWeapon, _nextBattleGround, true, -1, -1, -1, -1, _nextEnemy, LAUNCH_MODE.DEFAULT, LivesLeft, WinsInSuccession));
+                TransitionToLayerCartoonStyle(new GamePlayLayer(_nextEnemy, SelectedWeapon, _nextBattleGround, true, -1, -1, -1, -1, _nextEnemy, LaunchMode.Default, LivesLeft, WinsInSuccession));
             }
         }
 

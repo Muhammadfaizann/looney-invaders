@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CocosSharp;
-using LooneyInvaders.Layers;
+﻿using CocosSharp;
 
 namespace LooneyInvaders.Model
 {

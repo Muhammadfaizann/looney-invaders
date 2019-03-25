@@ -91,14 +91,12 @@ namespace LooneyInvaders.Shared
 
         public static CCPoint Right(this CCRect visibleRect)
         {
-            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width,
-                visibleRect.Origin.Y + visibleRect.Size.Height / 2);
+            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width, visibleRect.Origin.Y + visibleRect.Size.Height / 2);
         }
 
         public static CCPoint Top(this CCRect visibleRect)
         {
-            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width / 2,
-                visibleRect.Origin.Y + visibleRect.Size.Height);
+            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width / 2, visibleRect.Origin.Y + visibleRect.Size.Height);
         }
 
         public static CCPoint Bottom(this CCRect visibleRect)
@@ -108,8 +106,7 @@ namespace LooneyInvaders.Shared
 
         public static CCPoint Center(this CCRect visibleRect)
         {
-            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width / 2,
-                visibleRect.Origin.Y + visibleRect.Size.Height / 2);
+            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width / 2, visibleRect.Origin.Y + visibleRect.Size.Height / 2);
         }
 
         public static CCPoint LeftTop(this CCRect visibleRect)
@@ -119,8 +116,7 @@ namespace LooneyInvaders.Shared
 
         public static CCPoint RightTop(this CCRect visibleRect)
         {
-            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width,
-                visibleRect.Origin.Y + visibleRect.Size.Height);
+            return new CCPoint(visibleRect.Origin.X + visibleRect.Size.Width, visibleRect.Origin.Y + visibleRect.Size.Height);
         }
 
         public static CCPoint LeftBottom(this CCRect visibleRect)

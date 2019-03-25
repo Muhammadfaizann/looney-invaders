@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Model
 {
-    public class Enemy 
+    public class Enemy
     {
         public CCSprite Sprite;
 
@@ -32,7 +30,7 @@ namespace LooneyInvaders.Model
 
         public int LaserRightSparkCooloff;
 
-        public float LensFlareFrame; 
+        public float LensFlareFrame;
 
         public int? LaserFxId1;
         public int? LaserFxId2;
@@ -55,131 +53,132 @@ namespace LooneyInvaders.Model
 
         public float Health;
 
-        
 
-        public ENEMYSTATE State;
 
-        public float keepGrimace;
+        public EnemyState State;
 
-        public float floatX;
-        public float floatY;
-        public float floatVX;
-        public float floatVY;
+        public float KeepGrimace;
 
-        public float waveVY;
-        public float waveAY;
+        public float FloatX;
+        public float FloatY;
+        public float FloatVx;
+        public float FloatVy;
+
+        public float WaveVy;
+        public float WaveAy;
 
         public Enemy(GamePlayLayer gamePlayLayer, float x, float y)
         {
-            this._gamePlayLayer = gamePlayLayer;
-            this.State = ENEMYSTATE.NORMAL;
-            this.Sprite = new CCSprite(GameEnvironment.ImageDirectory + this._gamePlayLayer.EnemyMouthClosed);
-            this.Sprite.Position = new CCPoint(x, y);
-            this.Sprite.AnchorPoint = new CCPoint(0.5f, 1);
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-            this.Lasers = new List<Laser>();
-            this._gamePlayLayer.AddChild(this.Sprite, 10);
-            this.Health = 1;
+            _gamePlayLayer = gamePlayLayer;
+            State = EnemyState.Normal;
+            Sprite = new CCSprite(GameEnvironment.ImageDirectory + _gamePlayLayer.EnemyMouthClosed);
+            Sprite.Position = new CCPoint(x, y);
+            Sprite.AnchorPoint = new CCPoint(0.5f, 1);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            Lasers = new List<Laser>();
+            _gamePlayLayer.AddChild(Sprite, 10);
+            Health = 1;
         }
 
         public void OpenForBomb()
         {
             string png;
-            if (this.State == ENEMYSTATE.GRIMACE1 || this.State == ENEMYSTATE.GRIMACE2)
+            if (State == EnemyState.Grimace1 || State == EnemyState.Grimace2)
             {
-                this.State = ENEMYSTATE.NORMAL;
-                this.keepGrimace = 0;
+                State = EnemyState.Normal;
+                KeepGrimace = 0;
             }
-            if (this.State == ENEMYSTATE.DAMAGE1) {
-                png = this._gamePlayLayer.EnemyMouthOpenDamaged1;
-            }
-            else if (this.State == ENEMYSTATE.DAMAGE2)
+            if (State == EnemyState.Damage1)
             {
-                png = this._gamePlayLayer.EnemyMouthOpenDamaged2;
+                png = _gamePlayLayer.EnemyMouthOpenDamaged1;
             }
-            else 
+            else if (State == EnemyState.Damage2)
             {
-                png = this._gamePlayLayer.EnemyMouthOpen;
+                png = _gamePlayLayer.EnemyMouthOpenDamaged2;
+            }
+            else
+            {
+                png = _gamePlayLayer.EnemyMouthOpen;
             }
 
 
-            this.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + png, new CCRect(0,0,this._gamePlayLayer.EnemyMouthClipWidth,this._gamePlayLayer.EnemyMouthClipHeight));
-            this.OpenMouth.Position = new CCPoint(this.Sprite.PositionX, this.Sprite.PositionY);
-            this.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
-            this.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
-            this._gamePlayLayer.AddChild(this.OpenMouth, this.Sprite.ZOrder + 2);
-            this.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + png);
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + png, new CCRect(0, 0, _gamePlayLayer.EnemyMouthClipWidth, _gamePlayLayer.EnemyMouthClipHeight));
+            OpenMouth.Position = new CCPoint(Sprite.PositionX, Sprite.PositionY);
+            OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
+            OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
+            _gamePlayLayer.AddChild(OpenMouth, Sprite.ZOrder + 2);
+            Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + png);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
 
         }
 
         public void BombOut()
         {
             string png;
-            if (this.State == ENEMYSTATE.DAMAGE1)
+            if (State == EnemyState.Damage1)
             {
-                png = this._gamePlayLayer.EnemyMouthClosedDamaged1;
+                png = _gamePlayLayer.EnemyMouthClosedDamaged1;
             }
-            else if (this.State == ENEMYSTATE.DAMAGE2)
+            else if (State == EnemyState.Damage2)
             {
-                png = this._gamePlayLayer.EnemyMouthClosedDamaged2;
+                png = _gamePlayLayer.EnemyMouthClosedDamaged2;
             }
             else
             {
-                png = this._gamePlayLayer.EnemyMouthClosed;
+                png = _gamePlayLayer.EnemyMouthClosed;
             }
-            this._gamePlayLayer.RemoveChild(this.OpenMouth, true);
-            this.OpenMouth = null;
-            this.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + png);
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            _gamePlayLayer.RemoveChild(OpenMouth);
+            OpenMouth = null;
+            Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + png);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
 
         }
 
         public bool Destroy()
         {
-            if (this.OpenMouth != null)
+            if (OpenMouth != null)
             {
-                this._gamePlayLayer.RemoveChild(this.OpenMouth, true);
-                this.OpenMouth = null;
+                _gamePlayLayer.RemoveChild(OpenMouth);
+                OpenMouth = null;
             }
-            if (this.Explosion != null)
+            if (Explosion != null)
             {
-                this._gamePlayLayer.RemoveChild(this.Explosion, true);
-                this.Explosion = null;
+                _gamePlayLayer.RemoveChild(Explosion);
+                Explosion = null;
             }
-            if (this.Spit !=null)
+            if (Spit != null)
             {
-                this._gamePlayLayer.RemoveChild(this.Spit, true);
-                this.Spit = null;
+                _gamePlayLayer.RemoveChild(Spit);
+                Spit = null;
             }
-            if (this.LaserTop != null)
+            if (LaserTop != null)
             {
-                this._gamePlayLayer.RemoveChild(LaserTop, true);
-                this.LaserTop = null;
+                _gamePlayLayer.RemoveChild(LaserTop);
+                LaserTop = null;
             }
-            if (this.LaserLeftSpark != null)
+            if (LaserLeftSpark != null)
             {
-                this._gamePlayLayer.RemoveChild(LaserLeftSpark, true);
-                this.LaserLeftSpark = null;
+                _gamePlayLayer.RemoveChild(LaserLeftSpark);
+                LaserLeftSpark = null;
             }
-            if (this.LaserRightSpark != null)
+            if (LaserRightSpark != null)
             {
-                this._gamePlayLayer.RemoveChild(LaserRightSpark, true);
-                this.LaserRightSpark = null;
+                _gamePlayLayer.RemoveChild(LaserRightSpark);
+                LaserRightSpark = null;
             }
-            if (this.LensFlare != null)
+            if (LensFlare != null)
             {
-                this._gamePlayLayer.RemoveChild(LensFlare, true);
-                this.LensFlare = null;
+                _gamePlayLayer.RemoveChild(LensFlare);
+                LensFlare = null;
             }
 
-            foreach (Laser laser in this.Lasers)
+            foreach (Laser laser in Lasers)
             {
                 laser.Destroy();
             }
 
-            this._gamePlayLayer.RemoveChild(Sprite, true);
-            this.Sprite = null;
+            _gamePlayLayer.RemoveChild(Sprite);
+            Sprite = null;
             return true;
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LooneyInvaders.Model
+﻿namespace LooneyInvaders.Model
 {
     public class DeviceInfoModel
     {

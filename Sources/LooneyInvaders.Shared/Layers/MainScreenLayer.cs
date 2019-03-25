@@ -132,7 +132,7 @@ namespace LooneyInvaders.Layers
             _btnQuickGame = AddButton(635, 25, "UI/Main-screen-quick-game-notification-quick-game-button-untapped.png", "UI/Main-screen-quick-game-notification-quick-game-button-tapped.png", 510);
             _btnQuickGame.Visible = false;
             _btnQuickGame.Enabled = false;
-            _btnQuickGame.ButtonType = BUTTON_TYPE.Rewind;
+            _btnQuickGame.ButtonType = ButtonType.Rewind;
             _btnQuickGame.OnClick += BtnQuickGame_OnClick;
 
             /* pro level notification */
@@ -146,7 +146,7 @@ namespace LooneyInvaders.Layers
 
             _btnProNotificationCheckMark = AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
             _btnProNotificationCheckMark.OnClick += BtnProNotificationCheckMark_OnClick;
-            _btnProNotificationCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _btnProNotificationCheckMark.ButtonType = ButtonType.CheckMark;
             _btnProNotificationCheckMark.Visible = false;
 
             _imgProNotificationCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
@@ -161,7 +161,7 @@ namespace LooneyInvaders.Layers
             _btnQuickGame = AddButton(635, 25, "UI/Main-screen-quick-game-notification-quick-game-button-untapped.png", "UI/Main-screen-quick-game-notification-quick-game-button-tapped.png", 510);
             _btnQuickGame.Visible = false;
             _btnQuickGame.Enabled = false;
-            _btnQuickGame.ButtonType = BUTTON_TYPE.Rewind;
+            _btnQuickGame.ButtonType = ButtonType.Rewind;
             _btnQuickGame.OnClick += BtnQuickGame_OnClick;
 
 
@@ -176,7 +176,7 @@ namespace LooneyInvaders.Layers
             _btnScoreboardPro.OnClick += BtnScoreboardPro_OnClick;
 
             Settings.Instance.ApplyValues(); // main menu background music starts to play here after setting the volume
-            GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+            GameEnvironment.PlayMusic(Music.MainMenu);
 
             LeaderboardManager.ClearOnLeaderboardsRefreshedEvent();
             LeaderboardManager.OnLeaderboardsRefreshed += LeaderboardManager_OnLeaderboardsRefreshed;
@@ -226,7 +226,7 @@ namespace LooneyInvaders.Layers
 
             ChangeSpriteImage(_imgScoreboard, "UI/Main-screen-extinction-lvl-scoreboard-table.png");
 
-            Player.Instance.isProLevelSelected = true;
+            Player.Instance.IsProLevelSelected = true;
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png");
@@ -257,7 +257,7 @@ namespace LooneyInvaders.Layers
 
             ChangeSpriteImage(_imgScoreboard, "UI/Main-screen-earth-lvl-scoreboard-table.png");
 
-            Player.Instance.isProLevelSelected = false;
+            Player.Instance.IsProLevelSelected = false;
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png");
@@ -303,7 +303,7 @@ namespace LooneyInvaders.Layers
             _btnSelectionMode.Enabled = false;
             _btnQuickGame.Visible = false;
             _btnQuickGame.Enabled = false;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_BACK);
+            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
             Shared.GameDelegate.OnBackButton -= StartDialog_Back;
         }
 
@@ -328,10 +328,7 @@ namespace LooneyInvaders.Layers
 
         private void BtnQuickGame_OnClick(object sender, EventArgs e)
         {
-            ENEMIES enemy = ENEMIES.HITLER;
-            WEAPONS weapon = WEAPONS.STANDARD;
-            BATTLEGROUNDS battleground = BATTLEGROUNDS.POLAND;
-            Player.Instance.GetQuickGame(ref enemy, ref battleground, ref weapon);
+            Player.Instance.GetQuickGame(out var enemy, out var battleground, out var weapon);
             TransitionToLayerCartoonStyle(new GamePlayLayer(enemy, weapon, battleground, true));
         }
 
@@ -363,7 +360,7 @@ namespace LooneyInvaders.Layers
 
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
 
             RefreshLeaderboard(0);
@@ -451,18 +448,18 @@ namespace LooneyInvaders.Layers
             // offline score
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
-                if (_isShownLeaderboardRegular && Math.Abs(LeaderboardManager.BestScoreRegular_Score) > AppConstants.TOLERANCE)
+                if (_isShownLeaderboardRegular && Math.Abs(LeaderboardManager.BestScoreRegularScore) > AppConstants.TOLERANCE)
                 {
                     _leaderboardSprites.Add(AddLabel(410, 280, "YOUR BEST", "Fonts/AktivGroteskBold", 12));
-                    _leaderboardSprites.Add(AddLabelRightAligned(595, 280, LeaderboardManager.BestScoreRegular_Score.ToString("######"), "Fonts/AktivGroteskBold", 12));
-                    _leaderboardSprites.Add(AddLabelRightAligned(710, 280, LeaderboardManager.BestScoreRegular_FastestTime.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12));
-                    _leaderboardSprites.Add(AddLabelRightAligned(850, 280, LeaderboardManager.BestScoreRegular_Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12));
+                    _leaderboardSprites.Add(AddLabelRightAligned(595, 280, LeaderboardManager.BestScoreRegularScore.ToString("######"), "Fonts/AktivGroteskBold", 12));
+                    _leaderboardSprites.Add(AddLabelRightAligned(710, 280, LeaderboardManager.BestScoreRegularFastestTime.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12));
+                    _leaderboardSprites.Add(AddLabelRightAligned(850, 280, LeaderboardManager.BestScoreRegularAccuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12));
                 }
-                else if (_isShownLeaderboardPro && Math.Abs(LeaderboardManager.BestScorePro_Score) > AppConstants.TOLERANCE)
+                else if (_isShownLeaderboardPro && Math.Abs(LeaderboardManager.BestScoreProScore) > AppConstants.TOLERANCE)
                 {
                     _leaderboardSprites.Add(AddLabel(480, 280, "YOUR BEST", "Fonts/AktivGroteskBold", 12));
-                    _leaderboardSprites.Add(AddLabelRightAligned(670, 280, LeaderboardManager.BestScorePro_Score.ToString("######"), "Fonts/AktivGroteskBold", 12));
-                    _leaderboardSprites.Add(AddLabelRightAligned(800, 280, LeaderboardManager.BestScorePro_LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12));
+                    _leaderboardSprites.Add(AddLabelRightAligned(670, 280, LeaderboardManager.BestScoreProScore.ToString("######"), "Fonts/AktivGroteskBold", 12));
+                    _leaderboardSprites.Add(AddLabelRightAligned(800, 280, LeaderboardManager.BestScoreProLevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12));
                 }
             }
             else
@@ -552,7 +549,7 @@ namespace LooneyInvaders.Layers
             _btnProNotificationOk.Enabled = false;
             _btnProNotificationOk.Visible = false;
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_BACK);
+            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
             Shared.GameDelegate.OnBackButton -= HideProNotification;
         }
 
@@ -595,7 +592,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowNotificationTip(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
             _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/push-notification-background.png", 1002);
 
             _yesThanks = AddButton(40, 80, "UI/push-notification-yes-button-untapped.png", "UI/push-notification-yes-button-tapped.png", 1005);

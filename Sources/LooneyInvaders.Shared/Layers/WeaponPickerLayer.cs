@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
@@ -11,7 +10,7 @@ namespace LooneyInvaders.Layers
     {
         readonly int _selectedEnemy;
 
-        readonly CCSprite _imgWeaponDescription;        
+        readonly CCSprite _imgWeaponDescription;
         CCSprite _imgWeaponStatsBoard;
         CCSprite _imgWeaponStatsText;
         readonly CCSprite _imgWeaponLocked;
@@ -55,7 +54,7 @@ namespace LooneyInvaders.Layers
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SWIPE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Swipe);
 
             //CCTexture2D.DefaultIsAntialiased = false;
             //CCLayer.DefaultCameraProjection = CCCameraProjection.Projection2D;
@@ -79,19 +78,19 @@ namespace LooneyInvaders.Layers
             }
 
             while (GameAnimation.Instance.PreloadNextSpriteSheetWeapons()) { }
-            
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
             _btnForwardNoPasaran = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-tapped.png", 500);
-            _btnForwardNoPasaran.ButtonType = BUTTON_TYPE.CannotTap;
+            _btnForwardNoPasaran.ButtonType = ButtonType.CannotTap;
             _btnForwardNoPasaran.Visible = false;
 
             _imgGameTipCredits = AddImage(14, 8, "UI/Choose-your-weapon-not-enough-credits-to-unlocked-notification.png", 2000);
@@ -108,7 +107,7 @@ namespace LooneyInvaders.Layers
             _btnCancel.Enabled = false;
 
             AddImage(236, 560, "UI/Choose-your-weapon-title-text.png", 500);
-            AddImage(0, 0, "UI/Background-just-curtain-with-spotlight.png", 100);            
+            AddImage(0, 0, "UI/Background-just-curtain-with-spotlight.png", 100);
 
             _imgSpotlight = AddImage(370, 0, "UI/Choose-your-enemy-spotlight-front.png", 400);
             _imgSpotlight.Opacity = 0;
@@ -119,22 +118,22 @@ namespace LooneyInvaders.Layers
             touchListener.OnTouchesCancelled = OnTouchesCancelled;
             touchListener.OnTouchesMoved = OnTouchesMoved;
 
-            if (_selectedEnemy != (int)ENEMIES.ALIENS)
+            if (_selectedEnemy != (int)Enemies.Aliens)
             {
                 _images[0] = AddImage(-270, 260, "UI/compact-sprayer_bow_00.png", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[0].Scale = 0.6f;
-                _images[0].Tag = (int)WEAPONS.COMPACT;
+                _images[0].Tag = (int)Weapons.Compact;
 
                 _images[1] = AddImage(150, 260, "UI/black_bazooka_bow_00.png", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[1].Scale = 0.6f;
-                _images[1].Tag = (int)WEAPONS.BAZOOKA;
+                _images[1].Tag = (int)Weapons.Bazooka;
 
                 _images[2] = AddImage(570, 260, "UI/standard_gun_bow_00.png", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[2].Scale = 1.0f;
-                _images[2].Tag = (int)WEAPONS.STANDARD;
+                _images[2].Tag = (int)Weapons.Standard;
 
                 //----------------- Prabhjot -----------------//
                 /*_images[3] = this.AddImage(990, 260, "UI/compact-sprayer_bow_00.png", 0);
@@ -152,7 +151,7 @@ namespace LooneyInvaders.Layers
                 _images[5].Scale = 0.6f;
                 _images[5].Tag = (int)WEAPONS.STANDARD;
                 */
-                _selectedWeapon = (int)WEAPONS.STANDARD;
+                _selectedWeapon = (int)Weapons.Standard;
 
                 _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-standard-gun-text-board-all.png", 1000);
                 _imgWeaponDescription.Opacity = 0;
@@ -165,22 +164,22 @@ namespace LooneyInvaders.Layers
                 _images[2] = AddImage(570, 260, "UI/hybrid_defender_bow_00.png", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[2].Scale = 1.0f;
-                _images[2].Tag = (int)WEAPONS.HYBRID;
+                _images[2].Tag = (int)Weapons.Hybrid;
 
-                _selectedWeapon = (int)WEAPONS.HYBRID;
+                _selectedWeapon = (int)Weapons.Hybrid;
 
                 _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-hybrid-defender-text-board-plain-text.png", 1000);
                 _imgWeaponDescription.Opacity = 0;
 
             }
-            
+
             _imgWeaponLocked = AddImage(1136 / 2, 410, "UI/Choose-your-weapon-weapon-locked-text.png", 500);
             _imgWeaponLocked.AnchorPoint = new CCPoint(0.5f, 0f);
             _imgWeaponLocked.Opacity = 0;
             _imgWeaponLocked.Visible = false;
 
-            SetWeaponStatsImages();            
-            SetWeaponStatsOpacity(0);            
+            SetWeaponStatsImages();
+            SetWeaponStatsOpacity(0);
 
             _btnWeaponUpgrade = AddButton(2, 28, "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-untapped.png", "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-tapped.png", 1100);
             _btnWeaponUpgrade.Opacity = 0;
@@ -203,10 +202,10 @@ namespace LooneyInvaders.Layers
             AddEventListener(touchListener, this);
             AddEventListener(touchListener);
 
-            
+
             SetWeaponStatsStars();
 
-            _startedBowing = false;            
+            _startedBowing = false;
 
             if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipWeaponPickerShow && gameTipAvailable)
             {
@@ -217,7 +216,7 @@ namespace LooneyInvaders.Layers
             {
                 _isHoldAnimations = false;
                 ScheduleOnce(DelayedBow, 1.0f);
-            }            
+            }
         }
 
         private void _btnTestProperties_OnClick(object sender, EventArgs e)
@@ -226,22 +225,22 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             UnscheduleAll();
 
-            int caliberSize = Weapon.GetCaliberSize((WEAPONS)_selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((WEAPONS)_selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((WEAPONS)_selectedWeapon);
-            int lives = Weapon.GetLives((WEAPONS)_selectedWeapon);
+            int caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
+            int firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
+            int magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
+            int lives = Weapon.GetLives((Weapons)_selectedWeapon);
 
-            TransitionToLayer(new GamePlayLayer(ENEMIES.TRUMP, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.WHITE_HOUSE, false, caliberSize, firespeed, magazineSize, lives, (ENEMIES)_selectedEnemy, LAUNCH_MODE.WEAPON_TEST));            
+            TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest));
         }
 
         public WeaponPickerLayer(int selectedEnemy, int selectedWeapon) : this(selectedEnemy, false)
         {
-            if (selectedWeapon == (int)WEAPONS.BAZOOKA)
+            if (selectedWeapon == (int)Weapons.Bazooka)
             {
                 MoveImages(420);
                 _centerImage = _images[1];
             }
-            else if (selectedWeapon == (int)WEAPONS.COMPACT)
+            else if (selectedWeapon == (int)Weapons.Compact)
             {
                 MoveImages(840);
                 _centerImage = _images[3];
@@ -270,41 +269,41 @@ namespace LooneyInvaders.Layers
             _imgWeaponDescription.Opacity = 255;
             _btnWeaponBuy.Opacity = 255;
             _imgWeaponLocked.Opacity = 255;
-            
+
             _btnWeaponBuy.Enabled = true;
         }
 
         private bool IsWeaponAtMax(int selectedWeapon)
         {
-            int caliberSize = Weapon.GetCaliberSize((WEAPONS)selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((WEAPONS)selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((WEAPONS)selectedWeapon);
-            int lives = Weapon.GetLives((WEAPONS)selectedWeapon);
+            int caliberSize = Weapon.GetCaliberSize((Weapons)selectedWeapon);
+            int firespeed = Weapon.GetFirespeed((Weapons)selectedWeapon);
+            int magazineSize = Weapon.GetMagazineSize((Weapons)selectedWeapon);
+            int lives = Weapon.GetLives((Weapons)selectedWeapon);
 
             int livesMaximum = 7;
             int caliberSizeMaximum = 10;
             int firespeedMaximum = 10;
             int magazineSizeMaximum = 10;
 
-            if (selectedWeapon == (int)WEAPONS.STANDARD)
-            {   
+            if (selectedWeapon == (int)Weapons.Standard)
+            {
                 caliberSizeMaximum = 4;
                 firespeedMaximum = 4;
                 magazineSizeMaximum = 4;
             }
-            else if (selectedWeapon == (int)WEAPONS.COMPACT)
+            else if (selectedWeapon == (int)Weapons.Compact)
             {
                 caliberSizeMaximum = 4;
                 firespeedMaximum = 6;
                 magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.BAZOOKA)
+            else if (selectedWeapon == (int)Weapons.Bazooka)
             {
                 caliberSizeMaximum = 6;
                 firespeedMaximum = 4;
                 magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.HYBRID)
+            else if (selectedWeapon == (int)Weapons.Hybrid)
             {
                 caliberSizeMaximum = 6;
                 firespeedMaximum = 6;
@@ -353,11 +352,11 @@ namespace LooneyInvaders.Layers
 
         private void SetWeaponStatsStars()
         {
-            int caliberSize = Weapon.GetCaliberSize((WEAPONS)_selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((WEAPONS)_selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((WEAPONS)_selectedWeapon);
+            int caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
+            int firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
+            int magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
 
-            if (_selectedWeapon == (int)WEAPONS.STANDARD)
+            if (_selectedWeapon == (int)Weapons.Standard)
             {
                 _imgWeaponStatsStars[4].Visible = false; // calibre size 5
                 _imgWeaponStatsStars[5].Visible = false; // calibre size 6
@@ -366,7 +365,7 @@ namespace LooneyInvaders.Layers
                 _imgWeaponStatsStars[16].Visible = false; // magazine size 5
                 _imgWeaponStatsStars[17].Visible = false; // magazine size 6                
             }
-            else if (_selectedWeapon == (int)WEAPONS.COMPACT)
+            else if (_selectedWeapon == (int)Weapons.Compact)
             {
                 _imgWeaponStatsStars[4].Visible = false; // calibre size 5
                 _imgWeaponStatsStars[5].Visible = false; // calibre size 6
@@ -375,7 +374,7 @@ namespace LooneyInvaders.Layers
                 _imgWeaponStatsStars[16].Visible = true; // magazine size 5
                 _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
             }
-            else if (_selectedWeapon == (int)WEAPONS.BAZOOKA)
+            else if (_selectedWeapon == (int)Weapons.Bazooka)
             {
                 _imgWeaponStatsStars[4].Visible = true; // calibre size 5
                 _imgWeaponStatsStars[5].Visible = true; // calibre size 6
@@ -414,9 +413,9 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             if (Player.Instance.Credits > 30000)
             {
-                Player.Instance.AddWeapon((WEAPONS)_selectedWeapon);
+                Player.Instance.AddWeapon((Weapons)_selectedWeapon);
                 Player.Instance.Credits -= 30000;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CREDITPURCHASE);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
 
                 _btnWeaponBuy.Visible = false;
                 _btnWeaponUpgrade.Visible = true;
@@ -429,7 +428,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _btnBack.Enabled = false;
                 _btnForwardNoPasaran.Enabled = false;
                 _btnWeaponBuy.Enabled = false;
@@ -439,7 +438,7 @@ namespace LooneyInvaders.Layers
                 _btnCancel.Visible = true;
                 _btnGetCredits.Enabled = true;
                 _btnCancel.Enabled = true;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
 
                 _isHoldAnimations = true;
             }
@@ -481,7 +480,7 @@ namespace LooneyInvaders.Layers
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
             _imgGameTip = AddImage(14, 8, "UI/Choose-your-weapon-notification-background-with-all-text.png", 1500);
@@ -492,10 +491,10 @@ namespace LooneyInvaders.Layers
 
             _btnGameTipCheckMark = AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1510);
             _btnGameTipCheckMark.OnClick += btnGameTipCheckMark_OnClick;
-            _btnGameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _btnGameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _imgGameTipCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 1510);
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
 
         }
 
@@ -516,7 +515,7 @@ namespace LooneyInvaders.Layers
             _isHoldAnimations = false;
 
             //------------- Prabhjot ---------------//
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
 
             _isShowGameTipViewLoaded = false;
@@ -537,14 +536,14 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
             Shared.GameDelegate.ClearOnBackButtonEvent();
             CCAudioEngine.SharedEngine.StopAllEffects();
             _isHoldAnimations = true;
-  
+
             UnscheduleAll();
 
             TransitionToLayer(new EnemyPickerLayer());
@@ -555,14 +554,14 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
-            if (_selectedWeapon == (int)WEAPONS.HYBRID)
+            if (_selectedWeapon == (int)Weapons.Hybrid)
             {
                 UnscheduleAll();
-                TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.MOON, false));
+                TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
                 return;
             }
 
@@ -626,18 +625,18 @@ namespace LooneyInvaders.Layers
                 {
                     float distanceFromCentre = Math.Abs(570 - img.PositionX);
                     float distancePercentage = distanceFromCentre / 420.00f;
-                    
+
                     img.Scale = 1.0f - (0.4f * distancePercentage);
                     //img.PositionY = 230 - (75 * distancePercentage);
                 }
 
 
-                 // circular motion
-                 //if (img.PositionX > 2250) img.PositionX = -270 + img.PositionX - 2250;
-                 //else if (img.PositionX < -270) img.PositionX = 2250 + img.PositionX + 270;
+                // circular motion
+                //if (img.PositionX > 2250) img.PositionX = -270 + img.PositionX - 2250;
+                //else if (img.PositionX < -270) img.PositionX = 2250 + img.PositionX + 270;
 
-                 if (_centerImage == null) _centerImage = img;
-                 else if (Math.Abs(570 - img.PositionX) < Math.Abs(570 - _centerImage.PositionX)) _centerImage = img;
+                if (_centerImage == null) _centerImage = img;
+                else if (Math.Abs(570 - img.PositionX) < Math.Abs(570 - _centerImage.PositionX)) _centerImage = img;
 
 
 
@@ -653,7 +652,7 @@ namespace LooneyInvaders.Layers
 
             if (_centerImage.Tag != _selectedWeapon)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SWIPE);
+                GameEnvironment.PlaySoundEffect(SoundEffect.Swipe);
 
                 _selectedWeapon = _centerImage.Tag;
 
@@ -665,22 +664,22 @@ namespace LooneyInvaders.Layers
 
         private void SetWeaponDescription()
         {
-            if (_centerImage.Tag == (int)WEAPONS.STANDARD)
+            if (_centerImage.Tag == (int)Weapons.Standard)
             {
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-standard-gun-text-board-all.png");
                 _imgWeaponLocked.Visible = false;
             }
-            else if (_centerImage.Tag == (int)WEAPONS.COMPACT)
+            else if (_centerImage.Tag == (int)Weapons.Compact)
             {
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-compact-sprayer-text-board-all.png");
-                _imgWeaponLocked.Visible = !Player.Instance.GetWeapon(WEAPONS.COMPACT);
+                _imgWeaponLocked.Visible = !Player.Instance.GetWeapon(Weapons.Compact);
             }
-            else if (_centerImage.Tag == (int)WEAPONS.BAZOOKA)
+            else if (_centerImage.Tag == (int)Weapons.Bazooka)
             {
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-black-bazooka-text-board-all.png");
-                _imgWeaponLocked.Visible = !Player.Instance.GetWeapon(WEAPONS.BAZOOKA);
+                _imgWeaponLocked.Visible = !Player.Instance.GetWeapon(Weapons.Bazooka);
             }
-            else if (_centerImage.Tag == (int)WEAPONS.HYBRID)
+            else if (_centerImage.Tag == (int)Weapons.Hybrid)
             {
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-hybrid-defender-text-board-plain-text.png");
                 _imgWeaponLocked.Visible = false;
@@ -720,7 +719,7 @@ namespace LooneyInvaders.Layers
             float totalMovementX = 0;
 
             // inertial movement
-            if (_lastMovement != 0)
+            if (Math.Abs(_lastMovement) > AppConstants.TOLERANCE)
             {
                 float movementX = _lastMovement * 0.8f;
 
@@ -735,22 +734,26 @@ namespace LooneyInvaders.Layers
                 }
 
                 totalMovementX += movementX;
-            }            
-
-            // snap to center
-            if (_centerImage != null && _centerImage.PositionX != 570)
-            {
-                float differenceX = 570 - _centerImage.PositionX;
-                float snapMovement = differenceX / 5;
-
-                if (Math.Abs(snapMovement) < 0.5f) snapMovement = Math.Sign(snapMovement) * 0.5f;
-
-                totalMovementX += snapMovement;                
             }
 
-            if (Math.Abs(570 -_centerImage.PositionX) < 1) totalMovementX = 570 - _centerImage.PositionX;
+            // snap to center
+            if (_centerImage != null)
+            {
+                if (Math.Abs(_centerImage.PositionX - 570) > AppConstants.TOLERANCE)
+                {
+                    float differenceX = 570 - _centerImage.PositionX;
+                    float snapMovement = differenceX / 5;
 
-            if (totalMovementX == 0)
+                    if (Math.Abs(snapMovement) < 0.5f) snapMovement = Math.Sign(snapMovement) * 0.5f;
+
+                    totalMovementX += snapMovement;
+                }
+
+                if (Math.Abs(570 - _centerImage.PositionX) < 1)
+                    totalMovementX = 570 - _centerImage.PositionX;
+            }
+
+            if (Math.Abs(totalMovementX) < AppConstants.TOLERANCE)
             {
                 Unschedule(SnapToCentre);
 
@@ -773,15 +776,15 @@ namespace LooneyInvaders.Layers
             Unschedule(StartBowing);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (_centerImage.Tag == (int)WEAPONS.STANDARD) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Standard Gun VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.36f); }
-                else if (_centerImage.Tag == (int)WEAPONS.COMPACT) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Compact Sprayer VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
-                else if (_centerImage.Tag == (int)WEAPONS.BAZOOKA) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Black Bazooka VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.5f); }
-                else if (_centerImage.Tag == (int)WEAPONS.HYBRID) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Defender VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
+                if (_centerImage.Tag == (int)Weapons.Standard) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Standard Gun VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.36f); }
+                else if (_centerImage.Tag == (int)Weapons.Compact) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Compact Sprayer VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
+                else if (_centerImage.Tag == (int)Weapons.Bazooka) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Black Bazooka VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.5f); }
+                else if (_centerImage.Tag == (int)Weapons.Hybrid) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Defender VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
 
 
                 Schedule(StartFading, 0.025f);
-               
-               
+
+
             }
             else
             {
@@ -825,10 +828,10 @@ namespace LooneyInvaders.Layers
             {
                 CCAudioEngine.SharedEngine.StopAllEffects();
 
-                if (_centerImage.Tag == (int)WEAPONS.STANDARD) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Proper UK Service.wav");
-                else if (_centerImage.Tag == (int)WEAPONS.COMPACT) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Hardened Japan Service.wav");
-                else if (_centerImage.Tag == (int)WEAPONS.BAZOOKA) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Young Thug Service.wav");
-                else if (_centerImage.Tag == (int)WEAPONS.HYBRID) CCAudioEngine.SharedEngine.PlayEffect("Sounds/hybrid_defender_service.wav");
+                if (_centerImage.Tag == (int)Weapons.Standard) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Proper UK Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Compact) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Hardened Japan Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Bazooka) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Young Thug Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Hybrid) CCAudioEngine.SharedEngine.PlayEffect("Sounds/hybrid_defender_service.wav");
 
                 _startedBowing = true;
                 _bowTimePassed = 0;
@@ -838,10 +841,10 @@ namespace LooneyInvaders.Layers
 
             string imageNamePrefix = "";
 
-            if (_centerImage.Tag == (int)WEAPONS.STANDARD) imageNamePrefix = "UI/standard_gun_bow_";
-            else if (_centerImage.Tag == (int)WEAPONS.COMPACT) imageNamePrefix = "UI/compact-sprayer_bow_";
-            else if (_centerImage.Tag == (int)WEAPONS.BAZOOKA) imageNamePrefix = "UI/black_bazooka_bow_";
-            else if (_centerImage.Tag == (int)WEAPONS.HYBRID) imageNamePrefix = "UI/hybrid_defender_bow_";
+            if (_centerImage.Tag == (int)Weapons.Standard) imageNamePrefix = "UI/standard_gun_bow_";
+            else if (_centerImage.Tag == (int)Weapons.Compact) imageNamePrefix = "UI/compact-sprayer_bow_";
+            else if (_centerImage.Tag == (int)Weapons.Bazooka) imageNamePrefix = "UI/black_bazooka_bow_";
+            else if (_centerImage.Tag == (int)Weapons.Hybrid) imageNamePrefix = "UI/hybrid_defender_bow_";
 
             _bowingSpriteIndex = Convert.ToInt32(_bowTimePassed / 0.039f);
 
@@ -860,7 +863,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 _btnWeaponUpgrade.Opacity = (byte)imgOpacity;
-            }            
+            }
 
             _btnWeaponBuy.Opacity = (byte)imgOpacity;
             _imgWeaponLocked.Opacity = (byte)imgOpacity;
@@ -889,27 +892,27 @@ namespace LooneyInvaders.Layers
                 {
                     _btnWeaponUpgrade.Enabled = true;
                     _btnWeaponBuy.Enabled = _btnWeaponUpgrade.Enabled;
-                }                
+                }
             }
-            
+
             if (_bowingSpriteIndex == 0 || _bowingSpriteIndex > 63)
             {
                 _bowingSpriteIndex = 0;
                 string imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
-                
+
                 Unschedule(StartBowing);
 
                 _centerImage.Scale = 1f;
 
-                ChangeSpriteImage(_centerImage, imageName);                
+                ChangeSpriteImage(_centerImage, imageName);
             }
             else
             {
                 if (GameEnvironment.GetTotalRamSizeMb() > 500)
                 {
-                    string imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
+                    //string imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
 
-                    CCSpriteFrame frame = GameAnimation.Instance.GetWeaponBowFrame((WEAPONS)_centerImage.Tag, _bowingSpriteIndex);
+                    CCSpriteFrame frame = GameAnimation.Instance.GetWeaponBowFrame((Weapons)_centerImage.Tag, _bowingSpriteIndex);
 
                     _centerImage.Scale = 2f;
 
@@ -929,26 +932,26 @@ namespace LooneyInvaders.Layers
             _btnTestProperties.Opacity = 0;
             _btnTestProperties.Enabled = false;
             _btnWeaponBuy.Opacity = 0;
-            _imgWeaponLocked.Opacity = 0;            
+            _imgWeaponLocked.Opacity = 0;
             _btnWeaponBuy.Enabled = false;
             _labelOpacity = 0;
 
-            if (_centerImage.Tag == (int)WEAPONS.STANDARD)
+            if (_centerImage.Tag == (int)Weapons.Standard)
             {
                 ChangeSpriteImage(_centerImage, "UI/standard_gun_bow_00.png");
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-standard-gun-text-board-all.png");
             }
-            else if (_centerImage.Tag == (int)WEAPONS.COMPACT)
+            else if (_centerImage.Tag == (int)Weapons.Compact)
             {
                 ChangeSpriteImage(_centerImage, "UI/compact-sprayer_bow_00.png");
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-compact-sprayer-text-board-all.png");
             }
-            else if (_centerImage.Tag == (int)WEAPONS.BAZOOKA)
+            else if (_centerImage.Tag == (int)Weapons.Bazooka)
             {
                 ChangeSpriteImage(_centerImage, "UI/black_bazooka_bow_00.png");
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-black-bazooka-text-board-all.png");
             }
-            else if (_centerImage.Tag == (int)WEAPONS.HYBRID)
+            else if (_centerImage.Tag == (int)Weapons.Hybrid)
             {
                 ChangeSpriteImage(_centerImage, "UI/hybrid_defender_bow_00.png");
                 ChangeSpriteImage(_imgWeaponDescription, "UI/Choose-your-weapon-hybrid-defender-text-board-plain-text.png");

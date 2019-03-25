@@ -24,6 +24,7 @@ using LooneyInvaders.Services.PNS;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using NotificationCenter;
+using LaunchMode = Android.Content.PM.LaunchMode;
 
 namespace LooneyInvaders.Droid
 {
@@ -201,7 +202,7 @@ namespace LooneyInvaders.Droid
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
 
-            if (!Model.UserManager.IsUserGUIDSet) Model.UserManager.GenerateGUID();
+            if (!Model.UserManager.IsUserGuidSet) Model.UserManager.GenerateGuid();
 
             // start the game
             CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
@@ -274,7 +275,7 @@ namespace LooneyInvaders.Droid
             string id = jsonDocList[0].GetDocId();
             string playerName = "player_" + id.Substring(id.Length - 9, 8);
 
-            Model.UserManager.UserGUID = guid;
+            Model.UserManager.UserGuid = guid;
             Player.Instance.Name = playerName;
 
             json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
@@ -299,7 +300,7 @@ namespace LooneyInvaders.Droid
                 IList<Storage.JSONDocument> jsonDocList = storage.GetJsonDocList();
 
                 if (jsonDocList.Count == 0) return true; // no user
-                if (jsonDocList[0].GetJsonDoc().Contains(Model.UserManager.UserGUID)) return true; // this user
+                if (jsonDocList[0].GetJsonDoc().Contains(Model.UserManager.UserGuid)) return true; // this user
             }
             catch (App42NotFoundException)
             {
@@ -319,7 +320,7 @@ namespace LooneyInvaders.Droid
 
             string dbName = "users";
             string collectionName = "users";
-            string guid = Model.UserManager.UserGUID;
+            string guid = Model.UserManager.UserGuid;
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
             StorageService storageService = App42API.BuildStorageService();
@@ -333,7 +334,7 @@ namespace LooneyInvaders.Droid
             }
             catch (App42NotFoundException)
             {
-                Model.UserManager.GenerateGUID();
+                Model.UserManager.GenerateGuid();
 
                 try
                 {
@@ -579,7 +580,7 @@ namespace LooneyInvaders.Droid
 
             // ----------- Prabhjot ----------- //
 
-            if (Settings.isFromGameScreen)
+            if (Settings.IsFromGameScreen)
             {
                 NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
             }
@@ -731,9 +732,9 @@ namespace LooneyInvaders.Droid
                 {
                     if (game.GetScoreList()[0].GetValue() > 0)
                     {
-                        if (type == LeaderboardType.REGULAR)
+                        if (type == LeaderboardType.Regular)
                             return LeaderboardManager.DecodeScoreRegular(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
-                        if (type == LeaderboardType.PRO)
+                        if (type == LeaderboardType.Pro)
                             return LeaderboardManager.DecodeScorePro(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
                     }
                 }
@@ -775,10 +776,10 @@ namespace LooneyInvaders.Droid
                     //var t = ex;
                 }
 
-                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.REGULAR);
-                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.REGULAR);
-                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.REGULAR);
-                LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(scoreBoardService, "Looney Earth Alltime", LeaderboardType.REGULAR);
+                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(scoreBoardService, "Looney Earth Alltime", LeaderboardType.Regular);
             }
             else
             {
@@ -794,10 +795,10 @@ namespace LooneyInvaders.Droid
                 scoreBoardService.SaveUserScore("Looney Moon Monthly", Player.Instance.Name, gameScorePro);
                 scoreBoardService.SaveUserScore("Looney Moon Alltime", Player.Instance.Name, gameScorePro);
 
-                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.PRO);
-                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.PRO);
-                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.PRO);
-                LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(scoreBoardService, "Looney Moon Alltime", LeaderboardType.PRO);
+                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(scoreBoardService, "Looney Moon Alltime", LeaderboardType.Pro);
             }
         }
 
@@ -817,9 +818,9 @@ namespace LooneyInvaders.Droid
                         {
                             LeaderboardItem lbi = null;
 
-                            if (type == LeaderboardType.REGULAR)
+                            if (type == LeaderboardType.Regular)
                                 lbi = LeaderboardManager.DecodeScoreRegular(i + 1, game.GetScoreList()[i].GetUserName(), game.GetScoreList()[i].GetValue());
-                            else if (type == LeaderboardType.PRO)
+                            else if (type == LeaderboardType.Pro)
                                 lbi = LeaderboardManager.DecodeScorePro(i + 1, game.GetScoreList()[i].GetUserName(), game.GetScoreList()[i].GetValue());
 
                             if (lbi != null) scoreList.Add(lbi);
@@ -850,16 +851,16 @@ namespace LooneyInvaders.Droid
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
         {
-            if (leaderboard.Type == LeaderboardType.REGULAR) Console.WriteLine("Leaderboard refresh - REGULAR");
-            else if (leaderboard.Type == LeaderboardType.PRO) Console.WriteLine("Leaderboard refresh - PRO");
+            if (leaderboard.Type == LeaderboardType.Regular) Console.WriteLine("Leaderboard refresh - REGULAR");
+            else if (leaderboard.Type == LeaderboardType.Pro) Console.WriteLine("Leaderboard refresh - PRO");
             else Console.WriteLine("Leaderboard refresh - ???");
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
 
             string gameName;
 
-            if (leaderboard.Type == LeaderboardType.REGULAR) gameName = "Looney Earth";
-            else if (leaderboard.Type == LeaderboardType.PRO) gameName = "Looney Moon";
+            if (leaderboard.Type == LeaderboardType.Regular) gameName = "Looney Earth";
+            else if (leaderboard.Type == LeaderboardType.Pro) gameName = "Looney Moon";
             else return;
 
             ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
@@ -872,18 +873,18 @@ namespace LooneyInvaders.Droid
             FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreMonthly, gameName + " Monthly");
             FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreAllTime, gameName + " Alltime");
 
-            if (leaderboard.Type == LeaderboardType.REGULAR)
+            if (leaderboard.Type == LeaderboardType.Regular)
             {
-                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.REGULAR);
-                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.REGULAR);
-                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.REGULAR);
+                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.Regular);
                 //LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularAlltime = getPlayerRanking(scoreBoardService, "Looney Earth Alltime", LooneyInvaders.Model.LeaderboardType.REGULAR);
             }
-            else if (leaderboard.Type == LeaderboardType.PRO)
+            else if (leaderboard.Type == LeaderboardType.Pro)
             {
-                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.PRO);
-                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.PRO);
-                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.PRO);
+                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.Pro);
                 //LooneyInvaders.Model.LeaderboardManager.PlayerRankProAlltime = getPlayerRanking(scoreBoardService, "Looney Moon Alltime", LooneyInvaders.Model.LeaderboardType.PRO);
             }
 

@@ -53,7 +53,7 @@ namespace LooneyInvaders.Classes
             return sprite;
         }
 
-        public CCSpriteButton AddButton(int x, int y, string imageNameUntapped, string imageNameTapped, int zOrder = 100, BUTTON_TYPE buttonType = BUTTON_TYPE.Regular)
+        public CCSpriteButton AddButton(int x, int y, string imageNameUntapped, string imageNameTapped, int zOrder = 100, ButtonType buttonType = ButtonType.Regular)
         {
             var sprite = new CCSpriteButton(GameEnvironment.ImageDirectory + imageNameUntapped, GameEnvironment.ImageDirectory + imageNameTapped);
             sprite.AnchorPoint = new CCPoint(0, 0);

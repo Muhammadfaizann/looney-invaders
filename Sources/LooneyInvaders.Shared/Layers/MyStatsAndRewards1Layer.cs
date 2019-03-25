@@ -32,23 +32,23 @@ namespace LooneyInvaders.Layers
 
             SetBackground("UI/Curtain-and-paper-background.jpg");
 
-            var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 485, BUTTON_TYPE.Back);
+            var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 485, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-            var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
+            var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
             btnBackThrow.OnClick += BtnBackThrow_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
 
-            var btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 485, BUTTON_TYPE.Forward);
+            var btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 485, ButtonType.Forward);
             btnForward.OnClick += BtnForward_OnClick;
 
             _btnDateFormat = AddTwoStateButton(375, 480, "UI/My-stats-&-rewards-page1-week-button-untapped.png", "UI/My-stats-&-rewards-page1-week-button-tapped.png", "UI/My-stats-&-rewards-page1-month-button-untapped.png", "UI/My-stats-&-rewards-page1-month-button-tapped.png", 485);
-            _btnDateFormat.ButtonType = BUTTON_TYPE.OnOff;
+            _btnDateFormat.ButtonType = ButtonType.OnOff;
             _btnDateFormat.OnClick += OnBtnDateFormatClicked;
 
             _btnGameType = AddTwoStateButton(540, 480, "UI/My-stats-&-rewards-page1-regular-button-untapped.png", "UI/My-stats-&-rewards-page1-regular-button-tapped.png", "UI/My-stats-&-rewards-page1-pro-button-untapped.png", "UI/My-stats-&-rewards-page1-pro-button-tapped.png", 485);
-            _btnGameType.ButtonType = BUTTON_TYPE.OnOff;
+            _btnGameType.ButtonType = ButtonType.OnOff;
             _btnGameType.OnClick += OnBtnGameTypeClicked;
 
             AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png", 485);
@@ -65,10 +65,10 @@ namespace LooneyInvaders.Layers
             AddImage(0, 0, "UI/My-stats-&-rewards-page1-security-pattern.png", 480);
             AddImage(30, 0, "UI/My-stats-&-rewards-LOONEY-INVADER-time-zone-info-text.png", 485);
 
-            DrawWeekStatistic(LeaderboardType.REGULAR);
-            DrawWeekStatistic(LeaderboardType.PRO);
-            DrawMonthStatistic(LeaderboardType.REGULAR);
-            DrawMonthStatistic(LeaderboardType.PRO);
+            DrawWeekStatistic(LeaderboardType.Regular);
+            DrawWeekStatistic(LeaderboardType.Pro);
+            DrawMonthStatistic(LeaderboardType.Regular);
+            DrawMonthStatistic(LeaderboardType.Pro);
             GetBaseStatistics();
 
             ChangeBtnsState();
@@ -76,7 +76,7 @@ namespace LooneyInvaders.Layers
 
         private void InitBestOfAllTime(LeaderboardType leaderboardType, CCNodeExt drawOn)
         {
-            var bestOfAllTime = Player.Instance.GetBestScoreAllTime(leaderboardType == LeaderboardType.REGULAR ? false : true);
+            var bestOfAllTime = Player.Instance.GetBestScoreAllTime(leaderboardType == LeaderboardType.Regular ? false : true);
 
             CreateTwoPartInfo(190, 52, "UI/My-stats-&-rewards-page1-best-of-all-time.png", bestOfAllTime.ToString(), true, drawOn);
         }
@@ -286,7 +286,7 @@ namespace LooneyInvaders.Layers
 
         int GetBestScoreOfWeek(LeaderboardType leaderboardType)
         {
-            return leaderboardType == LeaderboardType.PRO ? _bestWeekScorePro : _bestWeekScoreRegular;
+            return leaderboardType == LeaderboardType.Pro ? _bestWeekScorePro : _bestWeekScoreRegular;
         }
 
         int GetBestScoreOfLastWeek(LeaderboardType leaderboardType)
@@ -298,7 +298,7 @@ namespace LooneyInvaders.Layers
 
             for (var day = 0; day < Enum.GetValues(typeof(DayOfWeek)).Length; day++)
             {
-                var isPro = leaderboardType == LeaderboardType.PRO;
+                var isPro = leaderboardType == LeaderboardType.Pro;
                 listOfDayScore.Add(Player.Instance.GetDayScore(weekStartDay.AddDays(day), isPro));
 
                 if (weekStartDay.AddDays(day) >= DateTime.Now.AddMinutes(-15).AddSeconds(-10).Date)
@@ -312,7 +312,7 @@ namespace LooneyInvaders.Layers
 
         int GetBestScoreOfMonth(LeaderboardType leaderboardType)
         {
-            return leaderboardType == LeaderboardType.PRO ? _bestMonthScorePro : _bestMonthScoreRegular;
+            return leaderboardType == LeaderboardType.Pro ? _bestMonthScorePro : _bestMonthScoreRegular;
         }
 
         int GetBestScoreOfLastMonth(LeaderboardType leaderboardType)
@@ -323,7 +323,7 @@ namespace LooneyInvaders.Layers
 
             for (var day = 1; day < lastMonthDays + 1; day++)
             {
-                var isPro = leaderboardType == LeaderboardType.PRO;
+                var isPro = leaderboardType == LeaderboardType.Pro;
                 var sscore = Player.Instance.GetDayScore(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-1).Month, day), isPro);
 
                 if (sscore > bestOfLastMonth)
@@ -336,7 +336,7 @@ namespace LooneyInvaders.Layers
         void DrawWeekStatistic(LeaderboardType leaderboardType)
         {
             CCNodeExt currentNode;
-            if (leaderboardType == LeaderboardType.REGULAR)
+            if (leaderboardType == LeaderboardType.Regular)
             {
                 _pageWeekRegular = new CCNodeExt();
                 currentNode = _pageWeekRegular;
@@ -366,7 +366,7 @@ namespace LooneyInvaders.Layers
 
             if (weeklyScore.Count > 0)
             {
-                if (leaderboardType == LeaderboardType.PRO)
+                if (leaderboardType == LeaderboardType.Pro)
                 {
                     _bestWeekScorePro = weeklyScore.Max();
                     maxRounded = RoundToTop(_bestWeekScorePro);
@@ -379,7 +379,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                if (leaderboardType == LeaderboardType.PRO)
+                if (leaderboardType == LeaderboardType.Pro)
                     _bestWeekScorePro = 0;
                 else
                     _bestWeekScoreRegular = 0;
@@ -438,7 +438,7 @@ namespace LooneyInvaders.Layers
                         break;
                 }
 
-                var isPro = leaderboardType == LeaderboardType.PRO;
+                var isPro = leaderboardType == LeaderboardType.Pro;
                 listOfDayScore.Add(Player.Instance.GetDayScore(weekStartDay.AddDays(day), isPro));
 
             }
@@ -449,7 +449,7 @@ namespace LooneyInvaders.Layers
         void DrawMonthStatistic(LeaderboardType leaderboardType)
         {
             CCNodeExt currentNode;
-            if (leaderboardType == LeaderboardType.REGULAR)
+            if (leaderboardType == LeaderboardType.Regular)
             {
                 _pageMonthRegular = new CCNodeExt();
                 currentNode = _pageMonthRegular;
@@ -477,7 +477,7 @@ namespace LooneyInvaders.Layers
 
             if (monthScore.Count > 0)
             {
-                if (leaderboardType == LeaderboardType.PRO)
+                if (leaderboardType == LeaderboardType.Pro)
                 {
                     _bestMonthScorePro = monthScore.Max();
                     maxRounded = RoundToTop(_bestMonthScorePro);
@@ -490,7 +490,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                if (leaderboardType == LeaderboardType.PRO)
+                if (leaderboardType == LeaderboardType.Pro)
                     _bestMonthScorePro = 0;
                 else
                     _bestMonthScoreRegular = 0;
@@ -524,7 +524,7 @@ namespace LooneyInvaders.Layers
             for (var day = 1; day < dayTo + 1; day++)
             {
 
-                var isPro = leaderboardType == LeaderboardType.PRO;
+                var isPro = leaderboardType == LeaderboardType.Pro;
                 listOfDayliScore.Add(Player.Instance.GetDayScore(new DateTime(DateTime.Now.AddMinutes(-15).AddSeconds(-10).Year, DateTime.Now.AddMinutes(-15).AddSeconds(-10).Month, day), isPro));
             }
 

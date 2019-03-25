@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using System.Threading.Tasks;
@@ -25,28 +23,28 @@ namespace LooneyInvaders.Layers
             SetBackground("UI/Curtain-and-paper-background.jpg");
 
 
-            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(WEAPONS.COMPACT, null)) { }
+            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(Weapons.Compact, null)) { }
 
-            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-			CCSpriteButton btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
+			CCSpriteButton btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
             btnBackThrow.OnClick += BtnBackThrow_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
 
-            CCSpriteButton btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            CCSpriteButton btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
             btnForward.OnClick += BtnForward_OnClick;
 
 			AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
             AddImage(829, 592, "UI/My-stats-&-rewards-page3_8--text.png");
             AddImage(191, 495, "UI/My-stats-&-rewards-reward-compact-sprayer-text.png");
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(WEAPONS.COMPACT, null, 0);
+            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(Weapons.Compact, null, 0);
             _imgGun = AddImage(118, 80, frame);
             _imgGun.Scale = 2.0f;
 
-            if (Player.Instance.GetWeapon(WEAPONS.COMPACT))
+            if (Player.Instance.GetWeapon(Weapons.Compact))
             {
                 AddImage(260, 95, "UI/My-stats-&-rewards-reward-unlocked.png");
 
@@ -63,7 +61,7 @@ namespace LooneyInvaders.Layers
                 _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
 
                 _btnSend = AddButton(185, 42, "UI/check-button-tapped.png", "UI/check-button-tapped.png");
-                _btnSend.ButtonType = BUTTON_TYPE.CannotTap;
+                _btnSend.ButtonType = ButtonType.CannotTap;
 
                 AddImage(260, 95, "UI/My-stats-&-rewards-reward-locked.png");
             }
@@ -94,7 +92,7 @@ namespace LooneyInvaders.Layers
             _lblCode = AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
 
             await Task.Run(() => {
-                _code = RewardsManager.GetWeaponRewardCode(WEAPONS.COMPACT);
+                _code = RewardsManager.GetWeaponRewardCode(Weapons.Compact);
                 Schedule(DisplayCode, 0.1f);
             });
         }
@@ -129,7 +127,7 @@ namespace LooneyInvaders.Layers
             if (_currentGunFrame < 47) _currentGunFrame++;
             else _currentGunFrame = 0;
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(WEAPONS.COMPACT, null, _currentGunFrame);
+            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(Weapons.Compact, null, _currentGunFrame);
 
             ChangeSpriteImage(_imgGun, frame);
         }

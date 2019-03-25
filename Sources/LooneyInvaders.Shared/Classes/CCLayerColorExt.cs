@@ -110,7 +110,7 @@ namespace LooneyInvaders.Classes
         }
 
         public CCSpriteButton AddButton(int x, int y, string imageNameUntapped, string imageNameTapped,
-            int zOrder = 100, BUTTON_TYPE buttonType = BUTTON_TYPE.Regular)
+            int zOrder = 100, ButtonType buttonType = ButtonType.Regular)
         {
             var sprite = new CCSpriteButton(GameEnvironment.ImageDirectory + imageNameUntapped, GameEnvironment.ImageDirectory + imageNameTapped);
             sprite.AnchorPoint = new CCPoint(0, 0);
@@ -363,35 +363,35 @@ namespace LooneyInvaders.Classes
 
                             CCAudioEngine.SharedEngine.StopAllEffects();
 
-                            if (button.ButtonType == BUTTON_TYPE.Back)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_BACK);
-                            else if (button.ButtonType == BUTTON_TYPE.Forward)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_FORWARD);
-                            else if (button.ButtonType == BUTTON_TYPE.VolumeUp ||
-                                     button.ButtonType == BUTTON_TYPE.VolumeDown)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_VOLUME_CHANGE);
-                            else if (button.ButtonType == BUTTON_TYPE.Minus)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
-                            else if (button.ButtonType == BUTTON_TYPE.Plus)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
-                            else if (button.ButtonType == BUTTON_TYPE.CannotTap)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                            else if (button.ButtonType == BUTTON_TYPE.CheckMark)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CHECKMARK);
-                            else if (button.ButtonType == BUTTON_TYPE.CreditPurchase)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CREDITPURCHASE);
-                            else if (button.ButtonType == BUTTON_TYPE.Link)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CLICK_LINK);
-                            else if (button.ButtonType == BUTTON_TYPE.Rewind)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWIND);
-                            else if (button.ButtonType == BUTTON_TYPE.OnOff && button is CCSpriteTwoStateButton &&
+                            if (button.ButtonType == ButtonType.Back)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
+                            else if (button.ButtonType == ButtonType.Forward)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
+                            else if (button.ButtonType == ButtonType.VolumeUp ||
+                                     button.ButtonType == ButtonType.VolumeDown)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
+                            else if (button.ButtonType == ButtonType.Minus)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
+                            else if (button.ButtonType == ButtonType.Plus)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
+                            else if (button.ButtonType == ButtonType.CannotTap)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                            else if (button.ButtonType == ButtonType.CheckMark)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
+                            else if (button.ButtonType == ButtonType.CreditPurchase)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+                            else if (button.ButtonType == ButtonType.Link)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
+                            else if (button.ButtonType == ButtonType.Rewind)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
+                            else if (button.ButtonType == ButtonType.OnOff && button is CCSpriteTwoStateButton &&
                                      ((CCSpriteTwoStateButton)button).State == 1)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.OFF);
-                            else if (button.ButtonType == BUTTON_TYPE.OnOff && button is CCSpriteTwoStateButton &&
+                                GameEnvironment.PlaySoundEffect(SoundEffect.Off);
+                            else if (button.ButtonType == ButtonType.OnOff && button is CCSpriteTwoStateButton &&
                                      ((CCSpriteTwoStateButton)button).State == 2)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ON);
-                            else if (button.ButtonType != BUTTON_TYPE.Silent)
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP);
+                                GameEnvironment.PlaySoundEffect(SoundEffect.On);
+                            else if (button.ButtonType != ButtonType.Silent)
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
 
                             button.IsBeingTapped = true;
                             button.Texture = new CCTexture2D(button.ImageNameTapped);
@@ -411,37 +411,37 @@ namespace LooneyInvaders.Classes
 
                                     CCAudioEngine.SharedEngine.StopAllEffects();
 
-                                    if (button.ButtonType == BUTTON_TYPE.Back)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_BACK);
-                                    else if (button.ButtonType == BUTTON_TYPE.Forward)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_FORWARD);
-                                    else if (button.ButtonType == BUTTON_TYPE.VolumeUp ||
-                                             button.ButtonType == BUTTON_TYPE.VolumeDown)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_VOLUME_CHANGE);
-                                    else if (button.ButtonType == BUTTON_TYPE.Minus)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
-                                    else if (button.ButtonType == BUTTON_TYPE.Plus)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
-                                    else if (button.ButtonType == BUTTON_TYPE.CannotTap)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                                    else if (button.ButtonType == BUTTON_TYPE.CheckMark)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CHECKMARK);
-                                    else if (button.ButtonType == BUTTON_TYPE.CreditPurchase)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CREDITPURCHASE);
-                                    else if (button.ButtonType == BUTTON_TYPE.Link)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CLICK_LINK);
-                                    else if (button.ButtonType == BUTTON_TYPE.Rewind)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWIND);
-                                    else if (button.ButtonType == BUTTON_TYPE.OnOff &&
+                                    if (button.ButtonType == ButtonType.Back)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
+                                    else if (button.ButtonType == ButtonType.Forward)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
+                                    else if (button.ButtonType == ButtonType.VolumeUp ||
+                                             button.ButtonType == ButtonType.VolumeDown)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
+                                    else if (button.ButtonType == ButtonType.Minus)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
+                                    else if (button.ButtonType == ButtonType.Plus)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
+                                    else if (button.ButtonType == ButtonType.CannotTap)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                                    else if (button.ButtonType == ButtonType.CheckMark)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
+                                    else if (button.ButtonType == ButtonType.CreditPurchase)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+                                    else if (button.ButtonType == ButtonType.Link)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
+                                    else if (button.ButtonType == ButtonType.Rewind)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
+                                    else if (button.ButtonType == ButtonType.OnOff &&
                                              button is CCSpriteTwoStateButton &&
                                              ((CCSpriteTwoStateButton)button).State == 1)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.OFF);
-                                    else if (button.ButtonType == BUTTON_TYPE.OnOff &&
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.Off);
+                                    else if (button.ButtonType == ButtonType.OnOff &&
                                              button is CCSpriteTwoStateButton &&
                                              ((CCSpriteTwoStateButton)button).State == 2)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ON);
-                                    else if (button.ButtonType != BUTTON_TYPE.Silent)
-                                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP);
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.On);
+                                    else if (button.ButtonType != ButtonType.Silent)
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
 
                                     button.IsBeingTapped = true;
                                     button.Texture = new CCTexture2D(button.ImageNameTapped);
@@ -622,12 +622,12 @@ namespace LooneyInvaders.Classes
 
             // source          
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP1);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP2);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP3);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP4);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP5);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.TRANSITION_LOOP6);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop2);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop3);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop4);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop5);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop6);
 
             var framesSource = new List<CCSpriteFrame>();
             framesSource.Add(new CCSpriteFrame(
@@ -673,32 +673,32 @@ namespace LooneyInvaders.Classes
 
         private void playEffect1(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP1);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1);
         }
 
         private void playEffect2(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP2);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2);
         }
 
         private void playEffect3(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP3);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3);
         }
 
         private void playEffect4(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP4);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4);
         }
 
         private void playEffect5(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP5);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5);
         }
 
         private void playEffect6(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TRANSITION_LOOP6);
+            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6);
         }
 
 

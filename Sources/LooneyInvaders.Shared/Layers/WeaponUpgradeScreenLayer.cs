@@ -89,40 +89,40 @@ namespace LooneyInvaders.Layers
 
             _credits = Player.Instance.Credits;
 
-            _caliberSizeMinimum = Weapon.GetCaliberSize((WEAPONS)selectedWeapon);
-            _firespeedMinimum = Weapon.GetFirespeed((WEAPONS)selectedWeapon);
+            _caliberSizeMinimum = Weapon.GetCaliberSize((Weapons)selectedWeapon);
+            _firespeedMinimum = Weapon.GetFirespeed((Weapons)selectedWeapon);
             _magazineSizeMinimum = 1;
             _livesMinimum = 1;
-            _magazineSizeMinimum = Weapon.GetMagazineSize((WEAPONS)selectedWeapon);
-            _livesMinimum = Weapon.GetLives((WEAPONS)selectedWeapon);
+            _magazineSizeMinimum = Weapon.GetMagazineSize((Weapons)selectedWeapon);
+            _livesMinimum = Weapon.GetLives((Weapons)selectedWeapon);
 
             _livesMaximum = 7;
             _firespeedMaximum = 5;
             _caliberSizeMaximum = 5;
             _magazineSize = 1;
 
-            if (selectedWeapon == (int)WEAPONS.STANDARD)
+            if (selectedWeapon == (int)Weapons.Standard)
             {
                 SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
                 _caliberSizeMaximum = 4;
                 _firespeedMaximum = 4;
                 _magazineSizeMaximum = 4;
             }
-            else if (selectedWeapon == (int)WEAPONS.COMPACT)
+            else if (selectedWeapon == (int)Weapons.Compact)
             {
                 SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
                 _caliberSizeMaximum = 4;
                 _firespeedMaximum = 6;
                 _magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.BAZOOKA)
+            else if (selectedWeapon == (int)Weapons.Bazooka)
             {
                 SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
                 _caliberSizeMaximum = 6;
                 _firespeedMaximum = 4;
                 _magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.HYBRID)
+            else if (selectedWeapon == (int)Weapons.Hybrid)
             {
                 SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
                 _caliberSizeMaximum = 6;
@@ -147,30 +147,30 @@ namespace LooneyInvaders.Layers
             _magazineSizePrice = GetMagazineSizePrice();
             _livesPrice = GetLivesPrice();
 
-            if (selectedWeapon == (int)WEAPONS.STANDARD) SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
-            else if (selectedWeapon == (int)WEAPONS.COMPACT) SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
-            else if (selectedWeapon == (int)WEAPONS.BAZOOKA) SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
-            else if (selectedWeapon == (int)WEAPONS.HYBRID) SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
+            if (selectedWeapon == (int)Weapons.Standard) SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
+            else if (selectedWeapon == (int)Weapons.Compact) SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
+            else if (selectedWeapon == (int)Weapons.Bazooka) SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
+            else if (selectedWeapon == (int)Weapons.Hybrid) SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
 
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
             AddImage(233, 566, "UI/get-more-firepower-upgrade-your-weapon-text.png");
 
             _btnCalibreDecrease = AddButton(30, 508, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnCalibreDecrease.OnClick += BtnCalibreDecrease_OnClick;
-            _btnCalibreDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnCalibreDecrease.ButtonType = ButtonType.Silent;
 
             _btnCalibreIncrease = AddButton(105, 505, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnCalibreIncrease.OnClick += BtnCalibreIncrease_OnClick;
-            _btnCalibreIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnCalibreIncrease.ButtonType = ButtonType.Silent;
 
             AddImage(169, 500, "UI/get-more-firepower-increase-caliber-size-text.png");
 
@@ -185,11 +185,11 @@ namespace LooneyInvaders.Layers
 
             _btnFirespeedDecrease = AddButton(30, 445, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnFirespeedDecrease.OnClick += BtnFirespeedDecrease_OnClick;
-            _btnFirespeedDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnFirespeedDecrease.ButtonType = ButtonType.Silent;
 
             _btnFirespeedIncrease = AddButton(105, 443, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnFirespeedIncrease.OnClick += BtnFirespeedIncrease_OnClick;
-            _btnFirespeedIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnFirespeedIncrease.ButtonType = ButtonType.Silent;
 
             AddImage(163, 440, "UI/get-more-firepower-increase-firespeedr-text.png");
 
@@ -204,11 +204,11 @@ namespace LooneyInvaders.Layers
 
             _btnMagazineSizeDecrease = AddButton(30, 381, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnMagazineSizeDecrease.OnClick += BtnMagazineSizeDecrease_OnClick;
-            _btnMagazineSizeDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnMagazineSizeDecrease.ButtonType = ButtonType.Silent;
 
             _btnMagazineSizeIncrease = AddButton(105, 378, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnMagazineSizeIncrease.OnClick += BtnMagazineSizeIncrease_OnClick;
-            _btnMagazineSizeIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnMagazineSizeIncrease.ButtonType = ButtonType.Silent;
 
             AddImage(168, 373, "UI/get-more-firepower-increase-magazine-size-text.png");
 
@@ -223,11 +223,11 @@ namespace LooneyInvaders.Layers
 
             _btnLivesDecrease = AddButton(30, 319, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnLivesDecrease.OnClick += _btnLivesDecrease_OnClick;
-            _btnLivesDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnLivesDecrease.ButtonType = ButtonType.Silent;
 
             _btnLivesIncrease = AddButton(105, 317, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnLivesIncrease.OnClick += _btnLivesIncrease_OnClick;
-            _btnLivesIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnLivesIncrease.ButtonType = ButtonType.Silent;
 
             AddImage(167, 313, "UI/get-more-firepower-get-more-lives-text.png");
 
@@ -253,7 +253,7 @@ namespace LooneyInvaders.Layers
             _btnTestModification.OnClick += _btnTestModification_OnClick;
 
             _btnBuy = AddButton(2, 10, "UI/get-more-firepower-implement-upgrade-button-untapped.png", "UI/get-more-firepower-implement-upgrade-button-tapped.png");
-            _btnBuy.ButtonType = BUTTON_TYPE.Silent;
+            _btnBuy.ButtonType = ButtonType.Silent;
             _btnBuy.OnClick += BtnBuy_OnClick;
 
             _btnGetMoreCredits = AddButton(713, 10, "UI/get-more-firepower-get-more-credits-button-untapped.png", "UI/get-more-firepower-get-more-credits-button-tapped.png");
@@ -292,7 +292,7 @@ namespace LooneyInvaders.Layers
             _btnNoBuyExit.Visible = false;
             _btnNoBuyExit.Enabled = false;
 
-            GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+            GameEnvironment.PlayMusic(Music.MainMenu);
         }
 
         private void SetCreditsVisibility()
@@ -360,7 +360,7 @@ namespace LooneyInvaders.Layers
 
         private void _btnTestModification_OnClick(object sender, EventArgs e)
         {
-            TransitionToLayer(new GamePlayLayer(ENEMIES.TRUMP, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.WHITE_HOUSE, false, _caliberSize, _firespeed, _magazineSize, _lives, (ENEMIES)_selectedEnemy, LAUNCH_MODE.WEAPONS_UPGRADE_TEST));
+            TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, _caliberSize, _firespeed, _magazineSize, _lives, (Enemies)_selectedEnemy, LaunchMode.WeaponsUpgradeTest));
         }
 
         private void _btnGetCredits_OnClick(object sender, EventArgs e)
@@ -374,7 +374,7 @@ namespace LooneyInvaders.Layers
         {
             //------------- Prabhjot ---------------//
 
-            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
 
@@ -396,7 +396,7 @@ namespace LooneyInvaders.Layers
             _btnGetCredits.Enabled = true;
             _btnCancel.Enabled = true;
             //_isPopupShiving = true;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
         }
 
         private void HideGameTip()
@@ -404,7 +404,7 @@ namespace LooneyInvaders.Layers
 
             //------------- Prabhjot ---------------//
 
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
 
 
@@ -452,27 +452,27 @@ namespace LooneyInvaders.Layers
                     _magazineSizeMinimum = _magazineSize;
                     _livesMinimum = _lives;
 
-                    Weapon.SetCaliberSize((WEAPONS)_selectedWeapon, _caliberSize);
-                    Weapon.SetFirespeed((WEAPONS)_selectedWeapon, _firespeed);
-                    Weapon.SetMagazineSize((WEAPONS)_selectedWeapon, _magazineSize);
-                    Weapon.SetLives((WEAPONS)_selectedWeapon, _lives);
+                    Weapon.SetCaliberSize((Weapons)_selectedWeapon, _caliberSize);
+                    Weapon.SetFirespeed((Weapons)_selectedWeapon, _firespeed);
+                    Weapon.SetMagazineSize((Weapons)_selectedWeapon, _magazineSize);
+                    Weapon.SetLives((Weapons)_selectedWeapon, _lives);
                     Player.Instance.Credits -= totalPrice;
 
 
 
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CREDITPURCHASE);
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
                     SetStatsImages();
                     _lblWeaponUpgraded.Visible = true;
                 }
                 else
                 {
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                     ShowGameTip();
                 }
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 SetStatsImages();
             }
         }
@@ -482,11 +482,11 @@ namespace LooneyInvaders.Layers
             if (_magazineSize < _magazineSizeMaximum)
             {
                 _magazineSize++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _magazineSizePrice = GetMagazineSizePrice();
             SetStatsImages();
@@ -497,11 +497,11 @@ namespace LooneyInvaders.Layers
             if (_magazineSize > _magazineSizeMinimum)
             {
                 _magazineSize--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _magazineSizePrice = GetMagazineSizePrice();
             SetStatsImages();
@@ -512,11 +512,11 @@ namespace LooneyInvaders.Layers
             if (_firespeed < _firespeedMaximum)
             {
                 _firespeed++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _firespeedPrice = GetFirespeedPrice();
             SetStatsImages();
@@ -527,11 +527,11 @@ namespace LooneyInvaders.Layers
             if (_firespeed > _firespeedMinimum)
             {
                 _firespeed--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _firespeedPrice = GetFirespeedPrice();
             SetStatsImages();
@@ -542,11 +542,11 @@ namespace LooneyInvaders.Layers
             if (_caliberSize < _caliberSizeMaximum)
             {
                 _caliberSize++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _caliberSizePrice = GetCaliberSizePrice();
             SetStatsImages();
@@ -557,11 +557,11 @@ namespace LooneyInvaders.Layers
             if (_caliberSize > _caliberSizeMinimum)
             {
                 _caliberSize--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _caliberSizePrice = GetCaliberSizePrice();
             SetStatsImages();
@@ -572,11 +572,11 @@ namespace LooneyInvaders.Layers
             if (_lives < _livesMaximum)
             {
                 _lives++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _livesPrice = GetLivesPrice();
             SetStatsImages();
@@ -587,11 +587,11 @@ namespace LooneyInvaders.Layers
             if (_lives > _livesMinimum)
             {
                 _lives--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
             _livesPrice = GetLivesPrice();
             SetStatsImages();
@@ -650,7 +650,7 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -681,7 +681,7 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -696,10 +696,10 @@ namespace LooneyInvaders.Layers
 
             if (GetTotalPrice() == 0)
             {
-                if (_selectedWeapon == (int)WEAPONS.HYBRID)
+                if (_selectedWeapon == (int)Weapons.Hybrid)
                 {
                     UnscheduleAll();
-                    TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.MOON, false));
+                    TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
                     return;
                 }
 
@@ -733,14 +733,14 @@ namespace LooneyInvaders.Layers
             _btnNoBuyBack.Enabled = true;
             _btnNoBuyExit.Enabled = true;
             //_isPopupShiving = true;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
 
             // ---------- Prabhjot ----------//
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, BUTTON_TYPE.Back);
-            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, BUTTON_TYPE.Forward);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, ButtonType.Forward);
 
             _btnBack.Enabled = false;
             _btnForward.Enabled = false;
@@ -754,8 +754,8 @@ namespace LooneyInvaders.Layers
 
             _isShowGameTipViewLoaded = false;
 
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
-            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
 
             _btnBack.Enabled = true;
             _btnForward.Enabled = true;
@@ -783,10 +783,10 @@ namespace LooneyInvaders.Layers
 
         private void _btnNoBuyExit_OnClick(object sender, EventArgs e)
         {
-            if (_selectedWeapon == (int)WEAPONS.HYBRID)
+            if (_selectedWeapon == (int)Weapons.Hybrid)
             {
                 UnscheduleAll();
-                TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.MOON, false));
+                TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
                 return;
             }
 

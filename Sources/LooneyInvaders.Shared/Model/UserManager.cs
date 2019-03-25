@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Plugin.Settings;
-using Plugin.Settings.Abstractions;
 
 namespace LooneyInvaders.Model
 {
@@ -15,45 +12,51 @@ namespace LooneyInvaders.Model
         public static UsernameChangeHandlerDelegate ChangeUsernameHandler;
         public static UsernameChangeHandlerDelegate CheckIsUsernameFreeHandler;
 
-        public static bool IsUserGUIDSet
+        public static bool IsUserGuidSet => !string.IsNullOrWhiteSpace(CrossSettings.Current.GetValueOrDefault("UserGUID", ""));
+
+        public static string UserGuid
         {
-            get { if (CrossSettings.Current.GetValueOrDefault("UserGUID", "") == "") return false; else return true; }
+            get => CrossSettings.Current.GetValueOrDefault("UserGUID", "");
+            set => CrossSettings.Current.AddOrUpdateValue("UserGUID", value);
         }
 
-        public static string UserGUID
+        public static void GenerateGuid()
         {
-            get { return CrossSettings.Current.GetValueOrDefault("UserGUID", ""); }
-            set { CrossSettings.Current.AddOrUpdateValue("UserGUID", value); }
-        }
-
-        public static void GenerateGUID()
-        {
-            if (IsUserGUIDSet) return;
-            if (UsernameGUIDInsertHandler == null) return;
-            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false) return;
+            if (IsUserGuidSet)
+                return;
+            if (UsernameGUIDInsertHandler == null)
+                return;
+            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
+                return;
 
             Console.WriteLine("GenerateGUID()");
 
-            string guid = Guid.NewGuid().ToString();
+            var guid = Guid.NewGuid().ToString();
 
             UsernameGUIDInsertHandler(guid);
         }
 
         public static bool CheckIsUsernameFree(string userName)
         {
-            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false) return false;
-            if (!LooneyInvaders.Model.UserManager.IsUserGUIDSet) LooneyInvaders.Model.UserManager.GenerateGUID();
+            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
+                return false;
+            if (!IsUserGuidSet)
+                GenerateGuid();
 
-            if (CheckIsUsernameFreeHandler == null) return false;
+            if (CheckIsUsernameFreeHandler == null)
+                return false;
             return CheckIsUsernameFreeHandler(userName);
         }
 
         public static bool ChangeUsername(string userName)
         {
-            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false) return false;
-            if (!LooneyInvaders.Model.UserManager.IsUserGUIDSet) LooneyInvaders.Model.UserManager.GenerateGUID();
+            if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
+                return false;
+            if (!IsUserGuidSet)
+                GenerateGuid();
 
-            if (ChangeUsernameHandler == null) return false;
+            if (ChangeUsernameHandler == null)
+                return false;
             return ChangeUsernameHandler(userName);
         }
     }

@@ -8,9 +8,9 @@ namespace LooneyInvaders.Layers
 {
     public class LossScreenLayer : CCLayerColorExt
     {
-        public BATTLEGROUNDS SelectedBattleground;
-        public ENEMIES SelectedEnemy;
-        public WEAPONS SelectedWeapon;
+        public Battlegrounds SelectedBattleground;
+        public Enemies SelectedEnemy;
+        public Weapons SelectedWeapon;
 
         CCSpriteButton _btnContinue;
         CCSpriteButton _mainMenu;
@@ -25,7 +25,7 @@ namespace LooneyInvaders.Layers
         private readonly int _alienScore;
         private readonly int _alienWave;
 
-        public LossScreenLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, int alienScore = 0, int alienWave = 0)
+        public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
@@ -39,67 +39,67 @@ namespace LooneyInvaders.Layers
 
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     SetBackground("UI/Loss scenes/afghanistan-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     SetBackground("UI/Loss scenes/denmark-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     SetBackground("UI/Loss scenes/UK-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     SetBackground("UI/Loss scenes/estonia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     SetBackground("UI/Loss scenes/Finland-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     SetBackground("UI/Loss scenes/france-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     SetBackground("UI/Loss scenes/georgia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     SetBackground("UI/Loss scenes/UK-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     SetBackground("UI/Loss scenes/iraq-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     SetBackground("UI/Loss scenes/israel-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     SetBackground("UI/Loss scenes/japan-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     SetBackground("UI/Loss scenes/libya-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     SetBackground("UI/Loss scenes/norway-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     SetBackground("UI/Loss scenes/poland-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     SetBackground("UI/Loss scenes/russia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     SetBackground("UI/Loss scenes/south-korea-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     SetBackground("UI/Loss scenes/syria-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     SetBackground("UI/Loss scenes/ukraine-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     SetBackground("UI/Loss scenes/Usa-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     SetBackground("UI/Loss scenes/vietnam-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.MOON:
+                case Battlegrounds.Moon:
                     _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
                     _youAreDefeated.Opacity = 0;
                     SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
@@ -108,7 +108,7 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PreloadEffect("Sounds/you are defeaded VO_mono.wav");
                 }
@@ -141,16 +141,16 @@ namespace LooneyInvaders.Layers
             _isWeHaveScores = LeaderboardManager.SubmitScorePro(_alienScore, _alienWave);
             //_isDoneWaitingForScores = true;
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
-                GameEnvironment.PlayMusic(MUSIC.GAMEOVERALIEN);
+                GameEnvironment.PlayMusic(Music.GameOverAlien);
             }
             else
             {
-                GameEnvironment.PlayMusic(MUSIC.GAMEOVER);
+                GameEnvironment.PlayMusic(Music.GameOver);
             }
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 //-------------- Prabhjot ----------------//
                 _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
@@ -168,7 +168,7 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {
-                    GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
+                    GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
                     _hasScore = true;
                     ScheduleOnce(ShowScoreAlien, 2f);
                 }
@@ -195,7 +195,7 @@ namespace LooneyInvaders.Layers
         {
             _getRevengeNode = new CCNodeExt();
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
             }
@@ -211,11 +211,11 @@ namespace LooneyInvaders.Layers
             CCSpriteButton mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += mainMenu_OnClick;
 
-            var revenge = Player.Instance.isProLevelSelected
+            var revenge = Player.Instance.IsProLevelSelected
                 ? _getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png")
                 : _getRevengeNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
 
-            revenge.ButtonType = BUTTON_TYPE.Rewind;
+            revenge.ButtonType = ButtonType.Rewind;
             revenge.OnClick += revenge_OnClick;
 
 
@@ -232,7 +232,7 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
                     ScheduleOnce(CalloutRevenge, 2.5f);
@@ -478,7 +478,7 @@ namespace LooneyInvaders.Layers
             }
 
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
             _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
             _recordNotificationShown = true;
@@ -618,7 +618,7 @@ namespace LooneyInvaders.Layers
 
             AddChild(_scoreNode);
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
+            GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
             Schedule(FadeScoreNode);
         }
 
@@ -816,7 +816,7 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
             AdMobManager.ShowBannerBottom();
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             _hasScore = true;
             ScheduleOnce(ShowScoreAlien, 0.1f);
         }
@@ -824,7 +824,7 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             AdMobManager.ShowBannerBottom();
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             _hasScore = true;
             ScheduleOnce(ShowScoreAlien, 0.1f);
         }

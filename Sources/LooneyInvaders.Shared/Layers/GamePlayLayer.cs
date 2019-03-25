@@ -16,7 +16,7 @@ namespace LooneyInvaders.Layers
         public static decimal BestScoreTime;
         public static decimal BestScoreAccuracy;
         public static int BestScore;
-        public static BATTLEGROUNDS BestScoreCountry;
+        public static Battlegrounds BestScoreCountry;
 
         public static int BestScoreAlien;
         public static int BestScoreAlienWave;
@@ -41,7 +41,7 @@ namespace LooneyInvaders.Layers
 
         //bool Test = false;
         //bool IsTestFromWeaponPicker = false;
-        private readonly LAUNCH_MODE _launchMode;
+        private readonly LaunchMode _launchMode;
 
         private float _enemySpeed = 2;
         private float _enemyCurrentSpeed;
@@ -151,11 +151,11 @@ namespace LooneyInvaders.Layers
         private CCSprite _fadeShootButton;
         private CCSprite _fadeControlButton;
 
-        public BATTLEGROUNDS SelectedBattleground;
-        public ENEMIES SelectedEnemy;
-        public WEAPONS SelectedWeapon;
+        public Battlegrounds SelectedBattleground;
+        public Enemies SelectedEnemy;
+        public Weapons SelectedWeapon;
 
-        public ENEMIES SelectedEnemyForPickerScreens;
+        public Enemies SelectedEnemyForPickerScreens;
 
         public int CaliberSizeSelected;
         public int FireSpeedSelected;
@@ -183,14 +183,14 @@ namespace LooneyInvaders.Layers
         bool _isGameOver;
 
 
-        public GamePlayLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, ENEMIES selectedEnemyForPickerScreens = ENEMIES.ALIENS, LAUNCH_MODE launchMode = LAUNCH_MODE.DEFAULT/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
+        public GamePlayLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, Enemies selectedEnemyForPickerScreens = Enemies.Aliens, LaunchMode launchMode = LaunchMode.Default/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
         {
             GameDelegate.ClearOnBackButtonEvent();
             EnableMultiTouch = true;
 
             // ----------- Prabhjot ----------- //
             //this.ScheduleOnce(Victory, 1);
-            Settings.isFromGameScreen = true;
+            Settings.IsFromGameScreen = true;
             NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
 
 
@@ -204,11 +204,11 @@ namespace LooneyInvaders.Layers
 
             BattlegroundImageName = Battleground.GetBattlegroundImageName(selectedBattleground, Settings.Instance.BattlegroundStyle);
 
-            if (_launchMode == LAUNCH_MODE.DEFAULT)
+            if (_launchMode == LaunchMode.Default)
             {
-                if (selectedEnemy == ENEMIES.ALIENS)
+                if (selectedEnemy == Enemies.Aliens)
                 {
-                    selectedBattleground = BATTLEGROUNDS.MOON;
+                    selectedBattleground = Battlegrounds.Moon;
                 }
 
                 Player.Instance.SetQuickGame(selectedEnemy, selectedBattleground, selectedWeapon);
@@ -229,8 +229,8 @@ namespace LooneyInvaders.Layers
 
             switch (selectedEnemy)
             {
-                case ENEMIES.PUTIN:
-                    if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
+                case Enemies.Putin:
+                    if (SelectedBattleground == Battlegrounds.Finland)
                     {
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Firework Sound Effect mono.wav");
                         _ssFirework = new CCSpriteSheet[2];
@@ -274,7 +274,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(35, 51));
                     EnemyCollisionPoints.Add(new CCPoint(30, 56));
                     break;
-                case ENEMIES.KIM:
+                case Enemies.Kim:
                     VoiceMiss = null;
                     VoiceMissAlternate = null;
                     VoiceEnemyHit = "Sounds/kim 3 Shit.wav";
@@ -313,7 +313,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(32, 60));
                     EnemyCollisionPoints.Add(new CCPoint(27, 62));
                     break;
-                case ENEMIES.HITLER:
+                case Enemies.Hitler:
                     VoiceMiss = null;
                     VoiceMissAlternate = null;
                     VoiceEnemyHit = "Sounds/Hitler 3 shit.wav";
@@ -352,7 +352,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(32, 60));
                     EnemyCollisionPoints.Add(new CCPoint(28, 62));
                     break;
-                case ENEMIES.BUSH:
+                case Enemies.Bush:
                     VoiceMiss = null;
                     VoiceMissAlternate = null;
                     VoiceEnemyHit = "Sounds/Bush 3 Shit.wav";
@@ -389,7 +389,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(35, 55));
                     EnemyCollisionPoints.Add(new CCPoint(39, 59));
                     break;
-                case ENEMIES.ALIENS:
+                case Enemies.Aliens:
                     //VoiceEnemyHit = null;
                     //VoicePlayerHit = null;
                     //VoiceGameOver = null;
@@ -435,7 +435,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(47, 4));
                     EnemyCollisionPoints.Add(new CCPoint(25, 7));
                     break;
-                case ENEMIES.TRUMP:
+                case Enemies.Trump:
                     //VoiceEnemyHit = null;
                     //VoicePlayerHit = null;
                     //VoiceGameOver = null;
@@ -490,14 +490,14 @@ namespace LooneyInvaders.Layers
 
             switch (selectedWeapon)
             {
-                case WEAPONS.STANDARD:
+                case Weapons.Standard:
                     PlayerCannon = "Player/Standard_gun.png";
                     PlayerLivesLeft = "Player/Standard_gun_lives_left_indicator.png";
                     _playerSpeed = 30;
                     _reloadTime = 2f;
                     _smokeOffsetY = -40;
-                    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
+                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
+                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/GunRecoil.plist");
                     SsRecoilKeyPrefix = "standard_gun_recoil_image_";
@@ -523,14 +523,14 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(46, 134));
                     PlayerCollisionPoints.Add(new CCPoint(59, 134));
                     break;
-                case WEAPONS.COMPACT:
+                case Weapons.Compact:
                     PlayerCannon = "Player/Compact_sprayer.png";
                     PlayerLivesLeft = "Player/Compact_sprayerlives_left_indicator.png";
                     _playerSpeed = 45;
                     _reloadTime = 3f;
                     _smokeOffsetY = -60;
-                    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
+                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
+                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/CompactSprayerRecoil.plist");
                     SsRecoilKeyPrefix = "Compact_sprayer_recoil_animation_image_";
@@ -561,14 +561,14 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(71, 118));
 
                     break;
-                case WEAPONS.BAZOOKA:
+                case Weapons.Bazooka:
                     PlayerCannon = "Player/Big_bazooka.png";
                     PlayerLivesLeft = "Player/Big_bazookalives_left_indicator.png";
                     _playerSpeed = 20;
                     _reloadTime = 1f;
                     _smokeOffsetY = -15;
-                    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
+                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
+                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BlackBazookaRecoil.plist");
                     SsRecoilKeyPrefix = "Black _bazooka_recoil_animation_image_";
@@ -598,7 +598,7 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(74, 145));
                     PlayerCollisionPoints.Add(new CCPoint(52, 122));
                     break;
-                case WEAPONS.HYBRID:
+                case Weapons.Hybrid:
                     _magazineSize = _magazineSize / 2;
                     _gunCooloff = _gunCooloff * 2;
                     PlayerCannon = "Player/Hybrid_defender.png";
@@ -606,8 +606,8 @@ namespace LooneyInvaders.Layers
                     _playerSpeed = 20;
                     _reloadTime = 2f;
                     _smokeOffsetY = -15;
-                    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
-                    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
+                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
+                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/HybridDefenderRecoil.plist");
                     SsRecoilKeyPrefix = "Hybrid_defender_recoil_animation_image_";
@@ -687,48 +687,48 @@ namespace LooneyInvaders.Layers
             if (VoiceMiss != null) CCAudioEngine.SharedEngine.PreloadEffect(VoiceMiss);
             if (VoiceMissAlternate != null) CCAudioEngine.SharedEngine.PreloadEffect(VoiceMissAlternate);
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_HURT_1);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_HURT_2);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_HURT_3);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_KILLED);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.EnemyHurt1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.EnemyHurt2);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.EnemyHurt3);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.EnemyKilled);
 
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.GUN_HIT_1);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.GUN_HIT_2);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.GUN_HIT_3);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.GUN_HIT_GAME_OVER);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.GunHit1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.GunHit2);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.GunHit3);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.GunHitGameOver);
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.CANNON_CAL_1_1);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.CALIBRE_1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.CannonCal11);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Calibre1);
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.BOMB_FALL1);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.BOMB_FALL2);
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.BOMB_FALL3);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.BombFall1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.BombFall2);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.BombFall3);
 
-            if (SelectedWeapon == WEAPONS.HYBRID)
+            if (SelectedWeapon == Weapons.Hybrid)
             {
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.EMPTY_CANON_HYBRID);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EmptyCanonHybrid);
             }
             else
             {
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.EMPTY_CANON);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EmptyCanon);
             }
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.COUNTDOWN);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Countdown);
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ALIEN_LASER);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ALIEN_SPIT);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ALIEN_SPIT2);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ALIEN_SPIT3);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.MULTIPLIER_INDICATOR);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.AlienLaser);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.AlienSpit);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.AlienSpit2);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.AlienSpit3);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.MultiplierIndicator);
             }
             else
             {
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_SPIT);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_SPIT2);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_SPIT3);
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.ENEMY_SPIT4);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EnemySpit);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EnemySpit2);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EnemySpit3);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.EnemySpit4);
             }
 
             if (Settings.Instance.VoiceoversEnabled)
@@ -772,7 +772,7 @@ namespace LooneyInvaders.Layers
 
 
             SsPreExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/Pre-explosion.plist");
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 SsDrooling = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienSpit.plist");
             }
@@ -785,7 +785,7 @@ namespace LooneyInvaders.Layers
             SsCannonFlame = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_flame-0.plist");
             SsCannonExplosion1 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-0.plist");
             SsCannonExplosion2 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-1.plist");
-            if (selectedEnemy != ENEMIES.ALIENS)
+            if (selectedEnemy != Enemies.Aliens)
             {
                 SsBomb = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BombRotation.plist");
             }
@@ -850,20 +850,20 @@ namespace LooneyInvaders.Layers
 
             switch (selectedEnemy)
             {
-                case ENEMIES.PUTIN:
+                case Enemies.Putin:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-russian-troops.jpg", 1);
                     break;
-                case ENEMIES.BUSH:
+                case Enemies.Bush:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-USA-troops.jpg", 1);
                     break;
-                case ENEMIES.KIM:
+                case Enemies.Kim:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-south-korean-troops.jpg", 1);
                     break;
-                case ENEMIES.HITLER:
+                case Enemies.Hitler:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-german-troops.jpg", 1);
                     break;
-                case ENEMIES.ALIENS:
-                    if (Settings.Instance.BattlegroundStyle == BATTLEGROUND_STYLE.Cartonic)
+                case Enemies.Aliens:
+                    if (Settings.Instance.BattlegroundStyle == BattlegroundStyle.Cartonic)
                         AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-cartonic.jpg", 1);
                     else
                         AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-realistic.jpg", 1);
@@ -872,64 +872,64 @@ namespace LooneyInvaders.Layers
             }
             switch (selectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-afghanistan-text.png", 2);
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-denmark-text.png", 2);
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-england-text.png", 2);
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-estonia-text.png", 2);
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-finland-text.png", 2);
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-france-text.png", 2);
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-georgia-text.png", 2);
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-great-britain-text.png", 2);
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-iraq-text.png", 2);
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-israel-text.png", 2);
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-japan-text.png", 2);
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-libya-text.png", 2);
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-norway-text.png", 2);
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-poland-text.png", 2);
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-russia-text.png", 2);
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-south-korea-text.png", 2);
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-syria-text.png", 2);
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-ukraine-text.png", 2);
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-united-states-text.png", 2);
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-vietnam-text.png", 2);
                     break;
             }
@@ -937,64 +937,64 @@ namespace LooneyInvaders.Layers
             {
                 switch (SelectedBattleground)
                 {
-                    case BATTLEGROUNDS.AFGHANISTAN:
+                    case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Afganistan.wav");
                         break;
-                    case BATTLEGROUNDS.DENMARK:
+                    case Battlegrounds.Denmark:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
                         break;
-                    case BATTLEGROUNDS.ENGLAND:
+                    case Battlegrounds.England:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
                         break;
-                    case BATTLEGROUNDS.ESTONIA:
+                    case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Estonia.wav");
                         break;
-                    case BATTLEGROUNDS.FINLAND:
+                    case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Finland.wav");
                         break;
-                    case BATTLEGROUNDS.FRANCE:
+                    case Battlegrounds.France:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
                         break;
-                    case BATTLEGROUNDS.GEORGIA:
+                    case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Georgia.wav");
                         break;
-                    case BATTLEGROUNDS.GREAT_BRITAIN:
+                    case Battlegrounds.GreatBritain:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Great Britain.wav");
                         break;
-                    case BATTLEGROUNDS.IRAQ:
+                    case Battlegrounds.Iraq:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Irak.wav");
                         break;
-                    case BATTLEGROUNDS.ISRAEL:
+                    case Battlegrounds.Israel:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Israel.wav");
                         break;
-                    case BATTLEGROUNDS.JAPAN:
+                    case Battlegrounds.Japan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Japan.wav");
                         break;
-                    case BATTLEGROUNDS.LIBYA:
+                    case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Libya.wav");
                         break;
-                    case BATTLEGROUNDS.NORWAY:
+                    case Battlegrounds.Norway:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
                         break;
-                    case BATTLEGROUNDS.POLAND:
+                    case Battlegrounds.Poland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
                         break;
-                    case BATTLEGROUNDS.RUSSIA:
+                    case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Russian.wav");
                         break;
-                    case BATTLEGROUNDS.SOUTH_KOREA:
+                    case Battlegrounds.SouthKorea:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries South Korea.wav");
                         break;
-                    case BATTLEGROUNDS.SYRIA:
+                    case Battlegrounds.Syria:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Syria.wav");
                         break;
-                    case BATTLEGROUNDS.UKRAINE:
+                    case Battlegrounds.Ukraine:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Ukraine.wav");
                         break;
-                    case BATTLEGROUNDS.UNITED_STATES:
+                    case Battlegrounds.UnitedStates:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries United States.wav");
                         break;
-                    case BATTLEGROUNDS.VIETNAM:
+                    case Battlegrounds.Vietnam:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Vietman.wav");
                         break;
                 }
@@ -1003,81 +1003,81 @@ namespace LooneyInvaders.Layers
             {
                 switch (SelectedBattleground)
                 {
-                    case BATTLEGROUNDS.AFGHANISTAN:
+                    case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Afghanistan VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.DENMARK:
+                    case Battlegrounds.Denmark:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Denmark VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ENGLAND:
+                    case Battlegrounds.England:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/England VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ESTONIA:
+                    case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Estonia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.FINLAND:
+                    case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Finland VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.FRANCE:
+                    case Battlegrounds.France:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/France VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.GEORGIA:
+                    case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Georgia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.GREAT_BRITAIN:
+                    case Battlegrounds.GreatBritain:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Great Britain VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.IRAQ:
+                    case Battlegrounds.Iraq:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Irak VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.ISRAEL:
+                    case Battlegrounds.Israel:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Israel VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.JAPAN:
+                    case Battlegrounds.Japan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Japan VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.LIBYA:
+                    case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Libya VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.NORWAY:
+                    case Battlegrounds.Norway:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Norway VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.POLAND:
+                    case Battlegrounds.Poland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Poland VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.RUSSIA:
+                    case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Russia VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.SOUTH_KOREA:
+                    case Battlegrounds.SouthKorea:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/South Korea VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.SYRIA:
+                    case Battlegrounds.Syria:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Syria VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.UKRAINE:
+                    case Battlegrounds.Ukraine:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Ukraine VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.UNITED_STATES:
+                    case Battlegrounds.UnitedStates:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/USA VO_mono.wav");
                         break;
-                    case BATTLEGROUNDS.VIETNAM:
+                    case Battlegrounds.Vietnam:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Vietnam VO_mono.wav");
                         break;
                 }
             }
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 if (Settings.Instance.VoiceoversEnabled) CCAudioEngine.SharedEngine.PreloadEffect("Sounds/get ready for battle of existence VO_mono.wav");
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.CountdownAlien);
             }
             else
             {
                 if (Settings.Instance.VoiceoversEnabled) CCAudioEngine.SharedEngine.PreloadEffect("Sounds/get ready for the next attack in_VO_mono.wav");
-                GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.COUNTDOWN);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.Countdown);
             }
 
-            if (selectedEnemy != ENEMIES.ALIENS)
+            if (selectedEnemy != Enemies.Aliens)
             {
                 AddImageCentered(1136 / 2, 600, "UI/get-ready-for-the-next-attack-title-text.png", 2);
                 AddImageCentered(1136 / 2, 540, "UI/get-ready-for-next-attack-(country__of__)-text.png", 2);
@@ -1090,16 +1090,16 @@ namespace LooneyInvaders.Layers
 
             _countdown = 6;
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
-                GameEnvironment.PlayMusic(MUSIC.BATTLE_COUNTDOWNALIEN);
+                GameEnvironment.PlayMusic(Music.BattleCountdownAlien);
             }
-            else if (_launchMode != LAUNCH_MODE.STEERING_TEST)
+            else if (_launchMode != LaunchMode.SteeringTest)
             {
-                GameEnvironment.PlayMusic(MUSIC.BATTLE_COUNTDOWN);
+                GameEnvironment.PlayMusic(Music.BattleCountdown);
             }
 
-            if (_launchMode != LAUNCH_MODE.DEFAULT)
+            if (_launchMode != LaunchMode.Default)
             {
                 _enemySpeed = 0;
                 _wave = 3;
@@ -1113,7 +1113,7 @@ namespace LooneyInvaders.Layers
             }
             else if (Settings.Instance.VoiceoversEnabled)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for battle of existence VO_mono.wav");
                 }
@@ -1132,64 +1132,64 @@ namespace LooneyInvaders.Layers
 
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Estonia.wav");
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Great Britain.wav");
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Irak.wav");
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Israel.wav");
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Japan.wav");
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Russian.wav");
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Syria.wav");
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Ukraine.wav");
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries United States.wav");
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
                     break;
             }
@@ -1201,64 +1201,64 @@ namespace LooneyInvaders.Layers
         {
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
+                case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Afghanistan VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.DENMARK:
+                case Battlegrounds.Denmark:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Denmark VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ENGLAND:
+                case Battlegrounds.England:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/England VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ESTONIA:
+                case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Estonia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.FINLAND:
+                case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Finland VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.FRANCE:
+                case Battlegrounds.France:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/France VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.GEORGIA:
+                case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
+                case Battlegrounds.GreatBritain:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Great Britain VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.IRAQ:
+                case Battlegrounds.Iraq:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Irak VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.ISRAEL:
+                case Battlegrounds.Israel:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Israel VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.JAPAN:
+                case Battlegrounds.Japan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Japan VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.LIBYA:
+                case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Libya VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.NORWAY:
+                case Battlegrounds.Norway:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Norway VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.POLAND:
+                case Battlegrounds.Poland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.RUSSIA:
+                case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Russia VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
+                case Battlegrounds.SouthKorea:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/South Korea VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.SYRIA:
+                case Battlegrounds.Syria:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Syria VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.UKRAINE:
+                case Battlegrounds.Ukraine:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Ukraine VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
+                case Battlegrounds.UnitedStates:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/USA VO_mono.wav");
                     break;
-                case BATTLEGROUNDS.VIETNAM:
+                case Battlegrounds.Vietnam:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vietnam VO_mono.wav");
                     break;
             }
@@ -1273,73 +1273,73 @@ namespace LooneyInvaders.Layers
             {
                 case 5:
                     _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(5).png", 2);
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.CountdownAlien);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Countdown);
                     }
                     break;
                 case 4:
                     RemoveChild(_countdownNumber);
                     _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(4).png", 2);
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.CountdownAlien);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Countdown);
                     }
                     break;
                 case 3:
                     RemoveChild(_countdownNumber);
                     _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(3).png", 2);
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.CountdownAlien);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Countdown);
                     }
                     break;
                 case 2:
                     RemoveChild(_countdownNumber);
                     _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(2).png", 2);
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.CountdownAlien);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Countdown);
                     }
                     break;
                 case 1:
                     RemoveChild(_countdownNumber);
                     _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(1).png", 2);
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.CountdownAlien);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWN);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Countdown);
                     }
                     break;
                 case 0:
                     UnscheduleAll();
                     AdMobManager.HideBanner();
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN1);
+                        GameEnvironment.PlayMusic(Music.BattleAlien1);
                     }
                     else
                     {
-                        GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_1);
+                        GameEnvironment.PlayMusic(Music.BattleWave1);
                     }
                     StartGame();
                     break;
@@ -1359,12 +1359,12 @@ namespace LooneyInvaders.Layers
 
             SetBackground(BattlegroundImageName);
 
-            if (_launchMode == LAUNCH_MODE.STEERING_TEST)
+            if (_launchMode == LaunchMode.SteeringTest)
             {
                 AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
             }
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 _timeLabel = AddImage(840, 580, "UI/Battle-screen-score-text.png", 999);
                 _multiplierLabelLabel = AddImage(896, 540, "UI/multiplier-text.png", 999);
@@ -1402,7 +1402,7 @@ namespace LooneyInvaders.Layers
             for (var i = 0; i < _magazineSize; i++)
             {
                 CCSprite ammo;
-                if (SelectedWeapon == WEAPONS.HYBRID)
+                if (SelectedWeapon == Weapons.Hybrid)
                 {
                     ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
                 }
@@ -1439,7 +1439,7 @@ namespace LooneyInvaders.Layers
 
             _time = AddImageLabel(1040, 580, "0", 50);
 
-            if (_launchMode == LAUNCH_MODE.STEERING_TEST)
+            if (_launchMode == LaunchMode.SteeringTest)
             {
                 foreach (var timeSprite in _time)
                 {
@@ -1456,28 +1456,28 @@ namespace LooneyInvaders.Layers
 
             Settings.Instance.ShowSteeringTip = true;
 
-            if (SelectedEnemy == ENEMIES.ALIENS && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
+            if (SelectedEnemy == Enemies.Aliens && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
             {
                 ScheduleOnce(ShowAlienTip, 1);
             }
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE && !Settings.Instance.ShowSteeringTip && _launchMode == LAUNCH_MODE.DEFAULT)
+            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == ControlType.Gyroscope && !Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
             {
                 ScheduleOnce(ShowTiltInstruction, 1);
             }
 
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && _launchMode == LAUNCH_MODE.DEFAULT)
+            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
             {
                 ScheduleOnce(ShowSteeringTip, 1);
             }
             else
             {
-                if (_launchMode != LAUNCH_MODE.STEERING_TEST)
+                if (_launchMode != LaunchMode.SteeringTest)
                 {
-                    _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+                    _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
                     _btnBack.OnClick += BtnBack_OnClick;
-                    _btnBack.ButtonType = BUTTON_TYPE.Back;
+                    _btnBack.ButtonType = ButtonType.Back;
 
-                    _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+                    _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
                     _btnSettings.OnClick += btnSettings_OnClick;
                 }
 
@@ -1519,7 +1519,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowTiltInstruction(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
             _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/game-tip-notification-background-with-text.png", 1002);
             _gameTipArrow = AddImage(50, 345, "UI/game-tip-notification-arrow2.png", 1003);
             _gameTipTarget = AddImage(50, 177, "UI/game-tip-notification-tapping-symbol.png", 1003);
@@ -1527,7 +1527,7 @@ namespace LooneyInvaders.Layers
 
             _gameTipCheckMark = AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
             _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _okIGotIt = AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
             _okIGotIt.OnClick += okIGotIt_OnClick;
@@ -1535,13 +1535,13 @@ namespace LooneyInvaders.Layers
 
         private void ShowTouchInstruction(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
             _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/touch-steering-instructions-notification-background.png", 1002);
             _gameTipExplanation = AddImage(100, 30, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
 
             _gameTipCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
             _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _okIGotIt = AddButton(660, 10, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
             _okIGotIt.OnClick += okIGotIt_OnClickTouch;
@@ -1553,11 +1553,11 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow)
             {
-                if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
+                if (Settings.Instance.ControlType == ControlType.Gyroscope)
                 {
                     ScheduleOnce(ShowTiltInstruction, 1);
                 }
-                else if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
+                else if (Settings.Instance.ControlType == ControlType.Manual)
                 {
                     ScheduleOnce(ShowTouchInstruction, 1);
                 }
@@ -1571,14 +1571,14 @@ namespace LooneyInvaders.Layers
         private void CreateBtnBack()
         {
             Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
             _btnSettings.OnClick += btnSettings_OnClick;
 
-            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LaunchMode.Default);
         }
 
         private void gameTipCheckMark_OnClick(object sender, EventArgs e)
@@ -1599,11 +1599,11 @@ namespace LooneyInvaders.Layers
             RemoveChild(_okIGotIt);
             OnTouchBegan += GamePlayLayer_OnTouchBegan;
             Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
             _btnSettings.OnClick += btnSettings_OnClick;
 
             /*if (!Settings.Instance.Vibration)
@@ -1627,7 +1627,7 @@ namespace LooneyInvaders.Layers
 
             Settings.Instance.ShowSteeringTip = false;
 
-            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LaunchMode.Default);
 
             CreateBtnBack();
 
@@ -1636,13 +1636,13 @@ namespace LooneyInvaders.Layers
 
         private void ShowAlienTip(float dt)
         {
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
             _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/moon-level-notification-with-all-text.png", 1002);
             _gameTipExplanation = AddImage(100, 50, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
 
             _gameTipCheckMark = AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
             _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _okIGotIt = AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
             _okIGotIt.OnClick += alienOkIGotIt_OnClick;
@@ -1657,11 +1657,11 @@ namespace LooneyInvaders.Layers
             RemoveChild(_okIGotIt);
             OnTouchBegan += GamePlayLayer_OnTouchBegan;
             Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
             _btnSettings.OnClick += btnSettings_OnClick;
 
             /*if (!Settings.Instance.Vibration)
@@ -1698,11 +1698,11 @@ namespace LooneyInvaders.Layers
             if (_isGameOver)
             {
                 //btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
-            Settings.isFromGameScreen = false;
+            Settings.IsFromGameScreen = false;
             var newScene = new CCScene(GameView);
             newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
             Director.PushScene(newScene);
@@ -1715,17 +1715,17 @@ namespace LooneyInvaders.Layers
             SetBackground(BattlegroundImageName);
 
             //ako se promjenio instrumental/beatbox
-            if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
+            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
 
-            if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
+            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
 
-            if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
-            else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
+            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
 
-            if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
+            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
 
             CCAudioEngine.SharedEngine.PreloadEffect(SoundCannonShoot);
             SetUpSteering(true);
@@ -1735,9 +1735,9 @@ namespace LooneyInvaders.Layers
 
             if (_waveTransfer)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
-                    GameEnvironment.PlayMusic(MUSIC.NEXTWAVEALIEN);
+                    GameEnvironment.PlayMusic(Music.NextWaveAlien);
                     ScheduleOnce(NextWave, 3);
                 }
                 else
@@ -1745,11 +1745,11 @@ namespace LooneyInvaders.Layers
                     switch (_wave)
                     {
                         case 1:
-                            GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
+                            GameEnvironment.PlayMusic(Music.NextWave);
                             ScheduleOnce(NextWave, 3);
                             break;
                         case 2:
-                            GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
+                            GameEnvironment.PlayMusic(Music.NextWave);
                             ScheduleOnce(NextWave, 3);
                             break;
                         case 3:
@@ -1760,25 +1760,25 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     switch (_wave)
                     {
-                        case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN1); break;
-                        case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN2); break;
-                        case 3: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
-                        case 4: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN4); break;
-                        case 5: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN5); break;
-                        case 6: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN6); break;
-                        case 7: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN7); break;
-                        case 8: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN8); break;
-                        case 9: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
+                        case 1: GameEnvironment.PlayMusic(Music.BattleAlien1); break;
+                        case 2: GameEnvironment.PlayMusic(Music.BattleAlien2); break;
+                        case 3: GameEnvironment.PlayMusic(Music.BattleAlien3); break;
+                        case 4: GameEnvironment.PlayMusic(Music.BattleAlien4); break;
+                        case 5: GameEnvironment.PlayMusic(Music.BattleAlien5); break;
+                        case 6: GameEnvironment.PlayMusic(Music.BattleAlien6); break;
+                        case 7: GameEnvironment.PlayMusic(Music.BattleAlien7); break;
+                        case 8: GameEnvironment.PlayMusic(Music.BattleAlien8); break;
+                        case 9: GameEnvironment.PlayMusic(Music.BattleAlien9); break;
                         default:
                             switch (_wave % 3)
                             {
-                                case 0: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
-                                case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
-                                case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN6); break;
+                                case 0: GameEnvironment.PlayMusic(Music.BattleAlien9); break;
+                                case 1: GameEnvironment.PlayMusic(Music.BattleAlien3); break;
+                                case 2: GameEnvironment.PlayMusic(Music.BattleAlien6); break;
                             }
                             break;
 
@@ -1786,15 +1786,15 @@ namespace LooneyInvaders.Layers
                 }
                 else if (_wave == 1)
                 {
-                    GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_1);
+                    GameEnvironment.PlayMusic(Music.BattleWave1);
                 }
                 else if (_wave == 2)
                 {
-                    GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_2);
+                    GameEnvironment.PlayMusic(Music.BattleWave2);
                 }
                 else
                 {
-                    GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_3);
+                    GameEnvironment.PlayMusic(Music.BattleWave3);
                 }
             }
             return this;
@@ -1813,11 +1813,11 @@ namespace LooneyInvaders.Layers
             if (_isGameOver)
             {
                 //btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-untapped.png", 100, BUTTON_TYPE.Back);
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
-            Settings.isFromGameScreen = false;
+            Settings.IsFromGameScreen = false;
             UnscheduleAll();
             OnTouchBegan -= GamePlayLayer_OnTouchBegan;
 
@@ -1841,7 +1841,7 @@ namespace LooneyInvaders.Layers
 
             _gamePauseFriendlyCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
             _gamePauseFriendlyCheckMark.OnClick += gamePauseFriendlyCheckMark_OnClick;
-            _gamePauseFriendlyCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gamePauseFriendlyCheckMark.ButtonType = ButtonType.CheckMark;
             _gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
             _gamePauseFriendlyCheckMark.SetStateImages();
 
@@ -1895,7 +1895,7 @@ namespace LooneyInvaders.Layers
 
         private void btnContinue_OnClick(object sender, EventArgs e)
         {
-            Settings.isFromGameScreen = true;
+            Settings.IsFromGameScreen = true;
             RemoveChild(_gamePauseBackground);
             _gamePauseBackground = null;
             RemoveChild(_btnJust);
@@ -1914,11 +1914,11 @@ namespace LooneyInvaders.Layers
 
             Schedule(UpdateAll);
 
-            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LaunchMode.Default);
 
             if (_waveTransfer)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     ScheduleOnce(NextWave, 3);
                 }
@@ -1972,7 +1972,7 @@ namespace LooneyInvaders.Layers
                 var gunSmoke = new GunSmoke(this, Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2) + 5, Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY));
                 _gunSmokes.Add(gunSmoke);
                 CCSprite bulletSprite;
-                if (SelectedWeapon == WEAPONS.HYBRID)
+                if (SelectedWeapon == Weapons.Hybrid)
                 {
                     bulletSprite = AddImage(Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2), Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY), "Player/green-lazer-bullet.png");
                 }
@@ -1985,7 +1985,7 @@ namespace LooneyInvaders.Layers
                 bulletSprite.ZOrder = 8;
                 bulletSprite.Scale = _bulletScale;
                 bulletSprite.PositionX -= bulletSprite.ContentSize.Width * _bulletScale / 2;
-                if (SelectedWeapon == WEAPONS.HYBRID)
+                if (SelectedWeapon == Weapons.Hybrid)
                 {
                     bulletSprite.PositionY -= 30;
                 }
@@ -2007,13 +2007,13 @@ namespace LooneyInvaders.Layers
             }
             else if (_ammos.Count == 0)
             {
-                if (SelectedWeapon == WEAPONS.HYBRID)
+                if (SelectedWeapon == Weapons.Hybrid)
                 {
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.EMPTY_CANON_HYBRID);
+                    GameEnvironment.PlaySoundEffect(SoundEffect.EmptyCanonHybrid);
                 }
                 else
                 {
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.EMPTY_CANON);
+                    GameEnvironment.PlaySoundEffect(SoundEffect.EmptyCanon);
                 }
             }
         }
@@ -2044,19 +2044,19 @@ namespace LooneyInvaders.Layers
 
             SetGameDuration();
 
-            if (_launchMode == LAUNCH_MODE.WEAPON_TEST)
+            if (_launchMode == LaunchMode.WeaponTest)
             {
                 AdMobManager.HideBanner();
                 TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
             }
-            else if (_launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
+            else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
                 AdMobManager.HideBanner();
                 TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
             }
             else
             {
-                Settings.isFromGameScreen = false;
+                Settings.IsFromGameScreen = false;
                 TransitionToLayerCartoonStyle(new LossScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, _score, _wave));
             }
         }
@@ -2077,24 +2077,24 @@ namespace LooneyInvaders.Layers
             ClearAll();
             SetGameDuration();
 
-            if (_launchMode == LAUNCH_MODE.WEAPON_TEST)
+            if (_launchMode == LaunchMode.WeaponTest)
             {
                 AdMobManager.HideBanner();
                 TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
             }
-            else if (_launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
+            else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
                 AdMobManager.HideBanner();
                 TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
             }
-            else if (_launchMode == LAUNCH_MODE.STEERING_TEST)
+            else if (_launchMode == LaunchMode.SteeringTest)
             {
                 AdMobManager.HideBanner();
                 StartGame();
             }
-            if (_launchMode == LAUNCH_MODE.DEFAULT)
+            if (_launchMode == LaunchMode.Default)
             {
-                Settings.isFromGameScreen = false;
+                Settings.IsFromGameScreen = false;
                 TransitionToLayerCartoonStyle(new VictoryScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, Convert.ToDecimal(_elapsedTime), Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired), _lives.Count, WinsInSuccession + 1));
             }
         }
@@ -2137,7 +2137,7 @@ namespace LooneyInvaders.Layers
             }
             _bounces = 0;
             _flyingSaucerWait = 0;
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 _bombDensity -= 10;
                 if (_wave == 6)
@@ -2201,25 +2201,25 @@ namespace LooneyInvaders.Layers
             }
             _waveTransfer = false;
             _wavePass = 1136;
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 switch (_wave)
                 {
-                    case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN1); break;
-                    case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN2); break;
-                    case 3: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
-                    case 4: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN4); break;
-                    case 5: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN5); break;
-                    case 6: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN6); break;
-                    case 7: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN7); break;
-                    case 8: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN8); break;
-                    case 9: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
+                    case 1: GameEnvironment.PlayMusic(Music.BattleAlien1); break;
+                    case 2: GameEnvironment.PlayMusic(Music.BattleAlien2); break;
+                    case 3: GameEnvironment.PlayMusic(Music.BattleAlien3); break;
+                    case 4: GameEnvironment.PlayMusic(Music.BattleAlien4); break;
+                    case 5: GameEnvironment.PlayMusic(Music.BattleAlien5); break;
+                    case 6: GameEnvironment.PlayMusic(Music.BattleAlien6); break;
+                    case 7: GameEnvironment.PlayMusic(Music.BattleAlien7); break;
+                    case 8: GameEnvironment.PlayMusic(Music.BattleAlien8); break;
+                    case 9: GameEnvironment.PlayMusic(Music.BattleAlien9); break;
                     default:
                         switch (_wave % 3)
                         {
-                            case 0: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
-                            case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
-                            case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN6); break;
+                            case 0: GameEnvironment.PlayMusic(Music.BattleAlien9); break;
+                            case 1: GameEnvironment.PlayMusic(Music.BattleAlien3); break;
+                            case 2: GameEnvironment.PlayMusic(Music.BattleAlien6); break;
                         }
                         break;
 
@@ -2227,11 +2227,11 @@ namespace LooneyInvaders.Layers
             }
             else if (_wave == 2)
             {
-                GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_2);
+                GameEnvironment.PlayMusic(Music.BattleWave2);
             }
             else
             {
-                GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_3);
+                GameEnvironment.PlayMusic(Music.BattleWave3);
             }
 
         }
@@ -2278,13 +2278,13 @@ namespace LooneyInvaders.Layers
                     switch (_lives.Count)
                     {
                         case 0:
-                            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_1);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.GunHit1);
                             break;
                         case 1:
-                            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_2);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.GunHit2);
                             break;
                         default:
-                            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_3);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.GunHit3);
                             break;
                     }
                 }
@@ -2297,8 +2297,8 @@ namespace LooneyInvaders.Layers
                 //btnBack.Enabled = false;
                 // btnSettings.Enabled = false;
 
-                _btnBack = AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-                _btnSettings = AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+                _btnBack = AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
+                _btnSettings = AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
 
 
                 _isGameOver = true;
@@ -2310,7 +2310,7 @@ namespace LooneyInvaders.Layers
                 //go.Scale = 2;
                 //go.ZOrder = 100;
 
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_GAME_OVER);
+                GameEnvironment.PlaySoundEffect(SoundEffect.GunHitGameOver);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     //isGameOver = false;
@@ -2390,7 +2390,7 @@ namespace LooneyInvaders.Layers
             }
             //if (Settings.Instance.Vibration)
             //{
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 if (_lastDisplayedScore != _score)
                 {
@@ -2435,7 +2435,7 @@ namespace LooneyInvaders.Layers
                     {
                         RemoveChild(spr);
                     }
-                    if (_launchMode != LAUNCH_MODE.STEERING_TEST)
+                    if (_launchMode != LaunchMode.SteeringTest)
                         _time = AddImageLabel(1040, 580, _lastDisplayedTime.ToString(), 50);
                 }
             }
@@ -2471,8 +2471,8 @@ namespace LooneyInvaders.Layers
                     multiplier.Opacity += 1;
                     if (multiplier.Opacity > 240)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MULTIPLIER_INDICATOR);
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MULTIPLIER_INDICATOR);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
                     }
                     i++;
                 }
@@ -2481,7 +2481,7 @@ namespace LooneyInvaders.Layers
             if (_gunCoolness > 0) _gunCoolness -= dt;
             if (_shitWait > 0) _shitWait -= dt;
 
-            if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
+            if (Settings.Instance.ControlType == ControlType.Gyroscope)
             {
                 var yaw = 0f;
                 var tilt = 0f;
@@ -2519,7 +2519,7 @@ namespace LooneyInvaders.Layers
 
 
 
-            if (_fireworkFrame > 0 && SelectedBattleground == BATTLEGROUNDS.FINLAND)
+            if (_fireworkFrame > 0 && SelectedBattleground == Battlegrounds.Finland)
             {
                 _fireworkFrame += dt * 27;
 
@@ -2601,7 +2601,7 @@ namespace LooneyInvaders.Layers
                     }
                 }*/
 
-                if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
+                if (Settings.Instance.ControlType == ControlType.Gyroscope)
                 {
                     _player.PositionX -= ControlMovement * _playerSpeed;
                 }
@@ -2658,13 +2658,13 @@ namespace LooneyInvaders.Layers
                 _reload = _reload - dt;
                 if (_reload <= 0.8 && timeForSound)
                 {
-                    if (SelectedWeapon == WEAPONS.HYBRID)
+                    if (SelectedWeapon == Weapons.Hybrid)
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CALIBRE_1_HYBRID);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1Hybrid);
                     }
                     else
                     {
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CALIBRE_1);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1);
                     }
                 }
                 if (_reload <= 0)
@@ -2672,7 +2672,7 @@ namespace LooneyInvaders.Layers
                     for (var i = 0; i < _magazineSize; i++)
                     {
                         CCSprite ammo;
-                        if (SelectedWeapon == WEAPONS.HYBRID)
+                        if (SelectedWeapon == Weapons.Hybrid)
                         {
                             ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
                         }
@@ -2690,7 +2690,7 @@ namespace LooneyInvaders.Layers
             for (var i = 0; i < _gunSmokes.Count;)
             {
                 var gunSmoke = _gunSmokes[i];
-                if (SelectedWeapon == WEAPONS.HYBRID)
+                if (SelectedWeapon == Weapons.Hybrid)
                 {
                     var sheet = 0;
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 11) sheet = 1;
@@ -2779,7 +2779,7 @@ namespace LooneyInvaders.Layers
                 if (_bullets[i].Power > 0)
                 {
                     CCRect rec;
-                    if (SelectedWeapon == WEAPONS.HYBRID)
+                    if (SelectedWeapon == Weapons.Hybrid)
                     {
                         rec = new CCRect(bullet.PositionX + bullet.ContentSize.Width / 2 - 4, bullet.PositionY + 25, 8, 40);
                     }
@@ -2804,7 +2804,7 @@ namespace LooneyInvaders.Layers
                         _explos.Add(explo);
 
                         CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
-                        GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_EXPLOSION);
+                        GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerExplosion);
                         _flyingSaucerWait = 10000000;
 
                         var life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
@@ -2827,13 +2827,13 @@ namespace LooneyInvaders.Layers
                             switch (_random.Next(3))
                             {
                                 case 0:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_HURT_1);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt1);
                                     break;
                                 case 1:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_HURT_2);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt2);
                                     break;
                                 case 2:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_HURT_3);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt3);
                                     break;
                             }
                             if (enemy.Health <= 0)
@@ -2843,7 +2843,7 @@ namespace LooneyInvaders.Layers
                                     if (VoiceEnemyHit != "" && _shitWait <= 0)
                                     {
                                         _shitWait = 1 + _random.Next(100) / 100f;
-                                        if (SelectedEnemy == ENEMIES.HITLER && _random.Next(4) == 0)
+                                        if (SelectedEnemy == Enemies.Hitler && _random.Next(4) == 0)
                                         {
                                             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler 3 Scheisse.wav");
                                         }
@@ -2861,10 +2861,10 @@ namespace LooneyInvaders.Layers
                                 RemoveChild(enemy.LensFlare);
                                 enemy.LensFlare = null;
 
-                                enemy.keepGrimace = 0;
+                                enemy.KeepGrimace = 0;
                                 enemy.Killed = true;
 
-                                if (SelectedEnemy == ENEMIES.ALIENS)
+                                if (SelectedEnemy == Enemies.Aliens)
                                 {
                                     _score += 5 * _scoreMultiplier;
                                     _killsWithoutMiss++;
@@ -2918,7 +2918,7 @@ namespace LooneyInvaders.Layers
                                 }
                                 if (_random.Next(2) == 0)
                                 {
-                                    enemy.State = ENEMYSTATE.DAMAGE1;
+                                    enemy.State = EnemyState.Damage1;
                                     if (enemy.OpenMouth != null)
                                     {
                                         RemoveChild(enemy.OpenMouth);
@@ -2939,7 +2939,7 @@ namespace LooneyInvaders.Layers
                                 }
                                 else
                                 {
-                                    enemy.State = ENEMYSTATE.DAMAGE2;
+                                    enemy.State = EnemyState.Damage2;
                                     if (enemy.OpenMouth != null)
                                     {
                                         RemoveChild(enemy.OpenMouth);
@@ -2981,7 +2981,7 @@ namespace LooneyInvaders.Layers
                         _killsWithoutMiss = 0;
                         if (_scoreMultiplier > 1)
                         {
-                            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MULTIPLIER_LOST);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierLost);
                             _scoreMultiplier = 1;
                         }
                         if (VoiceMiss != null)
@@ -3055,7 +3055,7 @@ namespace LooneyInvaders.Layers
                 bomb.Rotation += bomb.RotationSpeed;
                 //bomb.Sprite.Rotation = bomb.Rotation;
 
-                if (bomb.RotationSpeed > 0 && SelectedEnemy != ENEMIES.ALIENS)
+                if (bomb.RotationSpeed > 0 && SelectedEnemy != Enemies.Aliens)
                 {
                     if (Convert.ToInt32(bomb.Rotation) > 16) bomb.Rotation = 0;
                     bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
@@ -3067,7 +3067,7 @@ namespace LooneyInvaders.Layers
                 }
 
 
-                if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0))
+                if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == Enemies.Aliens ? 7 : 0, SelectedEnemy == Enemies.Aliens ? 7 : 0))
                 {
                     //bomb.SpeedY = -random.Next(2, Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
                     //bomb.SpeedX = random.Next(Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
@@ -3244,54 +3244,54 @@ namespace LooneyInvaders.Layers
                     // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
                     //inFsRect = true;
 
-                    if (enemy.Sprite.PositionX - enemy.floatX > _wavePass && Math.Abs(enemy.waveAY) < AppConstants.TOLERANCE)
+                    if (enemy.Sprite.PositionX - enemy.FloatX > _wavePass && Math.Abs(enemy.WaveAy) < AppConstants.TOLERANCE)
                     {
-                        enemy.waveAY = Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
+                        enemy.WaveAy = Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
                     }
 
-                    if (Math.Abs(enemy.floatX + enemy.floatVX) < 12 && Math.Abs(enemy.floatY + enemy.floatVY) < 2)
+                    if (Math.Abs(enemy.FloatX + enemy.FloatVx) < 12 && Math.Abs(enemy.FloatY + enemy.FloatVy) < 2)
                     {
-                        enemy.floatX += enemy.floatVX;
-                        enemy.Sprite.PositionX += enemy.floatVX;
-                        enemy.floatY += enemy.floatVY;
+                        enemy.FloatX += enemy.FloatVx;
+                        enemy.Sprite.PositionX += enemy.FloatVx;
+                        enemy.FloatY += enemy.FloatVy;
                         //enemy.Sprite.PositionY += enemy.floatVY;
                     }
                     else
                     {
                         if (_random.Next(20) == 0)
                         {
-                            enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                            enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                            enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                            enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                         }
                     }
-                    if (enemy.floatX > 8 && enemy.floatVX > 0)
+                    if (enemy.FloatX > 8 && enemy.FloatVx > 0)
                     {
-                        enemy.floatVX = enemy.floatVX * 0.95f;
+                        enemy.FloatVx = enemy.FloatVx * 0.95f;
                     }
-                    if (enemy.floatX < -8 && enemy.floatVX < 0)
+                    if (enemy.FloatX < -8 && enemy.FloatVx < 0)
                     {
-                        enemy.floatVX = enemy.floatVX * 0.95f;
+                        enemy.FloatVx = enemy.FloatVx * 0.95f;
                     }
-                    if (Math.Abs(enemy.waveVY) < 0.35)
+                    if (Math.Abs(enemy.WaveVy) < 0.35)
                     {
-                        enemy.waveVY += enemy.waveAY;
+                        enemy.WaveVy += enemy.WaveAy;
                     }
                     else
                     {
-                        enemy.waveAY = -enemy.waveAY;
-                        enemy.waveVY += enemy.waveAY;
+                        enemy.WaveAy = -enemy.WaveAy;
+                        enemy.WaveVy += enemy.WaveAy;
                     }
 
 
                     if (_random.Next(90) == 0)
                     {
-                        enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                        enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                     }
                     if (_random.Next(400) == 0)
                     {
-                        enemy.floatVX = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                        enemy.floatVY = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVx = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVy = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
                     }
 
                     if (enemy.Spit != null)
@@ -3299,7 +3299,7 @@ namespace LooneyInvaders.Layers
                         enemy.Spitting += 0.5f;
                         if (Convert.ToInt32(enemy.Spitting) < 27)
                         {
-                            if (SelectedEnemy == ENEMIES.ALIENS)
+                            if (SelectedEnemy == Enemies.Aliens)
                             {
                                 enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                                 enemy.Spit.Scale = 0.4f;
@@ -3319,19 +3319,19 @@ namespace LooneyInvaders.Layers
                     }
                     if (enemy.AttachedBomb != null && !enemy.AttachedBomb.Spitted && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 3 - enemy.Sprite.ContentSize.Height / 2)
                     {
-                        if (SelectedEnemy == ENEMIES.ALIENS)
+                        if (SelectedEnemy == Enemies.Aliens)
                         {
                             var r = _random.Next(3);
                             switch (r)
                             {
                                 case 0:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_SPIT);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit);
                                     break;
                                 case 1:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_SPIT2);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit2);
                                     break;
                                 default:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_SPIT3);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit3);
                                     break;
                             }
                         }
@@ -3341,16 +3341,16 @@ namespace LooneyInvaders.Layers
                             switch (r)
                             {
                                 case 0:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_SPIT4);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit4);
                                     break;
                                 case 1:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_SPIT3);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit3);
                                     break;
                                 case 2:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_SPIT2);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit2);
                                     break;
                                 default:
-                                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_SPIT);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit);
                                     break;
                             }
                         }
@@ -3361,7 +3361,7 @@ namespace LooneyInvaders.Layers
 
                         if (enemy.Spit == null)
                         {
-                            if (SelectedEnemy == ENEMIES.ALIENS)
+                            if (SelectedEnemy == Enemies.Aliens)
                             {
                                 enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting01.png"));
                                 enemy.Spitting = 1;
@@ -3387,29 +3387,29 @@ namespace LooneyInvaders.Layers
                         switch (r)
                         {
                             case 0:
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.BOMB_FALL1);
+                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall1);
                                 break;
                             case 1:
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.BOMB_FALL2);
+                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall2);
                                 break;
                             default:
-                                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.BOMB_FALL3);
+                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall3);
                                 break;
                         }
                         enemy.AttachedBomb.Released = true;
-                        enemy.AttachedBomb.SpeedY += enemy.waveVY;
+                        enemy.AttachedBomb.SpeedY += enemy.WaveVy;
                         if (_goingDown <= 0) enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
                         enemy.AttachedBomb = null;
                     }
 
                     enemy.Sprite.PositionY -= _goingDownCurrentSpeed;
                     if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY -= _goingDownCurrentSpeed;
-                    enemy.Sprite.PositionY += enemy.waveVY;
-                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY += enemy.waveVY;
+                    enemy.Sprite.PositionY += enemy.WaveVy;
+                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY += enemy.WaveVy;
                     if (_goingDown <= 32)
                     {
                         enemy.Sprite.PositionX += _enemyCurrentSpeed;
-                        if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0);
+                        if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
                     }
                     if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.TOLERANCE && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
                     {
@@ -3442,9 +3442,9 @@ namespace LooneyInvaders.Layers
                         enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                     }
 
-                    if (Math.Abs(_updateTillNextBomb) < AppConstants.TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LAUNCH_MODE.DEFAULT && !_firstGoingDown && (SelectedEnemy != ENEMIES.ALIENS || enemy.State == ENEMYSTATE.NORMAL))
+                    if (Math.Abs(_updateTillNextBomb) < AppConstants.TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
                     {
-                        var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0), enemy.Sprite.PositionY - 21);
+                        var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0), enemy.Sprite.PositionY - 21);
                         _bombs.Add(bomb);
                         enemy.AttachedBomb = bomb;
                         enemy.OpenForBomb();
@@ -3483,7 +3483,7 @@ namespace LooneyInvaders.Layers
                         }
                     }
 
-                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
                         var hasEnemyBelow = false;
                         var r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
@@ -3496,7 +3496,7 @@ namespace LooneyInvaders.Layers
                                 break;
                             }
                         }
-                        if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == ENEMYSTATE.GRIMACE1 || enemy.State == ENEMYSTATE.GRIMACE2))
+                        if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2))
                         {
                             if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
                             if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
@@ -3504,28 +3504,28 @@ namespace LooneyInvaders.Layers
 
                             if (enemy.LensFlare != null) RemoveChild(enemy.LensFlare);
                             enemy.LensFlare = null;
-                            enemy.State = ENEMYSTATE.NORMAL;
+                            enemy.State = EnemyState.Normal;
                             enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                             if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.keepGrimace = 1.5f + _random.Next(5);
+                            enemy.KeepGrimace = 1.5f + _random.Next(5);
                         }
-                        if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
+                        if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
                         {
                             if (_random.Next(2) == 0)
                             {
-                                enemy.State = ENEMYSTATE.GRIMACE1;
+                                enemy.State = EnemyState.Grimace1;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
-                                enemy.keepGrimace = 3f;
+                                enemy.KeepGrimace = 3f;
                             }
                             else
                             {
-                                enemy.State = ENEMYSTATE.GRIMACE2;
+                                enemy.State = EnemyState.Grimace2;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
-                                enemy.keepGrimace = 3f;
+                                enemy.KeepGrimace = 3f;
                             }
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.LaserFxId1 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
+                            enemy.LaserFxId1 = GameEnvironment.PlaySoundEffect(SoundEffect.AlienLaser);
                             //enemy.LaserFxId2 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
                             //enemy.LaserFxId3 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
 
@@ -3541,20 +3541,20 @@ namespace LooneyInvaders.Layers
                     else
                     {
 
-                        if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0)
+                        if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0)
                         {
                             if (_random.Next(2) == 0)
                             {
-                                enemy.State = ENEMYSTATE.GRIMACE1;
+                                enemy.State = EnemyState.Grimace1;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
                             }
                             else
                             {
-                                enemy.State = ENEMYSTATE.GRIMACE2;
+                                enemy.State = EnemyState.Grimace2;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
                             }
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.keepGrimace = 0.5f + _random.Next(5);
+                            enemy.KeepGrimace = 0.5f + _random.Next(5);
                         }
                     }
                     /*
@@ -3593,7 +3593,7 @@ namespace LooneyInvaders.Layers
                     for (var j = 0; j < enemy.Lasers.Count;)
                     {
                         var laser = enemy.Lasers[j];
-                        laser.y += laser.Sprite.ContentSize.Height;
+                        laser.Y += laser.Sprite.ContentSize.Height;
                         if (laser.Left)
                         {
                             laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
@@ -3602,9 +3602,9 @@ namespace LooneyInvaders.Layers
                         {
                             laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
                         }
-                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.y - laser.Sprite.ContentSize.Height - 35;
+                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
 
-                        if (laser.y > 1300 || laser.LaserHit)
+                        if (laser.Y > 1300 || laser.LaserHit)
                         {
                             laser.Destroy();
                             enemy.Lasers.RemoveAt(j);
@@ -3676,20 +3676,20 @@ namespace LooneyInvaders.Layers
                         laserRemoved = false;
                     }
 
-                    if (enemy.keepGrimace > 0)
+                    if (enemy.KeepGrimace > 0)
                     {
-                        enemy.keepGrimace -= dt;
-                        if ((enemy.State == ENEMYSTATE.GRIMACE1 || enemy.State == ENEMYSTATE.GRIMACE2) && enemy.OpenMouth == null && enemy.keepGrimace <= 0)
+                        enemy.KeepGrimace -= dt;
+                        if ((enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.OpenMouth == null && enemy.KeepGrimace <= 0)
                         {
-                            enemy.State = ENEMYSTATE.NORMAL;
+                            enemy.State = EnemyState.Normal;
                             enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                             if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.keepGrimace = 0.5f + _random.Next(5);
+                            enemy.KeepGrimace = 0.5f + _random.Next(5);
                         }
                         else
                         {
-                            if (SelectedEnemy == ENEMIES.ALIENS && (enemy.State == ENEMYSTATE.GRIMACE1 || enemy.State == ENEMYSTATE.GRIMACE2) && enemy.keepGrimace < 2f)
+                            if (SelectedEnemy == Enemies.Aliens && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.KeepGrimace < 2f)
                             {
                                 if (enemy.LaserTop == null)
                                 {
@@ -3707,11 +3707,11 @@ namespace LooneyInvaders.Layers
                                 enemy.LaserTop.PositionY = enemy.Sprite.PositionY - 35;
                                 var laser = new Laser(this, true);
                                 laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
-                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.y - laser.Sprite.ContentSize.Height - 35;
+                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
                                 enemy.Lasers.Add(laser);
                                 laser = new Laser(this, false);
                                 laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
-                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.y - laser.Sprite.ContentSize.Height - 35;
+                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
                                 enemy.Lasers.Add(laser);
                             }
                         }
@@ -3729,7 +3729,7 @@ namespace LooneyInvaders.Layers
                     for (var j = 0; j < enemy.Lasers.Count;)
                     {
                         var laser = enemy.Lasers[j];
-                        laser.y += laser.Sprite.ContentSize.Height;
+                        laser.Y += laser.Sprite.ContentSize.Height;
                         if (laser.Left)
                         {
                             laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
@@ -3738,9 +3738,9 @@ namespace LooneyInvaders.Layers
                         {
                             laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
                         }
-                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.y - laser.Sprite.ContentSize.Height - 35;
+                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
 
-                        if (laser.y > 1300 || laser.LaserHit)
+                        if (laser.Y > 1300 || laser.LaserHit)
                         {
                             laser.Destroy();
                             enemy.Lasers.RemoveAt(j);
@@ -3858,7 +3858,7 @@ namespace LooneyInvaders.Layers
                     {
                         _enemyAcceleration = _enemySpeed / 30f;
                         _firstGoingDown = false;
-                        if (VoiceGameOver != "" && SelectedEnemy == ENEMIES.TRUMP) CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
+                        if (VoiceGameOver != "" && SelectedEnemy == Enemies.Trump) CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
                     }
                 }
             }
@@ -3879,10 +3879,10 @@ namespace LooneyInvaders.Layers
                     _flyingSaucer = null;
                 }
             }
-            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + (_lives.Count * 200)) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == ENEMIES.ALIENS && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
+            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + (_lives.Count * 200)) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
             {
                 _flyingSaucerIncoming = 2;
-                _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_INCOMING);
+                _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerIncoming);
             }
             else if (_flyingSaucerWait > 0)
             {
@@ -3895,7 +3895,7 @@ namespace LooneyInvaders.Layers
                 if (_flyingSaucerIncoming <= 0)
                 {
                     CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
-                    _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_FLYING);
+                    _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerFlying);
                     _flyingSaucerFrame = 0;
                     _flyingSaucer = new CCSprite(SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_00.png"));
                     if (_random.Next(2) == 0)
@@ -3973,9 +3973,9 @@ namespace LooneyInvaders.Layers
             if (_enemies.Count == 0 && _bombs.Count == 0 && _playerExplosion == null && !_waveTransfer)
             {
                 _waveTransfer = true;
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
-                    GameEnvironment.PlayMusic(MUSIC.NEXTWAVEALIEN);
+                    GameEnvironment.PlayMusic(Music.NextWaveAlien);
                     if (Settings.Instance.VoiceoversEnabled)
                     {
                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
@@ -3989,7 +3989,7 @@ namespace LooneyInvaders.Layers
                     switch (_wave)
                     {
                         case 1:
-                            GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
+                            GameEnvironment.PlayMusic(Music.NextWave);
                             _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-next-wave-text.png", 100);
                             if (Settings.Instance.VoiceoversEnabled)
                             {
@@ -3997,7 +3997,7 @@ namespace LooneyInvaders.Layers
                             }
 
 
-                            if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
+                            if (SelectedBattleground == Battlegrounds.Finland)
                             {
                                 _fireworkFrame = 1f;
                                 ScheduleOnce(NextWave, 4.5f);
@@ -4009,13 +4009,13 @@ namespace LooneyInvaders.Layers
                             break;
                         case 2:
 
-                            GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
+                            GameEnvironment.PlayMusic(Music.NextWave);
                             _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-final-wave-text.png", 100);
                             if (Settings.Instance.VoiceoversEnabled)
                             {
                                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for final wave VO_mono.wav");
                             }
-                            if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
+                            if (SelectedBattleground == Battlegrounds.Finland)
                             {
                                 _fireworkFrame = 1f;
                                 ScheduleOnce(NextWave, 4.5f);
@@ -4026,7 +4026,7 @@ namespace LooneyInvaders.Layers
                             }
                             break;
                         case 3:
-                            if (_launchMode == LAUNCH_MODE.DEFAULT)
+                            if (_launchMode == LaunchMode.Default)
                             {
                                 if (Settings.Instance.VoiceoversEnabled)
                                 {
@@ -4034,14 +4034,14 @@ namespace LooneyInvaders.Layers
                                 }
                                 AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-victory!!!-text.png", 100);
                             }
-                            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TEXTAPPEARS);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.TextAppears);
                             //this.UnscheduleAll();
-                            if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
+                            if (SelectedBattleground == Battlegrounds.Finland)
                             {
                                 _fireworkFrame = 1f;
                                 ScheduleOnce(Victory, 4.5f);
                             }
-                            if (SelectedBattleground == BATTLEGROUNDS.WHITE_HOUSE)
+                            if (SelectedBattleground == Battlegrounds.WhiteHouse)
                             {
                                 ScheduleOnce(Victory, 0.5f);
                             }
@@ -4273,7 +4273,7 @@ namespace LooneyInvaders.Layers
 
             _speedTo = 0;
 
-            if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
+            if (Settings.Instance.ControlType == ControlType.Manual)
             {
                 var fireButtonX = 918;
                 var fireButtonY = 2;
@@ -4290,7 +4290,7 @@ namespace LooneyInvaders.Layers
                 _btnMovement = AddButton(steerinButtonX, steeringButtonY,
                     "UI/Controls/Steering arrow/080-transparent-movement-arrow-untapped.png",
                     "UI/Controls/Steering arrow/040-transparent-movement-arrow-tapped.png", 200,
-                    BUTTON_TYPE.Silent);
+                    ButtonType.Silent);
 
                 _touchListener.OnTouchesBegan += OnTouchesBegan;
                 _touchListener.OnTouchesBegan += GamePlayLayer_TouchResponse;
@@ -4299,7 +4299,7 @@ namespace LooneyInvaders.Layers
 
                 _btnFire = AddButton(fireButtonX, fireButtonY,
                     "UI/Controls/Fire button/080-transparent-fire-button-untapped.png",
-                    "UI/Controls/Fire button/040-transparent-fire-button-tapped.png", 200, BUTTON_TYPE.Silent);
+                    "UI/Controls/Fire button/040-transparent-fire-button-tapped.png", 200, ButtonType.Silent);
 
                 _btnFire.Visible = false;
                 _btnMovement.Visible = false;
@@ -4317,7 +4317,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                if (_launchMode == LAUNCH_MODE.STEERING_TEST)
+                if (_launchMode == LaunchMode.SteeringTest)
                 {
                     _touchListener.OnTouchesBegan += GamePlayLayer_OnTouchesBegan;
                 }

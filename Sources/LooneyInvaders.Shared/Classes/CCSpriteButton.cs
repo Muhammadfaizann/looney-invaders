@@ -11,12 +11,12 @@ namespace LooneyInvaders.Classes
         public string ImageNameUntapped { get; set; }
         public event EventHandler OnClick;
         public bool IsBeingTapped { get; set; }
-        public BUTTON_TYPE ButtonType { get; set; }
+        public ButtonType ButtonType { get; set; }
 
         public char Slovo;
 
 
-        public CCSpriteButton(string imageNameUntapped, string imageNameTapped, BUTTON_TYPE buttonType = BUTTON_TYPE.Regular) : base(imageNameUntapped)
+        public CCSpriteButton(string imageNameUntapped, string imageNameTapped, ButtonType buttonType = ButtonType.Regular) : base(imageNameUntapped)
         {
             ImageNameUntapped = imageNameUntapped;
             ImageNameTapped = imageNameTapped;

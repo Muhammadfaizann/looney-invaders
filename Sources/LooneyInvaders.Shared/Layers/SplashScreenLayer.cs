@@ -17,13 +17,13 @@ namespace LooneyInvaders.Layers
             SetBackground("UI/Splash-screen-background-2.jpg");
             Settings.Instance.ApplyValues(false);
 
-            GameEnvironment.PlayMusic(MUSIC.SPLASH_SCREEN);
+            GameEnvironment.PlayMusic(Music.SplashScreen);
 
-            if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental)
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental)
             {
                 _musicTime = 7;
             }
-            else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox)
+            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox)
             {
                 _musicTime = 5;
             }
@@ -77,7 +77,7 @@ namespace LooneyInvaders.Layers
             if (_musicTime <= 1.2)
             {
                 //---------- Prabhjot ----------//
-                GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+                GameEnvironment.PlayMusic(Music.MainMenu);
 
             }
 

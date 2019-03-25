@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
+﻿using Plugin.Settings;
 
 namespace LooneyInvaders.Model
 {
@@ -10,94 +6,166 @@ namespace LooneyInvaders.Model
     {
         public static void ResetAllSettings()
         {
-            SetCaliberSize(WEAPONS.STANDARD, 2);
-            SetCaliberSize(WEAPONS.COMPACT, 1);
-            SetCaliberSize(WEAPONS.BAZOOKA, 3);
-            SetCaliberSize(WEAPONS.HYBRID, 3);
-            SetFirespeed(WEAPONS.STANDARD, 2);
-            SetFirespeed(WEAPONS.COMPACT, 3);
-            SetFirespeed(WEAPONS.BAZOOKA, 1);
-            SetFirespeed(WEAPONS.HYBRID, 3);
-            SetMagazineSize(WEAPONS.STANDARD, 1);
-            SetMagazineSize(WEAPONS.COMPACT, 2);
-            SetMagazineSize(WEAPONS.BAZOOKA, 2);
-            SetMagazineSize(WEAPONS.HYBRID, 3);
-            SetLives(WEAPONS.STANDARD, 3);
-            SetLives(WEAPONS.COMPACT, 3);
-            SetLives(WEAPONS.BAZOOKA, 3);
-            SetLives(WEAPONS.HYBRID, 4);
+            SetCaliberSize(Weapons.Standard, 2);
+            SetCaliberSize(Weapons.Compact, 1);
+            SetCaliberSize(Weapons.Bazooka, 3);
+            SetCaliberSize(Weapons.Hybrid, 3);
+            SetFirespeed(Weapons.Standard, 2);
+            SetFirespeed(Weapons.Compact, 3);
+            SetFirespeed(Weapons.Bazooka, 1);
+            SetFirespeed(Weapons.Hybrid, 3);
+            SetMagazineSize(Weapons.Standard, 1);
+            SetMagazineSize(Weapons.Compact, 2);
+            SetMagazineSize(Weapons.Bazooka, 2);
+            SetMagazineSize(Weapons.Hybrid, 3);
+            SetLives(Weapons.Standard, 3);
+            SetLives(Weapons.Compact, 3);
+            SetLives(Weapons.Bazooka, 3);
+            SetLives(Weapons.Hybrid, 4);
         }
 
-        public static int GetCaliberSize(WEAPONS weapon)
+        public static int GetCaliberSize(Weapons weapon)
         {
-            if (weapon == WEAPONS.STANDARD) return CrossSettings.Current.GetValueOrDefault("CaliberSizeStandard", 2);
-            else if (weapon == WEAPONS.COMPACT) return CrossSettings.Current.GetValueOrDefault("CaliberSizeCompact", 1);
-            else if (weapon == WEAPONS.BAZOOKA) return CrossSettings.Current.GetValueOrDefault("CaliberSizeBazooka", 3);
-            else if (weapon == WEAPONS.HYBRID) return CrossSettings.Current.GetValueOrDefault("CaliberSizeHybrid", 3);
-
-            return 0;
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    return CrossSettings.Current.GetValueOrDefault("CaliberSizeStandard", 2);
+                case Weapons.Compact:
+                    return CrossSettings.Current.GetValueOrDefault("CaliberSizeCompact", 1);
+                case Weapons.Bazooka:
+                    return CrossSettings.Current.GetValueOrDefault("CaliberSizeBazooka", 3);
+                case Weapons.Hybrid:
+                    return CrossSettings.Current.GetValueOrDefault("CaliberSizeHybrid", 3);
+                default:
+                    return 0;
+            }
         }
 
-        public static void SetCaliberSize(WEAPONS weapon, int value)
+        public static void SetCaliberSize(Weapons weapon, int value)
         {
-            if (weapon == WEAPONS.STANDARD) CrossSettings.Current.AddOrUpdateValue("CaliberSizeStandard", value);
-            else if (weapon == WEAPONS.COMPACT) CrossSettings.Current.AddOrUpdateValue("CaliberSizeCompact", value);
-            else if (weapon == WEAPONS.BAZOOKA) CrossSettings.Current.AddOrUpdateValue("CaliberSizeBazooka", value);
-            else if (weapon == WEAPONS.HYBRID) CrossSettings.Current.AddOrUpdateValue("CaliberSizeHybrid", value);
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    CrossSettings.Current.AddOrUpdateValue("CaliberSizeStandard", value);
+                    break;
+                case Weapons.Compact:
+                    CrossSettings.Current.AddOrUpdateValue("CaliberSizeCompact", value);
+                    break;
+                case Weapons.Bazooka:
+                    CrossSettings.Current.AddOrUpdateValue("CaliberSizeBazooka", value);
+                    break;
+                case Weapons.Hybrid:
+                    CrossSettings.Current.AddOrUpdateValue("CaliberSizeHybrid", value);
+                    break;
+            }
         }
 
-        public static int GetFirespeed(WEAPONS weapon)
+        public static int GetFirespeed(Weapons weapon)
         {
-            if (weapon == WEAPONS.STANDARD) return CrossSettings.Current.GetValueOrDefault("FirespeedStandard", 2);
-            else if (weapon == WEAPONS.COMPACT) return CrossSettings.Current.GetValueOrDefault("FirespeedCompact", 3);
-            else if (weapon == WEAPONS.BAZOOKA) return CrossSettings.Current.GetValueOrDefault("FirespeedBazooka", 1);
-            else if (weapon == WEAPONS.HYBRID) return CrossSettings.Current.GetValueOrDefault("FirespeedHybrid", 3);
-
-            return 0;
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    return CrossSettings.Current.GetValueOrDefault("FirespeedStandard", 2);
+                case Weapons.Compact:
+                    return CrossSettings.Current.GetValueOrDefault("FirespeedCompact", 3);
+                case Weapons.Bazooka:
+                    return CrossSettings.Current.GetValueOrDefault("FirespeedBazooka", 1);
+                case Weapons.Hybrid:
+                    return CrossSettings.Current.GetValueOrDefault("FirespeedHybrid", 3);
+                default:
+                    return 0;
+            }
         }
 
-        public static void SetFirespeed(WEAPONS weapon, int value)
+        public static void SetFirespeed(Weapons weapon, int value)
         {
-            if (weapon == WEAPONS.STANDARD) CrossSettings.Current.AddOrUpdateValue("FirespeedStandard", value);
-            else if (weapon == WEAPONS.COMPACT) CrossSettings.Current.AddOrUpdateValue("FirespeedCompact", value);
-            else if (weapon == WEAPONS.BAZOOKA) CrossSettings.Current.AddOrUpdateValue("FirespeedBazooka", value);
-            else if (weapon == WEAPONS.HYBRID) CrossSettings.Current.AddOrUpdateValue("FirespeedHybrid", value);
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    CrossSettings.Current.AddOrUpdateValue("FirespeedStandard", value);
+                    break;
+                case Weapons.Compact:
+                    CrossSettings.Current.AddOrUpdateValue("FirespeedCompact", value);
+                    break;
+                case Weapons.Bazooka:
+                    CrossSettings.Current.AddOrUpdateValue("FirespeedBazooka", value);
+                    break;
+                case Weapons.Hybrid:
+                    CrossSettings.Current.AddOrUpdateValue("FirespeedHybrid", value);
+                    break;
+            }
         }
 
-        public static int GetMagazineSize(WEAPONS weapon)
+        public static int GetMagazineSize(Weapons weapon)
         {
-            if (weapon == WEAPONS.STANDARD) return CrossSettings.Current.GetValueOrDefault("MagazineSizeStandard", 1);
-            else if (weapon == WEAPONS.COMPACT) return CrossSettings.Current.GetValueOrDefault("MagazineSizeCompact", 2);
-            else if (weapon == WEAPONS.BAZOOKA) return CrossSettings.Current.GetValueOrDefault("MagazineSizeBazooka", 2);
-            else if (weapon == WEAPONS.HYBRID) return CrossSettings.Current.GetValueOrDefault("MagazineSizeHybrid", 3);
-
-            return 0;
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    return CrossSettings.Current.GetValueOrDefault("MagazineSizeStandard", 1);
+                case Weapons.Compact:
+                    return CrossSettings.Current.GetValueOrDefault("MagazineSizeCompact", 2);
+                case Weapons.Bazooka:
+                    return CrossSettings.Current.GetValueOrDefault("MagazineSizeBazooka", 2);
+                case Weapons.Hybrid:
+                    return CrossSettings.Current.GetValueOrDefault("MagazineSizeHybrid", 3);
+                default:
+                    return 0;
+            }
         }
 
-        public static void SetMagazineSize(WEAPONS weapon, int value)
+        public static void SetMagazineSize(Weapons weapon, int value)
         {
-            if (weapon == WEAPONS.STANDARD) CrossSettings.Current.AddOrUpdateValue("MagazineSizeStandard", value);
-            else if (weapon == WEAPONS.COMPACT) CrossSettings.Current.AddOrUpdateValue("MagazineSizeCompact", value);
-            else if (weapon == WEAPONS.BAZOOKA) CrossSettings.Current.AddOrUpdateValue("MagazineSizeBazooka", value);
-            else if (weapon == WEAPONS.HYBRID) CrossSettings.Current.AddOrUpdateValue("MagazineSizeHybrid", value);
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    CrossSettings.Current.AddOrUpdateValue("MagazineSizeStandard", value);
+                    break;
+                case Weapons.Compact:
+                    CrossSettings.Current.AddOrUpdateValue("MagazineSizeCompact", value);
+                    break;
+                case Weapons.Bazooka:
+                    CrossSettings.Current.AddOrUpdateValue("MagazineSizeBazooka", value);
+                    break;
+                case Weapons.Hybrid:
+                    CrossSettings.Current.AddOrUpdateValue("MagazineSizeHybrid", value);
+                    break;
+            }
         }
 
-        public static int GetLives(WEAPONS weapon)
+        public static int GetLives(Weapons weapon)
         {
-            if (weapon == WEAPONS.STANDARD) return CrossSettings.Current.GetValueOrDefault("LivesStandard", 3);
-            else if (weapon == WEAPONS.COMPACT) return CrossSettings.Current.GetValueOrDefault("LivesCompact", 3);
-            else if (weapon == WEAPONS.BAZOOKA) return CrossSettings.Current.GetValueOrDefault("LivesBazooka", 3);
-            else if (weapon == WEAPONS.HYBRID) return CrossSettings.Current.GetValueOrDefault("LivesHybrid", 4);
-
-            return 0;
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    return CrossSettings.Current.GetValueOrDefault("LivesStandard", 3);
+                case Weapons.Compact:
+                    return CrossSettings.Current.GetValueOrDefault("LivesCompact", 3);
+                case Weapons.Bazooka:
+                    return CrossSettings.Current.GetValueOrDefault("LivesBazooka", 3);
+                case Weapons.Hybrid:
+                    return CrossSettings.Current.GetValueOrDefault("LivesHybrid", 4);
+                default:
+                    return 0;
+            }
         }
 
-        public static void SetLives(WEAPONS weapon, int value)
+        public static void SetLives(Weapons weapon, int value)
         {
-            if (weapon == WEAPONS.STANDARD) CrossSettings.Current.AddOrUpdateValue("LivesStandard", value);
-            else if (weapon == WEAPONS.COMPACT) CrossSettings.Current.AddOrUpdateValue("LivesCompact", value);
-            else if (weapon == WEAPONS.BAZOOKA) CrossSettings.Current.AddOrUpdateValue("LivesBazooka", value);
-            else if (weapon == WEAPONS.HYBRID) CrossSettings.Current.AddOrUpdateValue("LivesHybrid", value);
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    CrossSettings.Current.AddOrUpdateValue("LivesStandard", value);
+                    break;
+                case Weapons.Compact:
+                    CrossSettings.Current.AddOrUpdateValue("LivesCompact", value);
+                    break;
+                case Weapons.Bazooka:
+                    CrossSettings.Current.AddOrUpdateValue("LivesBazooka", value);
+                    break;
+                case Weapons.Hybrid:
+                    CrossSettings.Current.AddOrUpdateValue("LivesHybrid", value);
+                    break;
+            }
         }
     }
 }

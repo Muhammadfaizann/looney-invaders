@@ -45,7 +45,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler_1_strenght_for_echo.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin_1_Mighty_Independence.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SWIPE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Swipe);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
@@ -57,19 +57,19 @@ namespace LooneyInvaders.Layers
 
             while (GameAnimation.Instance.PreloadNextSpriteSheetEnemies()) { }
 
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
             _btnForwardNoPasaran = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-tapped.png", 500);
-            _btnForwardNoPasaran.ButtonType = BUTTON_TYPE.CannotTap;
+            _btnForwardNoPasaran.ButtonType = ButtonType.CannotTap;
             _btnForwardNoPasaran.Visible = false;
 
 
@@ -87,7 +87,7 @@ namespace LooneyInvaders.Layers
 
             var enemyPositionX = 570;
             var enemyCount = 0;
-            var isAliensEnabled = Player.Instance.GetSavedCountries(BATTLEGROUNDS.UNITED_STATES) > 0;
+            var isAliensEnabled = Player.Instance.GetSavedCountries(Battlegrounds.UnitedStates) > 0;
 
             if (isAliensEnabled)
             {
@@ -95,7 +95,7 @@ namespace LooneyInvaders.Layers
                 _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Alien-C-5_00000.png", 0);
                 _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[enemyCount].Scale = 1f;
-                _images[enemyCount].Tag = (int)ENEMIES.ALIENS;
+                _images[enemyCount].Tag = (int)Enemies.Aliens;
 
                 enemyPositionX += 420;
                 enemyCount++;
@@ -111,28 +111,28 @@ namespace LooneyInvaders.Layers
             if (isAliensEnabled) _images[enemyCount].Scale = 0.5f;
             else _images[enemyCount].Scale = 1f;
 
-            _images[enemyCount].Tag = (int)ENEMIES.HITLER;
+            _images[enemyCount].Tag = (int)Enemies.Hitler;
             enemyPositionX += 420;
             enemyCount++;
 
             _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Bush-Safe-C_00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.BUSH;
+            _images[enemyCount].Tag = (int)Enemies.Bush;
             enemyPositionX += 420;
             enemyCount++;
 
             _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Putin-Strength-D00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.PUTIN;
+            _images[enemyCount].Tag = (int)Enemies.Putin;
             enemyPositionX += 420;
             enemyCount++;
 
             _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Kim-Strength-D00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.KIM;
+            _images[enemyCount].Tag = (int)Enemies.Kim;
             //enemyPositionX += 420;
             //enemyCount++;
 
@@ -143,7 +143,7 @@ namespace LooneyInvaders.Layers
             {
                 _centerImage = _images[0];
 
-                _selectedEnemy = (int)ENEMIES.ALIENS;
+                _selectedEnemy = (int)Enemies.Aliens;
                 _imgEnemyName = AddImage(335, -5, "UI/Choose-your-enemy-alien-text.png", 500);
                 _imgEnemyName.Opacity = 0;
                 _startedTalking = false;
@@ -152,7 +152,7 @@ namespace LooneyInvaders.Layers
             {
                 _centerImage = _images[0];
 
-                _selectedEnemy = (int)ENEMIES.HITLER;
+                _selectedEnemy = (int)Enemies.Hitler;
                 _imgEnemyName = AddImage(335, -5, "UI/Choose-your-enemy-adolf-hitler-text.png", 500);
                 _imgEnemyName.Opacity = 0;
                 _startedTalking = false;
@@ -185,7 +185,7 @@ namespace LooneyInvaders.Layers
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
 
@@ -197,10 +197,10 @@ namespace LooneyInvaders.Layers
 
             _btnGameTipCheckMark = AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
             _btnGameTipCheckMark.OnClick += btnGameTipCheckMark_OnClick;
-            _btnGameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _btnGameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _imgGameTipCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
         }
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
@@ -221,7 +221,7 @@ namespace LooneyInvaders.Layers
 
 
             //------------- Prabhjot ---------------//
-            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _isShowGameTipViewLoaded = false;
 
@@ -239,7 +239,7 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -256,7 +256,7 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -336,34 +336,34 @@ namespace LooneyInvaders.Layers
             if (_centerImage.Tag != _selectedEnemy)
             {
                 CCAudioEngine.SharedEngine.StopAllEffects();
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SWIPE);
+                GameEnvironment.PlaySoundEffect(SoundEffect.Swipe);
 
                 _selectedEnemy = _centerImage.Tag;
 
-                if (_selectedEnemy == (int)ENEMIES.HITLER)
+                if (_selectedEnemy == (int)Enemies.Hitler)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-adolf-hitler-text.png");
                     _imgEnemyLocked.Visible = false;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.BUSH)
+                else if (_selectedEnemy == (int)Enemies.Bush)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-george-bush-text.png");
                     ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-george-bush-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.ENGLAND) == 0;
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.England) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+                else if (_selectedEnemy == (int)Enemies.Putin)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-vladimir-putin-text.png");
                     ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-vladimir-putin-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.RUSSIA) == 0;
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.Russia) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.KIM)
+                else if (_selectedEnemy == (int)Enemies.Kim)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-kim-jong-un-text.png");
                     ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-kim-jong-un-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.FINLAND) == 0;
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.Finland) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.ALIENS)
+                else if (_selectedEnemy == (int)Enemies.Aliens)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-alien-text.png");
                     _imgEnemyLocked.Visible = false;
@@ -454,11 +454,11 @@ namespace LooneyInvaders.Layers
             Unschedule(StartTalking);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (_centerImage.Tag == (int)ENEMIES.BUSH) CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.HITLER) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.KIM) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
 
                 Schedule(StartFading, 0.025f);
                 ScheduleOnce(StartStartTalking, 1.8f);
@@ -490,11 +490,11 @@ namespace LooneyInvaders.Layers
         {
             if (!_startedTalking)
             {
-                if (_centerImage.Tag == (int)ENEMIES.BUSH) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.HITLER) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.KIM) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
 
                 _startedTalking = true;
                 _talkTimePassed = 0;
@@ -504,35 +504,35 @@ namespace LooneyInvaders.Layers
 
             var imageNamePrefix = "";
 
-            if (_centerImage.Tag == (int)ENEMIES.BUSH) imageNamePrefix = "UI/Bush-Safe-C_";
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER) imageNamePrefix = "UI/Hitler-Strength-E";
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN) imageNamePrefix = "UI/Putin-Strength-D";
-            else if (_centerImage.Tag == (int)ENEMIES.KIM) imageNamePrefix = "UI/Kim-Strength-D";
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS) imageNamePrefix = "UI/Alien-C-5_";
+            if (_centerImage.Tag == (int)Enemies.Bush) imageNamePrefix = "UI/Bush-Safe-C_";
+            else if (_centerImage.Tag == (int)Enemies.Hitler) imageNamePrefix = "UI/Hitler-Strength-E";
+            else if (_centerImage.Tag == (int)Enemies.Putin) imageNamePrefix = "UI/Putin-Strength-D";
+            else if (_centerImage.Tag == (int)Enemies.Kim) imageNamePrefix = "UI/Kim-Strength-D";
+            else if (_centerImage.Tag == (int)Enemies.Aliens) imageNamePrefix = "UI/Alien-C-5_";
 
             _talkingSpriteIndex = Convert.ToInt32(_talkTimePassed / 0.039f);
 
-            if (_centerImage.Tag == (int)ENEMIES.BUSH && _talkingSpriteIndex > 94)
+            if (_centerImage.Tag == (int)Enemies.Bush && _talkingSpriteIndex > 94)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER && _talkingSpriteIndex > 151)
+            else if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 151)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN && _talkingSpriteIndex > 138)
+            else if (_centerImage.Tag == (int)Enemies.Putin && _talkingSpriteIndex > 138)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.KIM && _talkingSpriteIndex > 129)
+            else if (_centerImage.Tag == (int)Enemies.Kim && _talkingSpriteIndex > 129)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS && _talkingSpriteIndex > 415)
+            else if (_centerImage.Tag == (int)Enemies.Aliens && _talkingSpriteIndex > 415)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
@@ -542,33 +542,33 @@ namespace LooneyInvaders.Layers
 
             if (GameEnvironment.GetTotalRamSizeMb() > 500)
             {
-                if (_centerImage.Tag == (int)ENEMIES.HITLER && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 151)
+                if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 151)
                 {
-                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
                     ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.BUSH && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 94)
+                else if (_centerImage.Tag == (int)Enemies.Bush && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 94)
                 {
-                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
                     ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.KIM && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 129)
+                else if (_centerImage.Tag == (int)Enemies.Kim && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 129)
                 {
-                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
                     ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 138)
+                else if (_centerImage.Tag == (int)Enemies.Putin && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 138)
                 {
-                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
                     ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 415)
+                else if (_centerImage.Tag == (int)Enemies.Aliens && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 415)
                 {
-                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
                     ChangeSpriteImage(_centerImage, frame);
                 }
@@ -596,11 +596,11 @@ namespace LooneyInvaders.Layers
             _imgEnemyLocked.Opacity = 0;
             _labelOpacity = 0;
 
-            if (_centerImage.Tag == (int)ENEMIES.BUSH) ChangeSpriteImage(_centerImage, "UI/Bush-Safe-C_00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER) ChangeSpriteImage(_centerImage, "UI/Hitler-Strength-E00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN) ChangeSpriteImage(_centerImage, "UI/Putin-Strength-D00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.KIM) ChangeSpriteImage(_centerImage, "UI/Kim-Strength-D00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS) ChangeSpriteImage(_centerImage, "UI/Alien-C-5_00000.png");
+            if (_centerImage.Tag == (int)Enemies.Bush) ChangeSpriteImage(_centerImage, "UI/Bush-Safe-C_00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Hitler) ChangeSpriteImage(_centerImage, "UI/Hitler-Strength-E00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Putin) ChangeSpriteImage(_centerImage, "UI/Putin-Strength-D00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Kim) ChangeSpriteImage(_centerImage, "UI/Kim-Strength-D00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Aliens) ChangeSpriteImage(_centerImage, "UI/Alien-C-5_00000.png");
 
             _centerImage.Scale = 1;
         }

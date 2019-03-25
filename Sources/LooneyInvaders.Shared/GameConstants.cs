@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LooneyInvaders
+﻿namespace LooneyInvaders
 {
     public static class GameConstants
     {

@@ -1,4 +1,3 @@
-using System;
 using LooneyInvaders.Model;
 using Microsoft.AppCenter;
 
@@ -7,10 +6,11 @@ using Microsoft.AppCenter.Crashes;
 
 using Microsoft.AppCenter.Push;
 
-namespace LooneyInvaders.PNS { 
-// The UIApplicationDelegate for the application. This class is responsible for launching the
-// User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
-public class PushNotificationService
+namespace LooneyInvaders.PNS
+{
+    // The UIApplicationDelegate for the application. This class is responsible for launching the
+    // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
+    public class PushNotificationService
     {
         public bool CheckDoesNeedAskPremission()
         {
@@ -53,10 +53,6 @@ public class PushNotificationService
                         }
                         break;
                     }
-                default:
-                    {
-                        break;
-                    }
             }
 
             if (Settings.Instance.IsPushNotificationEnabled)
@@ -79,9 +75,9 @@ public class PushNotificationService
             Settings.Instance.IsPushNotificationEnabled = true;
 #endif
 
-            AppCenter.Start(keyForNotification, typeof(Push),typeof(Crashes) ,typeof(Analytics));
+            AppCenter.Start(keyForNotification, typeof(Push), typeof(Crashes), typeof(Analytics));
         }
     }
 
- 
+
 }

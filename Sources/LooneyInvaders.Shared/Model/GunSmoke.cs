@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CocosSharp;
+﻿using CocosSharp;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Model
@@ -16,28 +13,28 @@ namespace LooneyInvaders.Model
 
         public GunSmoke(GamePlayLayer gamePlayLayer, float x, float y)
         {
-            this._gamePlayLayer = gamePlayLayer;
-            if (_gamePlayLayer.SelectedWeapon == WEAPONS.HYBRID)
+            _gamePlayLayer = gamePlayLayer;
+            if (_gamePlayLayer.SelectedWeapon == Weapons.Hybrid)
             {
-                this.Sprite = new CCSprite(gamePlayLayer.SsHybridLaser[0].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_06.png"));
-                this.Sprite.Position = new CCPoint(x-30, y-200);
-                this.Sprite.Opacity = 200;
-                this.Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
+                Sprite = new CCSprite(gamePlayLayer.SsHybridLaser[0].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_06.png"));
+                Sprite.Position = new CCPoint(x - 30, y - 200);
+                Sprite.Opacity = 200;
+                Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
             }
             else
             {
-                this.Sprite = new CCSprite(gamePlayLayer.SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame00.png"));
-                this.Sprite.Position = new CCPoint(x, y);
-                this.Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
+                Sprite = new CCSprite(gamePlayLayer.SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame00.png"));
+                Sprite.Position = new CCPoint(x, y);
+                Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
             }
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-            this._gamePlayLayer.AddChild(this.Sprite, 20);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            _gamePlayLayer.AddChild(Sprite, 20);
         }
 
         public bool Destroy()
         {
-            this._gamePlayLayer.RemoveChild(Sprite, true);
-            this.Sprite = null;
+            _gamePlayLayer.RemoveChild(Sprite);
+            Sprite = null;
             return true;
         }
     }

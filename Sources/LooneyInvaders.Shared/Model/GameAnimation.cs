@@ -170,41 +170,41 @@ namespace LooneyInvaders.Model
             return false;
         }
 
-        public CCSpriteFrame GetEnemyTalkFrame(ENEMIES enemy, int frameIndex)
+        public CCSpriteFrame GetEnemyTalkFrame(Enemies enemy, int frameIndex)
         {
             string imageNamePrefix = "";
 
-            if (enemy == ENEMIES.BUSH) imageNamePrefix = "Bush-Safe-C_";
-            else if (enemy == ENEMIES.HITLER) imageNamePrefix = "Hitler-Strength-E";
-            else if (enemy == ENEMIES.PUTIN) imageNamePrefix = "Putin-Strength-D";
-            else if (enemy == ENEMIES.KIM) imageNamePrefix = "Kim-Strength-D";
-            else if (enemy == ENEMIES.ALIENS) imageNamePrefix = "Alien-C-5_";
+            if (enemy == Enemies.Bush) imageNamePrefix = "Bush-Safe-C_";
+            else if (enemy == Enemies.Hitler) imageNamePrefix = "Hitler-Strength-E";
+            else if (enemy == Enemies.Putin) imageNamePrefix = "Putin-Strength-D";
+            else if (enemy == Enemies.Kim) imageNamePrefix = "Kim-Strength-D";
+            else if (enemy == Enemies.Aliens) imageNamePrefix = "Alien-C-5_";
 
             string imageName = imageNamePrefix + frameIndex.ToString("00000") + ".png";
 
             CCSpriteFrame frame = null;
 
-            if (enemy == ENEMIES.HITLER)
+            if (enemy == Enemies.Hitler)
             {
                 int ssIndex = (frameIndex - 1) / 77;
                 frame = _ssAdolfTalk[ssIndex][imageName];
             }
-            else if (enemy == ENEMIES.BUSH)
+            else if (enemy == Enemies.Bush)
             {
                 int ssIndex = (frameIndex - 1) / 70;
                 frame = _ssBushTalk[ssIndex][imageName];
             }
-            else if (enemy == ENEMIES.KIM)
+            else if (enemy == Enemies.Kim)
             {
                 int ssIndex = (frameIndex - 1) / 63;
                 frame = _ssKimTalk[ssIndex][imageName];
             }
-            else if (enemy == ENEMIES.PUTIN)
+            else if (enemy == Enemies.Putin)
             {
                 int ssIndex = (frameIndex - 1) / 70;
                 frame = _ssPutinTalk[ssIndex][imageName];
             }
-            else if (enemy == ENEMIES.ALIENS)
+            else if (enemy == Enemies.Aliens)
             {
                 int ssIndex = (frameIndex - 1) / 70;
                 frame = _ssAlienTalk[ssIndex][imageName];
@@ -256,35 +256,35 @@ namespace LooneyInvaders.Model
             return false;
         }
 
-        public CCSpriteFrame GetWeaponBowFrame(WEAPONS weapon, int frameIndex)
+        public CCSpriteFrame GetWeaponBowFrame(Weapons weapon, int frameIndex)
         {
             string imageNamePrefix = "";
 
-            if (weapon == WEAPONS.STANDARD) imageNamePrefix = "standard_gun_bow_";
-            else if (weapon == WEAPONS.COMPACT) imageNamePrefix = "compact-sprayer_bow_";
-            else if (weapon == WEAPONS.BAZOOKA) imageNamePrefix = "black_bazooka_bow_";
-            else if (weapon == WEAPONS.HYBRID) imageNamePrefix = "hybrid_defender_bow_";
+            if (weapon == Weapons.Standard) imageNamePrefix = "standard_gun_bow_";
+            else if (weapon == Weapons.Compact) imageNamePrefix = "compact-sprayer_bow_";
+            else if (weapon == Weapons.Bazooka) imageNamePrefix = "black_bazooka_bow_";
+            else if (weapon == Weapons.Hybrid) imageNamePrefix = "hybrid_defender_bow_";
 
             string imageName = imageNamePrefix + frameIndex.ToString("00") + ".png";
 
             CCSpriteFrame frame = null;
 
-            if (weapon == WEAPONS.STANDARD)
+            if (weapon == Weapons.Standard)
             {
                 int ssIndex = (frameIndex - 1) / 35;
                 frame = _ssStandardBow[ssIndex][imageName];
             }
-            else if (weapon == WEAPONS.COMPACT)
+            else if (weapon == Weapons.Compact)
             {
                 int ssIndex = (frameIndex - 1) / 35;
                 frame = _ssCompactBow[ssIndex][imageName];
             }
-            else if (weapon == WEAPONS.BAZOOKA)
+            else if (weapon == Weapons.Bazooka)
             {
                 int ssIndex = (frameIndex - 1) / 35;
                 frame = _ssBazookaBow[ssIndex][imageName];
             }
-            else if (weapon == WEAPONS.HYBRID)
+            else if (weapon == Weapons.Hybrid)
             {
                 int ssIndex = (frameIndex - 1) / 35;
                 frame = _ssHybridBow[ssIndex][imageName];
@@ -293,11 +293,11 @@ namespace LooneyInvaders.Model
             return frame;
         }
 
-        public bool PreloadNextSpriteSheetRotate(WEAPONS? weapon, ENEMIES? enemy)
+        public bool PreloadNextSpriteSheetRotate(Weapons? weapon, Enemies? enemy)
         {
             //if (GameEnvironment.GetTotalRAMSizeMB() < 500) return false;
 
-            if (weapon == WEAPONS.STANDARD && _ssStandardRotate.Count < 2)
+            if (weapon == Weapons.Standard && _ssStandardRotate.Count < 2)
             {
                 Console.WriteLine("PRELOAD: Standard rotate " + (_ssStandardRotate.Count + 1).ToString() + "/2");
 
@@ -306,7 +306,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (weapon == WEAPONS.COMPACT && _ssCompactRotate.Count < 2)
+            if (weapon == Weapons.Compact && _ssCompactRotate.Count < 2)
             {
                 Console.WriteLine("PRELOAD: Compact rotate " + (_ssCompactRotate.Count + 1).ToString() + "/2");
 
@@ -315,7 +315,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (weapon == WEAPONS.BAZOOKA && _ssBazookaRotate.Count < 2)
+            if (weapon == Weapons.Bazooka && _ssBazookaRotate.Count < 2)
             {
                 Console.WriteLine("PRELOAD: Bazooka rotate " + (_ssBazookaRotate.Count + 1).ToString() + "/2");
 
@@ -324,7 +324,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == ENEMIES.HITLER && _ssHitlerRotate.Count < 1)
+            if (enemy == Enemies.Hitler && _ssHitlerRotate.Count < 1)
             {
                 Console.WriteLine("PRELOAD: Hitler rotate " + (_ssHitlerRotate.Count + 1).ToString() + "/1");
 
@@ -333,7 +333,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == ENEMIES.KIM && _ssKimRotate.Count < 1)
+            if (enemy == Enemies.Kim && _ssKimRotate.Count < 1)
             {
                 Console.WriteLine("PRELOAD: Kim rotate " + (_ssKimRotate.Count + 1).ToString() + "/1");
 
@@ -342,7 +342,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == ENEMIES.PUTIN && _ssPutinRotate.Count < 1)
+            if (enemy == Enemies.Putin && _ssPutinRotate.Count < 1)
             {
                 Console.WriteLine("PRELOAD: Putin rotate " + (_ssPutinRotate.Count + 1).ToString() + "/1");
 
@@ -351,7 +351,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == ENEMIES.BUSH && _ssBushRotate.Count < 1)
+            if (enemy == Enemies.Bush && _ssBushRotate.Count < 1)
             {
                 Console.WriteLine("PRELOAD: Bush rotate " + (_ssBushRotate.Count + 1).ToString() + "/1");
 
@@ -363,50 +363,50 @@ namespace LooneyInvaders.Model
             return false;
         }
 
-        public CCSpriteFrame GetRotateFrame(WEAPONS? weapon, ENEMIES? enemy, int frameIndex)
+        public CCSpriteFrame GetRotateFrame(Weapons? weapon, Enemies? enemy, int frameIndex)
         {
             string imageNamePrefix = "";
 
-            if (weapon == WEAPONS.STANDARD) imageNamePrefix = "standard_gun_rotation_image_";
-            else if (weapon == WEAPONS.COMPACT) imageNamePrefix = "compact_sprayer_rotation_image_";
-            else if (weapon == WEAPONS.BAZOOKA) imageNamePrefix = "Black_bazooka_rotation_image_";
-            else if (enemy == ENEMIES.HITLER) imageNamePrefix = "Hitler_rotation_image_";
-            else if (enemy == ENEMIES.KIM) imageNamePrefix = "kim_rotation_image_";
-            else if (enemy == ENEMIES.PUTIN) imageNamePrefix = "putin_rotation_image_";
-            else if (enemy == ENEMIES.BUSH) imageNamePrefix = "Hitler_rotation_image_";
+            if (weapon == Weapons.Standard) imageNamePrefix = "standard_gun_rotation_image_";
+            else if (weapon == Weapons.Compact) imageNamePrefix = "compact_sprayer_rotation_image_";
+            else if (weapon == Weapons.Bazooka) imageNamePrefix = "Black_bazooka_rotation_image_";
+            else if (enemy == Enemies.Hitler) imageNamePrefix = "Hitler_rotation_image_";
+            else if (enemy == Enemies.Kim) imageNamePrefix = "kim_rotation_image_";
+            else if (enemy == Enemies.Putin) imageNamePrefix = "putin_rotation_image_";
+            else if (enemy == Enemies.Bush) imageNamePrefix = "Hitler_rotation_image_";
 
             string imageName = imageNamePrefix + frameIndex.ToString("00") + ".png";
 
             CCSpriteFrame frame = null;
 
-            if (weapon == WEAPONS.STANDARD)
+            if (weapon == Weapons.Standard)
             {
                 int ssIndex = frameIndex / 28;
                 frame = _ssStandardRotate[ssIndex][imageName];
             }
-            else if (weapon == WEAPONS.COMPACT)
+            else if (weapon == Weapons.Compact)
             {
                 int ssIndex = frameIndex / 28;
                 frame = _ssCompactRotate[ssIndex][imageName];
             }
-            else if (weapon == WEAPONS.BAZOOKA)
+            else if (weapon == Weapons.Bazooka)
             {
                 int ssIndex = frameIndex / 28;
                 frame = _ssBazookaRotate[ssIndex][imageName];
             }
-            else if (enemy == ENEMIES.HITLER)
+            else if (enemy == Enemies.Hitler)
             {
                 frame = _ssHitlerRotate[0][imageName];
             }
-            else if (enemy == ENEMIES.KIM)
+            else if (enemy == Enemies.Kim)
             {
                 frame = _ssKimRotate[0][imageName];
             }
-            else if (enemy == ENEMIES.PUTIN)
+            else if (enemy == Enemies.Putin)
             {
                 frame = _ssPutinRotate[0][imageName];
             }
-            else if (enemy == ENEMIES.BUSH)
+            else if (enemy == Enemies.Bush)
             {
                 frame = _ssBushRotate[0][imageName];
             }

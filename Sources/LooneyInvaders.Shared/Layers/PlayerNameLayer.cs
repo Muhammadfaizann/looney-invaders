@@ -34,15 +34,15 @@ namespace LooneyInvaders.Layers
 
             //this.AddImage(292, 565, "UI/about-the-game-title-text.png", 500);
 
-            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
-            btnBack.ButtonType = BUTTON_TYPE.Back;
+            btnBack.ButtonType = ButtonType.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
             _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Silent;
+            _btnForward.ButtonType = ButtonType.Silent;
 
             _strInput = Player.Instance.Name;
 
@@ -188,7 +188,7 @@ namespace LooneyInvaders.Layers
             btnRazmak.ZOrder = 1000;
 
             _btnShift = AddTwoStateButton(1136 / 2 - 6 * spX, keyboardY - (spX * 3), "Keyboard/Keyboard_shift_single_letter_untapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_tapped.png", "Keyboard/Keyboard_shift_single_letter_untapped.png");
-            _btnShift.ButtonType = BUTTON_TYPE.OnOff;
+            _btnShift.ButtonType = ButtonType.OnOff;
             _btnShift.OnClick += btnShift_OnClick;
         }
 
@@ -248,7 +248,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
         }
 
@@ -266,7 +266,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_tapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
         }
 
@@ -291,7 +291,7 @@ namespace LooneyInvaders.Layers
         {
             if (String.IsNullOrWhiteSpace(_strInput))
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 //lblInputLabel.Text = "Please enter player name below";
                 return;
@@ -299,37 +299,37 @@ namespace LooneyInvaders.Layers
 
             if (_strInput.Length < 3 || (_strInput.Length > 0 && !char.IsLetter(_strInput[0])))
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 return;
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "You have to be connected to internet to change your player name";
                 return;
             }
 
             if (!UserManager.CheckIsUsernameFree(_strInput))
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name already taken, please try another one";
                 return;
             }
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_FORWARD);
+            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
             UserManager.ChangeUsername(_strInput);
             _lblInputLabel.Text = "Player name changed";
 
-            LeaderboardManager.BestScorePro_Score = 0;
-            LeaderboardManager.BestScorePro_LevelsCompleted = 0;
-            LeaderboardManager.BestScorePro_Submitted = true;
+            LeaderboardManager.BestScoreProScore = 0;
+            LeaderboardManager.BestScoreProLevelsCompleted = 0;
+            LeaderboardManager.BestScoreProSubmitted = true;
 
-            LeaderboardManager.BestScoreRegular_Score = 0;
-            LeaderboardManager.BestScoreRegular_Accuracy = 0;
-            LeaderboardManager.BestScoreRegular_FastestTime = 0;
-            LeaderboardManager.BestScoreRegular_Submitted = true;
+            LeaderboardManager.BestScoreRegularScore = 0;
+            LeaderboardManager.BestScoreRegularAccuracy = 0;
+            LeaderboardManager.BestScoreRegularFastestTime = 0;
+            LeaderboardManager.BestScoreRegularSubmitted = true;
 
             if (_layerBack != null)
             {
