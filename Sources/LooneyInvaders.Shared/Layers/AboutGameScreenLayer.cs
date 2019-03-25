@@ -9,9 +9,9 @@ namespace LooneyInvaders.Layers
 {
     public class AboutGameScreenLayer : CCLayerColorExt
     {
-        CCSpriteButton _btnForward;
-        CCSprite _imgPage;
-        CCSprite _imgPageNumber;
+        readonly CCSpriteButton _btnForward;
+        readonly CCSprite _imgPage;
+        readonly CCSprite _imgPageNumber;
 
         int _activePage = 1;
 

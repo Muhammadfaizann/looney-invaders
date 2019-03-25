@@ -45,7 +45,7 @@ namespace LooneyInvaders.Model
 
         public List<Laser> Lasers;
 
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public bool Killed;
 

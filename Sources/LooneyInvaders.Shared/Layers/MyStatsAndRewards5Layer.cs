@@ -12,10 +12,10 @@ namespace LooneyInvaders.Layers
     public class MyStatsAndRewards5Layer : CCLayerColorExt
     {
         int _currentGunFrame = 1;
-        CCSprite imgGun;
-        CCSprite imgOffline;
-        CCSprite imgGetActivationCode;
-        CCSpriteButton btnSend;
+        readonly CCSprite imgGun;
+        readonly CCSprite imgOffline;
+        readonly CCSprite imgGetActivationCode;
+        readonly CCSpriteButton btnSend;
         CCLabel lblCode;
         string code = "";
 

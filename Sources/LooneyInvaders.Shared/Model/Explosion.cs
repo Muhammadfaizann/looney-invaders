@@ -8,7 +8,7 @@ namespace LooneyInvaders.Model
 {
     public class Explosion
     {
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public CCSprite Sprite;
 
@@ -17,7 +17,7 @@ namespace LooneyInvaders.Model
         public Explosion(GamePlayLayer gamePlayLayer, float x, float y)
         {
             this._gamePlayLayer = gamePlayLayer;
-            this.Sprite = new CCSprite( gamePlayLayer.ssPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_00.png"));
+            this.Sprite = new CCSprite( gamePlayLayer.SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_00.png"));
             this.Sprite.Position = new CCPoint(x, y);
             this.Sprite.AnchorPoint = new CCPoint(0.5f, 0.5f);
             this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;

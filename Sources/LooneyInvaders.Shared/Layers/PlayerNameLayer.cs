@@ -16,16 +16,16 @@ namespace LooneyInvaders.Layers
         int _activePage = 1;
 
         string strInput;
-        CCLabel lblInputLabel;
-		CCLabel lblInput;
-        CCLabel lblCursor;
+        readonly CCLabel lblInputLabel;
+        readonly CCLabel lblInput;
+        readonly CCLabel lblCursor;
 
-        List<CCSpriteButton> caps;
-        List<CCSpriteButton> small;
+        readonly List<CCSpriteButton> caps;
+        readonly List<CCSpriteButton> small;
 
-        CCSpriteTwoStateButton btnShift;
+        readonly CCSpriteTwoStateButton btnShift;
 
-        SettingsScreenLayer _layerBack;
+        readonly SettingsScreenLayer _layerBack;
 
 
         public PlayerNameLayer(SettingsScreenLayer layerBack = null)
@@ -41,7 +41,7 @@ namespace LooneyInvaders.Layers
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-            _btnForward = this.AddButton(1136-245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
+            _btnForward = this.AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
             _btnForward.OnClick += BtnForward_OnClick;
             _btnForward.ButtonType = BUTTON_TYPE.Silent;
 
@@ -54,12 +54,12 @@ namespace LooneyInvaders.Layers
             lblInput.ZOrder = 1000;
 
             //create cursor
-			lblCursor = new CCLabel("I", "Fonts/AktivGroteskBold", 16, CCLabelFormat.SpriteFont);
-			lblCursor.Scale = 2;
-			lblCursor.Position = new CCPoint(lblInput.BoundingBox.MaxX, 500);
-			this.AddChild(lblCursor);
-			Schedule(BlinkCursor, 0.03f);
-            
+            lblCursor = new CCLabel("I", "Fonts/AktivGroteskBold", 16, CCLabelFormat.SpriteFont);
+            lblCursor.Scale = 2;
+            lblCursor.Position = new CCPoint(lblInput.BoundingBox.MaxX, 500);
+            this.AddChild(lblCursor);
+            Schedule(BlinkCursor, 0.03f);
+
             string slova;
 
             int spX = 80;
@@ -221,21 +221,21 @@ namespace LooneyInvaders.Layers
             }
         }
 
-		double _tick = 0;
+        double _tick;
         void BlinkCursor(float dt)
-		{
-			_tick++;
+        {
+            _tick++;
 
-			if (strInput.Length > 0)
-				lblCursor.Position = new CCPoint(lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500);
-			else
-				lblCursor.Position = new CCPoint(1136 / 2, 500);
+            if (strInput.Length > 0)
+                lblCursor.Position = new CCPoint(lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500);
+            else
+                lblCursor.Position = new CCPoint(1136 / 2, 500);
 
-			if (_tick % 20 == 0)
-			{
-				lblCursor.Visible = !lblCursor.Visible;
-			}
-		}
+            if (_tick % 20 == 0)
+            {
+                lblCursor.Visible = !lblCursor.Visible;
+            }
+        }
 
         private void btnSlovo_OnClick(object sender, EventArgs e)
         {
@@ -261,8 +261,8 @@ namespace LooneyInvaders.Layers
                 strInput = strInput.Substring(0, strInput.Length - 1);
                 lblInput.Text = strInput;
                 if (strInput.Length == 0 && btnShift.State == 1)
-                { 
-                   btnShift_OnClick(sender, e);
+                {
+                    btnShift_OnClick(sender, e);
                 }
             }
             else
@@ -291,7 +291,7 @@ namespace LooneyInvaders.Layers
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-			if (String.IsNullOrWhiteSpace(strInput))
+            if (String.IsNullOrWhiteSpace(strInput))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
                 lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
@@ -299,10 +299,10 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-			if (strInput.Length < 3 || (strInput.Length > 0 && !char.IsLetter(strInput[0])))
+            if (strInput.Length < 3 || (strInput.Length > 0 && !char.IsLetter(strInput[0])))
             {
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-				lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
+                lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 return;
             }
 

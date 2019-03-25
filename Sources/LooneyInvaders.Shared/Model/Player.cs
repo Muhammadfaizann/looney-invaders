@@ -10,7 +10,7 @@ namespace LooneyInvaders.Model
 {
     public class Player
     {
-        private static Player _instance = null;
+        private static Player _instance;
         public bool isProLevelSelected = false;
         public static Player Instance
         {

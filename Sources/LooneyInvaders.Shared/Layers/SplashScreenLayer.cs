@@ -13,7 +13,7 @@ namespace LooneyInvaders.Layers
     {
         float _musicTime;
         bool? _backgroundLoading = false;
-        public bool EnabledTouch { get; set; } = false;
+        public bool EnabledTouch { get; set; }
 
         public SplashScreenLayer()
         {

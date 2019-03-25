@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
-using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
 
@@ -11,39 +7,31 @@ namespace LooneyInvaders.Layers
 {
     public class PauseScreenLayer : CCLayerColorExt
     {
-        float _musicTime;
-        bool _backgroundLoading = false;
-        CCSprite _imgBruises;
-
-        GamePlayLayer _layerBack;
+        readonly CCSprite _imgBruises;
+        readonly GamePlayLayer _layerBack;
 
         public PauseScreenLayer(GamePlayLayer layerBack)
         {
             _layerBack = layerBack;
-            this.SetBackground("UI/Pause-screen-example-bush-untapped.png");
+            SetBackground("UI/Pause-screen-example-bush-untapped.png");
 
-            _imgBruises = this.AddImage(390, 210, "UI/Pause-screen-bush-bruises.png");
+            _imgBruises = AddImage(390, 210, "UI/Pause-screen-bush-bruises.png");
             _imgBruises.Visible = false;
 
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/bush_get_wounded1.wav");
-            
-            this.RemoveAllListeners();
+
+            RemoveAllListeners();
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
             touchListener.OnTouchesBegan = OnTouchesBegan;
             touchListener.OnTouchesEnded = OnTouchesEnded;
-            touchListener.OnTouchesCancelled = OnTouchesCancelled;            
+            touchListener.OnTouchesCancelled = OnTouchesCancelled;
             AddEventListener(touchListener, this);
             CCAudioEngine.SharedEngine.StopBackgroundMusic();
         }
 
-        private void PauseScreenLayer_OnTouchBegan(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
-        {            
+        {
             if (touches.Count > 0)
             {
                 if (_imgBruises.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
@@ -70,6 +58,6 @@ namespace LooneyInvaders.Layers
         void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             _imgBruises.Visible = false;
-        }        
+        }
     }
 }

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Shared;
-using LooneyInvaders.PNS;
 using NotificationCenter;
 
 #if __IOS__
@@ -23,85 +21,82 @@ namespace LooneyInvaders.Layers
         public static int BestScoreAlien;
         public static int BestScoreAlienWave;
 
-        public int kills = 0;
-        public float controlMovement = 0;
-        private float speedTo;
-        private float movingTime;
+        public int Kills;
+        public float ControlMovement;
+        private float _speedTo;
+        private float _movingTime;
 
-        public float tiltAngle = 0;
+        public float TiltAngle;
 
-        List<Bullet> bullets = new List<Bullet>();
-        List<Enemy> enemies = new List<Enemy>();
-        List<Bomb> bombs = new List<Bomb>();
-        List<CCSprite> ammos = new List<CCSprite>();
-        List<Explosion> explos = new List<Explosion>();
-        List<CCSprite> lives = new List<CCSprite>();
-        List<GunSmoke> gunSmokes = new List<GunSmoke>();
-        List<CCSprite> multipliers = new List<CCSprite>();
-        List<LaserSpark> sparks = new List<LaserSpark>();
+        private readonly List<Bullet> _bullets = new List<Bullet>();
+        private readonly List<Enemy> _enemies = new List<Enemy>();
+        private readonly List<Bomb> _bombs = new List<Bomb>();
+        private readonly List<CCSprite> _ammos = new List<CCSprite>();
+        private readonly List<Explosion> _explos = new List<Explosion>();
+        private readonly List<CCSprite> _lives = new List<CCSprite>();
+        private readonly List<GunSmoke> _gunSmokes = new List<GunSmoke>();
+        private readonly List<CCSprite> _multipliers = new List<CCSprite>();
+        private readonly List<LaserSpark> _sparks = new List<LaserSpark>();
 
 
         //bool Test = false;
         //bool IsTestFromWeaponPicker = false;
-        LAUNCH_MODE launchMode;
+        private readonly LAUNCH_MODE _launchMode;
 
-        float enemySpeed = 2;
-        float enemyCurrentSpeed;
-        float enemyAcceleration = 0;
-        int bounces = 0;
-        float goingDown = 0;
-        float goingDownSpeed = 1;
-        float goingDownCurrentSpeed = 1;
-        bool firstGoingDown = true;
-        float reload = 0;
-        float reloadTime = 1;
-        CCSprite reloading;
-        float playerSpeed = 30;
-        float bulletScale = 1;
-        float bulletPower;
-        int magazineSize;
-        float gunCooloff;
-        float gunCoolness;
-        int bombDensity = 80;
-        float smokeOffsetY = -40;
+        private float _enemySpeed = 2;
+        private float _enemyCurrentSpeed;
+        private float _enemyAcceleration;
+        private int _bounces;
+        private float _goingDown;
+        private float _goingDownSpeed = 1;
+        private float _goingDownCurrentSpeed = 1;
+        private bool _firstGoingDown = true;
+        private float _reload;
+        private readonly float _reloadTime = 1;
+        private CCSprite _reloading;
+        private readonly float _playerSpeed = 30;
+        private readonly float _bulletScale;
+        private readonly float _bulletPower;
+        private readonly int _magazineSize;
+        private readonly float _gunCooloff;
+        private float _gunCoolness;
+        private int _bombDensity = 80;
+        private readonly float _smokeOffsetY = -40;
 
 
-        CCSprite player;
-        CCSprite playerExplosion;
-        CCSprite gameOverExplosion;
-        CCSprite[] time;
-        CCSprite timeLabel;
-        CCSprite multiplierLabel;
-        CCSprite multiplierLabelLabel;
-        CCSprite gameOverLabel;
-        int lastDisplayedTime = 0;
-        int score = 0;
-        int lastDisplayedScore = -1;
-        int scoreMultiplier = 1;
-        int lastDisplayedMultiplier = 0;
-        int killsWithoutMiss = 0;
-        int fadeLevel = 0;
+        CCSprite _player;
+        CCSprite _playerExplosion;
+        CCSprite _gameOverExplosion;
+        CCSprite[] _time;
+        CCSprite _timeLabel;
+        CCSprite _multiplierLabel;
+        CCSprite _multiplierLabelLabel;
+        CCSprite _gameOverLabel;
+        int _lastDisplayedTime;
+        int _score;
+        int _lastDisplayedScore = -1;
+        int _scoreMultiplier = 1;
+        int _killsWithoutMiss;
+        int _fadeLevel;
 
-        float elapsedTime = 0;
-        float playerExploding = 0;
-        float gameOverExploding = 0;
-        float shitWait = 0;
+        float _elapsedTime;
+        float _playerExploding;
+        float _gameOverExploding;
+        float _shitWait;
 
-        int bulletsFired = 0;
-        int bulletsMissed = 0;
+        int _bulletsFired;
+        int _bulletsMissed;
 
-        private float wavePass;
-        private bool waveTransfer = false;
-        private bool gameOver = false;
-        private float updateTillNextBomb = 0;
-        private int wave = 1;
+        private float _wavePass;
+        private bool _waveTransfer;
+        private bool _gameOver;
+        private float _updateTillNextBomb;
+        private int _wave = 1;
 
-        private int? cannonMovingFXId;
-        private SOUNDEFFECT? cannonMovingFX;
+        private int? _cannonMovingFxId;
+        //private SOUNDEFFECT? _cannonMovingFx;
 
-        Random random;
-
-        CCTextureCache cache;
+        readonly Random _random;
 
         public string SoundCannonShoot;
         public string VoiceEnemyHit;
@@ -124,37 +119,37 @@ namespace LooneyInvaders.Layers
         public int EnemyMouthClipWidth;
         public string PlayerCannon;
         public string PlayerLivesLeft;
-        public string battlegroundImageName;
+        public string BattlegroundImageName;
 
         public List<CCPoint> PlayerCollisionPoints = new List<CCPoint>();
         public List<CCPoint> EnemyCollisionPoints = new List<CCPoint>();
 
-        public CCSpriteSheet ssPreExplosion;
-        public CCSpriteSheet ssDrooling;
-        public CCSpriteSheet ssGameOverExplosion;
-        public CCSpriteSheet ssCannonExplosion1;
-        public CCSpriteSheet ssCannonExplosion2;
-        public CCSpriteSheet ssCannonFlame;
-        public CCSpriteSheet ssEnemyExplosion;
-        public CCSpriteSheet ssBomb;
-        public CCSpriteSheet ssRecoil;
-        public CCSpriteSheet ssFlyingSaucer;
-        public string ssRecoilKeyPrefix;
-        public CCSpriteSheet[] ssHybridLaser;
-        public CCSpriteSheet ssLaserSparks;
-        public CCSpriteSheet[] ssAlienLensFlare;
+        public CCSpriteSheet SsPreExplosion;
+        public CCSpriteSheet SsDrooling;
+        public CCSpriteSheet SsGameOverExplosion;
+        public CCSpriteSheet SsCannonExplosion1;
+        public CCSpriteSheet SsCannonExplosion2;
+        public CCSpriteSheet SsCannonFlame;
+        public CCSpriteSheet SsEnemyExplosion;
+        public CCSpriteSheet SsBomb;
+        public CCSpriteSheet SsRecoil;
+        public CCSpriteSheet SsFlyingSaucer;
+        public string SsRecoilKeyPrefix;
+        public CCSpriteSheet[] SsHybridLaser;
+        public CCSpriteSheet SsLaserSparks;
+        public CCSpriteSheet[] SsAlienLensFlare;
 
-        CCSpriteSheet[] _ssFirework;
-        float _fireworkFrame = 0;
+        readonly CCSpriteSheet[] _ssFirework;
+        float _fireworkFrame;
         int _fireworkFrameLast;
 
         CCSprite _firework;
 
-        private int countdown;
+        private int _countdown;
 
-        private CCSprite countdownNumber;
-        private CCSprite fadeShootButton;
-        private CCSprite fadeControlButton;
+        private CCSprite _countdownNumber;
+        private CCSprite _fadeShootButton;
+        private CCSprite _fadeControlButton;
 
         public BATTLEGROUNDS SelectedBattleground;
         public ENEMIES SelectedEnemy;
@@ -170,28 +165,28 @@ namespace LooneyInvaders.Layers
         public int LivesLeft;
         public int WinsInSuccession;
 
-        private float flyingSaucerFrame;
-        private float flyingSaucerWait;
-        private float flyingSaucerSpeed;
-        private CCSprite flyingSaucer;
-        private CCSprite flyingSaucerExplosion;
-        private float flyingSaucerExplosionFrame;
-        private float flyingSaucerIncoming;
-        private int? flyingSaucerFlyingFxId;
+        private float _flyingSaucerFrame;
+        private float _flyingSaucerWait;
+        private float _flyingSaucerSpeed;
+        private CCSprite _flyingSaucer;
+        private CCSprite _flyingSaucerExplosion;
+        private float _flyingSaucerExplosionFrame;
+        private float _flyingSaucerIncoming;
+        private int? _flyingSaucerFlyingFxId;
 
-        private bool isCannonMoving;
-        private bool isCannonShooting;
+        private bool _isCannonMoving;
+        private bool _isCannonShooting;
 
-        private CCEventListenerTouchAllAtOnce touchListener;
+        private readonly CCEventListenerTouchAllAtOnce _touchListener;
 
         //-------------- Prabhjot -------------//
-        bool isGameOver = false;
+        bool _isGameOver;
 
 
         public GamePlayLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, ENEMIES selectedEnemyForPickerScreens = ENEMIES.ALIENS, LAUNCH_MODE launchMode = LAUNCH_MODE.DEFAULT/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
         {
-            Shared.GameDelegate.ClearOnBackButtonEvent();
-            this.EnableMultiTouch = true;
+            GameDelegate.ClearOnBackButtonEvent();
+            EnableMultiTouch = true;
 
             // ----------- Prabhjot ----------- //
             //this.ScheduleOnce(Victory, 1);
@@ -200,18 +195,18 @@ namespace LooneyInvaders.Layers
 
 
 
-            GameAnimation.Instance.FreeAllSpriteSheets(false);
+            GameAnimation.Instance.FreeAllSpriteSheets();
 
-            random = new Random();
-            touchListener = new CCEventListenerTouchAllAtOnce();
+            _random = new Random();
+            _touchListener = new CCEventListenerTouchAllAtOnce();
 
-            this.launchMode = launchMode;
+            _launchMode = launchMode;
 
-            battlegroundImageName = Battleground.GetBattlegroundImageName(selectedBattleground, Settings.Instance.BattlegroundStyle);
+            BattlegroundImageName = Battleground.GetBattlegroundImageName(selectedBattleground, Settings.Instance.BattlegroundStyle);
 
-            if (this.launchMode == LAUNCH_MODE.DEFAULT)
+            if (_launchMode == LAUNCH_MODE.DEFAULT)
             {
-                if(selectedEnemy == ENEMIES.ALIENS)
+                if (selectedEnemy == ENEMIES.ALIENS)
                 {
                     selectedBattleground = BATTLEGROUNDS.MOON;
                 }
@@ -487,13 +482,10 @@ namespace LooneyInvaders.Layers
                     break;
             }
 
-
-
-
-            gunCooloff = 1f / (FireSpeedSelected == -1 ? Weapon.GetFirespeed(selectedWeapon) : FireSpeedSelected);
-            magazineSize = (MagazineSizeSelected == -1 ? Weapon.GetMagazineSize(selectedWeapon) : MagazineSizeSelected) * 5;
-            bulletPower = (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.5f;
-            bulletScale = 0.7f + ((CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.1f);
+            _gunCooloff = 1f / (FireSpeedSelected == -1 ? Weapon.GetFirespeed(selectedWeapon) : FireSpeedSelected);
+            _magazineSize = (MagazineSizeSelected == -1 ? Weapon.GetMagazineSize(selectedWeapon) : MagazineSizeSelected) * 5;
+            _bulletPower = (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.5f;
+            _bulletScale = 0.7f + ((CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.1f);
 
 
             switch (selectedWeapon)
@@ -501,14 +493,14 @@ namespace LooneyInvaders.Layers
                 case WEAPONS.STANDARD:
                     PlayerCannon = "Player/Standard_gun.png";
                     PlayerLivesLeft = "Player/Standard_gun_lives_left_indicator.png";
-                    playerSpeed = 30;
-                    reloadTime = 2f;
-                    smokeOffsetY = -40;
+                    _playerSpeed = 30;
+                    _reloadTime = 2f;
+                    _smokeOffsetY = -40;
                     if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
                     else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
 
-                    ssRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/GunRecoil.plist");
-                    ssRecoilKeyPrefix = "standard_gun_recoil_image_";
+                    SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/GunRecoil.plist");
+                    SsRecoilKeyPrefix = "standard_gun_recoil_image_";
 
                     PlayerCollisionPoints.Add(new CCPoint(49, 27));
                     PlayerCollisionPoints.Add(new CCPoint(57, 27));
@@ -534,14 +526,14 @@ namespace LooneyInvaders.Layers
                 case WEAPONS.COMPACT:
                     PlayerCannon = "Player/Compact_sprayer.png";
                     PlayerLivesLeft = "Player/Compact_sprayerlives_left_indicator.png";
-                    playerSpeed = 45;
-                    reloadTime = 3f;
-                    smokeOffsetY = -60;
+                    _playerSpeed = 45;
+                    _reloadTime = 3f;
+                    _smokeOffsetY = -60;
                     if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
                     else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
 
-                    ssRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/CompactSprayerRecoil.plist");
-                    ssRecoilKeyPrefix = "Compact_sprayer_recoil_animation_image_";
+                    SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/CompactSprayerRecoil.plist");
+                    SsRecoilKeyPrefix = "Compact_sprayer_recoil_animation_image_";
 
                     PlayerCollisionPoints.Add(new CCPoint(49, 47));
                     PlayerCollisionPoints.Add(new CCPoint(57, 47));
@@ -572,14 +564,14 @@ namespace LooneyInvaders.Layers
                 case WEAPONS.BAZOOKA:
                     PlayerCannon = "Player/Big_bazooka.png";
                     PlayerLivesLeft = "Player/Big_bazookalives_left_indicator.png";
-                    playerSpeed = 20;
-                    reloadTime = 1f;
-                    smokeOffsetY = -15;
+                    _playerSpeed = 20;
+                    _reloadTime = 1f;
+                    _smokeOffsetY = -15;
                     if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
                     else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
 
-                    ssRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BlackBazookaRecoil.plist");
-                    ssRecoilKeyPrefix = "Black _bazooka_recoil_animation_image_";
+                    SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BlackBazookaRecoil.plist");
+                    SsRecoilKeyPrefix = "Black _bazooka_recoil_animation_image_";
 
                     PlayerCollisionPoints.Add(new CCPoint(53, 3));
                     PlayerCollisionPoints.Add(new CCPoint(47, 6));
@@ -607,18 +599,18 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(52, 122));
                     break;
                 case WEAPONS.HYBRID:
-                    magazineSize = magazineSize / 2;
-                    gunCooloff = gunCooloff * 2;
+                    _magazineSize = _magazineSize / 2;
+                    _gunCooloff = _gunCooloff * 2;
                     PlayerCannon = "Player/Hybrid_defender.png";
                     PlayerLivesLeft = "Player/Hybrid_defender_lives_left_indicator.png";
-                    playerSpeed = 20;
-                    reloadTime = 2f;
-                    smokeOffsetY = -15;
+                    _playerSpeed = 20;
+                    _reloadTime = 2f;
+                    _smokeOffsetY = -15;
                     if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
                     else if (Settings.Instance.MusicStyle == MUSIC_STYLE.Beatbox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
 
-                    ssRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/HybridDefenderRecoil.plist");
-                    ssRecoilKeyPrefix = "Hybrid_defender_recoil_animation_image_";
+                    SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/HybridDefenderRecoil.plist");
+                    SsRecoilKeyPrefix = "Hybrid_defender_recoil_animation_image_";
 
                     PlayerCollisionPoints.Add(new CCPoint(53, 7));
                     PlayerCollisionPoints.Add(new CCPoint(46, 11));
@@ -669,14 +661,14 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(81, 86));
                     PlayerCollisionPoints.Add(new CCPoint(88, 86));
 
-                    ssHybridLaser = new CCSpriteSheet[3];
-                    ssHybridLaser[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-0.plist");
-                    ssHybridLaser[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-1.plist");
-                    ssHybridLaser[2] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-2.plist");
+                    SsHybridLaser = new CCSpriteSheet[3];
+                    SsHybridLaser[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-0.plist");
+                    SsHybridLaser[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-1.plist");
+                    SsHybridLaser[2] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-2.plist");
 
-                    ssAlienLensFlare = new CCSpriteSheet[2];
-                    ssAlienLensFlare[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-0.plist");
-                    ssAlienLensFlare[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-1.plist");
+                    SsAlienLensFlare = new CCSpriteSheet[2];
+                    SsAlienLensFlare[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-0.plist");
+                    SsAlienLensFlare[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-1.plist");
 
 
 
@@ -750,7 +742,7 @@ namespace LooneyInvaders.Layers
 
 
 
-            cache = CCTextureCache.SharedTextureCache;
+            var cache = CCTextureCache.SharedTextureCache;
 
             /*
             for (int i = 0; i < 72; i++)
@@ -779,29 +771,29 @@ namespace LooneyInvaders.Layers
             }*/
 
 
-            ssPreExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/Pre-explosion.plist");
+            SsPreExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/Pre-explosion.plist");
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
-                ssDrooling = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienSpit.plist");
+                SsDrooling = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienSpit.plist");
             }
             else
             {
-                ssDrooling = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/drooling.plist");
+                SsDrooling = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/drooling.plist");
             }
-            ssGameOverExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/Game-over-explosion.plist");
-            ssEnemyExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_enemy_explosion.plist");
-            ssCannonFlame = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_flame-0.plist");
-            ssCannonExplosion1 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-0.plist");
-            ssCannonExplosion2 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-1.plist");
+            SsGameOverExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/Game-over-explosion.plist");
+            SsEnemyExplosion = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_enemy_explosion.plist");
+            SsCannonFlame = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_flame-0.plist");
+            SsCannonExplosion1 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-0.plist");
+            SsCannonExplosion2 = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/General_cannon_explosion-1.plist");
             if (selectedEnemy != ENEMIES.ALIENS)
             {
-                ssBomb = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BombRotation.plist");
+                SsBomb = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BombRotation.plist");
             }
             else
             {
-                ssBomb = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/SlimeBall.plist");
-                ssFlyingSaucer = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/FlyingSaucer.plist");
-                ssLaserSparks = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienLaserHittingWithoutLaser.plist");
+                SsBomb = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/SlimeBall.plist");
+                SsFlyingSaucer = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/FlyingSaucer.plist");
+                SsLaserSparks = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/AlienLaserHittingWithoutLaser.plist");
             }
 
             for (int i = 1; i < 6; i++)
@@ -821,7 +813,7 @@ namespace LooneyInvaders.Layers
             cache.AddImage("UI/Battle-screen-time-text.png");
 
 
-            cache.AddImage(battlegroundImageName);
+            cache.AddImage(BattlegroundImageName);
             cache.AddImage(EnemyMouthClosed);
             cache.AddImage(EnemyMouthClosedDamaged1);
             cache.AddImage(EnemyMouthClosedDamaged2);
@@ -859,86 +851,86 @@ namespace LooneyInvaders.Layers
             switch (selectedEnemy)
             {
                 case ENEMIES.PUTIN:
-                    this.AddImage(0, 0, "UI/Get-ready-for-next-attack-russian-troops.jpg", 1);
+                    AddImage(0, 0, "UI/Get-ready-for-next-attack-russian-troops.jpg", 1);
                     break;
                 case ENEMIES.BUSH:
-                    this.AddImage(0, 0, "UI/Get-ready-for-next-attack-USA-troops.jpg", 1);
+                    AddImage(0, 0, "UI/Get-ready-for-next-attack-USA-troops.jpg", 1);
                     break;
                 case ENEMIES.KIM:
-                    this.AddImage(0, 0, "UI/Get-ready-for-next-attack-south-korean-troops.jpg", 1);
+                    AddImage(0, 0, "UI/Get-ready-for-next-attack-south-korean-troops.jpg", 1);
                     break;
                 case ENEMIES.HITLER:
-                    this.AddImage(0, 0, "UI/Get-ready-for-next-attack-german-troops.jpg", 1);
+                    AddImage(0, 0, "UI/Get-ready-for-next-attack-german-troops.jpg", 1);
                     break;
                 case ENEMIES.ALIENS:
                     if (Settings.Instance.BattlegroundStyle == BATTLEGROUND_STYLE.Cartonic)
-                        this.AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-cartonic.jpg", 1);
+                        AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-cartonic.jpg", 1);
                     else
-                        this.AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-realistic.jpg", 1);
+                        AddImage(0, 0, "UI/get-ready-for-next-attack-moon-level-realistic.jpg", 1);
 
                     break;
             }
             switch (selectedBattleground)
             {
                 case BATTLEGROUNDS.AFGHANISTAN:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-afghanistan-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-afghanistan-text.png", 2);
                     break;
                 case BATTLEGROUNDS.DENMARK:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-denmark-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-denmark-text.png", 2);
                     break;
                 case BATTLEGROUNDS.ENGLAND:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-england-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-england-text.png", 2);
                     break;
                 case BATTLEGROUNDS.ESTONIA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-estonia-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-estonia-text.png", 2);
                     break;
                 case BATTLEGROUNDS.FINLAND:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-finland-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-finland-text.png", 2);
                     break;
                 case BATTLEGROUNDS.FRANCE:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-france-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-france-text.png", 2);
                     break;
                 case BATTLEGROUNDS.GEORGIA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-georgia-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-georgia-text.png", 2);
                     break;
                 case BATTLEGROUNDS.GREAT_BRITAIN:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-great-britain-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-great-britain-text.png", 2);
                     break;
                 case BATTLEGROUNDS.IRAQ:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-iraq-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-iraq-text.png", 2);
                     break;
                 case BATTLEGROUNDS.ISRAEL:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-israel-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-israel-text.png", 2);
                     break;
                 case BATTLEGROUNDS.JAPAN:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-japan-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-japan-text.png", 2);
                     break;
                 case BATTLEGROUNDS.LIBYA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-libya-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-libya-text.png", 2);
                     break;
                 case BATTLEGROUNDS.NORWAY:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-norway-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-norway-text.png", 2);
                     break;
                 case BATTLEGROUNDS.POLAND:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-poland-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-poland-text.png", 2);
                     break;
                 case BATTLEGROUNDS.RUSSIA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-russia-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-russia-text.png", 2);
                     break;
                 case BATTLEGROUNDS.SOUTH_KOREA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-south-korea-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-south-korea-text.png", 2);
                     break;
                 case BATTLEGROUNDS.SYRIA:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-syria-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-syria-text.png", 2);
                     break;
                 case BATTLEGROUNDS.UKRAINE:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-ukraine-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-ukraine-text.png", 2);
                     break;
                 case BATTLEGROUNDS.UNITED_STATES:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-united-states-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-united-states-text.png", 2);
                     break;
                 case BATTLEGROUNDS.VIETNAM:
-                    this.AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-vietnam-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-vietnam-text.png", 2);
                     break;
             }
             if (!Settings.Instance.VoiceoversEnabled)
@@ -1087,30 +1079,30 @@ namespace LooneyInvaders.Layers
 
             if (selectedEnemy != ENEMIES.ALIENS)
             {
-                this.AddImageCentered(1136 / 2, 600, "UI/get-ready-for-the-next-attack-title-text.png", 2);
-                this.AddImageCentered(1136 / 2, 540, "UI/get-ready-for-next-attack-(country__of__)-text.png", 2);
-                this.AddImageLabelRightAligned(1136 / 2 + 92, 509, ((int)SelectedBattleground + 1).ToString(), 55);
-                this.AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
+                AddImageCentered(1136 / 2, 600, "UI/get-ready-for-the-next-attack-title-text.png", 2);
+                AddImageCentered(1136 / 2, 540, "UI/get-ready-for-next-attack-(country__of__)-text.png", 2);
+                AddImageLabelRightAligned(1136 / 2 + 92, 509, ((int)SelectedBattleground + 1).ToString(), 55);
+                AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
 
             }
 
 
 
-            countdown = 6;
+            _countdown = 6;
 
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
                 GameEnvironment.PlayMusic(MUSIC.BATTLE_COUNTDOWNALIEN);
             }
-            else if (this.launchMode != LAUNCH_MODE.STEERING_TEST)
+            else if (_launchMode != LAUNCH_MODE.STEERING_TEST)
             {
                 GameEnvironment.PlayMusic(MUSIC.BATTLE_COUNTDOWN);
             }
 
-            if (this.launchMode != LAUNCH_MODE.DEFAULT)
+            if (_launchMode != LAUNCH_MODE.DEFAULT)
             {
-                enemySpeed = 0;
-                wave = 3;
+                _enemySpeed = 0;
+                _wave = 3;
                 StartGame();
             }
             else if (calloutCountryName && !Settings.Instance.VoiceoversEnabled)
@@ -1128,7 +1120,7 @@ namespace LooneyInvaders.Layers
                 else
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for the next attack in_VO_mono.wav");
-                    ScheduleOnce(CalloutCountryNameVO, 3.55f);
+                    ScheduleOnce(CalloutCountryNameVo, 3.55f);
                 }
                 Schedule(CountDownUpdate, 1f);
                 AdMobManager.ShowBannerBottom();
@@ -1205,7 +1197,7 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void CalloutCountryNameVO(float dt)
+        private void CalloutCountryNameVo(float dt)
         {
             switch (SelectedBattleground)
             {
@@ -1276,11 +1268,11 @@ namespace LooneyInvaders.Layers
         {
 
 
-            countdown--;
-            switch (countdown)
+            _countdown--;
+            switch (_countdown)
             {
                 case 5:
-                    countdownNumber = this.AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(5).png", 2);
+                    _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(5).png", 2);
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
@@ -1291,8 +1283,8 @@ namespace LooneyInvaders.Layers
                     }
                     break;
                 case 4:
-                    this.RemoveChild(countdownNumber);
-                    countdownNumber = this.AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(4).png", 2);
+                    RemoveChild(_countdownNumber);
+                    _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(4).png", 2);
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
@@ -1303,8 +1295,8 @@ namespace LooneyInvaders.Layers
                     }
                     break;
                 case 3:
-                    this.RemoveChild(countdownNumber);
-                    countdownNumber = this.AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(3).png", 2);
+                    RemoveChild(_countdownNumber);
+                    _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(3).png", 2);
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
@@ -1315,8 +1307,8 @@ namespace LooneyInvaders.Layers
                     }
                     break;
                 case 2:
-                    this.RemoveChild(countdownNumber);
-                    countdownNumber = this.AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(2).png", 2);
+                    RemoveChild(_countdownNumber);
+                    _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(2).png", 2);
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
@@ -1327,8 +1319,8 @@ namespace LooneyInvaders.Layers
                     }
                     break;
                 case 1:
-                    this.RemoveChild(countdownNumber);
-                    countdownNumber = this.AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(1).png", 2);
+                    RemoveChild(_countdownNumber);
+                    _countdownNumber = AddImage(450, 205, "UI/get-ready-for-next-attack-countdown-(1).png", 2);
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.COUNTDOWNALIEN);
@@ -1339,7 +1331,7 @@ namespace LooneyInvaders.Layers
                     }
                     break;
                 case 0:
-                    this.UnscheduleAll();
+                    UnscheduleAll();
                     AdMobManager.HideBanner();
                     if (SelectedEnemy == ENEMIES.ALIENS)
                     {
@@ -1355,70 +1347,70 @@ namespace LooneyInvaders.Layers
         }
 
 
-        CCSpriteButton btnBack;
-        CCSpriteButton btnSettings;
+        CCSpriteButton _btnBack;
+        CCSpriteButton _btnSettings;
 
-        CCSpriteButton btnMovement;
-        CCSpriteButton btnFire;
+        CCSpriteButton _btnMovement;
+        CCSpriteButton _btnFire;
 
         private void StartGame()
         {
-            this.RemoveAllChildren(true);
+            RemoveAllChildren();
 
-            this.SetBackground(battlegroundImageName);
+            SetBackground(BattlegroundImageName);
 
-            if (this.launchMode == LAUNCH_MODE.STEERING_TEST)
+            if (_launchMode == LAUNCH_MODE.STEERING_TEST)
             {
-                this.AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
+                AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
             }
 
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
-                timeLabel = this.AddImage(840, 580, "UI/Battle-screen-score-text.png", 999);
-                multiplierLabelLabel = this.AddImage(896, 540, "UI/multiplier-text.png", 999);
-                multiplierLabelLabel.Opacity = 0;
+                _timeLabel = AddImage(840, 580, "UI/Battle-screen-score-text.png", 999);
+                _multiplierLabelLabel = AddImage(896, 540, "UI/multiplier-text.png", 999);
+                _multiplierLabelLabel.Opacity = 0;
 
             }
             else
             {
-                timeLabel = this.AddImage(910, 580, "UI/Battle-screen-time-text.png", 999);
+                _timeLabel = AddImage(910, 580, "UI/Battle-screen-time-text.png", 999);
             }
             //if (!Settings.Instance.Vibration) timeLabel.Visible = false;
 
-            reloading = this.AddImage(820, 5, "UI/Battle-screen-reloading-text.png", 999);
-            reloading.Visible = false;
+            _reloading = AddImage(820, 5, "UI/Battle-screen-reloading-text.png", 999);
+            _reloading.Visible = false;
 
             //player = this.AddImage(1136 / 2 - 100, 50, PlayerCannon, 100);
 
-            player = new CCSprite(ssRecoil.Frames.Find(item => item.TextureFilename == ssRecoilKeyPrefix + "00.png"));
-            player.BlendFunc = GameEnvironment.BlendFuncDefault;
-            player.AnchorPoint = new CCPoint(0, 0);
-            player.PositionX = 1136 / 2 - 100;
-            player.PositionY = 50;
-            player.ZOrder = 100;
+            _player = new CCSprite(SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + "00.png"));
+            _player.BlendFunc = GameEnvironment.BlendFuncDefault;
+            _player.AnchorPoint = new CCPoint(0, 0);
+            _player.PositionX = 1136 / 2 - 100;
+            _player.PositionY = 50;
+            _player.ZOrder = 100;
 
-            this.AddChild(player);
+            AddChild(_player);
 
 
 
             for (int i = 0; i < (LivesLeft > -1 ? LivesLeft : Weapon.GetLives(SelectedWeapon) - 1); i++)
             {
-                CCSprite life = this.AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
-                lives.Add(life);
+                CCSprite life = AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
+                _lives.Add(life);
             }
 
-            for (int i = 0; i < magazineSize; i++)
+            for (int i = 0; i < _magazineSize; i++)
             {
                 CCSprite ammo;
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
-                    ammo = this.AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                    ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
                 }
                 else
                 {
-                    ammo = this.AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                    ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
                 }
-                ammos.Add(ammo);
+                _ammos.Add(ammo);
             }
 
 
@@ -1430,63 +1422,63 @@ namespace LooneyInvaders.Layers
                 {
                     Enemy enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
-                    enemies.Add(enemy);
+                    _enemies.Add(enemy);
                     enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
-                    enemies.Add(enemy);
+                    _enemies.Add(enemy);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
                 }
             }
-            goingDown = 240;
-            enemyCurrentSpeed = 0; //enemySpeed;
-            firstGoingDown = true;
-            bombDensity = 100;
+            _goingDown = 240;
+            _enemyCurrentSpeed = 0; //enemySpeed;
+            _firstGoingDown = true;
+            _bombDensity = 100;
 
-            bulletsFired = 0;
-            bulletsMissed = 0;
+            _bulletsFired = 0;
+            _bulletsMissed = 0;
             /*if(Settings.Instance.Vibration)*/
 
-            time = this.AddImageLabel(1040, 580, "0", 50);
+            _time = AddImageLabel(1040, 580, "0", 50);
 
-            if (launchMode == LAUNCH_MODE.STEERING_TEST)
+            if (_launchMode == LAUNCH_MODE.STEERING_TEST)
             {
-                foreach (var timeSprite in time)
+                foreach (var timeSprite in _time)
                 {
                     timeSprite.Visible = false;
                 }
 
-                timeLabel.Visible = false;
+                _timeLabel.Visible = false;
             }
 
 
-            lastDisplayedTime = 0;
-            elapsedTime = 0;
-            wavePass = 1136;
+            _lastDisplayedTime = 0;
+            _elapsedTime = 0;
+            _wavePass = 1136;
 
             Settings.Instance.ShowSteeringTip = true;
 
             if (SelectedEnemy == ENEMIES.ALIENS && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
             {
-                this.ScheduleOnce(showAlienTip, 1);
+                ScheduleOnce(ShowAlienTip, 1);
             }
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE && !Settings.Instance.ShowSteeringTip && launchMode == LAUNCH_MODE.DEFAULT)
+            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE && !Settings.Instance.ShowSteeringTip && _launchMode == LAUNCH_MODE.DEFAULT)
             {
-                this.ScheduleOnce(showTiltInstruction, 1);
+                ScheduleOnce(ShowTiltInstruction, 1);
             }
 
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && launchMode == LAUNCH_MODE.DEFAULT)
+            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && _launchMode == LAUNCH_MODE.DEFAULT)
             {
-                this.ScheduleOnce(showSteeringTip, 1);
+                ScheduleOnce(ShowSteeringTip, 1);
             }
             else
             {
-                if (launchMode != LAUNCH_MODE.STEERING_TEST)
+                if (_launchMode != LAUNCH_MODE.STEERING_TEST)
                 {
-                    btnBack = this.AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-                    btnBack.OnClick += BtnBack_OnClick;
-                    btnBack.ButtonType = BUTTON_TYPE.Back;
+                    _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+                    _btnBack.OnClick += BtnBack_OnClick;
+                    _btnBack.ButtonType = BUTTON_TYPE.Back;
 
-                    btnSettings = this.AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
-                    btnSettings.OnClick += btnSettings_OnClick;
+                    _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+                    _btnSettings.OnClick += btnSettings_OnClick;
                 }
 
                 Schedule(UpdateAll);
@@ -1513,49 +1505,49 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void OnSwitchIsOn(object p_object)
+        private void OnSwitchIsOn(object pObject)
         {
             BtnBack_OnClick(null, null);
         }
 
-        CCSpriteTwoStateButton gameTipCheckMark;
-        CCSprite gameTipBackground;
-        CCSprite gameTipExplanation;
-        CCSprite gameTipArrow;
-        CCSprite gameTipTarget;
-        CCSpriteButton okIGotIt;
+        CCSpriteTwoStateButton _gameTipCheckMark;
+        CCSprite _gameTipBackground;
+        CCSprite _gameTipExplanation;
+        CCSprite _gameTipArrow;
+        CCSprite _gameTipTarget;
+        CCSpriteButton _okIGotIt;
 
-        private void showTiltInstruction(float dt)
+        private void ShowTiltInstruction(float dt)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
-            gameTipBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/game-tip-notification-background-with-text.png", 1002);
-            gameTipArrow = this.AddImage(50, 345, "UI/game-tip-notification-arrow2.png", 1003);
-            gameTipTarget = this.AddImage(50, 177, "UI/game-tip-notification-tapping-symbol.png", 1003);
-            gameTipExplanation = this.AddImage(100, 50, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
+            _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/game-tip-notification-background-with-text.png", 1002);
+            _gameTipArrow = AddImage(50, 345, "UI/game-tip-notification-arrow2.png", 1003);
+            _gameTipTarget = AddImage(50, 177, "UI/game-tip-notification-tapping-symbol.png", 1003);
+            _gameTipExplanation = AddImage(100, 50, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
 
-            gameTipCheckMark = this.AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
-            gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark = AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
+            _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
+            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
 
-            okIGotIt = this.AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
-            okIGotIt.OnClick += okIGotIt_OnClick;
+            _okIGotIt = AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
+            _okIGotIt.OnClick += okIGotIt_OnClick;
         }
 
-        private void showTouchInstruction(float dt)
+        private void ShowTouchInstruction(float dt)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
-            gameTipBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/touch-steering-instructions-notification-background.png", 1002);
-            gameTipExplanation = this.AddImage(100, 30, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
+            _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/touch-steering-instructions-notification-background.png", 1002);
+            _gameTipExplanation = AddImage(100, 30, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
 
-            gameTipCheckMark = this.AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
-            gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
+            _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
+            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
 
-            okIGotIt = this.AddButton(660, 10, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
-            okIGotIt.OnClick += okIGotIt_OnClickTouch;
+            _okIGotIt = AddButton(660, 10, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
+            _okIGotIt.OnClick += okIGotIt_OnClickTouch;
         }
 
-        private void showSteeringTip(float dt)
+        private void ShowSteeringTip(float dt)
         {
             Settings.Instance.ShowSteeringTip = false;
 
@@ -1563,11 +1555,11 @@ namespace LooneyInvaders.Layers
             {
                 if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
                 {
-                    this.ScheduleOnce(showTiltInstruction, 1);
+                    ScheduleOnce(ShowTiltInstruction, 1);
                 }
                 else if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
                 {
-                    this.ScheduleOnce(showTouchInstruction, 1);
+                    ScheduleOnce(ShowTouchInstruction, 1);
                 }
             }
             else
@@ -1579,40 +1571,40 @@ namespace LooneyInvaders.Layers
         private void CreateBtnBack()
         {
             Schedule(UpdateAll);
-            btnBack = this.AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnBack.OnClick += BtnBack_OnClick;
-            btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack.OnClick += BtnBack_OnClick;
+            _btnBack.ButtonType = BUTTON_TYPE.Back;
 
-            btnSettings = this.AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnSettings.OnClick += btnSettings_OnClick;
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings.OnClick += btnSettings_OnClick;
 
-            SetUpSteering(launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
         }
 
         private void gameTipCheckMark_OnClick(object sender, EventArgs e)
         {
-            gameTipCheckMark.ChangeState();
-            gameTipCheckMark.SetStateImages();
+            _gameTipCheckMark.ChangeState();
+            _gameTipCheckMark.SetStateImages();
         }
 
         private void okIGotIt_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipGamePlayShow = gameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
 
-            this.RemoveChild(gameTipBackground, true);
-            this.RemoveChild(gameTipExplanation, true);
-            this.RemoveChild(gameTipArrow, true);
-            this.RemoveChild(gameTipTarget, true);
-            this.RemoveChild(gameTipCheckMark, true);
-            this.RemoveChild(okIGotIt, true);
-            this.OnTouchBegan += GamePlayLayer_OnTouchBegan;
+            RemoveChild(_gameTipBackground);
+            RemoveChild(_gameTipExplanation);
+            RemoveChild(_gameTipArrow);
+            RemoveChild(_gameTipTarget);
+            RemoveChild(_gameTipCheckMark);
+            RemoveChild(_okIGotIt);
+            OnTouchBegan += GamePlayLayer_OnTouchBegan;
             Schedule(UpdateAll);
-            btnBack = this.AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnBack.OnClick += BtnBack_OnClick;
-            btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack.OnClick += BtnBack_OnClick;
+            _btnBack.ButtonType = BUTTON_TYPE.Back;
 
-            btnSettings = this.AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnSettings.OnClick += btnSettings_OnClick;
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings.OnClick += btnSettings_OnClick;
 
             /*if (!Settings.Instance.Vibration)
             {
@@ -1624,53 +1616,53 @@ namespace LooneyInvaders.Layers
 
         private void okIGotIt_OnClickTouch(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipGamePlayShow = gameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
 
-            this.RemoveChild(gameTipBackground, true);
-            this.RemoveChild(gameTipExplanation, true);
-            this.RemoveChild(gameTipArrow, true);
-            this.RemoveChild(gameTipTarget, true);
-            this.RemoveChild(gameTipCheckMark, true);
-            this.RemoveChild(okIGotIt, true);
+            RemoveChild(_gameTipBackground);
+            RemoveChild(_gameTipExplanation);
+            RemoveChild(_gameTipArrow);
+            RemoveChild(_gameTipTarget);
+            RemoveChild(_gameTipCheckMark);
+            RemoveChild(_okIGotIt);
 
             Settings.Instance.ShowSteeringTip = false;
 
-            SetUpSteering(launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
 
             CreateBtnBack();
 
             Schedule(UpdateAll);
         }
 
-        private void showAlienTip(float dt)
+        private void ShowAlienTip(float dt)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
-            gameTipBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/moon-level-notification-with-all-text.png", 1002);
-            gameTipExplanation = this.AddImage(100, 50, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
+            _gameTipBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/moon-level-notification-with-all-text.png", 1002);
+            _gameTipExplanation = AddImage(100, 50, "UI/game-tip-notification-do-not-show-text.png.png", 1003);
 
-            gameTipCheckMark = this.AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
-            gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
-            gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gameTipCheckMark = AddTwoStateButton(45, 40, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 1005);
+            _gameTipCheckMark.OnClick += gameTipCheckMark_OnClick;
+            _gameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
 
-            okIGotIt = this.AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
-            okIGotIt.OnClick += alienOkIGotIt_OnClick;
+            _okIGotIt = AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
+            _okIGotIt.OnClick += alienOkIGotIt_OnClick;
         }
 
         private void alienOkIGotIt_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.AlienGameTipGamePlayShow = gameTipCheckMark.State == 1 ? false : true;
-            this.RemoveChild(gameTipBackground, true);
-            this.RemoveChild(gameTipExplanation, true);
-            this.RemoveChild(gameTipCheckMark, true);
-            this.RemoveChild(okIGotIt, true);
-            this.OnTouchBegan += GamePlayLayer_OnTouchBegan;
+            Settings.Instance.AlienGameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
+            RemoveChild(_gameTipBackground);
+            RemoveChild(_gameTipExplanation);
+            RemoveChild(_gameTipCheckMark);
+            RemoveChild(_okIGotIt);
+            OnTouchBegan += GamePlayLayer_OnTouchBegan;
             Schedule(UpdateAll);
-            btnBack = this.AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnBack.OnClick += BtnBack_OnClick;
-            btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack.OnClick += BtnBack_OnClick;
+            _btnBack.ButtonType = BUTTON_TYPE.Back;
 
-            btnSettings = this.AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
-            btnSettings.OnClick += btnSettings_OnClick;
+            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnSettings.OnClick += btnSettings_OnClick;
 
             /*if (!Settings.Instance.Vibration)
             {
@@ -1680,9 +1672,9 @@ namespace LooneyInvaders.Layers
 
         }
 
-        private void clearAll()
+        private void ClearAll()
         {
-            this.RemoveAllChildren(true);
+            RemoveAllChildren();
             //cache.RemoveAllTextures();
             //cache.UnloadContent();
             /*cache.Dispose();
@@ -1703,7 +1695,7 @@ namespace LooneyInvaders.Layers
             Console.WriteLine("Settings Button Clicked");
 
             //------------- Prabhjot --------------//
-            if (isGameOver == true)
+            if (_isGameOver)
             {
                 //btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
@@ -1711,7 +1703,7 @@ namespace LooneyInvaders.Layers
             }
 
             Settings.isFromGameScreen = false;
-            CCScene newScene = new CCScene(this.GameView);
+            CCScene newScene = new CCScene(GameView);
             newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
             Director.PushScene(newScene);
 
@@ -1719,8 +1711,8 @@ namespace LooneyInvaders.Layers
 
         public CCLayerColorExt Continue()
         {
-            battlegroundImageName = Battleground.GetBattlegroundImageName(SelectedBattleground, Settings.Instance.BattlegroundStyle);
-            this.SetBackground(battlegroundImageName);
+            BattlegroundImageName = Battleground.GetBattlegroundImageName(SelectedBattleground, Settings.Instance.BattlegroundStyle);
+            SetBackground(BattlegroundImageName);
 
             //ako se promjenio instrumental/beatbox
             if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
@@ -1741,27 +1733,27 @@ namespace LooneyInvaders.Layers
             //Schedule(UpdateAll);
             //this.OnTouchBegan += GamePlayLayer_OnTouchBegan;
 
-            if (waveTransfer == true)
+            if (_waveTransfer)
             {
                 if (SelectedEnemy == ENEMIES.ALIENS)
                 {
                     GameEnvironment.PlayMusic(MUSIC.NEXTWAVEALIEN);
-                    this.ScheduleOnce(NextWave, 3);
+                    ScheduleOnce(NextWave, 3);
                 }
                 else
                 {
-                    switch (wave)
+                    switch (_wave)
                     {
                         case 1:
                             GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
-                            this.ScheduleOnce(NextWave, 3);
+                            ScheduleOnce(NextWave, 3);
                             break;
                         case 2:
                             GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
-                            this.ScheduleOnce(NextWave, 3);
+                            ScheduleOnce(NextWave, 3);
                             break;
                         case 3:
-                            this.ScheduleOnce(Victory, 1);
+                            ScheduleOnce(Victory, 1);
                             break;
                     }
                 }
@@ -1770,7 +1762,7 @@ namespace LooneyInvaders.Layers
             {
                 if (SelectedEnemy == ENEMIES.ALIENS)
                 {
-                    switch (wave)
+                    switch (_wave)
                     {
                         case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN1); break;
                         case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN2); break;
@@ -1782,7 +1774,7 @@ namespace LooneyInvaders.Layers
                         case 8: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN8); break;
                         case 9: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
                         default:
-                            switch (wave % 3)
+                            switch (_wave % 3)
                             {
                                 case 0: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
                                 case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
@@ -1792,11 +1784,11 @@ namespace LooneyInvaders.Layers
 
                     }
                 }
-                else if (wave == 1)
+                else if (_wave == 1)
                 {
                     GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_1);
                 }
-                else if (wave == 2)
+                else if (_wave == 2)
                 {
                     GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_2);
                 }
@@ -1808,17 +1800,17 @@ namespace LooneyInvaders.Layers
             return this;
         }
 
-        CCSprite gamePauseBackground;
-        CCSpriteButton btnJust;
-        CCSpriteButton btnSurrender;
-        CCSpriteButton btnContinue;
-        CCSprite gamePauseFriendlyLabel;
-        CCSpriteTwoStateButton gamePauseFriendlyCheckMark;
+        CCSprite _gamePauseBackground;
+        CCSpriteButton _btnJust;
+        CCSpriteButton _btnSurrender;
+        CCSpriteButton _btnContinue;
+        CCSprite _gamePauseFriendlyLabel;
+        CCSpriteTwoStateButton _gamePauseFriendlyCheckMark;
 
         public void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot --------------//
-            if (isGameOver == true)
+            if (_isGameOver)
             {
                 //btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-untapped.png", 100, BUTTON_TYPE.Back);
                 GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
@@ -1826,35 +1818,35 @@ namespace LooneyInvaders.Layers
             }
 
             Settings.isFromGameScreen = false;
-            this.UnscheduleAll();
-            this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
+            UnscheduleAll();
+            OnTouchBegan -= GamePlayLayer_OnTouchBegan;
 
             if (Settings.Instance.GamePauseFriendly)
             {
-                gamePauseBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/game-paused-friendly-notification-background-with-text.png", 2002);
+                _gamePauseBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/game-paused-friendly-notification-background-with-text.png", 2002);
             }
             else
             {
-                gamePauseBackground = this.AddImageCentered(1136 / 2, 630 / 2, "UI/game-paused-rude-notification-background-with-text.png", 2002);
+                _gamePauseBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/game-paused-rude-notification-background-with-text.png", 2002);
             }
-            btnJust = this.AddButton(176, 320, "UI/game-paused-just-paused-button-untapped.png", "UI/game-paused-just-paused-button-tapped.png", 2003);
-            btnJust.OnClick += btnJust_OnClick;
-            btnSurrender = this.AddButton(176, 203, "UI/game-paused-surrender-button-untapped.png", "UI/game-paused-surrender-button-tapped.png", 2003);
-            btnSurrender.OnClick += btnSurrender_OnClick;
-            btnContinue = this.AddButton(176, 85, "UI/game-paused-lets-continue-button-untapped.png", "UI/game-paused-lets-continue-button-tapped.png", 2003);
-            btnContinue.OnClick += btnContinue_OnClick;
+            _btnJust = AddButton(176, 320, "UI/game-paused-just-paused-button-untapped.png", "UI/game-paused-just-paused-button-tapped.png", 2003);
+            _btnJust.OnClick += btnJust_OnClick;
+            _btnSurrender = AddButton(176, 203, "UI/game-paused-surrender-button-untapped.png", "UI/game-paused-surrender-button-tapped.png", 2003);
+            _btnSurrender.OnClick += btnSurrender_OnClick;
+            _btnContinue = AddButton(176, 85, "UI/game-paused-lets-continue-button-untapped.png", "UI/game-paused-lets-continue-button-tapped.png", 2003);
+            _btnContinue.OnClick += btnContinue_OnClick;
 
 
-            gamePauseFriendlyLabel = this.AddImage(120, 25, "UI/game-paused-friendly-do-not-insult-me-text.png", 2003);
+            _gamePauseFriendlyLabel = AddImage(120, 25, "UI/game-paused-friendly-do-not-insult-me-text.png", 2003);
 
-            gamePauseFriendlyCheckMark = this.AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
-            gamePauseFriendlyCheckMark.OnClick += gamePauseFriendlyCheckMark_OnClick;
-            gamePauseFriendlyCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
-            gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
-            gamePauseFriendlyCheckMark.SetStateImages();
+            _gamePauseFriendlyCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
+            _gamePauseFriendlyCheckMark.OnClick += gamePauseFriendlyCheckMark_OnClick;
+            _gamePauseFriendlyCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
+            _gamePauseFriendlyCheckMark.SetStateImages();
 
-            btnBack.Visible = false;
-            btnSettings.Visible = false;
+            _btnBack.Visible = false;
+            _btnSettings.Visible = false;
 
 
             /*
@@ -1879,7 +1871,7 @@ namespace LooneyInvaders.Layers
             //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
             //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
 
-            CCScene newScene = new CCScene(this.GameView);
+            CCScene newScene = new CCScene(GameView);
             newScene.AddLayer(new PauseScreenLayer(this));
             Director.PushScene(newScene);
 
@@ -1904,44 +1896,44 @@ namespace LooneyInvaders.Layers
         private void btnContinue_OnClick(object sender, EventArgs e)
         {
             Settings.isFromGameScreen = true;
-            this.RemoveChild(gamePauseBackground, true);
-            gamePauseBackground = null;
-            this.RemoveChild(btnJust, true);
-            btnJust = null;
-            this.RemoveChild(btnSurrender, true);
-            btnSurrender = null;
-            this.RemoveChild(btnContinue, true);
-            btnContinue = null;
-            this.RemoveChild(gamePauseFriendlyLabel, true);
-            gamePauseFriendlyLabel = null;
-            this.RemoveChild(gamePauseFriendlyCheckMark, true);
-            gamePauseFriendlyCheckMark = null;
+            RemoveChild(_gamePauseBackground);
+            _gamePauseBackground = null;
+            RemoveChild(_btnJust);
+            _btnJust = null;
+            RemoveChild(_btnSurrender);
+            _btnSurrender = null;
+            RemoveChild(_btnContinue);
+            _btnContinue = null;
+            RemoveChild(_gamePauseFriendlyLabel);
+            _gamePauseFriendlyLabel = null;
+            RemoveChild(_gamePauseFriendlyCheckMark);
+            _gamePauseFriendlyCheckMark = null;
 
-            btnBack.Visible = true;
-            btnSettings.Visible = true;
+            _btnBack.Visible = true;
+            _btnSettings.Visible = true;
 
             Schedule(UpdateAll);
 
-            SetUpSteering(launchMode == LAUNCH_MODE.DEFAULT);
+            SetUpSteering(_launchMode == LAUNCH_MODE.DEFAULT);
 
-            if (waveTransfer == true)
+            if (_waveTransfer)
             {
                 if (SelectedEnemy == ENEMIES.ALIENS)
                 {
-                    this.ScheduleOnce(NextWave, 3);
+                    ScheduleOnce(NextWave, 3);
                 }
                 else
                 {
-                    switch (wave)
+                    switch (_wave)
                     {
                         case 1:
-                            this.ScheduleOnce(NextWave, 3);
+                            ScheduleOnce(NextWave, 3);
                             break;
                         case 2:
-                            this.ScheduleOnce(NextWave, 3);
+                            ScheduleOnce(NextWave, 3);
                             break;
                         case 3:
-                            this.ScheduleOnce(Victory, 1);
+                            ScheduleOnce(Victory, 1);
                             break;
                     }
                 }
@@ -1951,9 +1943,9 @@ namespace LooneyInvaders.Layers
 
         private void gamePauseFriendlyCheckMark_OnClick(object sender, EventArgs e)
         {
-            gamePauseFriendlyCheckMark.ChangeState();
-            gamePauseFriendlyCheckMark.SetStateImages();
-            Settings.Instance.GamePauseFriendly = gamePauseFriendlyCheckMark.State == 1 ? true : false;
+            _gamePauseFriendlyCheckMark.ChangeState();
+            _gamePauseFriendlyCheckMark.SetStateImages();
+            Settings.Instance.GamePauseFriendly = _gamePauseFriendlyCheckMark.State == 1;
         }
 
         //Touch response for whole screen
@@ -1974,25 +1966,25 @@ namespace LooneyInvaders.Layers
 
         void FireBtnPressed()
         {
-            if (ammos.Count > 0 && playerExplosion == null && gunCoolness <= 0)
+            if (_ammos.Count > 0 && _playerExplosion == null && _gunCoolness <= 0)
             {
                 //GameDelegate.Vibrate(100);
-                GunSmoke gunSmoke = new GunSmoke(this, Convert.ToInt32(player.PositionX + player.ContentSize.Width / 2) + 5, Convert.ToInt32(player.PositionY + player.ContentSize.Height + smokeOffsetY));
-                gunSmokes.Add(gunSmoke);
+                GunSmoke gunSmoke = new GunSmoke(this, Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2) + 5, Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY));
+                _gunSmokes.Add(gunSmoke);
                 CCSprite bulletSprite;
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
-                    bulletSprite = this.AddImage(Convert.ToInt32(player.PositionX + player.ContentSize.Width / 2), Convert.ToInt32(player.PositionY + player.ContentSize.Height + smokeOffsetY), "Player/green-lazer-bullet.png");
+                    bulletSprite = AddImage(Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2), Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY), "Player/green-lazer-bullet.png");
                 }
                 else
                 {
-                    bulletSprite = this.AddImage(Convert.ToInt32(player.PositionX + player.ContentSize.Width / 2), Convert.ToInt32(player.PositionY + player.ContentSize.Height + smokeOffsetY), "Player/bullet.png");
-                    gunSmoke.Sprite.Scale = bulletScale;
+                    bulletSprite = AddImage(Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2), Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY), "Player/bullet.png");
+                    gunSmoke.Sprite.Scale = _bulletScale;
                 }
 
                 bulletSprite.ZOrder = 8;
-                bulletSprite.Scale = bulletScale;
-                bulletSprite.PositionX -= bulletSprite.ContentSize.Width * bulletScale / 2;
+                bulletSprite.Scale = _bulletScale;
+                bulletSprite.PositionX -= bulletSprite.ContentSize.Width * _bulletScale / 2;
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
                     bulletSprite.PositionY -= 30;
@@ -2000,20 +1992,20 @@ namespace LooneyInvaders.Layers
                 //bullet.PositionY -= bullet.ContentSize.Height*bulletScale;
                 Bullet bullet = new Bullet();
                 bullet.Sprite = bulletSprite;
-                bullet.Power = bulletPower;
-                bullets.Add(bullet);
-                this.RemoveChild(ammos[ammos.Count - 1], true);
-                ammos.RemoveAt(ammos.Count - 1);
-                bulletsFired++;
-                gunCoolness = gunCooloff;
+                bullet.Power = _bulletPower;
+                _bullets.Add(bullet);
+                RemoveChild(_ammos[_ammos.Count - 1]);
+                _ammos.RemoveAt(_ammos.Count - 1);
+                _bulletsFired++;
+                _gunCoolness = _gunCooloff;
                 CCAudioEngine.SharedEngine.PlayEffect(SoundCannonShoot);
-                if (ammos.Count == 0)
+                if (_ammos.Count == 0)
                 {
-                    reloading.Visible = true;
-                    reload = reloadTime;
+                    _reloading.Visible = true;
+                    _reload = _reloadTime;
                 }
             }
-            else if (ammos.Count == 0)
+            else if (_ammos.Count == 0)
             {
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
@@ -2028,7 +2020,7 @@ namespace LooneyInvaders.Layers
 
         private void GamePlayLayer_TouchResponse(List<CCTouch> touches, CCEvent touchEvent)
         {
-            var fireButtonBoundingBox = btnFire.BoundingBoxTransformedToWorld;
+            var fireButtonBoundingBox = _btnFire.BoundingBoxTransformedToWorld;
 
             foreach (var touch in touches)
             {
@@ -2041,177 +2033,178 @@ namespace LooneyInvaders.Layers
 
         void GameOver(float dt)
         {
-            this.UnscheduleAll();
-            Player.Instance.AddKills(SelectedEnemy, kills);
+            UnscheduleAll();
+            Player.Instance.AddKills(SelectedEnemy, Kills);
 
             //CCLabel go = this.AddLabelCentered(1136 / 2, 315, "G A M E   O V E R", "Fonts/AktivGroteskBold", 16);
             //go.Scale = 2;
             //go.ZOrder = 100;
-            clearAll();
-            this.Enabled = false;
+            ClearAll();
+            Enabled = false;
 
             SetGameDuration();
 
-            if (launchMode == LAUNCH_MODE.WEAPON_TEST)
+            if (_launchMode == LAUNCH_MODE.WEAPON_TEST)
             {
                 AdMobManager.HideBanner();
-                this.TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
+                TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
             }
-            else if (launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
+            else if (_launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
             {
                 AdMobManager.HideBanner();
-                this.TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
+                TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
             }
             else
             {
                 Settings.isFromGameScreen = false;
-                this.TransitionToLayerCartoonStyle(new LossScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, score, wave));
+                TransitionToLayerCartoonStyle(new LossScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, _score, _wave));
             }
         }
 
         void Victory(float dt)
         {
-            this.UnscheduleAll();
-            Player.Instance.AddKills(SelectedEnemy, kills);
+            UnscheduleAll();
+            Player.Instance.AddKills(SelectedEnemy, Kills);
 
-            if (bulletsFired == 0)
+            if (_bulletsFired == 0)
             {
-                bulletsFired = 1;
+                _bulletsFired = 1;
             }
-            if (elapsedTime == 0)
+            if (Math.Abs(_elapsedTime) < TOLERANCE)
             {
-                elapsedTime = 1;
+                _elapsedTime = 1;
             }
-            clearAll();
+            ClearAll();
             SetGameDuration();
 
-            if (launchMode == LAUNCH_MODE.WEAPON_TEST)
+            if (_launchMode == LAUNCH_MODE.WEAPON_TEST)
             {
                 AdMobManager.HideBanner();
-                this.TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
+                TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
             }
-            else if (launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
+            else if (_launchMode == LAUNCH_MODE.WEAPONS_UPGRADE_TEST)
             {
                 AdMobManager.HideBanner();
-                this.TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
+                TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
             }
-            else if (launchMode == LAUNCH_MODE.STEERING_TEST)
+            else if (_launchMode == LAUNCH_MODE.STEERING_TEST)
             {
                 AdMobManager.HideBanner();
                 StartGame();
             }
-            if (launchMode == LAUNCH_MODE.DEFAULT)
+            if (_launchMode == LAUNCH_MODE.DEFAULT)
             {
                 Settings.isFromGameScreen = false;
-                this.TransitionToLayerCartoonStyle(new VictoryScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, Convert.ToDecimal(elapsedTime), Convert.ToDecimal((bulletsFired - bulletsMissed) * 100) / Convert.ToDecimal(bulletsFired), lives.Count, WinsInSuccession + 1));
+                TransitionToLayerCartoonStyle(new VictoryScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, Convert.ToDecimal(_elapsedTime), Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired), _lives.Count, WinsInSuccession + 1));
             }
         }
 
         private void SetGameDuration()
         {
-            Settings.Instance.SetTodaySessionDuration((int)elapsedTime);
+            Settings.Instance.SetTodaySessionDuration((int)_elapsedTime);
         }
 
-        CCLabel label = null;
+        readonly CCLabel _label = null;
 
-        CCSprite nextWaveSprite = null;
-        CCSprite[] nextWaveNumberSprites = null;
+        CCSprite _nextWaveSprite;
+        CCSprite[] _nextWaveNumberSprites;
+        private readonly double TOLERANCE = 0.0001;
 
         void NextWave(float dt)
         {
-            this.RemoveChild(nextWaveSprite, true);
-            this.nextWaveSprite = null;
-            if (nextWaveNumberSprites != null)
+            RemoveChild(_nextWaveSprite);
+            _nextWaveSprite = null;
+            if (_nextWaveNumberSprites != null)
             {
-                foreach (CCSprite waveDigit in nextWaveNumberSprites)
+                foreach (CCSprite waveDigit in _nextWaveNumberSprites)
                 {
-                    this.RemoveChild(waveDigit, true);
+                    RemoveChild(waveDigit);
                 }
-                this.nextWaveNumberSprites = null;
+                _nextWaveNumberSprites = null;
             }
 
-            this.wave++;
-            if (timeLabel.Visible)
+            _wave++;
+            if (_timeLabel.Visible)
             {
-                timeLabel.Opacity = byte.MaxValue;
-                foreach (CCSprite timeDigit in time)
+                _timeLabel.Opacity = byte.MaxValue;
+                foreach (CCSprite timeDigit in _time)
                 {
                     timeDigit.Opacity = byte.MaxValue;
                 }
             }
-            if (multiplierLabel != null)
+            if (_multiplierLabel != null)
             {
-                multiplierLabel.Opacity = byte.MaxValue;
+                _multiplierLabel.Opacity = byte.MaxValue;
             }
-            bounces = 0;
-            flyingSaucerWait = 0;
+            _bounces = 0;
+            _flyingSaucerWait = 0;
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
-                bombDensity -= 10;
-                if (wave == 6)
+                _bombDensity -= 10;
+                if (_wave == 6)
                 {
-                    goingDownSpeed -= 1.5f;
-                    enemySpeed -= 1.5f;
-                    bombDensity += 40;
+                    _goingDownSpeed -= 1.5f;
+                    _enemySpeed -= 1.5f;
+                    _bombDensity += 40;
                 }
-                else if (wave == 9)
+                else if (_wave == 9)
                 {
-                    goingDownSpeed -= 1.0f;
-                    enemySpeed -= 1.0f;
-                    bombDensity += 30;
+                    _goingDownSpeed -= 1.0f;
+                    _enemySpeed -= 1.0f;
+                    _bombDensity += 30;
                 }
                 else
                 {
-                    enemySpeed += 0.5f;
+                    _enemySpeed += 0.5f;
                 }
-                enemyCurrentSpeed = 0; //enemySpeed;
-                goingDownSpeed += 0.5f;
-                if (goingDownSpeed > 4) goingDownSpeed = 4;
-                if (enemySpeed > 4) enemySpeed = 4f;
-                if (bombDensity < 20) bombDensity = 20;
+                _enemyCurrentSpeed = 0; //enemySpeed;
+                _goingDownSpeed += 0.5f;
+                if (_goingDownSpeed > 4) _goingDownSpeed = 4;
+                if (_enemySpeed > 4) _enemySpeed = 4f;
+                if (_bombDensity < 20) _bombDensity = 20;
             }
             else
             {
-                bombDensity -= 20;
-                enemySpeed += 0.7f;
-                enemyCurrentSpeed = 0; //enemySpeed;
-                goingDownSpeed += 0.7f;
+                _bombDensity -= 20;
+                _enemySpeed += 0.7f;
+                _enemyCurrentSpeed = 0; //enemySpeed;
+                _goingDownSpeed += 0.7f;
             }
-            goingDownCurrentSpeed = goingDownSpeed;
-            firstGoingDown = true;
-            for (int j = wave > 8 ? 4 : (wave > 5 ? 3 : 2); j >= 0; j--)
+            _goingDownCurrentSpeed = _goingDownSpeed;
+            _firstGoingDown = true;
+            for (int j = _wave > 8 ? 4 : (_wave > 5 ? 3 : 2); j >= 0; j--)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     Enemy enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
-                    enemies.Add(enemy);
+                    _enemies.Add(enemy);
                     enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
-                    enemies.Add(enemy);
+                    _enemies.Add(enemy);
                     enemy.Sprite.ZOrder = 10 - (j * 3);
                 }
             }
-            if (wave > 7)
+            if (_wave > 7)
             {
-                goingDown = 240;
+                _goingDown = 240;
             }
-            else if (wave > 5)
+            else if (_wave > 5)
             {
-                goingDown = 240 + 32;
+                _goingDown = 240 + 32;
             }
-            else if (wave > 2)
+            else if (_wave > 2)
             {
-                goingDown = 240 + 2 * 32;
+                _goingDown = 240 + 2 * 32;
             }
             else
             {
-                goingDown = 240 + wave * 32;
+                _goingDown = 240 + _wave * 32;
             }
-            waveTransfer = false;
-            wavePass = 1136;
+            _waveTransfer = false;
+            _wavePass = 1136;
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
-                switch (wave)
+                switch (_wave)
                 {
                     case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN1); break;
                     case 2: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN2); break;
@@ -2223,7 +2216,7 @@ namespace LooneyInvaders.Layers
                     case 8: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN8); break;
                     case 9: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
                     default:
-                        switch (wave % 3)
+                        switch (_wave % 3)
                         {
                             case 0: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN9); break;
                             case 1: GameEnvironment.PlayMusic(MUSIC.BATTLE_ALIEN3); break;
@@ -2233,7 +2226,7 @@ namespace LooneyInvaders.Layers
 
                 }
             }
-            else if (wave == 2)
+            else if (_wave == 2)
             {
                 GameEnvironment.PlayMusic(MUSIC.BATTLE_WAVE_2);
             }
@@ -2244,7 +2237,7 @@ namespace LooneyInvaders.Layers
 
         }
 
-        bool inRectangle(CCRect rect, List<CCPoint> points, float offsetX, float offsetY, int reduceRectX = 0, int reduceRectY = 0)
+        bool InRectangle(CCRect rect, List<CCPoint> points, float offsetX, float offsetY, int reduceRectX = 0, int reduceRectY = 0)
         {
             CCRect r = new CCRect(rect.LowerLeft.X + reduceRectX, rect.LowerLeft.Y + reduceRectY, rect.Size.Width - reduceRectX * 2, rect.Size.Height - reduceRectY * 2);
             foreach (CCPoint point in points)
@@ -2254,7 +2247,7 @@ namespace LooneyInvaders.Layers
             return false;
         }
 
-        float inRectangleTopY(CCRect rect, List<CCPoint> points, float offsetX, float offsetY)
+        float InRectangleTopY(CCRect rect, List<CCPoint> points, float offsetX, float offsetY)
         {
             float topY = -1;
             foreach (CCPoint point in points)
@@ -2264,26 +2257,26 @@ namespace LooneyInvaders.Layers
             return topY;
         }
 
-        void playerExplode(bool loseAllLives = false)
+        void PlayerExplode(bool loseAllLives = false)
         {
-            playerExplosion = new CCSprite(ssCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_00.png"));
-            playerExplosion.PositionX = player.PositionX + player.ContentSize.Width / 2;
-            playerExplosion.PositionY = 0; //player.PositionY;
-            playerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
-            playerExploding = 0;
-            this.AddChild(playerExplosion, 101);
+            _playerExplosion = new CCSprite(SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_00.png"));
+            _playerExplosion.PositionX = _player.PositionX + _player.ContentSize.Width / 2;
+            _playerExplosion.PositionY = 0; //player.PositionY;
+            _playerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
+            _playerExploding = 0;
+            AddChild(_playerExplosion, 101);
 
             if (Settings.Instance.Vibration)
             {
                 VibrationManager.Vibrate();
             }
 
-            if (lives.Count > 0 && !loseAllLives)
+            if (_lives.Count > 0 && !loseAllLives)
             {
                 if (VoicePlayerHit != "")
                 {
                     CCAudioEngine.SharedEngine.PlayEffect(VoicePlayerHit);
-                    switch (lives.Count)
+                    switch (_lives.Count)
                     {
                         case 0:
                             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.GUN_HIT_1);
@@ -2300,19 +2293,19 @@ namespace LooneyInvaders.Layers
             else
             {
 
-		//---------- Prabhjot ----------//
+                //---------- Prabhjot ----------//
 
                 //btnBack.Enabled = false;
                 // btnSettings.Enabled = false;
 
-                btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
-                btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
+                _btnBack = AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-tapped.png", 100, BUTTON_TYPE.Back);
+                _btnSettings = AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
 
 
-                isGameOver = true;
-                gameOver = true;
-                gameOverLabel = this.AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-game-over...-text.png", 1010);
-                gameOverLabel.Scale = 0.8f;
+                _isGameOver = true;
+                _gameOver = true;
+                _gameOverLabel = AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-game-over...-text.png", 1010);
+                _gameOverLabel.Scale = 0.8f;
 
                 //CCLabel go = this.AddLabelCentered(1136 / 2, 315, "G A M E   O V E R", "Fonts/AktivGroteskBold", 16);
                 //go.Scale = 2;
@@ -2322,11 +2315,11 @@ namespace LooneyInvaders.Layers
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     //isGameOver = false;
-                    this.ScheduleOnce(CalloutGameOver, 0.2f);
+                    ScheduleOnce(CalloutGameOver, 0.2f);
                 }
                 else
                 {
-                    isGameOver = true;
+                    _isGameOver = true;
                     if (VoiceGameOver != "") CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
                 }
             }
@@ -2335,7 +2328,7 @@ namespace LooneyInvaders.Layers
         private void CalloutGameOver(float dt)
         {
             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Game Over VO_mono.wav");
-            this.ScheduleOnce(CalloutVoiceGameOver, 0.8f);
+            ScheduleOnce(CalloutVoiceGameOver, 0.8f);
         }
 
         private void CalloutVoiceGameOver(float dt)
@@ -2345,8 +2338,6 @@ namespace LooneyInvaders.Layers
 
         private void AnimateButtons(float dt)
         {
-            List<CCSpriteFrame> framesTarget = new List<CCSpriteFrame>();
-
             int fireButtonX = 918;
             int fireButtonY = 2;
 
@@ -2360,23 +2351,22 @@ namespace LooneyInvaders.Layers
             }
 
 
-            this.RemoveChild(fadeShootButton);
-            this.RemoveChild(fadeControlButton);
+            RemoveChild(_fadeShootButton);
+            RemoveChild(_fadeControlButton);
 
-            fadeShootButton = this.AddImage(fireButtonX, fireButtonY, $"UI/Controls/Fire button/{fadeLevel.ToString("D3")}-transparent-fire-button-untapped.png", 102);
-            fadeControlButton = this.AddImage(steerinButtonX, steeringButtonY, $"UI/Controls/Steering arrow/{fadeLevel.ToString("D3")}-transparent-movement-arrow-untapped.png", 102);
+            _fadeShootButton = AddImage(fireButtonX, fireButtonY, $"UI/Controls/Fire button/{_fadeLevel.ToString("D3")}-transparent-fire-button-untapped.png", 102);
+            _fadeControlButton = AddImage(steerinButtonX, steeringButtonY, $"UI/Controls/Steering arrow/{_fadeLevel.ToString("D3")}-transparent-movement-arrow-untapped.png", 102);
 
-            fadeLevel += 5;
-            CCAnimation animationTarget = new CCAnimation(framesTarget, 0.10f);
+            _fadeLevel += 5;
 
-            if (fadeLevel >= 80)
+            if (_fadeLevel >= 80)
             {
-                this.RemoveChild(fadeShootButton);
-                this.RemoveChild(fadeControlButton);
+                RemoveChild(_fadeShootButton);
+                RemoveChild(_fadeControlButton);
                 Unschedule(AnimateButtons);
 
-                btnFire.Visible = true;
-                btnMovement.Visible = true;
+                _btnFire.Visible = true;
+                _btnMovement.Visible = true;
             }
         }
 
@@ -2393,68 +2383,68 @@ namespace LooneyInvaders.Layers
 
         void UpdateAll(float dt)
         {
-            if (label != null) this.RemoveChild(label, true);
+            if (_label != null) RemoveChild(_label);
 
-            if (!waveTransfer)
+            if (!_waveTransfer)
             {
-                elapsedTime += dt;
+                _elapsedTime += dt;
             }
             //if (Settings.Instance.Vibration)
             //{
             if (SelectedEnemy == ENEMIES.ALIENS)
             {
-                if (lastDisplayedScore != score)
+                if (_lastDisplayedScore != _score)
                 {
-                    lastDisplayedScore = score;
+                    _lastDisplayedScore = _score;
 
-                    foreach (CCSprite spr in time)
+                    foreach (CCSprite spr in _time)
                     {
-                        this.RemoveChild(spr);
+                        RemoveChild(spr);
                     }
-                    time = this.AddImageLabelRightAligned(1120, 580, lastDisplayedScore.ToString(), 50);
-                    timeLabel.PositionX = time[0].PositionX - timeLabel.ContentSize.Width / 2 - 60;
+                    _time = AddImageLabelRightAligned(1120, 580, _lastDisplayedScore.ToString(), 50);
+                    _timeLabel.PositionX = _time[0].PositionX - _timeLabel.ContentSize.Width / 2 - 60;
 
 
                 }
 
-                if (scoreMultiplier == 1 && multiplierLabel != null)
+                if (_scoreMultiplier == 1 && _multiplierLabel != null)
                 {
-                    multiplierLabel.Opacity -= 5;
-                    if (multiplierLabel.Opacity < 20)
+                    _multiplierLabel.Opacity -= 5;
+                    if (_multiplierLabel.Opacity < 20)
                     {
-                        this.RemoveChild(multiplierLabel);
-                        multiplierLabel = null;
+                        RemoveChild(_multiplierLabel);
+                        _multiplierLabel = null;
                     }
                 }
-                if (scoreMultiplier > 1 && multiplierLabelLabel.Opacity < 255)
+                if (_scoreMultiplier > 1 && _multiplierLabelLabel.Opacity < 255)
                 {
-                    multiplierLabelLabel.Opacity += 5;
+                    _multiplierLabelLabel.Opacity += 5;
                 }
-                if (scoreMultiplier == 1 && multiplierLabelLabel.Opacity > 0)
+                if (_scoreMultiplier == 1 && _multiplierLabelLabel.Opacity > 0)
                 {
-                    multiplierLabelLabel.Opacity -= 5;
+                    _multiplierLabelLabel.Opacity -= 5;
                 }
 
             }
             else
             {
-                if (lastDisplayedTime < Convert.ToInt32(elapsedTime))
+                if (_lastDisplayedTime < Convert.ToInt32(_elapsedTime))
                 {
-                    lastDisplayedTime = Convert.ToInt32(elapsedTime);
+                    _lastDisplayedTime = Convert.ToInt32(_elapsedTime);
 
-                    foreach (CCSprite spr in time)
+                    foreach (CCSprite spr in _time)
                     {
-                        this.RemoveChild(spr);
+                        RemoveChild(spr);
                     }
-                    if (launchMode != LAUNCH_MODE.STEERING_TEST)
-                        time = this.AddImageLabel(1040, 580, lastDisplayedTime.ToString(), 50);
+                    if (_launchMode != LAUNCH_MODE.STEERING_TEST)
+                        _time = AddImageLabel(1040, 580, _lastDisplayedTime.ToString(), 50);
                 }
             }
             //}
 
-            for (int i = 0; i < multipliers.Count;)
+            for (int i = 0; i < _multipliers.Count;)
             {
-                CCSprite multiplier = multipliers[i];
+                CCSprite multiplier = _multipliers[i];
                 if (multiplier.Opacity > 240)
                 {
                     multiplier.PositionX += (1096 - multiplier.PositionX) / (255 - multiplier.Opacity);
@@ -2463,12 +2453,12 @@ namespace LooneyInvaders.Layers
                     multiplier.Opacity += 1;
                     if (multiplier.Opacity == 255)
                     {
-                        if (multiplierLabel != null)
+                        if (_multiplierLabel != null)
                         {
-                            this.RemoveChild(multiplierLabel, true);
+                            RemoveChild(_multiplierLabel);
                         }
-                        multiplierLabel = multiplier;
-                        multipliers.Remove(multiplier);
+                        _multiplierLabel = multiplier;
+                        _multipliers.Remove(multiplier);
                     }
                     else
                     {
@@ -2489,8 +2479,8 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            if (gunCoolness > 0) gunCoolness -= dt;
-            if (shitWait > 0) shitWait -= dt;
+            if (_gunCoolness > 0) _gunCoolness -= dt;
+            if (_shitWait > 0) _shitWait -= dt;
 
             if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
             {
@@ -2499,7 +2489,7 @@ namespace LooneyInvaders.Layers
                 var pitch = 0f;
 
                 //---------- Prabhjot Singh ------//
-                      GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
+                GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
 
                 pitch = pitch >= 90 ? 180 - pitch : pitch;
 
@@ -2509,14 +2499,14 @@ namespace LooneyInvaders.Layers
 
                 if (Math.Abs(pitch) > maxAngleBySensivity)
                 {
-                    controlMovement = maxSpeed * pitch >= 0 ? 1 : -1;
+                    ControlMovement = maxSpeed * pitch >= 0 ? 1 : -1;
                 }
                 else
                 {
-                    controlMovement = (float)Math.Round(maxSpeed * pitch / maxAngleBySensivity, 2);
+                    ControlMovement = (float)Math.Round(maxSpeed * pitch / maxAngleBySensivity, 2);
                 }
 
-                tiltAngle = -pitch;
+                TiltAngle = -pitch;
             }
 
             //float move = Math.Abs((float)Math.Sin(Math.PI / 180 * tilt)) > Math.Abs((float)Math.Sin(Math.PI / 180 * pitch)) ? (float)Math.Sin(Math.PI / 180 * tilt) : (float)Math.Sin(Math.PI / 180 * pitch);
@@ -2543,11 +2533,11 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/Firework Sound Effect mono.wav");
                         _firework = new CCSprite(_ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_001.png"));
                         _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        _firework.Position = new CCPoint(1136 / 2, 640 / 2);
+                        _firework.Position = new CCPoint(568, 320);
                         _firework.ZOrder = 0;
                         _firework.Scale = 4;
                         _fireworkFrame = 1;
-                        this.AddChild(_firework);
+                        AddChild(_firework);
                     }
                     else if (_fireworkFrameLast <= 84)
                     {
@@ -2556,13 +2546,13 @@ namespace LooneyInvaders.Layers
                     }
                     else if (_fireworkFrameLast == 85)
                     {
-                        this.RemoveChild(_firework, true);
+                        RemoveChild(_firework);
                         _firework = new CCSprite(_ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_085.png"));
                         _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        _firework.Position = new CCPoint(1136 / 2, 640 / 2);
+                        _firework.Position = new CCPoint(568, 320);
                         _firework.ZOrder = 0;
                         _firework.Scale = 4;
-                        this.AddChild(_firework);
+                        AddChild(_firework);
 
                     }
                     else if (_fireworkFrame <= 124)
@@ -2572,13 +2562,13 @@ namespace LooneyInvaders.Layers
                     }
                     if (_fireworkFrameLast >= 124)
                     {
-                        this.RemoveChild(_firework, true);
+                        RemoveChild(_firework);
                         _fireworkFrame = 0;
                     }
                 }
             }
 
-            if (playerExplosion == null)
+            if (_playerExplosion == null)
             {
                 /*
                 if (SelectedEnemy == ENEMIES.ALIENS)
@@ -2614,60 +2604,60 @@ namespace LooneyInvaders.Layers
 
                 if (Settings.Instance.ControlType == CONTROL_TYPE.GYROSCOPE)
                 {
-                    player.PositionX -= controlMovement * playerSpeed;
+                    _player.PositionX -= ControlMovement * _playerSpeed;
                 }
                 else
                 {
-                    if (isCannonMoving)
+                    if (_isCannonMoving)
                     {
-                        movingTime += 1;
+                        _movingTime += 1;
                     }
                     else
                     {
-                        movingTime = 0;
+                        _movingTime = 0;
                     }
 
-                    if (movingTime < 40)
+                    if (_movingTime < 40)
                     {
-                        controlMovement = speedTo * movingTime / 40f;
-                        player.PositionX -= controlMovement * playerSpeed;
+                        ControlMovement = _speedTo * _movingTime / 40f;
+                        _player.PositionX -= ControlMovement * _playerSpeed;
                     }
                     else
                     {
-                        controlMovement = speedTo;
-                        player.PositionX -= speedTo * playerSpeed;
+                        ControlMovement = _speedTo;
+                        _player.PositionX -= _speedTo * _playerSpeed;
                     }
 
-                    if (controlMovement == 0)
+                    if (Math.Abs(ControlMovement) < TOLERANCE)
                     {
-                        movingTime = 0;
+                        _movingTime = 0;
                     }
                 }
 
-                if (player.PositionX < 10) player.PositionX = 10;
-                if (player.PositionX > 1000) player.PositionX = 1000;
+                if (_player.PositionX < 10) _player.PositionX = 10;
+                if (_player.PositionX > 1000) _player.PositionX = 1000;
 
                 //player.PositionY = 50 - (gunCoolness == gunCooloff?8: ( gunCoolness / gunCooloff * 15));
 
-                player.TextureRectInPixels = ssRecoil.Frames.Find(item => item.TextureFilename == ssRecoilKeyPrefix + (12 - (12 * gunCoolness / gunCooloff)).ToString("0#") + ".png").TextureRectInPixels;
+                _player.TextureRectInPixels = SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + (12 - (12 * _gunCoolness / _gunCooloff)).ToString("0#") + ".png").TextureRectInPixels;
 
 
             }
             else
             {
-                if (cannonMovingFXId != null)
+                if (_cannonMovingFxId != null)
                 {
-                    CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
-                    cannonMovingFXId = null;
-                    cannonMovingFX = null;
+                    CCAudioEngine.SharedEngine.StopEffect(_cannonMovingFxId.Value);
+                    _cannonMovingFxId = null;
+                    //_cannonMovingFx = null;
                 }
             }
 
-            if (reload > 0)
+            if (_reload > 0)
             {
-                bool timeForSound = reload > 0.8 ? true : false;
-                reload = reload - dt;
-                if (reload <= 0.8 && timeForSound)
+                bool timeForSound = _reload > 0.8;
+                _reload = _reload - dt;
+                if (_reload <= 0.8 && timeForSound)
                 {
                     if (SelectedWeapon == WEAPONS.HYBRID)
                     {
@@ -2678,48 +2668,48 @@ namespace LooneyInvaders.Layers
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CALIBRE_1);
                     }
                 }
-                if (reload <= 0)
+                if (_reload <= 0)
                 {
-                    for (int i = 0; i < magazineSize; i++)
+                    for (int i = 0; i < _magazineSize; i++)
                     {
                         CCSprite ammo;
                         if (SelectedWeapon == WEAPONS.HYBRID)
                         {
-                            ammo = this.AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                            ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
                         }
                         else
                         {
-                            ammo = this.AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                            ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
                         }
-                        ammos.Add(ammo);
-                        reloading.Visible = false;
+                        _ammos.Add(ammo);
+                        _reloading.Visible = false;
                     }
                 }
             }
 
 
-            for (int i = 0; i < gunSmokes.Count;)
+            for (int i = 0; i < _gunSmokes.Count;)
             {
-                GunSmoke gunSmoke = gunSmokes[i];
+                GunSmoke gunSmoke = _gunSmokes[i];
                 if (SelectedWeapon == WEAPONS.HYBRID)
                 {
                     int sheet = 0;
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 11) sheet = 1;
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 18) sheet = 2;
 
-                    if (gunSmoke.Sprite.Texture != ssHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").Texture)
+                    if (gunSmoke.Sprite.Texture != SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").Texture)
                     {
-                        CCSprite newGunSmoke = new CCSprite(ssHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
+                        CCSprite newGunSmoke = new CCSprite(SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
                         newGunSmoke.AnchorPoint = new CCPoint(0.5f, 0);
                         newGunSmoke.PositionX = gunSmoke.Sprite.PositionX;
                         newGunSmoke.PositionY = gunSmoke.Sprite.PositionY;
                         newGunSmoke.Opacity = gunSmoke.Sprite.Opacity;
-                        this.AddChild(newGunSmoke, gunSmoke.Sprite.ZOrder);
-                        this.RemoveChild(gunSmoke.Sprite, true);
+                        AddChild(newGunSmoke, gunSmoke.Sprite.ZOrder);
+                        RemoveChild(gunSmoke.Sprite);
                         gunSmoke.Sprite = newGunSmoke;
                     }
 
-                    gunSmoke.Sprite.TextureRectInPixels = ssHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    gunSmoke.Sprite.TextureRectInPixels = SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
 
                     gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                     gunSmoke.Smoke += 1f;
@@ -2728,7 +2718,7 @@ namespace LooneyInvaders.Layers
                     if (Convert.ToInt32(gunSmoke.Smoke + 6) > 24)
                     {
                         gunSmoke.Destroy();
-                        gunSmokes.Remove(gunSmoke);
+                        _gunSmokes.Remove(gunSmoke);
                     }
                     else
                     {
@@ -2737,7 +2727,7 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {
-                    gunSmoke.Sprite.TextureRectInPixels = ssCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame" + Convert.ToInt32(gunSmoke.Smoke).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    gunSmoke.Sprite.TextureRectInPixels = SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame" + Convert.ToInt32(gunSmoke.Smoke).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
 
                     gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                     gunSmoke.Smoke += 1f;
@@ -2748,7 +2738,7 @@ namespace LooneyInvaders.Layers
                     if (gunSmoke.Smoke > 71)
                     {
                         gunSmoke.Destroy();
-                        gunSmokes.Remove(gunSmoke);
+                        _gunSmokes.Remove(gunSmoke);
                     }
                     else
                     {
@@ -2758,10 +2748,10 @@ namespace LooneyInvaders.Layers
             }
 
 
-            for (int i = 0; i < explos.Count;)
+            for (int i = 0; i < _explos.Count;)
             {
-                Explosion explo = explos[i];
-                explo.Sprite.TextureRectInPixels = ssPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_" + Convert.ToInt32(explo.Explo).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                Explosion explo = _explos[i];
+                explo.Sprite.TextureRectInPixels = SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_" + Convert.ToInt32(explo.Explo).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                 explo.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                 explo.Sprite.PositionY += 1;
                 explo.Explo += 1f;
@@ -2772,7 +2762,7 @@ namespace LooneyInvaders.Layers
                 if (Convert.ToInt32(explo.Explo) > 23)
                 {
                     explo.Destroy();
-                    explos.Remove(explo);
+                    _explos.Remove(explo);
                 }
                 else
                 {
@@ -2780,14 +2770,14 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            for (int i = 0; i < bullets.Count;)
+            for (int i = 0; i < _bullets.Count;)
             {
 
-                CCSprite bullet = bullets[i].Sprite;
+                CCSprite bullet = _bullets[i].Sprite;
 
                 bullet.PositionY += 10;
 
-                if (bullets[i].Power > 0)
+                if (_bullets[i].Power > 0)
                 {
                     CCRect rec;
                     if (SelectedWeapon == WEAPONS.HYBRID)
@@ -2801,41 +2791,41 @@ namespace LooneyInvaders.Layers
 
 
 
-                    if (flyingSaucer != null && flyingSaucerExplosion == null && rec.IntersectsRect(new CCRect(flyingSaucer.PositionX - 50, flyingSaucer.PositionY - 10, 100, 25)))
+                    if (_flyingSaucer != null && _flyingSaucerExplosion == null && rec.IntersectsRect(new CCRect(_flyingSaucer.PositionX - 50, _flyingSaucer.PositionY - 10, 100, 25)))
                     {
-                        bullets[i].Power = 0;
-                        flyingSaucerExplosion = new CCSprite(ssEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
-                        flyingSaucerExplosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        flyingSaucerExplosion.Position = new CCPoint(flyingSaucer.PositionX, flyingSaucer.PositionY);
-                        flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                        flyingSaucerExplosionFrame = 0;
-                        this.AddChild(flyingSaucerExplosion, 25);
+                        _bullets[i].Power = 0;
+                        _flyingSaucerExplosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
+                        _flyingSaucerExplosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                        _flyingSaucerExplosion.Position = new CCPoint(_flyingSaucer.PositionX, _flyingSaucer.PositionY);
+                        _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        _flyingSaucerExplosionFrame = 0;
+                        AddChild(_flyingSaucerExplosion, 25);
 
                         Explosion explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
-                        explos.Add(explo);
+                        _explos.Add(explo);
 
-                        CCAudioEngine.SharedEngine.StopEffect(flyingSaucerFlyingFxId.Value);
+                        CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
                         GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_EXPLOSION);
-                        flyingSaucerWait = 10000000;
+                        _flyingSaucerWait = 10000000;
 
-                        CCSprite life = this.AddImage(lives.Count * 80 + 20, 10, PlayerLivesLeft, player.ZOrder - 1);
-                        lives.Add(life);
+                        CCSprite life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
+                        _lives.Add(life);
                     }
 
-                    for (int j = 0; j < enemies.Count; j++)
+                    for (int j = 0; j < _enemies.Count; j++)
                     {
-                        Enemy enemy = enemies[j];
+                        Enemy enemy = _enemies[j];
 
-                        if (!enemy.Killed && inRectangle(rec, EnemyCollisionPoints, enemy.Sprite.PositionX - enemy.Sprite.ContentSize.Width / 2, enemy.Sprite.PositionY))
+                        if (!enemy.Killed && InRectangle(rec, EnemyCollisionPoints, enemy.Sprite.PositionX - enemy.Sprite.ContentSize.Width / 2, enemy.Sprite.PositionY))
                         {
                             float eh = enemy.Health;
-                            enemy.Health -= bullets[i].Power;
-                            bullets[i].Power -= eh;
+                            enemy.Health -= _bullets[i].Power;
+                            _bullets[i].Power -= eh;
 
                             Explosion explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
-                            explos.Add(explo);
+                            _explos.Add(explo);
 
-                            switch (random.Next(3))
+                            switch (_random.Next(3))
                             {
                                 case 0:
                                     GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ENEMY_HURT_1);
@@ -2851,10 +2841,10 @@ namespace LooneyInvaders.Layers
                             {
                                 if (Settings.Instance.SwearingEnabled)
                                 {
-                                    if (VoiceEnemyHit != "" && shitWait <= 0)
+                                    if (VoiceEnemyHit != "" && _shitWait <= 0)
                                     {
-                                        shitWait = 1 + random.Next(100) / 100f;
-                                        if (SelectedEnemy == ENEMIES.HITLER && random.Next(4) == 0)
+                                        _shitWait = 1 + _random.Next(100) / 100f;
+                                        if (SelectedEnemy == ENEMIES.HITLER && _random.Next(4) == 0)
                                         {
                                             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler 3 Scheisse.wav");
                                         }
@@ -2869,7 +2859,7 @@ namespace LooneyInvaders.Layers
                                 if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
                                 if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
 
-                                this.RemoveChild(enemy.LensFlare, true);
+                                RemoveChild(enemy.LensFlare);
                                 enemy.LensFlare = null;
 
                                 enemy.keepGrimace = 0;
@@ -2877,43 +2867,43 @@ namespace LooneyInvaders.Layers
 
                                 if (SelectedEnemy == ENEMIES.ALIENS)
                                 {
-                                    score += 5 * scoreMultiplier;
-                                    killsWithoutMiss++;
-                                    if (killsWithoutMiss >= 5 && scoreMultiplier < 8)
+                                    _score += 5 * _scoreMultiplier;
+                                    _killsWithoutMiss++;
+                                    if (_killsWithoutMiss >= 5 && _scoreMultiplier < 8)
                                     {
-                                        scoreMultiplier = scoreMultiplier * 2;
-                                        killsWithoutMiss = 0;
-                                        CCSprite multiplier = this.AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
+                                        _scoreMultiplier = _scoreMultiplier * 2;
+                                        _killsWithoutMiss = 0;
+                                        CCSprite multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
                                         multiplier.Opacity = 200;
-                                        multipliers.Add(multiplier);
+                                        _multipliers.Add(multiplier);
                                     }
                                 }
-                                kills++;
+                                Kills++;
 
                                 if (enemy.AttachedBomb != null)
                                 {
                                     enemy.BombOut();
                                     enemy.AttachedBomb.Released = true;
-                                    enemy.AttachedBomb.SpeedX = enemyCurrentSpeed;
+                                    enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
                                     enemy.AttachedBomb = null;
                                 }
                                 if (enemy.Spit != null)
                                 {
-                                    this.RemoveChild(enemy.Spit, true);
+                                    RemoveChild(enemy.Spit);
                                     enemy.Spit = null;
                                 }
-                                if (goingDown <= 32) enemy.SpeedX = enemyCurrentSpeed;
-                                enemy.Explosion = new CCSprite(ssEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
+                                if (_goingDown <= 32) enemy.SpeedX = _enemyCurrentSpeed;
+                                enemy.Explosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
                                 enemy.Explosion.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2);
                                 enemy.Explosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
                                 enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                this.AddChild(enemy.Explosion, 25);
+                                AddChild(enemy.Explosion, 25);
                             }
                             else
                             {
                                 if (VoiceEnemyWound1 != null)
                                 {
-                                    int r = random.Next(VoiceEnemyWound3 == null ? 2 : 3);
+                                    int r = _random.Next(VoiceEnemyWound3 == null ? 2 : 3);
                                     switch (r)
                                     {
                                         case 2:
@@ -2927,17 +2917,17 @@ namespace LooneyInvaders.Layers
                                             break;
                                     }
                                 }
-                                if (random.Next(2) == 0)
+                                if (_random.Next(2) == 0)
                                 {
                                     enemy.State = ENEMYSTATE.DAMAGE1;
                                     if (enemy.OpenMouth != null)
                                     {
-                                        this.RemoveChild(enemy.OpenMouth);
+                                        RemoveChild(enemy.OpenMouth);
                                         enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
                                         enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
                                         enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
                                         enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                        this.AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
+                                        AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
 
                                         enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1);
                                         enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
@@ -2953,12 +2943,12 @@ namespace LooneyInvaders.Layers
                                     enemy.State = ENEMYSTATE.DAMAGE2;
                                     if (enemy.OpenMouth != null)
                                     {
-                                        this.RemoveChild(enemy.OpenMouth);
+                                        RemoveChild(enemy.OpenMouth);
                                         enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
                                         enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
                                         enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
                                         enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                        this.AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
+                                        AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
 
                                         enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2);
                                         enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
@@ -2971,7 +2961,7 @@ namespace LooneyInvaders.Layers
                                     }
                                 }
                             }
-                            if (bullets[i].Power <= 0)
+                            if (_bullets[i].Power <= 0)
                             {
                                 break;
                             }
@@ -2986,18 +2976,18 @@ namespace LooneyInvaders.Layers
 
                 if (bullet.Opacity == 0 || bullet.PositionY > 650)
                 {
-                    if (bullets[i].Power == bulletPower)
+                    if (Math.Abs(_bullets[i].Power - _bulletPower) < TOLERANCE)
                     {
-                        bulletsMissed++;
-                        killsWithoutMiss = 0;
-                        if (scoreMultiplier > 1)
+                        _bulletsMissed++;
+                        _killsWithoutMiss = 0;
+                        if (_scoreMultiplier > 1)
                         {
                             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MULTIPLIER_LOST);
-                            scoreMultiplier = 1;
+                            _scoreMultiplier = 1;
                         }
                         if (VoiceMiss != null)
                         {
-                            if (VoiceMissAlternate != null && random.Next(3) == 0)
+                            if (VoiceMissAlternate != null && _random.Next(3) == 0)
                             {
                                 CCAudioEngine.SharedEngine.PlayEffect(VoiceMissAlternate);
                             }
@@ -3007,8 +2997,8 @@ namespace LooneyInvaders.Layers
                             }
                         }
                     }
-                    this.RemoveChild(bullet, true);
-                    bullets.RemoveAt(i);
+                    RemoveChild(bullet);
+                    _bullets.RemoveAt(i);
                 }
                 else
                 {
@@ -3018,10 +3008,10 @@ namespace LooneyInvaders.Layers
 
 
 
-            for (int i = 0; i < bombs.Count;)
+            for (int i = 0; i < _bombs.Count;)
             {
                 bool bombRemoved = false;
-                Bomb bomb = bombs[i];
+                Bomb bomb = _bombs[i];
 
                 if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
                 bomb.Sprite.PositionY -= bomb.SpeedY;
@@ -3069,16 +3059,16 @@ namespace LooneyInvaders.Layers
                 if (bomb.RotationSpeed > 0 && SelectedEnemy != ENEMIES.ALIENS)
                 {
                     if (Convert.ToInt32(bomb.Rotation) > 16) bomb.Rotation = 0;
-                    bomb.Sprite.TextureRectInPixels = ssBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                    bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
                 }
                 else
                 {
                     if (Convert.ToInt32(bomb.Rotation) > 14) bomb.Rotation = 0;
-                    bomb.Sprite.TextureRectInPixels = ssBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                    bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
                 }
 
 
-                if (!bomb.Collided && inRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, player.PositionX, player.PositionY + player.ContentSize.Height, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0))
+                if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0, SelectedEnemy == ENEMIES.ALIENS ? 7 : 0))
                 {
                     //bomb.SpeedY = -random.Next(2, Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
                     //bomb.SpeedX = random.Next(Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
@@ -3088,15 +3078,15 @@ namespace LooneyInvaders.Layers
                     bomb.Collided = true;
 
 
-                    if (playerExplosion == null)
+                    if (_playerExplosion == null)
                     {
                         //bomb.Destroy();
                         //bombs.Remove(bomb);
                         //bombRemoved = true;
-                        playerExplode();
+                        PlayerExplode();
 
                         Explosion explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
-                        explos.Add(explo);
+                        _explos.Add(explo);
 
 
 
@@ -3119,7 +3109,7 @@ namespace LooneyInvaders.Layers
                 if (bomb.Sprite != null && bomb.Sprite.PositionY < 0 && bomb.Released)
                 {
                     bomb.Destroy();
-                    bombs.Remove(bomb);
+                    _bombs.Remove(bomb);
 
                 }
                 else if (!bombRemoved)
@@ -3129,46 +3119,46 @@ namespace LooneyInvaders.Layers
             }
 
 
-            if (playerExplosion != null)
+            if (_playerExplosion != null)
             {
-                if (playerExploding > 72)
+                if (_playerExploding > 72)
                 {
-                    scoreMultiplier = 1;
-                    playerExplosion.Visible = false;
-                    if (playerExploding > 150 && bombs.Count == 0 && this.lives.Count > 0)
+                    _scoreMultiplier = 1;
+                    _playerExplosion.Visible = false;
+                    if (_playerExploding > 150 && _bombs.Count == 0 && _lives.Count > 0)
                     {
-                        this.RemoveChild(lives[lives.Count - 1], true);
-                        lives.RemoveAt(lives.Count - 1);
-                        this.RemoveChild(playerExplosion, true);
-                        playerExplosion = null;
-                        player.Visible = true;
+                        RemoveChild(_lives[_lives.Count - 1]);
+                        _lives.RemoveAt(_lives.Count - 1);
+                        RemoveChild(_playerExplosion);
+                        _playerExplosion = null;
+                        _player.Visible = true;
                     }
                 }
                 else
                 {
-                    if (Convert.ToInt32(playerExploding) < 54)
+                    if (Convert.ToInt32(_playerExploding) < 54)
                     {
-                        playerExplosion.TextureRectInPixels = ssCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _playerExplosion.TextureRectInPixels = SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                     }
                     else
                     {
-                        if (playerExplosion.Texture != ssCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
+                        if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
                         {
-                            CCSprite newPlayerExplosion = new CCSprite(ssCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
+                            CCSprite newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
                             newPlayerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
-                            newPlayerExplosion.PositionX = playerExplosion.PositionX;
-                            newPlayerExplosion.PositionY = playerExplosion.PositionY;
-                            this.AddChild(newPlayerExplosion, playerExplosion.ZOrder);
-                            this.RemoveChild(playerExplosion, true);
-                            playerExplosion = newPlayerExplosion;
+                            newPlayerExplosion.PositionX = _playerExplosion.PositionX;
+                            newPlayerExplosion.PositionY = _playerExplosion.PositionY;
+                            AddChild(newPlayerExplosion, _playerExplosion.ZOrder);
+                            RemoveChild(_playerExplosion);
+                            _playerExplosion = newPlayerExplosion;
                         }
-                        playerExplosion.TextureRectInPixels = ssCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _playerExplosion.TextureRectInPixels = SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                     }
-                    playerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    if (playerExploding > 40)
+                    _playerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    if (_playerExploding > 40)
                     {
-                        playerExplosion.Opacity = Convert.ToByte(256 - (playerExploding - 40) * 7);
-                        player.Visible = false;
+                        _playerExplosion.Opacity = Convert.ToByte(256 - (_playerExploding - 40) * 7);
+                        _player.Visible = false;
                     }
                     /*else if (playerExploding < 30)
                     {
@@ -3179,26 +3169,26 @@ namespace LooneyInvaders.Layers
                         playerExplosion.Opacity = byte.MaxValue;
                     }*/
                 }
-                playerExploding += 1f;
-                if (playerExploding > 30 && gameOver && gameOverExplosion == null)
+                _playerExploding += 1f;
+                if (_playerExploding > 30 && _gameOver && _gameOverExplosion == null)
                 {
-                    gameOverExplosion = new CCSprite(ssGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-00.png"));
-                    gameOverExplosion.PositionX = 0; // player.PositionX + player.ContentSize.Width / 2;
-                    gameOverExplosion.PositionY = 0; //player.PositionY;
-                    gameOverExplosion.AnchorPoint = new CCPoint(0, 0);
-                    gameOverExplosion.Scale = 4;
-                    gameOverExploding = 0;
-                    this.AddChild(gameOverExplosion, 998);
+                    _gameOverExplosion = new CCSprite(SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-00.png"));
+                    _gameOverExplosion.PositionX = 0; // player.PositionX + player.ContentSize.Width / 2;
+                    _gameOverExplosion.PositionY = 0; //player.PositionY;
+                    _gameOverExplosion.AnchorPoint = new CCPoint(0, 0);
+                    _gameOverExplosion.Scale = 4;
+                    _gameOverExploding = 0;
+                    AddChild(_gameOverExplosion, 998);
 
                 }
             }
-            if (gameOverExplosion != null)
+            if (_gameOverExplosion != null)
             {
-                if (Convert.ToInt32(gameOverExploding) <= 56)
+                if (Convert.ToInt32(_gameOverExploding) <= 56)
                 {
-                    gameOverExplosion.TextureRectInPixels = ssGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-" + Convert.ToInt32(gameOverExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    gameOverExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    gameOverExplosion.Scale = 4;
+                    _gameOverExplosion.TextureRectInPixels = SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-" + Convert.ToInt32(_gameOverExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    _gameOverExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    _gameOverExplosion.Scale = 4;
                     //playerExplosion.Scale = 4;
                     //if (gameOverExploding < 30)
                     //{
@@ -3208,54 +3198,56 @@ namespace LooneyInvaders.Layers
                     //{
                     //    gameOverExplosion.Opacity = byte.MaxValue;
                     //}
-                    gameOverLabel.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                    gameOverLabel.ScaleX *= 1.001f;
-                    gameOverLabel.ScaleY *= 1.001f;
+                    _gameOverLabel.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _gameOverLabel.ScaleX *= 1.001f;
+                    _gameOverLabel.ScaleY *= 1.001f;
                 }
                 else
                 {
-                    this.ScheduleOnce(GameOver, 1.6f);
-                    gameOverExplosion = null;
+                    ScheduleOnce(GameOver, 1.6f);
+                    _gameOverExplosion = null;
 
                 }
-                gameOverExploding += 0.39f;
+                _gameOverExploding += 0.39f;
 
             }
 
-            for (int i = 0; i < sparks.Count;)
+            for (int i = 0; i < _sparks.Count;)
             {
-                LaserSpark laserSpark = sparks[i];
+                LaserSpark laserSpark = _sparks[i];
 
                 laserSpark.Frame++;
                 if (laserSpark.Frame > 40)
                 {
                     laserSpark.Destroy();
-                    sparks.Remove(laserSpark);
+                    _sparks.Remove(laserSpark);
                 }
                 else
                 {
-                    laserSpark.Sprite.TextureRectInPixels = ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(laserSpark.Frame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    laserSpark.Sprite.TextureRectInPixels = SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(laserSpark.Frame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                     i++;
                 }
             }
 
             bool bounce = false;
 
-            bool inFsRect = false;
+            //bool inFsRect = false;
             CCRect fsRect = new CCRect(0, 550, 1136, 230);
 
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < _enemies.Count; i++)
             {
-                Enemy enemy = enemies[i];
+                Enemy enemy = _enemies[i];
 
 
                 if (!enemy.Killed)
                 {
-                    if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox)) inFsRect = true;
+                    fsRect.IntersectsRect(enemy.Sprite.BoundingBox);
+                    // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
+                    //inFsRect = true;
 
-                    if (enemy.Sprite.PositionX - enemy.floatX > wavePass && enemy.waveAY == 0)
+                    if (enemy.Sprite.PositionX - enemy.floatX > _wavePass && Math.Abs(enemy.waveAY) < TOLERANCE)
                     {
-                        enemy.waveAY = enemySpeed == 0 ? 2f / 180f : enemySpeed / 180f;
+                        enemy.waveAY = Math.Abs(_enemySpeed) < TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
                     }
 
                     if (Math.Abs(enemy.floatX + enemy.floatVX) < 12 && Math.Abs(enemy.floatY + enemy.floatVY) < 2)
@@ -3267,10 +3259,10 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        if (random.Next(20) == 0)
+                        if (_random.Next(20) == 0)
                         {
-                            enemy.floatVX = (random.Next(100) - 50f) / 600f * (enemySpeed == 0 ? 2f : enemySpeed);
-                            enemy.floatVY = (random.Next(100) - 50f) / 1200f * (enemySpeed == 0 ? 2f : enemySpeed);
+                            enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                            enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
                         }
                     }
                     if (enemy.floatX > 8 && enemy.floatVX > 0)
@@ -3292,15 +3284,15 @@ namespace LooneyInvaders.Layers
                     }
 
 
-                    if (random.Next(90) == 0)
+                    if (_random.Next(90) == 0)
                     {
-                        enemy.floatVX = (random.Next(100) - 50f) / 600f * (enemySpeed == 0 ? 2f : enemySpeed);
-                        enemy.floatVY = (random.Next(100) - 50f) / 1200f * (enemySpeed == 0 ? 2f : enemySpeed);
+                        enemy.floatVX = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVY = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
                     }
-                    if (random.Next(400) == 0)
+                    if (_random.Next(400) == 0)
                     {
-                        enemy.floatVX = (random.Next(100) - 50f) / 240f * (enemySpeed == 0 ? 2f : enemySpeed);
-                        enemy.floatVY = (random.Next(100) - 50f) / 800f * (enemySpeed == 0 ? 2f : enemySpeed);
+                        enemy.floatVX = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
+                        enemy.floatVY = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < TOLERANCE ? 2f : _enemySpeed);
                     }
 
                     if (enemy.Spit != null)
@@ -3310,19 +3302,19 @@ namespace LooneyInvaders.Layers
                         {
                             if (SelectedEnemy == ENEMIES.ALIENS)
                             {
-                                enemy.Spit.TextureRectInPixels = ssDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                                 enemy.Spit.Scale = 0.4f;
                             }
                             else
                             {
-                                enemy.Spit.TextureRectInPixels = ssDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                             }
                             enemy.Spit.BlendFunc = GameEnvironment.BlendFuncDefault;
                             enemy.Spit.ZOrder = 997;
                         }
                         else
                         {
-                            this.RemoveChild(enemy.Spit, true);
+                            RemoveChild(enemy.Spit);
                             enemy.Spit = null;
                         }
                     }
@@ -3330,7 +3322,7 @@ namespace LooneyInvaders.Layers
                     {
                         if (SelectedEnemy == ENEMIES.ALIENS)
                         {
-                            int r = random.Next(3);
+                            int r = _random.Next(3);
                             switch (r)
                             {
                                 case 0:
@@ -3346,7 +3338,7 @@ namespace LooneyInvaders.Layers
                         }
                         else
                         {
-                            int r = random.Next(4);
+                            int r = _random.Next(4);
                             switch (r)
                             {
                                 case 0:
@@ -3372,27 +3364,27 @@ namespace LooneyInvaders.Layers
                         {
                             if (SelectedEnemy == ENEMIES.ALIENS)
                             {
-                                enemy.Spit = new CCSprite(ssDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting01.png"));
+                                enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting01.png"));
                                 enemy.Spitting = 1;
                                 enemy.Spit.Scale = 0.4f;
                             }
                             else
                             {
-                                enemy.Spit = new CCSprite(ssDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_00.png"));
+                                enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_00.png"));
                                 enemy.Spitting = 0;
                             }
                             enemy.Spit.ZOrder = enemy.Sprite.ZOrder + 1;
                             enemy.Spit.AnchorPoint = new CCPoint(0.5f, 1f);
                             enemy.Spit.PositionX = enemy.Sprite.PositionX;
-                            enemy.Spit.PositionY = enemy.Sprite.PositionY - this.EnemyMouthClipHeight;
+                            enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                             enemy.Spit.Opacity = 200;
-                            this.AddChild(enemy.Spit, enemy.Sprite.ZOrder + 1);
+                            AddChild(enemy.Spit, enemy.Sprite.ZOrder + 1);
                         }
                     }
                     if (enemy.AttachedBomb != null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
                     {
                         enemy.BombOut();
-                        int r = random.Next(3);
+                        int r = _random.Next(3);
                         switch (r)
                         {
                             case 0:
@@ -3407,24 +3399,24 @@ namespace LooneyInvaders.Layers
                         }
                         enemy.AttachedBomb.Released = true;
                         enemy.AttachedBomb.SpeedY += enemy.waveVY;
-                        if (goingDown <= 0) enemy.AttachedBomb.SpeedX = enemyCurrentSpeed;
+                        if (_goingDown <= 0) enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
                         enemy.AttachedBomb = null;
                     }
 
-                    enemy.Sprite.PositionY -= goingDownCurrentSpeed;
-                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY -= goingDownCurrentSpeed;
+                    enemy.Sprite.PositionY -= _goingDownCurrentSpeed;
+                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY -= _goingDownCurrentSpeed;
                     enemy.Sprite.PositionY += enemy.waveVY;
                     if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY += enemy.waveVY;
-                    if (goingDown <= 32)
+                    if (_goingDown <= 32)
                     {
-                        enemy.Sprite.PositionX += enemyCurrentSpeed;
+                        enemy.Sprite.PositionX += _enemyCurrentSpeed;
                         if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0);
                     }
-                    if (!bounce && enemyAcceleration == 0 && enemy.Sprite.PositionX < 100 && enemyCurrentSpeed < 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < TOLERANCE && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
                     {
                         bounce = true;
                     }
-                    if (!bounce && enemyAcceleration == 0 && enemy.Sprite.PositionX > 1136 - 100 && enemyCurrentSpeed > 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < TOLERANCE && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
                     {
                         bounce = true;
                     }
@@ -3442,23 +3434,23 @@ namespace LooneyInvaders.Layers
                         }
                         if (enemy.Spitting < 23)
                         {
-                            enemy.Spit.PositionX += enemyCurrentSpeed / 1.5f;
+                            enemy.Spit.PositionX += _enemyCurrentSpeed / 1.5f;
                         }
                         else
                         {
-                            enemy.Spit.PositionX += enemyCurrentSpeed / 2;
+                            enemy.Spit.PositionX += _enemyCurrentSpeed / 2;
                         }
-                        enemy.Spit.PositionY = enemy.Sprite.PositionY - this.EnemyMouthClipHeight;
+                        enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                     }
 
-                    if (updateTillNextBomb == 0 && random.Next(enemies.Count + 32) == 0 && enemy.AttachedBomb == null && playerExplosion == null && enemy.Spit == null && !enemy.Killed && launchMode == LAUNCH_MODE.DEFAULT && !firstGoingDown && (SelectedEnemy != ENEMIES.ALIENS || enemy.State == ENEMYSTATE.NORMAL))
+                    if (Math.Abs(_updateTillNextBomb) < TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LAUNCH_MODE.DEFAULT && !_firstGoingDown && (SelectedEnemy != ENEMIES.ALIENS || enemy.State == ENEMYSTATE.NORMAL))
                     {
                         Bomb bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == ENEMIES.PUTIN ? 2 : 0), enemy.Sprite.PositionY - 21);
-                        bombs.Add(bomb);
+                        _bombs.Add(bomb);
                         enemy.AttachedBomb = bomb;
                         enemy.OpenForBomb();
                         bomb.Sprite.ZOrder = enemy.Sprite.ZOrder + 1;
-                        updateTillNextBomb = random.Next(bombDensity);
+                        _updateTillNextBomb = _random.Next(_bombDensity);
                     }
 
                     if (enemy.LensFlare != null)
@@ -3466,19 +3458,19 @@ namespace LooneyInvaders.Layers
                         int sheet = 0;
                         if (Convert.ToInt32(enemy.LensFlareFrame) > 41) sheet = 1;
 
-                        if (enemy.LensFlare.Texture != ssAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
+                        if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
                         {
-                            CCSprite newLensFlare = new CCSprite(ssAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
+                            CCSprite newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
                             newLensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
                             newLensFlare.PositionX = enemy.Sprite.PositionX;
                             newLensFlare.PositionY = enemy.Sprite.PositionY - 28;
 
-                            this.AddChild(newLensFlare, enemy.LensFlare.ZOrder);
-                            this.RemoveChild(enemy.LensFlare, true);
+                            AddChild(newLensFlare, enemy.LensFlare.ZOrder);
+                            RemoveChild(enemy.LensFlare);
                             enemy.LensFlare = newLensFlare;
                         }
 
-                        enemy.LensFlare.TextureRectInPixels = ssAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        enemy.LensFlare.TextureRectInPixels = SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
 
                         enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
                         enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
@@ -3487,7 +3479,7 @@ namespace LooneyInvaders.Layers
                         enemy.LensFlareFrame += 0.41f;
                         if (Convert.ToInt32(enemy.LensFlareFrame) > 73)
                         {
-                            this.RemoveChild(enemy.LensFlare, true);
+                            RemoveChild(enemy.LensFlare);
                             enemy.LensFlare = null;
                         }
                     }
@@ -3497,7 +3489,7 @@ namespace LooneyInvaders.Layers
                         bool hasEnemyBelow = false;
                         CCRect r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
 
-                        foreach (Enemy x in enemies)
+                        foreach (Enemy x in _enemies)
                         {
                             if (x != enemy && r.IntersectsRect(x.Sprite.BoundingBox))
                             {
@@ -3505,23 +3497,23 @@ namespace LooneyInvaders.Layers
                                 break;
                             }
                         }
-                        if (playerExplosion != null && playerExploding > 40 && (enemy.State == ENEMYSTATE.GRIMACE1 || enemy.State == ENEMYSTATE.GRIMACE2))
+                        if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == ENEMYSTATE.GRIMACE1 || enemy.State == ENEMYSTATE.GRIMACE2))
                         {
                             if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
                             if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
                             if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
 
-                            if (enemy.LensFlare != null) this.RemoveChild(enemy.LensFlare, true);
+                            if (enemy.LensFlare != null) RemoveChild(enemy.LensFlare);
                             enemy.LensFlare = null;
                             enemy.State = ENEMYSTATE.NORMAL;
                             enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                             if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.keepGrimace = 1.5f + random.Next(10) / 2;
+                            enemy.keepGrimace = 1.5f + _random.Next(5);
                         }
-                        if (enemy.OpenMouth == null && random.Next(800) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0 && !firstGoingDown && !hasEnemyBelow && playerExplosion == null)
+                        if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
                         {
-                            if (random.Next(2) == 0)
+                            if (_random.Next(2) == 0)
                             {
                                 enemy.State = ENEMYSTATE.GRIMACE1;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
@@ -3538,11 +3530,11 @@ namespace LooneyInvaders.Layers
                             //enemy.LaserFxId2 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
                             //enemy.LaserFxId3 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
 
-                            enemy.LensFlare = new CCSprite(ssAlienLensFlare[0].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
+                            enemy.LensFlare = new CCSprite(SsAlienLensFlare[0].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
                             enemy.LensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
                             enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
                             enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
-                            this.AddChild(enemy.LensFlare, 24);
+                            AddChild(enemy.LensFlare, 24);
                             enemy.LensFlareFrame = 0;
                         }
 
@@ -3550,9 +3542,9 @@ namespace LooneyInvaders.Layers
                     else
                     {
 
-                        if (enemy.OpenMouth == null && random.Next(200) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0)
+                        if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == ENEMYSTATE.NORMAL && enemy.keepGrimace <= 0)
                         {
-                            if (random.Next(2) == 0)
+                            if (_random.Next(2) == 0)
                             {
                                 enemy.State = ENEMYSTATE.GRIMACE1;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
@@ -3563,7 +3555,7 @@ namespace LooneyInvaders.Layers
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
                             }
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.keepGrimace = 0.5f + random.Next(10) / 2;
+                            enemy.keepGrimace = 0.5f + _random.Next(5);
                         }
                     }
                     /*
@@ -3621,29 +3613,29 @@ namespace LooneyInvaders.Layers
                         }
                         else
                         {
-                            if (playerExplosion == null || playerExploding < 25)
+                            if (_playerExplosion == null || _playerExploding < 25)
                             {
                                 CCRect r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                float y = inRectangleTopY(r, PlayerCollisionPoints, player.PositionX, player.PositionY + player.ContentSize.Height);
-                                if (y != -1)
+                                float y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                if (Math.Abs(y - (-1)) > TOLERANCE)
                                 {
                                     laser.LaserHit = true;
                                     laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
                                     laser.Sprite.PositionY = y;
-                                    if (playerExplosion == null)
+                                    if (_playerExplosion == null)
                                     {
-                                        playerExplode();
+                                        PlayerExplode();
                                     }
 
 
                                     if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
                                     {
-                                        sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
                                         enemy.LaserLeftSparkCooloff = 8;
                                     }
                                     if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
                                     {
-                                        sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
                                         enemy.LaserRightSparkCooloff = 8;
                                     }
 
@@ -3694,7 +3686,7 @@ namespace LooneyInvaders.Layers
                             enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
                             enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
                             if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.keepGrimace = 0.5f + random.Next(10) / 2;
+                            enemy.keepGrimace = 0.5f + _random.Next(5);
                         }
                         else
                         {
@@ -3706,7 +3698,7 @@ namespace LooneyInvaders.Layers
                                     enemy.LaserTop.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
                                     enemy.LaserTop.AnchorPoint = new CCPoint(0.5f, 0.0f);
                                     enemy.LaserTop.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                    this.AddChild(enemy.LaserTop, 11);
+                                    AddChild(enemy.LaserTop, 11);
                                 }
                                 else if (enemy.LaserTop.Visible == false)
                                 {
@@ -3731,7 +3723,7 @@ namespace LooneyInvaders.Layers
                 {
                     if (enemy.LaserTop != null)
                     {
-                        this.RemoveChild(enemy.LaserTop);
+                        RemoveChild(enemy.LaserTop);
                         enemy.LaserTop = null;
                     }
                     bool laserRemoved = false;
@@ -3757,28 +3749,28 @@ namespace LooneyInvaders.Layers
                         }
                         else
                         {
-                            if (playerExplosion == null || playerExploding < 25)
+                            if (_playerExplosion == null || _playerExploding < 25)
                             {
                                 CCRect r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                float y = inRectangleTopY(r, PlayerCollisionPoints, player.PositionX, player.PositionY + player.ContentSize.Height);
-                                if (y != -1)
+                                float y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                if (Math.Abs(y - (-1)) > TOLERANCE)
                                 {
                                     laser.LaserHit = true;
                                     laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
                                     laser.Sprite.PositionY = y;
-                                    if (playerExplosion == null)
+                                    if (_playerExplosion == null)
                                     {
-                                        playerExplode();
+                                        PlayerExplode();
                                     }
 
                                     if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
                                     {
-                                        sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
                                         enemy.LaserLeftSparkCooloff = 8;
                                     }
                                     if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
                                     {
-                                        sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
                                         enemy.LaserRightSparkCooloff = 8;
                                     }
 
@@ -3825,7 +3817,7 @@ namespace LooneyInvaders.Layers
                     enemy.Explosion.PositionX += enemy.SpeedX;
                     if (enemy.Exploding < 29)
                     {
-                        enemy.Explosion.TextureRectInPixels = ssEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(enemy.Exploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        enemy.Explosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(enemy.Exploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                         enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                         enemy.Exploding += 0.5f;
                         if (enemy.Exploding > 8)
@@ -3837,151 +3829,151 @@ namespace LooneyInvaders.Layers
                     else
                     {
                         enemy.Destroy();
-                        enemies.Remove(enemy);
+                        _enemies.Remove(enemy);
                         i--;
 
                     }
                 }
 
-                if (playerExplosion == null && !enemy.Killed && enemy.Sprite != null && inRectangle(enemy.Sprite.BoundingBox, PlayerCollisionPoints, player.PositionX, player.PositionY + player.ContentSize.Height))
+                if (_playerExplosion == null && !enemy.Killed && enemy.Sprite != null && InRectangle(enemy.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height))
                 {
-                    playerExplode(true);
+                    PlayerExplode(true);
                 }
-                if (playerExplosion == null && enemy.Sprite != null && enemy.Sprite.PositionY < 80)
+                if (_playerExplosion == null && enemy.Sprite != null && enemy.Sprite.PositionY < 80)
                 {
-                    playerExplode(true);
+                    PlayerExplode(true);
                 }
             }
-            if (goingDown > 0)
+            if (_goingDown > 0)
             {
-                if (goingDownCurrentSpeed < goingDownSpeed) goingDownCurrentSpeed += goingDownSpeed / 30f;
+                if (_goingDownCurrentSpeed < _goingDownSpeed) _goingDownCurrentSpeed += _goingDownSpeed / 30f;
             }
-            goingDown -= goingDownCurrentSpeed;
-            if (goingDown <= 0 && goingDownCurrentSpeed > 0)
+            _goingDown -= _goingDownCurrentSpeed;
+            if (_goingDown <= 0 && _goingDownCurrentSpeed > 0)
             {
-                goingDownCurrentSpeed -= goingDownSpeed / 20f;
-                if (goingDownCurrentSpeed <= 0)
+                _goingDownCurrentSpeed -= _goingDownSpeed / 20f;
+                if (_goingDownCurrentSpeed <= 0)
                 {
-                    goingDownCurrentSpeed = 0;
-                    if (firstGoingDown)
+                    _goingDownCurrentSpeed = 0;
+                    if (_firstGoingDown)
                     {
-                        enemyAcceleration = enemySpeed / 30f;
-                        firstGoingDown = false;
+                        _enemyAcceleration = _enemySpeed / 30f;
+                        _firstGoingDown = false;
                         if (VoiceGameOver != "" && SelectedEnemy == ENEMIES.TRUMP) CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
                     }
                 }
             }
 
 
-            if (flyingSaucer != null)
+            if (_flyingSaucer != null)
             {
-                flyingSaucerFrame += 0.5f;
-                if (Convert.ToInt32(flyingSaucerFrame) > 59) flyingSaucerFrame = 0;
-                flyingSaucer.TextureRectInPixels = ssFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
-                flyingSaucer.PositionX += flyingSaucerSpeed;
-                if ((flyingSaucer.PositionX > 1136 && flyingSaucerSpeed > 0) || (flyingSaucer.PositionX < -126 && flyingSaucerSpeed < 0))
+                _flyingSaucerFrame += 0.5f;
+                if (Convert.ToInt32(_flyingSaucerFrame) > 59) _flyingSaucerFrame = 0;
+                _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(_flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
+                _flyingSaucer.PositionX += _flyingSaucerSpeed;
+                if ((_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0) || (_flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0))
                 {
-                    CCAudioEngine.SharedEngine.StopEffect(flyingSaucerFlyingFxId.Value);
-                    this.RemoveChild(flyingSaucer, true);
-                    flyingSaucerWait = 60;
-                    flyingSaucer = null;
+                    CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
+                    RemoveChild(_flyingSaucer);
+                    _flyingSaucerWait = 60;
+                    _flyingSaucer = null;
                 }
             }
-            if (/*!inFsRect &&*/ flyingSaucerWait <= 0 && flyingSaucerIncoming <= 0 && flyingSaucer == null && random.Next(300 + (lives.Count * 200)) == 1 && playerExplosion == null && flyingSaucerExplosion == null && SelectedEnemy == ENEMIES.ALIENS && lives.Count < 4 && enemies.Count >= 16 && wave > 2)
+            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + (_lives.Count * 200)) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == ENEMIES.ALIENS && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
             {
-                flyingSaucerIncoming = 2;
-                flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_INCOMING);
+                _flyingSaucerIncoming = 2;
+                _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_INCOMING);
             }
-            else if (flyingSaucerWait > 0)
+            else if (_flyingSaucerWait > 0)
             {
-                flyingSaucerWait -= dt;
+                _flyingSaucerWait -= dt;
             }
 
-            if (flyingSaucerIncoming > 0 && playerExplosion == null)
+            if (_flyingSaucerIncoming > 0 && _playerExplosion == null)
             {
-                flyingSaucerIncoming -= dt;
-                if (flyingSaucerIncoming <= 0)
+                _flyingSaucerIncoming -= dt;
+                if (_flyingSaucerIncoming <= 0)
                 {
-                    CCAudioEngine.SharedEngine.StopEffect(flyingSaucerFlyingFxId.Value);
-                    flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_FLYING);
-                    flyingSaucerFrame = 0;
-                    flyingSaucer = new CCSprite(ssFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_00.png"));
-                    if (random.Next(2) == 0)
+                    CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
+                    _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.FLYINGSAUCER_FLYING);
+                    _flyingSaucerFrame = 0;
+                    _flyingSaucer = new CCSprite(SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_00.png"));
+                    if (_random.Next(2) == 0)
                     {
-                        flyingSaucer.Position = new CCPoint(1210, 560);
-                        flyingSaucerSpeed = -5;
+                        _flyingSaucer.Position = new CCPoint(1210, 560);
+                        _flyingSaucerSpeed = -5;
                     }
                     else
                     {
-                        flyingSaucer.Position = new CCPoint(-200, 560);
-                        flyingSaucerSpeed = 5;
+                        _flyingSaucer.Position = new CCPoint(-200, 560);
+                        _flyingSaucerSpeed = 5;
                     }
-                    flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    this.AddChild(flyingSaucer);
+                    _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    AddChild(_flyingSaucer);
                 }
             }
 
 
-            if (flyingSaucerExplosion != null)
+            if (_flyingSaucerExplosion != null)
             {
-                flyingSaucerExplosionFrame += 0.5f;
+                _flyingSaucerExplosionFrame += 0.5f;
 
-                flyingSaucerExplosion.PositionX += flyingSaucerSpeed;
+                _flyingSaucerExplosion.PositionX += _flyingSaucerSpeed;
 
-                if (flyingSaucerExplosionFrame > 8)
+                if (_flyingSaucerExplosionFrame > 8)
                 {
-                    flyingSaucerExplosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(flyingSaucerExplosionFrame * 7));
+                    _flyingSaucerExplosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(_flyingSaucerExplosionFrame * 7));
                 }
 
-                if (flyingSaucer != null) { flyingSaucer.Opacity -= 10; }
+                if (_flyingSaucer != null) { _flyingSaucer.Opacity -= 10; }
 
-                if (Convert.ToInt32(flyingSaucerExplosionFrame) > 8 && flyingSaucer != null)
+                if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 8 && _flyingSaucer != null)
                 {
-                    this.RemoveChild(flyingSaucer);
-                    flyingSaucer = null;
+                    RemoveChild(_flyingSaucer);
+                    _flyingSaucer = null;
                 }
 
-                if (Convert.ToInt32(flyingSaucerExplosionFrame) > 29)
+                if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 29)
                 {
-                    this.RemoveChild(flyingSaucerExplosion);
-                    flyingSaucerExplosion = null;
+                    RemoveChild(_flyingSaucerExplosion);
+                    _flyingSaucerExplosion = null;
                 }
                 else
                 {
-                    flyingSaucerExplosion.TextureRectInPixels = ssEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(flyingSaucerExplosionFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    _flyingSaucerExplosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(_flyingSaucerExplosionFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                 }
             }
 
             if (bounce)
             {
-                enemyAcceleration = -enemyCurrentSpeed / 30f;
-                bounces++;
-                if (bounces > 4)
+                _enemyAcceleration = -_enemyCurrentSpeed / 30f;
+                _bounces++;
+                if (_bounces > 4)
                 {
-                    goingDown = 32;
-                    bounces = 0;
+                    _goingDown = 32;
+                    _bounces = 0;
                 }
             }
-            enemyCurrentSpeed += enemyAcceleration;
-            if (enemyCurrentSpeed < -enemySpeed)
+            _enemyCurrentSpeed += _enemyAcceleration;
+            if (_enemyCurrentSpeed < -_enemySpeed)
             {
-                enemyAcceleration = 0;
-                enemyCurrentSpeed = -enemySpeed;
+                _enemyAcceleration = 0;
+                _enemyCurrentSpeed = -_enemySpeed;
             }
-            if (enemyCurrentSpeed > enemySpeed)
+            if (_enemyCurrentSpeed > _enemySpeed)
             {
-                enemyAcceleration = 0;
-                enemyCurrentSpeed = enemySpeed;
+                _enemyAcceleration = 0;
+                _enemyCurrentSpeed = _enemySpeed;
             }
 
-            if (updateTillNextBomb > 0) updateTillNextBomb--;
+            if (_updateTillNextBomb > 0) _updateTillNextBomb--;
 
 
-            if (enemies.Count == 0 && bombs.Count == 0 && playerExplosion == null && !waveTransfer)
+            if (_enemies.Count == 0 && _bombs.Count == 0 && _playerExplosion == null && !_waveTransfer)
             {
-                waveTransfer = true;
+                _waveTransfer = true;
                 if (SelectedEnemy == ENEMIES.ALIENS)
                 {
                     GameEnvironment.PlayMusic(MUSIC.NEXTWAVEALIEN);
@@ -3989,17 +3981,17 @@ namespace LooneyInvaders.Layers
                     {
                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
                     }
-                    this.nextWaveSprite = this.AddImageCentered(1136 / 2 - 50, 630 / 2, "UI/get-ready-for-next-wave-alien-text.png", 100);
-                    this.nextWaveNumberSprites = this.AddImageLabel(Convert.ToInt32(this.nextWaveSprite.PositionX + this.nextWaveSprite.ContentSize.Width / 2), Convert.ToInt32(this.nextWaveSprite.PositionY - this.nextWaveSprite.ContentSize.Height / 2), (wave + 1).ToString(), 99);
-                    this.ScheduleOnce(NextWave, 3);
+                    _nextWaveSprite = AddImageCentered(1136 / 2 - 50, 630 / 2, "UI/get-ready-for-next-wave-alien-text.png", 100);
+                    _nextWaveNumberSprites = AddImageLabel(Convert.ToInt32(_nextWaveSprite.PositionX + _nextWaveSprite.ContentSize.Width / 2), Convert.ToInt32(_nextWaveSprite.PositionY - _nextWaveSprite.ContentSize.Height / 2), (_wave + 1).ToString(), 99);
+                    ScheduleOnce(NextWave, 3);
                 }
                 else
                 {
-                    switch (wave)
+                    switch (_wave)
                     {
                         case 1:
                             GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
-                            this.nextWaveSprite = this.AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-next-wave-text.png", 100);
+                            _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-next-wave-text.png", 100);
                             if (Settings.Instance.VoiceoversEnabled)
                             {
                                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
@@ -4009,17 +4001,17 @@ namespace LooneyInvaders.Layers
                             if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
                             {
                                 _fireworkFrame = 1f;
-                                this.ScheduleOnce(NextWave, 4.5f);
+                                ScheduleOnce(NextWave, 4.5f);
                             }
                             else
                             {
-                                this.ScheduleOnce(NextWave, 3);
+                                ScheduleOnce(NextWave, 3);
                             }
                             break;
                         case 2:
 
                             GameEnvironment.PlayMusic(MUSIC.NEXTWAVE);
-                            this.nextWaveSprite = this.AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-final-wave-text.png", 100);
+                            _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-final-wave-text.png", 100);
                             if (Settings.Instance.VoiceoversEnabled)
                             {
                                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for final wave VO_mono.wav");
@@ -4027,125 +4019,125 @@ namespace LooneyInvaders.Layers
                             if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
                             {
                                 _fireworkFrame = 1f;
-                                this.ScheduleOnce(NextWave, 4.5f);
+                                ScheduleOnce(NextWave, 4.5f);
                             }
                             else
                             {
-                                this.ScheduleOnce(NextWave, 3);
+                                ScheduleOnce(NextWave, 3);
                             }
                             break;
                         case 3:
-                            if (launchMode == LAUNCH_MODE.DEFAULT)
+                            if (_launchMode == LAUNCH_MODE.DEFAULT)
                             {
                                 if (Settings.Instance.VoiceoversEnabled)
                                 {
                                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Victory VO_mono.wav");
                                 }
-                                this.AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-victory!!!-text.png", 100);
+                                AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-victory!!!-text.png", 100);
                             }
                             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.TEXTAPPEARS);
                             //this.UnscheduleAll();
                             if (SelectedBattleground == BATTLEGROUNDS.FINLAND)
                             {
                                 _fireworkFrame = 1f;
-                                this.ScheduleOnce(Victory, 4.5f);
+                                ScheduleOnce(Victory, 4.5f);
                             }
                             if (SelectedBattleground == BATTLEGROUNDS.WHITE_HOUSE)
                             {
-                                this.ScheduleOnce(Victory, 0.5f);
+                                ScheduleOnce(Victory, 0.5f);
                             }
                             else
                             {
-                                this.ScheduleOnce(Victory, 1);
+                                ScheduleOnce(Victory, 1);
                             }
                             break;
                     }
                 }
             }
 
-            if (wavePass > 0)
+            if (_wavePass > 0)
             {
-                wavePass -= enemySpeed == 0 ? 4 : enemySpeed * 3;
+                _wavePass -= Math.Abs(_enemySpeed) < TOLERANCE ? 4 : _enemySpeed * 3;
             }
 
 
-            if (nextWaveSprite != null)
+            if (_nextWaveSprite != null)
             {
-                if (nextWaveSprite.Opacity < 10)
+                if (_nextWaveSprite.Opacity < 10)
                 {
-                    nextWaveSprite.Opacity = 255;
+                    _nextWaveSprite.Opacity = 255;
                 }
-                else if (nextWaveSprite.Opacity > 240)
+                else if (_nextWaveSprite.Opacity > 240)
                 {
-                    nextWaveSprite.Opacity -= 1;
+                    _nextWaveSprite.Opacity -= 1;
                 }
-                else if (nextWaveSprite.Opacity > 225)
+                else if (_nextWaveSprite.Opacity > 225)
                 {
-                    nextWaveSprite.Opacity -= 2;
+                    _nextWaveSprite.Opacity -= 2;
                 }
-                else if (nextWaveSprite.Opacity > 200)
+                else if (_nextWaveSprite.Opacity > 200)
                 {
-                    nextWaveSprite.Opacity -= 3;
+                    _nextWaveSprite.Opacity -= 3;
                 }
                 else
                 {
-                    nextWaveSprite.Opacity -= 5;
+                    _nextWaveSprite.Opacity -= 5;
                 }
-                if (timeLabel.Visible)
+                if (_timeLabel.Visible)
                 {
-                    timeLabel.Opacity = nextWaveSprite.Opacity;
-                    foreach (CCSprite timeDigit in time)
+                    _timeLabel.Opacity = _nextWaveSprite.Opacity;
+                    foreach (CCSprite timeDigit in _time)
                     {
-                        timeDigit.Opacity = nextWaveSprite.Opacity;
+                        timeDigit.Opacity = _nextWaveSprite.Opacity;
                     }
                 }
-                if (nextWaveNumberSprites != null)
+                if (_nextWaveNumberSprites != null)
                 {
-                    foreach (CCSprite waveDigit in nextWaveNumberSprites)
+                    foreach (CCSprite waveDigit in _nextWaveNumberSprites)
                     {
-                        waveDigit.Opacity = nextWaveSprite.Opacity;
+                        waveDigit.Opacity = _nextWaveSprite.Opacity;
                     }
                 }
-                if (multiplierLabel != null)
+                if (_multiplierLabel != null)
                 {
-                    multiplierLabel.Opacity = nextWaveSprite.Opacity;
+                    _multiplierLabel.Opacity = _nextWaveSprite.Opacity;
                 }
-                if (multiplierLabelLabel != null && scoreMultiplier > 1)
+                if (_multiplierLabelLabel != null && _scoreMultiplier > 1)
                 {
-                    multiplierLabelLabel.Opacity = nextWaveSprite.Opacity;
+                    _multiplierLabelLabel.Opacity = _nextWaveSprite.Opacity;
                 }
             }
         }
 
         void MoveCannon(float touchXPosition)
         {
-            var movementButtonBoundingBox = btnMovement.BoundingBoxTransformedToWorld;
+            var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
 
-            int sensitivity = Settings.Instance.SensitivityLevel;
+            //int sensitivity = Settings.Instance.SensitivityLevel;
 
             bool forward = touchXPosition >= movementButtonBoundingBox.Center.X;
 
-            float centerX = movementButtonBoundingBox.Center.X;
+            //float centerX = movementButtonBoundingBox.Center.X;
             int maxSensitivityLavel = 8;
 
             float btnSensitivity = GetSensitivityLvlOnPressedBtn(touchXPosition);
 
             if (Math.Round(btnSensitivity / 10) <= Settings.Instance.SensitivityLevel)
             {
-                speedTo = 1;
+                _speedTo = 1;
             }
             else if (Math.Round(btnSensitivity / 10) > 8)
             {
-                speedTo = 0;
+                _speedTo = 0;
             }
             else
             {
-                speedTo = (float)Math.Round((maxSensitivityLavel + 1 - btnSensitivity / 10f) / (maxSensitivityLavel - Settings.Instance.SensitivityLevel + 1), 2);
+                _speedTo = (float)Math.Round((maxSensitivityLavel + 1 - btnSensitivity / 10f) / (maxSensitivityLavel - Settings.Instance.SensitivityLevel + 1), 2);
             }
 
             if (forward)
             {
-                speedTo *= -1;
+                _speedTo *= -1;
             }
         }
 
@@ -4153,16 +4145,16 @@ namespace LooneyInvaders.Layers
         {
 
 
-            var movementButtonBoundingBox = btnMovement.BoundingBoxTransformedToWorld;
-            var fireButtonBoundingBox = btnFire.BoundingBoxTransformedToWorld;
+            var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
+            var fireButtonBoundingBox = _btnFire.BoundingBoxTransformedToWorld;
 
             foreach (var touch in touches)
             {
                 if (RectangleWithin(movementButtonBoundingBox, touch.Location))
                 {
-                    isCannonMoving = true;
+                    _isCannonMoving = true;
 
-			//--------- Prabhjot ----------//
+                    //--------- Prabhjot ----------//
                     //int steerinButtonX = 3;
                     //int steeringButtonY = 2;
                     //btnMovement = AddButton(steerinButtonX, steeringButtonY, "UI/Controls/Steering arrow/080-transparent-movement-arrow-tapped.png", "UI/Controls/Steering arrow/040-transparent-movement-arrow-untapped.png", 200, BUTTON_TYPE.Silent);
@@ -4171,31 +4163,31 @@ namespace LooneyInvaders.Layers
                 }
                 else if (RectangleWithin(fireButtonBoundingBox, touch.Location))
                 {
-                    isCannonShooting = true;
+                    _isCannonShooting = true;
                 }
-                else if (isCannonMoving && RectangleNear(movementButtonBoundingBox, touch.Location, 0, 60))
+                else if (_isCannonMoving && RectangleNear(movementButtonBoundingBox, touch.Location, 0, 60))
                 {
-                    isCannonMoving = true;
+                    _isCannonMoving = true;
                     MoveCannon(touch.Location.X);
                 }
-                else if (isCannonMoving && RectangleNear(new CCRect(movementButtonBoundingBox.MinX, movementButtonBoundingBox.MinY - 60, movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX, movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60), touch.Location, 65, 65))
+                else if (_isCannonMoving && RectangleNear(new CCRect(movementButtonBoundingBox.MinX, movementButtonBoundingBox.MinY - 60, movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX, movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60), touch.Location, 65, 65))
                 {
-                    isCannonMoving = false;
-                    speedTo = 0;
-                    this.EndTouchOnBtn(btnMovement);
+                    _isCannonMoving = false;
+                    _speedTo = 0;
+                    EndTouchOnBtn(_btnMovement);
                 }
-                else if (isCannonShooting && RectangleNear(fireButtonBoundingBox, touch.Location, 50, 50))
+                else if (_isCannonShooting && RectangleNear(fireButtonBoundingBox, touch.Location, 50, 50))
                 {
-                    isCannonShooting = false;
-                    this.EndTouchOnBtn(btnFire);
+                    _isCannonShooting = false;
+                    EndTouchOnBtn(_btnFire);
                 }
             }
         }
 
         int GetSensitivityLvlOnPressedBtn(float touchPosition)
         {
-            var movementButtonBoundingBox = btnMovement.BoundingBoxTransformedToWorld;
-            var halfOfBtn = movementButtonBoundingBox.MaxX - movementButtonBoundingBox.Center.X;
+            var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
+            //var halfOfBtn = movementButtonBoundingBox.MaxX - movementButtonBoundingBox.Center.X;
             int sensBtnLvl;
 
             if (touchPosition < movementButtonBoundingBox.Center.X)
@@ -4230,7 +4222,7 @@ namespace LooneyInvaders.Layers
 
         int GetPrestMovingBtnSensitivity(float touchPositionOnBtn)
         {
-            var movementButtonBoundingBox = btnMovement.BoundingBoxTransformedToWorld;
+            var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
             var halfOfBtn = movementButtonBoundingBox.MaxX - movementButtonBoundingBox.Center.X;
             var btnSensStep = halfOfBtn / 100;
 
@@ -4242,15 +4234,15 @@ namespace LooneyInvaders.Layers
         void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
 
-            if (btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+            if (_btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
             {
-                isCannonMoving = false;
-                speedTo = 0;
+                _isCannonMoving = false;
+                _speedTo = 0;
             }
 
-            if (btnFire.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+            if (_btnFire.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
             {
-                isCannonShooting = false;
+                _isCannonShooting = false;
             }
         }
 
@@ -4266,18 +4258,21 @@ namespace LooneyInvaders.Layers
 
         public void SetUpSteering(bool animatedControls = false)
         {
-            RemoveChild(btnFire);
-            RemoveChild(btnMovement);
+            RemoveChild(_btnFire);
+            RemoveChild(_btnMovement);
             OnTouchBegan -= GamePlayLayer_OnTouchBegan;
 
             //var touchListener = new CCEventListenerTouchAllAtOnce();
-            touchListener.OnTouchesBegan -= OnTouchesBegan;
-            touchListener.OnTouchesEnded -= OnTouchesEnded;
-            touchListener.OnTouchesMoved -= OnTouchesBegan;
-            touchListener.OnTouchesBegan -= GamePlayLayer_OnTouchesBegan;
-            touchListener.OnTouchesBegan -= GamePlayLayer_TouchResponse;
+            if (_touchListener == null)
+                return;
 
-            speedTo = 0;
+            _touchListener.OnTouchesBegan -= OnTouchesBegan;
+            _touchListener.OnTouchesEnded -= OnTouchesEnded;
+            _touchListener.OnTouchesMoved -= OnTouchesBegan;
+            _touchListener.OnTouchesBegan -= GamePlayLayer_OnTouchesBegan;
+            _touchListener.OnTouchesBegan -= GamePlayLayer_TouchResponse;
+
+            _speedTo = 0;
 
             if (Settings.Instance.ControlType == CONTROL_TYPE.MANUAL)
             {
@@ -4293,41 +4288,47 @@ namespace LooneyInvaders.Layers
                     steerinButtonX = 715;
                 }
 
-                btnMovement = AddButton(steerinButtonX, steeringButtonY, "UI/Controls/Steering arrow/080-transparent-movement-arrow-untapped.png", "UI/Controls/Steering arrow/040-transparent-movement-arrow-tapped.png", 200, BUTTON_TYPE.Silent);
+                _btnMovement = AddButton(steerinButtonX, steeringButtonY,
+                    "UI/Controls/Steering arrow/080-transparent-movement-arrow-untapped.png",
+                    "UI/Controls/Steering arrow/040-transparent-movement-arrow-tapped.png", 200,
+                    BUTTON_TYPE.Silent);
 
-                touchListener.OnTouchesBegan += OnTouchesBegan;
-                touchListener.OnTouchesBegan += GamePlayLayer_TouchResponse;
-                touchListener.OnTouchesEnded += OnTouchesEnded;
-                touchListener.OnTouchesMoved += OnTouchesBegan;
+                _touchListener.OnTouchesBegan += OnTouchesBegan;
+                _touchListener.OnTouchesBegan += GamePlayLayer_TouchResponse;
+                _touchListener.OnTouchesEnded += OnTouchesEnded;
+                _touchListener.OnTouchesMoved += OnTouchesBegan;
 
-                btnFire = AddButton(fireButtonX, fireButtonY, "UI/Controls/Fire button/080-transparent-fire-button-untapped.png", "UI/Controls/Fire button/040-transparent-fire-button-tapped.png", 200, BUTTON_TYPE.Silent);
+                _btnFire = AddButton(fireButtonX, fireButtonY,
+                    "UI/Controls/Fire button/080-transparent-fire-button-untapped.png",
+                    "UI/Controls/Fire button/040-transparent-fire-button-tapped.png", 200, BUTTON_TYPE.Silent);
 
-                btnFire.Visible = false;
-                btnMovement.Visible = false;
+                _btnFire.Visible = false;
+                _btnMovement.Visible = false;
 
                 if (animatedControls)
                 {
-                    fadeLevel = 0;
+                    _fadeLevel = 0;
                     Schedule(AnimateButtons, 0.16f);
                 }
                 else
                 {
-                    btnFire.Visible = true;
-                    btnMovement.Visible = true;
+                    _btnFire.Visible = true;
+                    _btnMovement.Visible = true;
                 }
             }
             else
             {
-                if (launchMode == LAUNCH_MODE.STEERING_TEST)
+                if (_launchMode == LAUNCH_MODE.STEERING_TEST)
                 {
-                    touchListener.OnTouchesBegan += GamePlayLayer_OnTouchesBegan;
+                    _touchListener.OnTouchesBegan += GamePlayLayer_OnTouchesBegan;
                 }
                 else
                 {
-                    this.OnTouchBegan += GamePlayLayer_OnTouchBegan;
+                    OnTouchBegan += GamePlayLayer_OnTouchBegan;
                 }
             }
-            AddEventListener(touchListener, this);
+
+            AddEventListener(_touchListener, this);
         }
     }
 }

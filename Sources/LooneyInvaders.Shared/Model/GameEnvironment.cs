@@ -55,7 +55,7 @@ namespace LooneyInvaders.Model
 
         public static void PlayWithDelayConditionally(string conditionMusic, string newMusic, DateTime startTime)
         {
-            while (MusicPlaying == conditionMusic && (DateTime.Now < startTime || Shared.GameDelegate.gameView.Paused || CCAudioEngine.SharedEngine.BackgroundMusicPlaying))
+            while (MusicPlaying == conditionMusic && (DateTime.Now < startTime || Shared.GameDelegate.GameView.Paused || CCAudioEngine.SharedEngine.BackgroundMusicPlaying))
             {
                 System.Threading.Tasks.Task.Delay(10).Wait();
             }

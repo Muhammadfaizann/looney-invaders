@@ -14,8 +14,8 @@ namespace LooneyInvaders.Layers
 {
 	public class MyStatsAndRewards1Layer : CCLayerColorExt
 	{
-		private CCSpriteTwoStateButton _btnDateFormat;
-		private CCSpriteTwoStateButton _btnGameType;
+		private readonly CCSpriteTwoStateButton _btnDateFormat;
+		private readonly CCSpriteTwoStateButton _btnGameType;
 		CCNodeExt _pageWeekRegular;
 		CCNodeExt _pageMonthRegular;
 		CCNodeExt _pageWeekPro;

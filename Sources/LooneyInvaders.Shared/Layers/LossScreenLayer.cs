@@ -19,13 +19,13 @@ namespace LooneyInvaders.Layers
         CCSprite shareYourScore;
         CCSpriteButton yes;
         CCSpriteButton no;
-        CCSprite youAreDefeated;
+        readonly CCSprite youAreDefeated;
 
-        private bool isWeHaveScores = false;
-        private bool isDoneWaitingForScores = false;
+        private readonly bool isWeHaveScores;
+        private bool isDoneWaitingForScores;
 
-        private int alienScore;
-        private int alienWave;
+        private readonly int alienScore;
+        private readonly int alienWave;
 
         public LossScreenLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, int AlienScore = 0, int AlienWave = 0)
         {
@@ -189,7 +189,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
         }
 
-        private bool hasScore = false;
+        private bool hasScore;
 
         CCNodeExt getRevengeNode;
 
@@ -411,7 +411,7 @@ namespace LooneyInvaders.Layers
         CCSprite recordNotification;
         CCSprite recordNotificationImage;
         CCSpriteButton recordOkIGotIt;
-        private bool recordNotificationShown = false;
+        private bool recordNotificationShown;
 
         private void showRecordNotification(float dt)
         {
@@ -668,10 +668,10 @@ namespace LooneyInvaders.Layers
 
 
 
-        CCNodeExt shareNode;
-        CCSpriteTwoStateButton shareScoreBoard;
-        CCSpriteTwoStateButton shareTwitter;
-        CCSpriteTwoStateButton shareFacebook;
+        //CCNodeExt shareNode;
+        //CCSpriteTwoStateButton shareScoreBoard;
+        //CCSpriteTwoStateButton shareTwitter;
+        //CCSpriteTwoStateButton shareFacebook;
 
 
         CCNodeExt sl;
@@ -828,68 +828,68 @@ namespace LooneyInvaders.Layers
             this.ScheduleOnce(showScoreAlien, 0.1f);
         }
 
-        private void shareScoreBoard_OnClick(object sender, EventArgs e)
-        {
-            shareScoreBoard.ChangeState();
-            shareScoreBoard.SetStateImages();
-        }
+        //private void shareScoreBoard_OnClick(object sender, EventArgs e)
+        //{
+        //    shareScoreBoard.ChangeState();
+        //    shareScoreBoard.SetStateImages();
+        //}
 
-        private void shareTwitter_OnClick(object sender, EventArgs e)
-        {
-            shareTwitter.ChangeState();
-            shareTwitter.SetStateImages();
-        }
+        //private void shareTwitter_OnClick(object sender, EventArgs e)
+        //{
+        //    shareTwitter.ChangeState();
+        //    shareTwitter.SetStateImages();
+        //}
 
-        private void shareFacebook_OnClick(object sender, EventArgs e)
-        {
-            shareFacebook.ChangeState();
-            shareFacebook.SetStateImages();
-        }
+        //private void shareFacebook_OnClick(object sender, EventArgs e)
+        //{
+        //    shareFacebook.ChangeState();
+        //    shareFacebook.SetStateImages();
+        //}
 
-        private void cancelBtn_OnClick(object sender, EventArgs e)
-        {
-            this.Schedule(delegate (float dt)
-            {
-                if (shareNode.Opacity > 0)
-                {
-                    shareNode.Opacity -= 20;
-                    if (shareNode.Opacity < 20)
-                    {
-                        shareNode.Opacity = 0;
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-                else
-                {
-                    scoreNode.Opacity += 20;
-                    if (scoreNode.Opacity >= 235)
-                    {
-                        scoreNode.Opacity = 255;
-                        this.UnscheduleAll();
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-            });
-        }
+        //private void cancelBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    this.Schedule(delegate (float dt)
+        //    {
+        //        if (shareNode.Opacity > 0)
+        //        {
+        //            shareNode.Opacity -= 20;
+        //            if (shareNode.Opacity < 20)
+        //            {
+        //                shareNode.Opacity = 0;
+        //            }
+        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
+        //        }
+        //        else
+        //        {
+        //            scoreNode.Opacity += 20;
+        //            if (scoreNode.Opacity >= 235)
+        //            {
+        //                scoreNode.Opacity = 255;
+        //                this.UnscheduleAll();
+        //            }
+        //            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
+        //        }
+        //    });
+        //}
 
-        private void shareBtn_OnClick(object sender, EventArgs e)
-        {
-            GamePlayLayer.BestScore = 0;
-            this.Schedule(delegate (float dt)
-            {
-                if (shareNode.Opacity > 0)
-                {
-                    shareNode.Opacity -= 20;
-                    if (shareNode.Opacity < 20)
-                    {
-                        shareNode.Opacity = 0;
-                        this.UnscheduleAll();
-                        showGetRevenge(0);
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-            });
-        }
+        //private void shareBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    GamePlayLayer.BestScore = 0;
+        //    this.Schedule(delegate (float dt)
+        //    {
+        //        if (shareNode.Opacity > 0)
+        //        {
+        //            shareNode.Opacity -= 20;
+        //            if (shareNode.Opacity < 20)
+        //            {
+        //                shareNode.Opacity = 0;
+        //                this.UnscheduleAll();
+        //                showGetRevenge(0);
+        //            }
+        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
+        //        }
+        //    });
+        //}
 
         private void no_OnClick(object sender, EventArgs e)
         {

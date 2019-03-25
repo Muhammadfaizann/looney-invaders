@@ -1,15 +1,15 @@
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Shared;
 
 namespace LooneyInvaders.Layers
 {
     public class VictoryScreenLayer : CCLayerColorExt
     {
+        private const double TOLERANCE = 0.0001;
+
         public BATTLEGROUNDS SelectedBattleground;
         public ENEMIES SelectedEnemy;
         public WEAPONS SelectedWeapon;
@@ -19,22 +19,22 @@ namespace LooneyInvaders.Layers
         public int LivesLeft;
         public int WinsInSuccession;
 
-        private int score;
+        private readonly int _score;
 
-        private bool isWeHaveScores = false;
-        private bool isDoneWaitingForScores = false;
+        private readonly bool _isWeHaveScores;
+        private readonly bool _isDoneWaitingForScores;
 
-        CCSprite defeated;
-        CCSpriteButton okIGotIt;
-        CCSpriteButton btnContinue;
-        CCSprite justSavedTitle;
-        CCSprite shareYourScore;
-        CCSpriteButton mainMenu;
-        CCSpriteButton yes;
-        CCSpriteButton no;
+        private readonly CCSprite _defeated;
+        private CCSpriteButton _okIGotIt;
+        private CCSpriteButton _btnContinue;
+        private readonly CCSprite _justSavedTitle;
+        private CCSprite _shareYourScore;
+        private CCSpriteButton _mainMenu;
+        private CCSpriteButton _yes;
+        private CCSpriteButton _no;
 
-        BATTLEGROUNDS nextBattleGround;
-        ENEMIES nextEnemy;
+        readonly BATTLEGROUNDS _nextBattleGround;
+        readonly ENEMIES _nextEnemy;
 
         public VictoryScreenLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, decimal time, decimal accuracy, int livesLeft = -1, int winsInSuccession = 0)
         {
@@ -48,77 +48,77 @@ namespace LooneyInvaders.Layers
 
 
 
-            nextEnemy = selectedEnemy;
+            _nextEnemy = selectedEnemy;
             switch (SelectedBattleground)
             {
                 case BATTLEGROUNDS.AFGHANISTAN:
-                    nextBattleGround = BATTLEGROUNDS.LIBYA;
+                    _nextBattleGround = BATTLEGROUNDS.LIBYA;
                     break;
                 case BATTLEGROUNDS.DENMARK:
-                    nextBattleGround = BATTLEGROUNDS.NORWAY;
+                    _nextBattleGround = BATTLEGROUNDS.NORWAY;
                     break;
                 case BATTLEGROUNDS.ENGLAND:
-                    nextEnemy = ENEMIES.BUSH;
-                    nextBattleGround = BATTLEGROUNDS.VIETNAM;
+                    _nextEnemy = ENEMIES.BUSH;
+                    _nextBattleGround = BATTLEGROUNDS.VIETNAM;
                     break;
                 case BATTLEGROUNDS.ESTONIA:
-                    nextBattleGround = BATTLEGROUNDS.FINLAND;
+                    _nextBattleGround = BATTLEGROUNDS.FINLAND;
                     break;
                 case BATTLEGROUNDS.FINLAND:
-                    nextEnemy = ENEMIES.KIM;
-                    nextBattleGround = BATTLEGROUNDS.SOUTH_KOREA;
+                    _nextEnemy = ENEMIES.KIM;
+                    _nextBattleGround = BATTLEGROUNDS.SOUTH_KOREA;
                     break;
                 case BATTLEGROUNDS.FRANCE:
-                    nextBattleGround = BATTLEGROUNDS.ENGLAND;
+                    _nextBattleGround = BATTLEGROUNDS.ENGLAND;
                     break;
                 case BATTLEGROUNDS.GEORGIA:
-                    nextBattleGround = BATTLEGROUNDS.UKRAINE;
+                    _nextBattleGround = BATTLEGROUNDS.UKRAINE;
                     break;
                 case BATTLEGROUNDS.GREAT_BRITAIN:
-                    nextBattleGround = BATTLEGROUNDS.UNITED_STATES;
+                    _nextBattleGround = BATTLEGROUNDS.UNITED_STATES;
                     break;
                 case BATTLEGROUNDS.IRAQ:
-                    nextBattleGround = BATTLEGROUNDS.AFGHANISTAN;
+                    _nextBattleGround = BATTLEGROUNDS.AFGHANISTAN;
                     break;
                 case BATTLEGROUNDS.ISRAEL:
-                    nextBattleGround = BATTLEGROUNDS.JAPAN;
+                    _nextBattleGround = BATTLEGROUNDS.JAPAN;
                     break;
                 case BATTLEGROUNDS.JAPAN:
-                    nextBattleGround = BATTLEGROUNDS.GREAT_BRITAIN;
+                    _nextBattleGround = BATTLEGROUNDS.GREAT_BRITAIN;
                     break;
                 case BATTLEGROUNDS.LIBYA:
-                    nextBattleGround = BATTLEGROUNDS.RUSSIA;
+                    _nextBattleGround = BATTLEGROUNDS.RUSSIA;
                     break;
                 case BATTLEGROUNDS.NORWAY:
-                    nextBattleGround = BATTLEGROUNDS.FRANCE;
+                    _nextBattleGround = BATTLEGROUNDS.FRANCE;
                     break;
                 case BATTLEGROUNDS.POLAND:
-                    nextBattleGround = BATTLEGROUNDS.DENMARK;
+                    _nextBattleGround = BATTLEGROUNDS.DENMARK;
                     break;
                 case BATTLEGROUNDS.RUSSIA:
-                    nextEnemy = ENEMIES.PUTIN;
-                    nextBattleGround = BATTLEGROUNDS.GEORGIA;
+                    _nextEnemy = ENEMIES.PUTIN;
+                    _nextBattleGround = BATTLEGROUNDS.GEORGIA;
                     break;
                 case BATTLEGROUNDS.SOUTH_KOREA:
-                    nextBattleGround = BATTLEGROUNDS.ISRAEL;
+                    _nextBattleGround = BATTLEGROUNDS.ISRAEL;
                     break;
                 case BATTLEGROUNDS.SYRIA:
-                    nextBattleGround = BATTLEGROUNDS.ESTONIA;
+                    _nextBattleGround = BATTLEGROUNDS.ESTONIA;
                     break;
                 case BATTLEGROUNDS.UKRAINE:
-                    nextBattleGround = BATTLEGROUNDS.SYRIA;
+                    _nextBattleGround = BATTLEGROUNDS.SYRIA;
                     break;
                 case BATTLEGROUNDS.UNITED_STATES:
-                    nextBattleGround = BATTLEGROUNDS.MOON;
-                    nextEnemy = ENEMIES.ALIENS;
+                    _nextBattleGround = BATTLEGROUNDS.MOON;
+                    _nextEnemy = ENEMIES.ALIENS;
                     selectedWeapon = WEAPONS.HYBRID;
                     break;
                 case BATTLEGROUNDS.VIETNAM:
-                    nextBattleGround = BATTLEGROUNDS.IRAQ;
+                    _nextBattleGround = BATTLEGROUNDS.IRAQ;
                     break;
             }
 
-            Player.Instance.SetQuickGame(nextEnemy, nextBattleGround, selectedWeapon);
+            Player.Instance.SetQuickGame(_nextEnemy, _nextBattleGround, selectedWeapon);
 
             GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
 
@@ -196,104 +196,104 @@ namespace LooneyInvaders.Layers
             switch (SelectedBattleground)
             {
                 case BATTLEGROUNDS.AFGHANISTAN:
-                    this.SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-afghanistan.png", 2);
+                    SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-afghanistan.png", 2);
                     break;
                 case BATTLEGROUNDS.DENMARK:
-                    this.SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-denmark.png", 2);
+                    SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-denmark.png", 2);
                     break;
                 case BATTLEGROUNDS.ENGLAND:
-                    this.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-england.png", 2);
+                    SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-england.png", 2);
                     if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ENGLAND) == 0)
                     {
-                        this.defeated = this.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-hitler-defeat-background-title-text.png", 3);
+                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-hitler-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
                 case BATTLEGROUNDS.ESTONIA:
-                    this.SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-estonia.png", 2);
+                    SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-estonia.png", 2);
                     break;
                 case BATTLEGROUNDS.FINLAND:
-                    this.SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-finland.png", 2);
+                    SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-finland.png", 2);
                     if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.FINLAND) == 0)
                     {
-                        this.defeated = this.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-putin-defeat-background-title-text.png", 3);
+                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-putin-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
                 case BATTLEGROUNDS.FRANCE:
-                    this.SetBackground("UI/Victory scenes/France-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-france.png", 2);
+                    SetBackground("UI/Victory scenes/France-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-france.png", 2);
                     break;
                 case BATTLEGROUNDS.GEORGIA:
-                    this.SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-georgia.png", 2);
+                    SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-georgia.png", 2);
                     break;
                 case BATTLEGROUNDS.GREAT_BRITAIN:
-                    this.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-great-britain.png", 2);
+                    SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-great-britain.png", 2);
                     break;
                 case BATTLEGROUNDS.IRAQ:
-                    this.SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-iraq.png", 2);
+                    SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-iraq.png", 2);
                     break;
                 case BATTLEGROUNDS.ISRAEL:
-                    this.SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-israel.png", 2);
+                    SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-israel.png", 2);
                     break;
                 case BATTLEGROUNDS.JAPAN:
-                    this.SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-japan.png", 2);
+                    SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-japan.png", 2);
                     break;
                 case BATTLEGROUNDS.LIBYA:
-                    this.SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-libya.png", 2);
+                    SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-libya.png", 2);
                     break;
                 case BATTLEGROUNDS.NORWAY:
-                    this.SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-norway.png", 2);
+                    SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-norway.png", 2);
                     break;
                 case BATTLEGROUNDS.POLAND:
-                    this.SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-poland.png", 2);
+                    SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-poland.png", 2);
                     break;
                 case BATTLEGROUNDS.RUSSIA:
-                    this.SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-russia.png", 2);
+                    SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-russia.png", 2);
                     if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.RUSSIA) == 0)
                     {
-                        this.defeated = this.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-george-defeat-background-title-text.png", 3);
+                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-george-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
                 case BATTLEGROUNDS.SOUTH_KOREA:
-                    this.SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-south-korea.png", 2);
+                    SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-south-korea.png", 2);
                     break;
                 case BATTLEGROUNDS.SYRIA:
-                    this.SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-syria.png", 2);
+                    SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-syria.png", 2);
                     break;
                 case BATTLEGROUNDS.UKRAINE:
-                    this.SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-ukraine.png", 2);
+                    SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-you-just-saved-ukraine.png", 2);
                     break;
                 case BATTLEGROUNDS.UNITED_STATES:
-                    this.SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-united-states.png", 2);
+                    SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-you-just-saved-united-states.png", 2);
                     if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.UNITED_STATES) == 0)
                     {
-                        this.defeated = this.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-kim-defeat-background-title-text.png", 3);
+                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-kim-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
                 case BATTLEGROUNDS.VIETNAM:
-                    this.SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
-                    justSavedTitle = this.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
+                    SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
                     break;
 
             }
@@ -303,10 +303,10 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
 
 
-            score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
-            if (score > GamePlayLayer.BestScore)
+            _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
+            if (_score > GamePlayLayer.BestScore)
             {
-                GamePlayLayer.BestScore = score;
+                GamePlayLayer.BestScore = _score;
                 GamePlayLayer.BestScoreAccuracy = Accuracy;
                 GamePlayLayer.BestScoreTime = Time;
                 GamePlayLayer.BestScoreCountry = SelectedBattleground;
@@ -314,10 +314,10 @@ namespace LooneyInvaders.Layers
 
 
             //submit score during shown victory image
-            Player.Instance.Score += score;
-            Player.Instance.Credits += score;
+            Player.Instance.Score += _score;
+            Player.Instance.Credits += _score;
             Player.Instance.AddSavedCountry(SelectedBattleground);
-            Player.Instance.SetDayScore(score);
+            Player.Instance.SetDayScore(_score);
 
             if (!saved)
             {
@@ -325,11 +325,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        this.ScheduleOnce(showMultiplierAd, 2.8f);
+                        ScheduleOnce(ShowMultiplierAd, 2.8f);
                     }
                     else
                     {
-                        this.ScheduleOnce(showMultiplierAd, 1);
+                        ScheduleOnce(ShowMultiplierAd, 1);
                     }
 
                 }
@@ -337,25 +337,25 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        this.ScheduleOnce(showScore, 2.3f);
+                        ScheduleOnce(ShowScore, 2.3f);
                     }
                     else
                     {
-                        this.ScheduleOnce(showScore, 1f);
+                        ScheduleOnce(ShowScore, 1f);
                     }
                 }
             }
             else
             {
-                this.defeated.Visible = false;
+                _defeated.Visible = false;
                 GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
-                    this.ScheduleOnce(showDefeated, 2.8f);
+                    ScheduleOnce(ShowDefeated, 2.8f);
                 }
                 else
                 {
-                    this.ScheduleOnce(showDefeated, 2);
+                    ScheduleOnce(ShowDefeated, 2);
                 }
             }
 
@@ -364,20 +364,20 @@ namespace LooneyInvaders.Layers
 
 
 
-            isWeHaveScores = LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
-            isDoneWaitingForScores = true;
+            _isWeHaveScores = LeaderboardManager.SubmitScoreRegular(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
+            _isDoneWaitingForScores = true;
 
             GameEnvironment.PlayMusic(MUSIC.VICTORY);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav");
-                this.ScheduleOnce(CalloutCountryNameVO, 1.5f);
+                ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
         }
 
 
-        private void CalloutCountryNameVO(float dt)
+        private void CalloutCountryNameVo(float dt)
         {
             switch (SelectedBattleground)
             {
@@ -445,50 +445,50 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private CCNodeExt multiplierNode;
-        private CCSprite multiplierArrow;
-        private CCSprite[] scoreBefore;
-        private CCSpriteButton showAd;
+        private CCNodeExt _multiplierNode;
+        private CCSprite _multiplierArrow;
+        private CCSprite[] _scoreBefore;
+        private CCSpriteButton _showAd;
 
 
-        private void showMultiplierAd(float dt)
+        private void ShowMultiplierAd(float dt)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
 
-            multiplierNode = new CCNodeExt();
+            _multiplierNode = new CCNodeExt();
 
-            multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
-            multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
-            multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession.ToString() + "X", 57);
-            scoreBefore = multiplierNode.AddImageLabel(40, 270, score.ToString(), 57);
-            multiplierArrow = multiplierNode.AddImage(Convert.ToInt32(scoreBefore[scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
-            multiplierNode.AddImageLabel(Convert.ToInt32(scoreBefore[scoreBefore.Length - 1].PositionX + 200), 270, (score * WinsInSuccession).ToString(), 57);
-            multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += showMultiplierAdCancel_Onclick;
-            showAd = multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
-            showAd.OnClick += showMultiplierAd_Onclick;
-            this.AddChild(multiplierNode, 1000);
-            this.Schedule(animateArrow, 0.03f);
+            _multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
+            _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
+            _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession.ToString() + "X", 57);
+            _scoreBefore = _multiplierNode.AddImageLabel(40, 270, _score.ToString(), 57);
+            _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
+            _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
+            _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += showMultiplierAdCancel_Onclick;
+            _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
+            _showAd.OnClick += showMultiplierAd_Onclick;
+            AddChild(_multiplierNode, 1000);
+            Schedule(AnimateArrow, 0.03f);
         }
 
-        private void animateArrow(float dt)
+        private void AnimateArrow(float dt)
         {
-            multiplierArrow.ScaleX = multiplierArrow.ScaleX + 0.012f;
-            if (multiplierArrow.ScaleX > 1.23) multiplierArrow.ScaleX = 0.85f;
+            _multiplierArrow.ScaleX = _multiplierArrow.ScaleX + 0.012f;
+            if (_multiplierArrow.ScaleX > 1.23) _multiplierArrow.ScaleX = 0.85f;
         }
 
         private void showMultiplierAd_Onclick(object sender, EventArgs e)
         {
-            showAd.Enabled = false;
+            _showAd.Enabled = false;
             AdMobManager.HideBanner();
             AdMobManager.ShowInterstitial(0);
         }
 
         private void showMultiplierAdCancel_Onclick(object sender, EventArgs e)
         {
-            multiplierNode.RemoveAllChildren();
-            this.RemoveChild(multiplierNode);
-            this.UnscheduleAll();
-            this.ScheduleOnce(showScore, 0.2f);
+            _multiplierNode.RemoveAllChildren();
+            RemoveChild(_multiplierNode);
+            UnscheduleAll();
+            ScheduleOnce(ShowScore, 0.2f);
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
@@ -496,180 +496,185 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            Player.Instance.Credits += score * WinsInSuccession - score;
+            Player.Instance.Credits += _score * WinsInSuccession - _score;
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
-            multiplierNode.RemoveAllChildren();
-            this.RemoveChild(multiplierNode);
-            this.UnscheduleAll();
+            _multiplierNode.RemoveAllChildren();
+            RemoveChild(_multiplierNode);
+            UnscheduleAll();
             AdMobManager.ShowBannerBottom();
-            this.ScheduleOnce(showScore, 0.5f);
+            ScheduleOnce(ShowScore, 0.5f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
             AdMobManager.ShowBannerBottom();
-            multiplierNode.RemoveAllChildren();
-            this.RemoveChild(multiplierNode);
-            this.UnscheduleAll();
-            this.ScheduleOnce(showScore, 0.2f);
+            _multiplierNode.RemoveAllChildren();
+            RemoveChild(_multiplierNode);
+            UnscheduleAll();
+            ScheduleOnce(ShowScore, 0.2f);
         }
 
 
-        private void showDefeated(float dt)
+        private void ShowDefeated(float dt)
         {
 
-            this.defeated.Visible = true;
+            _defeated.Visible = true;
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                this.ScheduleOnce(calloutCongratulations, 1f);
+                ScheduleOnce(CalloutCongratulations, 1f);
             }
-            okIGotIt = this.AddButton(42, 58, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            okIGotIt.OnClick += okIGotIt_OnClick;
+            _okIGotIt = AddButton(42, 58, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
+            _okIGotIt.OnClick += okIGotIt_OnClick;
 
         }
 
         private void okIGotIt_OnClick(object sender, EventArgs e)
         {
-            this.RemoveChild(okIGotIt);
-            this.RemoveChild(defeated, true);
+            RemoveChild(_okIGotIt);
+            RemoveChild(_defeated);
             if (WinsInSuccession > 1 && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                this.ScheduleOnce(showMultiplierAd, 0.2f);
+                ScheduleOnce(ShowMultiplierAd, 0.2f);
 
             }
             else
             {
-                this.ScheduleOnce(showScore, 0.2f);
+                ScheduleOnce(ShowScore, 0.2f);
             }
         }
 
 
-        CCSprite recordNotification;
-        CCSprite recordNotificationImage;
-        CCSpriteButton recordOkIGotIt;
-        private bool recordNotificationShown = false;
+        CCSprite _recordNotification;
+        CCSprite _recordNotificationImage;
+        CCSpriteButton _recordOkIGotIt;
+        private bool _recordNotificationShown;
 
-        private void showRecordNotification(float dt)
+        private void ShowRecordNotification(float dt)
         {
 
-            if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularMonthly.Score && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
+            if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularMonthly.Score && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
             {
                 Player.Instance.Credits += 30000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularMonthly.Score && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
             {
                 Player.Instance.Credits += 15000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularWeekly.Score && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
             {
                 Player.Instance.Credits += 30000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularWeekly.Score && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
             {
                 Player.Instance.Credits += 20000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularWeekly.Score && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
             {
                 Player.Instance.Credits += 10000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularDaily.Score && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
             {
                 Player.Instance.Credits += 15000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularDaily.Score && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
             {
                 Player.Instance.Credits += 10000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularDaily.Score && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
             {
                 Player.Instance.Credits += 5000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
             }
             else
             {
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
-                if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularAlltime.Score)
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
+                if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < TOLERANCE)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
                 }
-                else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularMonthly.Score)
+                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
                 }
-                else if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularWeekly.Score)
+                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
                 }
                 else /*if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularDaily.Score)*/
                 {
-                    recordNotificationImage = this.AddImage(35, 379, "UI/victory-notification-personal-best-of-day.png", 4);
+                    _recordNotificationImage = AddImage(35, 379, "UI/victory-notification-personal-best-of-day.png", 4);
                 }
             }
 
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                this.ScheduleOnce(calloutCongratulations, 1f);
+                ScheduleOnce(CalloutCongratulations, 1f);
             }
-            recordOkIGotIt = this.AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
-            recordNotificationShown = true;
+            _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
+            _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
+            _recordNotificationShown = true;
         }
 
-        private void calloutCongratulations(float dt)
+        private void CalloutCongratulations(float dt)
         {
             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Congratulations VO_mono.wav");
         }
 
         private void recordOkIGotIt_OnClick(object sender, EventArgs e)
         {
-            this.RemoveChild(recordOkIGotIt);
-            this.RemoveChild(recordNotification, true);
-            if (recordNotificationImage != null) this.RemoveChild(recordNotificationImage, true);
-            this.ScheduleOnce(showScore, 0f);
+            RemoveChild(_recordOkIGotIt);
+            RemoveChild(_recordNotification);
+            if (_recordNotificationImage != null) RemoveChild(_recordNotificationImage);
+            ScheduleOnce(ShowScore, 0f);
 
         }
 
-        private float waitForScoreCounter = 0;
-        CCNodeExt scoreNode;
+        private float _waitForScoreCounter;
+        CCNodeExt _scoreNode;
 
-        CCSprite[] creditsLabels;
+        CCSprite[] _creditsLabels;
 
-        private void showScore(float dtt)
+        private void ShowScore(float dtt)
         {
-            if (!isDoneWaitingForScores && waitForScoreCounter < 5)
+            if (!_isDoneWaitingForScores && _waitForScoreCounter < 5)
             {
-                waitForScoreCounter += dtt;
-                this.ScheduleOnce(showScore, 0.5f);
+                _waitForScoreCounter += dtt;
+                ScheduleOnce(ShowScore, 0.5f);
             }
 
-            if (isWeHaveScores && (score == LeaderboardManager.PlayerRankRegularAlltime.Score || score == LeaderboardManager.PlayerRankRegularMonthly.Score || score == LeaderboardManager.PlayerRankRegularWeekly.Score || score == LeaderboardManager.PlayerRankRegularDaily.Score) && !recordNotificationShown)
+            if (_isWeHaveScores
+                && (Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE
+                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
+                && !_recordNotificationShown)
             {
-                this.ScheduleOnce(showRecordNotification, 0.5f);
+                ScheduleOnce(ShowRecordNotification, 0.5f);
                 return;
             }
 
-            scoreNode = new CCNodeExt();
+            _scoreNode = new CCNodeExt();
 
 
-            scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
-            scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
-            scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-            shareYourScore = scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
+            _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
+            _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
+            _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
+            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
 
             /*old screen
             scoreNode.AddImage(650, 455, "UI/victory&social-share-global-ranking-all-text.png", 3);
@@ -690,89 +695,89 @@ namespace LooneyInvaders.Layers
 
 
             //current score
-            scoreNode.AddImageLabelCentered(155, 432, score.ToString(), 52);
-            scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
-            scoreNode.AddImageLabelCentered(155, 311, Accuracy.ToString("0") + "%", 50);
-            if (isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && score == LeaderboardManager.PlayerRankRegularMonthly.Score)
+            _scoreNode.AddImageLabelCentered(155, 432, _score.ToString(), 52);
+            _scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
+            _scoreNode.AddImageLabelCentered(155, 311, Accuracy.ToString("0") + "%", 50);
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
             {
-                scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && score == LeaderboardManager.PlayerRankRegularWeekly.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
             {
-                scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-week-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-week-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
             {
-                scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-day-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-day-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
             }
             else
             {
-                scoreNode.AddImage(0, 490, "UI/victory-earth-level-non-record-title-text.png", 3);
-                scoreNode.AddImage(40, 247, "UI/victory-earth-level-not-ranked-text.png", 3);
+                _scoreNode.AddImage(0, 490, "UI/victory-earth-level-non-record-title-text.png", 3);
+                _scoreNode.AddImage(40, 247, "UI/victory-earth-level-not-ranked-text.png", 3);
             }
             //credits
-            creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             //--------- Prabhjot ----------//
 
-            if(Player.Instance.isProLevelSelected == true)
+            if (Player.Instance.isProLevelSelected)
             {
-                btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+                _btnContinue = _scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
 
             }
             else
             {
-                btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+                _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
 
             }
 
             //btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             //btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-            btnContinue.Visible = false;
-            btnContinue.OnClick += BtnContinue_OnClick;
+            _btnContinue.Visible = false;
+            _btnContinue.OnClick += BtnContinue_OnClick;
 
-            mainMenu = scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            mainMenu.OnClick += mainMenu_OnClick;
+            _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
+            _mainMenu.OnClick += mainMenu_OnClick;
 
 
-            if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && LeaderboardManager.PlayerRankRegularWeekly != null && LeaderboardManager.PlayerRankRegularMonthly != null)
             {
                 //day
-                scoreNode.AddImageLabelCentered(700, 432, LeaderboardManager.PlayerRankRegularDaily.Score.ToString(), 52, score == LeaderboardManager.PlayerRankRegularDaily.Score ? null : (score > LeaderboardManager.PlayerRankRegularDaily.Score ? "red" : (score < LeaderboardManager.PlayerRankRegularDaily.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(700, 367, LeaderboardManager.PlayerRankRegularDaily.Time.ToString("0") + "s", 50, score == LeaderboardManager.PlayerRankRegularDaily.Score ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularDaily.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularDaily.Time ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(700, 311, LeaderboardManager.PlayerRankRegularDaily.Accuracy.ToString("0") + "%", 50, score == LeaderboardManager.PlayerRankRegularDaily.Score ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(700, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52, score == LeaderboardManager.PlayerRankRegularDaily.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(700, 432, LeaderboardManager.PlayerRankRegularDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularDaily.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularDaily.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 367, LeaderboardManager.PlayerRankRegularDaily.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularDaily.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularDaily.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 311, LeaderboardManager.PlayerRankRegularDaily.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularDaily.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(700, 245, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE ? null : "green");
                 //week
-                scoreNode.AddImageLabelCentered(847, 432, LeaderboardManager.PlayerRankRegularWeekly.Score.ToString(), 52, score == LeaderboardManager.PlayerRankRegularWeekly.Score ? null : (score > LeaderboardManager.PlayerRankRegularWeekly.Score ? "red" : (score < LeaderboardManager.PlayerRankRegularWeekly.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(847, 367, LeaderboardManager.PlayerRankRegularWeekly.Time.ToString("0") + "s", 50, score == LeaderboardManager.PlayerRankRegularWeekly.Score ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularWeekly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularWeekly.Time ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(847, 311, LeaderboardManager.PlayerRankRegularWeekly.Accuracy.ToString("0") + "%", 50, score == LeaderboardManager.PlayerRankRegularWeekly.Score ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(847, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52, score == LeaderboardManager.PlayerRankRegularWeekly.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(847, 432, LeaderboardManager.PlayerRankRegularWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularWeekly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularWeekly.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 367, LeaderboardManager.PlayerRankRegularWeekly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularWeekly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularWeekly.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 311, LeaderboardManager.PlayerRankRegularWeekly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularWeekly.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(847, 245, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE ? null : "green");
                 //month
-                scoreNode.AddImageLabelCentered(1011, 432, LeaderboardManager.PlayerRankRegularMonthly.Score.ToString(), 52, score == LeaderboardManager.PlayerRankRegularMonthly.Score ? null : (score > LeaderboardManager.PlayerRankRegularMonthly.Score ? "red" : (score < LeaderboardManager.PlayerRankRegularMonthly.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(1011, 367, LeaderboardManager.PlayerRankRegularMonthly.Time.ToString("0") + "s", 50, score == LeaderboardManager.PlayerRankRegularMonthly.Score ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularMonthly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularMonthly.Time ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(1011, 311, LeaderboardManager.PlayerRankRegularMonthly.Accuracy.ToString("0") + "%", 50, score == LeaderboardManager.PlayerRankRegularMonthly.Score ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(1011, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52, score == LeaderboardManager.PlayerRankRegularMonthly.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(1011, 432, LeaderboardManager.PlayerRankRegularMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (_score > LeaderboardManager.PlayerRankRegularMonthly.Score ? "red" : (_score < LeaderboardManager.PlayerRankRegularMonthly.Score ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 367, LeaderboardManager.PlayerRankRegularMonthly.Time.ToString("0") + "s", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (Convert.ToDouble(Time) < LeaderboardManager.PlayerRankRegularMonthly.Time ? "red" : (Convert.ToDouble(Time) > LeaderboardManager.PlayerRankRegularMonthly.Time ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 311, LeaderboardManager.PlayerRankRegularMonthly.Accuracy.ToString("0") + "%", 50, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : (Convert.ToDouble(Accuracy) > LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "red" : (Convert.ToDouble(Accuracy) < LeaderboardManager.PlayerRankRegularMonthly.Accuracy ? "green" : "yellow")));
+                _scoreNode.AddImageLabelCentered(1011, 245, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52, Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE ? null : "green");
 
-                yes = scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                yes.OnClick += yes_OnClick;
+                _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
+                _yes.OnClick += yes_OnClick;
 
-                no = scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-                no.OnClick += no_OnClick;
+                _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
+                _no.OnClick += no_OnClick;
 
-                mainMenu.Visible = false;
-                btnContinue.Visible = false;
+                _mainMenu.Visible = false;
+                _btnContinue.Visible = false;
 
             }
             else
             {
                 //no internet
-                shareYourScore.Visible = false;
-                btnContinue.Visible = true;
-                scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
-                scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
+                _shareYourScore.Visible = false;
+                _btnContinue.Visible = true;
+                _scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
+                _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
             }
 
 
@@ -780,39 +785,39 @@ namespace LooneyInvaders.Layers
 
 
 
-            scoreNode.Opacity = 0;
-            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
+            _scoreNode.Opacity = 0;
+            foreach (CCNode child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; }
 
 
-            this.AddChild(scoreNode);
+            AddChild(_scoreNode);
 
             GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
-            this.Schedule(fadeScore);
+            Schedule(FadeScore);
         }
 
-        private void fadeScore(float dt)
+        private void FadeScore(float dt)
         {
-            scoreNode.Opacity += 5;
-            justSavedTitle.Opacity -= 5;
-            if (scoreNode.Opacity > 250)
+            _scoreNode.Opacity += 5;
+            _justSavedTitle.Opacity -= 5;
+            if (_scoreNode.Opacity > 250)
             {
-                scoreNode.Opacity = 255;
-                justSavedTitle.Opacity = 0;
-                this.Unschedule(fadeScore);
+                _scoreNode.Opacity = 255;
+                _justSavedTitle.Opacity = 0;
+                Unschedule(FadeScore);
 
             }
-            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
+            foreach (CCNode child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; }
         }
 
         private void BtnContinue_OnClick(object sender, EventArgs e)
         {
-            nextLevel();
+            NextLevel();
         }
 
-        CCNodeExt shareNode;
-        CCSpriteTwoStateButton shareScoreBoard;
-        CCSpriteButton shareTwitter;
-        CCSpriteButton shareFacebook;
+        //CCNodeExt shareNode;
+        //CCSpriteTwoStateButton _shareScoreBoard;
+        //CCSpriteButton _shareTwitter;
+        //CCSpriteButton _shareFacebook;
 
         private void mainMenu_OnClick(object sender, EventArgs e)
         {
@@ -823,153 +828,153 @@ namespace LooneyInvaders.Layers
 
             AdMobManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
-            this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+            TransitionToLayerCartoonStyle(new MainScreenLayer());
         }
 
         //CCLayerColorExt sl;
 
-        CCNodeExt sl;
+        CCNodeExt _sl;
 
         private void yes_OnClick(object sender, EventArgs e)
         {
-            sl = new CCNodeExt();
+            _sl = new CCNodeExt();
 
             switch (SelectedBattleground)
             {
                 case BATTLEGROUNDS.AFGHANISTAN:
                     //sl.SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-afghanistan.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-afghanistan.png", 2);
                     break;
                 case BATTLEGROUNDS.DENMARK:
                     //sl.SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-denmark.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-denmark.png", 2);
                     break;
                 case BATTLEGROUNDS.ENGLAND:
                     //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-england.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-england.png", 2);
                     break;
                 case BATTLEGROUNDS.ESTONIA:
                     //sl.SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-estonia.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-estonia.png", 2);
                     break;
                 case BATTLEGROUNDS.FINLAND:
                     //sl.SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-finland.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-finland.png", 2);
                     break;
                 case BATTLEGROUNDS.FRANCE:
                     //sl.SetBackground("UI/Victory scenes/France-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-france.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-france.png", 2);
                     break;
                 case BATTLEGROUNDS.GEORGIA:
                     //sl.SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-georgia.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-georgia.png", 2);
                     break;
                 case BATTLEGROUNDS.GREAT_BRITAIN:
                     //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-great-britain.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-great-britain.png", 2);
                     break;
                 case BATTLEGROUNDS.IRAQ:
                     //sl.SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-iraq.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-iraq.png", 2);
                     break;
                 case BATTLEGROUNDS.ISRAEL:
                     //sl.SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-israel.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-israel.png", 2);
                     break;
                 case BATTLEGROUNDS.JAPAN:
                     //sl.SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-japan.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-japan.png", 2);
                     break;
                 case BATTLEGROUNDS.LIBYA:
                     //sl.SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-libya.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-libya.png", 2);
                     break;
                 case BATTLEGROUNDS.NORWAY:
                     //sl.SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-norway.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-norway.png", 2);
                     break;
                 case BATTLEGROUNDS.POLAND:
                     //sl.SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-poland.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-poland.png", 2);
                     break;
                 case BATTLEGROUNDS.RUSSIA:
                     //sl.SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-russia.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-russia.png", 2);
                     break;
                 case BATTLEGROUNDS.SOUTH_KOREA:
                     //sl.SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-south-korea.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-south-korea.png", 2);
                     break;
                 case BATTLEGROUNDS.SYRIA:
                     //sl.SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-syria.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-syria.png", 2);
                     break;
                 case BATTLEGROUNDS.UKRAINE:
                     //sl.SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-ukraine.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-ukraine.png", 2);
                     break;
                 case BATTLEGROUNDS.UNITED_STATES:
                     //sl.SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-united-states.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-united-states.png", 2);
                     break;
                 case BATTLEGROUNDS.VIETNAM:
                     //sl.SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
-                    sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-vietnam.png", 2);
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-vietnam.png", 2);
                     break;
 
             }
-            sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
+            _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
 
-            sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
+            _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
 
-            sl.AddImageLabel(420, 295, score.ToString(), 52);
+            _sl.AddImageLabel(420, 295, _score.ToString(), 52);
 
-            if (isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && score == LeaderboardManager.PlayerRankRegularMonthly.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < TOLERANCE)
             {
-                sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankRegularMonthly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
             {
-                sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
+                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
-            if (isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && score == LeaderboardManager.PlayerRankRegularWeekly.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < TOLERANCE)
             {
-                sl.AddImageLabelCentered(837, 285, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(837, 285, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
             {
-                sl.AddImageCentered(837, 285, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
+                _sl.AddImageCentered(837, 285, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
             }
-            if (isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && score == LeaderboardManager.PlayerRankRegularDaily.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < TOLERANCE)
             {
-                sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
             }
             else
             {
-                sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
+                _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
             }
 
-            scoreNode.Visible = false;
-            this.AddChild(sl);
+            _scoreNode.Visible = false;
+            AddChild(_sl);
 
-            shareYourScore.Visible = false;
-            yes.Visible = false;
-            no.Visible = false;
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
             SocialNetworkShareManager.ShareLayer("facebook", this);
 
 
-            scoreNode.Visible = true;
-            this.RemoveChild(sl);
+            _scoreNode.Visible = true;
+            RemoveChild(_sl);
 
 
             Player.Instance.Credits += 5000;
-            foreach (CCSprite spr in creditsLabels)
+            foreach (CCSprite spr in _creditsLabels)
             {
-                scoreNode.RemoveChild(spr);
+                _scoreNode.RemoveChild(spr);
             }
-            creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
-            btnContinue.Visible = true;
-            mainMenu.Visible = true;
+            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
             /*                        
             this.Schedule(delegate (float dt)
             {
@@ -1059,83 +1064,83 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void shareScoreBoard_OnClick(object sender, EventArgs e)
-        {
-            //SocialNetworkShareManager.ShareLayer("facebook", this);
-            //shareScoreBoard.ChangeState();
-            //shareScoreBoard.SetStateImages();
-        }
+        //private void shareScoreBoard_OnClick(object sender, EventArgs e)
+        //{
+        //    //SocialNetworkShareManager.ShareLayer("facebook", this);
+        //    //shareScoreBoard.ChangeState();
+        //    //shareScoreBoard.SetStateImages();
+        //}
 
-        private void shareTwitter_OnClick(object sender, EventArgs e)
-        {
-            SocialNetworkShareManager.ShareLayer("twitter", this);
-        }
+        //private void shareTwitter_OnClick(object sender, EventArgs e)
+        //{
+        //    SocialNetworkShareManager.ShareLayer("twitter", this);
+        //}
 
-        private void shareFacebook_OnClick(object sender, EventArgs e)
-        {
-            SocialNetworkShareManager.ShareLayer("facebook", this);
-        }
+        //private void shareFacebook_OnClick(object sender, EventArgs e)
+        //{
+        //    SocialNetworkShareManager.ShareLayer("facebook", this);
+        //}
 
-        private void cancelBtn_OnClick(object sender, EventArgs e)
-        {
-            this.Schedule(delegate (float dt)
-            {
-                if (shareNode.Opacity > 0)
-                {
-                    shareNode.Opacity -= 20;
-                    if (shareNode.Opacity < 20)
-                    {
-                        shareNode.Opacity = 0;
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-                else
-                {
-                    scoreNode.Opacity += 20;
-                    //justSavedTitle.Opacity += 20;
-                    if (scoreNode.Opacity >= 235)
-                    {
-                        scoreNode.Opacity = 255;
-                        //justSavedTitle.Opacity = 255;
-                        this.UnscheduleAll();
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-            });
+        //private void cancelBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    this.Schedule(delegate (float dt)
+        //    {
+        //        if (shareNode.Opacity > 0)
+        //        {
+        //            shareNode.Opacity -= 20;
+        //            if (shareNode.Opacity < 20)
+        //            {
+        //                shareNode.Opacity = 0;
+        //            }
+        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
+        //        }
+        //        else
+        //        {
+        //            scoreNode.Opacity += 20;
+        //            //justSavedTitle.Opacity += 20;
+        //            if (scoreNode.Opacity >= 235)
+        //            {
+        //                scoreNode.Opacity = 255;
+        //                //justSavedTitle.Opacity = 255;
+        //                this.UnscheduleAll();
+        //            }
+        //            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
+        //        }
+        //    });
 
-        }
+        //}
 
-        /*
-        private void shareBtn_OnClick(object sender, EventArgs e)
-        {   
-            nextLevel();
-        }
-        */
+
+        //private void shareBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    nextLevel();
+        //}
+
 
         private void no_OnClick(object sender, EventArgs e)
         {
-            shareYourScore.Visible = false;
-            yes.Visible = false;
-            no.Visible = false;
-            btnContinue.Visible = true;
-            mainMenu.Visible = true;
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
         }
 
-        private void nextLevel()
+        private void NextLevel()
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
 
-            if (nextBattleGround == BATTLEGROUNDS.MOON)
+            if (_nextBattleGround == BATTLEGROUNDS.MOON)
             {
                 AdMobManager.HideBanner();
-                this.TransitionToLayerCartoonStyle(new EnemyPickerLayer());
+                TransitionToLayerCartoonStyle(new EnemyPickerLayer());
             }
             else
             {
-                this.TransitionToLayerCartoonStyle(new GamePlayLayer(nextEnemy, SelectedWeapon, nextBattleGround, true, -1, -1, -1, -1, nextEnemy, LAUNCH_MODE.DEFAULT, LivesLeft, WinsInSuccession));
+                TransitionToLayerCartoonStyle(new GamePlayLayer(_nextEnemy, SelectedWeapon, _nextBattleGround, true, -1, -1, -1, -1, _nextEnemy, LAUNCH_MODE.DEFAULT, LivesLeft, WinsInSuccession));
             }
         }
 

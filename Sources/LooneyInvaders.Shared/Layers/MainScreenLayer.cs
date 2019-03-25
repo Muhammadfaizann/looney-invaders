@@ -14,35 +14,35 @@ namespace LooneyInvaders.Layers
 		private PushNotificationService _pushNS;
         // TODO: neki enum za ovo u modelu
         bool isShownRankingDay = true;
-        bool isShownRankingWeek = false;
-        bool isShownRankingMonthly = false;
+        bool isShownRankingWeek;
+        bool isShownRankingMonthly;
 
         bool isShownLeaderboardRegular = true;
-        bool isShownLeaderboardPro = false;
+        bool isShownLeaderboardPro;
 
         //CCSprite imgSpotlightDay;
         //CCSprite imgSpotlightWeek;
         //CCSprite imgSpotlightAllTime;
 
-        CCSpriteButton btnTapToStart;
+        readonly CCSpriteButton btnTapToStart;
         CCSpriteButton btnRanking;
-        CCSpriteButton btnGameSettings;
-        CCSpriteButton btnGetCredits;
-        CCSpriteButton btnGameInfo;
-        CCSpriteTwoStateButton btnScoreboardRegular;
-        CCSpriteTwoStateButton btnScoreboardPro;
-        CCSprite imgScoreboard;
-        CCSprite imgOffline;
+        readonly CCSpriteButton btnGameSettings;
+        readonly CCSpriteButton btnGetCredits;
+        readonly CCSpriteButton btnGameInfo;
+        readonly CCSpriteTwoStateButton btnScoreboardRegular;
+        readonly CCSpriteTwoStateButton btnScoreboardPro;
+        readonly CCSprite imgScoreboard;
+        readonly CCSprite imgOffline;
 
         // modal window
-        CCSprite imgQuickGameWindow;
-        CCSpriteButton btnQuickGame;
-        CCSpriteButton btnSelectionMode;
+        readonly CCSprite imgQuickGameWindow;
+        readonly CCSpriteButton btnQuickGame;
+        readonly CCSpriteButton btnSelectionMode;
 
-        CCSprite imgProNotificationWindow;
-        CCSpriteButton btnProNotificationOK;
-        CCSpriteTwoStateButton btnProNotificationCheckMark;
-        CCSprite imgProNotificationCheckMarkLabel;
+        readonly CCSprite imgProNotificationWindow;
+        readonly CCSpriteButton btnProNotificationOK;
+        readonly CCSpriteTwoStateButton btnProNotificationCheckMark;
+        readonly CCSprite imgProNotificationCheckMarkLabel;
 
 		CCSprite gameTipBackground;
         CCSpriteButton yesThanks;

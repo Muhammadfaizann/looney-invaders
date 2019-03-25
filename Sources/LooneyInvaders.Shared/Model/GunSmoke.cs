@@ -8,7 +8,7 @@ namespace LooneyInvaders.Model
 {
     public class GunSmoke
     {
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public CCSprite Sprite;
 
@@ -19,14 +19,14 @@ namespace LooneyInvaders.Model
             this._gamePlayLayer = gamePlayLayer;
             if (_gamePlayLayer.SelectedWeapon == WEAPONS.HYBRID)
             {
-                this.Sprite = new CCSprite(gamePlayLayer.ssHybridLaser[0].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_06.png"));
+                this.Sprite = new CCSprite(gamePlayLayer.SsHybridLaser[0].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_06.png"));
                 this.Sprite.Position = new CCPoint(x-30, y-200);
                 this.Sprite.Opacity = 200;
                 this.Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
             }
             else
             {
-                this.Sprite = new CCSprite(gamePlayLayer.ssCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame00.png"));
+                this.Sprite = new CCSprite(gamePlayLayer.SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame00.png"));
                 this.Sprite.Position = new CCPoint(x, y);
                 this.Sprite.AnchorPoint = new CCPoint(0.5f, 0f);
             }

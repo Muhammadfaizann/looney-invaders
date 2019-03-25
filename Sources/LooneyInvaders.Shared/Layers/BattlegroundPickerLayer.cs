@@ -10,9 +10,9 @@ namespace LooneyInvaders.Layers
     public class BattlegroundPickerLayer : CCLayerColorExt
     {
         CCSprite _centerImage;
-        CCSprite[] _images = new CCSprite[5];
-        CCSprite _imgBattlegroundLocked;
-        CCSprite _imgBattlegroundName;
+        readonly CCSprite[] _images = new CCSprite[5];
+        readonly CCSprite _imgBattlegroundLocked;
+        readonly CCSprite _imgBattlegroundName;
         
         CCSpriteButton _btnBack;
         CCSpriteButton _btnForward;
@@ -23,23 +23,23 @@ namespace LooneyInvaders.Layers
         CCSpriteTwoStateButton _btnGameTipCheckMark;
         CCSprite _imgGameTipCheckMarkLabel;
 
-        bool _isSwiping = false;
+        bool _isSwiping;
         int _selectedBattleground;
         float _lastMovement;
-        bool _isHoldAnimations = false;        
+        bool _isHoldAnimations;        
         float _nameDisplayTimePassed;
-        bool _startedDisplayingName = false;
-        bool _startedTalking = false;
+        bool _startedDisplayingName;
+        bool _startedTalking;
 
-        int _selectedEnemy;
-        int _selectedWeapon;
+        readonly int _selectedEnemy;
+        readonly int _selectedWeapon;
 
-        CCSpriteSheet[] _ssFirework;
-        int _fireworkFrame = 0;
+        readonly CCSpriteSheet[] _ssFirework;
+        int _fireworkFrame;
         CCSprite _firework;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded = false;
+        bool _isShowGameTipViewLoaded;
 
         public BattlegroundPickerLayer(int selectedEnemy, int selectedWeapon)
         {

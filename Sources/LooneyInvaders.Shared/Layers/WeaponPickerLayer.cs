@@ -9,29 +9,29 @@ namespace LooneyInvaders.Layers
 {
     public class WeaponPickerLayer : CCLayerColorExt
     {
-        int _selectedEnemy;
-                
-        CCSprite _imgWeaponDescription;        
+        readonly int _selectedEnemy;
+
+        readonly CCSprite _imgWeaponDescription;        
         CCSprite _imgWeaponStatsBoard;
         CCSprite _imgWeaponStatsText;
-        CCSprite _imgWeaponLocked;
-        CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
+        readonly CCSprite _imgWeaponLocked;
+        readonly CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
 
         CCSprite _centerImage;
-        CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
-        bool _isSwiping = false;
-        bool _isSwipingEnabled = true;
+        readonly CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
+        bool _isSwiping;
+        readonly bool _isSwipingEnabled = true;
         int _selectedWeapon;
         float _lastMovement;
         int _bowingSpriteIndex;
         float _bowTimePassed;
-        bool _startedBowing = false;
-        bool _isHoldAnimations = false;
-        CCSprite _imgSpotlight;
+        bool _startedBowing;
+        bool _isHoldAnimations;
+        readonly CCSprite _imgSpotlight;
 
         CCSpriteButton _btnBack;
         CCSpriteButton _btnForward;
-        CCSpriteButton _btnForwardNoPasaran;
+        readonly CCSpriteButton _btnForwardNoPasaran;
 
 
 
@@ -40,16 +40,16 @@ namespace LooneyInvaders.Layers
         CCSpriteButton _btnGameTipOK;
         CCSpriteTwoStateButton _btnGameTipCheckMark;
         CCSprite _imgGameTipCheckMarkLabel;
-        CCSpriteButton _btnWeaponUpgrade;
-        CCSpriteButton _btnTestProperties;
-        CCSpriteButton _btnWeaponBuy;
+        readonly CCSpriteButton _btnWeaponUpgrade;
+        readonly CCSpriteButton _btnTestProperties;
+        readonly CCSpriteButton _btnWeaponBuy;
 
-        CCSprite _imgGameTipCredits;
-        CCSpriteButton _btnGetCredits;
-        CCSpriteButton _btnCancel;
+        readonly CCSprite _imgGameTipCredits;
+        readonly CCSpriteButton _btnGetCredits;
+        readonly CCSpriteButton _btnCancel;
 
         //----------- Prabhjot ----------//
-        bool _isShowGameTipViewLoaded = false;
+        bool _isShowGameTipViewLoaded;
 
         public WeaponPickerLayer(int selectedEnemy, bool gameTipAvailable = true)
         {
@@ -794,7 +794,7 @@ namespace LooneyInvaders.Layers
             this.Schedule(startBowing2, 0.025f);
         }
 
-        int labelOpacity = 0;
+        int labelOpacity;
 
         void startFading(float dt)
         {

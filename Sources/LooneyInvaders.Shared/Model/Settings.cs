@@ -14,7 +14,7 @@ namespace LooneyInvaders.Model
     public class Settings
     {
         public static bool isFromGameScreen = false;
-        private static Settings _instance = null;
+        private static Settings _instance;
         public static Settings Instance
         {
             get
@@ -213,7 +213,7 @@ namespace LooneyInvaders.Model
             set { _alienGameTipGamePlayShow = value; CrossSettings.Current.AddOrUpdateValue("alienGameTipGamePlayShow", value); }
         }
 
-        private bool _gamePauseFriendly = false;
+        private bool _gamePauseFriendly;
         public bool GamePauseFriendly
         {
             get { return _gamePauseFriendly; }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using LooneyInvaders.PNS;
@@ -11,67 +10,65 @@ namespace LooneyInvaders.Layers
 {
     public class SettingsScreenLayer : CCLayerColorExt
     {
-        IOpenSettingsService _openSettingsService;
+        readonly IOpenSettingsService _openSettingsService;
 
-        CCSpriteTwoStateButton _btnMusicState;
-        CCSpriteTwoStateButton _btnMusicStyle;
-        CCSpriteTwoStateButton _btnSoundState;
-        CCSpriteTwoStateButton _btnBattleGroundStyle;
-        CCSpriteTwoStateButton _btnVibrationState;
-        CCSpriteTwoStateButton _btnAdvertisements;
-        CCSpriteTwoStateButton _btnNotifications;
-        CCSpriteTwoStateButton _btnPushNotifications;
-        CCSpriteTwoStateButton _btnVoiceOvers;
-        CCSpriteTwoStateButton _btnSwearing;
-        CCSpriteTwoStateButton _btnControlType;
+        readonly CCSpriteTwoStateButton _btnMusicState;
+        readonly CCSpriteTwoStateButton _btnMusicStyle;
+        readonly CCSpriteTwoStateButton _btnSoundState;
+        readonly CCSpriteTwoStateButton _btnBattleGroundStyle;
+        readonly CCSpriteTwoStateButton _btnVibrationState;
+        readonly CCSpriteTwoStateButton _btnAdvertisements;
+        readonly CCSpriteTwoStateButton _btnNotifications;
+        readonly CCSpriteTwoStateButton _btnPushNotifications;
+        readonly CCSpriteTwoStateButton _btnVoiceOvers;
+        readonly CCSpriteTwoStateButton _btnSwearing;
+        readonly CCSpriteTwoStateButton _btnControlType;
         CCSpriteTwoStateButton _btnHandeness;
 
-        CCSpriteButton _btnBack;
+        readonly CCSpriteButton _btnBack;
 
-        CCSpriteButton _btnForward;
-        CCSpriteButton _btnMusicMinus;
-        CCSpriteButton _btnMusicPlus;
-        CCSpriteButton _btnSoundMinus;
-        CCSpriteButton _btnSoundPlus;
-        CCSpriteButton _btnPlayerName;
-
-        CCSpriteButton _btnResetSensitivity;
+        readonly CCSpriteButton _btnForward;
+        readonly CCSpriteButton _btnMusicMinus;
+        readonly CCSpriteButton _btnMusicPlus;
+        readonly CCSpriteButton _btnSoundMinus;
+        readonly CCSpriteButton _btnSoundPlus;
+        readonly CCSpriteButton _btnPlayerName;
 
         CCLabel _lblPlayerName;
 
-        CCNodeExt _pg1;
-        CCNodeExt _pg2;
-        CCNodeExt _pg3;
+        readonly CCNodeExt _pg1;
+        readonly CCNodeExt _pg2;
+        readonly CCNodeExt _pg3;
 
-        CCSpriteButton _btnSenseMinus;
-        CCSpriteButton _btnSensePlus;
+        readonly CCSpriteButton _btnSenseMinus;
+        readonly CCSpriteButton _btnSensePlus;
 
-        CCSprite _imgMusicVolume;
-        CCSprite _imgSoundVolume;
+        readonly CCSprite _imgMusicVolume;
+        readonly CCSprite _imgSoundVolume;
 
-        CCSprite _imgSenseLevel;
+        readonly CCSprite _imgSenseLevel;
 
-        CCSprite _imgAdvertisementsTip;
-        CCSpriteButton _btnNoAdvertisements;
-        CCSpriteButton _btnCancel;
+        readonly CCSprite _imgAdvertisementsTip;
+        readonly CCSpriteButton _btnNoAdvertisements;
+        readonly CCSpriteButton _btnCancel;
 
         CCSprite _imgHandinessText;
 
-        GamePlayLayer _layerBack;
+        readonly GamePlayLayer _layerBack;
 
         GamePlayLayer _steeringTestLayer;
 
-        List<CCSprite> titlAngleIndicator;
-        List<CCSprite> canonSpeedIndicator;
+        readonly List<CCSprite> _titlAngleIndicator;
+        readonly List<CCSprite> canonSpeedIndicator;
 
         CCSprite _tiltAngle;
-        string _fromPage;
+        readonly string _fromPage;
 
         public string Test { get; set; }
 
         public SettingsScreenLayer(GamePlayLayer layerBack = null, string fromPage = null)
         {
-            titlAngleIndicator = new List<CCSprite>();
+            _titlAngleIndicator = new List<CCSprite>();
             canonSpeedIndicator = new List<CCSprite>();
 
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Voiceover on VO_mono.wav");
@@ -81,18 +78,18 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/swearing_on_vo_mono.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/swearing_off_vo_mono.wav");
 
-            this._layerBack = layerBack;
-            this.SetBackground("UI/background.jpg");
+            _layerBack = layerBack;
+            SetBackground("UI/background.jpg");
             _fromPage = fromPage;
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
             _btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
             _btnForward.OnClick += BtnForward_OnClick;
 
-            this.AddImage(319, 574, "UI/Settings_settings_text.png", 1500);
+            AddImage(319, 574, "UI/Settings_settings_text.png", 1500);
 
             _pg1 = new CCNodeExt();
             _pg1.AddImage(786, 594, "UI/Settings_page1-3_text.png");
@@ -143,7 +140,7 @@ namespace LooneyInvaders.Layers
             _btnSwearing.ButtonType = BUTTON_TYPE.Silent;
             _btnSwearing.OnClick += BtnSwearing_OnClick;
 
-            this.AddChild(_pg1);
+            AddChild(_pg1);
 
             _pg2 = new CCNodeExt();
             _pg2.AddImage(786, 594, "UI/Settings_page2-3_text.png");
@@ -186,19 +183,19 @@ namespace LooneyInvaders.Layers
             _btnPushNotifications.ButtonType = BUTTON_TYPE.Silent;
             _btnPushNotifications.OnClick += BtnPushNotifications_OnClick;
 
-            _imgAdvertisementsTip = this.AddImage(14, 8, "UI/Settings-notification-background-with-text.png", 1500);
+            _imgAdvertisementsTip = AddImage(14, 8, "UI/Settings-notification-background-with-text.png", 1500);
             _imgAdvertisementsTip.Visible = false;
 
-            _btnNoAdvertisements = this.AddButton(33, 30, "UI/Settings-notification-buy-add-free-button-untapped.png", "UI/Settings-notification-buy-add-free-button-tapped.png", 1600);
+            _btnNoAdvertisements = AddButton(33, 30, "UI/Settings-notification-buy-add-free-button-untapped.png", "UI/Settings-notification-buy-add-free-button-tapped.png", 1600);
             _btnNoAdvertisements.ButtonType = BUTTON_TYPE.OnOff;
             _btnNoAdvertisements.Visible = false;
             _btnNoAdvertisements.OnClick += _btnNoAdvertisements_OnClick;
 
-            _btnCancel = this.AddButton(637, 30, "UI/Settings-notification-cancel-button-untapped.png", "UI/Settings-notification-cancel-button-tapped.png", 1600);
+            _btnCancel = AddButton(637, 30, "UI/Settings-notification-cancel-button-untapped.png", "UI/Settings-notification-cancel-button-tapped.png", 1600);
             _btnCancel.OnClick += _btnCancel_OnClick; ;
             _btnCancel.Visible = false;
 
-            this.AddChild(_pg2);
+            AddChild(_pg2);
             _pg2.Visible = false;
 
             //Setting up a page 3 for settings
@@ -235,8 +232,8 @@ namespace LooneyInvaders.Layers
 
             //Resetting sensitivity
             _pg3.AddImage(68, 230, "UI/Settings_reset-sensitivity-text.png", 100);
-            _btnResetSensitivity = _pg3.AddButton(538, 227, "UI/Settings_reset-button-untapped.png", "UI/Settings_reset-button-tapped.png");
-            _btnResetSensitivity.OnClick += BtnRexetSensitivity_OnClick;
+            var btnResetSensitivity = _pg3.AddButton(538, 227, "UI/Settings_reset-button-untapped.png", "UI/Settings_reset-button-tapped.png");
+            btnResetSensitivity.OnClick += BtnRexetSensitivity_OnClick;
 
             _pg3.AddImage(68, 156, "UI/Settings_cannon-speed_text.png", 100);
 
@@ -246,7 +243,7 @@ namespace LooneyInvaders.Layers
             }
 
 
-            this.AddChild(_pg3);
+            AddChild(_pg3);
             _pg3.Visible = false;
 
             refreshSettings();
@@ -315,7 +312,7 @@ namespace LooneyInvaders.Layers
         {
             Settings settings = Settings.Instance;
 
-            _btnMusicState.State = settings.MusicEnabled == true ? 1 : 2;
+            _btnMusicState.State = settings.MusicEnabled ? 1 : 2;
             _btnMusicState.SetStateImages();
 
             if (settings.MusicEnabled)
@@ -331,13 +328,13 @@ namespace LooneyInvaders.Layers
 
             _imgMusicVolume.BlendFunc = GameEnvironment.BlendFuncDefault;
 
-            _btnSoundState.State = settings.SoundEnabled == true ? 1 : 2;
+            _btnSoundState.State = settings.SoundEnabled ? 1 : 2;
             _btnSoundState.SetStateImages();
 
-            _btnVoiceOvers.State = settings.VoiceoversEnabled == true ? 1 : 2;
+            _btnVoiceOvers.State = settings.VoiceoversEnabled ? 1 : 2;
             _btnVoiceOvers.SetStateImages();
 
-            _btnSwearing.State = settings.SwearingEnabled == true ? 1 : 2;
+            _btnSwearing.State = settings.SwearingEnabled ? 1 : 2;
             _btnSwearing.SetStateImages();
 
             _btnControlType.State = settings.ControlType == CONTROL_TYPE.GYROSCOPE ? 1 : 2;
@@ -368,24 +365,24 @@ namespace LooneyInvaders.Layers
             _btnMusicStyle.State = settings.MusicStyle == MUSIC_STYLE.Instrumental ? 1 : 2;
             _btnMusicStyle.SetStateImages();
 
-            _btnVibrationState.State = settings.Vibration == true ? 1 : 2;
+            _btnVibrationState.State = settings.Vibration ? 1 : 2;
             _btnVibrationState.SetStateImages();
 
             _btnBattleGroundStyle.State = settings.BattlegroundStyle == BATTLEGROUND_STYLE.Realistic ? 1 : 2;
             _btnBattleGroundStyle.SetStateImages();
 
-            _btnNotifications.State = settings.NotificationsEnabled == true ? 1 : 2;
+            _btnNotifications.State = settings.NotificationsEnabled ? 1 : 2;
             _btnNotifications.SetStateImages();
 
             var notificationsAllowed = new NotificationAllowedService();
             Settings.Instance.IsPushNotificationEnabled = notificationsAllowed.IsNotificationsAllowed();
 
-            _btnPushNotifications.State = settings.IsPushNotificationEnabled == true ? 1 : 2;
+            _btnPushNotifications.State = settings.IsPushNotificationEnabled ? 1 : 2;
             _btnPushNotifications.SetStateImages();
 
-            _btnAdvertisements.State = settings.Advertisements == true ? 1 : 2;
+            _btnAdvertisements.State = settings.Advertisements ? 1 : 2;
             _btnAdvertisements.SetStateImages();
-            if (LooneyInvaders.Model.Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
+            if (Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
         }
 
         private void BtnSoundPlus_OnClick(object sender, EventArgs e)
@@ -583,7 +580,7 @@ namespace LooneyInvaders.Layers
 
             _btnPushNotifications.ChangeState();
 
-            this.ScheduleOnce(openSettings, 0.50f);
+            ScheduleOnce(openSettings, 0.50f);
 
             refreshSettings();
         }
@@ -640,7 +637,7 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                    this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+                    TransitionToLayerCartoonStyle(new MainScreenLayer());
                 }
             }
             else if (!_pg2.Visible)
@@ -702,7 +699,7 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                    this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+                    TransitionToLayerCartoonStyle(new MainScreenLayer());
                 }
             }
         }
@@ -710,7 +707,7 @@ namespace LooneyInvaders.Layers
 
         private void BtnPlayerName_OnClick(object sender, EventArgs e)
         {
-            CCScene newScene = new CCScene(this.GameView);
+            CCScene newScene = new CCScene(GameView);
             newScene.AddLayer(new PlayerNameLayer(this));
             Director.PushScene(newScene);
         }
@@ -719,15 +716,15 @@ namespace LooneyInvaders.Layers
         {
             hideAdvertisementsTip();
             PurchaseManager.Purchase("ads_off");
-            this.Enabled = false;
+            Enabled = false;
         }
 
         private void PurchaseManager_OnPurchaseFinished(object sender, EventArgs e)
         {
-            _btnAdvertisements.State = LooneyInvaders.Model.Settings.Instance.Advertisements == true ? 1 : 2;
-            if (LooneyInvaders.Model.Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
+            _btnAdvertisements.State = Settings.Instance.Advertisements ? 1 : 2;
+            if (Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
             _btnAdvertisements.SetStateImages();
-            this.Enabled = true;
+            Enabled = true;
         }
 
         private void AddHandinessSettings()
@@ -777,7 +774,7 @@ namespace LooneyInvaders.Layers
             string speed = string.Empty;
             if (_steeringTestLayer != null)
             {
-                speed = ((int)(Math.Abs(_steeringTestLayer.controlMovement) * 100)).ToString();
+                speed = ((int)(Math.Abs(_steeringTestLayer.ControlMovement) * 100)).ToString();
             }
 
             int initPosition = 426;
@@ -793,7 +790,7 @@ namespace LooneyInvaders.Layers
 
         private void RemoveGyroSensitivityLevel()
         {
-            foreach (var item in titlAngleIndicator)
+            foreach (var item in _titlAngleIndicator)
             {
                 _pg3.RemoveChild(item);
             }
@@ -813,24 +810,24 @@ namespace LooneyInvaders.Layers
 
             if (_steeringTestLayer != null)
             {
-                angle = (int)_steeringTestLayer.tiltAngle;
+                angle = (int)_steeringTestLayer.TiltAngle;
             }
 
             int initPosition = 850;
 
             if (angle >= 0)
             {
-                titlAngleIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_+.png", 100));
+                _titlAngleIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_+.png", 100));
                 initPosition += 27;
             }
 
             foreach (var item in angle.ToString())
             {
-                titlAngleIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_{item}.png", 100));
+                _titlAngleIndicator.Add(_pg3.AddImage(initPosition, 156, $"UI/number_57_{item}.png", 100));
                 initPosition += 27;
             }
 
-            titlAngleIndicator.Add(_pg3.AddImage(initPosition + 10, 156, "UI/number_57_degree-symbol.png", 100));
+            _titlAngleIndicator.Add(_pg3.AddImage(initPosition + 10, 156, "UI/number_57_degree-symbol.png", 100));
         }
 
         private void UpdateSteeringSpeedIndicator(float dt)
@@ -873,7 +870,7 @@ namespace LooneyInvaders.Layers
             {
                 PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+                TransitionToLayerCartoonStyle(new MainScreenLayer());
             }
             else if (_fromPage == GameConstants.NavigationParam.GameScreen)
             {

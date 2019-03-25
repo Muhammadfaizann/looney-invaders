@@ -8,7 +8,7 @@ namespace LooneyInvaders.Model
 {
     public class LaserSpark
     {
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public CCSprite Sprite;
 
@@ -17,7 +17,7 @@ namespace LooneyInvaders.Model
         public LaserSpark(GamePlayLayer gamePlayLayer, float x, float y)
         {
             this._gamePlayLayer = gamePlayLayer;
-            this.Sprite = new CCSprite(gamePlayLayer.ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+            this.Sprite = new CCSprite(gamePlayLayer.SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
             this.Sprite.AnchorPoint = new CCPoint(0.5f, 0.25f);
             this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
             this.Sprite.Position = new CCPoint(x, y);

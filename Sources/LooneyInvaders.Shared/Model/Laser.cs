@@ -17,7 +17,7 @@ namespace LooneyInvaders.Model
 
         public bool Left;
 
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public Laser(GamePlayLayer gamePlayLayer, bool left)
         {

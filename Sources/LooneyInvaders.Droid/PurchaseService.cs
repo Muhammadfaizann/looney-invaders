@@ -8,7 +8,7 @@ namespace CC.Mobile.Purchases
 {
     public class PurchaseService:IPurchaseService
     {
-        string publicKey;
+        readonly string publicKey;
         IAB.InAppBillingServiceConnection inAppSvc;
         TaskCompletionSource<Purchase> currentPurchaseTask;
         TaskCompletionSource<bool> serviceStatusTask;
@@ -19,7 +19,7 @@ namespace CC.Mobile.Purchases
         /// Gets a value indicating whether this <see cref="T:PurchaseExample.Droid.PurchaseService"/> is started.
         /// </summary>
         /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
-        public bool IsStarted { get; private set; } = false;
+        public bool IsStarted { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PurchaseExample.Droid.PurchaseService"/> class.

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using CocosSharp;
-using CocosDenshion;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Shared
 {
     public static class GameDelegate
-    {        
-        public delegate void GetGyroDelegate (ref float yaw, ref float tilt, ref float pitch);
+    {
+        public delegate void GetGyroDelegate(ref float yaw, ref float tilt, ref float pitch);
 
         public static GetGyroDelegate GetGyro;
 
@@ -16,10 +14,7 @@ namespace LooneyInvaders.Shared
 
         public static void FireBackButtonPressed()
         {
-            if (OnBackButton != null)
-            {
-                OnBackButton(null, EventArgs.Empty);
-            }
+            OnBackButton?.Invoke(null, EventArgs.Empty);
         }
 
         public static void ClearOnBackButtonEvent()
@@ -28,24 +23,24 @@ namespace LooneyInvaders.Shared
         }
 
 
-        public static CCGameView gameView;
+        public static CCGameView GameView;
 
         public static void LoadGame(object sender, EventArgs e)
         {
-            gameView = sender as CCGameView;
-           
+            GameView = sender as CCGameView;
 
-            if (gameView != null)
+
+            if (GameView != null)
             {
                 //var contentSearchPaths = new List<string>() { "Fonts", "Sounds" };
-                CCSizeI viewSize = gameView.ViewSize;
+                //CCSizeI viewSize = GameView.ViewSize;
 
                 int width = 1136;  //1136;  // 2436
                 int height = 640; //640;    // 1125
 
                 // Set world dimensions
-                gameView.DesignResolution = new CCSizeI(width, height);
-                gameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
+                GameView.DesignResolution = new CCSizeI(width, height);
+                GameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
 
                 // Determine whether to use the high or low def versions of our images
                 // Make sure the default texel to content size ratio is set correctly
@@ -72,17 +67,17 @@ namespace LooneyInvaders.Shared
                 //LooneyInvaders.Model.Settings.Instance.Advertisements = false;
                 //LooneyInvaders.Model.Player.Instance.Credits = 1000000;
                 //
-                                
+
                 //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
                 //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
 
-                CCScene gameScene = new CCScene(gameView);
+                CCScene gameScene = new CCScene(GameView);
                 //gameScene.AddLayer(new EnemyPickerLayer());
                 //gameScene.AddLayer(new MainScreenLayer());
-                gameScene.AddLayer(new SplashScreenLayer());                
+                gameScene.AddLayer(new SplashScreenLayer());
                 //gameScene.AddLayer(new VictoryScreenLayer(Model.ENEMIES.HITLER, Model.WEAPONS.BAZOOKA, Model.BATTLEGROUNDS.POLAND, 100, 99));
                 //gameScene.AddLayer(new SettingsScreenLayer());
-                gameView.RunWithScene(gameScene);
+                GameView.RunWithScene(gameScene);
             }
         }
     }

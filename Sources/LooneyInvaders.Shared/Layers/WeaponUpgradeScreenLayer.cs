@@ -11,35 +11,35 @@ namespace LooneyInvaders.Layers
     {
         const int UPGRADE_PRICE = 3000;
 
-        int _selectedEnemy;
-        int _selectedWeapon;
+        readonly int _selectedEnemy;
+        readonly int _selectedWeapon;
 
-        int _credits = 0;
+        int _credits;
 
         int _caliberSizeMinimum = 1;
         int _firespeedMinimum = 1;
         int _magazineSizeMinimum = 1;
         int _livesMinimum = 1;
 
-        int _caliberSizeMaximum = 5;
-        int _firespeedMaximum = 5;
-        int _magazineSizeMaximum = 4;
-        int _livesMaximum = 7;
+        readonly int _caliberSizeMaximum = 5;
+        readonly int _firespeedMaximum = 5;
+        readonly int _magazineSizeMaximum = 4;
+        readonly int _livesMaximum = 7;
 
         int _caliberSize = 1;
         int _firespeed = 1;
         int _magazineSize = 1;
         int _lives = 1;
 
-        int _caliberSizePrice = 0;
-        int _firespeedPrice = 0;
-        int _magazineSizePrice = 0;
-        int _livesPrice = 0;
+        int _caliberSizePrice;
+        int _firespeedPrice;
+        int _magazineSizePrice;
+        int _livesPrice;
 
-        CCSprite[] _imgCaliberSize = new CCSprite[6];
-        CCSprite[] _imgFirespeed = new CCSprite[6];
-        CCSprite[] _imgMagazineSize = new CCSprite[6];
-        CCSprite[] _imgLives = new CCSprite[7];
+        readonly CCSprite[] _imgCaliberSize = new CCSprite[6];
+        readonly CCSprite[] _imgFirespeed = new CCSprite[6];
+        readonly CCSprite[] _imgMagazineSize = new CCSprite[6];
+        readonly CCSprite[] _imgLives = new CCSprite[7];
 
         CCSprite[] _lblPriceCaliberSize;
         CCSprite[] _lblPriceFirespeed;
@@ -48,41 +48,41 @@ namespace LooneyInvaders.Layers
         CCSprite[] _lblPriceTotal;
         CCSprite[] _lblCredits;
 
-        CCSprite _summationLine;
-        CCSprite _lblCreditsNeeded;
-        CCSprite _lblYourCredits;
+        readonly CCSprite _summationLine;
+        readonly CCSprite _lblCreditsNeeded;
+        readonly CCSprite _lblYourCredits;
         
         CCSpriteButton _btnBack;
         CCSpriteButton _btnForward;
 
-        CCSpriteButton _btnCalibreDecrease;
-        CCSpriteButton _btnCalibreIncrease;
-        CCSpriteButton _btnFirespeedIncrease;
-        CCSpriteButton _btnFirespeedDecrease;        
-        CCSpriteButton _btnMagazineSizeDecrease;
-        CCSpriteButton _btnMagazineSizeIncrease;
-        CCSpriteButton _btnLivesDecrease;
-        CCSpriteButton _btnLivesIncrease;
-        CCSpriteButton _btnTestModification;
-        CCSpriteButton _btnBuy;
-        CCSpriteButton _btnGetMoreCredits;
+        readonly CCSpriteButton _btnCalibreDecrease;
+        readonly CCSpriteButton _btnCalibreIncrease;
+        readonly CCSpriteButton _btnFirespeedIncrease;
+        readonly CCSpriteButton _btnFirespeedDecrease;
+        readonly CCSpriteButton _btnMagazineSizeDecrease;
+        readonly CCSpriteButton _btnMagazineSizeIncrease;
+        readonly CCSpriteButton _btnLivesDecrease;
+        readonly CCSpriteButton _btnLivesIncrease;
+        readonly CCSpriteButton _btnTestModification;
+        readonly CCSpriteButton _btnBuy;
+        readonly CCSpriteButton _btnGetMoreCredits;
 
-        CCSprite _imgGameTip;
-        CCSpriteButton _btnGetCredits;
-        CCSpriteButton _btnCancel;
+        readonly CCSprite _imgGameTip;
+        readonly CCSpriteButton _btnGetCredits;
+        readonly CCSpriteButton _btnCancel;
 
-        CCSprite _imgGameTipNoBuy;
-        CCSpriteButton _btnNoBuyBack;
-        CCSpriteButton _btnNoBuyExit;
+        readonly CCSprite _imgGameTipNoBuy;
+        readonly CCSpriteButton _btnNoBuyBack;
+        readonly CCSpriteButton _btnNoBuyExit;
 
-        CCSprite _lblWeaponUpgraded;
+        readonly CCSprite _lblWeaponUpgraded;
 
-        bool isForwardTapped = false;
-		bool isBackTapped = false;
-        bool _isPopupShiving = false;
+        bool isForwardTapped;
+		bool isBackTapped;
+        bool _isPopupShiving;
 
         //----------- Prabhjot ----------//
-        bool _isShowGameTipViewLoaded = false;
+        bool _isShowGameTipViewLoaded;
 
         public WeaponUpgradeScreenLayer(int selectedEnemy, int selectedWeapon, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1)
         {

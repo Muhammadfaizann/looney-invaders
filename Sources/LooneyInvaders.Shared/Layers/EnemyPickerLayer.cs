@@ -9,23 +9,23 @@ namespace LooneyInvaders.Layers
 {
     public class EnemyPickerLayer : CCLayerColorExt
     {
-        CCSprite _imgEnemyName;
-        CCSprite _imgEnemyLocked;
+        readonly CCSprite _imgEnemyName;
+        readonly CCSprite _imgEnemyLocked;
 
         CCSprite _centerImage;
-        CCSprite[] _images;
-        bool _isSwiping = false;
+        readonly CCSprite[] _images;
+        bool _isSwiping;
         int _selectedEnemy;
         float _lastMovement;
         int _talkingSpriteIndex;
         float _talkTimePassed;
-        bool _startedTalking = false;
-        bool _isHoldAnimations = false;
-        CCSprite _imgSpotlight;
+        bool _startedTalking;
+        bool _isHoldAnimations;
+        readonly CCSprite _imgSpotlight;
 
         CCSpriteButton _btnBack;
         CCSpriteButton _btnForward;
-        CCSpriteButton _btnForwardNoPasaran;
+        readonly CCSpriteButton _btnForwardNoPasaran;
 
         CCSprite _imgGameTip;
         CCSprite _imgGameTipArrow;
@@ -34,7 +34,7 @@ namespace LooneyInvaders.Layers
         CCSprite _imgGameTipCheckMarkLabel;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded = false;
+        bool _isShowGameTipViewLoaded;
 
         public EnemyPickerLayer()
         {
@@ -474,7 +474,7 @@ namespace LooneyInvaders.Layers
             this.Schedule(startTalking2, 0.025f);
         }
 
-        int labelOpacity = 0;
+        int labelOpacity;
 
         void startFading(float dt)
         {

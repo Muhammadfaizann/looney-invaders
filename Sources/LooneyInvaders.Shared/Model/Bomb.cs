@@ -19,7 +19,7 @@ namespace LooneyInvaders.Model
         public bool Collided = false;
         public bool Spitted = false;
 
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public Bomb(GamePlayLayer gamePlayLayer, float x, float y)
         {
@@ -27,12 +27,12 @@ namespace LooneyInvaders.Model
             if (_gamePlayLayer.SelectedEnemy == ENEMIES.ALIENS)
             {
                 //this.Sprite = new CCSprite(GameEnvironment.ImageDirectory + "Enemies/green-slime-ball.png");
-                this.Sprite = new CCSprite(gamePlayLayer.ssBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_0.png"));
+                this.Sprite = new CCSprite(gamePlayLayer.SsBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_0.png"));
                 this.Sprite.Scale = 0.5f;
             }
             else
             {
-                this.Sprite = new CCSprite(gamePlayLayer.ssBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-0.png"));
+                this.Sprite = new CCSprite(gamePlayLayer.SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-0.png"));
                 this.Sprite.Scale = 0.5f;
             }
             this.Sprite.Position = new CCPoint(x, y);

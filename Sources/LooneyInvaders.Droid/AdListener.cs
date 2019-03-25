@@ -15,7 +15,7 @@ namespace LooneyInvaders.Droid
 {
     class AdListenerEx : AdListener
     {
-        AdView ad;        
+        readonly AdView ad;        
 
         public AdListenerEx(AdView ad)
         {
@@ -54,8 +54,8 @@ namespace LooneyInvaders.Droid
 
     class AdListenerInterstitial : AdListener
     {
-        InterstitialAd _intAd;
-        Activity _activity;
+        readonly InterstitialAd _intAd;
+        readonly Activity _activity;
 
         public AdListenerInterstitial(InterstitialAd intAd, Activity activity)
         {

@@ -9,10 +9,10 @@ namespace LooneyInvaders.Model
 {
     public class LeaderboardManager
     {
-        private static Leaderboard regularLeaderboard = null;
+        private static Leaderboard regularLeaderboard;
         public static Leaderboard RegularLeaderboard { get { if (regularLeaderboard == null) regularLeaderboard = new Leaderboard(LeaderboardType.REGULAR); return regularLeaderboard; }  }
 
-        private static Leaderboard proLeaderboard = null;
+        private static Leaderboard proLeaderboard;
         public static Leaderboard ProLeaderboard { get { if (proLeaderboard == null) proLeaderboard = new Leaderboard(LeaderboardType.PRO); return proLeaderboard; } }
 
         public delegate void SubmitScoreDelegate(double score, double accuracy, double fastestTime, double levelsCompleted);
@@ -79,7 +79,7 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly = null;
         public static LeaderboardItem PlayerRankProAlltime = null;
 
-        private static bool IsRefreshing = false;
+        private static bool IsRefreshing;
                 
 
         public static bool SubmitScoreRegular(double score, double accuracy, double fastestTime)
