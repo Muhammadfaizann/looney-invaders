@@ -8,13 +8,13 @@ namespace LooneyInvaders.Layers
 {
     public class MyStatsAndRewards2Layer : CCLayerColorExt
     {
-        int _currentGunFrame = 1;
-        readonly CCSprite _imgGun;
-        readonly CCSprite _imgOffline;
-        readonly CCSprite _imgGetActivationCode;
-        readonly CCSpriteButton _btnSend;
-        CCLabel _lblCode;
-        string _code = "";
+        private int _currentGunFrame = 1;
+        private readonly CCSprite _imgGun;
+        private readonly CCSprite _imgOffline;
+        private readonly CCSprite _imgGetActivationCode;
+        private readonly CCSpriteButton _btnSend;
+        private CCLabel _lblCode;
+        private string _code = "";
 
         public MyStatsAndRewards2Layer()
         {
@@ -24,22 +24,22 @@ namespace LooneyInvaders.Layers
 
             while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(Weapons.Standard, null)) { }
 
-            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
+            var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-			CCSpriteButton btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
+			var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
             btnBackThrow.OnClick += BtnBackThrow_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
 
-            CCSpriteButton btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
+            var btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
             btnForward.OnClick += BtnForward_OnClick;
 
 			AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
 			AddImage(829, 592, "UI/My-stats-&-rewards-page2_8--text.png");
             AddImage(191, 495, "UI/My-stats-&-rewards-reward-standard-gun-text.png");
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(Weapons.Standard, null, 0);
+            var frame = GameAnimation.Instance.GetRotateFrame(Weapons.Standard, null, 0);
             _imgGun = AddImage(118, 80, frame);
             _imgGun.Scale = 2.0f;
 
@@ -112,7 +112,7 @@ namespace LooneyInvaders.Layers
             if (_currentGunFrame < 47) _currentGunFrame++;
             else _currentGunFrame = 0;
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(Weapons.Standard, null, _currentGunFrame);
+            var frame = GameAnimation.Instance.GetRotateFrame(Weapons.Standard, null, _currentGunFrame);
 
             ChangeSpriteImage(_imgGun, frame);
         }

@@ -1,13 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Foundation;
 using UIKit;
-
-using CoreGraphics;
-using Google.MobileAds;
-using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.PNS;
 
@@ -25,7 +18,7 @@ namespace LooneyInvaders.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        public const string HOCKEYAPP_KEY = "7b026ab1c1fd4dc8bea25d9b232d618f";
+        public const string HockeyappKey = "7b026ab1c1fd4dc8bea25d9b232d618f";
 
         public override UIWindow Window
         {
@@ -55,7 +48,7 @@ namespace LooneyInvaders.iOS
             Push.FailedToRegisterForRemoteNotifications(error);
         }
 
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, System.Action<UIBackgroundFetchResult> completionHandler)
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             var result = Push.DidReceiveRemoteNotification(userInfo);
             if (result)
@@ -123,7 +116,7 @@ namespace LooneyInvaders.iOS
 
             //--------- Prabhjot ---------//
 
-            var keyForNotification = "4cd7f485-df2b-40b9-ad4c-f9e08623a548";
+            const string keyForNotification = "4cd7f485-df2b-40b9-ad4c-f9e08623a548";
 
             AppCenter.Start(keyForNotification, typeof(Crashes), typeof(Analytics));
             Crashes.SetEnabledAsync(true);

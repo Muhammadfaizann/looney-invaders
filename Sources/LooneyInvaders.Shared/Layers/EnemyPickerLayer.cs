@@ -8,32 +8,32 @@ namespace LooneyInvaders.Layers
 {
     public class EnemyPickerLayer : CCLayerColorExt
     {
-        readonly CCSprite _imgEnemyName;
-        readonly CCSprite _imgEnemyLocked;
+        private readonly CCSprite _imgEnemyName;
+        private readonly CCSprite _imgEnemyLocked;
 
-        CCSprite _centerImage;
-        readonly CCSprite[] _images;
-        bool _isSwiping;
-        int _selectedEnemy;
-        float _lastMovement;
-        int _talkingSpriteIndex;
-        float _talkTimePassed;
-        bool _startedTalking;
-        bool _isHoldAnimations;
-        readonly CCSprite _imgSpotlight;
+        private CCSprite _centerImage;
+        private readonly CCSprite[] _images;
+        private bool _isSwiping;
+        private int _selectedEnemy;
+        private float _lastMovement;
+        private int _talkingSpriteIndex;
+        private float _talkTimePassed;
+        private bool _startedTalking;
+        private bool _isHoldAnimations;
+        private readonly CCSprite _imgSpotlight;
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
-        readonly CCSpriteButton _btnForwardNoPasaran;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
+        private readonly CCSpriteButton _btnForwardNoPasaran;
 
-        CCSprite _imgGameTip;
-        CCSprite _imgGameTipArrow;
-        CCSpriteButton _btnGameTipOk;
-        CCSpriteTwoStateButton _btnGameTipCheckMark;
-        CCSprite _imgGameTipCheckMarkLabel;
+        private CCSprite _imgGameTip;
+        private CCSprite _imgGameTipArrow;
+        private CCSpriteButton _btnGameTipOk;
+        private CCSpriteTwoStateButton _btnGameTipCheckMark;
+        private CCSprite _imgGameTipCheckMarkLabel;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded;
+        private bool _isShowGameTipViewLoaded;
 
         public EnemyPickerLayer()
         {
@@ -205,7 +205,7 @@ namespace LooneyInvaders.Layers
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipEnemyPickerShow = _btnGameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipEnemyPickerShow = _btnGameTipCheckMark.State != 1;
 
             _imgGameTip.Visible = false;
             _imgGameTipArrow.Visible = false;
@@ -266,7 +266,7 @@ namespace LooneyInvaders.Layers
             TransitionToLayer(new WeaponPickerLayer(_selectedEnemy));
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
@@ -283,7 +283,7 @@ namespace LooneyInvaders.Layers
             _isSwiping = true;
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -322,7 +322,7 @@ namespace LooneyInvaders.Layers
                     var distanceFromCentre = Math.Abs(570 - img.PositionX);
                     var distancePercentage = distanceFromCentre / 420.00f;
 
-                    img.Scale = 1.0f - (0.5f * distancePercentage);
+                    img.Scale = 1.0f - 0.5f * distancePercentage;
                 }
 
                 //                // circular motion
@@ -374,7 +374,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -383,7 +383,7 @@ namespace LooneyInvaders.Layers
             Schedule(SnapToCentre, 0.03f);
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -392,14 +392,14 @@ namespace LooneyInvaders.Layers
             Schedule(SnapToCentre, 0.03f);
         }
 
-        void SnapToCentre(float dt)
+        private void SnapToCentre(float dt)
         {
             if (_isSwiping) return;
 
             float totalMovementX = 0;
 
             // inertial movement
-            if (Math.Abs(_lastMovement) > AppConstants.TOLERANCE)
+            if (Math.Abs(_lastMovement) > AppConstants.Tolerance)
             {
                 var movementX = _lastMovement * 0.8f;
 
@@ -417,7 +417,7 @@ namespace LooneyInvaders.Layers
             }
 
             // snap to center
-            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 570) > AppConstants.TOLERANCE)
+            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 570) > AppConstants.Tolerance)
             {
                 var differenceX = 570 - _centerImage.PositionX;
                 var snapMovement = differenceX / 5;
@@ -430,7 +430,7 @@ namespace LooneyInvaders.Layers
             if (_centerImage != null && Math.Abs(570 - _centerImage.PositionX) < 1)
                 totalMovementX = 570 - _centerImage.PositionX;
 
-            if (Math.Abs(totalMovementX) < AppConstants.TOLERANCE)
+            if (Math.Abs(totalMovementX) < AppConstants.Tolerance)
             {
                 Unschedule(SnapToCentre);
 
@@ -443,13 +443,13 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void DelayedTalk(float dt)
+        private void DelayedTalk(float dt)
         {
             _isHoldAnimations = false;
             Schedule(StartTalking, 0.025f);
         }
 
-        void StartTalking(float dt)
+        private void StartTalking(float dt)
         {
             Unschedule(StartTalking);
             if (Settings.Instance.VoiceoversEnabled)
@@ -469,14 +469,14 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void StartStartTalking(float dt)
+        private void StartStartTalking(float dt)
         {
             Schedule(StartTalking2, 0.025f);
         }
 
-        int _labelOpacity;
+        private int _labelOpacity;
 
-        void StartFading(float dt)
+        private void StartFading(float dt)
         {
             _labelOpacity += 10;
             if (_labelOpacity > 255) { _labelOpacity = 255; Unschedule(StartFading); }
@@ -486,7 +486,7 @@ namespace LooneyInvaders.Layers
             _imgEnemyLocked.Opacity = (byte)_labelOpacity;
         }
 
-        void StartTalking2(float dt)
+        private void StartTalking2(float dt)
         {
             if (!_startedTalking)
             {

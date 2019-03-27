@@ -1,25 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using Android.Gms.Ads;
 
 namespace LooneyInvaders.Droid
 {
-    class AdListenerEx : AdListener
+    internal class AdListenerEx : AdListener
     {
-        readonly AdView ad;        
+        private readonly AdView _ad;
 
         public AdListenerEx(AdView ad)
         {
-            this.ad = ad;
+            _ad = ad;
         }
 
         // Declare the delegate (if using non-generic pattern). 
@@ -34,38 +26,33 @@ namespace LooneyInvaders.Droid
 
         public override void OnAdLoaded()
         {
-            if (AdLoaded != null) this.AdLoaded();
-            base.OnAdLoaded();            
+            AdLoaded?.Invoke();
+            base.OnAdLoaded();
 
-            ad.BringToFront();
+            _ad.BringToFront();
         }
 
         public override void OnAdClosed()
         {
-            if (AdClosed != null) this.AdClosed();
+            AdClosed?.Invoke();
             base.OnAdClosed();
         }
         public override void OnAdOpened()
         {
-            if (AdOpened != null) this.AdOpened();
+            AdOpened?.Invoke();
             base.OnAdOpened();
         }
     }
 
-    class AdListenerInterstitial : AdListener
+    internal class AdListenerInterstitial : AdListener
     {
-        readonly InterstitialAd _intAd;
-        readonly Activity _activity;
+        private readonly InterstitialAd _intAd;
+        private readonly Activity _activity;
 
         public AdListenerInterstitial(InterstitialAd intAd, Activity activity)
         {
-            this._intAd = intAd;
-            this._activity = activity;
-        }
-
-        public override void OnAdLoaded()
-        {
-            base.OnAdLoaded();
+            _intAd = intAd;
+            _activity = activity;
         }
 
         public override void OnAdClosed()
@@ -74,7 +61,7 @@ namespace LooneyInvaders.Droid
 
             Console.WriteLine("Interstitial ad closed");
 
-            LooneyInvaders.Model.AdMobManager.InterstitialAdClosed();
+            Model.AdMobManager.InterstitialAdClosed();
 
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
@@ -82,9 +69,9 @@ namespace LooneyInvaders.Droid
             _intAd.LoadAd(requestbuilder.Build());
 
             // remove navigation bar
-            View decorView = _activity.Window.DecorView;
+            var decorView = _activity.Window.DecorView;
             var uiOptions = (int)decorView.SystemUiVisibility;
-            var newUiOptions = (int)uiOptions;
+            var newUiOptions = uiOptions;
             newUiOptions |= (int)SystemUiFlags.HideNavigation;
             newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
             newUiOptions |= (int)SystemUiFlags.Fullscreen;
@@ -96,16 +83,16 @@ namespace LooneyInvaders.Droid
 
             Console.WriteLine("Interstitial ad opened");
 
-            LooneyInvaders.Model.AdMobManager.InterstitialAdOpened();
+            Model.AdMobManager.InterstitialAdOpened();
         }
 
         public override void OnAdFailedToLoad(int errorCode)
-        {            
+        {
             base.OnAdFailedToLoad(errorCode);
 
-            Console.WriteLine("Interstitial ad failed to load. Error code: " + errorCode.ToString());
+            Console.WriteLine("Interstitial ad failed to load. Error code: " + errorCode);
 
-            LooneyInvaders.Model.AdMobManager.InterstitialAdFailedToLoad();
+            Model.AdMobManager.InterstitialAdFailedToLoad();
         }
     }
 }

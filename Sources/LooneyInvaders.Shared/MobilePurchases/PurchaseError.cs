@@ -4,7 +4,7 @@ namespace CC.Mobile.Purchases
 {
  
     /// <summary>
-    /// Generic error returned fron the IPurchase service implementation
+    /// Generic error returned from the IPurchase service implementation
     /// </summary>
     public class PurchaseError : Exception
     {

@@ -6,8 +6,8 @@ namespace LooneyInvaders.Layers
 {
     public class SplashScreenLayer : CCLayerColorExt
     {
-        float _musicTime;
-        bool? _backgroundLoading = false;
+        private float _musicTime;
+        private bool? _backgroundLoading = false;
         public bool EnabledTouch { get; set; }
 
         public SplashScreenLayer()
@@ -31,7 +31,7 @@ namespace LooneyInvaders.Layers
             Schedule(WaitForMusicToEnd, 0.5f);
         }
 
-        bool _b = true;
+        private bool _b = true;
 
         public object Content { get; protected set; }
 
@@ -72,7 +72,7 @@ namespace LooneyInvaders.Layers
 
             _musicTime -= dt;
 
-            DateTime date = DateTime.Now;
+            var date = DateTime.Now;
 
             if (_musicTime <= 1.2)
             {

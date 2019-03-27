@@ -7,8 +7,8 @@ namespace LooneyInvaders.Layers
 {
     public class PauseScreenLayer : CCLayerColorExt
     {
-        readonly CCSprite _imgBruises;
-        readonly GamePlayLayer _layerBack;
+        private readonly CCSprite _imgBruises;
+        private readonly GamePlayLayer _layerBack;
 
         public PauseScreenLayer(GamePlayLayer layerBack)
         {
@@ -30,7 +30,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopBackgroundMusic();
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (touches.Count > 0)
             {
@@ -43,7 +43,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             // tu se vrati na pocetni layer
             if (_imgBruises.Visible)
@@ -55,7 +55,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             _imgBruises.Visible = false;
         }

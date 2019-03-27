@@ -38,7 +38,7 @@ namespace LooneyInvaders.Model
             _isPushNotificationEnabled = CrossSettings.Current.GetValueOrDefault("isPushNotificationEnabled", _isPushNotificationEnabled);
         }
 
-        delegate void MuteConditionallyDelegate(int delayms);
+        private delegate void MuteConditionallyDelegate(int delayms);
         public void MuteConditionally(int delayms)
         {
             System.Threading.Tasks.Task.Delay(delayms).Wait();
@@ -251,7 +251,7 @@ namespace LooneyInvaders.Model
         public int GetTodaySessionDuration()
         {
             //get duration in seconds
-            var stringDate = DateTime.Now.ToString("dd-MM-yyyy") + ("duration");
+            var stringDate = DateTime.Now.ToString("dd-MM-yyyy") + "duration";
             var todaySessionDuration = CrossSettings.Current.GetValueOrDefault(stringDate, 0);
 
             return todaySessionDuration;
@@ -274,7 +274,7 @@ namespace LooneyInvaders.Model
 
         public void SetTodaySessionDuration(int duration, bool clearAll = false)
         {
-            var stringDate = DateTime.Now.ToString("dd-MM-yyyy") + ("duration");
+            var stringDate = DateTime.Now.ToString("dd-MM-yyyy") + "duration";
 
             var alreadyPlayedTime = GetTodaySessionDuration();
 

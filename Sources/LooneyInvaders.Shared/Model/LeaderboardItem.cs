@@ -32,7 +32,7 @@ namespace LooneyInvaders.Model
 
         public override string ToString()
         {
-            return Rank.ToString() + ". " + Name + " " + Score.ToString("###,###,###,###");
+            return Rank + ". " + Name + " " + Score.ToString("###,###,###,###");
         }
     }
 }

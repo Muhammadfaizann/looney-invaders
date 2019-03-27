@@ -8,47 +8,46 @@ namespace LooneyInvaders.Layers
 {
     public class WeaponPickerLayer : CCLayerColorExt
     {
-        readonly int _selectedEnemy;
+        private readonly int _selectedEnemy;
 
-        readonly CCSprite _imgWeaponDescription;
-        CCSprite _imgWeaponStatsBoard;
-        CCSprite _imgWeaponStatsText;
-        readonly CCSprite _imgWeaponLocked;
-        readonly CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
+        private readonly CCSprite _imgWeaponDescription;
+        private CCSprite _imgWeaponStatsBoard;
+        private CCSprite _imgWeaponStatsText;
+        private readonly CCSprite _imgWeaponLocked;
+        private readonly CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
 
-        CCSprite _centerImage;
-        readonly CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
-        bool _isSwiping;
-        readonly bool _isSwipingEnabled = true;
-        int _selectedWeapon;
-        float _lastMovement;
-        int _bowingSpriteIndex;
-        float _bowTimePassed;
-        bool _startedBowing;
-        bool _isHoldAnimations;
-        readonly CCSprite _imgSpotlight;
+        private CCSprite _centerImage;
+        private readonly CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
+        private bool _isSwiping;
+        private readonly bool _isSwipingEnabled = true;
+        private int _selectedWeapon;
+        private float _lastMovement;
+        private int _bowingSpriteIndex;
+        private float _bowTimePassed;
+        private bool _startedBowing;
+        private bool _isHoldAnimations;
+        private readonly CCSprite _imgSpotlight;
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
-        readonly CCSpriteButton _btnForwardNoPasaran;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
+        private readonly CCSpriteButton _btnForwardNoPasaran;
 
 
+        private CCSprite _imgGameTip;
+        private CCSprite _imgGameTipArrow;
+        private CCSpriteButton _btnGameTipOk;
+        private CCSpriteTwoStateButton _btnGameTipCheckMark;
+        private CCSprite _imgGameTipCheckMarkLabel;
+        private readonly CCSpriteButton _btnWeaponUpgrade;
+        private readonly CCSpriteButton _btnTestProperties;
+        private readonly CCSpriteButton _btnWeaponBuy;
 
-        CCSprite _imgGameTip;
-        CCSprite _imgGameTipArrow;
-        CCSpriteButton _btnGameTipOk;
-        CCSpriteTwoStateButton _btnGameTipCheckMark;
-        CCSprite _imgGameTipCheckMarkLabel;
-        readonly CCSpriteButton _btnWeaponUpgrade;
-        readonly CCSpriteButton _btnTestProperties;
-        readonly CCSpriteButton _btnWeaponBuy;
-
-        readonly CCSprite _imgGameTipCredits;
-        readonly CCSpriteButton _btnGetCredits;
-        readonly CCSpriteButton _btnCancel;
+        private readonly CCSprite _imgGameTipCredits;
+        private readonly CCSpriteButton _btnGetCredits;
+        private readonly CCSpriteButton _btnCancel;
 
         //----------- Prabhjot ----------//
-        bool _isShowGameTipViewLoaded;
+        private bool _isShowGameTipViewLoaded;
 
         public WeaponPickerLayer(int selectedEnemy, bool gameTipAvailable = true)
         {
@@ -225,10 +224,10 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             UnscheduleAll();
 
-            int caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
-            int lives = Weapon.GetLives((Weapons)_selectedWeapon);
+            var caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
+            var firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
+            var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
+            var lives = Weapon.GetLives((Weapons)_selectedWeapon);
 
             TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest));
         }
@@ -275,15 +274,15 @@ namespace LooneyInvaders.Layers
 
         private bool IsWeaponAtMax(int selectedWeapon)
         {
-            int caliberSize = Weapon.GetCaliberSize((Weapons)selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((Weapons)selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((Weapons)selectedWeapon);
-            int lives = Weapon.GetLives((Weapons)selectedWeapon);
+            var caliberSize = Weapon.GetCaliberSize((Weapons)selectedWeapon);
+            var firespeed = Weapon.GetFirespeed((Weapons)selectedWeapon);
+            var magazineSize = Weapon.GetMagazineSize((Weapons)selectedWeapon);
+            var lives = Weapon.GetLives((Weapons)selectedWeapon);
 
-            int livesMaximum = 7;
-            int caliberSizeMaximum = 10;
-            int firespeedMaximum = 10;
-            int magazineSizeMaximum = 10;
+            const int livesMaximum = 7;
+            var caliberSizeMaximum = 10;
+            var firespeedMaximum = 10;
+            var magazineSizeMaximum = 10;
 
             if (selectedWeapon == (int)Weapons.Standard)
             {
@@ -320,7 +319,7 @@ namespace LooneyInvaders.Layers
             _imgWeaponStatsBoard.Opacity = opacity;
             _imgWeaponStatsText.Opacity = opacity;
 
-            foreach (CCSprite s in _imgWeaponStatsStars) s.Opacity = opacity;
+            foreach (var s in _imgWeaponStatsStars) s.Opacity = opacity;
         }
 
         private void SetWeaponStatsImages()
@@ -352,9 +351,9 @@ namespace LooneyInvaders.Layers
 
         private void SetWeaponStatsStars()
         {
-            int caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
-            int firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
-            int magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
+            var caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
+            var firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
+            var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
 
             if (_selectedWeapon == (int)Weapons.Standard)
             {
@@ -384,7 +383,7 @@ namespace LooneyInvaders.Layers
                 _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
             }
 
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
                 if (caliberSize > i) ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
                 else ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
@@ -500,7 +499,7 @@ namespace LooneyInvaders.Layers
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipWeaponPickerShow = _btnGameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipWeaponPickerShow = _btnGameTipCheckMark.State != 1;
 
             _imgGameTip.Visible = false;
             _imgGameTipArrow.Visible = false;
@@ -573,7 +572,7 @@ namespace LooneyInvaders.Layers
             TransitionToLayer(new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon));
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isSwipingEnabled)
             {
@@ -597,13 +596,13 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             if (_isSwiping)
             {
-                float movementX = (touches[0].Location.X - touches[0].PreviousLocation.X) / 2.0f;
+                var movementX = (touches[0].Location.X - touches[0].PreviousLocation.X) / 2.0f;
                 _lastMovement = movementX;
 
                 MoveImages(movementX);
@@ -612,7 +611,7 @@ namespace LooneyInvaders.Layers
 
         private void MoveImages(float movementX)
         {
-            foreach (CCSprite img in _images)
+            foreach (var img in _images)
             {
                 img.PositionX += movementX;
 
@@ -623,10 +622,10 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {
-                    float distanceFromCentre = Math.Abs(570 - img.PositionX);
-                    float distancePercentage = distanceFromCentre / 420.00f;
+                    var distanceFromCentre = Math.Abs(570 - img.PositionX);
+                    var distancePercentage = distanceFromCentre / 420.00f;
 
-                    img.Scale = 1.0f - (0.4f * distancePercentage);
+                    img.Scale = 1.0f - 0.4f * distancePercentage;
                     //img.PositionY = 230 - (75 * distancePercentage);
                 }
 
@@ -691,7 +690,7 @@ namespace LooneyInvaders.Layers
             _btnForwardNoPasaran.Visible = _imgWeaponLocked.Visible;
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
 
 
@@ -703,7 +702,7 @@ namespace LooneyInvaders.Layers
 
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -712,16 +711,16 @@ namespace LooneyInvaders.Layers
             Schedule(SnapToCentre, 0.03f);
         }
 
-        void SnapToCentre(float dt)
+        private void SnapToCentre(float dt)
         {
             if (_isSwiping) return;
 
             float totalMovementX = 0;
 
             // inertial movement
-            if (Math.Abs(_lastMovement) > AppConstants.TOLERANCE)
+            if (Math.Abs(_lastMovement) > AppConstants.Tolerance)
             {
-                float movementX = _lastMovement * 0.8f;
+                var movementX = _lastMovement * 0.8f;
 
                 if (Math.Abs(movementX) < 1)
                 {
@@ -739,10 +738,10 @@ namespace LooneyInvaders.Layers
             // snap to center
             if (_centerImage != null)
             {
-                if (Math.Abs(_centerImage.PositionX - 570) > AppConstants.TOLERANCE)
+                if (Math.Abs(_centerImage.PositionX - 570) > AppConstants.Tolerance)
                 {
-                    float differenceX = 570 - _centerImage.PositionX;
-                    float snapMovement = differenceX / 5;
+                    var differenceX = 570 - _centerImage.PositionX;
+                    var snapMovement = differenceX / 5;
 
                     if (Math.Abs(snapMovement) < 0.5f) snapMovement = Math.Sign(snapMovement) * 0.5f;
 
@@ -753,7 +752,7 @@ namespace LooneyInvaders.Layers
                     totalMovementX = 570 - _centerImage.PositionX;
             }
 
-            if (Math.Abs(totalMovementX) < AppConstants.TOLERANCE)
+            if (Math.Abs(totalMovementX) < AppConstants.Tolerance)
             {
                 Unschedule(SnapToCentre);
 
@@ -766,12 +765,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void DelayedBow(float dt)
+        private void DelayedBow(float dt)
         {
             Schedule(StartBowing, 0.025f);
         }
 
-        void StartBowing(float dt)
+        private void StartBowing(float dt)
         {
             Unschedule(StartBowing);
             if (Settings.Instance.VoiceoversEnabled)
@@ -792,14 +791,14 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void StartStartBowing(float dt)
+        private void StartStartBowing(float dt)
         {
             Schedule(StartBowing2, 0.025f);
         }
 
-        int _labelOpacity;
+        private int _labelOpacity;
 
-        void StartFading(float dt)
+        private void StartFading(float dt)
         {
             _labelOpacity += 10;
             if (_labelOpacity > 255) { _labelOpacity = 255; Unschedule(StartFading); }
@@ -822,7 +821,7 @@ namespace LooneyInvaders.Layers
             _imgWeaponLocked.Opacity = (byte)_labelOpacity;
         }
 
-        void StartBowing2(float dt)
+        private void StartBowing2(float dt)
         {
             if (!_startedBowing)
             {
@@ -839,7 +838,7 @@ namespace LooneyInvaders.Layers
 
             _bowTimePassed += dt;
 
-            string imageNamePrefix = "";
+            var imageNamePrefix = "";
 
             if (_centerImage.Tag == (int)Weapons.Standard) imageNamePrefix = "UI/standard_gun_bow_";
             else if (_centerImage.Tag == (int)Weapons.Compact) imageNamePrefix = "UI/compact-sprayer_bow_";
@@ -848,7 +847,7 @@ namespace LooneyInvaders.Layers
 
             _bowingSpriteIndex = Convert.ToInt32(_bowTimePassed / 0.039f);
 
-            int imgOpacity = Convert.ToInt32(_bowTimePassed * 255f) + _labelOpacity;
+            var imgOpacity = Convert.ToInt32(_bowTimePassed * 255f) + _labelOpacity;
             if (imgOpacity > 255) imgOpacity = 255;
 
             SetWeaponStatsOpacity((byte)imgOpacity);
@@ -898,7 +897,7 @@ namespace LooneyInvaders.Layers
             if (_bowingSpriteIndex == 0 || _bowingSpriteIndex > 63)
             {
                 _bowingSpriteIndex = 0;
-                string imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
+                var imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
 
                 Unschedule(StartBowing);
 
@@ -912,7 +911,7 @@ namespace LooneyInvaders.Layers
                 {
                     //string imageName = imageNamePrefix + _bowingSpriteIndex.ToString("00") + ".png";
 
-                    CCSpriteFrame frame = GameAnimation.Instance.GetWeaponBowFrame((Weapons)_centerImage.Tag, _bowingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetWeaponBowFrame((Weapons)_centerImage.Tag, _bowingSpriteIndex);
 
                     _centerImage.Scale = 2f;
 

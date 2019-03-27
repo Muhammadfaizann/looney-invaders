@@ -6,7 +6,7 @@ namespace LooneyInvaders.Shared
 {
     public static class GameDelegate
     {
-        public delegate void GetGyroDelegate(ref float yaw, ref float tilt, ref float pitch);
+        public delegate void GetGyroDelegate(out float yaw, out float tilt, out float pitch);
 
         public static GetGyroDelegate GetGyro;
 
@@ -35,8 +35,8 @@ namespace LooneyInvaders.Shared
                 //var contentSearchPaths = new List<string>() { "Fonts", "Sounds" };
                 //CCSizeI viewSize = GameView.ViewSize;
 
-                int width = 1136;  //1136;  // 2436
-                int height = 640; //640;    // 1125
+                const int width = 1136; //1136;  // 2436
+                const int height = 640; //640;    // 1125
 
                 // Set world dimensions
                 GameView.DesignResolution = new CCSizeI(width, height);
@@ -71,7 +71,7 @@ namespace LooneyInvaders.Shared
                 //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
                 //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
 
-                CCScene gameScene = new CCScene(GameView);
+                var gameScene = new CCScene(GameView);
                 //gameScene.AddLayer(new EnemyPickerLayer());
                 //gameScene.AddLayer(new MainScreenLayer());
                 gameScene.AddLayer(new SplashScreenLayer());

@@ -37,7 +37,7 @@ namespace LooneyInvaders.Droid
             if (MainActivity.Instance == null) return;
 
             if (MainActivity.Instance.AdBanner != null) MainActivity.Instance.AdBanner.Resume();
-            CCGameView gameView = (CCGameView)MainActivity.Instance.FindViewById(Resource.Id.GameView);
+            var gameView = (CCGameView)MainActivity.Instance.FindViewById(Resource.Id.GameView);
             if (gameView != null)
                 gameView.Paused = false;
         }
@@ -60,9 +60,9 @@ namespace LooneyInvaders.Droid
 
         public static MainActivity Instance;
 
-        const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
+        private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
         //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";        
-        IPurchaseService _svc;
+        private IPurchaseService _svc;
 
         public AdView AdBanner;
         private InterstitialAd _intAd;
@@ -73,7 +73,7 @@ namespace LooneyInvaders.Droid
 
         // Client used to interact with Google APIs.
         //GoogleApiClient _mGoogleApiClient;
-        SensorManager _sensorManager;
+        private SensorManager _sensorManager;
 
         private void HockeyAppInit()
         {
@@ -130,7 +130,7 @@ namespace LooneyInvaders.Droid
             base.OnCreate(bundle);
             Instance = this;
             // remove navigation bar
-            View decorView = Window.DecorView;
+            var decorView = Window.DecorView;
             var uiOptions = (int)decorView.SystemUiVisibility;
             var newUiOptions = uiOptions;
             newUiOptions |= (int)SystemUiFlags.HideNavigation;
@@ -148,7 +148,7 @@ namespace LooneyInvaders.Droid
             sm.RegisterListener(this, gyro, SensorDelay.Game);*/
 
             // connect to AdMob
-            Point size = new Point();
+            var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
 
             AdBanner = new AdView(Application.Context);
@@ -157,7 +157,7 @@ namespace LooneyInvaders.Droid
             //_adBanner.AdUnitId = "ca-app-pub-5373308786713201/3891909370";   // iOS
             AdBanner.Id = 999;
             AdBanner.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent);
-            ViewGroup.LayoutParams adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
+            var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
             AdBanner.SetY(0);
             AdBanner.SetX(0);
 
@@ -198,14 +198,14 @@ namespace LooneyInvaders.Droid
             SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
 
             // user management
-            Model.UserManager.UsernameGUIDInsertHandler = UsernameGUIDInsertHandler;
+            Model.UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
 
             if (!Model.UserManager.IsUserGuidSet) Model.UserManager.GenerateGuid();
 
             // start the game
-            CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
+            var gameView = (CCGameView)FindViewById(Resource.Id.GameView);
             gameView.ViewCreated += GameDelegate.LoadGame;
         }
 
@@ -262,18 +262,18 @@ namespace LooneyInvaders.Droid
         {
             Console.WriteLine("GUID insert " + guid);
 
-            string dbName = "users";
-            string collectionName = "users";
-            string json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
+            const string dbName = "users";
+            const string collectionName = "users";
+            var json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
-            Storage storage = storageService.InsertJSONDocument(dbName, collectionName, json);
-            IList<Storage.JSONDocument> jsonDocList = storage.GetJsonDocList();
+            var storage = storageService.InsertJSONDocument(dbName, collectionName, json);
+            var jsonDocList = storage.GetJsonDocList();
 
-            string id = jsonDocList[0].GetDocId();
-            string playerName = "player_" + id.Substring(id.Length - 9, 8);
+            var id = jsonDocList[0].GetDocId();
+            var playerName = "player_" + id.Substring(id.Length - 9, 8);
 
             Model.UserManager.UserGuid = guid;
             Player.Instance.Name = playerName;
@@ -288,16 +288,16 @@ namespace LooneyInvaders.Droid
         {
             Console.WriteLine("Check is username free " + username);
 
-            string dbName = "users";
-            string collectionName = "users";
+            const string dbName = "users";
+            const string collectionName = "users";
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
             try
             {
-                Storage storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "name", username.ToUpper());
-                IList<Storage.JSONDocument> jsonDocList = storage.GetJsonDocList();
+                var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "name", username.ToUpper());
+                var jsonDocList = storage.GetJsonDocList();
 
                 if (jsonDocList.Count == 0) return true; // no user
                 if (jsonDocList[0].GetJsonDoc().Contains(Model.UserManager.UserGuid)) return true; // this user
@@ -318,14 +318,14 @@ namespace LooneyInvaders.Droid
         {
             Console.WriteLine("Change username");
 
-            string dbName = "users";
-            string collectionName = "users";
-            string guid = Model.UserManager.UserGuid;
+            const string dbName = "users";
+            const string collectionName = "users";
+            var guid = Model.UserManager.UserGuid;
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
-            Storage storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
+            var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
             IList<Storage.JSONDocument> jsonDocList;
 
             try
@@ -347,9 +347,9 @@ namespace LooneyInvaders.Droid
                 }
             }
 
-            string id = jsonDocList[0].GetDocId();
+            var id = jsonDocList[0].GetDocId();
 
-            string json = "{\"name\":\"" + username.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
+            var json = "{\"name\":\"" + username.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
             storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
 
             Player.Instance.Name = username;
@@ -359,18 +359,18 @@ namespace LooneyInvaders.Droid
 
         private void Vibrate(object sender, EventArgs e)
         {
-            Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
+            var vibrator = (Vibrator)GetSystemService(VibratorService);
             vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
         }
 
-        private readonly float _yaw = 0;
-        private readonly float _tilt = 0;
+        private const float Yaw = 0;
+        private const float Tilt = 0;
         private float _pitch;
 
-        void GetGyro(ref float yaw, ref float tilt, ref float pitch)
+        private void GetGyro(out float yaw, out float tilt, out float pitch)
         {
-            yaw = _yaw;
-            tilt = _tilt;
+            yaw = Yaw;
+            tilt = Tilt;
             pitch = (float)Math.Round(_pitch, 3);
         }
 
@@ -382,9 +382,9 @@ namespace LooneyInvaders.Droid
         private ScreenOrientation GetScreenOrientation()
         {
             ScreenOrientation orientation;
-            SurfaceOrientation rotation = WindowManager.DefaultDisplay.Rotation;
+            var rotation = WindowManager.DefaultDisplay.Rotation;
 
-            Android.Util.DisplayMetrics dm = new Android.Util.DisplayMetrics();
+            var dm = new Android.Util.DisplayMetrics();
             WindowManager.DefaultDisplay.GetMetrics(dm);
 
             if ((rotation == SurfaceOrientation.Rotation0 || rotation == SurfaceOrientation.Rotation180) && dm.HeightPixels > dm.WidthPixels
@@ -439,7 +439,7 @@ namespace LooneyInvaders.Droid
         protected float[] LowPass(float[] input, float[] output)
         {
             if (output == null) return input;
-            for (int i = 0; i < input.Length; i++)
+            for (var i = 0; i < input.Length; i++)
             {
                 output[i] = output[i] + 0.2f * (input[i] - output[i]);
             }
@@ -451,9 +451,9 @@ namespace LooneyInvaders.Droid
 
         void ISensorEventListener.OnSensorChanged(SensorEvent e)
         {
-            float[] vals = new float[e.Values.Count];
-            int i = 0;
-            foreach (float f in e.Values) vals[i++] = f;
+            var vals = new float[e.Values.Count];
+            var i = 0;
+            foreach (var f in e.Values) vals[i++] = f;
             if (e.Sensor.Type == SensorType.Accelerometer)
             {
                 GravSensorVals = LowPass(vals, GravSensorVals);
@@ -464,12 +464,12 @@ namespace LooneyInvaders.Droid
             }
             if (GravSensorVals != null && MagSensorVals != null)
             {
-                float[] r = new float[9];
-                float[] I = new float[9];
-                bool success = SensorManager.GetRotationMatrix(r, I, GravSensorVals, MagSensorVals);
+                var r = new float[9];
+                var I = new float[9];
+                var success = SensorManager.GetRotationMatrix(r, I, GravSensorVals, MagSensorVals);
                 if (success)
                 {
-                    float[] orientationData = new float[3];
+                    var orientationData = new float[3];
                     SensorManager.GetOrientation(r, orientationData);
                     if (GetScreenOrientation() == ScreenOrientation.ReverseLandscape)
                     {
@@ -489,7 +489,7 @@ namespace LooneyInvaders.Droid
             //fallback if no mag sensor to work just with gravity
             else if (e.Sensor.Type == SensorType.Accelerometer)
             {
-                float y = e.Values[1];
+                var y = e.Values[1];
                 if (y > 10) y = 10;
                 if (y < -10) y = -10;
                 if (GetScreenOrientation() == ScreenOrientation.ReverseLandscape)
@@ -540,13 +540,13 @@ namespace LooneyInvaders.Droid
             base.OnPostResume();
 
             AdBanner?.Resume();
-            CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
+            var gameView = (CCGameView)FindViewById(Resource.Id.GameView);
             if (gameView != null)
                 gameView.Paused = false;
 
-            Sensor acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
+            var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
             _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
-            Sensor mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
+            var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
             _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
 
             try
@@ -560,12 +560,12 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        string _music = string.Empty;
+        private string _music = string.Empty;
 
         protected override void OnPause()
         {
             AdBanner?.Pause();
-            CCGameView gameView = (CCGameView)FindViewById(Resource.Id.GameView);
+            var gameView = (CCGameView)FindViewById(Resource.Id.GameView);
             if (gameView != null)
                 gameView.Paused = true;
 
@@ -608,7 +608,7 @@ namespace LooneyInvaders.Droid
 
         private void ShowBannerBottomUiThread()
         {
-            Point size = new Point();
+            var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
 
             AdBanner.SetY(size.Y - AdBanner.AdSize.GetHeightInPixels(Application.Context));
@@ -715,7 +715,7 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        async Task<bool> PurchaseProduct(string productId)
+        private async Task<bool> PurchaseProduct(string productId)
         {
             await MakePurchase(new Product(productId))
                 .ConfigureAwait(false);
@@ -726,7 +726,7 @@ namespace LooneyInvaders.Droid
         {
             try
             {
-                Game game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
+                var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
 
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
@@ -753,16 +753,16 @@ namespace LooneyInvaders.Droid
             Console.WriteLine("Leaderboard submit");
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
+            var scoreBoardService = App42API.BuildScoreBoardService();
 
-            if (Math.Abs(levelsCompleted - (-1)) < AppConstants.TOLERANCE) // regular scoreboard
+            if (Math.Abs(levelsCompleted - -1) < AppConstants.Tolerance) // regular scoreboard
             {
                 LeaderboardManager.PlayerRankRegularDaily = null;
                 LeaderboardManager.PlayerRankRegularWeekly = null;
                 LeaderboardManager.PlayerRankRegularMonthly = null;
                 LeaderboardManager.PlayerRankRegularAlltime = null;
 
-                double gameScoreRegular = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
+                var gameScoreRegular = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
 
                 try
                 {
@@ -788,7 +788,7 @@ namespace LooneyInvaders.Droid
                 LeaderboardManager.PlayerRankProMonthly = null;
                 LeaderboardManager.PlayerRankProAlltime = null;
 
-                double gameScorePro = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
+                var gameScorePro = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
 
                 scoreBoardService.SaveUserScore("Looney Moon Daily", Player.Instance.Name, gameScorePro);
                 scoreBoardService.SaveUserScore("Looney Moon Weekly", Player.Instance.Name, gameScorePro);
@@ -808,11 +808,11 @@ namespace LooneyInvaders.Droid
 
             try
             {
-                Game game = scoreBoardService.GetTopNRankers(gameName, 10);
+                var game = scoreBoardService.GetTopNRankers(gameName, 10);
 
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
-                    for (int i = 0; i < game.GetScoreList().Count; i++)
+                    for (var i = 0; i < game.GetScoreList().Count; i++)
                     {
                         if (game.GetScoreList()[i].GetValue() > 0)
                         {
@@ -863,7 +863,7 @@ namespace LooneyInvaders.Droid
             else if (leaderboard.Type == LeaderboardType.Pro) gameName = "Looney Moon";
             else return;
 
-            ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
+            var scoreBoardService = App42API.BuildScoreBoardService();
 
             //DateTime startDate = DateTime.Now.Date.AddDays(-1);
             //DateTime endDate = DateTime.Now;
@@ -907,7 +907,7 @@ namespace LooneyInvaders.Droid
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
 
-                Java.IO.File file = new Java.IO.File(extFileName);
+                var file = new Java.IO.File(extFileName);
 
                 using (var fs = new FileStream(extFileName, FileMode.OpenOrCreate))
                 {
@@ -940,9 +940,9 @@ namespace LooneyInvaders.Droid
             stream.Position = 0;
 
             var drawable = Android.Graphics.Drawables.Drawable.CreateFromStream(stream, "looney");
-            Bitmap bitmap = ((Android.Graphics.Drawables.BitmapDrawable)drawable).Bitmap;
+            var bitmap = ((Android.Graphics.Drawables.BitmapDrawable)drawable).Bitmap;
 
-            Java.IO.File file = StoreScreenShot(bitmap);
+            var file = StoreScreenShot(bitmap);
             if (file == null) return;
 
             RunOnUiThread(() => ShareOnSocialNetwork(network, file));
@@ -950,8 +950,8 @@ namespace LooneyInvaders.Droid
 
         public void ShareOnSocialNetwork(string network, Java.IO.File file)
         {
-            Android.Net.Uri uri = Android.Net.Uri.FromFile(file);
-            Intent i = new Intent(Intent.ActionSend);
+            var uri = Android.Net.Uri.FromFile(file);
+            var i = new Intent(Intent.ActionSend);
 
             // if (network == "facebook") i.SetPackage("com.facebook.katana");
             // else if (network == "twitter") i.SetPackage("com.twitter.android");

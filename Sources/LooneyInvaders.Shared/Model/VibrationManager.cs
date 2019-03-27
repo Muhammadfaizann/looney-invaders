@@ -2,7 +2,7 @@
 
 namespace LooneyInvaders.Model
 {
-    class VibrationManager
+    internal class VibrationManager
     {
         public static EventHandler VibrationHandler;
 

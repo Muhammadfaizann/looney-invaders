@@ -8,7 +8,7 @@ namespace LooneyInvaders.Model
         public delegate bool UsernameHandlerDelegate(string guid);
         public delegate bool UsernameChangeHandlerDelegate(string userName);
 
-        public static UsernameHandlerDelegate UsernameGUIDInsertHandler;
+        public static UsernameHandlerDelegate UsernameGuidInsertHandler;
         public static UsernameChangeHandlerDelegate ChangeUsernameHandler;
         public static UsernameChangeHandlerDelegate CheckIsUsernameFreeHandler;
 
@@ -24,7 +24,7 @@ namespace LooneyInvaders.Model
         {
             if (IsUserGuidSet)
                 return;
-            if (UsernameGUIDInsertHandler == null)
+            if (UsernameGuidInsertHandler == null)
                 return;
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
                 return;
@@ -33,7 +33,7 @@ namespace LooneyInvaders.Model
 
             var guid = Guid.NewGuid().ToString();
 
-            UsernameGUIDInsertHandler(guid);
+            UsernameGuidInsertHandler(guid);
         }
 
         public static bool CheckIsUsernameFree(string userName)

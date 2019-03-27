@@ -8,37 +8,37 @@ namespace LooneyInvaders.Layers
 {
     public class BattlegroundPickerLayer : CCLayerColorExt
     {
-        CCSprite _centerImage;
-        readonly CCSprite[] _images = new CCSprite[5];
-        readonly CCSprite _imgBattlegroundLocked;
-        readonly CCSprite _imgBattlegroundName;
+        private CCSprite _centerImage;
+        private readonly CCSprite[] _images = new CCSprite[5];
+        private readonly CCSprite _imgBattlegroundLocked;
+        private readonly CCSprite _imgBattlegroundName;
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
 
-        CCSprite _imgGameTip;
-        CCSprite _imgGameTipArrow;
-        CCSpriteButton _btnGameTipOk;
-        CCSpriteTwoStateButton _btnGameTipCheckMark;
-        CCSprite _imgGameTipCheckMarkLabel;
+        private CCSprite _imgGameTip;
+        private CCSprite _imgGameTipArrow;
+        private CCSpriteButton _btnGameTipOk;
+        private CCSpriteTwoStateButton _btnGameTipCheckMark;
+        private CCSprite _imgGameTipCheckMarkLabel;
 
-        bool _isSwiping;
-        int _selectedBattleground;
-        float _lastMovement;
-        bool _isHoldAnimations;
-        float _nameDisplayTimePassed;
-        bool _startedDisplayingName;
-        bool _startedTalking;
+        private bool _isSwiping;
+        private int _selectedBattleground;
+        private float _lastMovement;
+        private bool _isHoldAnimations;
+        private float _nameDisplayTimePassed;
+        private bool _startedDisplayingName;
+        private bool _startedTalking;
 
-        readonly int _selectedEnemy;
-        readonly int _selectedWeapon;
+        private readonly int _selectedEnemy;
+        private readonly int _selectedWeapon;
 
-        readonly CCSpriteSheet[] _ssFirework;
-        int _fireworkFrame;
-        CCSprite _firework;
+        private readonly CCSpriteSheet[] _ssFirework;
+        private int _fireworkFrame;
+        private CCSprite _firework;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded;
+        private bool _isShowGameTipViewLoaded;
 
         public BattlegroundPickerLayer(int selectedEnemy, int selectedWeapon)
         {
@@ -428,7 +428,7 @@ namespace LooneyInvaders.Layers
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipBattlegroundPickerShow = _btnGameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipBattlegroundPickerShow = _btnGameTipCheckMark.State != 1;
 
             _imgGameTip.Visible = false;
             _imgGameTipArrow.Visible = false;
@@ -511,7 +511,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_selectedEnemy == (int)Enemies.Aliens)
                 return;
@@ -537,7 +537,7 @@ namespace LooneyInvaders.Layers
             _isSwiping = true;
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_selectedEnemy == (int)Enemies.Aliens) return;
 
@@ -545,7 +545,7 @@ namespace LooneyInvaders.Layers
 
             if (_isSwiping)
             {
-                var movementX = (touches[0].Location.X - touches[0].PreviousLocation.X);
+                var movementX = touches[0].Location.X - touches[0].PreviousLocation.X;
                 _lastMovement = movementX;
 
                 MoveImages(movementX);
@@ -706,7 +706,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void UpdateFirework(float dt)
+        private void UpdateFirework(float dt)
         {
             if (_fireworkFrame > 0 || _selectedBattleground == (int)Battlegrounds.Finland)
             {
@@ -758,7 +758,7 @@ namespace LooneyInvaders.Layers
 
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -767,7 +767,7 @@ namespace LooneyInvaders.Layers
             Schedule(SnapToCentre, 0.03f);
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
@@ -776,14 +776,14 @@ namespace LooneyInvaders.Layers
             Schedule(SnapToCentre, 0.03f);
         }
 
-        void SnapToCentre(float dt)
+        private void SnapToCentre(float dt)
         {
             if (_isSwiping) return;
 
             float totalMovementX = 0;
 
             // inertial movement
-            if (Math.Abs(_lastMovement) > AppConstants.TOLERANCE)
+            if (Math.Abs(_lastMovement) > AppConstants.Tolerance)
             {
                 var movementX = _lastMovement * 0.9f;
 
@@ -801,7 +801,7 @@ namespace LooneyInvaders.Layers
             }
 
             // snap to center
-            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 568) > AppConstants.TOLERANCE)
+            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 568) > AppConstants.Tolerance)
             {
                 var differenceX = 568 - _centerImage.PositionX;
                 var snapMovement = differenceX / 5;
@@ -814,7 +814,7 @@ namespace LooneyInvaders.Layers
             if (_centerImage != null && Math.Abs(568 - _centerImage.PositionX) < 1) 
                 totalMovementX = 568 - _centerImage.PositionX;
 
-            if (Math.Abs(totalMovementX) < AppConstants.TOLERANCE)
+            if (Math.Abs(totalMovementX) < AppConstants.Tolerance)
             {
                 Unschedule(SnapToCentre);
 
@@ -827,7 +827,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void StartDisplayingName(float dt)
+        private void StartDisplayingName(float dt)
         {
             if (!_startedDisplayingName)
             {

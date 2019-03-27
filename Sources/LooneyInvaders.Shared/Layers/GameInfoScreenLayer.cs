@@ -12,28 +12,28 @@ namespace LooneyInvaders.Layers
 
             SetBackground("UI/background.png");
 
-            CCSpriteButton btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
+            var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
             AddImage(400, 573, "UI/Game-info-game-info-text.png");            
 
-            CCSpriteButton btnAboutGame = AddButton(300, 480, "UI/Game-info-about-the-game-button-untapped.png", "UI/Game-info-about-the-game-button-tapped.png");
+            var btnAboutGame = AddButton(300, 480, "UI/Game-info-about-the-game-button-untapped.png", "UI/Game-info-about-the-game-button-tapped.png");
             btnAboutGame.OnClick += BtnAboutGame_OnClick;
 
-            CCSpriteButton btnPrivacyPolicy = AddButton(300, 400, "UI/Game-info-privacy-policy-untapped.png", "UI/Game-info-privacy-policy-tapped.png");
+            var btnPrivacyPolicy = AddButton(300, 400, "UI/Game-info-privacy-policy-untapped.png", "UI/Game-info-privacy-policy-tapped.png");
             btnPrivacyPolicy.OnClick += BtnPrivacyPolicy_OnClick;
 
-            CCSpriteButton btnMyStats = AddButton(300, 320, "UI/Game-info-my-stats-and-rewards-untapped.png", "UI/Game-info-my-stats-and-rewards-tapped.png");
+            var btnMyStats = AddButton(300, 320, "UI/Game-info-my-stats-and-rewards-untapped.png", "UI/Game-info-my-stats-and-rewards-tapped.png");
             btnMyStats.OnClick += BtnMyStats_OnClick;
 
-            CCSpriteButton btnWebSite = AddButton(300, 240, "UI/Game-info-our-website-untapped.png", "UI/Game-info-our-website-tapped.png");
+            var btnWebSite = AddButton(300, 240, "UI/Game-info-our-website-untapped.png", "UI/Game-info-our-website-tapped.png");
             btnWebSite.OnClick += BtnWebSite_OnClick;
 
-            CCSpriteButton btnFacebook = AddButton(300, 160, "UI/Game-info-like-us-on-facebook-untapped.png", "UI/Game-info-like-us-on-facebook-tapped.png");
+            var btnFacebook = AddButton(300, 160, "UI/Game-info-like-us-on-facebook-untapped.png", "UI/Game-info-like-us-on-facebook-tapped.png");
             btnFacebook.OnClick += BtnFacebook_OnClick;
 
-            CCSpriteButton btnTwitter = AddButton(300, 80, "UI/Game-info-follow-us-on-twitter-untapped.png", "UI/Game-info-follow-us-on-twitter-tapped.png");
+            var btnTwitter = AddButton(300, 80, "UI/Game-info-follow-us-on-twitter-untapped.png", "UI/Game-info-follow-us-on-twitter-tapped.png");
             btnTwitter.OnClick += BtnTwitter_OnClick;
 
             AdMobManager.ShowBannerBottom();

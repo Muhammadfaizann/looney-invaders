@@ -7,78 +7,78 @@ namespace LooneyInvaders.Layers
 {
     public class WeaponUpgradeScreenLayer : CCLayerColorExt
     {
-        readonly int _selectedEnemy;
-        readonly int _selectedWeapon;
+        private readonly int _selectedEnemy;
+        private readonly int _selectedWeapon;
 
-        int _credits;
+        private int _credits;
 
-        int _caliberSizeMinimum;
-        int _firespeedMinimum;
-        int _magazineSizeMinimum;
-        int _livesMinimum;
+        private int _caliberSizeMinimum;
+        private int _firespeedMinimum;
+        private int _magazineSizeMinimum;
+        private int _livesMinimum;
 
-        readonly int _caliberSizeMaximum;
-        readonly int _firespeedMaximum;
-        readonly int _magazineSizeMaximum = 4;
-        readonly int _livesMaximum;
+        private readonly int _caliberSizeMaximum;
+        private readonly int _firespeedMaximum;
+        private readonly int _magazineSizeMaximum = 4;
+        private readonly int _livesMaximum;
 
-        int _caliberSize;
-        int _firespeed;
-        int _magazineSize;
-        int _lives;
+        private int _caliberSize;
+        private int _firespeed;
+        private int _magazineSize;
+        private int _lives;
 
-        int _caliberSizePrice;
-        int _firespeedPrice;
-        int _magazineSizePrice;
-        int _livesPrice;
+        private int _caliberSizePrice;
+        private int _firespeedPrice;
+        private int _magazineSizePrice;
+        private int _livesPrice;
 
-        readonly CCSprite[] _imgCaliberSize = new CCSprite[6];
-        readonly CCSprite[] _imgFirespeed = new CCSprite[6];
-        readonly CCSprite[] _imgMagazineSize = new CCSprite[6];
-        readonly CCSprite[] _imgLives = new CCSprite[7];
+        private readonly CCSprite[] _imgCaliberSize = new CCSprite[6];
+        private readonly CCSprite[] _imgFirespeed = new CCSprite[6];
+        private readonly CCSprite[] _imgMagazineSize = new CCSprite[6];
+        private readonly CCSprite[] _imgLives = new CCSprite[7];
 
-        CCSprite[] _lblPriceCaliberSize;
-        CCSprite[] _lblPriceFirespeed;
-        CCSprite[] _lblPriceMagazineSize;
-        CCSprite[] _lblPriceLives;
-        CCSprite[] _lblPriceTotal;
-        CCSprite[] _lblCredits;
+        private CCSprite[] _lblPriceCaliberSize;
+        private CCSprite[] _lblPriceFirespeed;
+        private CCSprite[] _lblPriceMagazineSize;
+        private CCSprite[] _lblPriceLives;
+        private CCSprite[] _lblPriceTotal;
+        private CCSprite[] _lblCredits;
 
-        readonly CCSprite _summationLine;
-        readonly CCSprite _lblCreditsNeeded;
-        readonly CCSprite _lblYourCredits;
+        private readonly CCSprite _summationLine;
+        private readonly CCSprite _lblCreditsNeeded;
+        private readonly CCSprite _lblYourCredits;
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
 
-        readonly CCSpriteButton _btnCalibreDecrease;
-        readonly CCSpriteButton _btnCalibreIncrease;
-        readonly CCSpriteButton _btnFirespeedIncrease;
-        readonly CCSpriteButton _btnFirespeedDecrease;
-        readonly CCSpriteButton _btnMagazineSizeDecrease;
-        readonly CCSpriteButton _btnMagazineSizeIncrease;
-        readonly CCSpriteButton _btnLivesDecrease;
-        readonly CCSpriteButton _btnLivesIncrease;
-        readonly CCSpriteButton _btnTestModification;
-        readonly CCSpriteButton _btnBuy;
-        readonly CCSpriteButton _btnGetMoreCredits;
+        private readonly CCSpriteButton _btnCalibreDecrease;
+        private readonly CCSpriteButton _btnCalibreIncrease;
+        private readonly CCSpriteButton _btnFirespeedIncrease;
+        private readonly CCSpriteButton _btnFirespeedDecrease;
+        private readonly CCSpriteButton _btnMagazineSizeDecrease;
+        private readonly CCSpriteButton _btnMagazineSizeIncrease;
+        private readonly CCSpriteButton _btnLivesDecrease;
+        private readonly CCSpriteButton _btnLivesIncrease;
+        private readonly CCSpriteButton _btnTestModification;
+        private readonly CCSpriteButton _btnBuy;
+        private readonly CCSpriteButton _btnGetMoreCredits;
 
-        readonly CCSprite _imgGameTip;
-        readonly CCSpriteButton _btnGetCredits;
-        readonly CCSpriteButton _btnCancel;
+        private readonly CCSprite _imgGameTip;
+        private readonly CCSpriteButton _btnGetCredits;
+        private readonly CCSpriteButton _btnCancel;
 
-        readonly CCSprite _imgGameTipNoBuy;
-        readonly CCSpriteButton _btnNoBuyBack;
-        readonly CCSpriteButton _btnNoBuyExit;
+        private readonly CCSprite _imgGameTipNoBuy;
+        private readonly CCSpriteButton _btnNoBuyBack;
+        private readonly CCSpriteButton _btnNoBuyExit;
 
-        readonly CCSprite _lblWeaponUpgraded;
+        private readonly CCSprite _lblWeaponUpgraded;
 
-        bool _isForwardTapped;
+        private bool _isForwardTapped;
         //bool _isBackTapped;
         //bool _isPopupShiving;
 
         //----------- Prabhjot ----------//
-        bool _isShowGameTipViewLoaded;
+        private bool _isShowGameTipViewLoaded;
 
         public WeaponUpgradeScreenLayer(int selectedEnemy, int selectedWeapon, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1)
         {
@@ -303,12 +303,12 @@ namespace LooneyInvaders.Layers
                 _lblCreditsNeeded.Visible = false;
                 _summationLine.Visible = false;
 
-                foreach (CCSprite s in _lblCredits) s.Visible = false;
-                foreach (CCSprite s in _lblPriceTotal) s.Visible = false;
-                foreach (CCSprite s in _lblPriceCaliberSize) s.Visible = false;
-                foreach (CCSprite s in _lblPriceFirespeed) s.Visible = false;
-                foreach (CCSprite s in _lblPriceLives) s.Visible = false;
-                foreach (CCSprite s in _lblPriceMagazineSize) s.Visible = false;
+                foreach (var s in _lblCredits) s.Visible = false;
+                foreach (var s in _lblPriceTotal) s.Visible = false;
+                foreach (var s in _lblPriceCaliberSize) s.Visible = false;
+                foreach (var s in _lblPriceFirespeed) s.Visible = false;
+                foreach (var s in _lblPriceLives) s.Visible = false;
+                foreach (var s in _lblPriceMagazineSize) s.Visible = false;
             }
             else
             {
@@ -316,40 +316,40 @@ namespace LooneyInvaders.Layers
                 _lblCreditsNeeded.Visible = true;
                 _summationLine.Visible = true;
 
-                foreach (CCSprite s in _lblCredits) s.Visible = true;
-                foreach (CCSprite s in _lblPriceTotal) s.Visible = true;
-                foreach (CCSprite s in _lblPriceCaliberSize) s.Visible = true;
-                foreach (CCSprite s in _lblPriceFirespeed) s.Visible = true;
-                foreach (CCSprite s in _lblPriceLives) s.Visible = true;
-                foreach (CCSprite s in _lblPriceMagazineSize) s.Visible = true;
+                foreach (var s in _lblCredits) s.Visible = true;
+                foreach (var s in _lblPriceTotal) s.Visible = true;
+                foreach (var s in _lblPriceCaliberSize) s.Visible = true;
+                foreach (var s in _lblPriceFirespeed) s.Visible = true;
+                foreach (var s in _lblPriceLives) s.Visible = true;
+                foreach (var s in _lblPriceMagazineSize) s.Visible = true;
             }
         }
 
         private int GetLivesPrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 7; i++) if (_livesMinimum < i && _lives >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 7; i++) if (_livesMinimum < i && _lives >= i) price += 5000 + i * 5000;
             return price;
         }
 
         private int GetMagazineSizePrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_magazineSizeMinimum < i && _magazineSize >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_magazineSizeMinimum < i && _magazineSize >= i) price += 5000 + i * 5000;
             return price;
         }
 
         private int GetFirespeedPrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_firespeedMinimum < i && _firespeed >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_firespeedMinimum < i && _firespeed >= i) price += 5000 + i * 5000;
             return price;
         }
 
         private int GetCaliberSizePrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_caliberSizeMinimum < i && _caliberSize >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_caliberSizeMinimum < i && _caliberSize >= i) price += 5000 + i * 5000;
             return price;
         }
 
@@ -365,7 +365,7 @@ namespace LooneyInvaders.Layers
 
         private void _btnGetCredits_OnClick(object sender, EventArgs e)
         {
-            int totalPrice = GetTotalPrice();
+            var totalPrice = GetTotalPrice();
 
             TransitionToLayer(new GetMoreCreditsScreenLayer(totalPrice, _selectedEnemy, _selectedWeapon, _caliberSize, _firespeed, _magazineSize, _lives));
         }
@@ -435,7 +435,7 @@ namespace LooneyInvaders.Layers
 
         private void BtnBuy_OnClick(object sender, EventArgs e)
         {
-            int totalPrice = GetTotalPrice();
+            var totalPrice = GetTotalPrice();
 
             if (totalPrice > 0)
             {
@@ -600,38 +600,38 @@ namespace LooneyInvaders.Layers
         private void SetStatsImages()
         {
             _lblWeaponUpgraded.Visible = false;
-            for (int i = 0; i < _caliberSizeMaximum; i++)
+            for (var i = 0; i < _caliberSizeMaximum; i++)
             {
                 if (_caliberSize > i) ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-active.png");
                 else ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _firespeedMaximum; i++)
+            for (var i = 0; i < _firespeedMaximum; i++)
             {
                 if (_firespeed > i) ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-active.png");
                 else ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _magazineSizeMaximum; i++)
+            for (var i = 0; i < _magazineSizeMaximum; i++)
             {
                 if (_magazineSize > i) ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-active.png");
                 else ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _livesMaximum; i++)
+            for (var i = 0; i < _livesMaximum; i++)
             {
                 if (_lives > i) ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-active.png");
                 else ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            foreach (CCSprite s in _lblPriceCaliberSize) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceFirespeed) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceMagazineSize) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceLives) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceTotal) s.RemoveFromParent();
-            foreach (CCSprite s in _lblCredits) s.RemoveFromParent();
+            foreach (var s in _lblPriceCaliberSize) s.RemoveFromParent();
+            foreach (var s in _lblPriceFirespeed) s.RemoveFromParent();
+            foreach (var s in _lblPriceMagazineSize) s.RemoveFromParent();
+            foreach (var s in _lblPriceLives) s.RemoveFromParent();
+            foreach (var s in _lblPriceTotal) s.RemoveFromParent();
+            foreach (var s in _lblCredits) s.RemoveFromParent();
 
-            int totalPrice = GetTotalPrice();
+            var totalPrice = GetTotalPrice();
 
             _lblPriceCaliberSize = AddImageLabelRightAligned(1130, 500, _caliberSizePrice.ToString(), 55);
             _lblPriceFirespeed = AddImageLabelRightAligned(1130, 440, _firespeedPrice.ToString(), 55);

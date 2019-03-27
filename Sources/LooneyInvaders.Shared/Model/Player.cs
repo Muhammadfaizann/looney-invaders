@@ -57,8 +57,10 @@ namespace LooneyInvaders.Model
 
         public bool GetWeapon(Weapons weapon)
         {
-            if (weapon == Weapons.Standard || weapon == Weapons.Hybrid) return true;
-            else return CrossSettings.Current.GetValueOrDefault("STATS2_weapons_" + weapon, false);
+            if (weapon == Weapons.Standard || weapon == Weapons.Hybrid)
+                return true;
+
+            return CrossSettings.Current.GetValueOrDefault("STATS2_weapons_" + weapon, false);
         }
 
         public void AddWeapon(Weapons weapon)

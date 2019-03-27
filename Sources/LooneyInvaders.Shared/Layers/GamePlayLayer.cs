@@ -64,28 +64,28 @@ namespace LooneyInvaders.Layers
         private readonly float _smokeOffsetY = -40;
 
 
-        CCSprite _player;
-        CCSprite _playerExplosion;
-        CCSprite _gameOverExplosion;
-        CCSprite[] _time;
-        CCSprite _timeLabel;
-        CCSprite _multiplierLabel;
-        CCSprite _multiplierLabelLabel;
-        CCSprite _gameOverLabel;
-        int _lastDisplayedTime;
-        int _score;
-        int _lastDisplayedScore = -1;
-        int _scoreMultiplier = 1;
-        int _killsWithoutMiss;
-        int _fadeLevel;
+        private CCSprite _player;
+        private CCSprite _playerExplosion;
+        private CCSprite _gameOverExplosion;
+        private CCSprite[] _time;
+        private CCSprite _timeLabel;
+        private CCSprite _multiplierLabel;
+        private CCSprite _multiplierLabelLabel;
+        private CCSprite _gameOverLabel;
+        private int _lastDisplayedTime;
+        private int _score;
+        private int _lastDisplayedScore = -1;
+        private int _scoreMultiplier = 1;
+        private int _killsWithoutMiss;
+        private int _fadeLevel;
 
-        float _elapsedTime;
-        float _playerExploding;
-        float _gameOverExploding;
-        float _shitWait;
+        private float _elapsedTime;
+        private float _playerExploding;
+        private float _gameOverExploding;
+        private float _shitWait;
 
-        int _bulletsFired;
-        int _bulletsMissed;
+        private int _bulletsFired;
+        private int _bulletsMissed;
 
         private float _wavePass;
         private bool _waveTransfer;
@@ -96,7 +96,7 @@ namespace LooneyInvaders.Layers
         private int? _cannonMovingFxId;
         //private SOUNDEFFECT? _cannonMovingFx;
 
-        readonly Random _random;
+        private readonly Random _random;
 
         public string SoundCannonShoot;
         public string VoiceEnemyHit;
@@ -139,11 +139,11 @@ namespace LooneyInvaders.Layers
         public CCSpriteSheet SsLaserSparks;
         public CCSpriteSheet[] SsAlienLensFlare;
 
-        readonly CCSpriteSheet[] _ssFirework;
-        float _fireworkFrame;
-        int _fireworkFrameLast;
+        private readonly CCSpriteSheet[] _ssFirework;
+        private float _fireworkFrame;
+        private int _fireworkFrameLast;
 
-        CCSprite _firework;
+        private CCSprite _firework;
 
         private int _countdown;
 
@@ -180,7 +180,7 @@ namespace LooneyInvaders.Layers
         private readonly CCEventListenerTouchAllAtOnce _touchListener;
 
         //-------------- Prabhjot -------------//
-        bool _isGameOver;
+        private bool _isGameOver;
 
 
         public GamePlayLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, bool calloutCountryName, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1, Enemies selectedEnemyForPickerScreens = Enemies.Aliens, LaunchMode launchMode = LaunchMode.Default/*bool isTestFromWeaponPicker=false*/, int livesLeft = -1, int winsInSuccession = 0)
@@ -485,7 +485,7 @@ namespace LooneyInvaders.Layers
             _gunCooloff = 1f / (FireSpeedSelected == -1 ? Weapon.GetFirespeed(selectedWeapon) : FireSpeedSelected);
             _magazineSize = (MagazineSizeSelected == -1 ? Weapon.GetMagazineSize(selectedWeapon) : MagazineSizeSelected) * 5;
             _bulletPower = (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.5f;
-            _bulletScale = 0.7f + ((CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.1f);
+            _bulletScale = 0.7f + (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.1f;
 
 
             switch (selectedWeapon)
@@ -1347,11 +1347,11 @@ namespace LooneyInvaders.Layers
         }
 
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnSettings;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnSettings;
 
-        CCSpriteButton _btnMovement;
-        CCSpriteButton _btnFire;
+        private CCSpriteButton _btnMovement;
+        private CCSpriteButton _btnFire;
 
         private void StartGame()
         {
@@ -1420,12 +1420,12 @@ namespace LooneyInvaders.Layers
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    var enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
-                    enemy.Sprite.ZOrder = 10 - (j * 3);
+                    var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
                     _enemies.Add(enemy);
-                    enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
+                    enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
                     _enemies.Add(enemy);
-                    enemy.Sprite.ZOrder = 10 - (j * 3);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
                 }
             }
             _goingDown = 240;
@@ -1510,12 +1510,12 @@ namespace LooneyInvaders.Layers
             BtnBack_OnClick(null, null);
         }
 
-        CCSpriteTwoStateButton _gameTipCheckMark;
-        CCSprite _gameTipBackground;
-        CCSprite _gameTipExplanation;
-        CCSprite _gameTipArrow;
-        CCSprite _gameTipTarget;
-        CCSpriteButton _okIGotIt;
+        private CCSpriteTwoStateButton _gameTipCheckMark;
+        private CCSprite _gameTipBackground;
+        private CCSprite _gameTipExplanation;
+        private CCSprite _gameTipArrow;
+        private CCSprite _gameTipTarget;
+        private CCSpriteButton _okIGotIt;
 
         private void ShowTiltInstruction(float dt)
         {
@@ -1589,7 +1589,7 @@ namespace LooneyInvaders.Layers
 
         private void okIGotIt_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State != 1;
 
             RemoveChild(_gameTipBackground);
             RemoveChild(_gameTipExplanation);
@@ -1616,7 +1616,7 @@ namespace LooneyInvaders.Layers
 
         private void okIGotIt_OnClickTouch(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipGamePlayShow = _gameTipCheckMark.State != 1;
 
             RemoveChild(_gameTipBackground);
             RemoveChild(_gameTipExplanation);
@@ -1650,7 +1650,7 @@ namespace LooneyInvaders.Layers
 
         private void alienOkIGotIt_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.AlienGameTipGamePlayShow = _gameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.AlienGameTipGamePlayShow = _gameTipCheckMark.State != 1;
             RemoveChild(_gameTipBackground);
             RemoveChild(_gameTipExplanation);
             RemoveChild(_gameTipCheckMark);
@@ -1800,12 +1800,12 @@ namespace LooneyInvaders.Layers
             return this;
         }
 
-        CCSprite _gamePauseBackground;
-        CCSpriteButton _btnJust;
-        CCSpriteButton _btnSurrender;
-        CCSpriteButton _btnContinue;
-        CCSprite _gamePauseFriendlyLabel;
-        CCSpriteTwoStateButton _gamePauseFriendlyCheckMark;
+        private CCSprite _gamePauseBackground;
+        private CCSpriteButton _btnJust;
+        private CCSpriteButton _btnSurrender;
+        private CCSpriteButton _btnContinue;
+        private CCSprite _gamePauseFriendlyLabel;
+        private CCSpriteTwoStateButton _gamePauseFriendlyCheckMark;
 
         public void BtnBack_OnClick(object sender, EventArgs e)
         {
@@ -1955,7 +1955,7 @@ namespace LooneyInvaders.Layers
         }
 
         //Touch response for bottom area on screen
-        void GamePlayLayer_OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void GamePlayLayer_OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             var touchPoint = touches[0].Location;
             if (touchPoint.Y < 200)
@@ -1964,7 +1964,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void FireBtnPressed()
+        private void FireBtnPressed()
         {
             if (_ammos.Count > 0 && _playerExplosion == null && _gunCoolness <= 0)
             {
@@ -2031,7 +2031,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void GameOver(float dt)
+        private void GameOver(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2061,7 +2061,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void Victory(float dt)
+        private void Victory(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2070,7 +2070,7 @@ namespace LooneyInvaders.Layers
             {
                 _bulletsFired = 1;
             }
-            if (Math.Abs(_elapsedTime) < AppConstants.TOLERANCE)
+            if (Math.Abs(_elapsedTime) < AppConstants.Tolerance)
             {
                 _elapsedTime = 1;
             }
@@ -2104,12 +2104,12 @@ namespace LooneyInvaders.Layers
             Settings.Instance.SetTodaySessionDuration((int)_elapsedTime);
         }
 
-        readonly CCLabel _label = null;
+        private readonly CCLabel _label = null;
 
-        CCSprite _nextWaveSprite;
-        CCSprite[] _nextWaveNumberSprites;
+        private CCSprite _nextWaveSprite;
+        private CCSprite[] _nextWaveNumberSprites;
 
-        void NextWave(float dt)
+        private void NextWave(float dt)
         {
             RemoveChild(_nextWaveSprite);
             _nextWaveSprite = null;
@@ -2171,16 +2171,16 @@ namespace LooneyInvaders.Layers
             }
             _goingDownCurrentSpeed = _goingDownSpeed;
             _firstGoingDown = true;
-            for (var j = _wave > 8 ? 4 : (_wave > 5 ? 3 : 2); j >= 0; j--)
+            for (var j = _wave > 8 ? 4 : _wave > 5 ? 3 : 2; j >= 0; j--)
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    var enemy = new Enemy(this, 1136 / 2 - 50 - (i * 100), 570 - (j * 65) + 290);
-                    enemy.Sprite.ZOrder = 10 - (j * 3);
+                    var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
                     _enemies.Add(enemy);
-                    enemy = new Enemy(this, 1136 / 2 + 50 + (i * 100), 570 - (j * 65) + 290);
+                    enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
                     _enemies.Add(enemy);
-                    enemy.Sprite.ZOrder = 10 - (j * 3);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
                 }
             }
             if (_wave > 7)
@@ -2236,7 +2236,7 @@ namespace LooneyInvaders.Layers
 
         }
 
-        bool InRectangle(CCRect rect, List<CCPoint> points, float offsetX, float offsetY, int reduceRectX = 0, int reduceRectY = 0)
+        private bool InRectangle(CCRect rect, List<CCPoint> points, float offsetX, float offsetY, int reduceRectX = 0, int reduceRectY = 0)
         {
             var r = new CCRect(rect.LowerLeft.X + reduceRectX, rect.LowerLeft.Y + reduceRectY, rect.Size.Width - reduceRectX * 2, rect.Size.Height - reduceRectY * 2);
             foreach (var point in points)
@@ -2246,7 +2246,7 @@ namespace LooneyInvaders.Layers
             return false;
         }
 
-        float InRectangleTopY(CCRect rect, List<CCPoint> points, float offsetX, float offsetY)
+        private float InRectangleTopY(CCRect rect, List<CCPoint> points, float offsetX, float offsetY)
         {
             float topY = -1;
             foreach (var point in points)
@@ -2256,7 +2256,7 @@ namespace LooneyInvaders.Layers
             return topY;
         }
 
-        void PlayerExplode(bool loseAllLives = false)
+        private void PlayerExplode(bool loseAllLives = false)
         {
             _playerExplosion = new CCSprite(SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_00.png"));
             _playerExplosion.PositionX = _player.PositionX + _player.ContentSize.Width / 2;
@@ -2338,10 +2338,10 @@ namespace LooneyInvaders.Layers
         private void AnimateButtons(float dt)
         {
             var fireButtonX = 918;
-            var fireButtonY = 2;
+            const int fireButtonY = 2;
 
             var steerinButtonX = 3;
-            var steeringButtonY = 2;
+            const int steeringButtonY = 2;
 
             if (!Settings.Instance.RightHanded)
             {
@@ -2369,9 +2369,9 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        int GetAngleForMaxSpeedBySensivityLvl()
+        private int GetAngleForMaxSpeedBySensivityLvl()
         {
-            var angleSensivityStep = 5;
+            const int angleSensivityStep = 5;
 
             var sensitivity = 9 - Settings.Instance.SensitivityLevel;
 
@@ -2380,7 +2380,7 @@ namespace LooneyInvaders.Layers
             return maxSpeedAngle;
         }
 
-        void UpdateAll(float dt)
+        private void UpdateAll(float dt)
         {
             if (_label != null) RemoveChild(_label);
 
@@ -2488,13 +2488,13 @@ namespace LooneyInvaders.Layers
                 var pitch = 0f;
 
                 //---------- Prabhjot Singh ------//
-                GameDelegate.GetGyro(ref yaw, ref tilt, ref pitch);
+                GameDelegate.GetGyro(out yaw, out tilt, out pitch);
 
                 pitch = pitch >= 90 ? 180 - pitch : pitch;
 
                 var maxAngleBySensivity = GetAngleForMaxSpeedBySensivityLvl();
 
-                var maxSpeed = 1;
+                const int maxSpeed = 1;
 
                 if (Math.Abs(pitch) > maxAngleBySensivity)
                 {
@@ -2627,7 +2627,7 @@ namespace LooneyInvaders.Layers
                         _player.PositionX -= _speedTo * _playerSpeed;
                     }
 
-                    if (Math.Abs(ControlMovement) < AppConstants.TOLERANCE)
+                    if (Math.Abs(ControlMovement) < AppConstants.Tolerance)
                     {
                         _movingTime = 0;
                     }
@@ -2638,7 +2638,7 @@ namespace LooneyInvaders.Layers
 
                 //player.PositionY = 50 - (gunCoolness == gunCooloff?8: ( gunCoolness / gunCooloff * 15));
 
-                _player.TextureRectInPixels = SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + (12 - (12 * _gunCoolness / _gunCooloff)).ToString("0#") + ".png").TextureRectInPixels;
+                _player.TextureRectInPixels = SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + (12 - 12 * _gunCoolness / _gunCooloff).ToString("0#") + ".png").TextureRectInPixels;
 
 
             }
@@ -2975,7 +2975,7 @@ namespace LooneyInvaders.Layers
 
                 if (bullet.Opacity == 0 || bullet.PositionY > 650)
                 {
-                    if (Math.Abs(_bullets[i].Power - _bulletPower) < AppConstants.TOLERANCE)
+                    if (Math.Abs(_bullets[i].Power - _bulletPower) < AppConstants.Tolerance)
                     {
                         _bulletsMissed++;
                         _killsWithoutMiss = 0;
@@ -3009,7 +3009,7 @@ namespace LooneyInvaders.Layers
 
             for (var i = 0; i < _bombs.Count;)
             {
-                var bombRemoved = false;
+                const bool bombRemoved = false;
                 var bomb = _bombs[i];
 
                 if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
@@ -3244,9 +3244,9 @@ namespace LooneyInvaders.Layers
                     // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
                     //inFsRect = true;
 
-                    if (enemy.Sprite.PositionX - enemy.FloatX > _wavePass && Math.Abs(enemy.WaveAy) < AppConstants.TOLERANCE)
+                    if (enemy.Sprite.PositionX - enemy.FloatX > _wavePass && Math.Abs(enemy.WaveAy) < AppConstants.Tolerance)
                     {
-                        enemy.WaveAy = Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f / 180f : _enemySpeed / 180f;
+                        enemy.WaveAy = Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f / 180f : _enemySpeed / 180f;
                     }
 
                     if (Math.Abs(enemy.FloatX + enemy.FloatVx) < 12 && Math.Abs(enemy.FloatY + enemy.FloatVy) < 2)
@@ -3260,8 +3260,8 @@ namespace LooneyInvaders.Layers
                     {
                         if (_random.Next(20) == 0)
                         {
-                            enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                            enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                            enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                            enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
                         }
                     }
                     if (enemy.FloatX > 8 && enemy.FloatVx > 0)
@@ -3285,13 +3285,13 @@ namespace LooneyInvaders.Layers
 
                     if (_random.Next(90) == 0)
                     {
-                        enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                        enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                        enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
                     }
                     if (_random.Next(400) == 0)
                     {
-                        enemy.FloatVx = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
-                        enemy.FloatVy = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 2f : _enemySpeed);
+                        enemy.FloatVx = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                        enemy.FloatVy = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
                     }
 
                     if (enemy.Spit != null)
@@ -3411,11 +3411,11 @@ namespace LooneyInvaders.Layers
                         enemy.Sprite.PositionX += _enemyCurrentSpeed;
                         if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
                     }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.TOLERANCE && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
                     {
                         bounce = true;
                     }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.TOLERANCE && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
+                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
                     {
                         bounce = true;
                     }
@@ -3442,7 +3442,7 @@ namespace LooneyInvaders.Layers
                         enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                     }
 
-                    if (Math.Abs(_updateTillNextBomb) < AppConstants.TOLERANCE && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
+                    if (Math.Abs(_updateTillNextBomb) < AppConstants.Tolerance && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
                     {
                         var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0), enemy.Sprite.PositionY - 21);
                         _bombs.Add(bomb);
@@ -3616,10 +3616,10 @@ namespace LooneyInvaders.Layers
                             {
                                 var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
                                 var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - (-1)) > AppConstants.TOLERANCE)
+                                if (Math.Abs(y - -1) > AppConstants.Tolerance)
                                 {
                                     laser.LaserHit = true;
-                                    laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
+                                    laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
                                     laser.Sprite.PositionY = y;
                                     if (_playerExplosion == null)
                                     {
@@ -3752,10 +3752,10 @@ namespace LooneyInvaders.Layers
                             {
                                 var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
                                 var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - (-1)) > AppConstants.TOLERANCE)
+                                if (Math.Abs(y - -1) > AppConstants.Tolerance)
                                 {
                                     laser.LaserHit = true;
-                                    laser.Sprite.ScaleY = 1 - ((y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height);
+                                    laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
                                     laser.Sprite.PositionY = y;
                                     if (_playerExplosion == null)
                                     {
@@ -3871,7 +3871,7 @@ namespace LooneyInvaders.Layers
                 _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(_flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                 _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
                 _flyingSaucer.PositionX += _flyingSaucerSpeed;
-                if ((_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0) || (_flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0))
+                if (_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0 || _flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0)
                 {
                     CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
                     RemoveChild(_flyingSaucer);
@@ -3879,7 +3879,7 @@ namespace LooneyInvaders.Layers
                     _flyingSaucer = null;
                 }
             }
-            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + (_lives.Count * 200)) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
+            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + _lives.Count * 200) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
             {
                 _flyingSaucerIncoming = 2;
                 _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerIncoming);
@@ -4056,7 +4056,7 @@ namespace LooneyInvaders.Layers
 
             if (_wavePass > 0)
             {
-                _wavePass -= Math.Abs(_enemySpeed) < AppConstants.TOLERANCE ? 4 : _enemySpeed * 3;
+                _wavePass -= Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 4 : _enemySpeed * 3;
             }
 
 
@@ -4108,7 +4108,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void MoveCannon(float touchXPosition)
+        private void MoveCannon(float touchXPosition)
         {
             var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
 
@@ -4117,7 +4117,7 @@ namespace LooneyInvaders.Layers
             var forward = touchXPosition >= movementButtonBoundingBox.Center.X;
 
             //float centerX = movementButtonBoundingBox.Center.X;
-            var maxSensitivityLavel = 8;
+            const int maxSensitivityLavel = 8;
 
             float btnSensitivity = GetSensitivityLvlOnPressedBtn(touchXPosition);
 
@@ -4140,7 +4140,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
 
 
@@ -4183,7 +4183,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        int GetSensitivityLvlOnPressedBtn(float touchPosition)
+        private int GetSensitivityLvlOnPressedBtn(float touchPosition)
         {
             var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
             //var halfOfBtn = movementButtonBoundingBox.MaxX - movementButtonBoundingBox.Center.X;
@@ -4219,7 +4219,7 @@ namespace LooneyInvaders.Layers
             return sensBtnLvl;
         }
 
-        int GetPrestMovingBtnSensitivity(float touchPositionOnBtn)
+        private int GetPrestMovingBtnSensitivity(float touchPositionOnBtn)
         {
             var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
             var halfOfBtn = movementButtonBoundingBox.MaxX - movementButtonBoundingBox.Center.X;
@@ -4230,7 +4230,7 @@ namespace LooneyInvaders.Layers
         }
 
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
 
             if (_btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
@@ -4245,14 +4245,14 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        bool RectangleWithin(CCRect rectangle, CCPoint point)
+        private bool RectangleWithin(CCRect rectangle, CCPoint point)
         {
             return point.X >= rectangle.MinX && point.X <= rectangle.MaxX && point.Y <= rectangle.MaxY && point.Y >= rectangle.MinY;
         }
 
-        bool RectangleNear(CCRect rectangle, CCPoint point, int marginX, int marginY)
+        private bool RectangleNear(CCRect rectangle, CCPoint point, int marginX, int marginY)
         {
-            return point.X >= (rectangle.MinX - marginX) && point.X <= (rectangle.MaxX + marginX) && point.Y <= (rectangle.MaxY + marginY) && point.Y >= (rectangle.MinY + marginY);
+            return point.X >= rectangle.MinX - marginX && point.X <= rectangle.MaxX + marginX && point.Y <= rectangle.MaxY + marginY && point.Y >= rectangle.MinY + marginY;
         }
 
         public void SetUpSteering(bool animatedControls = false)
@@ -4276,10 +4276,10 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.ControlType == ControlType.Manual)
             {
                 var fireButtonX = 918;
-                var fireButtonY = 2;
+                const int fireButtonY = 2;
 
                 var steerinButtonX = 3;
-                var steeringButtonY = 2;
+                const int steeringButtonY = 2;
 
                 if (!Settings.Instance.RightHanded)
                 {

@@ -6,9 +6,10 @@ namespace CC.Mobile.Purchases
     /// </summary>
     public class Purchase
     {
-        public IProduct Product { get; private set; }
-        public string TransactionId { get; private set; }
-        public TransactionStatus Status { get; private set; }
+        public IProduct Product { get; }
+        public string TransactionId { get; }
+        public TransactionStatus Status { get; }
+
         public Purchase(IProduct product, string transactionId, TransactionStatus status)
         {
             Product = product;
@@ -16,5 +17,4 @@ namespace CC.Mobile.Purchases
             Status = status;
         }
     }
-    
 }

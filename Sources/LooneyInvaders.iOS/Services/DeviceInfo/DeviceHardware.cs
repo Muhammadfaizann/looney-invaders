@@ -17,8 +17,7 @@ namespace LooneyInvaders.iOS.Services.DeviceInfo
                                                 IntPtr newp,
                                                 uint newlen);
 
-        private static readonly iOSHardware _hardwareMapper = new iOSHardware();
-        private static readonly Lazy<string> _version = new Lazy<string>(FindVersion);
+        private static readonly iOSHardware HardwareMapper = new iOSHardware();
 
         private static string FindVersion()
         {
@@ -66,9 +65,9 @@ namespace LooneyInvaders.iOS.Services.DeviceInfo
                 var v = Version;
 
                 if (v == "i386" || v == "x86_64")
-                    return _hardwareMapper.GetModel(NSProcessInfo.ProcessInfo.Environment["SIMULATOR_MODEL_IDENTIFIER"].ToString()) + " Simulator";
-                else
-                    return _hardwareMapper.GetModel(v);
+                    return HardwareMapper.GetModel(NSProcessInfo.ProcessInfo.Environment["SIMULATOR_MODEL_IDENTIFIER"].ToString()) + " Simulator";
+
+                return HardwareMapper.GetModel(v);
             }
         }
     }

@@ -18,17 +18,18 @@ namespace LooneyInvaders.iOS
 {
     public partial class ViewController : UIViewController
     {
-        CMMotionManager _motionManager;
-        BannerView _adViewWindow;
-        bool _adOnWindow;
-        readonly nfloat _adBannerYCoord = -1;
-        Interstitial _intAd;
-        IPurchaseService _svc;
+        private CMMotionManager _motionManager;
+        private BannerView _adViewWindow;
+        private bool _adOnWindow;
+        private readonly nfloat _adBannerYCoord = -1;
+        private Interstitial _intAd;
+
+        private IPurchaseService _svc;
         //string _googlePlayGamesClientId = "647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt.apps.googleusercontent.com";
 
         public ViewController(IntPtr handle)
             : base(handle)
-        {}
+        { }
 
         public override async void ViewDidLoad()
         {
@@ -73,7 +74,7 @@ namespace LooneyInvaders.iOS
                 SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
 
                 // user management
-                UserManager.UsernameGUIDInsertHandler = UsernameGUIDInsertHandler;
+                UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
                 UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
                 UserManager.ChangeUsernameHandler = ChangeUsername;
 
@@ -88,18 +89,18 @@ namespace LooneyInvaders.iOS
         {
             Console.WriteLine("GUID insert " + guid);
 
-            string dbName = "users";
-            string collectionName = "users";
-            string json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
+            const string dbName = "users";
+            const string collectionName = "users";
+            var json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
-            Storage storage = storageService.InsertJSONDocument(dbName, collectionName, json);
-            IList<Storage.JSONDocument> jsonDocList = storage.GetJsonDocList();
+            var storage = storageService.InsertJSONDocument(dbName, collectionName, json);
+            var jsonDocList = storage.GetJsonDocList();
 
-            string id = jsonDocList[0].GetDocId();
-            string playerName = "player_" + id.Substring(id.Length - 9, 8);
+            var id = jsonDocList[0].GetDocId();
+            var playerName = "player_" + id.Substring(id.Length - 9, 8);
 
             UserManager.UserGuid = guid;
             Player.Instance.Name = playerName;
@@ -114,16 +115,16 @@ namespace LooneyInvaders.iOS
         {
             Console.WriteLine("Check is username free " + username);
 
-            string dbName = "users";
-            string collectionName = "users";
+            const string dbName = "users";
+            const string collectionName = "users";
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
             try
             {
-                Storage storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "name", username.ToUpper());
-                IList<Storage.JSONDocument> jsonDocList = storage.GetJsonDocList();
+                var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "name", username.ToUpper());
+                var jsonDocList = storage.GetJsonDocList();
 
                 if (jsonDocList.Count == 0) return true; // no user
                 if (jsonDocList[0].GetJsonDoc().Contains(UserManager.UserGuid)) return true; // this user
@@ -140,14 +141,14 @@ namespace LooneyInvaders.iOS
         {
             Console.WriteLine("Change username");
 
-            string dbName = "users";
-            string collectionName = "users";
-            string guid = UserManager.UserGuid;
+            const string dbName = "users";
+            const string collectionName = "users";
+            var guid = UserManager.UserGuid;
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            StorageService storageService = App42API.BuildStorageService();
+            var storageService = App42API.BuildStorageService();
 
-            Storage storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
+            var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
             IList<Storage.JSONDocument> jsonDocList;
 
             try
@@ -169,9 +170,9 @@ namespace LooneyInvaders.iOS
                 }
             }
 
-            string id = jsonDocList[0].GetDocId();
+            var id = jsonDocList[0].GetDocId();
 
-            string json = "{\"name\":\"" + username.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
+            var json = "{\"name\":\"" + username.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
             storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
 
             Player.Instance.Name = username;
@@ -185,7 +186,7 @@ namespace LooneyInvaders.iOS
         }
 
 
-        private void GetGyro(ref float yaw, ref float tilt, ref float pitch)
+        private void GetGyro(out float yaw, out float tilt, out float pitch)
         {
             var fullPitch = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Pitch);
 
@@ -196,7 +197,7 @@ namespace LooneyInvaders.iOS
             if (InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) pitch = pitch * -1;
         }
 
-        async public override void ViewWillDisappear(bool animated)
+        public override async void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
 
@@ -209,41 +210,35 @@ namespace LooneyInvaders.iOS
             }
         }
 
-        async public override void ViewDidAppear(bool animated)
+        public override async void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
             await _svc.Resume();
 
-            if (GameView != null && GameView.Paused == true)
+            if (GameView != null && GameView.Paused)
             {
                 GameView.Paused = false;
                 CCAudioEngine.SharedEngine.PauseBackgroundMusic();
             }
         }
 
-        public override void DidReceiveMemoryWarning()
-        {
-            base.DidReceiveMemoryWarning();
-            // Release any cached data, images, etc that aren't in use.
-        }
-
-        void AddBannerToWindowTop()
+        private void AddBannerToWindowTop()
         {
             BeginInvokeOnMainThread(() => { AddBannerToWindow(0); });
         }
 
-        void AddBannerToWindowBottom()
+        private void AddBannerToWindowBottom()
         {
             BeginInvokeOnMainThread(() => { AddBannerToWindow(View.Bounds.Size.Height - 50); });
         }
 
-        void HideBanner()
+        private void HideBanner()
         {
             BeginInvokeOnMainThread(() => { RemoveBannerFromWindow(); });
         }
 
-        void AddBannerToWindow(nfloat yCoord)
+        private void AddBannerToWindow(nfloat yCoord)
         {
             if (_adViewWindow != null && yCoord == _adBannerYCoord) return;
 
@@ -252,7 +247,7 @@ namespace LooneyInvaders.iOS
             if (_adViewWindow == null)
             {
                 // Setup your GADBannerView, review AdSizeCons class for more Ad sizes. 
-                _adViewWindow = new BannerView(size: AdSizeCons.Banner, origin: new CGPoint((View.Bounds.Size.Width - 320) / 2, yCoord));
+                _adViewWindow = new BannerView(AdSizeCons.Banner, new CGPoint((View.Bounds.Size.Width - 320) / 2, yCoord));
                 _adViewWindow.AdUnitID = "ca-app-pub-5373308786713201/3891909370";
                 _adViewWindow.RootViewController = this;
 
@@ -261,7 +256,7 @@ namespace LooneyInvaders.iOS
                 _adViewWindow.ReceiveAdFailed += AdViewWindow_ReceiveAdFailed;
             }
 
-            Request request = Request.GetDefaultRequest();
+            var request = Request.GetDefaultRequest();
 #if DEBUG
             //request.TestDevices = new string[] { "91081e0a39a84d0f81f550efec64ec47" };
 #endif
@@ -269,7 +264,7 @@ namespace LooneyInvaders.iOS
             _adViewWindow.LoadRequest(request);
         }
 
-        void RemoveBannerFromWindow()
+        private void RemoveBannerFromWindow()
         {
             if (_adViewWindow != null)
             {
@@ -313,7 +308,7 @@ namespace LooneyInvaders.iOS
             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
 
-            Request request = Request.GetDefaultRequest();
+            var request = Request.GetDefaultRequest();
 #if DEBUG
             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
 #endif
@@ -349,14 +344,14 @@ namespace LooneyInvaders.iOS
             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
 
-            Request request = Request.GetDefaultRequest();
+            var request = Request.GetDefaultRequest();
 #if DEBUG
             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
 #endif
             _intAd.LoadRequest(request);
         }
 
-        async Task MakePurchase(IProduct product)
+        private async Task MakePurchase(IProduct product)
         {
             try
             {
@@ -377,14 +372,14 @@ namespace LooneyInvaders.iOS
                     PurchaseManager.FireOnPurchaseFinished();
                 }
             }
-            catch (PurchaseError ex)
+            catch (PurchaseError)
             {
                 Console.WriteLine("Error with {product}:{ex.Message}");
                 PurchaseManager.FireOnPurchaseFinished();
             }
         }
 
-        async Task<bool> PurchaseProduct(string productId)
+        private async Task<bool> PurchaseProduct(string productId)
         {
             await MakePurchase(new Product(productId))
                 .ConfigureAwait(false);
@@ -401,14 +396,16 @@ namespace LooneyInvaders.iOS
         {
             try
             {
-                Game game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
+                var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
 
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     if (game.GetScoreList()[0].GetValue() > 0)
                     {
-                        if (type == LeaderboardType.Regular) return LeaderboardManager.DecodeScoreRegular(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
-                        else if (type == LeaderboardType.Pro) return LeaderboardManager.DecodeScorePro(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
+                        if (type == LeaderboardType.Regular)
+                            return LeaderboardManager.DecodeScoreRegular(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
+                        if (type == LeaderboardType.Pro) 
+                            return LeaderboardManager.DecodeScorePro(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
                     }
                 }
             }
@@ -425,16 +422,16 @@ namespace LooneyInvaders.iOS
             Console.WriteLine("Leaderboard submit");
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
+            var scoreBoardService = App42API.BuildScoreBoardService();
 
-            if (levelsCompleted == -1) // regular scoreboard
+            if (Math.Abs(levelsCompleted - -1) < AppConstants.Tolerance) // regular scoreboard
             {
                 LeaderboardManager.PlayerRankRegularDaily = null;
                 LeaderboardManager.PlayerRankRegularWeekly = null;
                 LeaderboardManager.PlayerRankRegularMonthly = null;
                 LeaderboardManager.PlayerRankRegularAlltime = null;
 
-                double gameScoreRegular = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
+                var gameScoreRegular = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
 
                 scoreBoardService.SaveUserScore("Looney Earth Daily", Player.Instance.Name, gameScoreRegular);
                 scoreBoardService.SaveUserScore("Looney Earth Weekly", Player.Instance.Name, gameScoreRegular);
@@ -453,7 +450,7 @@ namespace LooneyInvaders.iOS
                 LeaderboardManager.PlayerRankProMonthly = null;
                 LeaderboardManager.PlayerRankProAlltime = null;
 
-                double gameScorePro = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
+                var gameScorePro = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
 
                 scoreBoardService.SaveUserScore("Looney Moon Daily", Player.Instance.Name, gameScorePro);
                 scoreBoardService.SaveUserScore("Looney Moon Weekly", Player.Instance.Name, gameScorePro);
@@ -473,11 +470,11 @@ namespace LooneyInvaders.iOS
 
             try
             {
-                Game game = scoreBoardService.GetTopNRankers(gameName, 10);
+                var game = scoreBoardService.GetTopNRankers(gameName, 10);
 
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
-                    for (int i = 0; i < game.GetScoreList().Count; i++)
+                    for (var i = 0; i < game.GetScoreList().Count; i++)
                     {
                         if (game.GetScoreList()[i].GetValue() > 0)
                         {
@@ -491,14 +488,14 @@ namespace LooneyInvaders.iOS
                     }
                 }
             }
-            catch (App42NotFoundException nfe)
+            catch (App42NotFoundException)
             {
 
             }
         }
 
 
-        private async void RefreshLeaderboardsAsync(Leaderboard leaderboard)
+        private void RefreshLeaderboardsAsync(Leaderboard leaderboard)
         {
             //---------- Prabhjot Singh ------//
             // await Task.Run(() => refreshLeaderboards(leaderboard));
@@ -506,22 +503,36 @@ namespace LooneyInvaders.iOS
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
         {
-            if (leaderboard.Type == LeaderboardType.Regular) Console.WriteLine("Leaderboard refresh - REGULAR");
-            else if (leaderboard.Type == LeaderboardType.Pro) Console.WriteLine("Leaderboard refresh - PRO");
-            else Console.WriteLine("Leaderboard refresh - ???");
+            switch (leaderboard.Type)
+            {
+                case LeaderboardType.Regular:
+                    Console.WriteLine("Leaderboard refresh - REGULAR");
+                    break;
+                case LeaderboardType.Pro:
+                    Console.WriteLine("Leaderboard refresh - PRO");
+                    break;
+                default:
+                    Console.WriteLine("Leaderboard refresh - ???");
+                    break;
+            }
 
             App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
 
-            String gameName;
+            string gameName;
 
-            if (leaderboard.Type == LeaderboardType.Regular) gameName = "Looney Earth";
-            else if (leaderboard.Type == LeaderboardType.Pro) gameName = "Looney Moon";
-            else return;
+            switch (leaderboard.Type)
+            {
+                case LeaderboardType.Regular:
+                    gameName = "Looney Earth";
+                    break;
+                case LeaderboardType.Pro:
+                    gameName = "Looney Moon";
+                    break;
+                default:
+                    return;
+            }
 
-            ScoreBoardService scoreBoardService = App42API.BuildScoreBoardService();
-
-            DateTime startDate = DateTime.Now.Date.AddDays(-1);
-            DateTime endDate = DateTime.Now;
+            var scoreBoardService = App42API.BuildScoreBoardService();
 
             FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreDaily, gameName + " Daily");
             FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreWeekly, gameName + " Weekly");
@@ -553,21 +564,25 @@ namespace LooneyInvaders.iOS
 
         public void ShareOnSocialNetworkHandler(string network, System.IO.Stream stream)
         {
-            if (stream == null) Console.WriteLine("stream is null");
+            if (stream == null)
+            {
+                Console.WriteLine("stream is null");
+                return;
+            }
 
-            System.IO.MemoryStream ms = (System.IO.MemoryStream)stream;
+            var ms = (System.IO.MemoryStream)stream;
 
-            NSData data = NSData.FromArray(ms.ToArray());
-            UIImage img = UIImage.LoadFromData(data);
+            var data = NSData.FromArray(ms.ToArray());
+            var img = UIImage.LoadFromData(data);
 
-            Console.WriteLine("IMAGE width: " + img.Size.Width.ToString() + " height: " + img.Size.Height.ToString());
+            Console.WriteLine($"IMAGE width: {img.Size.Width} height: {img.Size.Height}");
 
             BeginInvokeOnMainThread(() => { ShareOnSocialNetworkIos(network, img); });
         }
 
         public void ShareOnSocialNetworkIos(string network, UIImage img)
         {
-            UIActivityViewController activityVc = new UIActivityViewController(new NSObject[] { img }, null);
+            var activityVc = new UIActivityViewController(new NSObject[] { img }, null);
 
             /*
             if (network == "facebook")

@@ -14,7 +14,7 @@ namespace LooneyInvaders.Services.PNS
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
-                UIUserNotificationType types = UIApplication.SharedApplication.CurrentUserNotificationSettings.Types;
+                var types = UIApplication.SharedApplication.CurrentUserNotificationSettings.Types;
 
                 System.Diagnostics.Debug.WriteLine("\nIn MyApp.iOS.Implementations.NativeHelper_iOS.PushNotificationAlertsEnabledAsync() - Allowed Push Notification Types: {0}\n", types);
 
@@ -22,7 +22,7 @@ namespace LooneyInvaders.Services.PNS
             }
             else
             {
-                UIRemoteNotificationType types = UIApplication.SharedApplication.EnabledRemoteNotificationTypes;
+                var types = UIApplication.SharedApplication.EnabledRemoteNotificationTypes;
 
                 System.Diagnostics.Debug.WriteLine("\nIn MyApp.iOS.Implementations.NativeHelper_iOS.PushNotificationAlertsEnabledAsync() - Allowed Push Notification Types: {0}\n", types);
 
@@ -30,7 +30,7 @@ namespace LooneyInvaders.Services.PNS
             }
 
             if (res == false)
-                Settings.Instance.IsPushNotificationEnabled = res;
+                Settings.Instance.IsPushNotificationEnabled = false;
 
 			return res;
 		}

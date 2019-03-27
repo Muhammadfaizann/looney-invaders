@@ -13,14 +13,14 @@ namespace LooneyInvaders.Layers
     public class GetMoreCreditsScreenLayer : CCLayerColorExt
     {
         //int _creditsRequired;
-        readonly int _selectedEnemy;
-        readonly int _selectedWeapon;
-        readonly int _caliberSizeSelected;
-        readonly int _firespeedSelected;
-        readonly int _magazineSizeSelected;
-        readonly int _livesSelected;
+        private readonly int _selectedEnemy;
+        private readonly int _selectedWeapon;
+        private readonly int _caliberSizeSelected;
+        private readonly int _firespeedSelected;
+        private readonly int _magazineSizeSelected;
+        private readonly int _livesSelected;
 
-        readonly int _imgPlayerCreditsXCoord;
+        private readonly int _imgPlayerCreditsXCoord;
 #if __IOS__
         //NSTimer fakeTimer;
 
@@ -29,20 +29,20 @@ namespace LooneyInvaders.Layers
         //CCScheduler m_pScheduler;
         //CCActionManager m_pActionManager;
 
-        CCSprite[] _imgPlayerCreditsLabel;
-        readonly CCSpriteButton _btn2000Hiden;
-        CCSpriteButton _btn2000;
-        CCSpriteButton _btn4000;
-        readonly CCSprite _tenTimesText;
+        private CCSprite[] _imgPlayerCreditsLabel;
+        private readonly CCSpriteButton _btn2000Hiden;
+        private CCSpriteButton _btn2000;
+        private CCSpriteButton _btn4000;
+        private readonly CCSprite _tenTimesText;
 
-        CCSprite _timeToNextAdsImg;
-        CCSprite _h1;
-        CCSprite _h2;
-        CCSprite _m1;
-        CCSprite _m2;
-        CCSprite _s1;
-        CCSprite _s2;
-        double _timeToNextAds;
+        private CCSprite _timeToNextAdsImg;
+        private CCSprite _h1;
+        private CCSprite _h2;
+        private CCSprite _m1;
+        private CCSprite _m2;
+        private CCSprite _s1;
+        private CCSprite _s2;
+        private double _timeToNextAds;
 
         public GetMoreCreditsScreenLayer() : this(0, -1, -1, -1, -1, -1, -1)
         { }
@@ -301,7 +301,7 @@ namespace LooneyInvaders.Layers
             _btn2000Hiden.Visible = true;
             _btn2000.Visible = false;
 
-            Console.WriteLine("Last watch count before: " + Player.Instance.LastAdWatchDayCount.ToString());
+            Console.WriteLine("Last watch count before: " + Player.Instance.LastAdWatchDayCount);
 
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
             {
@@ -595,7 +595,7 @@ namespace LooneyInvaders.Layers
             }
 
             Player.Instance.Credits += 2000;
-            Console.WriteLine("Last watch count after: " + Player.Instance.LastAdWatchDayCount.ToString());
+            Console.WriteLine("Last watch count after: " + Player.Instance.LastAdWatchDayCount);
             RefreshPlayerCreditsLabel();
         }
 

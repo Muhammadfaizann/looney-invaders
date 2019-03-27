@@ -10,7 +10,7 @@ namespace LooneyInvaders.Classes
         public CCSprite Background;
         public event EventHandler OnTouchBegan; // touch on the layer but not on any of the buttons
         public event EventHandler OnTouchEnded;
-        bool _buttonDown;
+        private bool _buttonDown;
         private CCPoint _position;
 
         public bool Enabled { get; set; } = true;
@@ -32,7 +32,7 @@ namespace LooneyInvaders.Classes
         {
             _position = new CCPoint(0, 1);
             Shared.GameDelegate.ClearOnBackButtonEvent();
-           
+
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
             touchListener.OnTouchesBegan = OnTouchesBegan;
@@ -210,7 +210,7 @@ namespace LooneyInvaders.Classes
                 var offsetX = maxRightCoord - images[images.Length - 1].PositionX -
                                 images[images.Length - 1].ContentSize.Width;
 
-                if (Math.Abs(offsetX) < AppConstants.TOLERANCE)
+                if (Math.Abs(offsetX) < AppConstants.Tolerance)
                     continue;
 
                 foreach (var s in images)
@@ -287,16 +287,27 @@ namespace LooneyInvaders.Classes
                 images[i] = image;
                 image.ZOrder = 999;
 
-                if (text[i] == '1') position += Convert.ToInt32(distance * 0.9);
-                else if (text[i] == '.') position += Convert.ToInt32(distance * 0.7);
-                else position += distance;
+                switch (text[i])
+                {
+                    case '1':
+                        position += Convert.ToInt32(distance * 0.9);
+                        break;
+                    case '.':
+                        position += Convert.ToInt32(distance * 0.7);
+                        break;
+                    default:
+                        position += distance;
+                        break;
+                }
 
                 if (text[i] == '.') image.PositionY -= 4;
 
                 if ((text.Length - i - 1) % 3 == 0)
                 {
-                    if (fontSize == 86 || fontSize == 77) position += distance / 4;
-                    else position += distance / 3;
+                    if (fontSize == 86 || fontSize == 77)
+                        position += distance / 4;
+                    else
+                        position += distance / 3;
                 }
             }
 
@@ -337,8 +348,8 @@ namespace LooneyInvaders.Classes
             OnTouchBegan?.Invoke(this, EventArgs.Empty);
         }
 
-        
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (Enabled == false) return;
 
@@ -350,98 +361,125 @@ namespace LooneyInvaders.Classes
                 {
                     foreach (var node in Children)
                     {
-                        if (node is CCSpriteButton && node.Visible &&
-                            node.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                        if (node is CCSpriteButton button1 && button1.Visible && button1.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
                         {
-                            if (EnableMultiTouch)
-                                buttonTouched = false;
-                            else
-                                buttonTouched = true;
+                            buttonTouched = !EnableMultiTouch;
 
-                            var button = (CCSpriteButton)node;
-                            if (!button.Enabled) continue;
+                            if (!button1.Enabled)
+                                continue;
 
                             CCAudioEngine.SharedEngine.StopAllEffects();
 
-                            if (button.ButtonType == ButtonType.Back)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
-                            else if (button.ButtonType == ButtonType.Forward)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
-                            else if (button.ButtonType == ButtonType.VolumeUp ||
-                                     button.ButtonType == ButtonType.VolumeDown)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
-                            else if (button.ButtonType == ButtonType.Minus)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
-                            else if (button.ButtonType == ButtonType.Plus)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
-                            else if (button.ButtonType == ButtonType.CannotTap)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-                            else if (button.ButtonType == ButtonType.CheckMark)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
-                            else if (button.ButtonType == ButtonType.CreditPurchase)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
-                            else if (button.ButtonType == ButtonType.Link)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
-                            else if (button.ButtonType == ButtonType.Rewind)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
-                            else if (button.ButtonType == ButtonType.OnOff && button is CCSpriteTwoStateButton &&
-                                     ((CCSpriteTwoStateButton)button).State == 1)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.Off);
-                            else if (button.ButtonType == ButtonType.OnOff && button is CCSpriteTwoStateButton &&
-                                     ((CCSpriteTwoStateButton)button).State == 2)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.On);
-                            else if (button.ButtonType != ButtonType.Silent)
-                                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
+                            switch (button1.ButtonType)
+                            {
+                                case ButtonType.Back:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
+                                    break;
+                                case ButtonType.Forward:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
+                                    break;
+                                case ButtonType.VolumeUp:
+                                case ButtonType.VolumeDown:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
+                                    break;
+                                case ButtonType.Minus:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
+                                    break;
+                                case ButtonType.Plus:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
+                                    break;
+                                case ButtonType.CannotTap:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                                    break;
+                                case ButtonType.CheckMark:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
+                                    break;
+                                case ButtonType.CreditPurchase:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+                                    break;
+                                case ButtonType.Link:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
+                                    break;
+                                case ButtonType.Rewind:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
+                                    break;
+                                case ButtonType.OnOff when button1 is CCSpriteTwoStateButton button && button.State == 1:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.Off);
+                                    break;
+                                case ButtonType.OnOff when button1 is CCSpriteTwoStateButton button && button.State == 2:
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.On);
+                                    break;
+                                default:
+                                    {
+                                        if (button1.ButtonType != ButtonType.Silent)
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
+                                        break;
+                                    }
+                            }
 
-                            button.IsBeingTapped = true;
-                            button.Texture = new CCTexture2D(button.ImageNameTapped);
+                            button1.IsBeingTapped = true;
+                            button1.Texture = new CCTexture2D(button1.ImageNameTapped);
                         }
 
                         if (node is CCNodeExt && node.Visible & node.Opacity == byte.MaxValue)
                         {
                             foreach (var node2 in node.Children)
                             {
-                                if (node2 is CCSpriteButton && node2.Visible &&
-                                    node2.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                                if (node2 is CCSpriteButton button && button.Visible &&
+                                    button.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
                                 {
                                     buttonTouched = true;
 
-                                    var button = (CCSpriteButton)node2;
                                     if (!button.Enabled) continue;
 
                                     CCAudioEngine.SharedEngine.StopAllEffects();
 
-                                    if (button.ButtonType == ButtonType.Back)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
-                                    else if (button.ButtonType == ButtonType.Forward)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
-                                    else if (button.ButtonType == ButtonType.VolumeUp ||
-                                             button.ButtonType == ButtonType.VolumeDown)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
-                                    else if (button.ButtonType == ButtonType.Minus)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
-                                    else if (button.ButtonType == ButtonType.Plus)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
-                                    else if (button.ButtonType == ButtonType.CannotTap)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-                                    else if (button.ButtonType == ButtonType.CheckMark)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
-                                    else if (button.ButtonType == ButtonType.CreditPurchase)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
-                                    else if (button.ButtonType == ButtonType.Link)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
-                                    else if (button.ButtonType == ButtonType.Rewind)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
-                                    else if (button.ButtonType == ButtonType.OnOff &&
-                                             button is CCSpriteTwoStateButton &&
-                                             ((CCSpriteTwoStateButton)button).State == 1)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.Off);
-                                    else if (button.ButtonType == ButtonType.OnOff &&
-                                             button is CCSpriteTwoStateButton &&
-                                             ((CCSpriteTwoStateButton)button).State == 2)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.On);
-                                    else if (button.ButtonType != ButtonType.Silent)
-                                        GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
+                                    switch (button.ButtonType)
+                                    {
+                                        case ButtonType.Back:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
+                                            break;
+                                        case ButtonType.Forward:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
+                                            break;
+                                        case ButtonType.VolumeUp:
+                                        case ButtonType.VolumeDown:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapVolumeChange);
+                                            break;
+                                        case ButtonType.Minus:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
+                                            break;
+                                        case ButtonType.Plus:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
+                                            break;
+                                        case ButtonType.CannotTap:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                                            break;
+                                        case ButtonType.CheckMark:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCheckMark);
+                                            break;
+                                        case ButtonType.CreditPurchase:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+                                            break;
+                                        case ButtonType.Link:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.ClickLink);
+                                            break;
+                                        case ButtonType.Rewind:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.Rewind);
+                                            break;
+                                        case ButtonType.OnOff when button is CCSpriteTwoStateButton stateButton && stateButton.State == 1:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.Off);
+                                            break;
+                                        case ButtonType.OnOff when button is CCSpriteTwoStateButton stateButton && stateButton.State == 2:
+                                            GameEnvironment.PlaySoundEffect(SoundEffect.On);
+                                            break;
+                                        default:
+                                            {
+                                                if (button.ButtonType != ButtonType.Silent)
+                                                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTap);
+                                                break;
+                                            }
+                                    }
 
                                     button.IsBeingTapped = true;
                                     button.Texture = new CCTexture2D(button.ImageNameTapped);
@@ -467,7 +505,7 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             _buttonDown = false;
             if (Enabled == false) return;
@@ -480,39 +518,43 @@ namespace LooneyInvaders.Classes
                 {
                     foreach (var node in Children)
                     {
-                        if (node is CCSpriteButton && node.Visible &&
-                            node.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                        switch (node)
                         {
-                            var button = (CCSpriteButton)node;
-                            if (!button.Enabled) continue;
-
-                            buttonsToFireOnClick.Add(button);
-
-                            if (button is CCSpriteTwoStateButton) ((CCSpriteTwoStateButton)button).SetStateImages();
-                            else button.Texture = new CCTexture2D(button.ImageNameUntapped);
-
-                            button.IsBeingTapped = false;
-                        }
-
-                        if (node is CCNodeExt && node.Visible & node.Opacity == byte.MaxValue)
-                        {
-                            foreach (var node2 in node.Children)
-                            {
-                                if (node2 is CCSpriteButton && node2.Visible &&
-                                    node2.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                            case CCSpriteButton button1 when button1.Visible && button1.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location):
                                 {
-                                    var button = (CCSpriteButton)node2;
-                                    if (!button.Enabled) continue;
+                                    if (!button1.Enabled)
+                                        continue;
 
-                                    buttonsToFireOnClick.Add(button);
+                                    buttonsToFireOnClick.Add(button1);
 
-                                    if (button is CCSpriteTwoStateButton)
-                                        ((CCSpriteTwoStateButton)button).SetStateImages();
-                                    else button.Texture = new CCTexture2D(button.ImageNameUntapped);
+                                    if (button1 is CCSpriteTwoStateButton button)
+                                        button.SetStateImages();
+                                    else button1.Texture = new CCTexture2D(button1.ImageNameUntapped);
 
-                                    button.IsBeingTapped = false;
+                                    button1.IsBeingTapped = false;
+                                    break;
                                 }
-                            }
+                            case CCNodeExt _ when node.Visible & node.Opacity == byte.MaxValue:
+                                {
+                                    foreach (var node2 in node.Children)
+                                    {
+                                        if (!(node2 is CCSpriteButton button) || !button.Visible ||
+                                            !button.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                                            continue;
+                                        if (!button.Enabled)
+                                            continue;
+
+                                        buttonsToFireOnClick.Add(button);
+
+                                        if (button is CCSpriteTwoStateButton stateButton)
+                                            stateButton.SetStateImages();
+                                        else button.Texture = new CCTexture2D(button.ImageNameUntapped);
+
+                                        button.IsBeingTapped = false;
+                                    }
+
+                                    break;
+                                }
                         }
                     }
                 }
@@ -527,75 +569,83 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             foreach (var node in Children)
             {
-                if (node is CCSpriteButton)
+                switch (node)
                 {
-                    var button = (CCSpriteButton)node;
-
-                    if (button.IsBeingTapped)
-                    {
-                        button.IsBeingTapped = false;
-                        button.Texture = new CCTexture2D(button.ImageNameUntapped);
-                    }
-                }
-
-                if (node is CCNodeExt && node.Visible & node.Opacity == byte.MaxValue)
-                {
-                    foreach (var node2 in node.Children)
-                    {
-                        if (node2 is CCSpriteButton)
+                    case CCSpriteButton _:
                         {
-                            var button = (CCSpriteButton)node2;
+                            var button = (CCSpriteButton)node;
 
                             if (button.IsBeingTapped)
                             {
                                 button.IsBeingTapped = false;
                                 button.Texture = new CCTexture2D(button.ImageNameUntapped);
                             }
+
+                            break;
                         }
-                    }
+                    case CCNodeExt _ when node.Visible & node.Opacity == byte.MaxValue:
+                        {
+                            foreach (var node2 in node.Children)
+                            {
+                                if (node2 is CCSpriteButton)
+                                {
+                                    var button = (CCSpriteButton)node2;
+
+                                    if (button.IsBeingTapped)
+                                    {
+                                        button.IsBeingTapped = false;
+                                        button.Texture = new CCTexture2D(button.ImageNameUntapped);
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
                 }
             }
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (touches.Count > 0)
             {
                 foreach (var node in Children)
                 {
-                    if (node is CCSpriteButton)
+                    switch (node)
                     {
-                        var button = (CCSpriteButton)node;
-
-                        if (button.IsBeingTapped &&
-                            !node.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location) && !EnableMultiTouch)
-                        {
-                            button.IsBeingTapped = false;
-                            button.Texture = new CCTexture2D(button.ImageNameUntapped);
-                            button.BlendFunc = GameEnvironment.BlendFuncDefault;
-                        }
-                    }
-
-                    if (node is CCNodeExt && node.Visible & node.Opacity == byte.MaxValue)
-                    {
-                        foreach (var node2 in node.Children)
-                        {
-                            if (node2 is CCSpriteButton)
+                        case CCSpriteButton button1:
                             {
-                                var button = (CCSpriteButton)node2;
-
-                                if (button.IsBeingTapped &&
-                                    !node2.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+                                if (button1.IsBeingTapped &&
+                                    !button1.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location) && !EnableMultiTouch)
                                 {
-                                    button.IsBeingTapped = false;
-                                    button.Texture = new CCTexture2D(button.ImageNameUntapped);
+                                    button1.IsBeingTapped = false;
+                                    button1.Texture = new CCTexture2D(button1.ImageNameUntapped);
+                                    button1.BlendFunc = GameEnvironment.BlendFuncDefault;
                                 }
+
+                                break;
                             }
-                        }
+                        case CCNodeExt _ when node.Visible & node.Opacity == byte.MaxValue:
+                            {
+                                foreach (var node2 in node.Children)
+                                {
+                                    if (node2 is CCSpriteButton button)
+                                    {
+                                        if (button.IsBeingTapped &&
+                                            !button.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+                                        {
+                                            button.IsBeingTapped = false;
+                                            button.Texture = new CCTexture2D(button.ImageNameUntapped);
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
                     }
                 }
             }

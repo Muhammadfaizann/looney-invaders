@@ -172,7 +172,7 @@ namespace LooneyInvaders.Model
                 LensFlare = null;
             }
 
-            foreach (Laser laser in Lasers)
+            foreach (var laser in Lasers)
             {
                 laser.Destroy();
             }

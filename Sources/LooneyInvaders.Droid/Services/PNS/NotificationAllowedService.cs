@@ -11,7 +11,7 @@ namespace LooneyInvaders.Services.PNS
 			var nm = NotificationManagerCompat.From(Android.App.Application.Context);
 			var isAllowed = nm.AreNotificationsEnabled();
 
-			return isAllowed && LooneyInvaders.Model.Settings.Instance.IsPushNotificationEnabled;
+			return isAllowed && Model.Settings.Instance.IsPushNotificationEnabled;
 		}
 
         #endregion

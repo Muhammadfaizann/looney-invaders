@@ -12,7 +12,7 @@ namespace LooneyInvaders.DeviceInfo
             var imei = UIDevice.CurrentDevice.IdentifierForVendor ?? new Foundation.NSUuid("-");
             var model = DeviceHardware.Model ?? "-";
 
-            var deviceInfo = new DeviceInfoModel()
+            var deviceInfo = new DeviceInfoModel
             {
                 Imei = imei.Description,
                 Software = osVersion,

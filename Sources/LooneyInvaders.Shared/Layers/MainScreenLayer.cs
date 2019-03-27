@@ -12,42 +12,42 @@ namespace LooneyInvaders.Layers
     {
         private PushNotificationService _pushNs;
         // TODO: neki enum za ovo u modelu
-        bool _isShownRankingDay = true;
-        bool _isShownRankingWeek;
-        bool _isShownRankingMonthly;
+        private bool _isShownRankingDay = true;
+        private bool _isShownRankingWeek;
+        private bool _isShownRankingMonthly;
 
-        bool _isShownLeaderboardRegular = true;
-        bool _isShownLeaderboardPro;
+        private bool _isShownLeaderboardRegular = true;
+        private bool _isShownLeaderboardPro;
 
         //CCSprite imgSpotlightDay;
         //CCSprite imgSpotlightWeek;
         //CCSprite imgSpotlightAllTime;
 
-        readonly CCSpriteButton _btnTapToStart;
-        CCSpriteButton _btnRanking;
-        readonly CCSpriteButton _btnGameSettings;
-        readonly CCSpriteButton _btnGetCredits;
-        readonly CCSpriteButton _btnGameInfo;
-        readonly CCSpriteTwoStateButton _btnScoreboardRegular;
-        readonly CCSpriteTwoStateButton _btnScoreboardPro;
-        readonly CCSprite _imgScoreboard;
-        readonly CCSprite _imgOffline;
+        private readonly CCSpriteButton _btnTapToStart;
+        private CCSpriteButton _btnRanking;
+        private readonly CCSpriteButton _btnGameSettings;
+        private readonly CCSpriteButton _btnGetCredits;
+        private readonly CCSpriteButton _btnGameInfo;
+        private readonly CCSpriteTwoStateButton _btnScoreboardRegular;
+        private readonly CCSpriteTwoStateButton _btnScoreboardPro;
+        private readonly CCSprite _imgScoreboard;
+        private readonly CCSprite _imgOffline;
 
         // modal window
-        readonly CCSprite _imgQuickGameWindow;
-        readonly CCSpriteButton _btnQuickGame;
-        readonly CCSpriteButton _btnSelectionMode;
+        private readonly CCSprite _imgQuickGameWindow;
+        private readonly CCSpriteButton _btnQuickGame;
+        private readonly CCSpriteButton _btnSelectionMode;
 
-        readonly CCSprite _imgProNotificationWindow;
-        readonly CCSpriteButton _btnProNotificationOk;
-        readonly CCSpriteTwoStateButton _btnProNotificationCheckMark;
-        readonly CCSprite _imgProNotificationCheckMarkLabel;
+        private readonly CCSprite _imgProNotificationWindow;
+        private readonly CCSpriteButton _btnProNotificationOk;
+        private readonly CCSpriteTwoStateButton _btnProNotificationCheckMark;
+        private readonly CCSprite _imgProNotificationCheckMarkLabel;
 
-        CCSprite _gameTipBackground;
-        CCSpriteButton _yesThanks;
-        CCSpriteButton _noThanks;
+        private CCSprite _gameTipBackground;
+        private CCSpriteButton _yesThanks;
+        private CCSpriteButton _noThanks;
 
-        List<CCLabel> _leaderboardSprites = new List<CCLabel>();
+        private List<CCLabel> _leaderboardSprites = new List<CCLabel>();
 
         public MainScreenLayer()
         {
@@ -197,7 +197,7 @@ namespace LooneyInvaders.Layers
 
         private void BtnProNotificationOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipProLevelShow = _btnProNotificationCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipProLevelShow = _btnProNotificationCheckMark.State != 1;
 
             HideProNotification(sender, e);
         }
@@ -441,21 +441,21 @@ namespace LooneyInvaders.Layers
 
             ////////////////////
 
-            foreach (CCLabel s in _leaderboardSprites) RemoveChild(s);
+            foreach (var s in _leaderboardSprites) RemoveChild(s);
             _leaderboardSprites.Clear();
             _leaderboardSprites = new List<CCLabel>();
 
             // offline score
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
-                if (_isShownLeaderboardRegular && Math.Abs(LeaderboardManager.BestScoreRegularScore) > AppConstants.TOLERANCE)
+                if (_isShownLeaderboardRegular && Math.Abs(LeaderboardManager.BestScoreRegularScore) > AppConstants.Tolerance)
                 {
                     _leaderboardSprites.Add(AddLabel(410, 280, "YOUR BEST", "Fonts/AktivGroteskBold", 12));
                     _leaderboardSprites.Add(AddLabelRightAligned(595, 280, LeaderboardManager.BestScoreRegularScore.ToString("######"), "Fonts/AktivGroteskBold", 12));
                     _leaderboardSprites.Add(AddLabelRightAligned(710, 280, LeaderboardManager.BestScoreRegularFastestTime.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12));
                     _leaderboardSprites.Add(AddLabelRightAligned(850, 280, LeaderboardManager.BestScoreRegularAccuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12));
                 }
-                else if (_isShownLeaderboardPro && Math.Abs(LeaderboardManager.BestScoreProScore) > AppConstants.TOLERANCE)
+                else if (_isShownLeaderboardPro && Math.Abs(LeaderboardManager.BestScoreProScore) > AppConstants.Tolerance)
                 {
                     _leaderboardSprites.Add(AddLabel(480, 280, "YOUR BEST", "Fonts/AktivGroteskBold", 12));
                     _leaderboardSprites.Add(AddLabelRightAligned(670, 280, LeaderboardManager.BestScoreProScore.ToString("######"), "Fonts/AktivGroteskBold", 12));
@@ -466,7 +466,7 @@ namespace LooneyInvaders.Layers
             {
                 List<LeaderboardItem> lbScore = null;
 
-                Leaderboard leaderboard = LeaderboardManager.RegularLeaderboard;
+                var leaderboard = LeaderboardManager.RegularLeaderboard;
                 if (_isShownLeaderboardRegular) leaderboard = LeaderboardManager.RegularLeaderboard;
                 else if (_isShownLeaderboardPro) leaderboard = LeaderboardManager.ProLeaderboard;
 
@@ -474,7 +474,7 @@ namespace LooneyInvaders.Layers
                 else if (_isShownRankingWeek) lbScore = leaderboard.ScoreWeekly;
                 else if (_isShownRankingMonthly) lbScore = leaderboard.ScoreMonthly;
 
-                for (int i = 1; i <= 10; i++)
+                for (var i = 1; i <= 10; i++)
                 {
                     if (lbScore != null && lbScore.Count >= i)
                     {
@@ -581,7 +581,7 @@ namespace LooneyInvaders.Layers
         private void CheckForNotification()
         {
             _pushNs = new PushNotificationService();
-            var res = _pushNs.CheckDoesNeedAskPremission();
+            var res = _pushNs.IsNeedPermission();
 
             if (res && !Settings.Instance.IsAskForNotificationToday)
             {

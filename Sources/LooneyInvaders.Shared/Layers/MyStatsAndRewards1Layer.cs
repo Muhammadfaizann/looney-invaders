@@ -14,17 +14,17 @@ namespace LooneyInvaders.Layers
     {
         private readonly CCSpriteTwoStateButton _btnDateFormat;
         private readonly CCSpriteTwoStateButton _btnGameType;
-        CCNodeExt _pageWeekRegular;
-        CCNodeExt _pageMonthRegular;
-        CCNodeExt _pageWeekPro;
-        CCNodeExt _pageMonthPro;
+        private CCNodeExt _pageWeekRegular;
+        private CCNodeExt _pageMonthRegular;
+        private CCNodeExt _pageWeekPro;
+        private CCNodeExt _pageMonthPro;
 
-        int _bestMonthScoreRegular;
-        int _bestMonthScorePro;
-        int _bestWeekScoreRegular;
-        int _bestWeekScorePro;
+        private int _bestMonthScoreRegular;
+        private int _bestMonthScorePro;
+        private int _bestWeekScoreRegular;
+        private int _bestWeekScorePro;
 
-        IDeviceInfoService _deviceInfoService;
+        private IDeviceInfoService _deviceInfoService;
 
         public MyStatsAndRewards1Layer()
         {
@@ -76,7 +76,7 @@ namespace LooneyInvaders.Layers
 
         private void InitBestOfAllTime(LeaderboardType leaderboardType, CCNodeExt drawOn)
         {
-            var bestOfAllTime = Player.Instance.GetBestScoreAllTime(leaderboardType == LeaderboardType.Regular ? false : true);
+            var bestOfAllTime = Player.Instance.GetBestScoreAllTime(leaderboardType != LeaderboardType.Regular);
 
             CreateTwoPartInfo(190, 52, "UI/My-stats-&-rewards-page1-best-of-all-time.png", bestOfAllTime.ToString(), true, drawOn);
         }
@@ -138,7 +138,7 @@ namespace LooneyInvaders.Layers
             TransitionToLayer(new MyStatsAndRewards2Layer());
         }
 
-        void HideAllPages()
+        private void HideAllPages()
         {
             _pageMonthPro.Visible = false;
             _pageMonthRegular.Visible = false;
@@ -146,7 +146,7 @@ namespace LooneyInvaders.Layers
             _pageWeekPro.Visible = false;
         }
 
-        void GetBaseStatistics()
+        private void GetBaseStatistics()
         {
             _deviceInfoService = new DeviceInfoService();
             var deviceInfo = _deviceInfoService.GetDeviceInfo();
@@ -159,17 +159,14 @@ namespace LooneyInvaders.Layers
 
             //imei/udid
 #if __IOS__
-            var imeiLabelName = "UI/My-stats-&-rewards-page1-UDID.png";
-
-#endif
-
-#if __ANDROID__
-            var imeiLabelName = "UI/My-stats-&-rewards-page1-IMEI.png";
+            const string imeiLabelName = "UI/My-stats-&-rewards-page1-UDID.png";
+#else
+            const string imeiLabelName = "UI/My-stats-&-rewards-page1-IMEI.png";
 #endif
             CreateTwoPartInfo(582, 50, imeiLabelName, deviceInfo.Imei, false);
         }
 
-        void CreateTwoPartInfo(int startX, int startY, string firstImageName, string secondPartText, bool isOnlyNumbers, CCNodeExt drawOn = null)
+        private void CreateTwoPartInfo(int startX, int startY, string firstImageName, string secondPartText, bool isOnlyNumbers, CCNodeExt drawOn = null)
         {
             CCSprite firstPartLabel;
 
@@ -186,7 +183,7 @@ namespace LooneyInvaders.Layers
             DrawConsistImage(firstPartLabelPosition, secondPartText, isOnlyNumbers, drawOn);
         }
 
-        void DrawConsistImage(CCRect previousImagePosition, string valueToDraw, bool isUseNumber28 = false, CCNodeExt drawOn = null)
+        private void DrawConsistImage(CCRect previousImagePosition, string valueToDraw, bool isUseNumber28 = false, CCNodeExt drawOn = null)
         {
             var positionX = (int)previousImagePosition.MaxX;
             var positionY = (int)previousImagePosition.MinY;
@@ -284,12 +281,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        int GetBestScoreOfWeek(LeaderboardType leaderboardType)
+        private int GetBestScoreOfWeek(LeaderboardType leaderboardType)
         {
             return leaderboardType == LeaderboardType.Pro ? _bestWeekScorePro : _bestWeekScoreRegular;
         }
 
-        int GetBestScoreOfLastWeek(LeaderboardType leaderboardType)
+        private int GetBestScoreOfLastWeek(LeaderboardType leaderboardType)
         {
             var today = DateTime.Now.AddMinutes(-15).AddSeconds(-10).DayOfWeek == DayOfWeek.Sunday ? 7 : (int)DateTime.Now.AddMinutes(-15).AddSeconds(-10).DayOfWeek;
             var weekStartDay = DateTime.Now.AddMinutes(-15).AddSeconds(-10).AddDays(-today - 7 + 1).Date;
@@ -310,12 +307,12 @@ namespace LooneyInvaders.Layers
             return listOfDayScore.Max();
         }
 
-        int GetBestScoreOfMonth(LeaderboardType leaderboardType)
+        private int GetBestScoreOfMonth(LeaderboardType leaderboardType)
         {
             return leaderboardType == LeaderboardType.Pro ? _bestMonthScorePro : _bestMonthScoreRegular;
         }
 
-        int GetBestScoreOfLastMonth(LeaderboardType leaderboardType)
+        private int GetBestScoreOfLastMonth(LeaderboardType leaderboardType)
         {
             var lastMonthDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.AddMonths(-1).Month);
 
@@ -333,7 +330,7 @@ namespace LooneyInvaders.Layers
             return bestOfLastMonth;
         }
 
-        void DrawWeekStatistic(LeaderboardType leaderboardType)
+        private void DrawWeekStatistic(LeaderboardType leaderboardType)
         {
             CCNodeExt currentNode;
             if (leaderboardType == LeaderboardType.Regular)
@@ -349,7 +346,7 @@ namespace LooneyInvaders.Layers
 
             InitBestOfAllTime(leaderboardType, currentNode);
 
-            var step = 80;
+            const int step = 80;
 
             var weekStartDay = DateTime.Now.AddMinutes(-15).AddSeconds(-10).StartOfWeek(DayOfWeek.Monday);
 
@@ -391,7 +388,7 @@ namespace LooneyInvaders.Layers
 
             DrawLeftNumbers(stepStat, currentNode);
 
-            var xStart = 358;
+            const int xStart = 358;
             DrawDotsOnSchedule(weeklyScore, step, stepStat, xStart, currentNode);
 
             //best of week
@@ -426,13 +423,13 @@ namespace LooneyInvaders.Layers
             return val;
         }
 
-        List<int> GetWeekStatistics(DateTime weekStartDay, LeaderboardType leaderboardType)
+        private List<int> GetWeekStatistics(DateTime weekStartDay, LeaderboardType leaderboardType)
         {
             var listOfDayScore = new List<int>();
 
             for (var day = 0; day < Enum.GetValues(typeof(DayOfWeek)).Length; day++)
             {
-                if ((weekStartDay.AddDays(day) > DateTime.Now.AddMinutes(-15).AddSeconds(-10).Date) || weekStartDay.Day == DateTime.Now.Day)
+                if (weekStartDay.AddDays(day) > DateTime.Now.AddMinutes(-15).AddSeconds(-10).Date || weekStartDay.Day == DateTime.Now.Day)
                 {
                     if (day > 0)
                         break;
@@ -446,7 +443,7 @@ namespace LooneyInvaders.Layers
             return listOfDayScore;
         }
 
-        void DrawMonthStatistic(LeaderboardType leaderboardType)
+        private void DrawMonthStatistic(LeaderboardType leaderboardType)
         {
             CCNodeExt currentNode;
             if (leaderboardType == LeaderboardType.Regular)
@@ -503,7 +500,7 @@ namespace LooneyInvaders.Layers
             DrawLeftNumbers(stepStat, currentNode);
 
             step = 18;
-            var xStart = 318;
+            const int xStart = 318;
             DrawDotsOnSchedule(monthScore, step, stepStat, xStart, currentNode);
 
             //best of month
@@ -513,7 +510,7 @@ namespace LooneyInvaders.Layers
             CreateTwoPartInfo(190, 79, "UI/My-stats-&-rewards-page1-best-of-last-month.png", GetBestScoreOfLastMonth(leaderboardType).ToString(), true, currentNode);
         }
 
-        List<int> GetMonthStatistics(LeaderboardType leaderboardType)
+        private List<int> GetMonthStatistics(LeaderboardType leaderboardType)
         {
             var listOfDayliScore = new List<int>();
 
@@ -531,9 +528,9 @@ namespace LooneyInvaders.Layers
             return listOfDayliScore;
         }
 
-        void DrawLeftNumbers(int stepStat, CCNodeExt nodeOn)
+        private void DrawLeftNumbers(int stepStat, CCNodeExt nodeOn)
         {
-            var yStep = 35;
+            const int yStep = 35;
 
             for (var i = 0; i < 9; i++)
             {
@@ -559,7 +556,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        int GetStartStepForLeftNumbers(int maxScore)
+        private int GetStartStepForLeftNumbers(int maxScore)
         {
             if (maxScore == 0)
                 maxScore = 800;
@@ -567,7 +564,7 @@ namespace LooneyInvaders.Layers
             return RoundToTop(maxScore / 8);
         }
 
-        void DrawDotsOnSchedule(List<int> scoreList, int step, int stepStat, int xStart, CCNodeExt nodeOn)
+        private void DrawDotsOnSchedule(List<int> scoreList, int step, int stepStat, int xStart, CCNodeExt nodeOn)
         {
             var toDot = new CCPoint();
 
