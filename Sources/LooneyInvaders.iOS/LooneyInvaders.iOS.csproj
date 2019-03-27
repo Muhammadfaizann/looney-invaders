@@ -1350,8 +1350,8 @@
     <BundleResource Include="..\Content\Images\Hd\MyStatsFont\my-stats-font--.png">
       <Link>Content\Images\Hd\MyStatsFont\my-stats-font--.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\MyStatsFont\my-stats-font-%3b.png">
-      <Link>Content\Images\Hd\MyStatsFont\my-stats-font-%3b.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\MyStatsFont\my-stats-font-semicolon.png">
+      <Link>Content\Images\Hd\MyStatsFont\my-stats-font-semicolon.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\MyStatsFont\my-stats-font-_.png">
       <Link>Content\Images\Hd\MyStatsFont\my-stats-font-_.png</Link>

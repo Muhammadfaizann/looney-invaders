@@ -2261,8 +2261,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\MyStatsFont\my-stats-font-%3b.png">
-      <Link>Assets\Content\Images\Hd\MyStatsFont\my-stats-font-%3b.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\MyStatsFont\my-stats-font-semicolon.png">
+      <Link>Assets\Content\Images\Hd\MyStatsFont\my-stats-font-semicolon.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

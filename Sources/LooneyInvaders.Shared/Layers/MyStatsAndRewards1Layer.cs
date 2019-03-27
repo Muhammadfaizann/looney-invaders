@@ -257,10 +257,16 @@ namespace LooneyInvaders.Layers
                         step -= 8;
                     }
 
-                    var simbName = char.IsLower(ch) ? $"{ch}-small" : ch.ToString();
                     positionX += step;
-
-                    imageToDraw = $"MyStatsFont/my-stats-font-{simbName}.png";
+                    switch (ch)
+                    {
+                        case ';':
+                            imageToDraw = "MyStatsFont/my-stats-font-semicolon.png";
+                            break;
+                        default:
+                            imageToDraw = $"MyStatsFont/my-stats-font-{ch}{(char.IsLower(ch) ? "-small" : string.Empty)}.png";
+                            break;
+                    }
                 }
 
                 if (drawOn != null)
