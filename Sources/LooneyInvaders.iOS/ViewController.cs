@@ -35,54 +35,54 @@ namespace LooneyInvaders.iOS
         {
             base.ViewDidLoad();
 
-            if (GameView != null)
-            {
-                _motionManager = new CMMotionManager();
-                _motionManager.StartDeviceMotionUpdates();
+            if (GameView == null)
+                return;
+
+            _motionManager = new CMMotionManager();
+            _motionManager.StartDeviceMotionUpdates();
 
 
-                //------------ Prabhjot -----------//
-                GameDelegate.GetGyro = GetGyro;
+            //------------ Prabhjot -----------//
+            GameDelegate.GetGyro = GetGyro;
 
 
-                GameView.MultipleTouchEnabled = true;
+            GameView.MultipleTouchEnabled = true;
 
-                AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
-                AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
-                AdMobManager.HideBannerHandler = HideBanner;
-                AdMobManager.LoadInterstitialHandler = LoadInterstitial;
-                AdMobManager.ShowInterstitialHandler = ShowInterstitial;
+            AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
+            AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
+            AdMobManager.HideBannerHandler = HideBanner;
+            AdMobManager.LoadInterstitialHandler = LoadInterstitial;
+            AdMobManager.ShowInterstitialHandler = ShowInterstitial;
 
-                GameView.BackgroundColor = UIColor.Black;
+            GameView.BackgroundColor = UIColor.Black;
 
-                LoadInterstitial();
+            LoadInterstitial();
 
-                _svc = new PurchaseService();
-                await _svc.Init();
+            _svc = new PurchaseService();
+            await _svc.Init();
 
-                PurchaseManager.PurchaseHandler = PurchaseProduct;
+            PurchaseManager.PurchaseHandler = PurchaseProduct;
 
-                VibrationManager.VibrationHandler = Vibrate;
+            VibrationManager.VibrationHandler = Vibrate;
 
-                //SignIn.SharedInstance.UIDelegate = this;
-                //Google.Play.GameServices.Manager.SharedInstance.SignIn(googlePlayGamesClientID, false);
+            //SignIn.SharedInstance.UIDelegate = this;
+            //Google.Play.GameServices.Manager.SharedInstance.SignIn(googlePlayGamesClientID, false);
 
-                LeaderboardManager.SubmitScoreHandler = SubmitScore;
-                LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboardsAsync;
+            LeaderboardManager.SubmitScoreHandler = SubmitScore;
+            LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboardsAsync;
 
-                // social network sharing
-                SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
+            // social network sharing
+            SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
 
-                // user management
-                UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
-                UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
-                UserManager.ChangeUsernameHandler = ChangeUsername;
+            // user management
+            UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
+            UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
+            UserManager.ChangeUsernameHandler = ChangeUsername;
 
-                if (!UserManager.IsUserGuidSet) UserManager.GenerateGuid();
+            if (!UserManager.IsUserGuidSet) UserManager.GenerateGuid();
 
-                // Set loading event to be called once game view is fully initialised
-                GameView.ViewCreated += GameDelegate.LoadGame;
-            }
+            // Set loading event to be called once game view is fully initialised
+            GameView.ViewCreated += GameDelegate.LoadGame;
         }
 
         private bool UsernameGUIDInsertHandler(string guid)
@@ -404,7 +404,7 @@ namespace LooneyInvaders.iOS
                     {
                         if (type == LeaderboardType.Regular)
                             return LeaderboardManager.DecodeScoreRegular(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
-                        if (type == LeaderboardType.Pro) 
+                        if (type == LeaderboardType.Pro)
                             return LeaderboardManager.DecodeScorePro(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
                     }
                 }

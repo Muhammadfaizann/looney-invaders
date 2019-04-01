@@ -40,12 +40,11 @@ namespace LooneyInvaders.Model
         {
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
                 return false;
+
             if (!IsUserGuidSet)
                 GenerateGuid();
 
-            if (CheckIsUsernameFreeHandler == null)
-                return false;
-            return CheckIsUsernameFreeHandler(userName);
+            return CheckIsUsernameFreeHandler != null && CheckIsUsernameFreeHandler(userName);
         }
 
         public static bool ChangeUsername(string userName)
@@ -55,9 +54,7 @@ namespace LooneyInvaders.Model
             if (!IsUserGuidSet)
                 GenerateGuid();
 
-            if (ChangeUsernameHandler == null)
-                return false;
-            return ChangeUsernameHandler(userName);
+            return ChangeUsernameHandler != null && ChangeUsernameHandler(userName);
         }
     }
 }

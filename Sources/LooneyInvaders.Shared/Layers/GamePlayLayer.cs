@@ -1083,7 +1083,6 @@ namespace LooneyInvaders.Layers
                 AddImageCentered(1136 / 2, 540, "UI/get-ready-for-next-attack-(country__of__)-text.png", 2);
                 AddImageLabelRightAligned(1136 / 2 + 92, 509, ((int)SelectedBattleground + 1).ToString(), 55);
                 AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
-
             }
 
 

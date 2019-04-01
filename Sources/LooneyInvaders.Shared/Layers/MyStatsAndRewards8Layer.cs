@@ -28,28 +28,43 @@ namespace LooneyInvaders.Layers
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-			var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
+            var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
             btnBackThrow.OnClick += BtnBackThrow_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
 
-			AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
+            AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
             AddImage(829, 592, "UI/My-stats-&-rewards-page8_8--text.png");
             AddImage(191, 495, "UI/My-stats-&-rewards-reward-kim-jong-un-text.png");
 
             AddImage(191, 430, "UI/My-stats-&-rewards-south-korea-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.SouthKorea) > 0) AddImage(530, 432, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(530, 432, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(530, 432,
+                Player.Instance.GetSavedCountries(Battlegrounds.SouthKorea) > 0
+                    ? "UI/My-stats-&-rewards-country-defended-symbol.png"
+                    : "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             AddImage(191, 368, "UI/My-stats-&-rewards-israel-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Israel) > 0) AddImage(530, 370, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(530, 370, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(530, 370,
+                Player.Instance.GetSavedCountries(Battlegrounds.Israel) > 0
+                    ? "UI/My-stats-&-rewards-country-defended-symbol.png"
+                    : "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             AddImage(191, 306, "UI/My-stats-&-rewards-japan-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Japan) > 0) AddImage(530, 308, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(530, 308, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(530, 308,
+                Player.Instance.GetSavedCountries(Battlegrounds.Japan) > 0
+                    ? "UI/My-stats-&-rewards-country-defended-symbol.png"
+                    : "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             AddImage(191, 244, "UI/My-stats-&-rewards-great-britain-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.GreatBritain) > 0) AddImage(530, 246, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(530, 246, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(530, 246,
+                Player.Instance.GetSavedCountries(Battlegrounds.GreatBritain) > 0
+                    ? "UI/My-stats-&-rewards-country-defended-symbol.png"
+                    : "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             AddImage(191, 182, "UI/My-stats-&-rewards-united-states-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.UnitedStates) > 0) AddImage(530, 184, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(530, 184, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(530, 184,
+                Player.Instance.GetSavedCountries(Battlegrounds.UnitedStates) > 0
+                    ? "UI/My-stats-&-rewards-country-defended-symbol.png"
+                    : "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Kim, 0);
             _imgGun = AddImage(635, 80, frame);
@@ -96,7 +111,8 @@ namespace LooneyInvaders.Layers
         {
             _lblCode = AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 _code = RewardsManager.GetEnemyRewardCode(Enemies.Kim);
                 Schedule(DisplayCode, 0.1f);
             });
@@ -115,7 +131,7 @@ namespace LooneyInvaders.Layers
             TransitionToLayer(new MyStatsAndRewards7Layer());
         }
 
-		private void BtnBackThrow_OnClick(object sender, EventArgs e)
+        private void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 

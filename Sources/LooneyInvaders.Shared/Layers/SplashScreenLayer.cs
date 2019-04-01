@@ -19,13 +19,14 @@ namespace LooneyInvaders.Layers
 
             GameEnvironment.PlayMusic(Music.SplashScreen);
 
-            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental)
+            switch (Settings.Instance.MusicStyle)
             {
-                _musicTime = 7;
-            }
-            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox)
-            {
-                _musicTime = 5;
+                case MusicStyle.Instrumental:
+                    _musicTime = 7;
+                    break;
+                case MusicStyle.BeatBox:
+                    _musicTime = 5;
+                    break;
             }
 
             Schedule(WaitForMusicToEnd, 0.5f);

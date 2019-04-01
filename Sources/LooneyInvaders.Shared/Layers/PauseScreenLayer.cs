@@ -32,27 +32,27 @@ namespace LooneyInvaders.Layers
 
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (touches.Count > 0)
-            {
-                if (_imgBruises.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
-                {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/bush_get_wounded1.wav");
+            if (touches.Count <= 0)
+                return;
 
-                    _imgBruises.Visible = true;
-                }
-            }
+            if (!_imgBruises.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+                return;
+
+            CCAudioEngine.SharedEngine.PlayEffect("Sounds/bush_get_wounded1.wav");
+
+            _imgBruises.Visible = true;
         }
 
         private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             // tu se vrati na pocetni layer
-            if (_imgBruises.Visible)
-            {
-                _layerBack.IsCartoonFadeIn = false;
-                Director.PopScene();
-                _layerBack.Continue();
-                _imgBruises.Visible = false;
-            }
+            if (!_imgBruises.Visible)
+                return;
+
+            _layerBack.IsCartoonFadeIn = false;
+            Director.PopScene();
+            _layerBack.Continue();
+            _imgBruises.Visible = false;
         }
 
         private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)

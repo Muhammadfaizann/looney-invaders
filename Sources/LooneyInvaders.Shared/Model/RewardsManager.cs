@@ -46,9 +46,18 @@ namespace LooneyInvaders.Model
         {
             var weaponId = "";
 
-            if (weapon == Weapons.Standard) weaponId = "std_gun";
-            else if (weapon == Weapons.Compact) weaponId = "sprayer";
-            else if (weapon == Weapons.Bazooka) weaponId = "bazooka";
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    weaponId = "std_gun";
+                    break;
+                case Weapons.Compact:
+                    weaponId = "sprayer";
+                    break;
+                case Weapons.Bazooka:
+                    weaponId = "bazooka";
+                    break;
+            }
 
             return GetRewardCode(weaponId);
         }
