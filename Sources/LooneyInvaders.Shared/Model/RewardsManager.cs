@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace LooneyInvaders.Model
             try
             {
                 var content = new StringContent($"token=12345qwerty&hero_id={rewardId}", Encoding.ASCII);
+                content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
                 var request = await httpClient.PostAsync("http://www.looneyinvaders.com/wp-json/codegenerator/v1/make/", content, token);
 
                 // request.ContentType = "application/x-www-form-urlencoded";
@@ -38,7 +40,6 @@ namespace LooneyInvaders.Model
                 //return string.Empty;
             }
         }
-
 
         public static Task<string> GetWeaponRewardCodeAsync(HttpClient httpClient, Weapons weapon, CancellationToken token = default(CancellationToken))
         {
