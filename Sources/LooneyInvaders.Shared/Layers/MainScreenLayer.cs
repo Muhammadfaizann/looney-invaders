@@ -5,6 +5,7 @@ using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using System.Threading.Tasks;
 using LooneyInvaders.PNS;
+using System.Threading;
 
 namespace LooneyInvaders.Layers
 {
@@ -152,7 +153,7 @@ namespace LooneyInvaders.Layers
             _imgProNotificationCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
             _imgProNotificationCheckMarkLabel.Visible = false;
 
-
+            /* ToDo: Bass - need to be deleted if works
             _btnSelectionMode = AddButton(35, 25, "UI/Main-screen-quick-game-notification-selection-mode-button-untapped.png", "UI/Main-screen-quick-game-notification-selection-mode-button-tapped.png", 510);
             _btnSelectionMode.Visible = false;
             _btnSelectionMode.Enabled = false;
@@ -163,7 +164,7 @@ namespace LooneyInvaders.Layers
             _btnQuickGame.Enabled = false;
             _btnQuickGame.ButtonType = ButtonType.Rewind;
             _btnQuickGame.OnClick += BtnQuickGame_OnClick;
-
+            */
 
             AddImage(790, 410, "UI/Main-screen-leaderboard-type-text.png");
 
@@ -187,6 +188,20 @@ namespace LooneyInvaders.Layers
             //fireRefreshLeaderboard();
 
             CheckForNotification();
+        }
+
+        Timer timer;
+        private void SetTimer()
+        {
+            var backgroundTask = new Thread(new ThreadStart(() =>
+            {
+                timer = new Timer((e) => Enabled = true,
+                    null,
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.Zero);
+
+            }));
+            backgroundTask.Start();
         }
 
         private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)
@@ -587,7 +602,7 @@ namespace LooneyInvaders.Layers
             {
                 ScheduleOnce(ShowNotificationTip, 1);
             }
-            Enabled = true;
+            SetTimer();
         }
 
         private void ShowNotificationTip(float dt)
