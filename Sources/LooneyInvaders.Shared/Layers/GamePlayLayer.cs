@@ -1352,6 +1352,27 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _btnMovement;
         private CCSpriteButton _btnFire;
 
+        private void AddAllEnemies(int initialValue, bool isHacked = false)
+        {
+            var columnsCount = isHacked ? 1 : 4;
+            for (var j = isHacked ? 1 : initialValue; j >= 0; j--)
+            {
+                for (var i = 0; i < columnsCount; i++)
+                {
+                    var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
+                    _enemies.Add(enemy);
+                    if (isHacked)
+                    {
+                        continue;
+                    }
+                    enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
+                    _enemies.Add(enemy);
+                    enemy.Sprite.ZOrder = 10 - j * 3;
+                }
+            }
+        }
+
         private void StartGame()
         {
             RemoveAllChildren();
@@ -1412,21 +1433,8 @@ namespace LooneyInvaders.Layers
                 _ammos.Add(ammo);
             }
 
+            AddAllEnemies(2, true);
 
-
-
-            for (var j = 2; j >= 0; j--)
-            {
-                for (var i = 0; i < 4; i++)
-                {
-                    var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
-                    enemy.Sprite.ZOrder = 10 - j * 3;
-                    _enemies.Add(enemy);
-                    enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
-                    _enemies.Add(enemy);
-                    enemy.Sprite.ZOrder = 10 - j * 3;
-                }
-            }
             _goingDown = 240;
             _enemyCurrentSpeed = 0; //enemySpeed;
             _firstGoingDown = true;
@@ -2170,18 +2178,9 @@ namespace LooneyInvaders.Layers
             }
             _goingDownCurrentSpeed = _goingDownSpeed;
             _firstGoingDown = true;
-            for (var j = _wave > 8 ? 4 : _wave > 5 ? 3 : 2; j >= 0; j--)
-            {
-                for (var i = 0; i < 4; i++)
-                {
-                    var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
-                    enemy.Sprite.ZOrder = 10 - j * 3;
-                    _enemies.Add(enemy);
-                    enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
-                    _enemies.Add(enemy);
-                    enemy.Sprite.ZOrder = 10 - j * 3;
-                }
-            }
+
+            AddAllEnemies(_wave > 8 ? 4 : _wave > 5 ? 3 : 2);
+
             if (_wave > 7)
             {
                 _goingDown = 240;
