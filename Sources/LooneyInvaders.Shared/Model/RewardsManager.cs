@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Collections.Generic;
 using System.Text;
 
 namespace LooneyInvaders.Model
@@ -10,60 +9,69 @@ namespace LooneyInvaders.Model
     {
         public static string GetRewardCode(string rewardId)
         {
-            byte[] data = Encoding.ASCII.GetBytes("token=12345qwerty&hero_id=" + rewardId);
+            var data = Encoding.ASCII.GetBytes("token=12345qwerty&hero_id=" + rewardId);
 
-            WebRequest request = WebRequest.Create("http://www.looneyinvaders.com/wp-json/codegenerator/v1/make/");
+            var request = WebRequest.Create("http://www.looneyinvaders.com/wp-json/codegenerator/v1/make/");
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = data.Length;
-            using (Stream stream = request.GetRequestStream())
+            using (var stream = request.GetRequestStream())
             {
                 stream.Write(data, 0, data.Length);
             }
 
-            string responseContent = null;
+            string responseContent;
 
-            using (WebResponse response = request.GetResponse())
+            using (var response = request.GetResponse())
             {
-                using (Stream stream = response.GetResponseStream())
+                using (var stream = response.GetResponseStream())
                 {
-                    using (StreamReader sr99 = new StreamReader(stream))
+                    using (var sr99 = new StreamReader(stream ?? throw new InvalidOperationException()))
                     {
                         responseContent = sr99.ReadToEnd();
                     }
                 }
             }
 
-            string[] parts = responseContent.Split(':');
+            var parts = responseContent.Split(':');
 
             if (parts.Length < 2) return "";
             if (parts[1].Length < 4) return "";
 
-            string code = parts[1].Substring(1, parts[1].Length - 3);
+            var code = parts[1].Substring(1, parts[1].Length - 3);
             return code;
         }
 
-        public static string GetWeaponRewardCode(WEAPONS weapon)
+        public static string GetWeaponRewardCode(Weapons weapon)
         {
-            string weapon_id = "";
+            var weaponId = "";
 
-            if (weapon == WEAPONS.STANDARD) weapon_id = "std_gun";
-            else if (weapon == WEAPONS.COMPACT) weapon_id = "sprayer";
-            else if (weapon == WEAPONS.BAZOOKA) weapon_id = "bazooka";
+            switch (weapon)
+            {
+                case Weapons.Standard:
+                    weaponId = "std_gun";
+                    break;
+                case Weapons.Compact:
+                    weaponId = "sprayer";
+                    break;
+                case Weapons.Bazooka:
+                    weaponId = "bazooka";
+                    break;
+            }
 
-            return GetRewardCode(weapon_id);
+            return GetRewardCode(weaponId);
         }
-        
-        public static string GetEnemyRewardCode(ENEMIES enemy)
+
+        public static string GetEnemyRewardCode(Enemies enemy)
         {
-            string enemy_id = "";
+            var enemyId = "";
 
-            if (enemy == ENEMIES.HITLER) enemy_id = "hitler";
-            else if (enemy == ENEMIES.BUSH) enemy_id = "bush";
-            else if (enemy == ENEMIES.PUTIN) enemy_id = "putin";
-            else if (enemy == ENEMIES.KIM) enemy_id = "kim";
+            if (enemy == Enemies.Hitler) enemyId = "hitler";
+            else if (enemy == Enemies.Bush) enemyId = "bush";
+            else if (enemy == Enemies.Putin) enemyId = "putin";
+            else if (enemy == Enemies.Kim) enemyId = "kim";
 
-            return GetRewardCode(enemy_id);
+            return GetRewardCode(enemyId);
         }
     }
 }

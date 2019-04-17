@@ -1,33 +1,31 @@
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Shared;
 
 namespace LooneyInvaders.Layers
 {
     public class LossScreenLayer : CCLayerColorExt
     {
-        public BATTLEGROUNDS SelectedBattleground;
-        public ENEMIES SelectedEnemy;
-        public WEAPONS SelectedWeapon;
+        public Battlegrounds SelectedBattleground;
+        public Enemies SelectedEnemy;
+        public Weapons SelectedWeapon;
 
-        CCSpriteButton btnContinue;
-        CCSpriteButton mainMenu;
-        CCSprite shareYourScore;
-        CCSpriteButton yes;
-        CCSpriteButton no;
-        CCSprite youAreDefeated;
+        private CCSpriteButton _btnContinue;
+        private CCSpriteButton _mainMenu;
+        private CCSprite _shareYourScore;
+        private CCSpriteButton _yes;
+        private CCSpriteButton _no;
+        private readonly CCSprite _youAreDefeated;
 
-        private bool isWeHaveScores = false;
-        private bool isDoneWaitingForScores = false;
+        private readonly bool _isWeHaveScores;
+        //private bool _isDoneWaitingForScores;
 
-        private int alienScore;
-        private int alienWave;
+        private readonly int _alienScore;
+        private readonly int _alienWave;
 
-        public LossScreenLayer(ENEMIES selectedEnemy, WEAPONS selectedWeapon, BATTLEGROUNDS selectedBattleground, int AlienScore = 0, int AlienWave = 0)
+        public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
@@ -35,82 +33,82 @@ namespace LooneyInvaders.Layers
             SelectedEnemy = selectedEnemy;
             SelectedWeapon = selectedWeapon;
 
-            alienScore = AlienScore;
-            alienWave = AlienWave;
+            _alienScore = alienScore;
+            _alienWave = alienWave;
 
 
             switch (SelectedBattleground)
             {
-                case BATTLEGROUNDS.AFGHANISTAN:
-                    this.SetBackground("UI/Loss scenes/afghanistan-lost-war.jpg");
+                case Battlegrounds.Afghanistan:
+                    SetBackground("UI/Loss scenes/afghanistan-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.DENMARK:
-                    this.SetBackground("UI/Loss scenes/denmark-lost-war.jpg");
+                case Battlegrounds.Denmark:
+                    SetBackground("UI/Loss scenes/denmark-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ENGLAND:
-                    this.SetBackground("UI/Loss scenes/UK-lost-war.jpg");
+                case Battlegrounds.England:
+                    SetBackground("UI/Loss scenes/UK-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ESTONIA:
-                    this.SetBackground("UI/Loss scenes/estonia-lost-war.jpg");
+                case Battlegrounds.Estonia:
+                    SetBackground("UI/Loss scenes/estonia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.FINLAND:
-                    this.SetBackground("UI/Loss scenes/Finland-lost-war.jpg");
+                case Battlegrounds.Finland:
+                    SetBackground("UI/Loss scenes/Finland-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.FRANCE:
-                    this.SetBackground("UI/Loss scenes/france-lost-war.jpg");
+                case Battlegrounds.France:
+                    SetBackground("UI/Loss scenes/france-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.GEORGIA:
-                    this.SetBackground("UI/Loss scenes/georgia-lost-war.jpg");
+                case Battlegrounds.Georgia:
+                    SetBackground("UI/Loss scenes/georgia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
-                    this.SetBackground("UI/Loss scenes/UK-lost-war.jpg");
+                case Battlegrounds.GreatBritain:
+                    SetBackground("UI/Loss scenes/UK-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.IRAQ:
-                    this.SetBackground("UI/Loss scenes/iraq-lost-war.jpg");
+                case Battlegrounds.Iraq:
+                    SetBackground("UI/Loss scenes/iraq-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.ISRAEL:
-                    this.SetBackground("UI/Loss scenes/israel-lost-war.jpg");
+                case Battlegrounds.Israel:
+                    SetBackground("UI/Loss scenes/israel-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.JAPAN:
-                    this.SetBackground("UI/Loss scenes/japan-lost-war.jpg");
+                case Battlegrounds.Japan:
+                    SetBackground("UI/Loss scenes/japan-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.LIBYA:
-                    this.SetBackground("UI/Loss scenes/libya-lost-war.jpg");
+                case Battlegrounds.Libya:
+                    SetBackground("UI/Loss scenes/libya-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.NORWAY:
-                    this.SetBackground("UI/Loss scenes/norway-lost-war.jpg");
+                case Battlegrounds.Norway:
+                    SetBackground("UI/Loss scenes/norway-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.POLAND:
-                    this.SetBackground("UI/Loss scenes/poland-lost-war.jpg");
+                case Battlegrounds.Poland:
+                    SetBackground("UI/Loss scenes/poland-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.RUSSIA:
-                    this.SetBackground("UI/Loss scenes/russia-lost-war.jpg");
+                case Battlegrounds.Russia:
+                    SetBackground("UI/Loss scenes/russia-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
-                    this.SetBackground("UI/Loss scenes/south-korea-lost-war.jpg");
+                case Battlegrounds.SouthKorea:
+                    SetBackground("UI/Loss scenes/south-korea-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.SYRIA:
-                    this.SetBackground("UI/Loss scenes/syria-lost-war.jpg");
+                case Battlegrounds.Syria:
+                    SetBackground("UI/Loss scenes/syria-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.UKRAINE:
-                    this.SetBackground("UI/Loss scenes/ukraine-lost-war.jpg");
+                case Battlegrounds.Ukraine:
+                    SetBackground("UI/Loss scenes/ukraine-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.UNITED_STATES:
-                    this.SetBackground("UI/Loss scenes/Usa-lost-war.jpg");
+                case Battlegrounds.UnitedStates:
+                    SetBackground("UI/Loss scenes/Usa-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.VIETNAM:
-                    this.SetBackground("UI/Loss scenes/vietnam-lost-war.jpg");
+                case Battlegrounds.Vietnam:
+                    SetBackground("UI/Loss scenes/vietnam-lost-war.jpg");
                     break;
-                case BATTLEGROUNDS.MOON:
-                    youAreDefeated = this.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
-                    youAreDefeated.Opacity = 0;
-                    this.SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
+                case Battlegrounds.Moon:
+                    _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
+                    _youAreDefeated.Opacity = 0;
+                    SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
                     break;
             }
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PreloadEffect("Sounds/you are defeaded VO_mono.wav");
                 }
@@ -126,58 +124,53 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
             AdMobManager.ShowBannerBottom();
 
-
-            
-
-
-            
             //submit score during shown victory image
-            if (alienScore > GamePlayLayer.BestScoreAlien)
+            if (_alienScore > GamePlayLayer.BestScoreAlien)
             {
-                GamePlayLayer.BestScoreAlien = alienScore;
-                GamePlayLayer.BestScoreAlienWave = alienWave;
+                GamePlayLayer.BestScoreAlien = _alienScore;
+                GamePlayLayer.BestScoreAlienWave = _alienWave;
 
-				Player.Instance.SetDayScore(alienScore, true);
+                Player.Instance.SetDayScore(_alienScore, true);
             }
-            Player.Instance.Credits += alienScore;
-            isWeHaveScores = LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(alienScore, alienWave);
-            isDoneWaitingForScores = true;
+            Player.Instance.Credits += _alienScore;
+            _isWeHaveScores = LeaderboardManager.SubmitScorePro(_alienScore, _alienWave);
+            //_isDoneWaitingForScores = true;
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
-                GameEnvironment.PlayMusic(MUSIC.GAMEOVERALIEN);
+                GameEnvironment.PlayMusic(Music.GameOverAlien);
             }
             else
             {
-                GameEnvironment.PlayMusic(MUSIC.GAMEOVER);
+                GameEnvironment.PlayMusic(Music.GameOver);
             }
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
                 //-------------- Prabhjot ----------------//
-                youAreDefeated = this.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
-                youAreDefeated.Opacity = 0;
-                this.SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
-                this.Schedule(fadeYouAreDefeated);
+                _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
+                _youAreDefeated.Opacity = 0;
+                SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
+                Schedule(FadeYouAreDefeated);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-                    this.ScheduleOnce(CalloutRevenge, 2f);
+                    ScheduleOnce(CalloutRevenge, 2f);
                 }
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    this.ScheduleOnce(showAd, 5f);
+                    ScheduleOnce(ShowAd, 5f);
                 }
                 else
                 {
-                    GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
-                    hasScore = true;
-                    this.ScheduleOnce(showScoreAlien, 2f);
+                    GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+                    _hasScore = true;
+                    ScheduleOnce(ShowScoreAlien, 2f);
                 }
             }
             else
             {
-                this.ScheduleOnce(showGetRevenge, 2);
+                ScheduleOnce(ShowGetRevenge, 2);
             }
 
 
@@ -189,322 +182,324 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
         }
 
-        private bool hasScore = false;
+        private bool _hasScore;
 
-        CCNodeExt getRevengeNode;
+        private CCNodeExt _getRevengeNode;
 
-        private void showGetRevenge(float d)
+        private void ShowGetRevenge(float d)
         {
-            getRevengeNode = new CCNodeExt();
+            _getRevengeNode = new CCNodeExt();
 
-            if (SelectedEnemy == ENEMIES.ALIENS)
+            if (SelectedEnemy == Enemies.Aliens)
             {
-                getRevengeNode.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
+                _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
             }
-            else if (!hasScore)
+            else if (!_hasScore)
             {
-                getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
+                _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
             }
             else
             {
-                getRevengeNode.AddImage(0, 380, "UI/You-are-dead-now-get-up-and-get-your-revenge.png", 3);
+                _getRevengeNode.AddImage(0, 380, "UI/You-are-dead-now-get-up-and-get-your-revenge.png", 3);
             }
 
-            CCSpriteButton mainMenu = getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
+            var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += mainMenu_OnClick;
 
-            CCSpriteButton revenge;
-            if (Player.Instance.isProLevelSelected == true)
-            {
-                revenge = getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            }
-            else
-            {
-                revenge = getRevengeNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-            }
+            var revenge = Player.Instance.IsProLevelSelected
+                ? _getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png")
+                : _getRevengeNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
 
-            revenge.ButtonType = BUTTON_TYPE.Rewind;
+            revenge.ButtonType = ButtonType.Rewind;
             revenge.OnClick += revenge_OnClick;
 
 
-            getRevengeNode.Opacity = 0;
-            foreach (CCNode child in getRevengeNode.Children) { child.Opacity = getRevengeNode.Opacity; };
+            _getRevengeNode.Opacity = 0;
+            foreach (var child in _getRevengeNode.Children)
+            {
+                child.Opacity = _getRevengeNode.Opacity;
+            }
 
 
-            this.AddChild(getRevengeNode);
+            AddChild(_getRevengeNode);
 
-            this.Schedule(fadeRevengeNode);
+            Schedule(FadeRevengeNode);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (SelectedEnemy == ENEMIES.ALIENS)
+                if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-                    this.ScheduleOnce(CalloutRevenge, 2.5f);
+                    ScheduleOnce(CalloutRevenge, 2.5f);
                 }
                 else
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
-                    this.ScheduleOnce(CalloutRevenge, 2f);
+                    ScheduleOnce(CalloutRevenge, 2f);
                 }
 
             }
-            
-        }
-
-        private void CalloutDefeated(float dt)
-        {
-            CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-            this.ScheduleOnce(CalloutRevenge, 2.5f);
 
         }
 
-        private void CalloutDead(float dt)
-        {
-            CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
-            this.ScheduleOnce(CalloutRevenge, 2f);
+        //private void CalloutDefeated(float dt)
+        //{
+        //    CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
+        //    ScheduleOnce(CalloutRevenge, 2.5f);
 
-        }
+        //}
 
-        private void fadeYouAreDefeated(float dt)
+        //private void CalloutDead(float dt)
+        //{
+        //    CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
+        //    ScheduleOnce(CalloutRevenge, 2f);
+        //}
+
+        private void FadeYouAreDefeated(float dt)
         {
-            youAreDefeated.Opacity += 2;
-            if (youAreDefeated.Opacity >= 251)
+            _youAreDefeated.Opacity += 2;
+            if (_youAreDefeated.Opacity >= 251)
             {
-                youAreDefeated.Opacity = 255;
-                this.Unschedule(fadeYouAreDefeated);
-            }
-            
-        }
-
-
-        private void fadeRevengeNode (float dt)
-        {
-            getRevengeNode.Opacity += 5;
-            if (getRevengeNode.Opacity >= 251)
-            {
-                getRevengeNode.Opacity = 255;
-                this.Unschedule(fadeRevengeNode);
-            }
-            foreach (CCNode child in getRevengeNode.Children) { child.Opacity = getRevengeNode.Opacity; };
-        }
-     
-
-
-        CCNodeExt scoreNode;
-
-        private void showScore(float d)
-        {
-         
-
-
-            switch (GamePlayLayer.BestScoreCountry)
-            {
-                case BATTLEGROUNDS.AFGHANISTAN:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-afghanistan.png", 3);
-                    break;
-                case BATTLEGROUNDS.DENMARK:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-denmark.png", 3);
-                    break;
-                case BATTLEGROUNDS.ENGLAND:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-england.png", 3);
-                    break;
-                case BATTLEGROUNDS.ESTONIA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-estonia.png", 3);
-                    break;
-                case BATTLEGROUNDS.FINLAND:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-finland.png", 3);
-                    break;
-                case BATTLEGROUNDS.FRANCE:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-france.png", 3);
-                    break;
-                case BATTLEGROUNDS.GEORGIA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-georgia.png", 3);
-                    break;
-                case BATTLEGROUNDS.GREAT_BRITAIN:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-great-britain.png", 3);
-                    break;
-                case BATTLEGROUNDS.IRAQ:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-iraq.png", 3);
-                    break;
-                case BATTLEGROUNDS.ISRAEL:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-israel.png", 3);
-                    break;
-                case BATTLEGROUNDS.JAPAN:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-japan.png", 3);
-                    break;
-                case BATTLEGROUNDS.LIBYA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-libya.png", 3);
-                    break;
-                case BATTLEGROUNDS.NORWAY:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-norway.png", 3);
-                    break;
-                case BATTLEGROUNDS.POLAND:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-poland.png", 3);
-                    break;
-                case BATTLEGROUNDS.RUSSIA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-russia.png", 3);
-                    break;
-                case BATTLEGROUNDS.SOUTH_KOREA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-south-korea.png", 3);
-                    break;
-                case BATTLEGROUNDS.SYRIA:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-syria.png", 3);
-                    break;
-                case BATTLEGROUNDS.UKRAINE:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-ukraine.png", 3);
-                    break;
-                case BATTLEGROUNDS.UNITED_STATES:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-united-states.png", 3);
-                    break;
-                case BATTLEGROUNDS.VIETNAM:
-                    scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-vietnam.png", 3);
-                    break;
+                _youAreDefeated.Opacity = 255;
+                Unschedule(FadeYouAreDefeated);
             }
 
-            scoreNode.AddImage(0, 153, "UI/victory-score-board-just-background.png", 2);
-            scoreNode.AddImage(0, 153, "UI/victory-score-board-just-text.png", 3);
-
-            scoreNode.AddImage(0, 70, "UI/victory-share-your-score-and-earn-credits-text.png", 3);
-
-            scoreNode.AddImageLabelRightAligned(466, 391, GamePlayLayer.BestScoreTime.ToString("0.00"), 57);
-            scoreNode.AddImage(466, 385, "UI/victory&social-share-score-numbers-(sec).png", 4);
-
-            scoreNode.AddImageLabelRightAligned(572, 318, GamePlayLayer.BestScoreAccuracy.ToString("0.00"), 57);
-            scoreNode.AddImage(570, 315, "UI/victory&social-share-score-numbers-(%).png", 4);
-
-
-
-            scoreNode.AddImageLabel(420, 245, GamePlayLayer.BestScore.ToString(), 57);
-
-            scoreNode.AddImageLabel(490, 170, Player.Instance.Score.ToString(), 57);
-
-            CCSpriteButton yes = scoreNode.AddButton(850, 70, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-            yes.OnClick += yes_OnClick;
-
-            CCSpriteButton no = scoreNode.AddButton(600, 70,  "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-            no.OnClick += no_OnClick;
-
-            scoreNode.Opacity = 0;
-            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-
-
-            this.AddChild(scoreNode);
-
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
-            this.Schedule(
-                delegate (float dt)
-                {
-                    scoreNode.Opacity += 5;
-                    if (scoreNode.Opacity > 250)
-                    {
-                        scoreNode.Opacity = 255;
-                        this.UnscheduleAll();
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-                );
-
         }
 
 
-        CCSprite recordNotification;
-        CCSprite recordNotificationImage;
-        CCSpriteButton recordOkIGotIt;
-        private bool recordNotificationShown = false;
-
-        private void showRecordNotification(float dt)
+        private void FadeRevengeNode(float dt)
         {
-            if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProMonthly.Score && LeaderboardManager.PlayerRankProMonthly.Rank == 1)
+            _getRevengeNode.Opacity += 5;
+            if (_getRevengeNode.Opacity >= 251)
+            {
+                _getRevengeNode.Opacity = 255;
+                Unschedule(FadeRevengeNode);
+            }
+
+            foreach (var child in _getRevengeNode.Children)
+            {
+                child.Opacity = _getRevengeNode.Opacity;
+            }
+        }
+
+
+        private CCNodeExt _scoreNode;
+
+        //private void ShowScore(float d)
+        //{
+        //    switch (GamePlayLayer.BestScoreCountry)
+        //    {
+        //        case BATTLEGROUNDS.AFGHANISTAN:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-afghanistan.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.DENMARK:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-denmark.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.ENGLAND:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-england.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.ESTONIA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-estonia.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.FINLAND:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-finland.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.FRANCE:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-france.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.GEORGIA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-georgia.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.GREAT_BRITAIN:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-great-britain.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.IRAQ:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-iraq.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.ISRAEL:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-israel.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.JAPAN:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-japan.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.LIBYA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-libya.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.NORWAY:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-norway.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.POLAND:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-poland.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.RUSSIA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-russia.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.SOUTH_KOREA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-south-korea.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.SYRIA:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-syria.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.UKRAINE:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-ukraine.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.UNITED_STATES:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-united-states.png", 3);
+        //            break;
+        //        case BATTLEGROUNDS.VIETNAM:
+        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-vietnam.png", 3);
+        //            break;
+        //    }
+
+        //    _scoreNode.AddImage(0, 153, "UI/victory-score-board-just-background.png", 2);
+        //    _scoreNode.AddImage(0, 153, "UI/victory-score-board-just-text.png", 3);
+
+        //    _scoreNode.AddImage(0, 70, "UI/victory-share-your-score-and-earn-credits-text.png", 3);
+
+        //    _scoreNode.AddImageLabelRightAligned(466, 391, GamePlayLayer.BestScoreTime.ToString("0.00"), 57);
+        //    _scoreNode.AddImage(466, 385, "UI/victory&social-share-score-numbers-(sec).png", 4);
+
+        //    _scoreNode.AddImageLabelRightAligned(572, 318, GamePlayLayer.BestScoreAccuracy.ToString("0.00"), 57);
+        //    _scoreNode.AddImage(570, 315, "UI/victory&social-share-score-numbers-(%).png", 4);
+
+
+
+        //    _scoreNode.AddImageLabel(420, 245, GamePlayLayer.BestScore.ToString(), 57);
+
+        //    _scoreNode.AddImageLabel(490, 170, Player.Instance.Score.ToString(), 57);
+
+        //    CCSpriteButton yes = _scoreNode.AddButton(850, 70, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
+        //    yes.OnClick += yes_OnClick;
+
+        //    CCSpriteButton no = _scoreNode.AddButton(600, 70, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
+        //    no.OnClick += no_OnClick;
+
+        //    _scoreNode.Opacity = 0;
+        //    foreach (CCNode child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; };
+
+
+        //    AddChild(_scoreNode);
+
+        //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
+        //    Schedule(delegate
+        //    {
+        //        _scoreNode.Opacity += 5;
+        //        if (_scoreNode.Opacity > 250)
+        //        {
+        //            _scoreNode.Opacity = 255;
+        //            UnscheduleAll();
+        //        }
+
+        //        foreach (CCNode child in _scoreNode.Children)
+        //        {
+        //            child.Opacity = _scoreNode.Opacity;
+        //        }
+        //    });
+        //}
+
+
+        private CCSprite _recordNotification;
+        private CCSprite _recordNotificationImage;
+        private CCSpriteButton _recordOkIGotIt;
+        private bool _recordNotificationShown;
+
+        private void ShowRecordNotification(float dt)
+        {
+            if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProMonthly.Score && LeaderboardManager.PlayerRankProMonthly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProMonthly.Rank == 2)
             {
                 Player.Instance.Credits += 30000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProMonthly.Score && LeaderboardManager.PlayerRankProMonthly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProMonthly.Rank == 3)
             {
                 Player.Instance.Credits += 15000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProWeekly.Score && LeaderboardManager.PlayerRankProWeekly.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProWeekly.Rank == 1)
             {
                 Player.Instance.Credits += 30000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProWeekly.Score && LeaderboardManager.PlayerRankProWeekly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProWeekly.Rank == 2)
             {
                 Player.Instance.Credits += 20000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProWeekly.Score && LeaderboardManager.PlayerRankProWeekly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProWeekly.Rank == 3)
             {
                 Player.Instance.Credits += 10000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProDaily.Score && LeaderboardManager.PlayerRankProDaily.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProDaily.Rank == 1)
             {
                 Player.Instance.Credits += 15000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProDaily.Score && LeaderboardManager.PlayerRankProDaily.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProDaily.Rank == 2)
             {
                 Player.Instance.Credits += 10000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
             }
-            else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProDaily.Score && LeaderboardManager.PlayerRankProDaily.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankProDaily.Rank == 3)
             {
                 Player.Instance.Credits += 5000;
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
             }
             else
             {
-                recordNotification = this.AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
-                if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProAlltime.Score)
+                _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
+                if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProAlltime.Score) < AppConstants.Tolerance)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
                 }
-                else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProMonthly.Score)
+                else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
                 }
-                else if (isWeHaveScores && alienScore == LeaderboardManager.PlayerRankProWeekly.Score)
+                else if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance)
                 {
-                    recordNotificationImage = this.AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
+                    _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
                 }
                 else /*if (isWeHaveScores && score == LeaderboardManager.PlayerRankProDaily.Score)*/
                 {
-                    recordNotificationImage = this.AddImage(35, 379, "UI/victory-notification-personal-best-of-day.png", 4);
+                    _recordNotificationImage = AddImage(35, 379, "UI/victory-notification-personal-best-of-day.png", 4);
                 }
             }
 
 
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.REWARD_NOTIFICATION);
-            recordOkIGotIt = this.AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
-            recordNotificationShown = true;
+            GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
+            _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
+            _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
+            _recordNotificationShown = true;
         }
 
 
         private void recordOkIGotIt_OnClick(object sender, EventArgs e)
         {
-            this.RemoveChild(recordOkIGotIt);
-            this.RemoveChild(recordNotification, true);
-            if(recordNotificationImage!=null) this.RemoveChild(recordNotificationImage, true);
-            this.ScheduleOnce(showScoreAlien, 0f);
-
+            RemoveChild(_recordOkIGotIt);
+            RemoveChild(_recordNotification);
+            if (_recordNotificationImage != null)
+                RemoveChild(_recordNotificationImage);
+            ScheduleOnce(ShowScoreAlien, 0f);
         }
 
-        CCSprite[] creditsLabels;
+        private CCSprite[] _creditsLabels;
 
-        private void showScoreAlien(float d)
+        private void ShowScoreAlien(float d)
         {
-            if (isWeHaveScores && alienScore > 0 && (alienScore == LeaderboardManager.PlayerRankProAlltime.Score || alienScore == LeaderboardManager.PlayerRankProMonthly.Score || alienScore == LeaderboardManager.PlayerRankProWeekly.Score || alienScore == LeaderboardManager.PlayerRankProDaily.Score) && !recordNotificationShown)
+            if (_isWeHaveScores && _alienScore > 0
+                                && (Math.Abs(_alienScore - LeaderboardManager.PlayerRankProAlltime.Score) < AppConstants.Tolerance
+                                    || Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance
+                                    || Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance
+                                    || Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
+                                && !_recordNotificationShown)
             {
-                this.ScheduleOnce(showRecordNotification, 0.5f);
+                ScheduleOnce(ShowRecordNotification, 0.5f);
                 return;
             }
 
@@ -513,14 +508,14 @@ namespace LooneyInvaders.Layers
             //scoreNode.AddImage(650, 455, "UI/victory&social-share-global-ranking-all-text.png", 3);
 
 
-            scoreNode = new CCNodeExt();
+            _scoreNode = new CCNodeExt();
 
 
 
-            scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
-            scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
-            scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-            shareYourScore = scoreNode.AddImage(0, 80, "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
+            _scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
+            _scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
+            _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
+            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
 
 
             /* old
@@ -537,92 +532,88 @@ namespace LooneyInvaders.Layers
             */
 
             //current score
-            scoreNode.AddImageLabelCentered(155, 380, alienScore.ToString(), 52);
-            scoreNode.AddImageLabelCentered(155, 314, alienWave.ToString(), 50);
+            _scoreNode.AddImageLabelCentered(155, 380, _alienScore.ToString(), 52);
+            _scoreNode.AddImageLabelCentered(155, 314, _alienWave.ToString(), 50);
             //scoreNode.AddImageLabelCentered(155, 247, rank.ToString(), 52);
 
 
-            if (isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && alienScore == LeaderboardManager.PlayerRankProMonthly.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance)
             {
-                scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && alienScore == LeaderboardManager.PlayerRankProWeekly.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance)
             {
-                scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-week-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-week-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && alienScore == LeaderboardManager.PlayerRankProDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
             {
-                scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-day-title-text.png", 3);
-                scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProDaily.Rank.ToString("0"), 52);
+                _scoreNode.AddImage(0, 440, "UI/victory-earth-level-personal-best-of-day-title-text.png", 3);
+                _scoreNode.AddImageLabelCentered(155, 245, LeaderboardManager.PlayerRankProDaily.Rank.ToString("0"), 52);
             }
             else
             {
-                scoreNode.AddImage(0, 440, "UI/victory-earth-level-non-record-title-text.png", 3);
-                scoreNode.AddImage(40, 251, "UI/victory-earth-level-not-ranked-text.png", 3);
+                _scoreNode.AddImage(0, 440, "UI/victory-earth-level-non-record-title-text.png", 3);
+                _scoreNode.AddImage(40, 251, "UI/victory-earth-level-not-ranked-text.png", 3);
             }
             //credits
-            creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
-            btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+            _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             //btnContinue = scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
-            btnContinue.OnClick += BtnContinue_OnClick;
+            _btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
+            _btnContinue.OnClick += BtnContinue_OnClick;
 
-            mainMenu = scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            mainMenu.Visible = true; // Previously this line was not written --- Changed by Prabhjot
-            mainMenu.OnClick += mainMenu_OnClick;
+            _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
+            _mainMenu.Visible = true; // Previously this line was not written --- Changed by Prabhjot
+            _mainMenu.OnClick += mainMenu_OnClick;
 
-            if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && LeaderboardManager.PlayerRankProWeekly != null && LeaderboardManager.PlayerRankProMonthly != null)
             {
                 //day
-                scoreNode.AddImageLabelCentered(700, 380, LeaderboardManager.PlayerRankProDaily.Score.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : (alienScore > LeaderboardManager.PlayerRankProDaily.Score ? "red" : (alienScore < LeaderboardManager.PlayerRankProDaily.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(700, 314, LeaderboardManager.PlayerRankProDaily.LevelsCompleted.ToString(), 50, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : (alienWave > LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "red" : (alienWave < LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(700, 247, LeaderboardManager.PlayerRankProDaily.Rank.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProDaily.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(700, 380, LeaderboardManager.PlayerRankProDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProDaily.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProDaily.Score ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(700, 314, LeaderboardManager.PlayerRankProDaily.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(700, 247, LeaderboardManager.PlayerRankProDaily.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance ? null : "green");
 
                 //------------ Prabhjot ------------//
                 //week
-                scoreNode.AddImageLabelCentered(847, 380, LeaderboardManager.PlayerRankProWeekly.Score.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProWeekly.Score ? null : (alienScore > LeaderboardManager.PlayerRankProWeekly.Score ? "red" : (alienScore < LeaderboardManager.PlayerRankProWeekly.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(847, 314, LeaderboardManager.PlayerRankProWeekly.LevelsCompleted.ToString(), 50, alienScore == LeaderboardManager.PlayerRankProWeekly.Score ? null : (alienWave > LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "red" : (alienWave < LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(847, 247, LeaderboardManager.PlayerRankProWeekly.Rank.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProWeekly.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(847, 380, LeaderboardManager.PlayerRankProWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProWeekly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProWeekly.Score ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(847, 314, LeaderboardManager.PlayerRankProWeekly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(847, 247, LeaderboardManager.PlayerRankProWeekly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance ? null : "green");
                 //month
-                scoreNode.AddImageLabelCentered(1011, 380, LeaderboardManager.PlayerRankProMonthly.Score.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProMonthly.Score ? null : (alienScore > LeaderboardManager.PlayerRankProMonthly.Score ? "red" : (alienScore < LeaderboardManager.PlayerRankProMonthly.Score ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(1011, 314, LeaderboardManager.PlayerRankProMonthly.LevelsCompleted.ToString(), 50, alienScore == LeaderboardManager.PlayerRankProMonthly.Score ? null : (alienWave > LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "red" : (alienWave < LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "green" : "yellow")));
-                scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, alienScore == LeaderboardManager.PlayerRankProMonthly.Score ? null : "green");
+                _scoreNode.AddImageLabelCentered(1011, 380, LeaderboardManager.PlayerRankProMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProMonthly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProMonthly.Score ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(1011, 314, LeaderboardManager.PlayerRankProMonthly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "green" : "yellow");
+                _scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance ? null : "green");
 
-                yes = scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                yes.OnClick += yes_OnClick;
+                _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
+                _yes.OnClick += yes_OnClick;
 
-                
-                no = scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-                no.OnClick += no_OnClick;
 
-                mainMenu.Visible = false;
-                btnContinue.Visible = false;
+                _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
+                _no.OnClick += no_OnClick;
+
+                _mainMenu.Visible = false;
+                _btnContinue.Visible = false;
             }
             else
             {
                 //no internet
-                shareYourScore.Visible = false;
-                btnContinue.Visible = true;
-                scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
+                _shareYourScore.Visible = false;
+                _btnContinue.Visible = true;
+                _scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
             }
 
+            _scoreNode.Opacity = 0;
+            foreach (var child in _scoreNode.Children)
+            {
+                child.Opacity = _scoreNode.Opacity;
+            }
 
-           
+            AddChild(_scoreNode);
 
-            scoreNode.Opacity = 0;
-            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-
-
-            this.AddChild(scoreNode);
-
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
-            this.Schedule(fadeScoreNode);
-
-           
-
+            GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
+            Schedule(FadeScoreNode);
         }
 
         private void BtnContinue_OnClick(object sender, EventArgs e)
@@ -631,20 +622,24 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
-            this.TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
+            TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
         }
 
-        private void fadeScoreNode(float dt)
+        private void FadeScoreNode(float dt)
         {
-            scoreNode.Opacity += 5;
-            if (scoreNode.Opacity > 250)
+            _scoreNode.Opacity += 5;
+            if (_scoreNode.Opacity > 250)
             {
-                scoreNode.Opacity = 255;
-                this.Unschedule(fadeScoreNode);
+                _scoreNode.Opacity = 255;
+                Unschedule(FadeScoreNode);
             }
-            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
 
-            youAreDefeated.Opacity = (byte)(255 - scoreNode.Opacity);
+            foreach (var child in _scoreNode.Children)
+            {
+                child.Opacity = _scoreNode.Opacity;
+            }
+
+            _youAreDefeated.Opacity = (byte)(255 - _scoreNode.Opacity);
         }
 
         private void mainMenu_OnClick(object sender, EventArgs e)
@@ -654,7 +649,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             AdMobManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
-            this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+            TransitionToLayerCartoonStyle(new MainScreenLayer());
         }
 
         private void revenge_OnClick(object sender, EventArgs e)
@@ -663,78 +658,78 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
 
-            this.TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
+            TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
         }
 
 
 
-        CCNodeExt shareNode;
-        CCSpriteTwoStateButton shareScoreBoard;
-        CCSpriteTwoStateButton shareTwitter;
-        CCSpriteTwoStateButton shareFacebook;
+        //CCNodeExt shareNode;
+        //CCSpriteTwoStateButton shareScoreBoard;
+        //CCSpriteTwoStateButton shareTwitter;
+        //CCSpriteTwoStateButton shareFacebook;
 
 
-        CCNodeExt sl;
+        private CCNodeExt _sl;
 
         private void yes_OnClick(object sender, EventArgs e)
         {
-            sl = new CCNodeExt();
+            _sl = new CCNodeExt();
 
-            sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-saved-planet-earth.png", 2);
+            _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-saved-planet-earth.png", 2);
 
-            sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
+            _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
 
-            sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
+            _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
 
-            sl.AddImageLabel(420, 295, alienScore.ToString(), 52);
+            _sl.AddImageLabel(420, 295, _alienScore.ToString(), 52);
 
-            if (isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && alienScore == LeaderboardManager.PlayerRankProMonthly.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < AppConstants.Tolerance)
             {
-                sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && alienScore == LeaderboardManager.PlayerRankProDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
             {
-                sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
+                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
             }
-            if (isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && alienScore == LeaderboardManager.PlayerRankProWeekly.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < AppConstants.Tolerance)
             {
-                sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
             }
-            else if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && alienScore == LeaderboardManager.PlayerRankProDaily.Score)
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
             {
-                sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
+                _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
             }
-            if (isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && alienScore == LeaderboardManager.PlayerRankProDaily.Score)
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
             {
-                sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
             }
             else
             {
-                sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
+                _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
             }
 
-            scoreNode.Visible = false;
-            this.AddChild(sl);
+            _scoreNode.Visible = false;
+            AddChild(_sl);
 
 
-            shareYourScore.Visible = false;
-            yes.Visible = false;
-            no.Visible = false;
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
             SocialNetworkShareManager.ShareLayer("facebook", this);
 
 
-            scoreNode.Visible = true;
-            this.RemoveChild(sl);
+            _scoreNode.Visible = true;
+            RemoveChild(_sl);
 
 
             Player.Instance.Credits += 5000;
-            foreach (CCSprite spr in creditsLabels)
+            foreach (var spr in _creditsLabels)
             {
-                scoreNode.RemoveChild(spr);
+                _scoreNode.RemoveChild(spr);
             }
-            creditsLabels = scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
-            btnContinue.Visible = true;
-            mainMenu.Visible = true;
+            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
             /*
             if (shareNode == null)
             {
@@ -803,7 +798,7 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void showAd(float dt)
+        private void ShowAd(float dt)
         {
             AdMobManager.HideBanner();
             AdMobManager.ShowInterstitial(0);
@@ -815,89 +810,89 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
             AdMobManager.ShowBannerBottom();
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
-            hasScore = true;
-            this.ScheduleOnce(showScoreAlien, 0.1f);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+            _hasScore = true;
+            ScheduleOnce(ShowScoreAlien, 0.1f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             AdMobManager.ShowBannerBottom();
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SHOWSCORE);
-            hasScore = true;
-            this.ScheduleOnce(showScoreAlien, 0.1f);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+            _hasScore = true;
+            ScheduleOnce(ShowScoreAlien, 0.1f);
         }
 
-        private void shareScoreBoard_OnClick(object sender, EventArgs e)
-        {
-            shareScoreBoard.ChangeState();
-            shareScoreBoard.SetStateImages();
-        }
+        //private void shareScoreBoard_OnClick(object sender, EventArgs e)
+        //{
+        //    shareScoreBoard.ChangeState();
+        //    shareScoreBoard.SetStateImages();
+        //}
 
-        private void shareTwitter_OnClick(object sender, EventArgs e)
-        {
-            shareTwitter.ChangeState();
-            shareTwitter.SetStateImages();
-        }
+        //private void shareTwitter_OnClick(object sender, EventArgs e)
+        //{
+        //    shareTwitter.ChangeState();
+        //    shareTwitter.SetStateImages();
+        //}
 
-        private void shareFacebook_OnClick(object sender, EventArgs e)
-        {
-            shareFacebook.ChangeState();
-            shareFacebook.SetStateImages();
-        }
+        //private void shareFacebook_OnClick(object sender, EventArgs e)
+        //{
+        //    shareFacebook.ChangeState();
+        //    shareFacebook.SetStateImages();
+        //}
 
-        private void cancelBtn_OnClick(object sender, EventArgs e)
-        {
-            this.Schedule(delegate (float dt)
-            {
-                if (shareNode.Opacity > 0)
-                {
-                    shareNode.Opacity -= 20;
-                    if (shareNode.Opacity < 20)
-                    {
-                        shareNode.Opacity = 0;
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-                else
-                {
-                    scoreNode.Opacity += 20;
-                    if (scoreNode.Opacity >= 235)
-                    {
-                        scoreNode.Opacity = 255;
-                        this.UnscheduleAll();
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-            });
-        }
+        //private void cancelBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    this.Schedule(delegate (float dt)
+        //    {
+        //        if (shareNode.Opacity > 0)
+        //        {
+        //            shareNode.Opacity -= 20;
+        //            if (shareNode.Opacity < 20)
+        //            {
+        //                shareNode.Opacity = 0;
+        //            }
+        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
+        //        }
+        //        else
+        //        {
+        //            scoreNode.Opacity += 20;
+        //            if (scoreNode.Opacity >= 235)
+        //            {
+        //                scoreNode.Opacity = 255;
+        //                this.UnscheduleAll();
+        //            }
+        //            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
+        //        }
+        //    });
+        //}
 
-        private void shareBtn_OnClick(object sender, EventArgs e)
-        {
-            GamePlayLayer.BestScore = 0;
-            this.Schedule(delegate (float dt)
-            {
-                if (shareNode.Opacity > 0)
-                {
-                    shareNode.Opacity -= 20;
-                    if (shareNode.Opacity < 20)
-                    {
-                        shareNode.Opacity = 0;
-                        this.UnscheduleAll();
-                        showGetRevenge(0);
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-            });
-        }
+        //private void shareBtn_OnClick(object sender, EventArgs e)
+        //{
+        //    GamePlayLayer.BestScore = 0;
+        //    this.Schedule(delegate (float dt)
+        //    {
+        //        if (shareNode.Opacity > 0)
+        //        {
+        //            shareNode.Opacity -= 20;
+        //            if (shareNode.Opacity < 20)
+        //            {
+        //                shareNode.Opacity = 0;
+        //                this.UnscheduleAll();
+        //                showGetRevenge(0);
+        //            }
+        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
+        //        }
+        //    });
+        //}
 
         private void no_OnClick(object sender, EventArgs e)
         {
-            shareYourScore.Visible = false;
-            yes.Visible = false;
-            no.Visible = false;
-            btnContinue.Visible = true;
-            mainMenu.Visible = true;
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
             /*
             this.Schedule(delegate (float dt)
             {

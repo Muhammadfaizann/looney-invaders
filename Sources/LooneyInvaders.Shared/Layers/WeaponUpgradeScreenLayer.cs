@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
@@ -9,268 +7,271 @@ namespace LooneyInvaders.Layers
 {
     public class WeaponUpgradeScreenLayer : CCLayerColorExt
     {
-        const int UPGRADE_PRICE = 3000;
+        private readonly int _selectedEnemy;
+        private readonly int _selectedWeapon;
 
-        int _selectedEnemy;
-        int _selectedWeapon;
+        private int _credits;
 
-        int _credits = 0;
+        private int _caliberSizeMinimum;
+        private int _firespeedMinimum;
+        private int _magazineSizeMinimum;
+        private int _livesMinimum;
 
-        int _caliberSizeMinimum = 1;
-        int _firespeedMinimum = 1;
-        int _magazineSizeMinimum = 1;
-        int _livesMinimum = 1;
+        private readonly int _caliberSizeMaximum;
+        private readonly int _firespeedMaximum;
+        private readonly int _magazineSizeMaximum = 4;
+        private readonly int _livesMaximum;
 
-        int _caliberSizeMaximum = 5;
-        int _firespeedMaximum = 5;
-        int _magazineSizeMaximum = 4;
-        int _livesMaximum = 7;
+        private int _caliberSize;
+        private int _firespeed;
+        private int _magazineSize;
+        private int _lives;
 
-        int _caliberSize = 1;
-        int _firespeed = 1;
-        int _magazineSize = 1;
-        int _lives = 1;
+        private int _caliberSizePrice;
+        private int _firespeedPrice;
+        private int _magazineSizePrice;
+        private int _livesPrice;
 
-        int _caliberSizePrice = 0;
-        int _firespeedPrice = 0;
-        int _magazineSizePrice = 0;
-        int _livesPrice = 0;
+        private readonly CCSprite[] _imgCaliberSize = new CCSprite[6];
+        private readonly CCSprite[] _imgFirespeed = new CCSprite[6];
+        private readonly CCSprite[] _imgMagazineSize = new CCSprite[6];
+        private readonly CCSprite[] _imgLives = new CCSprite[7];
 
-        CCSprite[] _imgCaliberSize = new CCSprite[6];
-        CCSprite[] _imgFirespeed = new CCSprite[6];
-        CCSprite[] _imgMagazineSize = new CCSprite[6];
-        CCSprite[] _imgLives = new CCSprite[7];
+        private CCSprite[] _lblPriceCaliberSize;
+        private CCSprite[] _lblPriceFirespeed;
+        private CCSprite[] _lblPriceMagazineSize;
+        private CCSprite[] _lblPriceLives;
+        private CCSprite[] _lblPriceTotal;
+        private CCSprite[] _lblCredits;
 
-        CCSprite[] _lblPriceCaliberSize;
-        CCSprite[] _lblPriceFirespeed;
-        CCSprite[] _lblPriceMagazineSize;
-        CCSprite[] _lblPriceLives;
-        CCSprite[] _lblPriceTotal;
-        CCSprite[] _lblCredits;
+        private readonly CCSprite _summationLine;
+        private readonly CCSprite _lblCreditsNeeded;
+        private readonly CCSprite _lblYourCredits;
 
-        CCSprite _summationLine;
-        CCSprite _lblCreditsNeeded;
-        CCSprite _lblYourCredits;
-        
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
 
-        CCSpriteButton _btnCalibreDecrease;
-        CCSpriteButton _btnCalibreIncrease;
-        CCSpriteButton _btnFirespeedIncrease;
-        CCSpriteButton _btnFirespeedDecrease;        
-        CCSpriteButton _btnMagazineSizeDecrease;
-        CCSpriteButton _btnMagazineSizeIncrease;
-        CCSpriteButton _btnLivesDecrease;
-        CCSpriteButton _btnLivesIncrease;
-        CCSpriteButton _btnTestModification;
-        CCSpriteButton _btnBuy;
-        CCSpriteButton _btnGetMoreCredits;
+        private readonly CCSpriteButton _btnCalibreDecrease;
+        private readonly CCSpriteButton _btnCalibreIncrease;
+        private readonly CCSpriteButton _btnFirespeedIncrease;
+        private readonly CCSpriteButton _btnFirespeedDecrease;
+        private readonly CCSpriteButton _btnMagazineSizeDecrease;
+        private readonly CCSpriteButton _btnMagazineSizeIncrease;
+        private readonly CCSpriteButton _btnLivesDecrease;
+        private readonly CCSpriteButton _btnLivesIncrease;
+        private readonly CCSpriteButton _btnTestModification;
+        private readonly CCSpriteButton _btnBuy;
+        private readonly CCSpriteButton _btnGetMoreCredits;
 
-        CCSprite _imgGameTip;
-        CCSpriteButton _btnGetCredits;
-        CCSpriteButton _btnCancel;
+        private readonly CCSprite _imgGameTip;
+        private readonly CCSpriteButton _btnGetCredits;
+        private readonly CCSpriteButton _btnCancel;
 
-        CCSprite _imgGameTipNoBuy;
-        CCSpriteButton _btnNoBuyBack;
-        CCSpriteButton _btnNoBuyExit;
+        private readonly CCSprite _imgGameTipNoBuy;
+        private readonly CCSpriteButton _btnNoBuyBack;
+        private readonly CCSpriteButton _btnNoBuyExit;
 
-        CCSprite _lblWeaponUpgraded;
+        private readonly CCSprite _lblWeaponUpgraded;
 
-        bool isForwardTapped = false;
-		bool isBackTapped = false;
-        bool _isPopupShiving = false;
+        private bool _isForwardTapped;
+        //bool _isBackTapped;
+        //bool _isPopupShiving;
 
         //----------- Prabhjot ----------//
-        bool _isShowGameTipViewLoaded = false;
+        private bool _isShowGameTipViewLoaded;
 
         public WeaponUpgradeScreenLayer(int selectedEnemy, int selectedWeapon, int caliberSizeSelected = -1, int fireSpeedSelected = -1, int magazineSizeSelected = -1, int livesSelected = -1)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            this._selectedEnemy = selectedEnemy;
-            this._selectedWeapon = selectedWeapon;
+            _selectedEnemy = selectedEnemy;
+            _selectedWeapon = selectedWeapon;
 
-            this._credits = Player.Instance.Credits;
+            _credits = Player.Instance.Credits;
 
-            this._caliberSizeMinimum = Weapon.GetCaliberSize((WEAPONS)selectedWeapon);
-            this._firespeedMinimum = Weapon.GetFirespeed((WEAPONS)selectedWeapon);
-            this._magazineSizeMinimum = Weapon.GetMagazineSize((WEAPONS)selectedWeapon);
-            this._livesMinimum = Weapon.GetLives((WEAPONS)selectedWeapon);
+            _caliberSizeMinimum = Weapon.GetCaliberSize((Weapons)selectedWeapon);
+            _firespeedMinimum = Weapon.GetFirespeed((Weapons)selectedWeapon);
+            _magazineSizeMinimum = 1;
+            _livesMinimum = 1;
+            _magazineSizeMinimum = Weapon.GetMagazineSize((Weapons)selectedWeapon);
+            _livesMinimum = Weapon.GetLives((Weapons)selectedWeapon);
 
-            this._livesMaximum = 7;
+            _livesMaximum = 7;
+            _firespeedMaximum = 5;
+            _caliberSizeMaximum = 5;
+            _magazineSize = 1;
 
-            if (selectedWeapon == (int)WEAPONS.STANDARD)
+            if (selectedWeapon == (int)Weapons.Standard)
             {
-                this.SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
-                this._caliberSizeMaximum = 4;
-                this._firespeedMaximum = 4;
-                this._magazineSizeMaximum = 4;
+                SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
+                _caliberSizeMaximum = 4;
+                _firespeedMaximum = 4;
+                _magazineSizeMaximum = 4;
             }
-            else if (selectedWeapon == (int)WEAPONS.COMPACT)
+            else if (selectedWeapon == (int)Weapons.Compact)
             {
-                this.SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
-                this._caliberSizeMaximum = 4;
-                this._firespeedMaximum = 6;
-                this._magazineSizeMaximum = 5;
+                SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
+                _caliberSizeMaximum = 4;
+                _firespeedMaximum = 6;
+                _magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.BAZOOKA)
+            else if (selectedWeapon == (int)Weapons.Bazooka)
             {
-                this.SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
-                this._caliberSizeMaximum = 6;
-                this._firespeedMaximum = 4;
-                this._magazineSizeMaximum = 5;
+                SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
+                _caliberSizeMaximum = 6;
+                _firespeedMaximum = 4;
+                _magazineSizeMaximum = 5;
             }
-            else if (selectedWeapon == (int)WEAPONS.HYBRID)
+            else if (selectedWeapon == (int)Weapons.Hybrid)
             {
-                this.SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
-                this._caliberSizeMaximum = 6;
-                this._firespeedMaximum = 6;
-                this._magazineSizeMaximum = 6;
+                SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
+                _caliberSizeMaximum = 6;
+                _firespeedMaximum = 6;
+                _magazineSizeMaximum = 6;
             }
 
-            if (caliberSizeSelected == -1) this._caliberSize = this._caliberSizeMinimum;
+            if (caliberSizeSelected == -1) _caliberSize = _caliberSizeMinimum;
             else _caliberSize = caliberSizeSelected;
 
-            if (fireSpeedSelected == -1) this._firespeed = this._firespeedMinimum;
+            if (fireSpeedSelected == -1) _firespeed = _firespeedMinimum;
             else _firespeed = fireSpeedSelected;
 
-            if (magazineSizeSelected == -1) this._magazineSize = this._magazineSizeMinimum;
-            else this._magazineSize = magazineSizeSelected;
+            if (magazineSizeSelected == -1) _magazineSize = _magazineSizeMinimum;
+            else _magazineSize = magazineSizeSelected;
 
-            if (livesSelected == -1) this._lives = this._livesMinimum;
-            else this._lives = livesSelected;
+            if (livesSelected == -1) _lives = _livesMinimum;
+            else _lives = livesSelected;
 
-            _caliberSizePrice = getCaliberSizePrice();
-            _firespeedPrice = getFirespeedPrice();
-            _magazineSizePrice = getMagazineSizePrice();
-            _livesPrice = getLivesPrice();
-            
-            if (selectedWeapon == (int)WEAPONS.STANDARD) this.SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
-            else if (selectedWeapon == (int)WEAPONS.COMPACT) this.SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
-            else if (selectedWeapon == (int)WEAPONS.BAZOOKA) this.SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
-            else if (selectedWeapon == (int)WEAPONS.HYBRID) this.SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
+            _caliberSizePrice = GetCaliberSizePrice();
+            _firespeedPrice = GetFirespeedPrice();
+            _magazineSizePrice = GetMagazineSizePrice();
+            _livesPrice = GetLivesPrice();
 
-			_btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            if (selectedWeapon == (int)Weapons.Standard) SetBackground("UI/get-more-firepower-background-layer-with-standard-gun.jpg");
+            else if (selectedWeapon == (int)Weapons.Compact) SetBackground("UI/get-more-firepower-background-layer-with-compact-sprayer.jpg");
+            else if (selectedWeapon == (int)Weapons.Bazooka) SetBackground("UI/get-more-firepower-background-layer-with-black-bazooka.jpg");
+            else if (selectedWeapon == (int)Weapons.Hybrid) SetBackground("UI/get-more-firepower-background-layer-with-hybrid-defender.jpg");
+
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-			_btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
-            this.AddImage(233, 566, "UI/get-more-firepower-upgrade-your-weapon-text.png");
+            AddImage(233, 566, "UI/get-more-firepower-upgrade-your-weapon-text.png");
 
-            _btnCalibreDecrease = this.AddButton(30, 508, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
+            _btnCalibreDecrease = AddButton(30, 508, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnCalibreDecrease.OnClick += BtnCalibreDecrease_OnClick;
-            _btnCalibreDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnCalibreDecrease.ButtonType = ButtonType.Silent;
 
-            _btnCalibreIncrease = this.AddButton(105, 505, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
+            _btnCalibreIncrease = AddButton(105, 505, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnCalibreIncrease.OnClick += BtnCalibreIncrease_OnClick;
-            _btnCalibreIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnCalibreIncrease.ButtonType = ButtonType.Silent;
 
-            this.AddImage(169, 500, "UI/get-more-firepower-increase-caliber-size-text.png");
+            AddImage(169, 500, "UI/get-more-firepower-increase-caliber-size-text.png");
 
-            if (_caliberSizeMaximum > 0) _imgCaliberSize[0] = this.AddImage(700, 517, "UI/get-more-firepower-star-active.png");
-            if (_caliberSizeMaximum > 1) _imgCaliberSize[1] = this.AddImage(745, 517, "UI/get-more-firepower-star-active.png");
-            if (_caliberSizeMaximum > 2) _imgCaliberSize[2] = this.AddImage(790, 517, "UI/get-more-firepower-star-active.png");
-            if (_caliberSizeMaximum > 3) _imgCaliberSize[3] = this.AddImage(835, 517, "UI/get-more-firepower-star-active.png");
-            if (_caliberSizeMaximum > 4) _imgCaliberSize[4] = this.AddImage(880, 517, "UI/get-more-firepower-star-active.png");
-            if (_caliberSizeMaximum > 5) _imgCaliberSize[5] = this.AddImage(925, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 0) _imgCaliberSize[0] = AddImage(700, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 1) _imgCaliberSize[1] = AddImage(745, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 2) _imgCaliberSize[2] = AddImage(790, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 3) _imgCaliberSize[3] = AddImage(835, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 4) _imgCaliberSize[4] = AddImage(880, 517, "UI/get-more-firepower-star-active.png");
+            if (_caliberSizeMaximum > 5) _imgCaliberSize[5] = AddImage(925, 517, "UI/get-more-firepower-star-active.png");
 
-            _lblPriceCaliberSize = this.AddImageLabelRightAligned(1110, 500, "1000", 55);
+            _lblPriceCaliberSize = AddImageLabelRightAligned(1110, 500, "1000", 55);
 
-            _btnFirespeedDecrease = this.AddButton(30, 445, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
+            _btnFirespeedDecrease = AddButton(30, 445, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnFirespeedDecrease.OnClick += BtnFirespeedDecrease_OnClick;
-            _btnFirespeedDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnFirespeedDecrease.ButtonType = ButtonType.Silent;
 
-            _btnFirespeedIncrease = this.AddButton(105, 443, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
+            _btnFirespeedIncrease = AddButton(105, 443, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnFirespeedIncrease.OnClick += BtnFirespeedIncrease_OnClick;
-            _btnFirespeedIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnFirespeedIncrease.ButtonType = ButtonType.Silent;
 
-            this.AddImage(163, 440, "UI/get-more-firepower-increase-firespeedr-text.png");
+            AddImage(163, 440, "UI/get-more-firepower-increase-firespeedr-text.png");
 
-            if (_firespeedMaximum > 0) _imgFirespeed[0] = this.AddImage(700, 455, "UI/get-more-firepower-star-active.png");
-            if (_firespeedMaximum > 1) _imgFirespeed[1] = this.AddImage(745, 455, "UI/get-more-firepower-star-active.png");
-            if (_firespeedMaximum > 2) _imgFirespeed[2] = this.AddImage(790, 455, "UI/get-more-firepower-star-active.png");
-            if (_firespeedMaximum > 3) _imgFirespeed[3] = this.AddImage(835, 455, "UI/get-more-firepower-star-active.png");
-            if (_firespeedMaximum > 4) _imgFirespeed[4] = this.AddImage(880, 455, "UI/get-more-firepower-star-active.png");
-            if (_firespeedMaximum > 5) _imgFirespeed[5] = this.AddImage(925, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 0) _imgFirespeed[0] = AddImage(700, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 1) _imgFirespeed[1] = AddImage(745, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 2) _imgFirespeed[2] = AddImage(790, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 3) _imgFirespeed[3] = AddImage(835, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 4) _imgFirespeed[4] = AddImage(880, 455, "UI/get-more-firepower-star-active.png");
+            if (_firespeedMaximum > 5) _imgFirespeed[5] = AddImage(925, 455, "UI/get-more-firepower-star-active.png");
 
-            _lblPriceFirespeed = this.AddImageLabelRightAligned(1110, 440, "1000", 55);
+            _lblPriceFirespeed = AddImageLabelRightAligned(1110, 440, "1000", 55);
 
-            _btnMagazineSizeDecrease = this.AddButton(30, 381, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
+            _btnMagazineSizeDecrease = AddButton(30, 381, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnMagazineSizeDecrease.OnClick += BtnMagazineSizeDecrease_OnClick;
-            _btnMagazineSizeDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnMagazineSizeDecrease.ButtonType = ButtonType.Silent;
 
-            _btnMagazineSizeIncrease = this.AddButton(105, 378, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
+            _btnMagazineSizeIncrease = AddButton(105, 378, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnMagazineSizeIncrease.OnClick += BtnMagazineSizeIncrease_OnClick;
-            _btnMagazineSizeIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnMagazineSizeIncrease.ButtonType = ButtonType.Silent;
 
-            this.AddImage(168, 373, "UI/get-more-firepower-increase-magazine-size-text.png");
+            AddImage(168, 373, "UI/get-more-firepower-increase-magazine-size-text.png");
 
-            if (_magazineSizeMaximum > 0) _imgMagazineSize[0] = this.AddImage(700, 393, "UI/get-more-firepower-star-active.png");
-            if (_magazineSizeMaximum > 1) _imgMagazineSize[1] = this.AddImage(745, 393, "UI/get-more-firepower-star-active.png");
-            if (_magazineSizeMaximum > 2) _imgMagazineSize[2] = this.AddImage(790, 393, "UI/get-more-firepower-star-active.png");
-            if (_magazineSizeMaximum > 3) _imgMagazineSize[3] = this.AddImage(835, 393, "UI/get-more-firepower-star-active.png");
-            if (_magazineSizeMaximum > 4) _imgMagazineSize[4] = this.AddImage(880, 393, "UI/get-more-firepower-star-active.png");
-            if (_magazineSizeMaximum > 5) _imgMagazineSize[5] = this.AddImage(925, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 0) _imgMagazineSize[0] = AddImage(700, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 1) _imgMagazineSize[1] = AddImage(745, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 2) _imgMagazineSize[2] = AddImage(790, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 3) _imgMagazineSize[3] = AddImage(835, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 4) _imgMagazineSize[4] = AddImage(880, 393, "UI/get-more-firepower-star-active.png");
+            if (_magazineSizeMaximum > 5) _imgMagazineSize[5] = AddImage(925, 393, "UI/get-more-firepower-star-active.png");
 
-            _lblPriceMagazineSize = this.AddImageLabelRightAligned(1110, 380, "1000", 55);
-            
-            _btnLivesDecrease = this.AddButton(30, 319, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
+            _lblPriceMagazineSize = AddImageLabelRightAligned(1110, 380, "1000", 55);
+
+            _btnLivesDecrease = AddButton(30, 319, "UI/minus-button-untapped.png", "UI/minus-button-tapped.png");
             _btnLivesDecrease.OnClick += _btnLivesDecrease_OnClick;
-            _btnLivesDecrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnLivesDecrease.ButtonType = ButtonType.Silent;
 
-            _btnLivesIncrease = this.AddButton(105, 317, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
+            _btnLivesIncrease = AddButton(105, 317, "UI/plus-button-untapped.png", "UI/plus-button-tapped.png");
             _btnLivesIncrease.OnClick += _btnLivesIncrease_OnClick;
-            _btnLivesIncrease.ButtonType = BUTTON_TYPE.Silent;
+            _btnLivesIncrease.ButtonType = ButtonType.Silent;
 
-            this.AddImage(167, 313, "UI/get-more-firepower-get-more-lives-text.png");
+            AddImage(167, 313, "UI/get-more-firepower-get-more-lives-text.png");
 
-            if (_livesMaximum > 0) _imgLives[0] = this.AddImage(655, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 1) _imgLives[1] = this.AddImage(700, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 2) _imgLives[2] = this.AddImage(745, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 3) _imgLives[3] = this.AddImage(790, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 4) _imgLives[4] = this.AddImage(835, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 5) _imgLives[5] = this.AddImage(880, 330, "UI/get-more-firepower-star-active.png");
-            if (_livesMaximum > 6) _imgLives[6] = this.AddImage(925, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 0) _imgLives[0] = AddImage(655, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 1) _imgLives[1] = AddImage(700, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 2) _imgLives[2] = AddImage(745, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 3) _imgLives[3] = AddImage(790, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 4) _imgLives[4] = AddImage(835, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 5) _imgLives[5] = AddImage(880, 330, "UI/get-more-firepower-star-active.png");
+            if (_livesMaximum > 6) _imgLives[6] = AddImage(925, 330, "UI/get-more-firepower-star-active.png");
 
-            _lblPriceLives = this.AddImageLabelRightAligned(1130, 317, "25000", 55);
+            _lblPriceLives = AddImageLabelRightAligned(1130, 317, "25000", 55);
 
-            _summationLine = this.AddImage(1020, 286, "UI/get-more-firepower-summation-line.png");
+            _summationLine = AddImage(1020, 286, "UI/get-more-firepower-summation-line.png");
 
-            _lblCreditsNeeded = this.AddImage(633, 241, "UI/get-more-firepower-credits-needed-text.png");
-            _lblPriceTotal = this.AddImageLabelRightAligned(1080, 243, "3000", 55);
+            _lblCreditsNeeded = AddImage(633, 241, "UI/get-more-firepower-credits-needed-text.png");
+            _lblPriceTotal = AddImageLabelRightAligned(1080, 243, "3000", 55);
 
-            _lblYourCredits = this.AddImage(640, 192, "UI/get-more-firepower-your-credits-text.png");
-            _lblCredits = this.AddImageLabelRightAligned(1090, 192, "30000", 55);
+            _lblYourCredits = AddImage(640, 192, "UI/get-more-firepower-your-credits-text.png");
+            _lblCredits = AddImageLabelRightAligned(1090, 192, "30000", 55);
 
-            _btnTestModification = this.AddButton(2, 80, "UI/get-more-firepower-test-upgrade-button-untapped.png", "UI/get-more-firepower-test-upgrade-button-tapped.png");
+            _btnTestModification = AddButton(2, 80, "UI/get-more-firepower-test-upgrade-button-untapped.png", "UI/get-more-firepower-test-upgrade-button-tapped.png");
             _btnTestModification.OnClick += _btnTestModification_OnClick;
 
-            _btnBuy = this.AddButton(2, 10, "UI/get-more-firepower-implement-upgrade-button-untapped.png", "UI/get-more-firepower-implement-upgrade-button-tapped.png");
-            _btnBuy.ButtonType = BUTTON_TYPE.Silent;
+            _btnBuy = AddButton(2, 10, "UI/get-more-firepower-implement-upgrade-button-untapped.png", "UI/get-more-firepower-implement-upgrade-button-tapped.png");
+            _btnBuy.ButtonType = ButtonType.Silent;
             _btnBuy.OnClick += BtnBuy_OnClick;
 
-            _btnGetMoreCredits = this.AddButton(713, 10, "UI/get-more-firepower-get-more-credits-button-untapped.png", "UI/get-more-firepower-get-more-credits-button-tapped.png");
+            _btnGetMoreCredits = AddButton(713, 10, "UI/get-more-firepower-get-more-credits-button-untapped.png", "UI/get-more-firepower-get-more-credits-button-tapped.png");
             _btnGetMoreCredits.OnClick += _btnGetCredits_OnClick;
 
-            _lblWeaponUpgraded = this.AddImage(0, 170, "UI/get-more-firepower-weapon-upgraded!!-text.png");
+            _lblWeaponUpgraded = AddImage(0, 170, "UI/get-more-firepower-weapon-upgraded!!-text.png");
 
-            setStatsImages();
+            SetStatsImages();
 
-            _imgGameTip = this.AddImage(14, 8, "UI/get-more-firepower-notification-background-with-all-text.png", 1000);
+            _imgGameTip = AddImage(14, 8, "UI/get-more-firepower-notification-background-with-all-text.png", 1000);
             _imgGameTip.Visible = false;
 
-            _btnGetCredits = this.AddButton(33, 30, "UI/get-more-firepower-notification-get-more-credits-button-untapped.png", "UI/get-more-firepower-notification-get-more-credits-button-tapped.png", 1100);
+            _btnGetCredits = AddButton(33, 30, "UI/get-more-firepower-notification-get-more-credits-button-untapped.png", "UI/get-more-firepower-notification-get-more-credits-button-tapped.png", 1100);
             _btnGetCredits.OnClick += _btnGetCredits_OnClick;
             _btnGetCredits.Visible = false;
             _btnGetCredits.Enabled = false;
 
-            _btnCancel = this.AddButton(637, 30, "UI/get-more-firepower-notification-cancel-button-untapped.png", "UI/get-more-firepower-notification-cancel-button-tapped.png", 1100);
+            _btnCancel = AddButton(637, 30, "UI/get-more-firepower-notification-cancel-button-untapped.png", "UI/get-more-firepower-notification-cancel-button-tapped.png", 1100);
             _btnCancel.OnClick += BtnCancel_OnClick;
             _btnCancel.Visible = false;
             _btnCancel.Enabled = false;
@@ -278,36 +279,36 @@ namespace LooneyInvaders.Layers
 
 
 
-            _imgGameTipNoBuy = this.AddImage(14, 8, "UI/get-more-firepower-want-to-exit-notification-with-text.png", 1000);
+            _imgGameTipNoBuy = AddImage(14, 8, "UI/get-more-firepower-want-to-exit-notification-with-text.png", 1000);
             _imgGameTipNoBuy.Visible = false;
 
-            _btnNoBuyBack = this.AddButton(33, 30, "UI/get-more-firepower-want-to-exit-notification-back-to-upgrading-button-untapped.png", "UI/get-more-firepower-want-to-exit-notification-back-to-upgrading-button-tapped.png", 1100);
-            _btnNoBuyBack.OnClick += _btnNoBuyBack_OnClick; ;
+            _btnNoBuyBack = AddButton(33, 30, "UI/get-more-firepower-want-to-exit-notification-back-to-upgrading-button-untapped.png", "UI/get-more-firepower-want-to-exit-notification-back-to-upgrading-button-tapped.png", 1100);
+            _btnNoBuyBack.OnClick += _btnNoBuyBack_OnClick;
             _btnNoBuyBack.Visible = false;
             _btnNoBuyBack.Enabled = false;
 
-            _btnNoBuyExit = this.AddButton(590, 30, "UI/get-more-firepower-want-to-exit-notification-exit-without-upgrade-button-untapped.png", "UI/get-more-firepower-want-to-exit-notification-exit-without-upgrade-button-tapped.png", 1100);
-            _btnNoBuyExit.OnClick += _btnNoBuyExit_OnClick; ;
+            _btnNoBuyExit = AddButton(590, 30, "UI/get-more-firepower-want-to-exit-notification-exit-without-upgrade-button-untapped.png", "UI/get-more-firepower-want-to-exit-notification-exit-without-upgrade-button-tapped.png", 1100);
+            _btnNoBuyExit.OnClick += _btnNoBuyExit_OnClick;
             _btnNoBuyExit.Visible = false;
             _btnNoBuyExit.Enabled = false;
 
-            GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+            GameEnvironment.PlayMusic(Music.MainMenu);
         }
 
-        private void setCreditsVisibility()
+        private void SetCreditsVisibility()
         {
-            if (getTotalPrice() == 0)
+            if (GetTotalPrice() == 0)
             {
                 _lblYourCredits.Visible = false;
                 _lblCreditsNeeded.Visible = false;
                 _summationLine.Visible = false;
 
-                foreach (CCSprite s in _lblCredits) s.Visible = false;
-                foreach (CCSprite s in _lblPriceTotal) s.Visible = false;
-                foreach (CCSprite s in _lblPriceCaliberSize) s.Visible = false;
-                foreach (CCSprite s in _lblPriceFirespeed) s.Visible = false;
-                foreach (CCSprite s in _lblPriceLives) s.Visible = false;
-                foreach (CCSprite s in _lblPriceMagazineSize) s.Visible = false;                
+                foreach (var s in _lblCredits) s.Visible = false;
+                foreach (var s in _lblPriceTotal) s.Visible = false;
+                foreach (var s in _lblPriceCaliberSize) s.Visible = false;
+                foreach (var s in _lblPriceFirespeed) s.Visible = false;
+                foreach (var s in _lblPriceLives) s.Visible = false;
+                foreach (var s in _lblPriceMagazineSize) s.Visible = false;
             }
             else
             {
@@ -315,66 +316,66 @@ namespace LooneyInvaders.Layers
                 _lblCreditsNeeded.Visible = true;
                 _summationLine.Visible = true;
 
-                foreach (CCSprite s in _lblCredits) s.Visible = true;
-                foreach (CCSprite s in _lblPriceTotal) s.Visible = true;
-                foreach (CCSprite s in _lblPriceCaliberSize) s.Visible = true;
-                foreach (CCSprite s in _lblPriceFirespeed) s.Visible = true;
-                foreach (CCSprite s in _lblPriceLives) s.Visible = true;
-                foreach (CCSprite s in _lblPriceMagazineSize) s.Visible = true;
+                foreach (var s in _lblCredits) s.Visible = true;
+                foreach (var s in _lblPriceTotal) s.Visible = true;
+                foreach (var s in _lblPriceCaliberSize) s.Visible = true;
+                foreach (var s in _lblPriceFirespeed) s.Visible = true;
+                foreach (var s in _lblPriceLives) s.Visible = true;
+                foreach (var s in _lblPriceMagazineSize) s.Visible = true;
             }
         }
 
-        private int getLivesPrice()
+        private int GetLivesPrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 7; i++) if (_livesMinimum < i && _lives >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 7; i++) if (_livesMinimum < i && _lives >= i) price += 5000 + i * 5000;
             return price;
         }
 
-        private int getMagazineSizePrice()
+        private int GetMagazineSizePrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_magazineSizeMinimum < i && _magazineSize >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_magazineSizeMinimum < i && _magazineSize >= i) price += 5000 + i * 5000;
             return price;
         }
 
-        private int getFirespeedPrice()
+        private int GetFirespeedPrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_firespeedMinimum < i && _firespeed >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_firespeedMinimum < i && _firespeed >= i) price += 5000 + i * 5000;
             return price;
         }
 
-        private int getCaliberSizePrice()
+        private int GetCaliberSizePrice()
         {
-            int price = 0;
-            for (int i = 2; i <= 6; i++) if (_caliberSizeMinimum < i && _caliberSize >= i) price += 5000 + i * 5000;
+            var price = 0;
+            for (var i = 2; i <= 6; i++) if (_caliberSizeMinimum < i && _caliberSize >= i) price += 5000 + i * 5000;
             return price;
         }
 
-        private int getTotalPrice()
+        private int GetTotalPrice()
         {
             return _caliberSizePrice + _firespeedPrice + _magazineSizePrice + _livesPrice;
         }
 
         private void _btnTestModification_OnClick(object sender, EventArgs e)
         {
-            this.TransitionToLayer(new GamePlayLayer(ENEMIES.TRUMP, (WEAPONS)_selectedWeapon, BATTLEGROUNDS.WHITE_HOUSE, false, _caliberSize, _firespeed, _magazineSize, _lives,(ENEMIES)_selectedEnemy, LAUNCH_MODE.WEAPONS_UPGRADE_TEST));
+            TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, _caliberSize, _firespeed, _magazineSize, _lives, (Enemies)_selectedEnemy, LaunchMode.WeaponsUpgradeTest));
         }
 
         private void _btnGetCredits_OnClick(object sender, EventArgs e)
         {
-            int totalPrice = getTotalPrice();
+            var totalPrice = GetTotalPrice();
 
-            this.TransitionToLayer(new GetMoreCreditsScreenLayer(totalPrice, _selectedEnemy, _selectedWeapon, _caliberSize, _firespeed, _magazineSize, _lives));
+            TransitionToLayer(new GetMoreCreditsScreenLayer(totalPrice, _selectedEnemy, _selectedWeapon, _caliberSize, _firespeed, _magazineSize, _lives));
         }
 
-        private void showGameTip()
+        private void ShowGameTip()
         {
             //------------- Prabhjot ---------------//
-            
-            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
+
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
 
             _btnCalibreDecrease.Enabled = false;
@@ -394,17 +395,17 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = true;
             _btnGetCredits.Enabled = true;
             _btnCancel.Enabled = true;
-			_isPopupShiving = true;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            //_isPopupShiving = true;
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
         }
-                
-        private void hideGameTip()
+
+        private void HideGameTip()
         {
 
             //------------- Prabhjot ---------------//
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
 
 
             _btnCalibreDecrease.Enabled = true;
@@ -424,17 +425,17 @@ namespace LooneyInvaders.Layers
             _btnCancel.Visible = false;
             _btnGetCredits.Enabled = false;
             _btnCancel.Enabled = false;
-			_isPopupShiving = false;
+            //_isPopupShiving = false;
         }
 
         private void BtnCancel_OnClick(object sender, EventArgs e)
         {
-            hideGameTip();
+            HideGameTip();
         }
 
         private void BtnBuy_OnClick(object sender, EventArgs e)
         {
-            int totalPrice = getTotalPrice();
+            var totalPrice = GetTotalPrice();
 
             if (totalPrice > 0)
             {
@@ -451,28 +452,28 @@ namespace LooneyInvaders.Layers
                     _magazineSizeMinimum = _magazineSize;
                     _livesMinimum = _lives;
 
-                    Weapon.SetCaliberSize((WEAPONS)_selectedWeapon, _caliberSize);
-                    Weapon.SetFirespeed((WEAPONS)_selectedWeapon, _firespeed);
-                    Weapon.SetMagazineSize((WEAPONS)_selectedWeapon, _magazineSize);
-                    Weapon.SetLives((WEAPONS)_selectedWeapon, _lives);
+                    Weapon.SetCaliberSize((Weapons)_selectedWeapon, _caliberSize);
+                    Weapon.SetFirespeed((Weapons)_selectedWeapon, _firespeed);
+                    Weapon.SetMagazineSize((Weapons)_selectedWeapon, _magazineSize);
+                    Weapon.SetLives((Weapons)_selectedWeapon, _lives);
                     Player.Instance.Credits -= totalPrice;
 
 
 
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CREDITPURCHASE);
-                    setStatsImages();
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+                    SetStatsImages();
                     _lblWeaponUpgraded.Visible = true;
                 }
                 else
                 {
-                    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                    showGameTip();
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                    ShowGameTip();
                 }
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-                setStatsImages();
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                SetStatsImages();
             }
         }
 
@@ -481,14 +482,14 @@ namespace LooneyInvaders.Layers
             if (_magazineSize < _magazineSizeMaximum)
             {
                 _magazineSize++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _magazineSizePrice = getMagazineSizePrice();
-            setStatsImages();            
+            _magazineSizePrice = GetMagazineSizePrice();
+            SetStatsImages();
         }
 
         private void BtnMagazineSizeDecrease_OnClick(object sender, EventArgs e)
@@ -496,14 +497,14 @@ namespace LooneyInvaders.Layers
             if (_magazineSize > _magazineSizeMinimum)
             {
                 _magazineSize--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _magazineSizePrice = getMagazineSizePrice();
-            setStatsImages();
+            _magazineSizePrice = GetMagazineSizePrice();
+            SetStatsImages();
         }
 
         private void BtnFirespeedIncrease_OnClick(object sender, EventArgs e)
@@ -511,14 +512,14 @@ namespace LooneyInvaders.Layers
             if (_firespeed < _firespeedMaximum)
             {
                 _firespeed++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _firespeedPrice = getFirespeedPrice();
-            setStatsImages();
+            _firespeedPrice = GetFirespeedPrice();
+            SetStatsImages();
         }
 
         private void BtnFirespeedDecrease_OnClick(object sender, EventArgs e)
@@ -526,14 +527,14 @@ namespace LooneyInvaders.Layers
             if (_firespeed > _firespeedMinimum)
             {
                 _firespeed--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _firespeedPrice = getFirespeedPrice();
-            setStatsImages();
+            _firespeedPrice = GetFirespeedPrice();
+            SetStatsImages();
         }
 
         private void BtnCalibreIncrease_OnClick(object sender, EventArgs e)
@@ -541,14 +542,14 @@ namespace LooneyInvaders.Layers
             if (_caliberSize < _caliberSizeMaximum)
             {
                 _caliberSize++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _caliberSizePrice = getCaliberSizePrice();
-            setStatsImages();
+            _caliberSizePrice = GetCaliberSizePrice();
+            SetStatsImages();
         }
 
         private void BtnCalibreDecrease_OnClick(object sender, EventArgs e)
@@ -556,14 +557,14 @@ namespace LooneyInvaders.Layers
             if (_caliberSize > _caliberSizeMinimum)
             {
                 _caliberSize--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _caliberSizePrice = getCaliberSizePrice();
-            setStatsImages();
+            _caliberSizePrice = GetCaliberSizePrice();
+            SetStatsImages();
         }
 
         private void _btnLivesIncrease_OnClick(object sender, EventArgs e)
@@ -571,14 +572,14 @@ namespace LooneyInvaders.Layers
             if (_lives < _livesMaximum)
             {
                 _lives++;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_PLUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapPlus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _livesPrice = getLivesPrice();
-            setStatsImages();
+            _livesPrice = GetLivesPrice();
+            SetStatsImages();
         }
 
         private void _btnLivesDecrease_OnClick(object sender, EventArgs e)
@@ -586,60 +587,60 @@ namespace LooneyInvaders.Layers
             if (_lives > _livesMinimum)
             {
                 _lives--;
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_MINUS);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapMinus);
             }
             else
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
-            _livesPrice = getLivesPrice();
-            setStatsImages();
+            _livesPrice = GetLivesPrice();
+            SetStatsImages();
         }
 
-        private void setStatsImages()
+        private void SetStatsImages()
         {
             _lblWeaponUpgraded.Visible = false;
-            for (int i = 0; i < _caliberSizeMaximum; i++)
+            for (var i = 0; i < _caliberSizeMaximum; i++)
             {
-                if (_caliberSize > i) this.ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-active.png");
-                else this.ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-inactive.png");
+                if (_caliberSize > i) ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-active.png");
+                else ChangeSpriteImage(_imgCaliberSize[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _firespeedMaximum; i++)
+            for (var i = 0; i < _firespeedMaximum; i++)
             {
-                if (_firespeed > i) this.ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-active.png");
-                else this.ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-inactive.png");
+                if (_firespeed > i) ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-active.png");
+                else ChangeSpriteImage(_imgFirespeed[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _magazineSizeMaximum; i++)
+            for (var i = 0; i < _magazineSizeMaximum; i++)
             {
-                if (_magazineSize > i) this.ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-active.png");
-                else this.ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-inactive.png");
+                if (_magazineSize > i) ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-active.png");
+                else ChangeSpriteImage(_imgMagazineSize[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            for (int i = 0; i < _livesMaximum; i++)
+            for (var i = 0; i < _livesMaximum; i++)
             {
-                if (_lives > i) this.ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-active.png");
-                else this.ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-inactive.png");
+                if (_lives > i) ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-active.png");
+                else ChangeSpriteImage(_imgLives[i], "UI/get-more-firepower-star-inactive.png");
             }
 
-            foreach (CCSprite s in _lblPriceCaliberSize) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceFirespeed) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceMagazineSize) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceLives) s.RemoveFromParent();
-            foreach (CCSprite s in _lblPriceTotal) s.RemoveFromParent();
-            foreach (CCSprite s in _lblCredits) s.RemoveFromParent();
+            foreach (var s in _lblPriceCaliberSize) s.RemoveFromParent();
+            foreach (var s in _lblPriceFirespeed) s.RemoveFromParent();
+            foreach (var s in _lblPriceMagazineSize) s.RemoveFromParent();
+            foreach (var s in _lblPriceLives) s.RemoveFromParent();
+            foreach (var s in _lblPriceTotal) s.RemoveFromParent();
+            foreach (var s in _lblCredits) s.RemoveFromParent();
 
-            int totalPrice = getTotalPrice();
+            var totalPrice = GetTotalPrice();
 
-            _lblPriceCaliberSize = this.AddImageLabelRightAligned(1130, 500, _caliberSizePrice.ToString(), 55);
-            _lblPriceFirespeed = this.AddImageLabelRightAligned(1130, 440, _firespeedPrice.ToString(), 55);
-            _lblPriceMagazineSize = this.AddImageLabelRightAligned(1130, 380, _magazineSizePrice.ToString(), 55);
-            _lblPriceLives = this.AddImageLabelRightAligned(1130, 317, _livesPrice.ToString(), 55);
-            _lblPriceTotal = this.AddImageLabelRightAligned(1130, 246, totalPrice.ToString(), 55);            
-            _lblCredits = this.AddImageLabelRightAligned(1130, 192, _credits.ToString(), 55);
+            _lblPriceCaliberSize = AddImageLabelRightAligned(1130, 500, _caliberSizePrice.ToString(), 55);
+            _lblPriceFirespeed = AddImageLabelRightAligned(1130, 440, _firespeedPrice.ToString(), 55);
+            _lblPriceMagazineSize = AddImageLabelRightAligned(1130, 380, _magazineSizePrice.ToString(), 55);
+            _lblPriceLives = AddImageLabelRightAligned(1130, 317, _livesPrice.ToString(), 55);
+            _lblPriceTotal = AddImageLabelRightAligned(1130, 246, totalPrice.ToString(), 55);
+            _lblCredits = AddImageLabelRightAligned(1130, 192, _credits.ToString(), 55);
 
-            setCreditsVisibility();
+            SetCreditsVisibility();
         }
 
         private void BtnBack_OnClick(object sender, EventArgs e)
@@ -647,30 +648,30 @@ namespace LooneyInvaders.Layers
             //return;
 
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
-   //         if (_isPopupShiving)
-			//{
-			//	GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-   //             return;
-			//}
+            //         if (_isPopupShiving)
+            //{
+            //	GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+            //             return;
+            //}
 
-            isForwardTapped = false;
-            isBackTapped = true;
+            _isForwardTapped = false;
+            //_isBackTapped = true;
 
-            if (getTotalPrice() == 0)
+            if (GetTotalPrice() == 0)
             {
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
-                this.TransitionToLayer(new WeaponPickerLayer(this._selectedEnemy, this._selectedWeapon));
+                TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
             }
             else
             {
-                showGameTipNoBuy();
+                ShowGameTipNoBuy();
             }
         }
 
@@ -678,9 +679,9 @@ namespace LooneyInvaders.Layers
         {
 
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -690,29 +691,29 @@ namespace LooneyInvaders.Layers
             //    return;
             //}
 
-            isForwardTapped = true;
-            isBackTapped = false;
+            _isForwardTapped = true;
+            //_isBackTapped = false;
 
-            if (getTotalPrice() == 0)
+            if (GetTotalPrice() == 0)
             {
-                if (_selectedWeapon == (int)WEAPONS.HYBRID)
+                if (_selectedWeapon == (int)Weapons.Hybrid)
                 {
-                    this.UnscheduleAll();
-                    this.TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)this._selectedWeapon, BATTLEGROUNDS.MOON, false));
+                    UnscheduleAll();
+                    TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
                     return;
                 }
 
-                this.UnscheduleAll();
+                UnscheduleAll();
 
-                this.TransitionToLayer(new BattlegroundPickerLayer(this._selectedEnemy, this._selectedWeapon));
+                TransitionToLayer(new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon));
             }
             else
             {
-                showGameTipNoBuy();
+                ShowGameTipNoBuy();
             }
         }
 
-        private void showGameTipNoBuy()
+        private void ShowGameTipNoBuy()
         {
             _btnCalibreDecrease.Enabled = false;
             _btnCalibreIncrease.Enabled = false;
@@ -731,34 +732,34 @@ namespace LooneyInvaders.Layers
             _btnNoBuyExit.Visible = true;
             _btnNoBuyBack.Enabled = true;
             _btnNoBuyExit.Enabled = true;
-			_isPopupShiving = true;
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            //_isPopupShiving = true;
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
 
-		// ---------- Prabhjot ----------//
+            // ---------- Prabhjot ----------//
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, BUTTON_TYPE.Forward);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 100, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 100, ButtonType.Forward);
 
             _btnBack.Enabled = false;
             _btnForward.Enabled = false;
 
         }
 
-        private void hideGameTipNoBuy()
+        private void HideGameTipNoBuy()
         {
 
- 		//-------- Prabhjot ----------//
+            //-------- Prabhjot ----------//
 
             _isShowGameTipViewLoaded = false;
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
 
             _btnBack.Enabled = true;
             _btnForward.Enabled = true;
-                
+
 
             _btnCalibreDecrease.Enabled = true;
             _btnCalibreIncrease.Enabled = true;
@@ -777,25 +778,25 @@ namespace LooneyInvaders.Layers
             _btnNoBuyExit.Visible = false;
             _btnNoBuyBack.Enabled = false;
             _btnNoBuyExit.Enabled = false;
-			_isPopupShiving = false;
+            //_isPopupShiving = false;
         }
 
         private void _btnNoBuyExit_OnClick(object sender, EventArgs e)
         {
-            if (_selectedWeapon == (int)WEAPONS.HYBRID)
+            if (_selectedWeapon == (int)Weapons.Hybrid)
             {
-                this.UnscheduleAll();
-                this.TransitionToLayer(new GamePlayLayer(ENEMIES.ALIENS, (WEAPONS)this._selectedWeapon, BATTLEGROUNDS.MOON, false));
+                UnscheduleAll();
+                TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
                 return;
             }
 
-            if (isForwardTapped) this.TransitionToLayer(new BattlegroundPickerLayer(this._selectedEnemy, this._selectedWeapon));
-            else this.TransitionToLayer(new WeaponPickerLayer(this._selectedEnemy, this._selectedWeapon));
+            if (_isForwardTapped) TransitionToLayer(new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon));
+            else TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
         }
 
         private void _btnNoBuyBack_OnClick(object sender, EventArgs e)
         {
-            hideGameTipNoBuy();
+            HideGameTipNoBuy();
         }
 
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
@@ -9,50 +8,50 @@ namespace LooneyInvaders.Layers
 {
     public class BattlegroundPickerLayer : CCLayerColorExt
     {
-        CCSprite _centerImage;
-        CCSprite[] _images = new CCSprite[5];
-        CCSprite _imgBattlegroundLocked;
-        CCSprite _imgBattlegroundName;
-        
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
+        private CCSprite _centerImage;
+        private readonly CCSprite[] _images = new CCSprite[5];
+        private readonly CCSprite _imgBattlegroundLocked;
+        private readonly CCSprite _imgBattlegroundName;
 
-        CCSprite _imgGameTip;
-        CCSprite _imgGameTipArrow;
-        CCSpriteButton _btnGameTipOK;
-        CCSpriteTwoStateButton _btnGameTipCheckMark;
-        CCSprite _imgGameTipCheckMarkLabel;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
 
-        bool _isSwiping = false;
-        int _selectedBattleground;
-        float _lastMovement;
-        bool _isHoldAnimations = false;        
-        float _nameDisplayTimePassed;
-        bool _startedDisplayingName = false;
-        bool _startedTalking = false;
+        private CCSprite _imgGameTip;
+        private CCSprite _imgGameTipArrow;
+        private CCSpriteButton _btnGameTipOk;
+        private CCSpriteTwoStateButton _btnGameTipCheckMark;
+        private CCSprite _imgGameTipCheckMarkLabel;
 
-        int _selectedEnemy;
-        int _selectedWeapon;
+        private bool _isSwiping;
+        private int _selectedBattleground;
+        private float _lastMovement;
+        private bool _isHoldAnimations;
+        private float _nameDisplayTimePassed;
+        private bool _startedDisplayingName;
+        private bool _startedTalking;
 
-        CCSpriteSheet[] _ssFirework;
-        int _fireworkFrame = 0;
-        CCSprite _firework;
+        private readonly int _selectedEnemy;
+        private readonly int _selectedWeapon;
+
+        private readonly CCSpriteSheet[] _ssFirework;
+        private int _fireworkFrame;
+        private CCSprite _firework;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded = false;
+        private bool _isShowGameTipViewLoaded;
 
         public BattlegroundPickerLayer(int selectedEnemy, int selectedWeapon)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SWIPE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Swipe);
 
-            this._selectedEnemy = selectedEnemy;
-            this._selectedWeapon = selectedWeapon;
+            _selectedEnemy = selectedEnemy;
+            _selectedWeapon = selectedWeapon;
 
-           
 
-            if (_selectedEnemy == (int)ENEMIES.HITLER)
+
+            if (_selectedEnemy == (int)Enemies.Hitler)
             {
                 /*if (Settings.Instance.VoiceoversEnabled)
                 {
@@ -65,14 +64,14 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {*/
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
-               /* }*/
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
+                /* }*/
             }
-            else if (_selectedEnemy == (int)ENEMIES.BUSH)
+            else if (_selectedEnemy == (int)Enemies.Bush)
             {
                 /* if (Settings.Instance.VoiceoversEnabled)
                  {
@@ -85,13 +84,13 @@ namespace LooneyInvaders.Layers
                  else
                  {*/
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Vietman.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Irak.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Afganistan.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Libya.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Russian.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Irak.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Afganistan.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Libya.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Russian.wav");
                 /*}*/
             }
-            else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+            else if (_selectedEnemy == (int)Enemies.Putin)
             {
                 /* if (Settings.Instance.VoiceoversEnabled)
                  {
@@ -104,18 +103,18 @@ namespace LooneyInvaders.Layers
                  else
                  {*/
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Georgia.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Ukraine.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Syria.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Estonia.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Finland.wav");
-               /* }*/
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Ukraine.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Syria.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Estonia.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Finland.wav");
+                /* }*/
                 _ssFirework = new CCSpriteSheet[2];
                 _ssFirework[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/firework-0.plist");
                 _ssFirework[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/firework-1.plist");
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Firework Sound Effect mono.wav");
 
             }
-            else if (_selectedEnemy == (int)ENEMIES.KIM)
+            else if (_selectedEnemy == (int)Enemies.Kim)
             {
                 /*  if (Settings.Instance.VoiceoversEnabled)
                   {
@@ -128,29 +127,29 @@ namespace LooneyInvaders.Layers
                   else
                   {*/
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries South Korea.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Israel.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Japan.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Great Britain.wav");
-                    CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries United States.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Israel.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Japan.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries Great Britain.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim countries United States.wav");
                 /*}*/
             }
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
-            this.AddImage(353, 507, "UI/Choose-the-battleground-title-text.png", 500);
-            this.AddImage(442, 262, "UI/Choose-the-battleground-vs-text.png", 500);
+            AddImage(353, 507, "UI/Choose-the-battleground-title-text.png", 500);
+            AddImage(442, 262, "UI/Choose-the-battleground-vs-text.png", 500);
 
-            _imgBattlegroundName = this.AddImage(0, -5, "UI/Choose-the-battleground-in-georgia-text.png", 500);
+            _imgBattlegroundName = AddImage(0, -5, "UI/Choose-the-battleground-in-georgia-text.png", 500);
 
-            _imgBattlegroundLocked = this.AddImage(45, 138, "UI/Choose-the-battleground-battleground-locked-text.png", 600);
+            _imgBattlegroundLocked = AddImage(45, 138, "UI/Choose-the-battleground-battleground-locked-text.png", 600);
             _imgBattlegroundLocked.Visible = false;
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
@@ -159,245 +158,245 @@ namespace LooneyInvaders.Layers
             touchListener.OnTouchesCancelled = OnTouchesCancelled;
             touchListener.OnTouchesMoved = OnTouchesMoved;
 
-            fillBattlegrounds();
-            setBattlegroundName();
+            FillBattlegrounds();
+            SetBattlegroundName();
 
-            if (_selectedEnemy == (int)ENEMIES.HITLER) this.AddImage(85, 140, "UI/Choose-the-battleground-Adolf-Hitler.png", 0);
-            else if (_selectedEnemy == (int)ENEMIES.BUSH) this.AddImage(85, 140, "UI/Choose-the-battleground_George_Bush.png", 0);
-            else if (_selectedEnemy == (int)ENEMIES.PUTIN) this.AddImage(85, 140, "UI/Choose-the-battleground-Vladimir-Putin.png", 2);
-            else if (_selectedEnemy == (int)ENEMIES.KIM) this.AddImage(85, 140, "UI/Choose-the-battleground-Kim_Jong-un.png", 0);
-            else if (_selectedEnemy == (int)ENEMIES.ALIENS) this.AddImage(85, 140, "UI/Alien-C-5_00000.png", 0);
+            if (_selectedEnemy == (int)Enemies.Hitler) AddImage(85, 140, "UI/Choose-the-battleground-Adolf-Hitler.png", 0);
+            else if (_selectedEnemy == (int)Enemies.Bush) AddImage(85, 140, "UI/Choose-the-battleground_George_Bush.png", 0);
+            else if (_selectedEnemy == (int)Enemies.Putin) AddImage(85, 140, "UI/Choose-the-battleground-Vladimir-Putin.png", 2);
+            else if (_selectedEnemy == (int)Enemies.Kim) AddImage(85, 140, "UI/Choose-the-battleground-Kim_Jong-un.png", 0);
+            else if (_selectedEnemy == (int)Enemies.Aliens) AddImage(85, 140, "UI/Alien-C-5_00000.png", 0);
 
-            if (_selectedWeapon == (int)WEAPONS.STANDARD) this.AddImage(700, 40, "UI/Choose-the-battleground-standard_gun.png", 2);
-            else if (_selectedWeapon == (int)WEAPONS.COMPACT) this.AddImage(700, 40, "UI/Choose-the-battleground-compact_sprayer.png", 2);
-            else if (_selectedWeapon == (int)WEAPONS.BAZOOKA) this.AddImage(700, 40, "UI/Choose-the-battleground-black_bazooka.png", 2);
+            if (_selectedWeapon == (int)Weapons.Standard) AddImage(700, 40, "UI/Choose-the-battleground-standard_gun.png", 2);
+            else if (_selectedWeapon == (int)Weapons.Compact) AddImage(700, 40, "UI/Choose-the-battleground-compact_sprayer.png", 2);
+            else if (_selectedWeapon == (int)Weapons.Bazooka) AddImage(700, 40, "UI/Choose-the-battleground-black_bazooka.png", 2);
 
             AddEventListener(touchListener, this);
-            this.AddEventListener(touchListener);
-            
+            AddEventListener(touchListener);
+
             if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipBattlegroundPickerShow)
             {
                 _isHoldAnimations = true;
-                showGameTip();
+                ShowGameTip();
             }
             else
             {
-               /* if (Settings.Instance.VoiceoversEnabled)
+                /* if (Settings.Instance.VoiceoversEnabled)
+                 {
+                     if (_selectedEnemy == (int)ENEMIES.HITLER)
+                     {
+                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
+                     }
+                     else if (_selectedEnemy == (int)ENEMIES.BUSH)
+                     {
+                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vietnam VO_mono.wav");
+                     }
+                     else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+                     {
+                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
+
+                     }
+                     else if (_selectedEnemy == (int)ENEMIES.KIM)
+                     {
+                         CCAudioEngine.SharedEngine.PlayEffect("Sounds/South Korea VO_mono.wav");
+                     }
+                 }
+                 else
+                 {*/
+                if (_selectedEnemy == (int)Enemies.Hitler)
                 {
-                    if (_selectedEnemy == (int)ENEMIES.HITLER)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.BUSH)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vietnam VO_mono.wav");
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.PUTIN)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
-
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.KIM)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/South Korea VO_mono.wav");
-                    }
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
                 }
-                else
-                {*/
-                    if (_selectedEnemy == (int)ENEMIES.HITLER)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.BUSH)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.PUTIN)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
+                else if (_selectedEnemy == (int)Enemies.Bush)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
+                }
+                else if (_selectedEnemy == (int)Enemies.Putin)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
 
-                    }
-                    else if (_selectedEnemy == (int)ENEMIES.KIM)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
-                    }
+                }
+                else if (_selectedEnemy == (int)Enemies.Kim)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
+                }
                 /*}*/
             }
         }
-                
+
         // TODO: staviti da ide preko poziva GetBattlegroundImageName
-        private void fillBattlegrounds()
+        private void FillBattlegrounds()
         {
             string battlegroundStyle;
-               
-            if (Settings.Instance.BattlegroundStyle == BATTLEGROUND_STYLE.Cartonic) battlegroundStyle = "cartonic";
+
+            if (Settings.Instance.BattlegroundStyle == BattlegroundStyle.Cartonic) battlegroundStyle = "cartonic";
             else battlegroundStyle = "realistic";
 
-            if (_selectedEnemy == (int)ENEMIES.HITLER)
+            if (_selectedEnemy == (int)Enemies.Hitler)
             {
-                _images[0] = this.AddImage(568, 320, "Battlegrounds/poland_" + battlegroundStyle + "_1136x640.jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/poland_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)BATTLEGROUNDS.POLAND;
+                _images[0].Tag = (int)Battlegrounds.Poland;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.POLAND) > 0)
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Poland) > 0)
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Tag = (int)BATTLEGROUNDS.DENMARK;
+                _images[1].Tag = (int)Battlegrounds.Denmark;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.DENMARK) > 0)
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Denmark) > 0)
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Tag = (int)BATTLEGROUNDS.NORWAY;
+                _images[2].Tag = (int)Battlegrounds.Norway;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.NORWAY) > 0)
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Norway) > 0)
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Tag = (int)BATTLEGROUNDS.FRANCE;
+                _images[3].Tag = (int)Battlegrounds.France;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.FRANCE) > 0)
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.France) > 0)
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Tag = (int)BATTLEGROUNDS.ENGLAND;
+                _images[4].Tag = (int)Battlegrounds.England;
 
-                _selectedBattleground = (int)BATTLEGROUNDS.POLAND;
+                _selectedBattleground = (int)Battlegrounds.Poland;
             }
-            else if (_selectedEnemy == (int)ENEMIES.BUSH)
+            else if (_selectedEnemy == (int)Enemies.Bush)
             {
-                _images[0] = this.AddImage(568, 320, "Battlegrounds/vietnam_" + battlegroundStyle + "_1136x640.jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/vietnam_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)BATTLEGROUNDS.VIETNAM;
+                _images[0].Tag = (int)Battlegrounds.Vietnam;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.VIETNAM) > 0)
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/iraq_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Vietnam) > 0)
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/iraq_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/iraq_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/iraq_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Tag = (int)BATTLEGROUNDS.IRAQ;
+                _images[1].Tag = (int)Battlegrounds.Iraq;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.IRAQ) > 0)
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/afganistan_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Iraq) > 0)
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/afganistan_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/afganistan_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/afganistan_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Tag = (int)BATTLEGROUNDS.AFGHANISTAN;
+                _images[2].Tag = (int)Battlegrounds.Afghanistan;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.AFGHANISTAN) > 0)
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/libya_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Afghanistan) > 0)
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/libya_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/libya_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/libya_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Tag = (int)BATTLEGROUNDS.LIBYA;
+                _images[3].Tag = (int)Battlegrounds.Libya;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.LIBYA) > 0)
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/russia_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Libya) > 0)
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/russia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/russia_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/russia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Tag = (int)BATTLEGROUNDS.RUSSIA;
+                _images[4].Tag = (int)Battlegrounds.Russia;
 
-                _selectedBattleground = (int)BATTLEGROUNDS.VIETNAM;
+                _selectedBattleground = (int)Battlegrounds.Vietnam;
             }
-            else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+            else if (_selectedEnemy == (int)Enemies.Putin)
             {
-                _images[0] = this.AddImage(568, 320, "Battlegrounds/georgia_" + battlegroundStyle + "_1136x640.jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/georgia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)BATTLEGROUNDS.GEORGIA;
+                _images[0].Tag = (int)Battlegrounds.Georgia;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.GEORGIA) > 0)
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/ukraine_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Georgia) > 0)
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/ukraine_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/ukraine_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/ukraine_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Tag = (int)BATTLEGROUNDS.UKRAINE;
+                _images[1].Tag = (int)Battlegrounds.Ukraine;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.UKRAINE) > 0)
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/syria_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Ukraine) > 0)
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/syria_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/syria_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/syria_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Tag = (int)BATTLEGROUNDS.SYRIA;
+                _images[2].Tag = (int)Battlegrounds.Syria;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.SYRIA) > 0)
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/estonia_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Syria) > 0)
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/estonia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/estonia_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/estonia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Tag = (int)BATTLEGROUNDS.ESTONIA;
+                _images[3].Tag = (int)Battlegrounds.Estonia;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ESTONIA) > 0)
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Estonia) > 0)
                 {
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/finland_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/finland_" + battlegroundStyle + "_1136x640.jpg", 0);
                 }
                 else
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/finland_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/finland_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Tag = (int)BATTLEGROUNDS.FINLAND;
-
-               
+                _images[4].Tag = (int)Battlegrounds.Finland;
 
 
 
-                _selectedBattleground = (int)BATTLEGROUNDS.GEORGIA;
+
+
+                _selectedBattleground = (int)Battlegrounds.Georgia;
             }
-            else if (_selectedEnemy == (int)ENEMIES.KIM)
+            else if (_selectedEnemy == (int)Enemies.Kim)
             {
-                _images[0] = this.AddImage(568, 320, "Battlegrounds/south-korea_" + battlegroundStyle + "_1136x640.jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/south-korea_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)BATTLEGROUNDS.SOUTH_KOREA;
+                _images[0].Tag = (int)Battlegrounds.SouthKorea;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.SOUTH_KOREA) > 0)
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/israel_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.SouthKorea) > 0)
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/israel_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[1] = this.AddImage(568 + 1136, 320, "Battlegrounds/israel_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/israel_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Tag = (int)BATTLEGROUNDS.ISRAEL;
+                _images[1].Tag = (int)Battlegrounds.Israel;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ISRAEL) > 0)
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/japan_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Israel) > 0)
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/japan_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[2] = this.AddImage(568 + 1136 * 2, 320, "Battlegrounds/japan_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/japan_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Tag = (int)BATTLEGROUNDS.JAPAN;
+                _images[2].Tag = (int)Battlegrounds.Japan;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.JAPAN) > 0)
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/great-britain_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Japan) > 0)
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/great-britain_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[3] = this.AddImage(568 + 1136 * 3, 320, "Battlegrounds/great-britain_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/great-britain_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Tag = (int)BATTLEGROUNDS.GREAT_BRITAIN;
+                _images[3].Tag = (int)Battlegrounds.GreatBritain;
 
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.GREAT_BRITAIN) > 0)
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/usa_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.GreatBritain) > 0)
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/usa_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[4] = this.AddImage(568 + 1136 * 4, 320, "Battlegrounds/usa_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/usa_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Tag = (int)BATTLEGROUNDS.UNITED_STATES;
+                _images[4].Tag = (int)Battlegrounds.UnitedStates;
 
-                _selectedBattleground = (int)BATTLEGROUNDS.SOUTH_KOREA;
+                _selectedBattleground = (int)Battlegrounds.SouthKorea;
             }
-            else if (_selectedEnemy == (int)ENEMIES.ALIENS)
+            else if (_selectedEnemy == (int)Enemies.Aliens)
             {
-                _images[0] = this.AddImage(568, 320, "Battlegrounds/Test-battleground-moon-" + battlegroundStyle + ".jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/Test-battleground-moon-" + battlegroundStyle + ".jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)BATTLEGROUNDS.MOON;                
+                _images[0].Tag = (int)Battlegrounds.Moon;
 
-                _selectedBattleground = (int)BATTLEGROUNDS.MOON;
+                _selectedBattleground = (int)Battlegrounds.Moon;
             }
 
             _centerImage = _images[0];
 
-           
+
         }
 
-        private void showGameTip()
+        private void ShowGameTip()
         {
             _isHoldAnimations = true;
 
@@ -408,33 +407,33 @@ namespace LooneyInvaders.Layers
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
 
-            _imgGameTip = this.AddImage(14, 8, "UI/Choose-the-battleground-gametip-notification-background-with-text.png", 600);
-            _imgGameTipArrow = this.AddImage(210, 155, "UI/game-tip-notification-arrow.png", 610);
+            _imgGameTip = AddImage(14, 8, "UI/Choose-the-battleground-gametip-notification-background-with-text.png", 600);
+            _imgGameTipArrow = AddImage(210, 155, "UI/game-tip-notification-arrow.png", 610);
 
-            _btnGameTipOK = this.AddButton(655, 35, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            _btnGameTipOK.OnClick += btnGameTipOK_OnClick;
+            _btnGameTipOk = AddButton(655, 35, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
+            _btnGameTipOk.OnClick += btnGameTipOK_OnClick;
 
-            _btnGameTipCheckMark = this.AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
+            _btnGameTipCheckMark = AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
             _btnGameTipCheckMark.OnClick += btnGameTipCheckMark_OnClick;
-            _btnGameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _btnGameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
-            _imgGameTipCheckMarkLabel = this.AddImage(105, 60, "UI/do-not-show-text.png", 610);
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            _imgGameTipCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
 
         }
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipBattlegroundPickerShow = _btnGameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipBattlegroundPickerShow = _btnGameTipCheckMark.State != 1;
 
             _imgGameTip.Visible = false;
             _imgGameTipArrow.Visible = false;
-            _btnGameTipOK.Visible = false;
-            _btnGameTipOK.Enabled = false;
+            _btnGameTipOk.Visible = false;
+            _btnGameTipOk.Enabled = false;
             _btnGameTipCheckMark.Visible = false;
             _btnGameTipCheckMark.Enabled = false;
             _imgGameTipCheckMarkLabel.Visible = false;
@@ -444,26 +443,26 @@ namespace LooneyInvaders.Layers
             _isHoldAnimations = false;
 
             //------------- Prabhjot ---------------//
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
 
             _isShowGameTipViewLoaded = false;
 
 
-            if (_selectedEnemy == (int)ENEMIES.HITLER)
+            if (_selectedEnemy == (int)Enemies.Hitler)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
             }
-            else if (_selectedEnemy == (int)ENEMIES.BUSH)
+            else if (_selectedEnemy == (int)Enemies.Bush)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
             }
-            else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+            else if (_selectedEnemy == (int)Enemies.Putin)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
 
             }
-            else if (_selectedEnemy == (int)ENEMIES.KIM)
+            else if (_selectedEnemy == (int)Enemies.Kim)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
             }
@@ -478,27 +477,27 @@ namespace LooneyInvaders.Layers
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
             _isHoldAnimations = true;
- 
-            this.UnscheduleAll();
 
-            this.TransitionToLayer(new WeaponPickerLayer(this._selectedEnemy, this._selectedWeapon));
+            UnscheduleAll();
+
+            TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -506,25 +505,27 @@ namespace LooneyInvaders.Layers
             {
                 _isHoldAnimations = true;
 
-                this.UnscheduleAll();
+                UnscheduleAll();
 
-                this.TransitionToLayer(new GamePlayLayer((ENEMIES)this._selectedEnemy, (WEAPONS)this._selectedWeapon, (BATTLEGROUNDS)this._selectedBattleground, false));
+                TransitionToLayer(new GamePlayLayer((Enemies)_selectedEnemy, (Weapons)_selectedWeapon, (Battlegrounds)_selectedBattleground, false));
             }
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (_selectedEnemy == (int)ENEMIES.ALIENS) return;
+            if (_selectedEnemy == (int)Enemies.Aliens)
+                return;
+            if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+                return;
+            if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
+                return;
+            if (_isHoldAnimations)
+                return;
 
-            if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
-            if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
-
-            if (_isHoldAnimations) return;
-
-            this.UnscheduleAll();
+            UnscheduleAll();
             if (_fireworkFrame != 0)
             {
-                this.RemoveChild(_firework, true);
+                RemoveChild(_firework);
                 _fireworkFrame = 0;
             }
 
@@ -536,24 +537,24 @@ namespace LooneyInvaders.Layers
             _isSwiping = true;
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (_selectedEnemy == (int)ENEMIES.ALIENS) return;
+            if (_selectedEnemy == (int)Enemies.Aliens) return;
 
             if (_isHoldAnimations) return;
 
             if (_isSwiping)
             {
-                float movementX = (touches[0].Location.X - touches[0].PreviousLocation.X);
+                var movementX = touches[0].Location.X - touches[0].PreviousLocation.X;
                 _lastMovement = movementX;
 
-                moveImages(movementX);
+                MoveImages(movementX);
             }
         }
 
-        private void moveImages(float movementX)
+        private void MoveImages(float movementX)
         {
-            if (_selectedEnemy == (int)ENEMIES.ALIENS) return;
+            if (_selectedEnemy == (int)Enemies.Aliens) return;
 
             if (_images[0].PositionX + movementX > 568)
             {
@@ -566,148 +567,148 @@ namespace LooneyInvaders.Layers
                 movementX = 568 - _images[_images.Length - 1].PositionX;
             }
 
-            foreach (CCSprite img in _images)
+            foreach (var img in _images)
             {
                 img.PositionX += movementX;
 
                 if (_centerImage == null) _centerImage = img;
                 else if (Math.Abs(568 - img.PositionX) < Math.Abs(568 - _centerImage.PositionX)) _centerImage = img;
             }
-                        
+
             if (_centerImage.Tag != _selectedBattleground)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SWIPE);
+                GameEnvironment.PlaySoundEffect(SoundEffect.Swipe);
 
                 _selectedBattleground = _centerImage.Tag;
 
-                setBattlegroundName();
+                SetBattlegroundName();
             }
         }
 
-        private void setBattlegroundName()
+        private void SetBattlegroundName()
         {
             _imgBattlegroundLocked.Visible = false;
-            if (_selectedBattleground == (int)BATTLEGROUNDS.POLAND)
+            if (_selectedBattleground == (int)Battlegrounds.Poland)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-poland-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-poland-text");
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.DENMARK)
+            else if (_selectedBattleground == (int)Battlegrounds.Denmark)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-denmark-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.POLAND) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-denmark-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Poland) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.NORWAY)
+            else if (_selectedBattleground == (int)Battlegrounds.Norway)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-norway-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.DENMARK) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-norway-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Denmark) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Noeway.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.FRANCE)
+            else if (_selectedBattleground == (int)Battlegrounds.France)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-france-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.NORWAY) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-france-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Norway) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.ENGLAND)
+            else if (_selectedBattleground == (int)Battlegrounds.England)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-england-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.FRANCE) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-england-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.France) == 0) _imgBattlegroundLocked.Visible = true;
                 // TODO: fali wav
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.VIETNAM)
+            else if (_selectedBattleground == (int)Battlegrounds.Vietnam)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-vietnam-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-vietnam-text");
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.IRAQ)
+            else if (_selectedBattleground == (int)Battlegrounds.Iraq)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-iraq-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.VIETNAM) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-iraq-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Vietnam) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Irak.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.AFGHANISTAN)
+            else if (_selectedBattleground == (int)Battlegrounds.Afghanistan)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-afghanistan-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.IRAQ) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-afghanistan-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Iraq) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.LIBYA)
+            else if (_selectedBattleground == (int)Battlegrounds.Libya)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-libya-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.AFGHANISTAN) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-libya-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Afghanistan) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.RUSSIA)
+            else if (_selectedBattleground == (int)Battlegrounds.Russia)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-russia-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.LIBYA) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-russia-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Libya) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Russian.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.GEORGIA)
+            else if (_selectedBattleground == (int)Battlegrounds.Georgia)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-georgia-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-georgia-text");
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.UKRAINE)
+            else if (_selectedBattleground == (int)Battlegrounds.Ukraine)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-ukraine-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.GEORGIA) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-ukraine-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Georgia) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Ukraine.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.SYRIA)
+            else if (_selectedBattleground == (int)Battlegrounds.Syria)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-syria-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.UKRAINE) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-syria-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Ukraine) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Syria.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.ESTONIA)
+            else if (_selectedBattleground == (int)Battlegrounds.Estonia)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-estonia-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.SYRIA) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-estonia-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Syria) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Estonia.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.FINLAND)
+            else if (_selectedBattleground == (int)Battlegrounds.Finland)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-finland-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ESTONIA) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-finland-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Estonia) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.SOUTH_KOREA)
+            else if (_selectedBattleground == (int)Battlegrounds.SouthKorea)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-south-korea-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-south-korea-text");
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.ISRAEL)
+            else if (_selectedBattleground == (int)Battlegrounds.Israel)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-israel-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.SOUTH_KOREA) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-israel-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.SouthKorea) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Israel.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.JAPAN)
+            else if (_selectedBattleground == (int)Battlegrounds.Japan)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-japan-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ISRAEL) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-japan-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Israel) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Japan.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.GREAT_BRITAIN)
+            else if (_selectedBattleground == (int)Battlegrounds.GreatBritain)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-great-britain-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.JAPAN) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-great-britain-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Japan) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Great Britain.wav");
             }
-            else if (_selectedBattleground == (int)BATTLEGROUNDS.UNITED_STATES)
+            else if (_selectedBattleground == (int)Battlegrounds.UnitedStates)
             {
-                this.ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-united-states-text");
-                if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.GREAT_BRITAIN) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-united-states-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.GreatBritain) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries United States.wav");
             }
         }
 
-        void updateFirework(float dt)
+        private void UpdateFirework(float dt)
         {
-            if (_fireworkFrame > 0 || _selectedBattleground == (int)BATTLEGROUNDS.FINLAND)
+            if (_fireworkFrame > 0 || _selectedBattleground == (int)Battlegrounds.Finland)
             {
                 _fireworkFrame++;
             }
@@ -716,7 +717,8 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            if (_fireworkFrame == 1) {
+            if (_fireworkFrame == 1)
+            {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Firework Sound Effect mono.wav");
                 _firework = new CCSprite(_ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_001.png"));
                 _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
@@ -724,66 +726,66 @@ namespace LooneyInvaders.Layers
                 _firework.ZOrder = 0;
                 _firework.Scale = 4;
                 _fireworkFrame = 1;
-                this.AddChild(_firework);
+                AddChild(_firework);
             }
             else if (_fireworkFrame <= 84)
             {
                 _firework.TextureRectInPixels = _ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrame.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
                 _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
             }
-            else if(_fireworkFrame == 85)
+            else if (_fireworkFrame == 85)
             {
-                this.RemoveChild(_firework, true);
+                RemoveChild(_firework);
                 _firework = new CCSprite(_ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_085.png"));
                 _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _firework.Position = new CCPoint(_images[4].Position);
                 _firework.ZOrder = 0;
                 _firework.Scale = 4;
-                this.AddChild(_firework);
+                AddChild(_firework);
 
             }
-            else if(_fireworkFrame <= 124 )
+            else if (_fireworkFrame <= 124)
             {
                 _firework.TextureRectInPixels = _ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrame.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
                 _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
             }
-            if (_fireworkFrame>=124)
+            if (_fireworkFrame >= 124)
             {
-                this.RemoveChild(_firework, true);
+                RemoveChild(_firework);
                 _fireworkFrame = 0;
             }
 
 
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             _isSwiping = false;
 
-            Schedule(snapToCentre, 0.03f);
+            Schedule(SnapToCentre, 0.03f);
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             _isSwiping = false;
 
-            Schedule(snapToCentre, 0.03f);
+            Schedule(SnapToCentre, 0.03f);
         }
 
-        void snapToCentre(float dt)
+        private void SnapToCentre(float dt)
         {
             if (_isSwiping) return;
 
             float totalMovementX = 0;
-            
+
             // inertial movement
-            if (_lastMovement != 0)
+            if (Math.Abs(_lastMovement) > AppConstants.Tolerance)
             {
-                float movementX = _lastMovement * 0.9f;
+                var movementX = _lastMovement * 0.9f;
 
                 if (Math.Abs(movementX) < 1)
                 {
@@ -796,38 +798,39 @@ namespace LooneyInvaders.Layers
                 }
 
                 totalMovementX += movementX;
-            }         
+            }
 
             // snap to center
-            if (_centerImage != null && _centerImage.PositionX != 568)
+            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 568) > AppConstants.Tolerance)
             {
-                float differenceX = 568 - _centerImage.PositionX;
-                float snapMovement = differenceX / 5;
+                var differenceX = 568 - _centerImage.PositionX;
+                var snapMovement = differenceX / 5;
 
                 if (Math.Abs(snapMovement) < 1f) snapMovement = Math.Sign(snapMovement) * 1f;
 
-                totalMovementX += snapMovement;                
+                totalMovementX += snapMovement;
             }
 
-            if (Math.Abs(568 - _centerImage.PositionX) < 1) totalMovementX = 568 - _centerImage.PositionX;
+            if (_centerImage != null && Math.Abs(568 - _centerImage.PositionX) < 1) 
+                totalMovementX = 568 - _centerImage.PositionX;
 
-            if (totalMovementX == 0)
+            if (Math.Abs(totalMovementX) < AppConstants.Tolerance)
             {
-                this.Unschedule(snapToCentre);
+                Unschedule(SnapToCentre);
 
                 _startedDisplayingName = false;
-                this.Schedule(startDisplayingName, 0.025f);
+                Schedule(StartDisplayingName, 0.025f);
             }
             else
             {
-                moveImages(totalMovementX);
+                MoveImages(totalMovementX);
             }
         }
 
-        void startDisplayingName(float dt)
+        private void StartDisplayingName(float dt)
         {
             if (!_startedDisplayingName)
-            {                
+            {
                 _startedDisplayingName = true;
                 _nameDisplayTimePassed = 0;
                 _startedTalking = false;
@@ -835,12 +838,12 @@ namespace LooneyInvaders.Layers
 
             _nameDisplayTimePassed += dt;
 
-            int imgOpacity = Convert.ToInt32(_nameDisplayTimePassed * 255f);
+            var imgOpacity = Convert.ToInt32(_nameDisplayTimePassed * 255f);
             if (imgOpacity > 255) imgOpacity = 255;
 
             _imgBattlegroundName.Opacity = (byte)imgOpacity;
             _imgBattlegroundLocked.Opacity = (byte)imgOpacity;
-            if(!_imgBattlegroundLocked.Visible) _btnForward.Opacity = (byte)imgOpacity;
+            if (!_imgBattlegroundLocked.Visible) _btnForward.Opacity = (byte)imgOpacity;
 
             if (_startedTalking == false && imgOpacity > 100)
             {
@@ -914,93 +917,93 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {*/
-                    if (_selectedBattleground == (int)BATTLEGROUNDS.POLAND)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.DENMARK)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.NORWAY)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.FRANCE)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.ENGLAND)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.VIETNAM)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.IRAQ)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Irak.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.AFGHANISTAN)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.LIBYA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.RUSSIA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Russian.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.GEORGIA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.UKRAINE)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Ukraine.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.SYRIA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Syria.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.ESTONIA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Estonia.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.FINLAND)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
-                        if (Player.Instance.GetSavedCountries(BATTLEGROUNDS.ESTONIA) > 0)
-                            Schedule(updateFirework, 0.03f);
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.SOUTH_KOREA)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.ISRAEL)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Israel.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.JAPAN)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Japan.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.GREAT_BRITAIN)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Great Britain.wav");
-                    }
-                    else if (_selectedBattleground == (int)BATTLEGROUNDS.UNITED_STATES)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries United States.wav");
-                    }
-               /* }*/
+                if (_selectedBattleground == (int)Battlegrounds.Poland)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Denmark)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Norway)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.France)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.England)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Vietnam)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Iraq)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Irak.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Afghanistan)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Libya)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Russia)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Russian.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Georgia)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Ukraine)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Ukraine.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Syria)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Syria.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Estonia)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Estonia.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Finland)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.Estonia) > 0)
+                        Schedule(UpdateFirework, 0.03f);
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.SouthKorea)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries South Korea.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Israel)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Israel.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.Japan)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Japan.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.GreatBritain)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries Great Britain.wav");
+                }
+                else if (_selectedBattleground == (int)Battlegrounds.UnitedStates)
+                {
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim countries United States.wav");
+                }
+                /* }*/
             }
 
-            if (imgOpacity == 255) this.Unschedule(startDisplayingName);
-        }        
+            if (imgOpacity == 255) Unschedule(StartDisplayingName);
+        }
     }
 }
 

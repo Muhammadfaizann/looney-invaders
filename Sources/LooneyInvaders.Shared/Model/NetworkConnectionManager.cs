@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using Plugin.Connectivity;
+﻿using Plugin.Connectivity;
 
 namespace LooneyInvaders.Model
 {

@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Plugin.Settings;
-using Plugin.Settings.Abstractions;
 
 namespace LooneyInvaders.Model
 {
     public class LeaderboardManager
     {
-        private static Leaderboard regularLeaderboard = null;
-        public static Leaderboard RegularLeaderboard { get { if (regularLeaderboard == null) regularLeaderboard = new Leaderboard(LeaderboardType.REGULAR); return regularLeaderboard; }  }
+        private static Leaderboard _regularLeaderboard;
 
-        private static Leaderboard proLeaderboard = null;
-        public static Leaderboard ProLeaderboard { get { if (proLeaderboard == null) proLeaderboard = new Leaderboard(LeaderboardType.PRO); return proLeaderboard; } }
+        public static Leaderboard RegularLeaderboard => _regularLeaderboard ?? (_regularLeaderboard = new Leaderboard(LeaderboardType.Regular));
+
+        private static Leaderboard _proLeaderboard;
+        public static Leaderboard ProLeaderboard => _proLeaderboard ?? (_proLeaderboard = new Leaderboard(LeaderboardType.Pro));
 
         public delegate void SubmitScoreDelegate(double score, double accuracy, double fastestTime, double levelsCompleted);
         public static SubmitScoreDelegate SubmitScoreHandler;
@@ -27,46 +25,46 @@ namespace LooneyInvaders.Model
         {
             OnLeaderboardsRefreshed = null;
         }
-        public static double BestScoreRegular_Score
+        public static double BestScoreRegularScore
         {
-                get { return CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Score", Convert.ToDouble(0)); }
-                set { CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Score", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Score", Convert.ToDouble(0));
+            set => CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Score", value);
         }
 
-        public static double BestScoreRegular_FastestTime
+        public static double BestScoreRegularFastestTime
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScoreRegular_FastestTime", Convert.ToDouble(0)); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_FastestTime", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScoreRegular_FastestTime", Convert.ToDouble(0));
+            set => CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_FastestTime", value);
         }
 
-        public static double BestScoreRegular_Accuracy
+        public static double BestScoreRegularAccuracy
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Accuracy", Convert.ToDouble(0)); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Accuracy", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Accuracy", Convert.ToDouble(0));
+            set => CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Accuracy", value);
         }
 
-        public static bool BestScoreRegular_Submitted
+        public static bool BestScoreRegularSubmitted
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Submitted", false); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Submitted", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Submitted", false);
+            set => CrossSettings.Current.AddOrUpdateValue("BestScoreRegular_Submitted", value);
         }
 
-        public static double BestScorePro_Score
+        public static double BestScoreProScore
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScorePro_Score", Convert.ToDouble(0)); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScorePro_Score", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScorePro_Score", Convert.ToDouble(0));
+            set => CrossSettings.Current.AddOrUpdateValue("BestScorePro_Score", value);
         }
 
-        public static double BestScorePro_LevelsCompleted
+        public static double BestScoreProLevelsCompleted
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScorePro_LevelsCompleted", Convert.ToDouble(0)); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScorePro_LevelsCompleted", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScorePro_LevelsCompleted", Convert.ToDouble(0));
+            set => CrossSettings.Current.AddOrUpdateValue("BestScorePro_LevelsCompleted", value);
         }
 
-        public static bool BestScorePro_Submitted
+        public static bool BestScoreProSubmitted
         {
-            get { return CrossSettings.Current.GetValueOrDefault("BestScorePro_Submitted", false); }
-            set { CrossSettings.Current.AddOrUpdateValue("BestScorePro_Submitted", value); }
+            get => CrossSettings.Current.GetValueOrDefault("BestScorePro_Submitted", false);
+            set => CrossSettings.Current.AddOrUpdateValue("BestScorePro_Submitted", value);
         }
 
         public static LeaderboardItem PlayerRankRegularDaily = null;
@@ -79,25 +77,26 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly = null;
         public static LeaderboardItem PlayerRankProAlltime = null;
 
-        private static bool IsRefreshing = false;
-                
+        private static bool _isRefreshing;
+
 
         public static bool SubmitScoreRegular(double score, double accuracy, double fastestTime)
         {
-            if (score == 0) return true;
+            if (Math.Abs(score) < AppConstants.Tolerance)
+                return true;
 
-            if (score > BestScoreRegular_Score)
+            if (score > BestScoreRegularScore)
             {
-                BestScoreRegular_Score = score;
-                BestScoreRegular_Accuracy = accuracy;
-                BestScoreRegular_FastestTime = fastestTime;
-                BestScoreRegular_Submitted = false;
+                BestScoreRegularScore = score;
+                BestScoreRegularAccuracy = accuracy;
+                BestScoreRegularFastestTime = fastestTime;
+                BestScoreRegularSubmitted = false;
             }
 
-            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() == true)
+            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 SubmitScoreHandler(score, accuracy, fastestTime, -1);
-                BestScoreRegular_Submitted = true;
+                BestScoreRegularSubmitted = true;
                 return true;
             }
             return false;
@@ -105,18 +104,19 @@ namespace LooneyInvaders.Model
 
         public static bool SubmitScorePro(double score, double levelsCompleted)
         {
-            if (score == 0) return true;
+            if (Math.Abs(score) < AppConstants.Tolerance)
+                return true;
 
-            if (score > BestScorePro_Score)
+            if (score > BestScoreProScore)
             {
-                BestScorePro_Score = score;
-                BestScorePro_LevelsCompleted = levelsCompleted;
-                BestScorePro_Submitted = false;
+                BestScoreProScore = score;
+                BestScoreProLevelsCompleted = levelsCompleted;
+                BestScoreProSubmitted = false;
             }
 
-            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() == true)
+            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                BestScorePro_Submitted = true;
+                BestScoreProSubmitted = true;
                 SubmitScoreHandler(score, -1, -1, levelsCompleted);
                 return true;
             }
@@ -125,59 +125,55 @@ namespace LooneyInvaders.Model
 
         public static void SubmitUnsubmittedScores()
         {
-            if (BestScoreRegular_Submitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() == true && BestScoreRegular_Score > 0)
+            if (BestScoreRegularSubmitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreRegularScore > 0)
             {
-                SubmitScoreHandler(BestScoreRegular_Score, BestScoreRegular_Accuracy, BestScoreRegular_FastestTime, -1);
-                BestScoreRegular_Submitted = true;
+                SubmitScoreHandler(BestScoreRegularScore, BestScoreRegularAccuracy, BestScoreRegularFastestTime, -1);
+                BestScoreRegularSubmitted = true;
             }
 
-            if (BestScorePro_Submitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() == true && BestScorePro_Score > 0)
+            if (BestScoreProSubmitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreProScore > 0)
             {
-                BestScorePro_Submitted = true;
-                SubmitScoreHandler(BestScorePro_Score, -1, -1, BestScorePro_LevelsCompleted);
+                BestScoreProSubmitted = true;
+                SubmitScoreHandler(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted);
             }
         }
 
         public static async void RefreshLeaderboards()
         {
-            if (IsRefreshing) return;
+            if (_isRefreshing) return;
 
-            if (RefreshLeaderboardsHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() == true)
+            if (RefreshLeaderboardsHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                IsRefreshing = true;
+                _isRefreshing = true;
 
                 await Task.Run(() => SubmitUnsubmittedScores());
-                RefreshLeaderboardsHandler(RegularLeaderboard);                
+                RefreshLeaderboardsHandler(RegularLeaderboard);
                 RefreshLeaderboardsHandler(ProLeaderboard);
-                IsRefreshing = false;
+                _isRefreshing = false;
             }
         }
 
         internal static void FireOnLeaderboardsRefreshed()
         {
-            if (OnLeaderboardsRefreshed != null) OnLeaderboardsRefreshed(null, EventArgs.Empty);
+            OnLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
         }
 
         public static LeaderboardItem DecodeScoreRegular(int rank, string name, double encodedScore)
         {
-            double score;
-            double time;
-            double accuracy;
+            var s = encodedScore.ToString("000000000000000");
 
-            string s = encodedScore.ToString("000000000000000");
-
-            accuracy = Convert.ToDouble(s.Substring(s.Length - 4, 4)) / 100;
-            time = Convert.ToDouble(s.Substring(s.Length - 9, 5)) / 100;
-            score = Convert.ToDouble(s.Substring(0, s.Length - 9));
+            var accuracy = Convert.ToDouble(s.Substring(s.Length - 4, 4)) / 100;
+            var time = Convert.ToDouble(s.Substring(s.Length - 9, 5)) / 100;
+            var score = Convert.ToDouble(s.Substring(0, s.Length - 9));
 
             return new LeaderboardItem(rank, name, score, time, accuracy);
         }
 
         public static double EncodeScoreRegular(double score, double time, double accuracy)
         {
-            string scoreString = score.ToString("000000");
-            string timeString = time.ToString("000.00").Replace(".", "").Replace(",", "");
-            string accuracyString = accuracy.ToString("00.00").Replace(".", "").Replace(",", "");
+            var scoreString = score.ToString("000000");
+            var timeString = time.ToString("000.00").Replace(".", "").Replace(",", "");
+            var accuracyString = accuracy.ToString("00.00").Replace(".", "").Replace(",", "");
 
             if (scoreString.Length > 6) scoreString = "999999";
             if (timeString.Length > 5) timeString = "99999";
@@ -188,24 +184,21 @@ namespace LooneyInvaders.Model
 
         public static LeaderboardItem DecodeScorePro(int rank, string name, double encodedScore)
         {
-            double score;
-            double levelsCompleted;
+            var s = encodedScore.ToString("000000000000000");
 
-            string s = encodedScore.ToString("000000000000000");            
-
-            levelsCompleted = Convert.ToDouble(s.Substring(s.Length - 9, 9));            
-            score = Convert.ToDouble(s.Substring(0, s.Length - 9));
+            var levelsCompleted = Convert.ToDouble(s.Substring(s.Length - 9, 9));
+            var score = Convert.ToDouble(s.Substring(0, s.Length - 9));
 
             return new LeaderboardItem(rank, name, score, levelsCompleted);
         }
 
         public static double EncodeScorePro(double score, double levelsCompleted)
         {
-            string scoreString = score.ToString("000000");
-            string levelsCompletedString = levelsCompleted.ToString("000000000");            
+            var scoreString = score.ToString("000000");
+            var levelsCompletedString = levelsCompleted.ToString("000000000");
 
             if (scoreString.Length > 6) scoreString = "999999";
-            if (levelsCompletedString.Length > 9) levelsCompletedString = "999999999";            
+            if (levelsCompletedString.Length > 9) levelsCompletedString = "999999999";
 
             return Convert.ToDouble(scoreString + levelsCompletedString);
         }

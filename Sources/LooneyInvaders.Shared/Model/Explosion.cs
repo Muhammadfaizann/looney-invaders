@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CocosSharp;
+﻿using CocosSharp;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Model
 {
     public class Explosion
     {
-        private GamePlayLayer _gamePlayLayer;
+        private readonly GamePlayLayer _gamePlayLayer;
 
         public CCSprite Sprite;
 
@@ -16,18 +13,18 @@ namespace LooneyInvaders.Model
 
         public Explosion(GamePlayLayer gamePlayLayer, float x, float y)
         {
-            this._gamePlayLayer = gamePlayLayer;
-            this.Sprite = new CCSprite( gamePlayLayer.ssPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_00.png"));
-            this.Sprite.Position = new CCPoint(x, y);
-            this.Sprite.AnchorPoint = new CCPoint(0.5f, 0.5f);
-            this.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-            this._gamePlayLayer.AddChild(this.Sprite, 111);
+            _gamePlayLayer = gamePlayLayer;
+            Sprite = new CCSprite(gamePlayLayer.SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_00.png"));
+            Sprite.Position = new CCPoint(x, y);
+            Sprite.AnchorPoint = new CCPoint(0.5f, 0.5f);
+            Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+            _gamePlayLayer.AddChild(Sprite, 111);
         }
 
         public bool Destroy()
         {
-            this._gamePlayLayer.RemoveChild(Sprite, true);
-            this.Sprite = null;
+            _gamePlayLayer.RemoveChild(Sprite);
+            Sprite = null;
             return true;
         }
     }

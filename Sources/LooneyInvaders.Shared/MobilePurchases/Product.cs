@@ -1,6 +1,3 @@
-using System;
-using System.Threading.Tasks;
-
 namespace CC.Mobile.Purchases
 {
 
@@ -12,8 +9,9 @@ namespace CC.Mobile.Purchases
         public string ProductId { get; set; }
         public Product(string productId)
         {
-            this.ProductId = productId;
+            ProductId = productId;
         }
+
         public override string ToString()
         {
             return $"Product:{ProductId}";

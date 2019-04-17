@@ -6,20 +6,20 @@ using IAB = Xamarin.InAppBilling;
 
 namespace CC.Mobile.Purchases
 {
-    public class PurchaseService:IPurchaseService
+    public class PurchaseService : IPurchaseService
     {
-        string publicKey;
-        IAB.InAppBillingServiceConnection inAppSvc;
-        TaskCompletionSource<Purchase> currentPurchaseTask;
-        TaskCompletionSource<bool> serviceStatusTask;
-        IProduct currentProduct;
-        Purchase currentPurchase;
+        private readonly string _publicKey;
+        private IAB.InAppBillingServiceConnection _inAppSvc;
+        private TaskCompletionSource<Purchase> _currentPurchaseTask;
+        private TaskCompletionSource<bool> _serviceStatusTask;
+        private IProduct _currentProduct;
+        private Purchase _currentPurchase;
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="T:PurchaseExample.Droid.PurchaseService"/> is started.
         /// </summary>
         /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
-        public bool IsStarted { get; private set; } = false;
+        public bool IsStarted { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PurchaseExample.Droid.PurchaseService"/> class.
@@ -27,7 +27,7 @@ namespace CC.Mobile.Purchases
         /// <param name="publicKey">Public key.</param>
         public PurchaseService(string publicKey)
         {
-            this.publicKey = publicKey;
+            _publicKey = publicKey;
         }
 
         /// <summary>
@@ -37,46 +37,46 @@ namespace CC.Mobile.Purchases
         public Task<IPurchaseService> Init(object context = null)
         {
             var activity = context as Activity;
-            inAppSvc = new IAB.InAppBillingServiceConnection(activity, publicKey);
-            inAppSvc.OnConnected += () =>
+            _inAppSvc = new IAB.InAppBillingServiceConnection(activity, _publicKey);
+            _inAppSvc.OnConnected += () =>
             {
                 IsStarted = true;
-                serviceStatusTask.SetResult(IsStarted);
-                serviceStatusTask = null;
-                if (inAppSvc?.BillingHandler != null)
+                _serviceStatusTask.SetResult(IsStarted);
+                _serviceStatusTask = null;
+                if (_inAppSvc?.BillingHandler != null)
                 {
-                    inAppSvc.BillingHandler.OnProductPurchased += OnProductPurchased;
-                    inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnPurchaseConsumed += OnPurchaseConsumed;
-                    inAppSvc.BillingHandler.OnPurchaseConsumedError += OnPurchaseConsumedError;
-                    inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
-                    inAppSvc.BillingHandler.OnUserCanceled += OnUserCanceled;
+                    _inAppSvc.BillingHandler.OnProductPurchased += OnProductPurchased;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumed += OnPurchaseConsumed;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumedError += OnPurchaseConsumedError;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
+                    _inAppSvc.BillingHandler.OnUserCanceled += OnUserCanceled;
                 }
             };
 
-            inAppSvc.OnDisconnected += () =>
+            _inAppSvc.OnDisconnected += () =>
             {
                 IsStarted = false;
-                serviceStatusTask?.SetResult(IsStarted);
-                serviceStatusTask = null;
-                if (inAppSvc?.BillingHandler != null)
+                _serviceStatusTask?.SetResult(IsStarted);
+                _serviceStatusTask = null;
+                if (_inAppSvc?.BillingHandler != null)
                 {
-                    inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
-                    inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
-                    inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
-                    inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnPurchaseFailedValidation-=OnPurchaseFailedValidation;
-                    inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
+                    _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnPurchaseFailedValidation -= OnPurchaseFailedValidation;
+                    _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
                 }
             };
 
-            inAppSvc.OnInAppBillingError += (errType, err) =>
+            _inAppSvc.OnInAppBillingError += (errType, err) =>
             {
                 IsStarted = false;
-                serviceStatusTask.SetException(new PurchaseError($"{errType.ToString()}:{err}"));
-                serviceStatusTask = null;
+                _serviceStatusTask.SetException(new PurchaseError($"{errType.ToString()}:{err}"));
+                _serviceStatusTask = null;
             };
 
             return Task.FromResult(this as IPurchaseService);
@@ -87,30 +87,30 @@ namespace CC.Mobile.Purchases
             return SetObserver();
         }
 
-        async public Task<bool> Pause()
+        public async Task<bool> Pause()
         {
-             //in case when there is ongoing purchase the service will not be paused
-            if (IsStarted && currentProduct == null)
+            //in case when there is ongoing purchase the service will not be paused
+            if (IsStarted && _currentProduct == null)
             {
                 return await UnsetObserver();
             }
             return false;
         }
 
-        async public Task<Purchase> Purchase(IProduct product)
+        public async Task<Purchase> Purchase(IProduct product)
         {
-            currentPurchaseTask = new TaskCompletionSource<Purchase>();
-            currentProduct = product;
+            _currentPurchaseTask = new TaskCompletionSource<Purchase>();
+            _currentProduct = product;
 
             var products = new List<string> { product.ProductId };
-            var inAppProducts = await inAppSvc.BillingHandler.QueryInventoryAsync(products, IAB.ItemType.Product);
+            var inAppProducts = await _inAppSvc.BillingHandler.QueryInventoryAsync(products, IAB.ItemType.Product);
             if (inAppProducts == null || inAppProducts.Count == 0)
             {
-                currentPurchaseTask = null;
+                _currentPurchaseTask = null;
                 throw new PurchaseError("Product not found");
             }
-            inAppSvc.BillingHandler.BuyProduct(inAppProducts[0]);
-            return await currentPurchaseTask.Task;
+            _inAppSvc.BillingHandler.BuyProduct(inAppProducts[0]);
+            return await _currentPurchaseTask.Task;
         }
         /// <summary>
         /// This method must be invoked in the Activities OnActivityResult
@@ -121,125 +121,124 @@ namespace CC.Mobile.Purchases
             {
                 SetResultAndReset(TransactionStatus.Cancelled);
             }
-            inAppSvc.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
+            _inAppSvc.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
         }
 
-        void OnProductPurchased(int response, IAB.Purchase purchase, string purchaseData, string purchaseSignature)
+        private void OnProductPurchased(int response, IAB.Purchase purchase, string purchaseData, string purchaseSignature)
         {
-            currentPurchase = new Purchase(currentProduct, purchase.OrderId, TransactionStatus.Purchased);
-            inAppSvc.BillingHandler.ConsumePurchase(purchase);
+            _currentPurchase = new Purchase(_currentProduct, purchase.OrderId, TransactionStatus.Purchased);
+            _inAppSvc.BillingHandler.ConsumePurchase(purchase);
         }
-        void OnPurchaseFailedValidation(IAB.Purchase purchase, string purchaseData, string purchaseSignature)
+
+        private void OnPurchaseFailedValidation(IAB.Purchase purchase, string purchaseData, string purchaseSignature)
         {
-            currentPurchase = new Purchase(currentProduct, purchase.OrderId, TransactionStatus.Failed);
-            SetResultAndReset(currentPurchase);
+            _currentPurchase = new Purchase(_currentProduct, purchase.OrderId, TransactionStatus.Failed);
+            SetResultAndReset(_currentPurchase);
         }
-        void OnPurchaseConsumed(string token)
+
+        private void OnPurchaseConsumed(string token)
         {
-            SetResultAndReset(currentPurchase);
+            SetResultAndReset(_currentPurchase);
         }
-        void OnProductPurchasedError(int responseCode, string sku)
+
+        private void OnProductPurchasedError(int responseCode, string sku)
         {
             var res = InAppPurchaseResponse.ByCode(responseCode);
             SetErrorAndReset(new PurchaseError($"Cannot Purchase: {res.Description}"));
         }
 
-        void OnPurchaseConsumedError(int responseCode, string token)
+        private void OnPurchaseConsumedError(int responseCode, string token)
         {
             var res = InAppPurchaseResponse.ByCode(responseCode);
             SetErrorAndReset(new PurchaseError($"Cannot Consume the purchase: {res.Description}"));
         }
 
-        void OnUserCanceled()
+        private void OnUserCanceled()
         {
-            currentPurchaseTask.SetCanceled();
-            currentPurchaseTask = null;
+            _currentPurchaseTask.SetCanceled();
+            _currentPurchaseTask = null;
         }
 
-        Task<bool> SetObserver()
+        private Task<bool> SetObserver()
         {
-            if (!IsStarted && serviceStatusTask == null)
+            if (!IsStarted && _serviceStatusTask == null)
             {
-                serviceStatusTask = new TaskCompletionSource<bool>();
-                inAppSvc.Connect();
-                if (serviceStatusTask != null) return serviceStatusTask.Task;
-                else return null;
+                _serviceStatusTask = new TaskCompletionSource<bool>();
+                _inAppSvc.Connect();
+                return _serviceStatusTask?.Task;
             }
-            else {
-                throw new PurchaseError("Another task is already running and must be waited");
-            }
+
+            throw new PurchaseError("Another task is already running and must be waited");
         }
 
-        Task<bool> UnsetObserver()
+        private Task<bool> UnsetObserver()
         {
-            if (IsStarted && serviceStatusTask == null)
+            if (IsStarted && _serviceStatusTask == null)
             {
-                serviceStatusTask = new TaskCompletionSource<bool>();
+                _serviceStatusTask = new TaskCompletionSource<bool>();
                 // Attempt to connect to the service
-                inAppSvc.Disconnect();
-                return serviceStatusTask.Task;
+                _inAppSvc.Disconnect();
+                return _serviceStatusTask.Task;
             }
-            else
-            {
-                throw new PurchaseError("Another task is already running and must be waited");
-            }
+
+            throw new PurchaseError("Another task is already running and must be waited");
         }
 
-       
-        void SetResultAndReset(TransactionStatus status, string transactionId = null)
+
+        private void SetResultAndReset(TransactionStatus status, string transactionId = null)
         {
-            currentPurchase = new Purchase(currentProduct, transactionId, TransactionStatus.Cancelled);
-            SetResultAndReset(currentPurchase);
+            _currentPurchase = new Purchase(_currentProduct, transactionId, TransactionStatus.Cancelled);
+            SetResultAndReset(_currentPurchase);
         }
 
-        void SetErrorAndReset(PurchaseError error)
+        private void SetErrorAndReset(PurchaseError error)
         {
-            currentPurchaseTask?.SetException(error);
+            _currentPurchaseTask?.SetException(error);
             Reset();
         }
 
-        void SetResultAndReset(Purchase purchase)
+        private void SetResultAndReset(Purchase purchase)
         {
-            currentPurchaseTask?.SetResult(purchase);
+            _currentPurchaseTask?.SetResult(purchase);
             Reset();
         }
 
-        void Reset()
+        private void Reset()
         {
-            currentProduct = null;
-            currentPurchaseTask = null;
-            currentPurchase = null;
+            _currentProduct = null;
+            _currentPurchaseTask = null;
+            _currentPurchase = null;
         }
 
         public void Dispose()
         {
-            if (inAppSvc != null)
+            if (_inAppSvc != null)
             {
-                if (inAppSvc?.BillingHandler != null)
+                if (_inAppSvc?.BillingHandler != null)
                 {
-                    inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
-                    inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
-                    inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
-                    inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
+                    _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
+                    _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
+                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                    _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
                 }
-                inAppSvc.Disconnect();
-                inAppSvc = null;
+                _inAppSvc.Disconnect();
+                _inAppSvc = null;
             }
 
-            currentProduct = null;
-            currentPurchase = null;
-            if (currentPurchaseTask != null)
-                currentPurchaseTask.SetCanceled();
+            _currentProduct = null;
+            _currentPurchase = null;
+            if (_currentPurchaseTask != null)
+                _currentPurchaseTask.SetCanceled();
         }
 
-       
+
     }
 
     public class InAppPurchaseResponse
     {
-        public static Dictionary<int, InAppPurchaseResponse> ALL = new Dictionary<int, InAppPurchaseResponse>
+        public static Dictionary<int, InAppPurchaseResponse> All = new Dictionary<int, InAppPurchaseResponse>
         {
             {0, new InAppPurchaseResponse(0, "Success")},
             {1, new InAppPurchaseResponse(1, "User pressed back or canceled a dialog")},
@@ -255,12 +254,12 @@ namespace CC.Mobile.Purchases
         public int Code { get; set; }
         public string Description { get; set; }
 
-        public static InAppPurchaseResponse ByCode(int code) => ALL[code];
+        public static InAppPurchaseResponse ByCode(int code) => All[code];
 
         public InAppPurchaseResponse(int code, string description = "")
         {
-            this.Code = code;
-            this.Description = description;
+            Code = code;
+            Description = description;
         }
     }
 }

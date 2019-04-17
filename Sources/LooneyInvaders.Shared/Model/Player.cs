@@ -1,129 +1,76 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Plugin.Settings;
-using Plugin.Settings.Abstractions;
-using CocosSharp;
-using Microsoft.Xna.Framework;
 
 namespace LooneyInvaders.Model
 {
     public class Player
     {
-        private static Player _instance = null;
-        public bool isProLevelSelected = false;
-        public static Player Instance
-        {
-            get
-            {
-                if (_instance == null) _instance = new Player();
-                return _instance;
-            }
-        }
+        public bool IsProLevelSelected = false;
+
+        private static Player _instance;
+        public static Player Instance => _instance ?? (_instance = new Player());
 
         public string Name
         {
-            get
-            {
-                return CrossSettings.Current.GetValueOrDefault("PlayerName", "LOONEY");
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("PlayerName", value);
-            }
+            get => CrossSettings.Current.GetValueOrDefault("PlayerName", "LOONEY");
+            set => CrossSettings.Current.AddOrUpdateValue("PlayerName", value);
         }
         public int Score
         {
-            get
-            {
-                return CrossSettings.Current.GetValueOrDefault("Score", 0);
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("Score", value);
-            }
+            get => CrossSettings.Current.GetValueOrDefault("Score", 0);
+            set => CrossSettings.Current.AddOrUpdateValue("Score", value);
         }
         public int Credits
         {
-            get
-            {
-
-                return CrossSettings.Current.GetValueOrDefault("Credits", 0);
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("Credits", value);
-            }
+            get => CrossSettings.Current.GetValueOrDefault("Credits", 0);
+            set => CrossSettings.Current.AddOrUpdateValue("Credits", value);
         }
 
-        public DateTime getFixedDate(DateTime Value)
+        public DateTime GetFixedDate(DateTime value)
         {
-            var FixedDate = TimeZoneInfo.ConvertTime(Value.ToUniversalTime(), TimeZoneInfo.Utc, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id));
-            return FixedDate;
+            return TimeZoneInfo.ConvertTime(value.ToUniversalTime(), TimeZoneInfo.Utc, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id));
         }
 
         public DateTime LastAdWatchTime
         {
-            get
-            {
-                return getFixedDate(CrossSettings.Current.GetValueOrDefault("LastAdWatchTime", Convert.ToDateTime("1990-01-01")));
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("LastAdWatchTime", value);
-            }
+            get => GetFixedDate(CrossSettings.Current.GetValueOrDefault("LastAdWatchTime", Convert.ToDateTime("1990-01-01")));
+            set => CrossSettings.Current.AddOrUpdateValue("LastAdWatchTime", value);
         }
 
         public DateTime LastAdWatchDay
         {
-            get
-            {
-                return getFixedDate(CrossSettings.Current.GetValueOrDefault("LastAdWatchDay", Convert.ToDateTime("1990-01-01")));
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("LastAdWatchDay", value);
-            }
+            get => GetFixedDate(CrossSettings.Current.GetValueOrDefault("LastAdWatchDay", Convert.ToDateTime("1990-01-01")));
+            set => CrossSettings.Current.AddOrUpdateValue("LastAdWatchDay", value);
         }
 
         public int LastAdWatchDayCount
         {
-            get
-            {
-                return CrossSettings.Current.GetValueOrDefault("LastAdWatchDayCount", 0);
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("LastAdWatchDayCount", value);
-            }
+            get => CrossSettings.Current.GetValueOrDefault("LastAdWatchDayCount", 0);
+            set => CrossSettings.Current.AddOrUpdateValue("LastAdWatchDayCount", value);
         }
 
         public bool FacebookLikeUsed
         {
-            get
-            {
-                return CrossSettings.Current.GetValueOrDefault("FacebookLikeUsed", false);
-            }
-            set
-            {
-                CrossSettings.Current.AddOrUpdateValue("FacebookLikeUsed", value);
-            }
+            get => CrossSettings.Current.GetValueOrDefault("FacebookLikeUsed", false);
+            set => CrossSettings.Current.AddOrUpdateValue("FacebookLikeUsed", value);
         }
 
-        public bool GetWeapon(WEAPONS weapon)
+        public bool GetWeapon(Weapons weapon)
         {
-            if (weapon == WEAPONS.STANDARD || weapon == WEAPONS.HYBRID) return true;
-            else return CrossSettings.Current.GetValueOrDefault("STATS2_weapons_" + weapon.ToString(), false);
+            if (weapon == Weapons.Standard || weapon == Weapons.Hybrid)
+                return true;
+
+            return CrossSettings.Current.GetValueOrDefault("STATS2_weapons_" + weapon, false);
         }
 
-        public void AddWeapon(WEAPONS weapon)
+        public void AddWeapon(Weapons weapon)
         {
-            CrossSettings.Current.AddOrUpdateValue("STATS2_weapons_" + weapon.ToString(), true);
+            CrossSettings.Current.AddOrUpdateValue("STATS2_weapons_" + weapon, true);
         }
 
-        public int GetKills(ENEMIES enemy)
+        public int GetKills(Enemies enemy)
         {
-            return CrossSettings.Current.GetValueOrDefault("STATS3_enemyKills_" + enemy.ToString(), 0);
+            return CrossSettings.Current.GetValueOrDefault("STATS3_enemyKills_" + enemy, 0);
         }
 
         public int GetKillsTotal()
@@ -131,23 +78,23 @@ namespace LooneyInvaders.Model
             return CrossSettings.Current.GetValueOrDefault("STATS3_enemyKillsTotal", 0);
         }
 
-        public void AddKill(ENEMIES enemy)
+        public void AddKill(Enemies enemy)
         {
-            CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKills_" + enemy.ToString(), GetKills(enemy) + 1);
+            CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKills_" + enemy, GetKills(enemy) + 1);
             CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKillsTotal", GetKillsTotal() + 1);
         }
 
-        public void AddKills(ENEMIES enemy, int kills)
+        public void AddKills(Enemies enemy, int kills)
         {
-            CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKills_" + enemy.ToString(), GetKills(enemy) + kills);
+            CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKills_" + enemy, GetKills(enemy) + kills);
             CrossSettings.Current.AddOrUpdateValue("STATS3_enemyKillsTotal", GetKillsTotal() + kills);
         }
 
 
-        public int GetSavedCountries(BATTLEGROUNDS country)
+        public int GetSavedCountries(Battlegrounds country)
         {
             //if(country == BATTLEGROUNDS.UNITED_STATES) return 0; else return 1;
-            return CrossSettings.Current.GetValueOrDefault("STATS3_savedCountries_" + country.ToString(), 0);
+            return CrossSettings.Current.GetValueOrDefault("STATS3_savedCountries_" + country, 0);
         }
 
         public int GetSavedCountriesTotal()
@@ -155,66 +102,63 @@ namespace LooneyInvaders.Model
             return CrossSettings.Current.GetValueOrDefault("STATS3_savedCountriesTotal", 0);
         }
 
-        public void AddSavedCountry(BATTLEGROUNDS country)
+        public void AddSavedCountry(Battlegrounds country)
         {
-            CrossSettings.Current.AddOrUpdateValue("STATS3_savedCountries_" + country.ToString(), GetSavedCountries(country) + 1);
+            CrossSettings.Current.AddOrUpdateValue("STATS3_savedCountries_" + country, GetSavedCountries(country) + 1);
             CrossSettings.Current.AddOrUpdateValue("STATS3_savedCountriesTotal", GetSavedCountriesTotal() + 1);
         }
 
-        public void GetQuickGame(ref ENEMIES enemy, ref BATTLEGROUNDS battleground, ref WEAPONS weapon)
+        public void GetQuickGame(out Enemies enemy, out Battlegrounds battleground, out Weapons weapon)
         {
-            enemy = (ENEMIES)CrossSettings.Current.GetValueOrDefault("QUICKGAME_enemy", (int)ENEMIES.HITLER);
-            battleground = (BATTLEGROUNDS)CrossSettings.Current.GetValueOrDefault("QUICKGAME_battleground", (int)BATTLEGROUNDS.POLAND);
-            weapon = (WEAPONS)CrossSettings.Current.GetValueOrDefault("QUICKGAME_weapon", (int)WEAPONS.STANDARD);
+            enemy = (Enemies)CrossSettings.Current.GetValueOrDefault("QUICKGAME_enemy", (int)Enemies.Hitler);
+            battleground = (Battlegrounds)CrossSettings.Current.GetValueOrDefault("QUICKGAME_battleground", (int)Battlegrounds.Poland);
+            weapon = (Weapons)CrossSettings.Current.GetValueOrDefault("QUICKGAME_weapon", (int)Weapons.Standard);
         }
 
-        public void SetQuickGame(ENEMIES enemy, BATTLEGROUNDS battleground, WEAPONS weapon)
+        public void SetQuickGame(Enemies enemy, Battlegrounds battleground, Weapons weapon)
         {
             CrossSettings.Current.AddOrUpdateValue("QUICKGAME_enemy", (int)enemy);
             CrossSettings.Current.AddOrUpdateValue("QUICKGAME_battleground", (int)battleground);
             CrossSettings.Current.AddOrUpdateValue("QUICKGAME_weapon", (int)weapon);
         }
-        
+
         public int GetDayScore(DateTime date, bool isPro = false)
         {
-			var stringDate = date.ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
+            var stringDate = date.ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
             return CrossSettings.Current.GetValueOrDefault(stringDate, 0);
         }
 
-		public void SetDayScore(int score, bool isPro = false)
+        public void SetDayScore(int score, bool isPro = false)
         {
-			var stringDate = DateTime.Now.AddMinutes(-15).AddSeconds(-10).ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
+            var stringDate = DateTime.Now.AddMinutes(-15).AddSeconds(-10).ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
 
-			var bestScoreOfDay = GetDayScore(DateTime.Now.AddMinutes(-15).AddSeconds(-10).Date, isPro);
+            var bestScoreOfDay = GetDayScore(DateTime.Now.AddMinutes(-15).AddSeconds(-10).Date, isPro);
 
-			if(score > bestScoreOfDay)
+            if (score > bestScoreOfDay)
                 CrossSettings.Current.AddOrUpdateValue(stringDate, score);
 
-			SetBestScoreAllTime(score, isPro);
+            SetBestScoreAllTime(score, isPro);
         }
 
-		public void RemoveDayScore(DateTime date, bool isPro = false)
+        public void RemoveDayScore(DateTime date, bool isPro = false)
         {
-			var stringDate = date.ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
+            var stringDate = date.ToString("dd-MM-yyyy") + (isPro ? "_pro" : "");
             CrossSettings.Current.Remove(stringDate);
         }
 
-		public int GetBestScoreAllTime(bool isPro = false)
+        public int GetBestScoreAllTime(bool isPro = false)
         {
-			var keyName = "allTimeBestScore" + (isPro ? "_pro" : "");
-
-			return CrossSettings.Current.GetValueOrDefault(keyName, 0);
+            var keyName = "allTimeBestScore" + (isPro ? "_pro" : "");
+            return CrossSettings.Current.GetValueOrDefault(keyName, 0);
         }
 
-		private void SetBestScoreAllTime(int score, bool isPro = false)
+        private void SetBestScoreAllTime(int score, bool isPro = false)
         {
-			var lastBest = GetBestScoreAllTime(isPro);
-
-			if (score > GetBestScoreAllTime(isPro))
-			{
-				var keyName = "allTimeBestScore" + (isPro ? "_pro" : "");
-				CrossSettings.Current.AddOrUpdateValue(keyName, score);
-			}
-        }      
+            if (score > GetBestScoreAllTime(isPro))
+            {
+                var keyName = "allTimeBestScore" + (isPro ? "_pro" : "");
+                CrossSettings.Current.AddOrUpdateValue(keyName, score);
+            }
+        }
     }
 }

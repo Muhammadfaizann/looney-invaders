@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Collections.Generic;
 
 namespace LooneyInvaders.Model
 {
-    public enum LeaderboardType { REGULAR, PRO }
-
     public class Leaderboard
     {
         public List<LeaderboardItem> ScoreDaily = new List<LeaderboardItem>();
@@ -18,10 +10,10 @@ namespace LooneyInvaders.Model
         public List<LeaderboardItem> ScoreAllTime = new List<LeaderboardItem>();
 
         public LeaderboardType Type;
-        
+
         public Leaderboard(LeaderboardType type)
         {
-            this.Type = type;            
+            Type = type;
         }
     }
 }

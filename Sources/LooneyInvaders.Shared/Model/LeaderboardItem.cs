@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace LooneyInvaders.Model
 {
@@ -21,24 +15,24 @@ namespace LooneyInvaders.Model
 
         public LeaderboardItem(int rank, string name, double score, double time, double accuracy)
         {
-            this.Rank = rank;
-            this.Name = name;
-            this.Score = score;
-            this.Time = time;
-            this.Accuracy = accuracy;
+            Rank = rank;
+            Name = name;
+            Score = score;
+            Time = time;
+            Accuracy = accuracy;
         }
 
         public LeaderboardItem(int rank, string name, double score, double levelsCompleted)
         {
-            this.Rank = rank;
-            this.Name = name;
-            this.Score = score;
-            this.LevelsCompleted = levelsCompleted;            
+            Rank = rank;
+            Name = name;
+            Score = score;
+            LevelsCompleted = levelsCompleted;            
         }
 
         public override string ToString()
         {
-            return Rank.ToString() + ". " + Name + " " + Score.ToString("###,###,###,###");
+            return Rank + ". " + Name + " " + Score.ToString("###,###,###,###");
         }
     }
 }

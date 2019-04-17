@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
@@ -9,44 +8,44 @@ namespace LooneyInvaders.Layers
 {
     public class EnemyPickerLayer : CCLayerColorExt
     {
-        CCSprite _imgEnemyName;
-        CCSprite _imgEnemyLocked;
+        private readonly CCSprite _imgEnemyName;
+        private readonly CCSprite _imgEnemyLocked;
 
-        CCSprite _centerImage;
-        CCSprite[] _images;
-        bool _isSwiping = false;
-        int _selectedEnemy;
-        float _lastMovement;
-        int _talkingSpriteIndex;
-        float _talkTimePassed;
-        bool _startedTalking = false;
-        bool _isHoldAnimations = false;
-        CCSprite _imgSpotlight;
+        private CCSprite _centerImage;
+        private readonly CCSprite[] _images;
+        private bool _isSwiping;
+        private int _selectedEnemy;
+        private float _lastMovement;
+        private int _talkingSpriteIndex;
+        private float _talkTimePassed;
+        private bool _startedTalking;
+        private bool _isHoldAnimations;
+        private readonly CCSprite _imgSpotlight;
 
-        CCSpriteButton _btnBack;
-        CCSpriteButton _btnForward;
-        CCSpriteButton _btnForwardNoPasaran;
+        private CCSpriteButton _btnBack;
+        private CCSpriteButton _btnForward;
+        private readonly CCSpriteButton _btnForwardNoPasaran;
 
-        CCSprite _imgGameTip;
-        CCSprite _imgGameTipArrow;
-        CCSpriteButton _btnGameTipOK;
-        CCSpriteTwoStateButton _btnGameTipCheckMark;
-        CCSprite _imgGameTipCheckMarkLabel;
+        private CCSprite _imgGameTip;
+        private CCSprite _imgGameTipArrow;
+        private CCSpriteButton _btnGameTipOk;
+        private CCSpriteTwoStateButton _btnGameTipCheckMark;
+        private CCSprite _imgGameTipCheckMarkLabel;
 
         //------Prabhjot -------//
-        bool _isShowGameTipViewLoaded = false;
+        private bool _isShowGameTipViewLoaded;
 
         public EnemyPickerLayer()
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            this.SetBackground("UI/Choose-your-curtain-background-with-spotlight.jpg");
+            SetBackground("UI/Choose-your-curtain-background-with-spotlight.jpg");
 
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush_1_safer_world.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler_1_strenght_for_echo.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin_1_Mighty_Independence.wav");
             CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
-            GameEnvironment.PreloadSoundEffect(SOUNDEFFECT.SWIPE);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.Swipe);
 
             if (Settings.Instance.VoiceoversEnabled)
             {
@@ -56,28 +55,28 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim Jong-un VO_mono.wav");
             }
 
-                while (GameAnimation.Instance.PreloadNextSpriteSheetEnemies()) { }            
+            while (GameAnimation.Instance.PreloadNextSpriteSheetEnemies()) { }
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = BUTTON_TYPE.Back;
+            _btnBack.ButtonType = ButtonType.Back;
 
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
 
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _btnForward.OnClick += BtnForward_OnClick;
-            _btnForward.ButtonType = BUTTON_TYPE.Forward;
+            _btnForward.ButtonType = ButtonType.Forward;
 
-            _btnForwardNoPasaran = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-tapped.png", 500);
-            _btnForwardNoPasaran.ButtonType = BUTTON_TYPE.CannotTap;
+            _btnForwardNoPasaran = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-tapped.png", 500);
+            _btnForwardNoPasaran.ButtonType = ButtonType.CannotTap;
             _btnForwardNoPasaran.Visible = false;
 
 
-            this.AddImage(262, 560, "UI/Choose-your-enemy-title-text.png", 500);
-            this.AddImage(0, 0, "UI/Background-just-curtain-with-spotlight.png", 100);
+            AddImage(262, 560, "UI/Choose-your-enemy-title-text.png", 500);
+            AddImage(0, 0, "UI/Background-just-curtain-with-spotlight.png", 100);
 
-            _imgSpotlight = this.AddImage(370, 0, "UI/Choose-your-enemy-spotlight-front.png", 400);
+            _imgSpotlight = AddImage(370, 0, "UI/Choose-your-enemy-spotlight-front.png", 400);
             _imgSpotlight.Opacity = 0;
 
             var touchListener = new CCEventListenerTouchAllAtOnce();
@@ -86,17 +85,17 @@ namespace LooneyInvaders.Layers
             touchListener.OnTouchesCancelled = OnTouchesCancelled;
             touchListener.OnTouchesMoved = OnTouchesMoved;
 
-            int enemyPositionX = 570;
-            int enemyCount = 0;
-            bool isAliensEnabled = Player.Instance.GetSavedCountries(BATTLEGROUNDS.UNITED_STATES)>0;
+            var enemyPositionX = 570;
+            var enemyCount = 0;
+            var isAliensEnabled = Player.Instance.GetSavedCountries(Battlegrounds.UnitedStates) > 0;
 
             if (isAliensEnabled)
             {
                 _images = new CCSprite[5];
-                _images[enemyCount] = this.AddImage(enemyPositionX, 320, "UI/Alien-C-5_00000.png", 0);
+                _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Alien-C-5_00000.png", 0);
                 _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
                 _images[enemyCount].Scale = 1f;
-                _images[enemyCount].Tag = (int)ENEMIES.ALIENS;
+                _images[enemyCount].Tag = (int)Enemies.Aliens;
 
                 enemyPositionX += 420;
                 enemyCount++;
@@ -106,46 +105,46 @@ namespace LooneyInvaders.Layers
                 _images = new CCSprite[4];
             }
 
-            _images[enemyCount] = this.AddImage(enemyPositionX, 320, "UI/Hitler-Strength-E00000.png", 0);
+            _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Hitler-Strength-E00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
 
-            if(isAliensEnabled) _images[enemyCount].Scale = 0.5f;
+            if (isAliensEnabled) _images[enemyCount].Scale = 0.5f;
             else _images[enemyCount].Scale = 1f;
 
-            _images[enemyCount].Tag = (int)ENEMIES.HITLER;
+            _images[enemyCount].Tag = (int)Enemies.Hitler;
             enemyPositionX += 420;
             enemyCount++;
 
-            _images[enemyCount] = this.AddImage(enemyPositionX, 320, "UI/Bush-Safe-C_00000.png", 0);
+            _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Bush-Safe-C_00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.BUSH;
+            _images[enemyCount].Tag = (int)Enemies.Bush;
             enemyPositionX += 420;
             enemyCount++;
 
-            _images[enemyCount] = this.AddImage(enemyPositionX, 320, "UI/Putin-Strength-D00000.png", 0);
+            _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Putin-Strength-D00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.PUTIN;
+            _images[enemyCount].Tag = (int)Enemies.Putin;
             enemyPositionX += 420;
             enemyCount++;
 
-            _images[enemyCount] = this.AddImage(enemyPositionX, 320, "UI/Kim-Strength-D00000.png", 0);
+            _images[enemyCount] = AddImage(enemyPositionX, 320, "UI/Kim-Strength-D00000.png", 0);
             _images[enemyCount].AnchorPoint = new CCPoint(0.5f, 0.5f);
             _images[enemyCount].Scale = 0.5f;
-            _images[enemyCount].Tag = (int)ENEMIES.KIM;
-            enemyPositionX += 420;
-            enemyCount++;
+            _images[enemyCount].Tag = (int)Enemies.Kim;
+            //enemyPositionX += 420;
+            //enemyCount++;
 
             AddEventListener(touchListener, this);
-            this.AddEventListener(touchListener);
+            AddEventListener(touchListener);
 
             if (isAliensEnabled)
             {
                 _centerImage = _images[0];
 
-                _selectedEnemy = (int)ENEMIES.ALIENS;
-                _imgEnemyName = this.AddImage(335, -5, "UI/Choose-your-enemy-alien-text.png", 500);
+                _selectedEnemy = (int)Enemies.Aliens;
+                _imgEnemyName = AddImage(335, -5, "UI/Choose-your-enemy-alien-text.png", 500);
                 _imgEnemyName.Opacity = 0;
                 _startedTalking = false;
             }
@@ -153,12 +152,12 @@ namespace LooneyInvaders.Layers
             {
                 _centerImage = _images[0];
 
-                _selectedEnemy = (int)ENEMIES.HITLER;
-                _imgEnemyName = this.AddImage(335, -5, "UI/Choose-your-enemy-adolf-hitler-text.png", 500);
+                _selectedEnemy = (int)Enemies.Hitler;
+                _imgEnemyName = AddImage(335, -5, "UI/Choose-your-enemy-adolf-hitler-text.png", 500);
                 _imgEnemyName.Opacity = 0;
                 _startedTalking = false;
             }
-            _imgEnemyLocked = this.AddImage(1136/2, 410, "UI/Choose-your-enemy-george-bush-locked-text.png", 500);
+            _imgEnemyLocked = AddImage(1136 / 2, 410, "UI/Choose-your-enemy-george-bush-locked-text.png", 500);
             _imgEnemyLocked.AnchorPoint = new CCPoint(0.5f, 0f);
             _imgEnemyLocked.Opacity = 0;
             _imgEnemyLocked.Visible = false;
@@ -166,7 +165,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipEnemyPickerShow)
             {
                 _isHoldAnimations = true;
-                showGameTip();
+                ShowGameTip();
             }
             else
             {
@@ -174,9 +173,9 @@ namespace LooneyInvaders.Layers
                 //this.ScheduleOnce(delayedTalk, 1.0f); // Commented by ----------- Prabhjot -------------
             }
         }
-        
-        private void showGameTip()
-        {            
+
+        private void ShowGameTip()
+        {
             _isHoldAnimations = true;
 
             //------------- Prabhjot ---------------//
@@ -186,32 +185,32 @@ namespace LooneyInvaders.Layers
 
             _isShowGameTipViewLoaded = true;
 
-            _btnBack = this.AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
+            _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-tapped.png", "UI/forward-button-untapped.png", 500);
 
 
-            _imgGameTip = this.AddImage(14, 8, "UI/Choose-your-enemy-game-tip-notification-background-with-text.png", 600);
-            _imgGameTipArrow = this.AddImage(210, 155, "UI/game-tip-notification-arrow.png", 610);
+            _imgGameTip = AddImage(14, 8, "UI/Choose-your-enemy-game-tip-notification-background-with-text.png", 600);
+            _imgGameTipArrow = AddImage(210, 155, "UI/game-tip-notification-arrow.png", 610);
 
-            _btnGameTipOK = this.AddButton(655, 35, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            _btnGameTipOK.OnClick += btnGameTipOK_OnClick;
+            _btnGameTipOk = AddButton(655, 35, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
+            _btnGameTipOk.OnClick += btnGameTipOK_OnClick;
 
-            _btnGameTipCheckMark = this.AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
+            _btnGameTipCheckMark = AddTwoStateButton(45, 50, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
             _btnGameTipCheckMark.OnClick += btnGameTipCheckMark_OnClick;
-            _btnGameTipCheckMark.ButtonType = BUTTON_TYPE.CheckMark;
+            _btnGameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
-            _imgGameTipCheckMarkLabel = this.AddImage(105, 60, "UI/do-not-show-text.png", 610);
-            GameEnvironment.PlaySoundEffect(SOUNDEFFECT.NOTIFICATION_POP_UP);
+            _imgGameTipCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
+            GameEnvironment.PlaySoundEffect(SoundEffect.NotificationPopUp);
         }
 
         private void btnGameTipOK_OnClick(object sender, EventArgs e)
         {
-            Settings.Instance.GameTipEnemyPickerShow = _btnGameTipCheckMark.State == 1 ? false : true;
+            Settings.Instance.GameTipEnemyPickerShow = _btnGameTipCheckMark.State != 1;
 
             _imgGameTip.Visible = false;
             _imgGameTipArrow.Visible = false;
-            _btnGameTipOK.Visible = false;
-            _btnGameTipOK.Enabled = false;
+            _btnGameTipOk.Visible = false;
+            _btnGameTipOk.Enabled = false;
             _btnGameTipCheckMark.Visible = false;
             _btnGameTipCheckMark.Enabled = false;
             _imgGameTipCheckMarkLabel.Visible = false;
@@ -222,11 +221,11 @@ namespace LooneyInvaders.Layers
 
 
             //------------- Prabhjot ---------------//
-            _btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, BUTTON_TYPE.Back);
-            _btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
+            _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
+            _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _isShowGameTipViewLoaded = false;
 
-            this.ScheduleOnce(delayedTalk, 1f);
+            ScheduleOnce(DelayedTalk, 1f);
         }
 
         private void btnGameTipCheckMark_OnClick(object sender, EventArgs e)
@@ -238,36 +237,36 @@ namespace LooneyInvaders.Layers
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
             Shared.GameDelegate.ClearOnBackButtonEvent();
             CCAudioEngine.SharedEngine.StopAllEffects();
             _isHoldAnimations = true;
-            this.UnscheduleAll();
+            UnscheduleAll();
 
-            this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+            TransitionToLayerCartoonStyle(new MainScreenLayer());
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
-            if (_isShowGameTipViewLoaded == true)
+            if (_isShowGameTipViewLoaded)
             {
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
             _isHoldAnimations = true;
-            this.UnscheduleAll();
-            
-            this.TransitionToLayer(new WeaponPickerLayer(this._selectedEnemy));
+            UnscheduleAll();
+
+            TransitionToLayer(new WeaponPickerLayer(_selectedEnemy));
         }
 
-        void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
@@ -276,28 +275,28 @@ namespace LooneyInvaders.Layers
 
             if (_isHoldAnimations) return;
 
-            this.UnscheduleAll();
+            UnscheduleAll();
 
             CCAudioEngine.SharedEngine.StopAllEffects();
-            resetCenterImage();
+            ResetCenterImage();
 
             _isSwiping = true;
         }
 
-        void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             if (_isSwiping)
             {
-                float movementX = (touches[0].Location.X - touches[0].PreviousLocation.X) / 2.0f;
+                var movementX = (touches[0].Location.X - touches[0].PreviousLocation.X) / 2.0f;
                 _lastMovement = movementX;
 
-                moveImages(movementX);
+                MoveImages(movementX);
             }
         }
 
-        private void moveImages(float movementX)
+        private void MoveImages(float movementX)
         {
             if (_images[0].PositionX + movementX > 570)
             {
@@ -310,7 +309,7 @@ namespace LooneyInvaders.Layers
                 movementX = 570 - _images[_images.Length - 1].PositionX;
             }
 
-            foreach (CCSprite img in _images)
+            foreach (var img in _images)
             {
                 img.PositionX += movementX;
 
@@ -320,15 +319,15 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {
-                    float distanceFromCentre = Math.Abs(570 - img.PositionX);
-                    float distancePercentage = distanceFromCentre / 420.00f;
+                    var distanceFromCentre = Math.Abs(570 - img.PositionX);
+                    var distancePercentage = distanceFromCentre / 420.00f;
 
-                    img.Scale = 1.0f - (0.5f * distancePercentage);
+                    img.Scale = 1.0f - 0.5f * distancePercentage;
                 }
 
-//                // circular motion
-//                if (img.PositionX > 1410) img.PositionX = -270 + img.PositionX - 1410;
-//                else if (img.PositionX < -270) img.PositionX = 1410 + img.PositionX + 270;
+                //                // circular motion
+                //                if (img.PositionX > 1410) img.PositionX = -270 + img.PositionX - 1410;
+                //                else if (img.PositionX < -270) img.PositionX = 1410 + img.PositionX + 270;
 
                 if (_centerImage == null) _centerImage = img;
                 else if (Math.Abs(570 - img.PositionX) < Math.Abs(570 - _centerImage.PositionX)) _centerImage = img;
@@ -337,36 +336,36 @@ namespace LooneyInvaders.Layers
             if (_centerImage.Tag != _selectedEnemy)
             {
                 CCAudioEngine.SharedEngine.StopAllEffects();
-                GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SWIPE);
+                GameEnvironment.PlaySoundEffect(SoundEffect.Swipe);
 
                 _selectedEnemy = _centerImage.Tag;
-                
-                if (_selectedEnemy == (int)ENEMIES.HITLER)
+
+                if (_selectedEnemy == (int)Enemies.Hitler)
                 {
-                    this.ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-adolf-hitler-text.png");
+                    ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-adolf-hitler-text.png");
                     _imgEnemyLocked.Visible = false;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.BUSH)
+                else if (_selectedEnemy == (int)Enemies.Bush)
                 {
-                    this.ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-george-bush-text.png");
-                    this.ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-george-bush-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.ENGLAND) == 0;
+                    ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-george-bush-text.png");
+                    ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-george-bush-locked-text.png");
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.England) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.PUTIN)
+                else if (_selectedEnemy == (int)Enemies.Putin)
                 {
-                    this.ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-vladimir-putin-text.png");
-                    this.ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-vladimir-putin-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.RUSSIA) == 0;
+                    ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-vladimir-putin-text.png");
+                    ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-vladimir-putin-locked-text.png");
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.Russia) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.KIM)
+                else if (_selectedEnemy == (int)Enemies.Kim)
                 {
-                    this.ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-kim-jong-un-text.png");
-                    this.ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-kim-jong-un-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(BATTLEGROUNDS.FINLAND) == 0;
+                    ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-kim-jong-un-text.png");
+                    ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-kim-jong-un-locked-text.png");
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.Finland) == 0;
                 }
-                else if (_selectedEnemy == (int)ENEMIES.ALIENS)
+                else if (_selectedEnemy == (int)Enemies.Aliens)
                 {
-                    this.ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-alien-text.png");
+                    ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-alien-text.png");
                     _imgEnemyLocked.Visible = false;
                 }
                 _btnForward.Visible = !_imgEnemyLocked.Visible;
@@ -375,34 +374,34 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             _isSwiping = false;
 
-            Schedule(snapToCentre, 0.03f);
+            Schedule(SnapToCentre, 0.03f);
         }
 
-        void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
+        private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (_isHoldAnimations) return;
 
             _isSwiping = false;
 
-            Schedule(snapToCentre, 0.03f);
+            Schedule(SnapToCentre, 0.03f);
         }
 
-        void snapToCentre(float dt)
+        private void SnapToCentre(float dt)
         {
             if (_isSwiping) return;
 
             float totalMovementX = 0;
 
             // inertial movement
-            if (_lastMovement != 0)
+            if (Math.Abs(_lastMovement) > AppConstants.Tolerance)
             {
-                float movementX = _lastMovement * 0.8f;
+                var movementX = _lastMovement * 0.8f;
 
                 if (Math.Abs(movementX) < 1)
                 {
@@ -415,172 +414,173 @@ namespace LooneyInvaders.Layers
                 }
 
                 totalMovementX += movementX;
-            }            
+            }
 
             // snap to center
-            if (_centerImage != null && _centerImage.PositionX != 570)
+            if (_centerImage != null && Math.Abs(_centerImage.PositionX - 570) > AppConstants.Tolerance)
             {
-                float differenceX = 570 - _centerImage.PositionX;
-                float snapMovement = differenceX / 5;
+                var differenceX = 570 - _centerImage.PositionX;
+                var snapMovement = differenceX / 5;
 
                 if (Math.Abs(snapMovement) < 0.5f) snapMovement = Math.Sign(snapMovement) * 0.5f;
 
-                totalMovementX += snapMovement;                
+                totalMovementX += snapMovement;
             }
 
-            if (Math.Abs(570 -_centerImage.PositionX) < 1) totalMovementX = 570 - _centerImage.PositionX;
+            if (_centerImage != null && Math.Abs(570 - _centerImage.PositionX) < 1)
+                totalMovementX = 570 - _centerImage.PositionX;
 
-            if (totalMovementX == 0)
+            if (Math.Abs(totalMovementX) < AppConstants.Tolerance)
             {
-                this.Unschedule(snapToCentre);
+                Unschedule(SnapToCentre);
 
                 _startedTalking = false;
-                this.Schedule(startTalking, 0.025f);
+                Schedule(StartTalking, 0.025f);
             }
             else
             {
-                moveImages(totalMovementX);
+                MoveImages(totalMovementX);
             }
         }
 
-        void delayedTalk(float dt)
+        private void DelayedTalk(float dt)
         {
             _isHoldAnimations = false;
-            this.Schedule(startTalking, 0.025f);
+            Schedule(StartTalking, 0.025f);
         }
 
-        void startTalking(float dt)
+        private void StartTalking(float dt)
         {
-            this.Unschedule(startTalking);
+            Unschedule(StartTalking);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (_centerImage.Tag == (int)ENEMIES.BUSH) CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.HITLER) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.KIM) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
 
-                this.Schedule(startFading, 0.025f);
-                this.ScheduleOnce(startStartTalking, 1.8f);
+                Schedule(StartFading, 0.025f);
+                ScheduleOnce(StartStartTalking, 1.8f);
             }
             else
             {
-                this.Schedule(startTalking2, 0.025f);
+                Schedule(StartTalking2, 0.025f);
             }
         }
 
-        void startStartTalking (float dt)
+        private void StartStartTalking(float dt)
         {
-            this.Schedule(startTalking2, 0.025f);
+            Schedule(StartTalking2, 0.025f);
         }
 
-        int labelOpacity = 0;
+        private int _labelOpacity;
 
-        void startFading(float dt)
+        private void StartFading(float dt)
         {
-            labelOpacity += 10;
-            if (labelOpacity > 255) { labelOpacity = 255; this.Unschedule(startFading); }
+            _labelOpacity += 10;
+            if (_labelOpacity > 255) { _labelOpacity = 255; Unschedule(StartFading); }
 
-            _imgSpotlight.Opacity = (byte)labelOpacity;
-            _imgEnemyName.Opacity = (byte)labelOpacity;
-            _imgEnemyLocked.Opacity = (byte)labelOpacity;
+            _imgSpotlight.Opacity = (byte)_labelOpacity;
+            _imgEnemyName.Opacity = (byte)_labelOpacity;
+            _imgEnemyLocked.Opacity = (byte)_labelOpacity;
         }
 
-        void startTalking2(float dt)
+        private void StartTalking2(float dt)
         {
             if (!_startedTalking)
             {
-                if (_centerImage.Tag == (int)ENEMIES.BUSH) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.HITLER) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.KIM) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
 
                 _startedTalking = true;
                 _talkTimePassed = 0;
-            }            
+            }
 
             _talkTimePassed += dt;
-            
-            string imageNamePrefix = "";
 
-            if (_centerImage.Tag == (int)ENEMIES.BUSH) imageNamePrefix = "UI/Bush-Safe-C_";
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER) imageNamePrefix = "UI/Hitler-Strength-E";
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN) imageNamePrefix = "UI/Putin-Strength-D";
-            else if (_centerImage.Tag == (int)ENEMIES.KIM) imageNamePrefix = "UI/Kim-Strength-D";
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS) imageNamePrefix = "UI/Alien-C-5_";
+            var imageNamePrefix = "";
+
+            if (_centerImage.Tag == (int)Enemies.Bush) imageNamePrefix = "UI/Bush-Safe-C_";
+            else if (_centerImage.Tag == (int)Enemies.Hitler) imageNamePrefix = "UI/Hitler-Strength-E";
+            else if (_centerImage.Tag == (int)Enemies.Putin) imageNamePrefix = "UI/Putin-Strength-D";
+            else if (_centerImage.Tag == (int)Enemies.Kim) imageNamePrefix = "UI/Kim-Strength-D";
+            else if (_centerImage.Tag == (int)Enemies.Aliens) imageNamePrefix = "UI/Alien-C-5_";
 
             _talkingSpriteIndex = Convert.ToInt32(_talkTimePassed / 0.039f);
-            
-            if (_centerImage.Tag == (int)ENEMIES.BUSH && _talkingSpriteIndex > 94)
+
+            if (_centerImage.Tag == (int)Enemies.Bush && _talkingSpriteIndex > 94)
             {
                 _talkingSpriteIndex = 0;
-                this.Unschedule(startTalking);
+                Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER && _talkingSpriteIndex > 151)
+            else if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 151)
             {
                 _talkingSpriteIndex = 0;
-                this.Unschedule(startTalking);
+                Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN && _talkingSpriteIndex > 138)
+            else if (_centerImage.Tag == (int)Enemies.Putin && _talkingSpriteIndex > 138)
             {
                 _talkingSpriteIndex = 0;
-                this.Unschedule(startTalking);
+                Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.KIM && _talkingSpriteIndex > 129)
+            else if (_centerImage.Tag == (int)Enemies.Kim && _talkingSpriteIndex > 129)
             {
                 _talkingSpriteIndex = 0;
-                this.Unschedule(startTalking);
+                Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS && _talkingSpriteIndex > 415)
+            else if (_centerImage.Tag == (int)Enemies.Aliens && _talkingSpriteIndex > 415)
             {
                 _talkingSpriteIndex = 0;
-                this.Unschedule(startTalking);
+                Unschedule(StartTalking);
             }
 
-            string imageName = imageNamePrefix + _talkingSpriteIndex.ToString("00000") + ".png";
+            var imageName = imageNamePrefix + _talkingSpriteIndex.ToString("00000") + ".png";
 
-            if (GameEnvironment.GetTotalRAMSizeMB() > 500)
+            if (GameEnvironment.GetTotalRamSizeMb() > 500)
             {
-                if (_centerImage.Tag == (int)ENEMIES.HITLER && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 151)
+                if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 151)
                 {
-                    CCSpriteFrame frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
-                    this.ChangeSpriteImage(_centerImage, frame);
+                    ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.BUSH && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 94)
+                else if (_centerImage.Tag == (int)Enemies.Bush && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 94)
                 {
-                    CCSpriteFrame frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
-                    this.ChangeSpriteImage(_centerImage, frame);
+                    ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.KIM && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 129)
+                else if (_centerImage.Tag == (int)Enemies.Kim && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 129)
                 {
-                    CCSpriteFrame frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
-                    this.ChangeSpriteImage(_centerImage, frame);
+                    ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.PUTIN && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 138)
+                else if (_centerImage.Tag == (int)Enemies.Putin && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 138)
                 {
-                    CCSpriteFrame frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
-                    this.ChangeSpriteImage(_centerImage, frame);
+                    ChangeSpriteImage(_centerImage, frame);
                 }
-                else if (_centerImage.Tag == (int)ENEMIES.ALIENS && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 415)
-                {   
-                    CCSpriteFrame frame = GameAnimation.Instance.GetEnemyTalkFrame((ENEMIES)_centerImage.Tag, _talkingSpriteIndex);
+                else if (_centerImage.Tag == (int)Enemies.Aliens && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 415)
+                {
+                    var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
-                    this.ChangeSpriteImage(_centerImage, frame);
+                    ChangeSpriteImage(_centerImage, frame);
                 }
                 else
                 {
                     _centerImage.Scale = 1;
-                    this.ChangeSpriteImage(_centerImage, imageName);
+                    ChangeSpriteImage(_centerImage, imageName);
                 }
             }
 
             // fade in spotlight and text
-            int imgOpacity = Convert.ToInt32(_talkTimePassed * 255f) + labelOpacity;
+            var imgOpacity = Convert.ToInt32(_talkTimePassed * 255f) + _labelOpacity;
             if (imgOpacity > 255) imgOpacity = 255;
 
             _imgSpotlight.Opacity = (byte)imgOpacity;
@@ -588,19 +588,19 @@ namespace LooneyInvaders.Layers
             _imgEnemyLocked.Opacity = (byte)imgOpacity;
         }
 
-        private void resetCenterImage()
+        private void ResetCenterImage()
         {
             _talkingSpriteIndex = 0;
             _imgSpotlight.Opacity = 0;
             _imgEnemyName.Opacity = 0;
             _imgEnemyLocked.Opacity = 0;
-            labelOpacity = 0;
+            _labelOpacity = 0;
 
-            if (_centerImage.Tag == (int)ENEMIES.BUSH) this.ChangeSpriteImage(_centerImage, "UI/Bush-Safe-C_00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.HITLER) this.ChangeSpriteImage(_centerImage, "UI/Hitler-Strength-E00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.PUTIN) this.ChangeSpriteImage(_centerImage, "UI/Putin-Strength-D00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.KIM) this.ChangeSpriteImage(_centerImage, "UI/Kim-Strength-D00000.png");
-            else if (_centerImage.Tag == (int)ENEMIES.ALIENS) this.ChangeSpriteImage(_centerImage, "UI/Alien-C-5_00000.png");
+            if (_centerImage.Tag == (int)Enemies.Bush) ChangeSpriteImage(_centerImage, "UI/Bush-Safe-C_00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Hitler) ChangeSpriteImage(_centerImage, "UI/Hitler-Strength-E00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Putin) ChangeSpriteImage(_centerImage, "UI/Putin-Strength-D00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Kim) ChangeSpriteImage(_centerImage, "UI/Kim-Strength-D00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Aliens) ChangeSpriteImage(_centerImage, "UI/Alien-C-5_00000.png");
 
             _centerImage.Scale = 1;
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using StoreKit;
 
 namespace CC.Mobile.Purchases
@@ -11,43 +10,31 @@ namespace CC.Mobile.Purchases
     /// </summary>
     internal class CustomPaymentObserver : SKPaymentTransactionObserver
     {
-        public event EventHandler<TransactionStatusArgs>
-        TransactionStatusChanged;
+        public event EventHandler<TransactionStatusArgs> TransactionStatusChanged;
 
         // called when the transaction status is updated
-        public override void
-        UpdatedTransactions(SKPaymentQueue queue, SKPaymentTransaction[] transactions)
+        public override void UpdatedTransactions(SKPaymentQueue queue, SKPaymentTransaction[] transactions)
         {
-            foreach (SKPaymentTransaction transaction in transactions)
+            foreach (var transaction in transactions)
             {
                 switch (transaction.TransactionState)
                 {
                     case SKPaymentTransactionState.Purchased:
-
-                        TransactionStatusChanged?.Invoke(
-                            this,
-                            new TransactionStatusArgs(
-                                transaction.TransactionIdentifier,
-                                transaction.Payment.ProductIdentifier,
-                                TransactionStatus.Purchased));
-
-                        // remove the transaction from the payment queue.
-                        SKPaymentQueue.DefaultQueue.FinishTransaction(transaction);
-                        break;
+                        {
+                            var args = new TransactionStatusArgs(transaction.TransactionIdentifier, transaction.Payment.ProductIdentifier, TransactionStatus.Purchased);
+                            TransactionStatusChanged?.Invoke(this, args);
+                            SKPaymentQueue.DefaultQueue.FinishTransaction(transaction);
+                            break;
+                        }
                     case SKPaymentTransactionState.Failed:
-                        TransactionStatusChanged?.Invoke(
-                            this,
-                            new TransactionStatusArgs(
-                                transaction.TransactionIdentifier,
-                                transaction.Payment.ProductIdentifier,
-                                TransactionStatus.Failed));
-                        SKPaymentQueue.DefaultQueue.FinishTransaction(transaction);
-                        break;
-                    default:
-                        break;
+                        {
+                            var args = new TransactionStatusArgs(transaction.TransactionIdentifier, transaction.Payment.ProductIdentifier, TransactionStatus.Failed);
+                            TransactionStatusChanged?.Invoke(this, args);
+                            SKPaymentQueue.DefaultQueue.FinishTransaction(transaction);
+                            break;
+                        }
                 }
             }
         }
     }
-
 }

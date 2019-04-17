@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace LooneyInvaders.Model
 {
     public class PurchaseManager
     {
-        public delegate bool PurchaseDelegate(string productId);
+        public delegate Task<bool> PurchaseDelegate(string productId);
 
         public static PurchaseDelegate PurchaseHandler;
 
@@ -17,15 +16,16 @@ namespace LooneyInvaders.Model
             OnPurchaseFinished = null;
         }
 
-        public static bool Purchase(string productId)
+        public static async Task<bool> Purchase(string productId)
         {
-            if (PurchaseHandler != null) return PurchaseHandler(productId);
-            else return false;
+            if (PurchaseHandler != null)
+                return await PurchaseHandler(productId);
+            return false;
         }
 
         internal static void FireOnPurchaseFinished()
         {
-            if (OnPurchaseFinished != null) OnPurchaseFinished(null, EventArgs.Empty);
+            OnPurchaseFinished?.Invoke(null, EventArgs.Empty);
         }
     }
 }

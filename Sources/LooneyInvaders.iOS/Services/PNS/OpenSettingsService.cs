@@ -7,15 +7,12 @@ namespace LooneyInvaders.PNS
     {
         public void OpenNotificationSettings()
         {
-			var notifUrl = new NSUrl("prefs:root=NOTIFICATIONS_ID");
-            if (UIApplication.SharedApplication.CanOpenUrl(notifUrl))
-            {   //Pre iOS 10
-                UIApplication.SharedApplication.OpenUrl(notifUrl);
-            }
-            else
-            {   //iOS 10
-				UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:root=NOTIFICATIONS_ID"));
-            }
+            var notifyUrl = new NSUrl("prefs:root=NOTIFICATIONS_ID");
+
+            if (!UIApplication.SharedApplication.CanOpenUrl(notifyUrl))
+                notifyUrl = new NSUrl("App-Prefs:root=NOTIFICATIONS_ID");
+
+            UIApplication.SharedApplication.OpenUrl(notifyUrl);
         }
     }
 }

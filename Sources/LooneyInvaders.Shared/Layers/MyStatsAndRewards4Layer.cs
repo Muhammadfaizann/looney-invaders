@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using CocosSharp;
-using Microsoft.Xna.Framework;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using System.Threading.Tasks;
@@ -10,125 +8,125 @@ namespace LooneyInvaders.Layers
 {
     public class MyStatsAndRewards4Layer : CCLayerColorExt
     {
-        int _currentGunFrame = 1;
-        CCSprite imgGun;
-        CCSprite imgOffline;
-        CCSprite imgGetActivationCode;
-        CCSpriteButton btnSend;
-        CCLabel lblCode;
-        string code = "";
+        private int _currentGunFrame = 1;
+        private readonly CCSprite _imgGun;
+        private readonly CCSprite _imgOffline;
+        private readonly CCSprite _imgGetActivationCode;
+        private readonly CCSpriteButton _btnSend;
+        private CCLabel _lblCode;
+        private string _code = "";
 
         public MyStatsAndRewards4Layer()
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            this.SetBackground("UI/Curtain-and-paper-background.jpg");
+            SetBackground("UI/Curtain-and-paper-background.jpg");
 
-            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(WEAPONS.BAZOOKA, null)) { }
+            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(Weapons.Bazooka, null)) { }
 
-            CCSpriteButton btnBack = this.AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, BUTTON_TYPE.Back);
+            var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
 
-			CCSpriteButton btnBackThrow = this.AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, BUTTON_TYPE.Back);
+			var btnBackThrow = AddButton(148, 578, "UI/back-to-home-button-untapped.png", "UI/back-to-home-button-tapped.png", 100, ButtonType.Back);
             btnBackThrow.OnClick += BtnBackThrow_OnClick;
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
 
-            CCSpriteButton btnForward = this.AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, BUTTON_TYPE.Forward);
+            var btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 100, ButtonType.Forward);
             btnForward.OnClick += BtnForward_OnClick;
    
 			AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
             AddImage(829, 592, "UI/My-stats-&-rewards-page4_8--text.png");
             AddImage(191, 495, "UI/My-stats-&-rewards-reward-big-bazooka-text.png");
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(WEAPONS.BAZOOKA, null, 0);
-            imgGun = this.AddImage(118, 80, frame);
-            imgGun.Scale = 2.0f;
+            var frame = GameAnimation.Instance.GetRotateFrame(Weapons.Bazooka, null, 0);
+            _imgGun = AddImage(118, 80, frame);
+            _imgGun.Scale = 2.0f;
 
-            if (Player.Instance.GetWeapon(WEAPONS.BAZOOKA))
+            if (Player.Instance.GetWeapon(Weapons.Bazooka))
             {
-                this.AddImage(260, 95, "UI/My-stats-&-rewards-reward-unlocked.png");
-                imgGetActivationCode = this.AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
+                AddImage(260, 95, "UI/My-stats-&-rewards-reward-unlocked.png");
+                _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
 
-                btnSend = this.AddButton(185, 42, "UI/check-button-untapped.png", "UI/check-button-tapped.png");
-                btnSend.OnClick += BtnSend_OnClick;
+                _btnSend = AddButton(185, 42, "UI/check-button-untapped.png", "UI/check-button-tapped.png");
+                _btnSend.OnClick += BtnSend_OnClick;
 
-                imgOffline = this.AddImage(300, 230, "UI/My-stats-&-rewards-no-internet-connection-notification.png");
-                imgOffline.Visible = false;
+                _imgOffline = AddImage(300, 230, "UI/My-stats-&-rewards-no-internet-connection-notification.png");
+                _imgOffline.Visible = false;
             }
             else
             {
-                imgGetActivationCode = this.AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
+                _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
 
-                btnSend = this.AddButton(185, 42, "UI/check-button-tapped.png", "UI/check-button-tapped.png");
-                btnSend.ButtonType = BUTTON_TYPE.CannotTap;
+                _btnSend = AddButton(185, 42, "UI/check-button-tapped.png", "UI/check-button-tapped.png");
+                _btnSend.ButtonType = ButtonType.CannotTap;
 
-                this.AddImage(260, 95, "UI/My-stats-&-rewards-reward-locked.png");
+                AddImage(260, 95, "UI/My-stats-&-rewards-reward-locked.png");
             }
 
-            this.Schedule(rotateGun, 0.1f);
+            Schedule(RotateGun, 0.1f);
         }
 
         private void BtnSend_OnClick(object sender, EventArgs e)
         {
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
-                imgOffline.Visible = true;
+                _imgOffline.Visible = true;
                 return;
             }
 
-            imgOffline.Visible = false;
-            btnSend.Visible = false;
-            imgGetActivationCode.Visible = false;
+            _imgOffline.Visible = false;
+            _btnSend.Visible = false;
+            _imgGetActivationCode.Visible = false;
 
-            this.AddImage(175, 20, "UI/My-stats-&-rewards-your-activation-code-text.png");
+            AddImage(175, 20, "UI/My-stats-&-rewards-your-activation-code-text.png");
 
-            getRewardCode();
+            GetRewardCode();
         }
 
-        private async void getRewardCode()
+        private async void GetRewardCode()
         {
-            lblCode = this.AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
+            _lblCode = AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
 
             await Task.Run(() => {
-                code = RewardsManager.GetWeaponRewardCode(WEAPONS.BAZOOKA);
-                this.Schedule(displayCode, 0.1f);
+                _code = RewardsManager.GetWeaponRewardCode(Weapons.Bazooka);
+                Schedule(DisplayCode, 0.1f);
             });
         }
 
-        private void displayCode(float dt)
+        private void DisplayCode(float dt)
         {
-            this.Children.Remove(lblCode);
-            lblCode = this.AddLabel(530, 76, code, "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
+            Children.Remove(_lblCode);
+            _lblCode = AddLabel(530, 76, _code, "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
         }
 
         private void BtnBack_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            this.TransitionToLayer(new MyStatsAndRewards3Layer());
+            TransitionToLayer(new MyStatsAndRewards3Layer());
         }
 
 		private void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            this.TransitionToLayerCartoonStyle(new MainScreenLayer());
+            TransitionToLayerCartoonStyle(new MainScreenLayer());
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-            this.TransitionToLayer(new MyStatsAndRewards5Layer());
+            TransitionToLayer(new MyStatsAndRewards5Layer());
         }
 
-        private void rotateGun(float dt)
+        private void RotateGun(float dt)
         {
             if (_currentGunFrame < 47) _currentGunFrame++;
             else _currentGunFrame = 0;
 
-            CCSpriteFrame frame = GameAnimation.Instance.GetRotateFrame(WEAPONS.BAZOOKA, null, _currentGunFrame);
+            var frame = GameAnimation.Instance.GetRotateFrame(Weapons.Bazooka, null, _currentGunFrame);
 
-            this.ChangeSpriteImage(imgGun, frame);
+            ChangeSpriteImage(_imgGun, frame);
         }
     }
 }

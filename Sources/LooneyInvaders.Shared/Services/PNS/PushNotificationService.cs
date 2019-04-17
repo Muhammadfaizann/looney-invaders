@@ -1,70 +1,33 @@
-using System;
 using LooneyInvaders.Model;
 using Microsoft.AppCenter;
-
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-
 using Microsoft.AppCenter.Push;
 
-namespace LooneyInvaders.PNS { 
-// The UIApplicationDelegate for the application. This class is responsible for launching the
-// User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
-public class PushNotificationService
+namespace LooneyInvaders.PNS
+{
+    // The UIApplicationDelegate for the application. This class is responsible for launching the
+    // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
+    public class PushNotificationService
     {
-        public bool CheckDoesNeedAskPremission()
+        public bool IsNeedPermission()
         {
+            if (Settings.Instance.IsPushNotificationEnabled)
+                return false;
+
             var sessionsCount = Settings.Instance.GetSessionsCount();
             var sessionDuration = Settings.Instance.GetTodaySessionDuration();
-            bool isAskForN = false;
 
             switch (sessionsCount)
             {
-                case 1:
-                    {
-                        if (sessionDuration >= 5 * 60)
-                        {
-                            isAskForN = true;
-                        }
-                        break;
-                    }
+                case 1 when sessionDuration >= 5 * 60:
                 case 2:
-                case 3:
-                    {
-                        if (sessionDuration >= 3 * 60)
-                        {
-                            isAskForN = true;
-                        }
-                        break;
-                    }
-                case 7:
-                    {
-                        if (sessionDuration >= 1 * 60)
-                        {
-                            isAskForN = true;
-                        }
-                        break;
-                    }
-                case 15:
-                    {
-                        if (sessionDuration >= 1 * 60)
-                        {
-                            isAskForN = true;
-                        }
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                case 3 when sessionDuration >= 3 * 60:
+                case 7 when sessionDuration >= 1 * 60:
+                case 15 when sessionDuration >= 1 * 60:
+                    return true;
             }
-
-            if (Settings.Instance.IsPushNotificationEnabled)
-            {
-                isAskForN = false;
-            }
-
-            return isAskForN;
+            return false;
         }
 
         public void AskForPremissons()
@@ -79,9 +42,7 @@ public class PushNotificationService
             Settings.Instance.IsPushNotificationEnabled = true;
 #endif
 
-            AppCenter.Start(keyForNotification, typeof(Push),typeof(Crashes) ,typeof(Analytics));
+            AppCenter.Start(keyForNotification, typeof(Push), typeof(Crashes), typeof(Analytics));
         }
     }
-
- 
 }

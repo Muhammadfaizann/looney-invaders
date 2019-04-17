@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LooneyInvaders.Model
 {
-    class VibrationManager
+    internal class VibrationManager
     {
         public static EventHandler VibrationHandler;
 

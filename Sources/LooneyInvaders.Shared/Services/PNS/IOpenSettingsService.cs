@@ -1,5 +1,4 @@
-﻿using System;
-namespace LooneyInvaders.PNS
+﻿namespace LooneyInvaders.PNS
 {
     public interface IOpenSettingsService
     {

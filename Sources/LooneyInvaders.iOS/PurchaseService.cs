@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using StoreKit;
 
 namespace CC.Mobile.Purchases
@@ -9,18 +8,17 @@ namespace CC.Mobile.Purchases
     /// </summary>
     public class PurchaseService : IPurchaseService
     {
-        CustomPaymentObserver paymentObserver;
-        TaskCompletionSource<Purchase> currentPurchaseTask;
-        IProduct currentProduct;
+        private CustomPaymentObserver _paymentObserver;
+        private TaskCompletionSource<Purchase> _currentPurchaseTask;
+        private IProduct _currentProduct;
 
-        public bool IsStarted { get; private set; } = false;
+        public bool IsStarted { get; private set; }
 
         /// <summary>
         /// The context is not used in the iOS app so id does not need to be supplied
         /// </summary>
         /// <param name="context">Context.</param>
-        public Task<IPurchaseService>
-        Init(object context = null)
+        public Task<IPurchaseService> Init(object context = null)
         {
             return Task.FromResult(this as IPurchaseService);
         }
@@ -29,8 +27,7 @@ namespace CC.Mobile.Purchases
         /// Resumes the service and sets it to operational state
         /// returns the resulting state of the service started=true
         /// </summary>
-        public Task<bool>
-        Resume()
+        public Task<bool> Resume()
         {
             SetObserver();
             IsStarted = true;
@@ -42,15 +39,15 @@ namespace CC.Mobile.Purchases
         /// returns the resulting state of the service started=true
         /// in case when there is ongoing purchase the service will not be paused
         /// </summary>
-        public Task<bool>
-        Pause()
+        public Task<bool> Pause()
         {
             //in case when there is ongoing purchase the service will not be paused
-            if (IsStarted && currentProduct == null)
+            if (IsStarted && _currentProduct == null)
             {
                 UnsetObserver();
                 IsStarted = false;
             }
+
             return Task.FromResult(IsStarted);
         }
 
@@ -60,50 +57,46 @@ namespace CC.Mobile.Purchases
         /// <returns>a purchase result containing the transaction 
         /// and it's state along with the product.</returns>
         /// <param name="product">Product.</param>
-        async public Task<Purchase>
-        Purchase(IProduct product)
+        public async Task<Purchase> Purchase(IProduct product)
         {
             if (await Resume())
             {
-                currentProduct = product;
-                currentPurchaseTask = new TaskCompletionSource<Purchase>();
-                SKPayment payment = SKPayment.CreateFrom(product.ProductId);
+                _currentProduct = product;
+                _currentPurchaseTask = new TaskCompletionSource<Purchase>();
+                var payment = SKPayment.CreateFrom(product.ProductId);
                 SKPaymentQueue.DefaultQueue.AddPayment(payment);
-                return await currentPurchaseTask.Task;
+                return await _currentPurchaseTask.Task;
             }
-            else {
-                throw new PurchaseError("Service cannot be started or there is annother active purchase");
-            }
+
+            throw new PurchaseError("Service cannot be started or there is annother active purchase");
         }
 
-        void 
-        SetObserver()
+        private void SetObserver()
         {
-            paymentObserver = new CustomPaymentObserver();
-            SKPaymentQueue.DefaultQueue.AddTransactionObserver(paymentObserver);
-            paymentObserver.TransactionStatusChanged += OnTransactionStatusChanged;
+            _paymentObserver = new CustomPaymentObserver();
+            SKPaymentQueue.DefaultQueue.AddTransactionObserver(_paymentObserver);
+            _paymentObserver.TransactionStatusChanged += OnTransactionStatusChanged;
         }
 
-        void 
-        UnsetObserver()
+        private void UnsetObserver()
         {
-            SKPaymentQueue.DefaultQueue.RemoveTransactionObserver(paymentObserver);
-            paymentObserver.TransactionStatusChanged -= OnTransactionStatusChanged;
-            paymentObserver = null;
+            SKPaymentQueue.DefaultQueue.RemoveTransactionObserver(_paymentObserver);
+            _paymentObserver.TransactionStatusChanged -= OnTransactionStatusChanged;
+            _paymentObserver = null;
         }
 
-        void 
-        OnTransactionStatusChanged(object sender, TransactionStatusArgs e)
+        private void OnTransactionStatusChanged(object sender, TransactionStatusArgs e)
         {
-            if (e.ProductId == currentProduct?.ProductId)
+            if (e.ProductId == _currentProduct?.ProductId)
             {
-                if (currentPurchaseTask == null)
+                if (_currentPurchaseTask == null)
                     throw new PurchaseError("There was no purchase registered in the service");
-                var purchase = new Purchase(currentProduct, e.TransactionId, e.Status);
-                currentPurchaseTask.SetResult(purchase);
-                currentPurchaseTask = null;
-                currentProduct = null;
+                var purchase = new Purchase(_currentProduct, e.TransactionId, e.Status);
+                _currentPurchaseTask.SetResult(purchase);
+                _currentPurchaseTask = null;
+                _currentProduct = null;
             }
+
             //else if (e.Status != TransactionStatus.Failed)
             //{
             //    throw new PurchaseError("Got purchase notification for unexpected product");
@@ -112,9 +105,9 @@ namespace CC.Mobile.Purchases
 
         public void Dispose()
         {
-            currentProduct = null;
-            if (currentPurchaseTask != null)
-                currentPurchaseTask.SetCanceled();
+            _currentProduct = null;
+            if (_currentPurchaseTask != null)
+                _currentPurchaseTask.SetCanceled();
         }
     }
 
