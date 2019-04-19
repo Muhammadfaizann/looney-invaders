@@ -87,11 +87,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\PushNotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\IOpenSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\INotificationAllowedService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ScoreBoard\ScoreBoardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\PNS\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\ScoreBoard\" />
   </ItemGroup>
 </Project>
