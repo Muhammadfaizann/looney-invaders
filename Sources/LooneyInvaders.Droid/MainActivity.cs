@@ -263,21 +263,28 @@ namespace LooneyInvaders.Droid
             const string collectionName = "users";
             var json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
 
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            var storageService = App42API.BuildStorageService();
+            try
+            {
+                App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
+                var storageService = App42API.BuildStorageService();
 
-            var storage = storageService.InsertJSONDocument(dbName, collectionName, json);
-            var jsonDocList = storage.GetJsonDocList();
+                var storage = storageService.InsertJSONDocument(dbName, collectionName, json);
+                var jsonDocList = storage.GetJsonDocList();
 
-            var id = jsonDocList[0].GetDocId();
-            var playerName = "player_" + id.Substring(id.Length - 9, 8);
+                var id = jsonDocList[0].GetDocId();
+                var playerName = "player_" + id.Substring(id.Length - 9, 8);
 
-            Model.UserManager.UserGuid = guid;
-            Player.Instance.Name = playerName;
+                Model.UserManager.UserGuid = guid;
+                Player.Instance.Name = playerName;
 
-            json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
-            storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
+                json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
+                storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
 
+            }
+            catch(Exception ex)
+            {
+                var t = 0;
+            }
             return true;
         }
 
@@ -354,10 +361,18 @@ namespace LooneyInvaders.Droid
             return true;
         }
 
+        //ToDo: Bass - resolve Java.Lang.ClassNotFound (VibrationEffect) ex
         private void Vibrate(object sender, EventArgs e)
         {
-            var vibrator = (Vibrator)GetSystemService(VibratorService);
-            vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
+            try
+            {
+                var vibrator = (Vibrator)GetSystemService(VibratorService);
+                vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
+            }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
         }
 
         private const float Yaw = 0;
