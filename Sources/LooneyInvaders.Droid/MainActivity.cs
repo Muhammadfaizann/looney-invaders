@@ -188,7 +188,7 @@ namespace LooneyInvaders.Droid
             PurchaseManager.PurchaseHandler = PurchaseProduct;
             VibrationManager.VibrationHandler = Vibrate;
 
-            LeaderboardManager.SubmitScoreHandler = SubmitScoreAsync;
+            LeaderboardManager.SubmitScoreHandler = SubmitScore;
             LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboards;
 
             // social network sharing
@@ -745,7 +745,8 @@ namespace LooneyInvaders.Droid
             return null;
         }
 
-        private async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
+        //ToDo: Bass reverted to be non-async for iOS support - make it async 
+        private void SubmitScore(double score, double accuracy, double fastestTime, double levelsCompleted)
         {
             var looneyEarthNames = ("Looney Earth Daily", "Looney Earth Weekly", "Looney Earth Monthly", "Looney Earth Alltime" );
             var looneyMoonNames = ("Looney Moon Daily", "Looney Moon Weekly", "Looney Moon Monthly", "Looney Moon Alltime");
@@ -759,13 +760,13 @@ namespace LooneyInvaders.Droid
 
                 try
                 {
-                    await ScoreBoard.ScoreBoardService.SaveUserScoreForGamesAsync(Player.Instance.Name,
+                    ScoreBoard.ScoreBoardService.SaveUserScoreForGamesAsync(Player.Instance.Name,
                         LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy),
                         TimeSpan.FromMilliseconds(500),
                         looneyEarthNames.Item1,
                         looneyEarthNames.Item2,
                         looneyEarthNames.Item3,
-                        looneyEarthNames.Item4);
+                        looneyEarthNames.Item4).Wait();
                
                     LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(ScoreBoard.ScoreBoardService.Instance,
                         looneyEarthNames.Item1, LeaderboardType.Regular);
@@ -790,13 +791,13 @@ namespace LooneyInvaders.Droid
 
                 try
                 {
-                    await ScoreBoard.ScoreBoardService.SaveUserScoreForGamesAsync(Player.Instance.Name,
+                    ScoreBoard.ScoreBoardService.SaveUserScoreForGamesAsync(Player.Instance.Name,
                         LeaderboardManager.EncodeScorePro(score, levelsCompleted),
                         TimeSpan.FromMilliseconds(25),
                         looneyMoonNames.Item1,
                         looneyMoonNames.Item2,
                         looneyMoonNames.Item3,
-                        looneyMoonNames.Item4);
+                        looneyMoonNames.Item4).Wait();
                 
                     LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(ScoreBoard.ScoreBoardService.Instance,
                         looneyMoonNames.Item1, LeaderboardType.Pro);
