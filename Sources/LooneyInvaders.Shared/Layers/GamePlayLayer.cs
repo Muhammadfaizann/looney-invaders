@@ -1514,7 +1514,7 @@ namespace LooneyInvaders.Layers
 
         private void OnSwitchIsOn(object pObject)
         {
-            BtnBack_OnClick(null, null);
+            ScheduleOnce((_) => BtnBack_OnClick(null, null), 0f);
         }
 
         private CCSpriteTwoStateButton _gameTipCheckMark;
