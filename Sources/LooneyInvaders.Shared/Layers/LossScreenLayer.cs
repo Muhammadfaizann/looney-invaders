@@ -701,7 +701,7 @@ namespace LooneyInvaders.Layers
             }
             if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < AppConstants.Tolerance)
             {
-                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily?.Rank.ToString("0"), 52);
             }
             else
             {

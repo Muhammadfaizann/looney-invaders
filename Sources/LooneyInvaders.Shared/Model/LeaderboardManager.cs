@@ -138,19 +138,21 @@ namespace LooneyInvaders.Model
             }
         }
 
-        public static async void RefreshLeaderboards()
+        public static async Task RefreshLeaderboards()
         {
-            if (_isRefreshing) return;
+            if (_isRefreshing
+                || !NetworkConnectionManager.IsInternetConnectionAvailable()
+                || RefreshLeaderboardsHandler == null)
+            { return; }
 
-            if (RefreshLeaderboardsHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
+            _isRefreshing = true;
+            await Task.Run(() =>
             {
-                _isRefreshing = true;
-
-                await Task.Run(() => SubmitUnsubmittedScores());
+                SubmitUnsubmittedScores();
                 RefreshLeaderboardsHandler(RegularLeaderboard);
                 RefreshLeaderboardsHandler(ProLeaderboard);
-                _isRefreshing = false;
-            }
+            });
+            _isRefreshing = false;
         }
 
         internal static void FireOnLeaderboardsRefreshed()

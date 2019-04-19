@@ -153,19 +153,6 @@ namespace LooneyInvaders.Layers
             _imgProNotificationCheckMarkLabel = AddImage(105, 60, "UI/do-not-show-text.png", 610);
             _imgProNotificationCheckMarkLabel.Visible = false;
 
-            /* ToDo: Bass - need to be deleted if works
-            _btnSelectionMode = AddButton(35, 25, "UI/Main-screen-quick-game-notification-selection-mode-button-untapped.png", "UI/Main-screen-quick-game-notification-selection-mode-button-tapped.png", 510);
-            _btnSelectionMode.Visible = false;
-            _btnSelectionMode.Enabled = false;
-            _btnSelectionMode.OnClick += BtnSelectionMode_OnClick;
-
-            _btnQuickGame = AddButton(635, 25, "UI/Main-screen-quick-game-notification-quick-game-button-untapped.png", "UI/Main-screen-quick-game-notification-quick-game-button-tapped.png", 510);
-            _btnQuickGame.Visible = false;
-            _btnQuickGame.Enabled = false;
-            _btnQuickGame.ButtonType = ButtonType.Rewind;
-            _btnQuickGame.OnClick += BtnQuickGame_OnClick;
-            */
-
             AddImage(790, 410, "UI/Main-screen-leaderboard-type-text.png");
 
             _btnScoreboardRegular = AddTwoStateButton(790, 355, "UI/Main-screen-regular-button-untapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-untapped.png");
@@ -219,7 +206,7 @@ namespace LooneyInvaders.Layers
 
         private async void FireRefreshLeaderboard(float delta)
         {
-            await Task.Run(() => LeaderboardManager.RefreshLeaderboards());
+            await LeaderboardManager.RefreshLeaderboards();
         }
 
         private void BtnScoreboardPro_OnClick(object sender, EventArgs e)
