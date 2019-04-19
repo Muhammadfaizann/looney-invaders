@@ -487,6 +487,13 @@ namespace LooneyInvaders.Layers
             _bulletPower = (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.5f;
             _bulletScale = 0.7f + (CaliberSizeSelected == -1 ? Weapon.GetCaliberSize(selectedWeapon) : CaliberSizeSelected) * 0.1f;
 
+            SsHybridLaser = new CCSpriteSheet[3];
+            SsHybridLaser[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-0.plist");
+            SsHybridLaser[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-1.plist");
+            SsHybridLaser[2] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-2.plist");
+            SsAlienLensFlare = new CCSpriteSheet[2];
+            SsAlienLensFlare[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-0.plist");
+            SsAlienLensFlare[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-1.plist");
 
             switch (selectedWeapon)
             {
@@ -660,16 +667,6 @@ namespace LooneyInvaders.Layers
                     PlayerCollisionPoints.Add(new CCPoint(97, 87));
                     PlayerCollisionPoints.Add(new CCPoint(81, 86));
                     PlayerCollisionPoints.Add(new CCPoint(88, 86));
-
-                    SsHybridLaser = new CCSpriteSheet[3];
-                    SsHybridLaser[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-0.plist");
-                    SsHybridLaser[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-1.plist");
-                    SsHybridLaser[2] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/PipeAndLensFlare-2.plist");
-
-                    SsAlienLensFlare = new CCSpriteSheet[2];
-                    SsAlienLensFlare[0] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-0.plist");
-                    SsAlienLensFlare[1] = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/alien-laser-lens-flair-1.plist");
-
 
 
                     break;
@@ -1433,7 +1430,7 @@ namespace LooneyInvaders.Layers
                 _ammos.Add(ammo);
             }
 
-            AddAllEnemies(2, true);
+            AddAllEnemies(2);
 
             _goingDown = 240;
             _enemyCurrentSpeed = 0; //enemySpeed;
@@ -1823,7 +1820,6 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
-
             Settings.IsFromGameScreen = false;
             UnscheduleAll();
             OnTouchBegan -= GamePlayLayer_OnTouchBegan;
@@ -1843,7 +1839,6 @@ namespace LooneyInvaders.Layers
             _btnContinue = AddButton(176, 85, "UI/game-paused-lets-continue-button-untapped.png", "UI/game-paused-lets-continue-button-tapped.png", 2003);
             _btnContinue.OnClick += btnContinue_OnClick;
 
-
             _gamePauseFriendlyLabel = AddImage(120, 25, "UI/game-paused-friendly-do-not-insult-me-text.png", 2003);
 
             _gamePauseFriendlyCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
@@ -1852,9 +1847,11 @@ namespace LooneyInvaders.Layers
             _gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
             _gamePauseFriendlyCheckMark.SetStateImages();
 
-            _btnBack.Visible = false;
-            _btnSettings.Visible = false;
-
+            if (_btnBack != null && _btnSettings != null)
+            {
+                _btnBack.Visible = false;
+                _btnSettings.Visible = false;
+            }
 
             /*
             clearAll();
@@ -1884,8 +1881,6 @@ namespace LooneyInvaders.Layers
 
         }
 
-
-
         private void btnSurrender_OnClick(object sender, EventArgs e)
         {
             //elapsedTime += 200;
@@ -1897,53 +1892,57 @@ namespace LooneyInvaders.Layers
             GameOver(0);
         }
 
-
-
-
         private void btnContinue_OnClick(object sender, EventArgs e)
         {
-            Settings.IsFromGameScreen = true;
-            RemoveChild(_gamePauseBackground);
-            _gamePauseBackground = null;
-            RemoveChild(_btnJust);
-            _btnJust = null;
-            RemoveChild(_btnSurrender);
-            _btnSurrender = null;
-            RemoveChild(_btnContinue);
-            _btnContinue = null;
-            RemoveChild(_gamePauseFriendlyLabel);
-            _gamePauseFriendlyLabel = null;
-            RemoveChild(_gamePauseFriendlyCheckMark);
-            _gamePauseFriendlyCheckMark = null;
-
-            _btnBack.Visible = true;
-            _btnSettings.Visible = true;
-
-            Schedule(UpdateAll);
-
-            SetUpSteering(_launchMode == LaunchMode.Default);
-
-            if (_waveTransfer)
+            try
             {
-                if (SelectedEnemy == Enemies.Aliens)
+                Settings.IsFromGameScreen = true;
+                RemoveChild(_gamePauseBackground);
+                _gamePauseBackground = null;
+                RemoveChild(_btnJust);
+                _btnJust = null;
+                RemoveChild(_btnSurrender);
+                _btnSurrender = null;
+                RemoveChild(_btnContinue);
+                _btnContinue = null;
+                RemoveChild(_gamePauseFriendlyLabel);
+                _gamePauseFriendlyLabel = null;
+                RemoveChild(_gamePauseFriendlyCheckMark);
+                _gamePauseFriendlyCheckMark = null;
+
+                _btnBack.Visible = true;
+                _btnSettings.Visible = true;
+
+                Schedule(UpdateAll);
+
+                SetUpSteering(_launchMode == LaunchMode.Default);
+
+                if (_waveTransfer)
                 {
-                    ScheduleOnce(NextWave, 3);
-                }
-                else
-                {
-                    switch (_wave)
+                    if (SelectedEnemy == Enemies.Aliens)
                     {
-                        case 1:
-                            ScheduleOnce(NextWave, 3);
-                            break;
-                        case 2:
-                            ScheduleOnce(NextWave, 3);
-                            break;
-                        case 3:
-                            ScheduleOnce(Victory, 1);
-                            break;
+                        ScheduleOnce(NextWave, 3);
+                    }
+                    else
+                    {
+                        switch (_wave)
+                        {
+                            case 1:
+                                ScheduleOnce(NextWave, 3);
+                                break;
+                            case 2:
+                                ScheduleOnce(NextWave, 3);
+                                break;
+                            case 3:
+                                ScheduleOnce(Victory, 1);
+                                break;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
             }
         }
 
@@ -2380,1729 +2379,1732 @@ namespace LooneyInvaders.Layers
 
         private void UpdateAll(float dt)
         {
-            if (_label != null) RemoveChild(_label);
+            try
+            {
+                if (_label != null) RemoveChild(_label);
 
-            if (!_waveTransfer)
-            {
-                _elapsedTime += dt;
-            }
-            //if (Settings.Instance.Vibration)
-            //{
-            if (SelectedEnemy == Enemies.Aliens)
-            {
-                if (_lastDisplayedScore != _score)
+                if (!_waveTransfer)
                 {
-                    _lastDisplayedScore = _score;
-
-                    foreach (var spr in _time)
+                    _elapsedTime += dt;
+                }
+                //if (Settings.Instance.Vibration)
+                //{
+                if (SelectedEnemy == Enemies.Aliens)
+                {
+                    if (_lastDisplayedScore != _score)
                     {
-                        RemoveChild(spr);
+                        _lastDisplayedScore = _score;
+
+                        foreach (var spr in _time)
+                        {
+                            RemoveChild(spr);
+                        }
+                        _time = AddImageLabelRightAligned(1120, 580, _lastDisplayedScore.ToString(), 50);
+                        _timeLabel.PositionX = _time[0].PositionX - _timeLabel.ContentSize.Width / 2 - 60;
+
+
                     }
-                    _time = AddImageLabelRightAligned(1120, 580, _lastDisplayedScore.ToString(), 50);
-                    _timeLabel.PositionX = _time[0].PositionX - _timeLabel.ContentSize.Width / 2 - 60;
 
-
-                }
-
-                if (_scoreMultiplier == 1 && _multiplierLabel != null)
-                {
-                    _multiplierLabel.Opacity -= 5;
-                    if (_multiplierLabel.Opacity < 20)
+                    if (_scoreMultiplier == 1 && _multiplierLabel != null)
                     {
-                        RemoveChild(_multiplierLabel);
-                        _multiplierLabel = null;
-                    }
-                }
-                if (_scoreMultiplier > 1 && _multiplierLabelLabel.Opacity < 255)
-                {
-                    _multiplierLabelLabel.Opacity += 5;
-                }
-                if (_scoreMultiplier == 1 && _multiplierLabelLabel.Opacity > 0)
-                {
-                    _multiplierLabelLabel.Opacity -= 5;
-                }
-
-            }
-            else
-            {
-                if (_lastDisplayedTime < Convert.ToInt32(_elapsedTime))
-                {
-                    _lastDisplayedTime = Convert.ToInt32(_elapsedTime);
-
-                    foreach (var spr in _time)
-                    {
-                        RemoveChild(spr);
-                    }
-                    if (_launchMode != LaunchMode.SteeringTest)
-                        _time = AddImageLabel(1040, 580, _lastDisplayedTime.ToString(), 50);
-                }
-            }
-            //}
-
-            for (var i = 0; i < _multipliers.Count;)
-            {
-                var multiplier = _multipliers[i];
-                if (multiplier.Opacity > 240)
-                {
-                    multiplier.PositionX += (1096 - multiplier.PositionX) / (255 - multiplier.Opacity);
-                    multiplier.PositionY += (570 - multiplier.PositionY) / (255 - multiplier.Opacity);
-                    multiplier.Scale = multiplier.ScaleX - 0.033f;
-                    multiplier.Opacity += 1;
-                    if (multiplier.Opacity == 255)
-                    {
-                        if (_multiplierLabel != null)
+                        _multiplierLabel.Opacity -= 5;
+                        if (_multiplierLabel.Opacity < 20)
                         {
                             RemoveChild(_multiplierLabel);
+                            _multiplierLabel = null;
                         }
-                        _multiplierLabel = multiplier;
-                        _multipliers.Remove(multiplier);
                     }
-                    else
+                    if (_scoreMultiplier > 1 && _multiplierLabelLabel.Opacity < 255)
                     {
-                        i++;
+                        _multiplierLabelLabel.Opacity += 5;
                     }
-                    //980, 550
+                    if (_scoreMultiplier == 1 && _multiplierLabelLabel.Opacity > 0)
+                    {
+                        _multiplierLabelLabel.Opacity -= 5;
+                    }
+
                 }
                 else
                 {
-                    multiplier.PositionY += 2;
-                    multiplier.Opacity += 1;
+                    if (_lastDisplayedTime < Convert.ToInt32(_elapsedTime))
+                    {
+                        _lastDisplayedTime = Convert.ToInt32(_elapsedTime);
+
+                        foreach (var spr in _time)
+                        {
+                            RemoveChild(spr);
+                        }
+                        if (_launchMode != LaunchMode.SteeringTest)
+                            _time = AddImageLabel(1040, 580, _lastDisplayedTime.ToString(), 50);
+                    }
+                }
+                //}
+
+                for (var i = 0; i < _multipliers.Count;)
+                {
+                    var multiplier = _multipliers[i];
                     if (multiplier.Opacity > 240)
                     {
-                        GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
-                        GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
-                    }
-                    i++;
-                }
-            }
-
-            if (_gunCoolness > 0) _gunCoolness -= dt;
-            if (_shitWait > 0) _shitWait -= dt;
-
-            if (Settings.Instance.ControlType == ControlType.Gyroscope)
-            {
-                var yaw = 0f;
-                var tilt = 0f;
-                var pitch = 0f;
-
-                //---------- Prabhjot Singh ------//
-                GameDelegate.GetGyro(out yaw, out tilt, out pitch);
-
-                pitch = pitch >= 90 ? 180 - pitch : pitch;
-
-                var maxAngleBySensivity = GetAngleForMaxSpeedBySensivityLvl();
-
-                const int maxSpeed = 1;
-
-                if (Math.Abs(pitch) > maxAngleBySensivity)
-                {
-                    ControlMovement = maxSpeed * pitch >= 0 ? 1 : -1;
-                }
-                else
-                {
-                    ControlMovement = (float)Math.Round(maxSpeed * pitch / maxAngleBySensivity, 2);
-                }
-
-                TiltAngle = -pitch;
-            }
-
-            //float move = Math.Abs((float)Math.Sin(Math.PI / 180 * tilt)) > Math.Abs((float)Math.Sin(Math.PI / 180 * pitch)) ? (float)Math.Sin(Math.PI / 180 * tilt) : (float)Math.Sin(Math.PI / 180 * pitch);
-
-
-
-
-            //label = this.AddLabelCentered(850, 620, (playerExplosion==null?"null":"*") + playerExploding.ToString() +" || "+ yaw.ToString("0.00") + ", " + tilt.ToString("0.00") + ", " + pitch.ToString("0.00") + ", move: " + move.ToString("0.00"), "Fonts/AktivGroteskBold", 12);
-            //label = this.AddLabelCentered(850, 620, pitch.ToString("0.00") , "Fonts/AktivGroteskBold", 12);
-            //label.Color = CCColor3B.Black;
-
-
-
-            if (_fireworkFrame > 0 && SelectedBattleground == Battlegrounds.Finland)
-            {
-                _fireworkFrame += dt * 27;
-
-                if (Convert.ToInt32(_fireworkFrame) != _fireworkFrameLast)
-                {
-                    _fireworkFrameLast = Convert.ToInt32(_fireworkFrame);
-
-                    if (_fireworkFrameLast == 1)
-                    {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Firework Sound Effect mono.wav");
-                        _firework = new CCSprite(_ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_001.png"));
-                        _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        _firework.Position = new CCPoint(568, 320);
-                        _firework.ZOrder = 0;
-                        _firework.Scale = 4;
-                        _fireworkFrame = 1;
-                        AddChild(_firework);
-                    }
-                    else if (_fireworkFrameLast <= 84)
-                    {
-                        _firework.TextureRectInPixels = _ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrameLast.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
-                        _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    }
-                    else if (_fireworkFrameLast == 85)
-                    {
-                        RemoveChild(_firework);
-                        _firework = new CCSprite(_ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_085.png"));
-                        _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        _firework.Position = new CCPoint(568, 320);
-                        _firework.ZOrder = 0;
-                        _firework.Scale = 4;
-                        AddChild(_firework);
-
-                    }
-                    else if (_fireworkFrame <= 124)
-                    {
-                        _firework.TextureRectInPixels = _ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrameLast.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
-                        _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    }
-                    if (_fireworkFrameLast >= 124)
-                    {
-                        RemoveChild(_firework);
-                        _fireworkFrame = 0;
-                    }
-                }
-            }
-
-            if (_playerExplosion == null)
-            {
-                /*
-                if (SelectedEnemy == ENEMIES.ALIENS)
-                {
-                    if (Math.Abs(move) < 0.07)
-                    {
-                        if (cannonMovingFX != SOUNDEFFECT.CANNON_STILL)
+                        multiplier.PositionX += (1096 - multiplier.PositionX) / (255 - multiplier.Opacity);
+                        multiplier.PositionY += (570 - multiplier.PositionY) / (255 - multiplier.Opacity);
+                        multiplier.Scale = multiplier.ScaleX - 0.033f;
+                        multiplier.Opacity += 1;
+                        if (multiplier.Opacity == 255)
                         {
-                            if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
-                            cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_STILL);
-                            cannonMovingFX = SOUNDEFFECT.CANNON_STILL;
+                            if (_multiplierLabel != null)
+                            {
+                                RemoveChild(_multiplierLabel);
+                            }
+                            _multiplierLabel = multiplier;
+                            _multipliers.Remove(multiplier);
                         }
-                    }
-                    else if (Math.Abs(move) < 0.2)
-                    {
-                        if (cannonMovingFX != SOUNDEFFECT.CANNON_SLOW)
+                        else
                         {
-                            if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
-                            cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_SLOW);
-                            cannonMovingFX = SOUNDEFFECT.CANNON_SLOW;
+                            i++;
                         }
+                        //980, 550
                     }
                     else
                     {
-                        if (cannonMovingFX != SOUNDEFFECT.CANNON_FAST)
+                        multiplier.PositionY += 2;
+                        multiplier.Opacity += 1;
+                        if (multiplier.Opacity > 240)
                         {
-                            if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
-                            cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_FAST);
-                            cannonMovingFX = SOUNDEFFECT.CANNON_FAST;
+                            GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierIndicator);
                         }
+                        i++;
                     }
-                }*/
+                }
+
+                if (_gunCoolness > 0) _gunCoolness -= dt;
+                if (_shitWait > 0) _shitWait -= dt;
 
                 if (Settings.Instance.ControlType == ControlType.Gyroscope)
                 {
-                    _player.PositionX -= ControlMovement * _playerSpeed;
-                }
-                else
-                {
-                    if (_isCannonMoving)
+                    //---------- Prabhjot Singh ------//
+                    GameDelegate.GetGyro(out float yaw, out float tilt, out float pitch);
+
+                    pitch = pitch >= 90 ? 180 - pitch : pitch;
+
+                    var maxAngleBySensivity = GetAngleForMaxSpeedBySensivityLvl();
+
+                    const int maxSpeed = 1;
+
+                    if (Math.Abs(pitch) > maxAngleBySensivity)
                     {
-                        _movingTime += 1;
+                        ControlMovement = maxSpeed * pitch >= 0 ? 1 : -1;
                     }
                     else
                     {
-                        _movingTime = 0;
+                        ControlMovement = (float)Math.Round(maxSpeed * pitch / maxAngleBySensivity, 2);
                     }
 
-                    if (_movingTime < 40)
+                    TiltAngle = -pitch;
+                }
+
+                //float move = Math.Abs((float)Math.Sin(Math.PI / 180 * tilt)) > Math.Abs((float)Math.Sin(Math.PI / 180 * pitch)) ? (float)Math.Sin(Math.PI / 180 * tilt) : (float)Math.Sin(Math.PI / 180 * pitch);
+
+
+
+
+                //label = this.AddLabelCentered(850, 620, (playerExplosion==null?"null":"*") + playerExploding.ToString() +" || "+ yaw.ToString("0.00") + ", " + tilt.ToString("0.00") + ", " + pitch.ToString("0.00") + ", move: " + move.ToString("0.00"), "Fonts/AktivGroteskBold", 12);
+                //label = this.AddLabelCentered(850, 620, pitch.ToString("0.00") , "Fonts/AktivGroteskBold", 12);
+                //label.Color = CCColor3B.Black;
+
+
+
+                if (_fireworkFrame > 0 && SelectedBattleground == Battlegrounds.Finland)
+                {
+                    _fireworkFrame += dt * 27;
+
+                    if (Convert.ToInt32(_fireworkFrame) != _fireworkFrameLast)
                     {
-                        ControlMovement = _speedTo * _movingTime / 40f;
+                        _fireworkFrameLast = Convert.ToInt32(_fireworkFrame);
+
+                        if (_fireworkFrameLast == 1)
+                        {
+                            CCAudioEngine.SharedEngine.PlayEffect("Sounds/Firework Sound Effect mono.wav");
+                            _firework = new CCSprite(_ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_001.png"));
+                            _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                            _firework.Position = new CCPoint(568, 320);
+                            _firework.ZOrder = 0;
+                            _firework.Scale = 4;
+                            _fireworkFrame = 1;
+                            AddChild(_firework);
+                        }
+                        else if (_fireworkFrameLast <= 84)
+                        {
+                            _firework.TextureRectInPixels = _ssFirework[0].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrameLast.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
+                            _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        }
+                        else if (_fireworkFrameLast == 85)
+                        {
+                            RemoveChild(_firework);
+                            _firework = new CCSprite(_ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_085.png"));
+                            _firework.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                            _firework.Position = new CCPoint(568, 320);
+                            _firework.ZOrder = 0;
+                            _firework.Scale = 4;
+                            AddChild(_firework);
+
+                        }
+                        else if (_fireworkFrame <= 124)
+                        {
+                            _firework.TextureRectInPixels = _ssFirework[1].Frames.Find(item => item.TextureFilename == "Firework_animation_image_" + _fireworkFrameLast.ToString().PadLeft(3, '0') + ".png").TextureRectInPixels;
+                            _firework.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        }
+                        if (_fireworkFrameLast >= 124)
+                        {
+                            RemoveChild(_firework);
+                            _fireworkFrame = 0;
+                        }
+                    }
+                }
+
+                if (_playerExplosion == null)
+                {
+                    /*
+                    if (SelectedEnemy == ENEMIES.ALIENS)
+                    {
+                        if (Math.Abs(move) < 0.07)
+                        {
+                            if (cannonMovingFX != SOUNDEFFECT.CANNON_STILL)
+                            {
+                                if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
+                                cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_STILL);
+                                cannonMovingFX = SOUNDEFFECT.CANNON_STILL;
+                            }
+                        }
+                        else if (Math.Abs(move) < 0.2)
+                        {
+                            if (cannonMovingFX != SOUNDEFFECT.CANNON_SLOW)
+                            {
+                                if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
+                                cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_SLOW);
+                                cannonMovingFX = SOUNDEFFECT.CANNON_SLOW;
+                            }
+                        }
+                        else
+                        {
+                            if (cannonMovingFX != SOUNDEFFECT.CANNON_FAST)
+                            {
+                                if (cannonMovingFXId != null) CCAudioEngine.SharedEngine.StopEffect(cannonMovingFXId.Value);
+                                cannonMovingFXId = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.CANNON_FAST);
+                                cannonMovingFX = SOUNDEFFECT.CANNON_FAST;
+                            }
+                        }
+                    }*/
+
+                    if (Settings.Instance.ControlType == ControlType.Gyroscope)
+                    {
                         _player.PositionX -= ControlMovement * _playerSpeed;
                     }
                     else
                     {
-                        ControlMovement = _speedTo;
-                        _player.PositionX -= _speedTo * _playerSpeed;
-                    }
-
-                    if (Math.Abs(ControlMovement) < AppConstants.Tolerance)
-                    {
-                        _movingTime = 0;
-                    }
-                }
-
-                if (_player.PositionX < 10) _player.PositionX = 10;
-                if (_player.PositionX > 1000) _player.PositionX = 1000;
-
-                //player.PositionY = 50 - (gunCoolness == gunCooloff?8: ( gunCoolness / gunCooloff * 15));
-
-                _player.TextureRectInPixels = SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + (12 - 12 * _gunCoolness / _gunCooloff).ToString("0#") + ".png").TextureRectInPixels;
-
-
-            }
-            else
-            {
-                if (_cannonMovingFxId != null)
-                {
-                    CCAudioEngine.SharedEngine.StopEffect(_cannonMovingFxId.Value);
-                    _cannonMovingFxId = null;
-                    //_cannonMovingFx = null;
-                }
-            }
-
-            if (_reload > 0)
-            {
-                var timeForSound = _reload > 0.8;
-                _reload = _reload - dt;
-                if (_reload <= 0.8 && timeForSound)
-                {
-                    if (SelectedWeapon == Weapons.Hybrid)
-                    {
-                        GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1Hybrid);
-                    }
-                    else
-                    {
-                        GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1);
-                    }
-                }
-                if (_reload <= 0)
-                {
-                    for (var i = 0; i < _magazineSize; i++)
-                    {
-                        CCSprite ammo;
-                        if (SelectedWeapon == Weapons.Hybrid)
+                        if (_isCannonMoving)
                         {
-                            ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                            _movingTime += 1;
                         }
                         else
                         {
-                            ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                            _movingTime = 0;
                         }
-                        _ammos.Add(ammo);
-                        _reloading.Visible = false;
-                    }
-                }
-            }
 
+                        if (_movingTime < 40)
+                        {
+                            ControlMovement = _speedTo * _movingTime / 40f;
+                            _player.PositionX -= ControlMovement * _playerSpeed;
+                        }
+                        else
+                        {
+                            ControlMovement = _speedTo;
+                            _player.PositionX -= _speedTo * _playerSpeed;
+                        }
 
-            for (var i = 0; i < _gunSmokes.Count;)
-            {
-                var gunSmoke = _gunSmokes[i];
-                if (SelectedWeapon == Weapons.Hybrid)
-                {
-                    var sheet = 0;
-                    if (Convert.ToInt32(gunSmoke.Smoke + 6) > 11) sheet = 1;
-                    if (Convert.ToInt32(gunSmoke.Smoke + 6) > 18) sheet = 2;
-
-                    if (gunSmoke.Sprite.Texture != SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").Texture)
-                    {
-                        var newGunSmoke = new CCSprite(SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
-                        newGunSmoke.AnchorPoint = new CCPoint(0.5f, 0);
-                        newGunSmoke.PositionX = gunSmoke.Sprite.PositionX;
-                        newGunSmoke.PositionY = gunSmoke.Sprite.PositionY;
-                        newGunSmoke.Opacity = gunSmoke.Sprite.Opacity;
-                        AddChild(newGunSmoke, gunSmoke.Sprite.ZOrder);
-                        RemoveChild(gunSmoke.Sprite);
-                        gunSmoke.Sprite = newGunSmoke;
+                        if (Math.Abs(ControlMovement) < AppConstants.Tolerance)
+                        {
+                            _movingTime = 0;
+                        }
                     }
 
-                    gunSmoke.Sprite.TextureRectInPixels = SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    if (_player.PositionX < 10) _player.PositionX = 10;
+                    if (_player.PositionX > 1000) _player.PositionX = 1000;
 
-                    gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    gunSmoke.Smoke += 1f;
-                    if (Convert.ToInt32(gunSmoke.Smoke + 6) == 15) gunSmoke.Smoke += 1f;  //fali image
+                    //player.PositionY = 50 - (gunCoolness == gunCooloff?8: ( gunCoolness / gunCooloff * 15));
 
-                    if (Convert.ToInt32(gunSmoke.Smoke + 6) > 24)
-                    {
-                        gunSmoke.Destroy();
-                        _gunSmokes.Remove(gunSmoke);
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    _player.TextureRectInPixels = SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + (12 - 12 * _gunCoolness / _gunCooloff).ToString("0#") + ".png").TextureRectInPixels;
+
+
                 }
                 else
                 {
-                    gunSmoke.Sprite.TextureRectInPixels = SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame" + Convert.ToInt32(gunSmoke.Smoke).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-
-                    gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    gunSmoke.Smoke += 1f;
-                    if (gunSmoke.Smoke > 14)
+                    if (_cannonMovingFxId != null)
                     {
-                        gunSmoke.Sprite.Opacity = Convert.ToByte(280 - Convert.ToInt32(gunSmoke.Smoke * 3));
-                    }
-                    if (gunSmoke.Smoke > 71)
-                    {
-                        gunSmoke.Destroy();
-                        _gunSmokes.Remove(gunSmoke);
-                    }
-                    else
-                    {
-                        i++;
+                        CCAudioEngine.SharedEngine.StopEffect(_cannonMovingFxId.Value);
+                        _cannonMovingFxId = null;
+                        //_cannonMovingFx = null;
                     }
                 }
-            }
 
-
-            for (var i = 0; i < _explos.Count;)
-            {
-                var explo = _explos[i];
-                explo.Sprite.TextureRectInPixels = SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_" + Convert.ToInt32(explo.Explo).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                explo.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                explo.Sprite.PositionY += 1;
-                explo.Explo += 1f;
-                if (explo.Explo > 8)
+                if (_reload > 0)
                 {
-                    explo.Sprite.Opacity = Convert.ToByte(280 - Convert.ToInt32(explo.Explo * 7));
+                    var timeForSound = _reload > 0.8;
+                    _reload = _reload - dt;
+                    if (_reload <= 0.8 && timeForSound)
+                    {
+                        if (SelectedWeapon == Weapons.Hybrid)
+                        {
+                            GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1Hybrid);
+                        }
+                        else
+                        {
+                            GameEnvironment.PlaySoundEffect(SoundEffect.Calibre1);
+                        }
+                    }
+                    if (_reload <= 0)
+                    {
+                        for (var i = 0; i < _magazineSize; i++)
+                        {
+                            CCSprite ammo;
+                            if (SelectedWeapon == Weapons.Hybrid)
+                            {
+                                ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                            }
+                            else
+                            {
+                                ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                            }
+                            _ammos.Add(ammo);
+                            _reloading.Visible = false;
+                        }
+                    }
                 }
-                if (Convert.ToInt32(explo.Explo) > 23)
+
+
+                for (var i = 0; i < _gunSmokes.Count;)
                 {
-                    explo.Destroy();
-                    _explos.Remove(explo);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-
-            for (var i = 0; i < _bullets.Count;)
-            {
-
-                var bullet = _bullets[i].Sprite;
-
-                bullet.PositionY += 10;
-
-                if (_bullets[i].Power > 0)
-                {
-                    CCRect rec;
+                    var gunSmoke = _gunSmokes[i];
                     if (SelectedWeapon == Weapons.Hybrid)
                     {
-                        rec = new CCRect(bullet.PositionX + bullet.ContentSize.Width / 2 - 4, bullet.PositionY + 25, 8, 40);
+                        var sheet = 0;
+                        if (Convert.ToInt32(gunSmoke.Smoke + 6) > 11) sheet = 1;
+                        if (Convert.ToInt32(gunSmoke.Smoke + 6) > 18) sheet = 2;
+
+                        if (gunSmoke.Sprite.Texture != SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").Texture)
+                        {
+                            var newGunSmoke = new CCSprite(SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png"));
+                            newGunSmoke.AnchorPoint = new CCPoint(0.5f, 0);
+                            newGunSmoke.PositionX = gunSmoke.Sprite.PositionX;
+                            newGunSmoke.PositionY = gunSmoke.Sprite.PositionY;
+                            newGunSmoke.Opacity = gunSmoke.Sprite.Opacity;
+                            AddChild(newGunSmoke, gunSmoke.Sprite.ZOrder);
+                            RemoveChild(gunSmoke.Sprite);
+                            gunSmoke.Sprite = newGunSmoke;
+                        }
+
+                        gunSmoke.Sprite.TextureRectInPixels = SsHybridLaser[sheet].Frames.Find(item => item.TextureFilename == "pipe-flames-and-lens-flare-image_" + Convert.ToInt32(gunSmoke.Smoke + 6).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+
+                        gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        gunSmoke.Smoke += 1f;
+                        if (Convert.ToInt32(gunSmoke.Smoke + 6) == 15) gunSmoke.Smoke += 1f;  //fali image
+
+                        if (Convert.ToInt32(gunSmoke.Smoke + 6) > 24)
+                        {
+                            gunSmoke.Destroy();
+                            _gunSmokes.Remove(gunSmoke);
+                        }
+                        else
+                        {
+                            i++;
+                        }
                     }
                     else
                     {
-                        rec = bullet.BoundingBox;
-                    }
+                        gunSmoke.Sprite.TextureRectInPixels = SsCannonFlame.Frames.Find(item => item.TextureFilename == "General_cannon_flame" + Convert.ToInt32(gunSmoke.Smoke).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
 
-
-
-                    if (_flyingSaucer != null && _flyingSaucerExplosion == null && rec.IntersectsRect(new CCRect(_flyingSaucer.PositionX - 50, _flyingSaucer.PositionY - 10, 100, 25)))
-                    {
-                        _bullets[i].Power = 0;
-                        _flyingSaucerExplosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
-                        _flyingSaucerExplosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                        _flyingSaucerExplosion.Position = new CCPoint(_flyingSaucer.PositionX, _flyingSaucer.PositionY);
-                        _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                        _flyingSaucerExplosionFrame = 0;
-                        AddChild(_flyingSaucerExplosion, 25);
-
-                        var explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
-                        _explos.Add(explo);
-
-                        CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
-                        GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerExplosion);
-                        _flyingSaucerWait = 10000000;
-
-                        var life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
-                        _lives.Add(life);
-                    }
-
-                    for (var j = 0; j < _enemies.Count; j++)
-                    {
-                        var enemy = _enemies[j];
-
-                        if (!enemy.Killed && InRectangle(rec, EnemyCollisionPoints, enemy.Sprite.PositionX - enemy.Sprite.ContentSize.Width / 2, enemy.Sprite.PositionY))
+                        gunSmoke.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        gunSmoke.Smoke += 1f;
+                        if (gunSmoke.Smoke > 14)
                         {
-                            var eh = enemy.Health;
-                            enemy.Health -= _bullets[i].Power;
-                            _bullets[i].Power -= eh;
+                            gunSmoke.Sprite.Opacity = Convert.ToByte(280 - Convert.ToInt32(gunSmoke.Smoke * 3));
+                        }
+                        if (gunSmoke.Smoke > 71)
+                        {
+                            gunSmoke.Destroy();
+                            _gunSmokes.Remove(gunSmoke);
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                }
+
+
+                for (var i = 0; i < _explos.Count;)
+                {
+                    var explo = _explos[i];
+                    explo.Sprite.TextureRectInPixels = SsPreExplosion.Frames.Find(item => item.TextureFilename == "Pre-explosion_image_" + Convert.ToInt32(explo.Explo).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    explo.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    explo.Sprite.PositionY += 1;
+                    explo.Explo += 1f;
+                    if (explo.Explo > 8)
+                    {
+                        explo.Sprite.Opacity = Convert.ToByte(280 - Convert.ToInt32(explo.Explo * 7));
+                    }
+                    if (Convert.ToInt32(explo.Explo) > 23)
+                    {
+                        explo.Destroy();
+                        _explos.Remove(explo);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                for (var i = 0; i < _bullets.Count;)
+                {
+
+                    var bullet = _bullets[i].Sprite;
+
+                    bullet.PositionY += 10;
+
+                    if (_bullets[i].Power > 0)
+                    {
+                        CCRect rec;
+                        if (SelectedWeapon == Weapons.Hybrid)
+                        {
+                            rec = new CCRect(bullet.PositionX + bullet.ContentSize.Width / 2 - 4, bullet.PositionY + 25, 8, 40);
+                        }
+                        else
+                        {
+                            rec = bullet.BoundingBox;
+                        }
+
+
+
+                        if (_flyingSaucer != null && _flyingSaucerExplosion == null && rec.IntersectsRect(new CCRect(_flyingSaucer.PositionX - 50, _flyingSaucer.PositionY - 10, 100, 25)))
+                        {
+                            _bullets[i].Power = 0;
+                            _flyingSaucerExplosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
+                            _flyingSaucerExplosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                            _flyingSaucerExplosion.Position = new CCPoint(_flyingSaucer.PositionX, _flyingSaucer.PositionY);
+                            _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                            _flyingSaucerExplosionFrame = 0;
+                            AddChild(_flyingSaucerExplosion, 25);
 
                             var explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
                             _explos.Add(explo);
 
-                            switch (_random.Next(3))
+                            CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
+                            GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerExplosion);
+                            _flyingSaucerWait = 10000000;
+
+                            var life = AddImage(_lives.Count * 80 + 20, 10, PlayerLivesLeft, _player.ZOrder - 1);
+                            _lives.Add(life);
+                        }
+
+                        for (var j = 0; j < _enemies.Count; j++)
+                        {
+                            var enemy = _enemies[j];
+
+                            if (!enemy.Killed && InRectangle(rec, EnemyCollisionPoints, enemy.Sprite.PositionX - enemy.Sprite.ContentSize.Width / 2, enemy.Sprite.PositionY))
                             {
-                                case 0:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt1);
-                                    break;
-                                case 1:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt2);
-                                    break;
-                                case 2:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt3);
-                                    break;
-                            }
-                            if (enemy.Health <= 0)
-                            {
-                                if (Settings.Instance.SwearingEnabled)
+                                var eh = enemy.Health;
+                                enemy.Health -= _bullets[i].Power;
+                                _bullets[i].Power -= eh;
+
+                                var explo = new Explosion(this, Convert.ToInt32(bullet.PositionX + bullet.ContentSize.Width / 2), Convert.ToInt32(bullet.PositionY + bullet.ContentSize.Height / 2));
+                                _explos.Add(explo);
+
+                                switch (_random.Next(3))
                                 {
-                                    if (VoiceEnemyHit != "" && _shitWait <= 0)
+                                    case 0:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt1);
+                                        break;
+                                    case 1:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt2);
+                                        break;
+                                    case 2:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemyHurt3);
+                                        break;
+                                }
+                                if (enemy.Health <= 0)
+                                {
+                                    if (Settings.Instance.SwearingEnabled)
                                     {
-                                        _shitWait = 1 + _random.Next(100) / 100f;
-                                        if (SelectedEnemy == Enemies.Hitler && _random.Next(4) == 0)
+                                        if (VoiceEnemyHit != "" && _shitWait <= 0)
                                         {
-                                            CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler 3 Scheisse.wav");
+                                            _shitWait = 1 + _random.Next(100) / 100f;
+                                            if (SelectedEnemy == Enemies.Hitler && _random.Next(4) == 0)
+                                            {
+                                                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler 3 Scheisse.wav");
+                                            }
+                                            else if (!String.IsNullOrEmpty(VoiceEnemyHit))
+                                            {
+                                                CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyHit);
+                                            }
                                         }
-                                        else if (!String.IsNullOrEmpty(VoiceEnemyHit))
+                                    }
+
+                                    if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
+                                    if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
+                                    if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
+
+                                    RemoveChild(enemy.LensFlare);
+                                    enemy.LensFlare = null;
+
+                                    enemy.KeepGrimace = 0;
+                                    enemy.Killed = true;
+
+                                    if (SelectedEnemy == Enemies.Aliens)
+                                    {
+                                        _score += 5 * _scoreMultiplier;
+                                        _killsWithoutMiss++;
+                                        if (_killsWithoutMiss >= 5 && _scoreMultiplier < 8)
                                         {
-                                            CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyHit);
+                                            _scoreMultiplier = _scoreMultiplier * 2;
+                                            _killsWithoutMiss = 0;
+                                            var multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
+                                            multiplier.Opacity = 200;
+                                            _multipliers.Add(multiplier);
                                         }
                                     }
-                                }
+                                    Kills++;
 
-                                if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
-                                if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
-                                if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
-
-                                RemoveChild(enemy.LensFlare);
-                                enemy.LensFlare = null;
-
-                                enemy.KeepGrimace = 0;
-                                enemy.Killed = true;
-
-                                if (SelectedEnemy == Enemies.Aliens)
-                                {
-                                    _score += 5 * _scoreMultiplier;
-                                    _killsWithoutMiss++;
-                                    if (_killsWithoutMiss >= 5 && _scoreMultiplier < 8)
+                                    if (enemy.AttachedBomb != null)
                                     {
-                                        _scoreMultiplier = _scoreMultiplier * 2;
-                                        _killsWithoutMiss = 0;
-                                        var multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
-                                        multiplier.Opacity = 200;
-                                        _multipliers.Add(multiplier);
+                                        enemy.BombOut();
+                                        enemy.AttachedBomb.Released = true;
+                                        enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
+                                        enemy.AttachedBomb = null;
                                     }
-                                }
-                                Kills++;
-
-                                if (enemy.AttachedBomb != null)
-                                {
-                                    enemy.BombOut();
-                                    enemy.AttachedBomb.Released = true;
-                                    enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
-                                    enemy.AttachedBomb = null;
-                                }
-                                if (enemy.Spit != null)
-                                {
-                                    RemoveChild(enemy.Spit);
-                                    enemy.Spit = null;
-                                }
-                                if (_goingDown <= 32) enemy.SpeedX = _enemyCurrentSpeed;
-                                enemy.Explosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
-                                enemy.Explosion.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2);
-                                enemy.Explosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                                enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                AddChild(enemy.Explosion, 25);
-                            }
-                            else
-                            {
-                                if (VoiceEnemyWound1 != null)
-                                {
-                                    var r = _random.Next(VoiceEnemyWound3 == null ? 2 : 3);
-                                    switch (r)
+                                    if (enemy.Spit != null)
                                     {
-                                        case 2:
-                                            CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound3);
-                                            break;
-                                        case 1:
-                                            CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound2);
-                                            break;
-                                        default:
-                                            CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound1);
-                                            break;
+                                        RemoveChild(enemy.Spit);
+                                        enemy.Spit = null;
                                     }
-                                }
-                                if (_random.Next(2) == 0)
-                                {
-                                    enemy.State = EnemyState.Damage1;
-                                    if (enemy.OpenMouth != null)
-                                    {
-                                        RemoveChild(enemy.OpenMouth);
-                                        enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
-                                        enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
-                                        enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
-                                        enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                        AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
-
-                                        enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1);
-                                        enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                    }
-                                    else
-                                    {
-                                        enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosedDamaged1);
-                                        enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                    }
+                                    if (_goingDown <= 32) enemy.SpeedX = _enemyCurrentSpeed;
+                                    enemy.Explosion = new CCSprite(SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion00.png"));
+                                    enemy.Explosion.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2);
+                                    enemy.Explosion.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                                    enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                    AddChild(enemy.Explosion, 25);
                                 }
                                 else
                                 {
-                                    enemy.State = EnemyState.Damage2;
-                                    if (enemy.OpenMouth != null)
+                                    if (VoiceEnemyWound1 != null)
                                     {
-                                        RemoveChild(enemy.OpenMouth);
-                                        enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
-                                        enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
-                                        enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
-                                        enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                        AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
+                                        var r = _random.Next(VoiceEnemyWound3 == null ? 2 : 3);
+                                        switch (r)
+                                        {
+                                            case 2:
+                                                CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound3);
+                                                break;
+                                            case 1:
+                                                CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound2);
+                                                break;
+                                            default:
+                                                CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyWound1);
+                                                break;
+                                        }
+                                    }
+                                    if (_random.Next(2) == 0)
+                                    {
+                                        enemy.State = EnemyState.Damage1;
+                                        if (enemy.OpenMouth != null)
+                                        {
+                                            RemoveChild(enemy.OpenMouth);
+                                            enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
+                                            enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
+                                            enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
+                                            enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                            AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
 
-                                        enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2);
-                                        enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged1);
+                                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                        }
+                                        else
+                                        {
+                                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosedDamaged1);
+                                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                        }
                                     }
                                     else
                                     {
-                                        enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosedDamaged2);
-                                        enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                        enemy.State = EnemyState.Damage2;
+                                        if (enemy.OpenMouth != null)
+                                        {
+                                            RemoveChild(enemy.OpenMouth);
+                                            enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
+                                            enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
+                                            enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
+                                            enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                            AddChild(enemy.OpenMouth, enemy.Sprite.ZOrder + 2);
 
+                                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2);
+                                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                        }
+                                        else
+                                        {
+                                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosedDamaged2);
+                                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+
+                                        }
                                     }
                                 }
-                            }
-                            if (_bullets[i].Power <= 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    bullet.Opacity -= 50;
-                    if (bullet.Opacity < 50) bullet.Opacity = 0;
-                }
-
-                if (bullet.Opacity == 0 || bullet.PositionY > 650)
-                {
-                    if (Math.Abs(_bullets[i].Power - _bulletPower) < AppConstants.Tolerance)
-                    {
-                        _bulletsMissed++;
-                        _killsWithoutMiss = 0;
-                        if (_scoreMultiplier > 1)
-                        {
-                            GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierLost);
-                            _scoreMultiplier = 1;
-                        }
-                        if (VoiceMiss != null)
-                        {
-                            if (VoiceMissAlternate != null && _random.Next(3) == 0)
-                            {
-                                CCAudioEngine.SharedEngine.PlayEffect(VoiceMissAlternate);
-                            }
-                            else
-                            {
-                                CCAudioEngine.SharedEngine.PlayEffect(VoiceMiss);
+                                if (_bullets[i].Power <= 0)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
-                    RemoveChild(bullet);
-                    _bullets.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-
-
-
-            for (var i = 0; i < _bombs.Count;)
-            {
-                const bool bombRemoved = false;
-                var bomb = _bombs[i];
-
-                if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
-                bomb.Sprite.PositionY -= bomb.SpeedY;
-                /*if (bomb.SpeedY < 12)
-                {
-                    bomb.SpeedY += 0.06f;
-                }
-                else if (bomb.SpeedY < 17)
-                {
-                    bomb.SpeedY += 0.04f;
-                }
-                else */
-                if (bomb.SpeedY < 24)
-                {
-                    bomb.SpeedY += 0.03f;
-                }
-                else
-                {
-                    bomb.SpeedY = 24;
-                }
-                if (bomb.RotationSpeed < 0.3) bomb.RotationSpeed += 0.002f;
-
-                if (bomb.Released)
-                {
-
-                    bomb.Sprite.PositionX += bomb.SpeedX;
-                    if (bomb.SpeedX > 0.1)
-                    {
-                        bomb.SpeedX -= 0.02f;
-                    }
-                    else if (bomb.SpeedX < -0.1)
-                    {
-                        bomb.SpeedX += 0.02f;
-                    }
                     else
                     {
-                        bomb.SpeedX = 0;
+                        bullet.Opacity -= 50;
+                        if (bullet.Opacity < 50) bullet.Opacity = 0;
                     }
-                }
 
-
-                bomb.Rotation += bomb.RotationSpeed;
-                //bomb.Sprite.Rotation = bomb.Rotation;
-
-                if (bomb.RotationSpeed > 0 && SelectedEnemy != Enemies.Aliens)
-                {
-                    if (Convert.ToInt32(bomb.Rotation) > 16) bomb.Rotation = 0;
-                    bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
-                }
-                else
-                {
-                    if (Convert.ToInt32(bomb.Rotation) > 14) bomb.Rotation = 0;
-                    bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
-                }
-
-
-                if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == Enemies.Aliens ? 7 : 0, SelectedEnemy == Enemies.Aliens ? 7 : 0))
-                {
-                    //bomb.SpeedY = -random.Next(2, Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
-                    //bomb.SpeedX = random.Next(Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
-                    //if (bomb.Sprite.PositionX < player.PositionX + player.ContentSize.Width / 2) bomb.SpeedX = -bomb.SpeedX;
-                    //bomb.SpeedX += move;
-                    //bomb.RotationSpeed = random.Next(50) / 5;
-                    bomb.Collided = true;
-
-
-                    if (_playerExplosion == null)
+                    if (bullet.Opacity == 0 || bullet.PositionY > 650)
                     {
-                        //bomb.Destroy();
-                        //bombs.Remove(bomb);
-                        //bombRemoved = true;
-                        PlayerExplode();
-
-                        var explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
-                        _explos.Add(explo);
-
-
-
-                    }
-                }
-
-                if (bomb.Collided)
-                {
-                    if (bomb.Sprite.Opacity > 50)
-                    {
-                        bomb.Sprite.Opacity -= 50;
-                    }
-                    else
-                    {
-                        bomb.Sprite.Opacity = 0;
-                    }
-                }
-
-
-                if (bomb.Sprite != null && bomb.Sprite.PositionY < 0 && bomb.Released)
-                {
-                    bomb.Destroy();
-                    _bombs.Remove(bomb);
-
-                }
-                else if (!bombRemoved)
-                {
-                    i++;
-                }
-            }
-
-
-            if (_playerExplosion != null)
-            {
-                if (_playerExploding > 72)
-                {
-                    _scoreMultiplier = 1;
-                    _playerExplosion.Visible = false;
-                    if (_playerExploding > 150 && _bombs.Count == 0 && _lives.Count > 0)
-                    {
-                        RemoveChild(_lives[_lives.Count - 1]);
-                        _lives.RemoveAt(_lives.Count - 1);
-                        RemoveChild(_playerExplosion);
-                        _playerExplosion = null;
-                        _player.Visible = true;
-                    }
-                }
-                else
-                {
-                    if (Convert.ToInt32(_playerExploding) < 54)
-                    {
-                        _playerExplosion.TextureRectInPixels = SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    }
-                    else
-                    {
-                        if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
+                        if (Math.Abs(_bullets[i].Power - _bulletPower) < AppConstants.Tolerance)
                         {
-                            var newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
-                            newPlayerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
-                            newPlayerExplosion.PositionX = _playerExplosion.PositionX;
-                            newPlayerExplosion.PositionY = _playerExplosion.PositionY;
-                            AddChild(newPlayerExplosion, _playerExplosion.ZOrder);
+                            _bulletsMissed++;
+                            _killsWithoutMiss = 0;
+                            if (_scoreMultiplier > 1)
+                            {
+                                GameEnvironment.PlaySoundEffect(SoundEffect.MultiplierLost);
+                                _scoreMultiplier = 1;
+                            }
+                            if (VoiceMiss != null)
+                            {
+                                if (VoiceMissAlternate != null && _random.Next(3) == 0)
+                                {
+                                    CCAudioEngine.SharedEngine.PlayEffect(VoiceMissAlternate);
+                                }
+                                else
+                                {
+                                    CCAudioEngine.SharedEngine.PlayEffect(VoiceMiss);
+                                }
+                            }
+                        }
+                        RemoveChild(bullet);
+                        _bullets.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+
+
+                for (var i = 0; i < _bombs.Count;)
+                {
+                    const bool bombRemoved = false;
+                    var bomb = _bombs[i];
+
+                    if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
+                    bomb.Sprite.PositionY -= bomb.SpeedY;
+                    /*if (bomb.SpeedY < 12)
+                    {
+                        bomb.SpeedY += 0.06f;
+                    }
+                    else if (bomb.SpeedY < 17)
+                    {
+                        bomb.SpeedY += 0.04f;
+                    }
+                    else */
+                    if (bomb.SpeedY < 24)
+                    {
+                        bomb.SpeedY += 0.03f;
+                    }
+                    else
+                    {
+                        bomb.SpeedY = 24;
+                    }
+                    if (bomb.RotationSpeed < 0.3) bomb.RotationSpeed += 0.002f;
+
+                    if (bomb.Released)
+                    {
+
+                        bomb.Sprite.PositionX += bomb.SpeedX;
+                        if (bomb.SpeedX > 0.1)
+                        {
+                            bomb.SpeedX -= 0.02f;
+                        }
+                        else if (bomb.SpeedX < -0.1)
+                        {
+                            bomb.SpeedX += 0.02f;
+                        }
+                        else
+                        {
+                            bomb.SpeedX = 0;
+                        }
+                    }
+
+
+                    bomb.Rotation += bomb.RotationSpeed;
+                    //bomb.Sprite.Rotation = bomb.Rotation;
+
+                    if (bomb.RotationSpeed > 0 && SelectedEnemy != Enemies.Aliens)
+                    {
+                        if (Convert.ToInt32(bomb.Rotation) > 16) bomb.Rotation = 0;
+                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(bomb.Rotation) > 14) bomb.Rotation = 0;
+                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                    }
+
+
+                    if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == Enemies.Aliens ? 7 : 0, SelectedEnemy == Enemies.Aliens ? 7 : 0))
+                    {
+                        //bomb.SpeedY = -random.Next(2, Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
+                        //bomb.SpeedX = random.Next(Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
+                        //if (bomb.Sprite.PositionX < player.PositionX + player.ContentSize.Width / 2) bomb.SpeedX = -bomb.SpeedX;
+                        //bomb.SpeedX += move;
+                        //bomb.RotationSpeed = random.Next(50) / 5;
+                        bomb.Collided = true;
+
+
+                        if (_playerExplosion == null)
+                        {
+                            //bomb.Destroy();
+                            //bombs.Remove(bomb);
+                            //bombRemoved = true;
+                            PlayerExplode();
+
+                            var explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
+                            _explos.Add(explo);
+
+
+
+                        }
+                    }
+
+                    if (bomb.Collided)
+                    {
+                        if (bomb.Sprite.Opacity > 50)
+                        {
+                            bomb.Sprite.Opacity -= 50;
+                        }
+                        else
+                        {
+                            bomb.Sprite.Opacity = 0;
+                        }
+                    }
+
+
+                    if (bomb.Sprite != null && bomb.Sprite.PositionY < 0 && bomb.Released)
+                    {
+                        bomb.Destroy();
+                        _bombs.Remove(bomb);
+
+                    }
+                    else if (!bombRemoved)
+                    {
+                        i++;
+                    }
+                }
+
+
+                if (_playerExplosion != null)
+                {
+                    if (_playerExploding > 72)
+                    {
+                        _scoreMultiplier = 1;
+                        _playerExplosion.Visible = false;
+                        if (_playerExploding > 150 && _bombs.Count == 0 && _lives.Count > 0)
+                        {
+                            RemoveChild(_lives[_lives.Count - 1]);
+                            _lives.RemoveAt(_lives.Count - 1);
                             RemoveChild(_playerExplosion);
-                            _playerExplosion = newPlayerExplosion;
+                            _playerExplosion = null;
+                            _player.Visible = true;
                         }
-                        _playerExplosion.TextureRectInPixels = SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    }
-                    _playerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    if (_playerExploding > 40)
-                    {
-                        _playerExplosion.Opacity = Convert.ToByte(256 - (_playerExploding - 40) * 7);
-                        _player.Visible = false;
-                    }
-                    /*else if (playerExploding < 30)
-                    {
-                        playerExplosion.Opacity = Convert.ToByte(120 + playerExploding * 4);
                     }
                     else
                     {
-                        playerExplosion.Opacity = byte.MaxValue;
-                    }*/
-                }
-                _playerExploding += 1f;
-                if (_playerExploding > 30 && _gameOver && _gameOverExplosion == null)
-                {
-                    _gameOverExplosion = new CCSprite(SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-00.png"));
-                    _gameOverExplosion.PositionX = 0; // player.PositionX + player.ContentSize.Width / 2;
-                    _gameOverExplosion.PositionY = 0; //player.PositionY;
-                    _gameOverExplosion.AnchorPoint = new CCPoint(0, 0);
-                    _gameOverExplosion.Scale = 4;
-                    _gameOverExploding = 0;
-                    AddChild(_gameOverExplosion, 998);
-
-                }
-            }
-            if (_gameOverExplosion != null)
-            {
-                if (Convert.ToInt32(_gameOverExploding) <= 56)
-                {
-                    _gameOverExplosion.TextureRectInPixels = SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-" + Convert.ToInt32(_gameOverExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    _gameOverExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    _gameOverExplosion.Scale = 4;
-                    //playerExplosion.Scale = 4;
-                    //if (gameOverExploding < 30)
-                    //{
-                    //    gameOverExplosion.Opacity = Convert.ToByte(120 + gameOverExploding * 4);
-                    //}
-                    //else
-                    //{
-                    //    gameOverExplosion.Opacity = byte.MaxValue;
-                    //}
-                    _gameOverLabel.AnchorPoint = new CCPoint(0.5f, 0.5f);
-                    _gameOverLabel.ScaleX *= 1.001f;
-                    _gameOverLabel.ScaleY *= 1.001f;
-                }
-                else
-                {
-                    ScheduleOnce(GameOver, 1.6f);
-                    _gameOverExplosion = null;
-
-                }
-                _gameOverExploding += 0.39f;
-
-            }
-
-            for (var i = 0; i < _sparks.Count;)
-            {
-                var laserSpark = _sparks[i];
-
-                laserSpark.Frame++;
-                if (laserSpark.Frame > 40)
-                {
-                    laserSpark.Destroy();
-                    _sparks.Remove(laserSpark);
-                }
-                else
-                {
-                    laserSpark.Sprite.TextureRectInPixels = SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(laserSpark.Frame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    i++;
-                }
-            }
-
-            var bounce = false;
-
-            //bool inFsRect = false;
-            var fsRect = new CCRect(0, 550, 1136, 230);
-
-            for (var i = 0; i < _enemies.Count; i++)
-            {
-                var enemy = _enemies[i];
-
-
-                if (!enemy.Killed)
-                {
-                    fsRect.IntersectsRect(enemy.Sprite.BoundingBox);
-                    // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
-                    //inFsRect = true;
-
-                    if (enemy.Sprite.PositionX - enemy.FloatX > _wavePass && Math.Abs(enemy.WaveAy) < AppConstants.Tolerance)
-                    {
-                        enemy.WaveAy = Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f / 180f : _enemySpeed / 180f;
+                        if (Convert.ToInt32(_playerExploding) < 54)
+                        {
+                            _playerExplosion.TextureRectInPixels = SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        }
+                        else
+                        {
+                            if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
+                            {
+                                var newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
+                                newPlayerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
+                                newPlayerExplosion.PositionX = _playerExplosion.PositionX;
+                                newPlayerExplosion.PositionY = _playerExplosion.PositionY;
+                                AddChild(newPlayerExplosion, _playerExplosion.ZOrder);
+                                RemoveChild(_playerExplosion);
+                                _playerExplosion = newPlayerExplosion;
+                            }
+                            _playerExplosion.TextureRectInPixels = SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        }
+                        _playerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        if (_playerExploding > 40)
+                        {
+                            _playerExplosion.Opacity = Convert.ToByte(256 - (_playerExploding - 40) * 7);
+                            _player.Visible = false;
+                        }
+                        /*else if (playerExploding < 30)
+                        {
+                            playerExplosion.Opacity = Convert.ToByte(120 + playerExploding * 4);
+                        }
+                        else
+                        {
+                            playerExplosion.Opacity = byte.MaxValue;
+                        }*/
                     }
-
-                    if (Math.Abs(enemy.FloatX + enemy.FloatVx) < 12 && Math.Abs(enemy.FloatY + enemy.FloatVy) < 2)
+                    _playerExploding += 1f;
+                    if (_playerExploding > 30 && _gameOver && _gameOverExplosion == null)
                     {
-                        enemy.FloatX += enemy.FloatVx;
-                        enemy.Sprite.PositionX += enemy.FloatVx;
-                        enemy.FloatY += enemy.FloatVy;
-                        //enemy.Sprite.PositionY += enemy.floatVY;
+                        _gameOverExplosion = new CCSprite(SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-00.png"));
+                        _gameOverExplosion.PositionX = 0; // player.PositionX + player.ContentSize.Width / 2;
+                        _gameOverExplosion.PositionY = 0; //player.PositionY;
+                        _gameOverExplosion.AnchorPoint = new CCPoint(0, 0);
+                        _gameOverExplosion.Scale = 4;
+                        _gameOverExploding = 0;
+                        AddChild(_gameOverExplosion, 998);
+
+                    }
+                }
+                if (_gameOverExplosion != null)
+                {
+                    if (Convert.ToInt32(_gameOverExploding) <= 56)
+                    {
+                        _gameOverExplosion.TextureRectInPixels = SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-" + Convert.ToInt32(_gameOverExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _gameOverExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        _gameOverExplosion.Scale = 4;
+                        //playerExplosion.Scale = 4;
+                        //if (gameOverExploding < 30)
+                        //{
+                        //    gameOverExplosion.Opacity = Convert.ToByte(120 + gameOverExploding * 4);
+                        //}
+                        //else
+                        //{
+                        //    gameOverExplosion.Opacity = byte.MaxValue;
+                        //}
+                        _gameOverLabel.AnchorPoint = new CCPoint(0.5f, 0.5f);
+                        _gameOverLabel.ScaleX *= 1.001f;
+                        _gameOverLabel.ScaleY *= 1.001f;
                     }
                     else
                     {
-                        if (_random.Next(20) == 0)
+                        ScheduleOnce(GameOver, 1.6f);
+                        _gameOverExplosion = null;
+
+                    }
+                    _gameOverExploding += 0.39f;
+
+                }
+
+                for (var i = 0; i < _sparks.Count;)
+                {
+                    var laserSpark = _sparks[i];
+
+                    laserSpark.Frame++;
+                    if (laserSpark.Frame > 40)
+                    {
+                        laserSpark.Destroy();
+                        _sparks.Remove(laserSpark);
+                    }
+                    else
+                    {
+                        laserSpark.Sprite.TextureRectInPixels = SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(laserSpark.Frame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        i++;
+                    }
+                }
+
+                var bounce = false;
+
+                //bool inFsRect = false;
+                var fsRect = new CCRect(0, 550, 1136, 230);
+
+                for (var i = 0; i < _enemies.Count; i++)
+                {
+                    var enemy = _enemies[i];
+
+
+                    if (!enemy.Killed)
+                    {
+                        fsRect.IntersectsRect(enemy.Sprite.BoundingBox);
+                        // if (fsRect.IntersectsRect(enemy.Sprite.BoundingBox))
+                        //inFsRect = true;
+
+                        if (enemy.Sprite.PositionX - enemy.FloatX > _wavePass && Math.Abs(enemy.WaveAy) < AppConstants.Tolerance)
+                        {
+                            enemy.WaveAy = Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f / 180f : _enemySpeed / 180f;
+                        }
+
+                        if (Math.Abs(enemy.FloatX + enemy.FloatVx) < 12 && Math.Abs(enemy.FloatY + enemy.FloatVy) < 2)
+                        {
+                            enemy.FloatX += enemy.FloatVx;
+                            enemy.Sprite.PositionX += enemy.FloatVx;
+                            enemy.FloatY += enemy.FloatVy;
+                            //enemy.Sprite.PositionY += enemy.floatVY;
+                        }
+                        else
+                        {
+                            if (_random.Next(20) == 0)
+                            {
+                                enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                                enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                            }
+                        }
+                        if (enemy.FloatX > 8 && enemy.FloatVx > 0)
+                        {
+                            enemy.FloatVx = enemy.FloatVx * 0.95f;
+                        }
+                        if (enemy.FloatX < -8 && enemy.FloatVx < 0)
+                        {
+                            enemy.FloatVx = enemy.FloatVx * 0.95f;
+                        }
+                        if (Math.Abs(enemy.WaveVy) < 0.35)
+                        {
+                            enemy.WaveVy += enemy.WaveAy;
+                        }
+                        else
+                        {
+                            enemy.WaveAy = -enemy.WaveAy;
+                            enemy.WaveVy += enemy.WaveAy;
+                        }
+
+
+                        if (_random.Next(90) == 0)
                         {
                             enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
                             enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
                         }
-                    }
-                    if (enemy.FloatX > 8 && enemy.FloatVx > 0)
-                    {
-                        enemy.FloatVx = enemy.FloatVx * 0.95f;
-                    }
-                    if (enemy.FloatX < -8 && enemy.FloatVx < 0)
-                    {
-                        enemy.FloatVx = enemy.FloatVx * 0.95f;
-                    }
-                    if (Math.Abs(enemy.WaveVy) < 0.35)
-                    {
-                        enemy.WaveVy += enemy.WaveAy;
-                    }
-                    else
-                    {
-                        enemy.WaveAy = -enemy.WaveAy;
-                        enemy.WaveVy += enemy.WaveAy;
-                    }
-
-
-                    if (_random.Next(90) == 0)
-                    {
-                        enemy.FloatVx = (_random.Next(100) - 50f) / 600f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
-                        enemy.FloatVy = (_random.Next(100) - 50f) / 1200f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
-                    }
-                    if (_random.Next(400) == 0)
-                    {
-                        enemy.FloatVx = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
-                        enemy.FloatVy = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
-                    }
-
-                    if (enemy.Spit != null)
-                    {
-                        enemy.Spitting += 0.5f;
-                        if (Convert.ToInt32(enemy.Spitting) < 27)
+                        if (_random.Next(400) == 0)
                         {
-                            if (SelectedEnemy == Enemies.Aliens)
+                            enemy.FloatVx = (_random.Next(100) - 50f) / 240f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                            enemy.FloatVy = (_random.Next(100) - 50f) / 800f * (Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 2f : _enemySpeed);
+                        }
+
+                        if (enemy.Spit != null)
+                        {
+                            enemy.Spitting += 0.5f;
+                            if (Convert.ToInt32(enemy.Spitting) < 27)
                             {
-                                enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                                enemy.Spit.Scale = 0.4f;
+                                if (SelectedEnemy == Enemies.Aliens)
+                                {
+                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                    enemy.Spit.Scale = 0.4f;
+                                }
+                                else
+                                {
+                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                }
+                                enemy.Spit.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                enemy.Spit.ZOrder = 997;
                             }
                             else
                             {
-                                enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                RemoveChild(enemy.Spit);
+                                enemy.Spit = null;
                             }
-                            enemy.Spit.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.Spit.ZOrder = 997;
                         }
-                        else
+                        if (enemy.AttachedBomb != null && !enemy.AttachedBomb.Spitted && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 3 - enemy.Sprite.ContentSize.Height / 2)
                         {
-                            RemoveChild(enemy.Spit);
-                            enemy.Spit = null;
+                            if (SelectedEnemy == Enemies.Aliens)
+                            {
+                                var r = _random.Next(3);
+                                switch (r)
+                                {
+                                    case 0:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit);
+                                        break;
+                                    case 1:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit2);
+                                        break;
+                                    default:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit3);
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                var r = _random.Next(4);
+                                switch (r)
+                                {
+                                    case 0:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit4);
+                                        break;
+                                    case 1:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit3);
+                                        break;
+                                    case 2:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit2);
+                                        break;
+                                    default:
+                                        GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit);
+                                        break;
+                                }
+                            }
+                            enemy.AttachedBomb.Spitted = true;
                         }
-                    }
-                    if (enemy.AttachedBomb != null && !enemy.AttachedBomb.Spitted && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 3 - enemy.Sprite.ContentSize.Height / 2)
-                    {
-                        if (SelectedEnemy == Enemies.Aliens)
+                        if (enemy.AttachedBomb != null && enemy.Spit == null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 24 - enemy.Sprite.ContentSize.Height / 2)
                         {
+
+                            if (enemy.Spit == null)
+                            {
+                                if (SelectedEnemy == Enemies.Aliens)
+                                {
+                                    enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting01.png"));
+                                    enemy.Spitting = 1;
+                                    enemy.Spit.Scale = 0.4f;
+                                }
+                                else
+                                {
+                                    enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_00.png"));
+                                    enemy.Spitting = 0;
+                                }
+                                enemy.Spit.ZOrder = enemy.Sprite.ZOrder + 1;
+                                enemy.Spit.AnchorPoint = new CCPoint(0.5f, 1f);
+                                enemy.Spit.PositionX = enemy.Sprite.PositionX;
+                                enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
+                                enemy.Spit.Opacity = 200;
+                                AddChild(enemy.Spit, enemy.Sprite.ZOrder + 1);
+                            }
+                        }
+                        if (enemy.AttachedBomb != null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
+                        {
+                            enemy.BombOut();
                             var r = _random.Next(3);
                             switch (r)
                             {
                                 case 0:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.BombFall1);
                                     break;
                                 case 1:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit2);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.BombFall2);
                                     break;
                                 default:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.AlienSpit3);
+                                    GameEnvironment.PlaySoundEffect(SoundEffect.BombFall3);
                                     break;
                             }
+                            enemy.AttachedBomb.Released = true;
+                            enemy.AttachedBomb.SpeedY += enemy.WaveVy;
+                            if (_goingDown <= 0) enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
+                            enemy.AttachedBomb = null;
                         }
-                        else
-                        {
-                            var r = _random.Next(4);
-                            switch (r)
-                            {
-                                case 0:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit4);
-                                    break;
-                                case 1:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit3);
-                                    break;
-                                case 2:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit2);
-                                    break;
-                                default:
-                                    GameEnvironment.PlaySoundEffect(SoundEffect.EnemySpit);
-                                    break;
-                            }
-                        }
-                        enemy.AttachedBomb.Spitted = true;
-                    }
-                    if (enemy.AttachedBomb != null && enemy.Spit == null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 24 - enemy.Sprite.ContentSize.Height / 2)
-                    {
 
-                        if (enemy.Spit == null)
+                        enemy.Sprite.PositionY -= _goingDownCurrentSpeed;
+                        if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY -= _goingDownCurrentSpeed;
+                        enemy.Sprite.PositionY += enemy.WaveVy;
+                        if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY += enemy.WaveVy;
+                        if (_goingDown <= 32)
                         {
-                            if (SelectedEnemy == Enemies.Aliens)
+                            enemy.Sprite.PositionX += _enemyCurrentSpeed;
+                            if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
+                        }
+                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
+                        {
+                            bounce = true;
+                        }
+                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
+                        {
+                            bounce = true;
+                        }
+
+                        if (enemy.OpenMouth != null)
+                        {
+                            enemy.OpenMouth.PositionX = enemy.Sprite.PositionX;
+                            enemy.OpenMouth.PositionY = enemy.Sprite.PositionY;
+                        }
+                        if (enemy.Spit != null)
+                        {
+                            if (enemy.Spitting < 20)
                             {
-                                enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting01.png"));
-                                enemy.Spitting = 1;
-                                enemy.Spit.Scale = 0.4f;
+                                enemy.Spit.PositionX = enemy.Sprite.PositionX;
+                            }
+                            if (enemy.Spitting < 23)
+                            {
+                                enemy.Spit.PositionX += _enemyCurrentSpeed / 1.5f;
                             }
                             else
                             {
-                                enemy.Spit = new CCSprite(SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_00.png"));
-                                enemy.Spitting = 0;
+                                enemy.Spit.PositionX += _enemyCurrentSpeed / 2;
                             }
-                            enemy.Spit.ZOrder = enemy.Sprite.ZOrder + 1;
-                            enemy.Spit.AnchorPoint = new CCPoint(0.5f, 1f);
-                            enemy.Spit.PositionX = enemy.Sprite.PositionX;
                             enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
-                            enemy.Spit.Opacity = 200;
-                            AddChild(enemy.Spit, enemy.Sprite.ZOrder + 1);
-                        }
-                    }
-                    if (enemy.AttachedBomb != null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
-                    {
-                        enemy.BombOut();
-                        var r = _random.Next(3);
-                        switch (r)
-                        {
-                            case 0:
-                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall1);
-                                break;
-                            case 1:
-                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall2);
-                                break;
-                            default:
-                                GameEnvironment.PlaySoundEffect(SoundEffect.BombFall3);
-                                break;
-                        }
-                        enemy.AttachedBomb.Released = true;
-                        enemy.AttachedBomb.SpeedY += enemy.WaveVy;
-                        if (_goingDown <= 0) enemy.AttachedBomb.SpeedX = _enemyCurrentSpeed;
-                        enemy.AttachedBomb = null;
-                    }
-
-                    enemy.Sprite.PositionY -= _goingDownCurrentSpeed;
-                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY -= _goingDownCurrentSpeed;
-                    enemy.Sprite.PositionY += enemy.WaveVy;
-                    if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionY += enemy.WaveVy;
-                    if (_goingDown <= 32)
-                    {
-                        enemy.Sprite.PositionX += _enemyCurrentSpeed;
-                        if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
-                    }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
-                    {
-                        bounce = true;
-                    }
-                    if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
-                    {
-                        bounce = true;
-                    }
-
-                    if (enemy.OpenMouth != null)
-                    {
-                        enemy.OpenMouth.PositionX = enemy.Sprite.PositionX;
-                        enemy.OpenMouth.PositionY = enemy.Sprite.PositionY;
-                    }
-                    if (enemy.Spit != null)
-                    {
-                        if (enemy.Spitting < 20)
-                        {
-                            enemy.Spit.PositionX = enemy.Sprite.PositionX;
-                        }
-                        if (enemy.Spitting < 23)
-                        {
-                            enemy.Spit.PositionX += _enemyCurrentSpeed / 1.5f;
-                        }
-                        else
-                        {
-                            enemy.Spit.PositionX += _enemyCurrentSpeed / 2;
-                        }
-                        enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
-                    }
-
-                    if (Math.Abs(_updateTillNextBomb) < AppConstants.Tolerance && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
-                    {
-                        var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0), enemy.Sprite.PositionY - 21);
-                        _bombs.Add(bomb);
-                        enemy.AttachedBomb = bomb;
-                        enemy.OpenForBomb();
-                        bomb.Sprite.ZOrder = enemy.Sprite.ZOrder + 1;
-                        _updateTillNextBomb = _random.Next(_bombDensity);
-                    }
-
-                    if (enemy.LensFlare != null)
-                    {
-                        var sheet = 0;
-                        if (Convert.ToInt32(enemy.LensFlareFrame) > 41) sheet = 1;
-
-                        if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
-                        {
-                            var newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
-                            newLensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
-                            newLensFlare.PositionX = enemy.Sprite.PositionX;
-                            newLensFlare.PositionY = enemy.Sprite.PositionY - 28;
-
-                            AddChild(newLensFlare, enemy.LensFlare.ZOrder);
-                            RemoveChild(enemy.LensFlare);
-                            enemy.LensFlare = newLensFlare;
                         }
 
-                        enemy.LensFlare.TextureRectInPixels = SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-
-                        enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
-                        enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
-
-                        enemy.LensFlare.BlendFunc = GameEnvironment.BlendFuncDefault;
-                        enemy.LensFlareFrame += 0.41f;
-                        if (Convert.ToInt32(enemy.LensFlareFrame) > 73)
+                        if (Math.Abs(_updateTillNextBomb) < AppConstants.Tolerance && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
                         {
-                            RemoveChild(enemy.LensFlare);
-                            enemy.LensFlare = null;
+                            var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0), enemy.Sprite.PositionY - 21);
+                            _bombs.Add(bomb);
+                            enemy.AttachedBomb = bomb;
+                            enemy.OpenForBomb();
+                            bomb.Sprite.ZOrder = enemy.Sprite.ZOrder + 1;
+                            _updateTillNextBomb = _random.Next(_bombDensity);
                         }
-                    }
 
-                    if (SelectedEnemy == Enemies.Aliens)
-                    {
-                        var hasEnemyBelow = false;
-                        var r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
-
-                        foreach (var x in _enemies)
+                        if (enemy.LensFlare != null)
                         {
-                            if (x != enemy && r.IntersectsRect(x.Sprite.BoundingBox))
+                            var sheet = 0;
+                            if (Convert.ToInt32(enemy.LensFlareFrame) > 41) sheet = 1;
+
+                            if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
                             {
-                                hasEnemyBelow = true;
-                                break;
-                            }
-                        }
-                        if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2))
-                        {
-                            if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
-                            if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
-                            if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
+                                var newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
+                                newLensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
+                                newLensFlare.PositionX = enemy.Sprite.PositionX;
+                                newLensFlare.PositionY = enemy.Sprite.PositionY - 28;
 
-                            if (enemy.LensFlare != null) RemoveChild(enemy.LensFlare);
-                            enemy.LensFlare = null;
-                            enemy.State = EnemyState.Normal;
-                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
-                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.KeepGrimace = 1.5f + _random.Next(5);
-                        }
-                        if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
-                        {
-                            if (_random.Next(2) == 0)
-                            {
-                                enemy.State = EnemyState.Grimace1;
-                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
-                                enemy.KeepGrimace = 3f;
+                                AddChild(newLensFlare, enemy.LensFlare.ZOrder);
+                                RemoveChild(enemy.LensFlare);
+                                enemy.LensFlare = newLensFlare;
                             }
-                            else
-                            {
-                                enemy.State = EnemyState.Grimace2;
-                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
-                                enemy.KeepGrimace = 3f;
-                            }
-                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.LaserFxId1 = GameEnvironment.PlaySoundEffect(SoundEffect.AlienLaser);
-                            //enemy.LaserFxId2 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
-                            //enemy.LaserFxId3 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
 
-                            enemy.LensFlare = new CCSprite(SsAlienLensFlare[0].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
-                            enemy.LensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
+                            enemy.LensFlare.TextureRectInPixels = SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+
                             enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
                             enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
-                            AddChild(enemy.LensFlare, 24);
-                            enemy.LensFlareFrame = 0;
+
+                            enemy.LensFlare.BlendFunc = GameEnvironment.BlendFuncDefault;
+                            enemy.LensFlareFrame += 0.41f;
+                            if (Convert.ToInt32(enemy.LensFlareFrame) > 73)
+                            {
+                                RemoveChild(enemy.LensFlare);
+                                enemy.LensFlare = null;
+                            }
                         }
 
-                    }
-                    else
-                    {
-
-                        if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0)
+                        if (SelectedEnemy == Enemies.Aliens)
                         {
-                            if (_random.Next(2) == 0)
+                            var hasEnemyBelow = false;
+                            var r = new CCRect(enemy.Sprite.BoundingBox.LowerLeft.X, enemy.Sprite.BoundingBox.LowerLeft.Y - 1300, enemy.Sprite.ContentSize.Width, 1300);
+
+                            foreach (var x in _enemies)
                             {
-                                enemy.State = EnemyState.Grimace1;
-                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
+                                if (x != enemy && r.IntersectsRect(x.Sprite.BoundingBox))
+                                {
+                                    hasEnemyBelow = true;
+                                    break;
+                                }
+                            }
+                            if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2))
+                            {
+                                if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
+                                if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
+                                if (enemy.LaserFxId3 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId3.Value);
+
+                                if (enemy.LensFlare != null) RemoveChild(enemy.LensFlare);
+                                enemy.LensFlare = null;
+                                enemy.State = EnemyState.Normal;
+                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
+                                enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
+                                enemy.KeepGrimace = 1.5f + _random.Next(5);
+                            }
+                            if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
+                            {
+                                if (_random.Next(2) == 0)
+                                {
+                                    enemy.State = EnemyState.Grimace1;
+                                    enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
+                                    enemy.KeepGrimace = 3f;
+                                }
+                                else
+                                {
+                                    enemy.State = EnemyState.Grimace2;
+                                    enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
+                                    enemy.KeepGrimace = 3f;
+                                }
+                                enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                enemy.LaserFxId1 = GameEnvironment.PlaySoundEffect(SoundEffect.AlienLaser);
+                                //enemy.LaserFxId2 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
+                                //enemy.LaserFxId3 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
+
+                                enemy.LensFlare = new CCSprite(SsAlienLensFlare[0].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
+                                enemy.LensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
+                                enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
+                                enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
+                                AddChild(enemy.LensFlare, 24);
+                                enemy.LensFlareFrame = 0;
+                            }
+
+                        }
+                        else
+                        {
+
+                            if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0)
+                            {
+                                if (_random.Next(2) == 0)
+                                {
+                                    enemy.State = EnemyState.Grimace1;
+                                    enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace1);
+                                }
+                                else
+                                {
+                                    enemy.State = EnemyState.Grimace2;
+                                    enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
+                                }
+                                enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                enemy.KeepGrimace = 0.5f + _random.Next(5);
+                            }
+                        }
+                        /*
+                        if (enemy.LaserLeftSpark != null)
+                        {
+                            enemy.LaserLeftSparkFrame++;
+                            if (enemy.LaserLeftSparkFrame > 40)
+                            {
+                                this.RemoveChild(enemy.LaserLeftSpark);
+                                enemy.LaserLeftSpark = null;
                             }
                             else
                             {
-                                enemy.State = EnemyState.Grimace2;
-                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyGrimace2);
-                            }
-                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            enemy.KeepGrimace = 0.5f + _random.Next(5);
-                        }
-                    }
-                    /*
-                    if (enemy.LaserLeftSpark != null)
-                    {
-                        enemy.LaserLeftSparkFrame++;
-                        if (enemy.LaserLeftSparkFrame > 40)
-                        {
-                            this.RemoveChild(enemy.LaserLeftSpark);
-                            enemy.LaserLeftSpark = null;
-                        }
-                        else
-                        {
-                            enemy.LaserLeftSpark.TextureRectInPixels = ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(enemy.LaserLeftSparkFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;  
-                        }
-                    }
-
-                    if (enemy.LaserRightSpark != null)
-                    {
-                        enemy.LaserRightSparkFrame++;
-                        if (enemy.LaserRightSparkFrame > 40)
-                        {
-                            this.RemoveChild(enemy.LaserRightSpark);
-                            enemy.LaserRightSpark = null;
-                        }
-                        else
-                        {
-                            enemy.LaserRightSpark.TextureRectInPixels = ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(enemy.LaserRightSparkFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                        }
-                    }*/
-
-                    if (enemy.LaserLeftSparkCooloff > 0) enemy.LaserLeftSparkCooloff--;
-                    if (enemy.LaserRightSparkCooloff > 0) enemy.LaserRightSparkCooloff--;
-
-                    var laserRemoved = false;
-                    for (var j = 0; j < enemy.Lasers.Count;)
-                    {
-                        var laser = enemy.Lasers[j];
-                        laser.Y += laser.Sprite.ContentSize.Height;
-                        if (laser.Left)
-                        {
-                            laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
-                        }
-                        else
-                        {
-                            laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
-                        }
-                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
-
-                        if (laser.Y > 1300 || laser.LaserHit)
-                        {
-                            laser.Destroy();
-                            enemy.Lasers.RemoveAt(j);
-                            laserRemoved = true;
-                        }
-                        else
-                        {
-                            if (_playerExplosion == null || _playerExploding < 25)
-                            {
-                                var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - -1) > AppConstants.Tolerance)
-                                {
-                                    laser.LaserHit = true;
-                                    laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
-                                    laser.Sprite.PositionY = y;
-                                    if (_playerExplosion == null)
-                                    {
-                                        PlayerExplode();
-                                    }
-
-
-                                    if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
-                                    {
-                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
-                                        enemy.LaserLeftSparkCooloff = 8;
-                                    }
-                                    if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
-                                    {
-                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
-                                        enemy.LaserRightSparkCooloff = 8;
-                                    }
-
-                                    /*
-                                    if (laser.Left)
-                                    {
-                                        
-                                        if (enemy.LaserLeftSpark == null)
-                                        {
-                                            enemy.LaserLeftSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
-                                            enemy.LaserLeftSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
-                                            enemy.LaserLeftSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                            enemy.LaserLeftSparkFrame = 0;
-                                            this.AddChild(enemy.LaserLeftSpark, 100);
-                                        }
-                                        enemy.LaserLeftSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
-                                    }
-                                    else if (!laser.Left)
-                                    {
-                                        if (enemy.LaserRightSpark == null)
-                                        {
-                                            enemy.LaserRightSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
-                                            enemy.LaserRightSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
-                                            enemy.LaserRightSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                            enemy.LaserRightSparkFrame = 0;
-                                            this.AddChild(enemy.LaserRightSpark, 100);
-                                        }
-                                        enemy.LaserRightSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
-                                    }
-                                    */
-                                }
+                                enemy.LaserLeftSpark.TextureRectInPixels = ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(enemy.LaserLeftSparkFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;  
                             }
                         }
 
-                        if (!laserRemoved)
+                        if (enemy.LaserRightSpark != null)
                         {
-                            j++;
-                        }
-                        laserRemoved = false;
-                    }
-
-                    if (enemy.KeepGrimace > 0)
-                    {
-                        enemy.KeepGrimace -= dt;
-                        if ((enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.OpenMouth == null && enemy.KeepGrimace <= 0)
-                        {
-                            enemy.State = EnemyState.Normal;
-                            enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
-                            enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-                            if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
-                            enemy.KeepGrimace = 0.5f + _random.Next(5);
-                        }
-                        else
-                        {
-                            if (SelectedEnemy == Enemies.Aliens && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.KeepGrimace < 2f)
+                            enemy.LaserRightSparkFrame++;
+                            if (enemy.LaserRightSparkFrame > 40)
                             {
-                                if (enemy.LaserTop == null)
-                                {
-                                    enemy.LaserTop = new CCSprite(GameEnvironment.ImageDirectory + "Enemies/Laser-image_02_top.png");
-                                    enemy.LaserTop.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
-                                    enemy.LaserTop.AnchorPoint = new CCPoint(0.5f, 0.0f);
-                                    enemy.LaserTop.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                    AddChild(enemy.LaserTop, 11);
-                                }
-                                else if (enemy.LaserTop.Visible == false)
-                                {
-                                    enemy.LaserTop.Visible = true;
-                                }
-                                enemy.LaserTop.PositionX = enemy.Sprite.PositionX;
-                                enemy.LaserTop.PositionY = enemy.Sprite.PositionY - 35;
-                                var laser = new Laser(this, true);
+                                this.RemoveChild(enemy.LaserRightSpark);
+                                enemy.LaserRightSpark = null;
+                            }
+                            else
+                            {
+                                enemy.LaserRightSpark.TextureRectInPixels = ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(enemy.LaserRightSparkFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            }
+                        }*/
+
+                        if (enemy.LaserLeftSparkCooloff > 0) enemy.LaserLeftSparkCooloff--;
+                        if (enemy.LaserRightSparkCooloff > 0) enemy.LaserRightSparkCooloff--;
+
+                        var laserRemoved = false;
+                        for (var j = 0; j < enemy.Lasers.Count;)
+                        {
+                            var laser = enemy.Lasers[j];
+                            laser.Y += laser.Sprite.ContentSize.Height;
+                            if (laser.Left)
+                            {
                                 laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
-                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
-                                enemy.Lasers.Add(laser);
-                                laser = new Laser(this, false);
+                            }
+                            else
+                            {
                                 laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
-                                laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
-                                enemy.Lasers.Add(laser);
                             }
-                        }
+                            laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
 
-                    }
-                }
-                else
-                {
-                    if (enemy.LaserTop != null)
-                    {
-                        RemoveChild(enemy.LaserTop);
-                        enemy.LaserTop = null;
-                    }
-                    var laserRemoved = false;
-                    for (var j = 0; j < enemy.Lasers.Count;)
-                    {
-                        var laser = enemy.Lasers[j];
-                        laser.Y += laser.Sprite.ContentSize.Height;
-                        if (laser.Left)
-                        {
-                            laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
-                        }
-                        else
-                        {
-                            laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
-                        }
-                        laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
-
-                        if (laser.Y > 1300 || laser.LaserHit)
-                        {
-                            laser.Destroy();
-                            enemy.Lasers.RemoveAt(j);
-                            laserRemoved = true;
-                        }
-                        else
-                        {
-                            if (_playerExplosion == null || _playerExploding < 25)
+                            if (laser.Y > 1300 || laser.LaserHit)
                             {
-                                var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
-                                var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
-                                if (Math.Abs(y - -1) > AppConstants.Tolerance)
+                                laser.Destroy();
+                                enemy.Lasers.RemoveAt(j);
+                                laserRemoved = true;
+                            }
+                            else
+                            {
+                                if (_playerExplosion == null || _playerExploding < 25)
                                 {
-                                    laser.LaserHit = true;
-                                    laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
-                                    laser.Sprite.PositionY = y;
-                                    if (_playerExplosion == null)
+                                    var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
+                                    var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                    if (Math.Abs(y - -1) > AppConstants.Tolerance)
                                     {
-                                        PlayerExplode();
-                                    }
-
-                                    if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
-                                    {
-                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
-                                        enemy.LaserLeftSparkCooloff = 8;
-                                    }
-                                    if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
-                                    {
-                                        _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
-                                        enemy.LaserRightSparkCooloff = 8;
-                                    }
-
-                                    /*
-                                    if (laser.Left)
-                                    {
-                                        if (enemy.LaserLeftSpark == null)
+                                        laser.LaserHit = true;
+                                        laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
+                                        laser.Sprite.PositionY = y;
+                                        if (_playerExplosion == null)
                                         {
-                                            enemy.LaserLeftSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
-                                            enemy.LaserLeftSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
-                                            enemy.LaserLeftSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                            enemy.LaserLeftSparkFrame = 0;
-                                            this.AddChild(enemy.LaserLeftSpark, 100);
+                                            PlayerExplode();
                                         }
-                                        enemy.LaserLeftSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
-                                    }
-                                    else if (!laser.Left)
-                                    {
-                                        if (enemy.LaserRightSpark == null)
+
+
+                                        if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
                                         {
-                                            enemy.LaserRightSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
-                                            enemy.LaserRightSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
-                                            enemy.LaserRightSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
-                                            enemy.LaserRightSparkFrame = 0;
-                                            this.AddChild(enemy.LaserRightSpark, 100);
+                                            _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                            enemy.LaserLeftSparkCooloff = 8;
                                         }
-                                        enemy.LaserRightSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
+                                        if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
+                                        {
+                                            _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                            enemy.LaserRightSparkCooloff = 8;
+                                        }
+
+                                        /*
+                                        if (laser.Left)
+                                        {
+
+                                            if (enemy.LaserLeftSpark == null)
+                                            {
+                                                enemy.LaserLeftSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+                                                enemy.LaserLeftSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
+                                                enemy.LaserLeftSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                                enemy.LaserLeftSparkFrame = 0;
+                                                this.AddChild(enemy.LaserLeftSpark, 100);
+                                            }
+                                            enemy.LaserLeftSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
+                                        }
+                                        else if (!laser.Left)
+                                        {
+                                            if (enemy.LaserRightSpark == null)
+                                            {
+                                                enemy.LaserRightSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+                                                enemy.LaserRightSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
+                                                enemy.LaserRightSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                                enemy.LaserRightSparkFrame = 0;
+                                                this.AddChild(enemy.LaserRightSpark, 100);
+                                            }
+                                            enemy.LaserRightSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
+                                        }
+                                        */
                                     }
-                                    */
                                 }
+                            }
 
+                            if (!laserRemoved)
+                            {
+                                j++;
+                            }
+                            laserRemoved = false;
+                        }
+
+                        if (enemy.KeepGrimace > 0)
+                        {
+                            enemy.KeepGrimace -= dt;
+                            if ((enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.OpenMouth == null && enemy.KeepGrimace <= 0)
+                            {
+                                enemy.State = EnemyState.Normal;
+                                enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
+                                enemy.Sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
+                                enemy.KeepGrimace = 0.5f + _random.Next(5);
+                            }
+                            else
+                            {
+                                if (SelectedEnemy == Enemies.Aliens && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.KeepGrimace < 2f)
+                                {
+                                    if (enemy.LaserTop == null)
+                                    {
+                                        enemy.LaserTop = new CCSprite(GameEnvironment.ImageDirectory + "Enemies/Laser-image_02_top.png");
+                                        enemy.LaserTop.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
+                                        enemy.LaserTop.AnchorPoint = new CCPoint(0.5f, 0.0f);
+                                        enemy.LaserTop.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                        AddChild(enemy.LaserTop, 11);
+                                    }
+                                    else if (enemy.LaserTop.Visible == false)
+                                    {
+                                        enemy.LaserTop.Visible = true;
+                                    }
+                                    enemy.LaserTop.PositionX = enemy.Sprite.PositionX;
+                                    enemy.LaserTop.PositionY = enemy.Sprite.PositionY - 35;
+                                    var laser = new Laser(this, true);
+                                    laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
+                                    laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
+                                    enemy.Lasers.Add(laser);
+                                    laser = new Laser(this, false);
+                                    laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
+                                    laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
+                                    enemy.Lasers.Add(laser);
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (enemy.LaserTop != null)
+                        {
+                            RemoveChild(enemy.LaserTop);
+                            enemy.LaserTop = null;
+                        }
+                        var laserRemoved = false;
+                        for (var j = 0; j < enemy.Lasers.Count;)
+                        {
+                            var laser = enemy.Lasers[j];
+                            laser.Y += laser.Sprite.ContentSize.Height;
+                            if (laser.Left)
+                            {
+                                laser.Sprite.PositionX = enemy.Sprite.PositionX - 8.5f;
+                            }
+                            else
+                            {
+                                laser.Sprite.PositionX = enemy.Sprite.PositionX + 8.5f;
+                            }
+                            laser.Sprite.PositionY = enemy.Sprite.PositionY - laser.Y - laser.Sprite.ContentSize.Height - 35;
+
+                            if (laser.Y > 1300 || laser.LaserHit)
+                            {
+                                laser.Destroy();
+                                enemy.Lasers.RemoveAt(j);
+                                laserRemoved = true;
+                            }
+                            else
+                            {
+                                if (_playerExplosion == null || _playerExploding < 25)
+                                {
+                                    var r = new CCRect(laser.Sprite.PositionX - 5, laser.Sprite.PositionY, 10, laser.Sprite.ContentSize.Height);
+                                    var y = InRectangleTopY(r, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height);
+                                    if (Math.Abs(y - -1) > AppConstants.Tolerance)
+                                    {
+                                        laser.LaserHit = true;
+                                        laser.Sprite.ScaleY = 1 - (y - laser.Sprite.PositionY) / laser.Sprite.ContentSize.Height;
+                                        laser.Sprite.PositionY = y;
+                                        if (_playerExplosion == null)
+                                        {
+                                            PlayerExplode();
+                                        }
+
+                                        if (laser.Left && enemy.LaserLeftSparkCooloff <= 0)
+                                        {
+                                            _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                            enemy.LaserLeftSparkCooloff = 8;
+                                        }
+                                        if (!laser.Left && enemy.LaserRightSparkCooloff <= 0)
+                                        {
+                                            _sparks.Add(new LaserSpark(this, laser.Sprite.PositionX, y));
+                                            enemy.LaserRightSparkCooloff = 8;
+                                        }
+
+                                        /*
+                                        if (laser.Left)
+                                        {
+                                            if (enemy.LaserLeftSpark == null)
+                                            {
+                                                enemy.LaserLeftSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+                                                enemy.LaserLeftSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
+                                                enemy.LaserLeftSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                                enemy.LaserLeftSparkFrame = 0;
+                                                this.AddChild(enemy.LaserLeftSpark, 100);
+                                            }
+                                            enemy.LaserLeftSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
+                                        }
+                                        else if (!laser.Left)
+                                        {
+                                            if (enemy.LaserRightSpark == null)
+                                            {
+                                                enemy.LaserRightSpark = new CCSprite(ssLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_00.png"));
+                                                enemy.LaserRightSpark.AnchorPoint = new CCPoint(0.5f, 0.3f);
+                                                enemy.LaserRightSpark.BlendFunc = GameEnvironment.BlendFuncDefault;
+                                                enemy.LaserRightSparkFrame = 0;
+                                                this.AddChild(enemy.LaserRightSpark, 100);
+                                            }
+                                            enemy.LaserRightSpark.Position = new CCPoint(laser.Sprite.PositionX, y);
+                                        }
+                                        */
+                                    }
+
+                                }
+                            }
+
+                            if (!laserRemoved)
+                            {
+                                j++;
+                            }
+                            laserRemoved = false;
+                        }
+
+
+                        enemy.Sprite.PositionX += enemy.SpeedX;
+                        enemy.Explosion.PositionX += enemy.SpeedX;
+                        if (enemy.Exploding < 29)
+                        {
+                            enemy.Explosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(enemy.Exploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                            enemy.Exploding += 0.5f;
+                            if (enemy.Exploding > 8)
+                            {
+                                enemy.Sprite.Visible = false;
+                                enemy.Explosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(enemy.Exploding * 7));
                             }
                         }
-
-                        if (!laserRemoved)
+                        else
                         {
-                            j++;
-                        }
-                        laserRemoved = false;
-                    }
+                            enemy.Destroy();
+                            _enemies.Remove(enemy);
+                            i--;
 
-
-                    enemy.Sprite.PositionX += enemy.SpeedX;
-                    enemy.Explosion.PositionX += enemy.SpeedX;
-                    if (enemy.Exploding < 29)
-                    {
-                        enemy.Explosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(enemy.Exploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                        enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                        enemy.Exploding += 0.5f;
-                        if (enemy.Exploding > 8)
-                        {
-                            enemy.Sprite.Visible = false;
-                            enemy.Explosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(enemy.Exploding * 7));
                         }
                     }
-                    else
-                    {
-                        enemy.Destroy();
-                        _enemies.Remove(enemy);
-                        i--;
 
+                    if (_playerExplosion == null && !enemy.Killed && enemy.Sprite != null && InRectangle(enemy.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height))
+                    {
+                        PlayerExplode(true);
+                    }
+                    if (_playerExplosion == null && enemy.Sprite != null && enemy.Sprite.PositionY < 80)
+                    {
+                        PlayerExplode(true);
+                    }
+                }
+                if (_goingDown > 0)
+                {
+                    if (_goingDownCurrentSpeed < _goingDownSpeed) _goingDownCurrentSpeed += _goingDownSpeed / 30f;
+                }
+                _goingDown -= _goingDownCurrentSpeed;
+                if (_goingDown <= 0 && _goingDownCurrentSpeed > 0)
+                {
+                    _goingDownCurrentSpeed -= _goingDownSpeed / 20f;
+                    if (_goingDownCurrentSpeed <= 0)
+                    {
+                        _goingDownCurrentSpeed = 0;
+                        if (_firstGoingDown)
+                        {
+                            _enemyAcceleration = _enemySpeed / 30f;
+                            _firstGoingDown = false;
+                            if (VoiceGameOver != "" && SelectedEnemy == Enemies.Trump) CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
+                        }
                     }
                 }
 
-                if (_playerExplosion == null && !enemy.Killed && enemy.Sprite != null && InRectangle(enemy.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height))
-                {
-                    PlayerExplode(true);
-                }
-                if (_playerExplosion == null && enemy.Sprite != null && enemy.Sprite.PositionY < 80)
-                {
-                    PlayerExplode(true);
-                }
-            }
-            if (_goingDown > 0)
-            {
-                if (_goingDownCurrentSpeed < _goingDownSpeed) _goingDownCurrentSpeed += _goingDownSpeed / 30f;
-            }
-            _goingDown -= _goingDownCurrentSpeed;
-            if (_goingDown <= 0 && _goingDownCurrentSpeed > 0)
-            {
-                _goingDownCurrentSpeed -= _goingDownSpeed / 20f;
-                if (_goingDownCurrentSpeed <= 0)
-                {
-                    _goingDownCurrentSpeed = 0;
-                    if (_firstGoingDown)
-                    {
-                        _enemyAcceleration = _enemySpeed / 30f;
-                        _firstGoingDown = false;
-                        if (VoiceGameOver != "" && SelectedEnemy == Enemies.Trump) CCAudioEngine.SharedEngine.PlayEffect(VoiceGameOver);
-                    }
-                }
-            }
 
-
-            if (_flyingSaucer != null)
-            {
-                _flyingSaucerFrame += 0.5f;
-                if (Convert.ToInt32(_flyingSaucerFrame) > 59) _flyingSaucerFrame = 0;
-                _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(_flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
-                _flyingSaucer.PositionX += _flyingSaucerSpeed;
-                if (_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0 || _flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0)
+                if (_flyingSaucer != null)
                 {
-                    CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
-                    RemoveChild(_flyingSaucer);
-                    _flyingSaucerWait = 60;
-                    _flyingSaucer = null;
-                }
-            }
-            if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + _lives.Count * 200) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
-            {
-                _flyingSaucerIncoming = 2;
-                _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerIncoming);
-            }
-            else if (_flyingSaucerWait > 0)
-            {
-                _flyingSaucerWait -= dt;
-            }
-
-            if (_flyingSaucerIncoming > 0 && _playerExplosion == null)
-            {
-                _flyingSaucerIncoming -= dt;
-                if (_flyingSaucerIncoming <= 0)
-                {
-                    CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
-                    _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerFlying);
-                    _flyingSaucerFrame = 0;
-                    _flyingSaucer = new CCSprite(SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_00.png"));
-                    if (_random.Next(2) == 0)
-                    {
-                        _flyingSaucer.Position = new CCPoint(1210, 560);
-                        _flyingSaucerSpeed = -5;
-                    }
-                    else
-                    {
-                        _flyingSaucer.Position = new CCPoint(-200, 560);
-                        _flyingSaucerSpeed = 5;
-                    }
+                    _flyingSaucerFrame += 0.5f;
+                    if (Convert.ToInt32(_flyingSaucerFrame) > 59) _flyingSaucerFrame = 0;
+                    _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(_flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
                     _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
-                    AddChild(_flyingSaucer);
-                }
-            }
-
-
-            if (_flyingSaucerExplosion != null)
-            {
-                _flyingSaucerExplosionFrame += 0.5f;
-
-                _flyingSaucerExplosion.PositionX += _flyingSaucerSpeed;
-
-                if (_flyingSaucerExplosionFrame > 8)
-                {
-                    _flyingSaucerExplosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(_flyingSaucerExplosionFrame * 7));
-                }
-
-                if (_flyingSaucer != null) { _flyingSaucer.Opacity -= 10; }
-
-                if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 8 && _flyingSaucer != null)
-                {
-                    RemoveChild(_flyingSaucer);
-                    _flyingSaucer = null;
-                }
-
-                if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 29)
-                {
-                    RemoveChild(_flyingSaucerExplosion);
-                    _flyingSaucerExplosion = null;
-                }
-                else
-                {
-                    _flyingSaucerExplosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(_flyingSaucerExplosionFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
-                    _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
-                }
-            }
-
-            if (bounce)
-            {
-                _enemyAcceleration = -_enemyCurrentSpeed / 30f;
-                _bounces++;
-                if (_bounces > 4)
-                {
-                    _goingDown = 32;
-                    _bounces = 0;
-                }
-            }
-            _enemyCurrentSpeed += _enemyAcceleration;
-            if (_enemyCurrentSpeed < -_enemySpeed)
-            {
-                _enemyAcceleration = 0;
-                _enemyCurrentSpeed = -_enemySpeed;
-            }
-            if (_enemyCurrentSpeed > _enemySpeed)
-            {
-                _enemyAcceleration = 0;
-                _enemyCurrentSpeed = _enemySpeed;
-            }
-
-            if (_updateTillNextBomb > 0) _updateTillNextBomb--;
-
-
-            if (_enemies.Count == 0 && _bombs.Count == 0 && _playerExplosion == null && !_waveTransfer)
-            {
-                _waveTransfer = true;
-                if (SelectedEnemy == Enemies.Aliens)
-                {
-                    GameEnvironment.PlayMusic(Music.NextWaveAlien);
-                    if (Settings.Instance.VoiceoversEnabled)
+                    _flyingSaucer.PositionX += _flyingSaucerSpeed;
+                    if (_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0 || _flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0)
                     {
-                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
+                        CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
+                        RemoveChild(_flyingSaucer);
+                        _flyingSaucerWait = 60;
+                        _flyingSaucer = null;
                     }
-                    _nextWaveSprite = AddImageCentered(1136 / 2 - 50, 630 / 2, "UI/get-ready-for-next-wave-alien-text.png", 100);
-                    _nextWaveNumberSprites = AddImageLabel(Convert.ToInt32(_nextWaveSprite.PositionX + _nextWaveSprite.ContentSize.Width / 2), Convert.ToInt32(_nextWaveSprite.PositionY - _nextWaveSprite.ContentSize.Height / 2), (_wave + 1).ToString(), 99);
-                    ScheduleOnce(NextWave, 3);
                 }
-                else
+                if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + _lives.Count * 200) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
                 {
-                    switch (_wave)
+                    _flyingSaucerIncoming = 2;
+                    _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerIncoming);
+                }
+                else if (_flyingSaucerWait > 0)
+                {
+                    _flyingSaucerWait -= dt;
+                }
+
+                if (_flyingSaucerIncoming > 0 && _playerExplosion == null)
+                {
+                    _flyingSaucerIncoming -= dt;
+                    if (_flyingSaucerIncoming <= 0)
                     {
-                        case 1:
-                            GameEnvironment.PlayMusic(Music.NextWave);
-                            _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-next-wave-text.png", 100);
-                            if (Settings.Instance.VoiceoversEnabled)
-                            {
-                                CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
-                            }
+                        CCAudioEngine.SharedEngine.StopEffect(_flyingSaucerFlyingFxId.Value);
+                        _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerFlying);
+                        _flyingSaucerFrame = 0;
+                        _flyingSaucer = new CCSprite(SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_00.png"));
+                        if (_random.Next(2) == 0)
+                        {
+                            _flyingSaucer.Position = new CCPoint(1210, 560);
+                            _flyingSaucerSpeed = -5;
+                        }
+                        else
+                        {
+                            _flyingSaucer.Position = new CCPoint(-200, 560);
+                            _flyingSaucerSpeed = 5;
+                        }
+                        _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
+                        AddChild(_flyingSaucer);
+                    }
+                }
 
 
-                            if (SelectedBattleground == Battlegrounds.Finland)
-                            {
-                                _fireworkFrame = 1f;
-                                ScheduleOnce(NextWave, 4.5f);
-                            }
-                            else
-                            {
-                                ScheduleOnce(NextWave, 3);
-                            }
-                            break;
-                        case 2:
+                if (_flyingSaucerExplosion != null)
+                {
+                    _flyingSaucerExplosionFrame += 0.5f;
 
-                            GameEnvironment.PlayMusic(Music.NextWave);
-                            _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-final-wave-text.png", 100);
-                            if (Settings.Instance.VoiceoversEnabled)
-                            {
-                                CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for final wave VO_mono.wav");
-                            }
-                            if (SelectedBattleground == Battlegrounds.Finland)
-                            {
-                                _fireworkFrame = 1f;
-                                ScheduleOnce(NextWave, 4.5f);
-                            }
-                            else
-                            {
-                                ScheduleOnce(NextWave, 3);
-                            }
-                            break;
-                        case 3:
-                            if (_launchMode == LaunchMode.Default)
-                            {
+                    _flyingSaucerExplosion.PositionX += _flyingSaucerSpeed;
+
+                    if (_flyingSaucerExplosionFrame > 8)
+                    {
+                        _flyingSaucerExplosion.Opacity = Convert.ToByte(280 - Convert.ToInt32(_flyingSaucerExplosionFrame * 7));
+                    }
+
+                    if (_flyingSaucer != null) { _flyingSaucer.Opacity -= 10; }
+
+                    if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 8 && _flyingSaucer != null)
+                    {
+                        RemoveChild(_flyingSaucer);
+                        _flyingSaucer = null;
+                    }
+
+                    if (Convert.ToInt32(_flyingSaucerExplosionFrame) > 29)
+                    {
+                        RemoveChild(_flyingSaucerExplosion);
+                        _flyingSaucerExplosion = null;
+                    }
+                    else
+                    {
+                        _flyingSaucerExplosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(_flyingSaucerExplosionFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
+                    }
+                }
+
+                if (bounce)
+                {
+                    _enemyAcceleration = -_enemyCurrentSpeed / 30f;
+                    _bounces++;
+                    if (_bounces > 4)
+                    {
+                        _goingDown = 32;
+                        _bounces = 0;
+                    }
+                }
+                _enemyCurrentSpeed += _enemyAcceleration;
+                if (_enemyCurrentSpeed < -_enemySpeed)
+                {
+                    _enemyAcceleration = 0;
+                    _enemyCurrentSpeed = -_enemySpeed;
+                }
+                if (_enemyCurrentSpeed > _enemySpeed)
+                {
+                    _enemyAcceleration = 0;
+                    _enemyCurrentSpeed = _enemySpeed;
+                }
+
+                if (_updateTillNextBomb > 0) _updateTillNextBomb--;
+
+
+                if (_enemies.Count == 0 && _bombs.Count == 0 && _playerExplosion == null && !_waveTransfer)
+                {
+                    _waveTransfer = true;
+                    if (SelectedEnemy == Enemies.Aliens)
+                    {
+                        GameEnvironment.PlayMusic(Music.NextWaveAlien);
+                        if (Settings.Instance.VoiceoversEnabled)
+                        {
+                            CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
+                        }
+                        _nextWaveSprite = AddImageCentered(1136 / 2 - 50, 630 / 2, "UI/get-ready-for-next-wave-alien-text.png", 100);
+                        _nextWaveNumberSprites = AddImageLabel(Convert.ToInt32(_nextWaveSprite.PositionX + _nextWaveSprite.ContentSize.Width / 2), Convert.ToInt32(_nextWaveSprite.PositionY - _nextWaveSprite.ContentSize.Height / 2), (_wave + 1).ToString(), 99);
+                        ScheduleOnce(NextWave, 3);
+                    }
+                    else
+                    {
+                        switch (_wave)
+                        {
+                            case 1:
+                                GameEnvironment.PlayMusic(Music.NextWave);
+                                _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-next-wave-text.png", 100);
                                 if (Settings.Instance.VoiceoversEnabled)
                                 {
-                                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Victory VO_mono.wav");
+                                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
                                 }
-                                AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-victory!!!-text.png", 100);
-                            }
-                            GameEnvironment.PlaySoundEffect(SoundEffect.TextAppears);
-                            //this.UnscheduleAll();
-                            if (SelectedBattleground == Battlegrounds.Finland)
-                            {
-                                _fireworkFrame = 1f;
-                                ScheduleOnce(Victory, 4.5f);
-                            }
-                            if (SelectedBattleground == Battlegrounds.WhiteHouse)
-                            {
-                                ScheduleOnce(Victory, 0.5f);
-                            }
-                            else
-                            {
-                                ScheduleOnce(Victory, 1);
-                            }
-                            break;
+
+
+                                if (SelectedBattleground == Battlegrounds.Finland)
+                                {
+                                    _fireworkFrame = 1f;
+                                    ScheduleOnce(NextWave, 4.5f);
+                                }
+                                else
+                                {
+                                    ScheduleOnce(NextWave, 3);
+                                }
+                                break;
+                            case 2:
+
+                                GameEnvironment.PlayMusic(Music.NextWave);
+                                _nextWaveSprite = AddImageCentered(1136 / 2, 630 / 2, "UI/get-ready-for-final-wave-text.png", 100);
+                                if (Settings.Instance.VoiceoversEnabled)
+                                {
+                                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for final wave VO_mono.wav");
+                                }
+                                if (SelectedBattleground == Battlegrounds.Finland)
+                                {
+                                    _fireworkFrame = 1f;
+                                    ScheduleOnce(NextWave, 4.5f);
+                                }
+                                else
+                                {
+                                    ScheduleOnce(NextWave, 3);
+                                }
+                                break;
+                            case 3:
+                                if (_launchMode == LaunchMode.Default)
+                                {
+                                    if (Settings.Instance.VoiceoversEnabled)
+                                    {
+                                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/Victory VO_mono.wav");
+                                    }
+                                    AddImageCentered(1136 / 2, 630 / 2, "UI/Battle-screen-victory!!!-text.png", 100);
+                                }
+                                GameEnvironment.PlaySoundEffect(SoundEffect.TextAppears);
+                                //this.UnscheduleAll();
+                                if (SelectedBattleground == Battlegrounds.Finland)
+                                {
+                                    _fireworkFrame = 1f;
+                                    ScheduleOnce(Victory, 4.5f);
+                                }
+                                if (SelectedBattleground == Battlegrounds.WhiteHouse)
+                                {
+                                    ScheduleOnce(Victory, 0.5f);
+                                }
+                                else
+                                {
+                                    ScheduleOnce(Victory, 1);
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                if (_wavePass > 0)
+                {
+                    _wavePass -= Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 4 : _enemySpeed * 3;
+                }
+
+
+                if (_nextWaveSprite != null)
+                {
+                    if (_nextWaveSprite.Opacity < 10)
+                    {
+                        _nextWaveSprite.Opacity = 255;
+                    }
+                    else if (_nextWaveSprite.Opacity > 240)
+                    {
+                        _nextWaveSprite.Opacity -= 1;
+                    }
+                    else if (_nextWaveSprite.Opacity > 225)
+                    {
+                        _nextWaveSprite.Opacity -= 2;
+                    }
+                    else if (_nextWaveSprite.Opacity > 200)
+                    {
+                        _nextWaveSprite.Opacity -= 3;
+                    }
+                    else
+                    {
+                        _nextWaveSprite.Opacity -= 5;
+                    }
+                    if (_timeLabel.Visible)
+                    {
+                        _timeLabel.Opacity = _nextWaveSprite.Opacity;
+                        foreach (var timeDigit in _time)
+                        {
+                            timeDigit.Opacity = _nextWaveSprite.Opacity;
+                        }
+                    }
+                    if (_nextWaveNumberSprites != null)
+                    {
+                        foreach (var waveDigit in _nextWaveNumberSprites)
+                        {
+                            waveDigit.Opacity = _nextWaveSprite.Opacity;
+                        }
+                    }
+                    if (_multiplierLabel != null)
+                    {
+                        _multiplierLabel.Opacity = _nextWaveSprite.Opacity;
+                    }
+                    if (_multiplierLabelLabel != null && _scoreMultiplier > 1)
+                    {
+                        _multiplierLabelLabel.Opacity = _nextWaveSprite.Opacity;
                     }
                 }
             }
-
-            if (_wavePass > 0)
+            catch (Exception ex)
             {
-                _wavePass -= Math.Abs(_enemySpeed) < AppConstants.Tolerance ? 4 : _enemySpeed * 3;
-            }
-
-
-            if (_nextWaveSprite != null)
-            {
-                if (_nextWaveSprite.Opacity < 10)
-                {
-                    _nextWaveSprite.Opacity = 255;
-                }
-                else if (_nextWaveSprite.Opacity > 240)
-                {
-                    _nextWaveSprite.Opacity -= 1;
-                }
-                else if (_nextWaveSprite.Opacity > 225)
-                {
-                    _nextWaveSprite.Opacity -= 2;
-                }
-                else if (_nextWaveSprite.Opacity > 200)
-                {
-                    _nextWaveSprite.Opacity -= 3;
-                }
-                else
-                {
-                    _nextWaveSprite.Opacity -= 5;
-                }
-                if (_timeLabel.Visible)
-                {
-                    _timeLabel.Opacity = _nextWaveSprite.Opacity;
-                    foreach (var timeDigit in _time)
-                    {
-                        timeDigit.Opacity = _nextWaveSprite.Opacity;
-                    }
-                }
-                if (_nextWaveNumberSprites != null)
-                {
-                    foreach (var waveDigit in _nextWaveNumberSprites)
-                    {
-                        waveDigit.Opacity = _nextWaveSprite.Opacity;
-                    }
-                }
-                if (_multiplierLabel != null)
-                {
-                    _multiplierLabel.Opacity = _nextWaveSprite.Opacity;
-                }
-                if (_multiplierLabelLabel != null && _scoreMultiplier > 1)
-                {
-                    _multiplierLabelLabel.Opacity = _nextWaveSprite.Opacity;
-                }
+                var t = 0;
             }
         }
 
