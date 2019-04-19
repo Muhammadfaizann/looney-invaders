@@ -182,14 +182,11 @@ namespace LooneyInvaders.Droid
 
             LoadInterstitial();
 
-
-#if (DEBUG == false)
             // set up in-game purchases
             InGamePurchasesAsync();
 
             PurchaseManager.PurchaseHandler = PurchaseProduct;
             VibrationManager.VibrationHandler = Vibrate;
-#endif
 
             LeaderboardManager.SubmitScoreHandler = SubmitScore;
             LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboardsAsync;
