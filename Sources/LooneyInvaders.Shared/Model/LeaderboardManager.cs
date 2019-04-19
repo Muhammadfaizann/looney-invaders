@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Plugin.Settings;
+using LooneyInvaders.Extensions;
+using LBIField = LooneyInvaders.Model.Enums.LeaderBoardItemField;
 
 namespace LooneyInvaders.Model
 {
@@ -65,6 +67,40 @@ namespace LooneyInvaders.Model
         {
             get => CrossSettings.Current.GetValueOrDefault("BestScorePro_Submitted", false);
             set => CrossSettings.Current.AddOrUpdateValue("BestScorePro_Submitted", value);
+        }
+
+        public static object GetPlayerRankRegularDailyField(LBIField field)
+        {
+            return PlayerRankRegularDaily.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankRegularWeeklyField(LBIField field)
+        {
+            return PlayerRankRegularWeekly.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankRegularMonthlyField(LBIField field)
+        {
+            return PlayerRankRegularMonthly.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankRegularAlltimeField(LBIField field)
+        {
+            return PlayerRankRegularAlltime.GetLeaderboardItemField(field);
+        }
+
+        public static object GetPlayerRankProDailyField(LBIField field)
+        {
+            return PlayerRankProDaily.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankProWeeklyField(LBIField field)
+        {
+            return PlayerRankProWeekly.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankProMonthlyField(LBIField field)
+        {
+            return PlayerRankProMonthly.GetLeaderboardItemField(field);
+        }
+        public static object GetPlayerRankProAlltimeField(LBIField field)
+        {
+            return PlayerRankProAlltime.GetLeaderboardItemField(field);
         }
 
         public static LeaderboardItem PlayerRankRegularDaily = null;
