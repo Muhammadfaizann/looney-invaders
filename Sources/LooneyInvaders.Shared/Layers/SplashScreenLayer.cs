@@ -14,7 +14,7 @@ namespace LooneyInvaders.Layers
         {
             Enabled = false;
             EnabledTouch = false;
-            SetBackground("UI/Splash-screen-background-2.jpg");
+            ScheduleOnce((obj) => SetBackground("UI/Splash-screen-background-2.jpg"), 0f);
             Settings.Instance.ApplyValues(false);
 
             GameEnvironment.PlayMusic(Music.SplashScreen);
