@@ -151,27 +151,26 @@ namespace LooneyInvaders.Droid
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
 
-            AdBanner = new AdView(Application.Context);
-            AdBanner.AdSize = AdSize.SmartBanner;
-            AdBanner.AdUnitId = "ca-app-pub-5373308786713201/9938442971"; // Android
-            //_adBanner.AdUnitId = "ca-app-pub-5373308786713201/3891909370";   // iOS
-            AdBanner.Id = 999;
-            AdBanner.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent);
-            var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
-            AdBanner.SetY(0);
-            AdBanner.SetX(0);
-
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
             requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
             //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
 
+            AdBanner = new AdView(Application.Context)
+            {
+                AdSize = AdSize.SmartBanner,
+                AdUnitId = "ca-app-pub-5373308786713201/9938442971", // Android
+                //AdUnitId = "ca-app-pub-5373308786713201/3891909370";   // iOS
+                Id = 999,
+                LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
+            };
+            AdBanner.SetY(0);
+            AdBanner.SetX(0);
             AdBanner.LoadAd(requestbuilder.Build());
-
-            AdBanner.Visibility = ViewStates.Invisible;
-
-            AddContentView(AdBanner, adParams);
+            AdBanner.ChangeVisibility(ViewStates.Invisible);
             AdBanner.AdListener = new AdListenerEx(AdBanner);
+            var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
+            AddContentView(AdBanner, adParams);
 
             AdMobManager.ShowBannerTopHandler = ShowBannerTop;
             AdMobManager.ShowBannerBottomHandler = ShowBannerBottom;
@@ -607,10 +606,10 @@ namespace LooneyInvaders.Droid
 
         private void ShowBannerTopUiThread()
         {
-            AdBanner.SetY(0);
-            AdBanner.SetX(0);
-            AdBanner.Visibility = ViewStates.Visible;
-            AdBanner.BringToFront();
+            AdBanner?.SetY(0);
+            AdBanner?.SetX(0);
+            AdBanner.ChangeVisibility(ViewStates.Visible);
+            AdBanner?.BringToFront();
         }
 
         public void ShowBannerBottom()
@@ -620,15 +619,22 @@ namespace LooneyInvaders.Droid
 
         private void ShowBannerBottomUiThread()
         {
-            var size = new Point();
-            WindowManager.DefaultDisplay.GetRealSize(size);
+            try
+            {
+                var size = new Point();
+                WindowManager.DefaultDisplay.GetRealSize(size);
 
-            AdBanner.SetY(size.Y - AdBanner.AdSize.GetHeightInPixels(Application.Context));
-            //_adBanner.SetX( size.X /2  - _adBanner.AdSize.GetWidthInPixels(Application.Context) / 2);
-            AdBanner.SetX(0);
+                AdBanner?.SetY(size.Y - AdBanner.AdSize.GetHeightInPixels(Application.Context));
+                //_adBanner.SetX( size.X /2  - _adBanner.AdSize.GetWidthInPixels(Application.Context) / 2);
+                AdBanner?.SetX(0);
 
-            AdBanner.Visibility = ViewStates.Visible;
-            AdBanner.BringToFront();
+                AdBanner.ChangeVisibility(ViewStates.Visible);
+                AdBanner?.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
         }
 
         public void HideBanner()
@@ -638,7 +644,7 @@ namespace LooneyInvaders.Droid
 
         private void HideBannerUiThread()
         {
-            AdBanner.Visibility = ViewStates.Invisible;
+            AdBanner.ChangeVisibility(ViewStates.Invisible);
         }
 
         private bool _isAdsShoving;
