@@ -322,6 +322,7 @@
     <Compile Include="Services\DeviceInfo\DeviceInfoService.cs" />
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
+    <Compile Include="Extensions\ViewExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -536,6 +537,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
