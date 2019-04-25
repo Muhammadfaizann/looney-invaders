@@ -15,7 +15,7 @@ namespace LooneyInvaders.Model
         private static Leaderboard _proLeaderboard;
         public static Leaderboard ProLeaderboard => _proLeaderboard ?? (_proLeaderboard = new Leaderboard(LeaderboardType.Pro));
 
-        public delegate void SubmitScoreDelegate(double score, double accuracy, double fastestTime, double levelsCompleted);
+        public delegate Task SubmitScoreDelegate(double score, double accuracy, double fastestTime, double levelsCompleted);
         public static SubmitScoreDelegate SubmitScoreHandler;
 
         public delegate void RefreshLeaderboardsDelegate(Leaderboard leaderboard);

@@ -1,22 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Foundation;
-using UIKit;
-using CoreMotion;
-using CocosSharp;
-using LooneyInvaders.Shared;
-using CoreGraphics;
-using Google.MobileAds;
 using CC.Mobile.Purchases;
-using com.shephertz.app42.paas.sdk.csharp;
-using com.shephertz.app42.paas.sdk.csharp.game;
-using com.shephertz.app42.paas.sdk.csharp.storage;
+using CoreGraphics;
+using CoreMotion;
+using Foundation;
+using Google.MobileAds;
+using UIKit;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services.App42;
+using LooneyInvaders.Shared;
 
 namespace LooneyInvaders.iOS
 {
-    public partial class ViewController : UIViewController
+    public partial class ViewController : UIViewController, IApp42ServiceInitialization
     {
         private CMMotionManager _motionManager;
         private BannerView _adViewWindow;
@@ -27,8 +23,7 @@ namespace LooneyInvaders.iOS
         private IPurchaseService _svc;
         //string _googlePlayGamesClientId = "647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt.apps.googleusercontent.com";
 
-        public ViewController(IntPtr handle)
-            : base(handle)
+        public ViewController(IntPtr handle) : base(handle)
         { }
 
         public override async void ViewDidLoad()
@@ -41,10 +36,11 @@ namespace LooneyInvaders.iOS
             _motionManager = new CMMotionManager();
             _motionManager.StartDeviceMotionUpdates();
 
+            InitScoreBoardService();
+            InitStorageService();
 
             //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
-
 
             GameView.MultipleTouchEnabled = true;
 
@@ -68,8 +64,8 @@ namespace LooneyInvaders.iOS
             //SignIn.SharedInstance.UIDelegate = this;
             //Google.Play.GameServices.Manager.SharedInstance.SignIn(googlePlayGamesClientID, false);
 
-            LeaderboardManager.SubmitScoreHandler = SubmitScore;
-            LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboardsAsync;
+            LeaderboardManager.SubmitScoreHandler = SubmitScoreAsync;
+            LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboards;
 
             // social network sharing
             SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
@@ -85,99 +81,29 @@ namespace LooneyInvaders.iOS
             GameView.ViewCreated += GameDelegate.LoadGame;
         }
 
+        public void InitScoreBoardService()
+        {
+            App42.ScoreBoardService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 400);
+        }
+
+        public void InitStorageService()
+        {
+            App42.StorageService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey);
+        }
+
         private bool UsernameGUIDInsertHandler(string guid)
         {
-            Console.WriteLine("GUID insert " + guid);
-
-            const string dbName = "users";
-            const string collectionName = "users";
-            var json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
-
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            var storageService = App42API.BuildStorageService();
-
-            var storage = storageService.InsertJSONDocument(dbName, collectionName, json);
-            var jsonDocList = storage.GetJsonDocList();
-
-            var id = jsonDocList[0].GetDocId();
-            var playerName = "player_" + id.Substring(id.Length - 9, 8);
-
-            UserManager.UserGuid = guid;
-            Player.Instance.Name = playerName;
-
-            json = "{\"name\":\"" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
-            storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
-
-            return true;
+            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
         }
 
         private bool CheckIsUsernameFree(string username)
         {
-            Console.WriteLine("Check is username free " + username);
-
-            const string dbName = "users";
-            const string collectionName = "users";
-
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            var storageService = App42API.BuildStorageService();
-
-            try
-            {
-                var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "name", username.ToUpper());
-                var jsonDocList = storage.GetJsonDocList();
-
-                if (jsonDocList.Count == 0) return true; // no user
-                if (jsonDocList[0].GetJsonDoc().Contains(UserManager.UserGuid)) return true; // this user
-            }
-            catch (App42Exception)
-            {
-                return true;
-            }
-
-            return false;
+            return App42.StorageService.Instance.CheckIsUsernameFree(username);
         }
 
         private bool ChangeUsername(string username)
         {
-            Console.WriteLine("Change username");
-
-            const string dbName = "users";
-            const string collectionName = "users";
-            var guid = UserManager.UserGuid;
-
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            var storageService = App42API.BuildStorageService();
-
-            var storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
-            IList<Storage.JSONDocument> jsonDocList;
-
-            try
-            {
-                jsonDocList = storage.GetJsonDocList();
-            }
-            catch (App42NotFoundException)
-            {
-                UserManager.GenerateGuid();
-
-                try
-                {
-                    storage = storageService.FindDocumentByKeyValue(dbName, collectionName, "guid", guid);
-                    jsonDocList = storage.GetJsonDocList();
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-
-            var id = jsonDocList[0].GetDocId();
-
-            var json = "{\"name\":\"" + username.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
-            storageService.UpdateDocumentByDocId(dbName, collectionName, id, json);
-
-            Player.Instance.Name = username;
-
-            return true;
+            return App42.StorageService.Instance.ChangeUsername(username);
         }
 
         private float RadiansToDegrees(double radians)
@@ -201,26 +127,53 @@ namespace LooneyInvaders.iOS
         {
             base.ViewWillDisappear(animated);
 
-            await _svc.Pause();
-
-            if (GameView != null)
+            try
             {
-                GameView.Paused = true;
-                CCAudioEngine.SharedEngine.PauseBackgroundMusic();
+                await _svc.Pause();
+
+                if (GameView != null)
+                {
+                    GameView.ViewCreated -= GameDelegate.LoadGame;
+                }
+                GameDelegate.Layer?.Pause();
             }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
+
+            //if (GameView != null)
+            //{
+            //    GameView.Paused = true;
+            //    CCAudioEngine.SharedEngine.PauseBackgroundMusic();
+            //}
         }
 
         public override async void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
-            await _svc.Resume();
-
-            if (GameView != null && GameView.Paused)
+            try
             {
-                GameView.Paused = false;
-                CCAudioEngine.SharedEngine.PauseBackgroundMusic();
+                await _svc.Resume();
+
+                if (GameView != null)
+                {
+                    GameView.ViewCreated -= GameDelegate.LoadGame;
+                    GameView.ViewCreated += GameDelegate.LoadGame;
+                }
+                GameDelegate.Layer?.Resume();
             }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
+
+            //if (GameView != null && GameView.Paused)
+            //{
+            //    GameView.Paused = false;
+            //    CCAudioEngine.SharedEngine.PauseBackgroundMusic();
+            //}
         }
 
         private void AddBannerToWindowTop()
@@ -392,169 +345,15 @@ namespace LooneyInvaders.iOS
             AudioToolbox.SystemSound.Vibrate.PlaySystemSound();
         }
 
-        private LeaderboardItem GetPlayerRanking(ScoreBoardService scoreBoardService, string gameName, LeaderboardType type)
+        private async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
         {
-            try
-            {
-                var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
-
-                if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
-                {
-                    if (game.GetScoreList()[0].GetValue() > 0)
-                    {
-                        if (type == LeaderboardType.Regular)
-                            return LeaderboardManager.DecodeScoreRegular(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
-                        if (type == LeaderboardType.Pro)
-                            return LeaderboardManager.DecodeScorePro(Convert.ToInt32(game.GetScoreList()[0].GetRank()), game.GetScoreList()[0].GetUserName(), game.GetScoreList()[0].GetValue());
-                    }
-                }
-            }
-            catch (App42NotFoundException nfe)
-            {
-                Console.WriteLine(nfe.Message);
-            }
-
-            return null;
+            await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
         }
 
-        private void SubmitScore(double score, double accuracy, double fastestTime, double levelsCompleted)
-        {
-            Console.WriteLine("Leaderboard submit");
-
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-            var scoreBoardService = App42API.BuildScoreBoardService();
-
-            if (Math.Abs(levelsCompleted - -1) < AppConstants.Tolerance) // regular scoreboard
-            {
-                LeaderboardManager.PlayerRankRegularDaily = null;
-                LeaderboardManager.PlayerRankRegularWeekly = null;
-                LeaderboardManager.PlayerRankRegularMonthly = null;
-                LeaderboardManager.PlayerRankRegularAlltime = null;
-
-                var gameScoreRegular = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
-
-                scoreBoardService.SaveUserScore("Looney Earth Daily", Player.Instance.Name, gameScoreRegular);
-                scoreBoardService.SaveUserScore("Looney Earth Weekly", Player.Instance.Name, gameScoreRegular);
-                scoreBoardService.SaveUserScore("Looney Earth Monthly", Player.Instance.Name, gameScoreRegular);
-                scoreBoardService.SaveUserScore("Looney Earth Alltime", Player.Instance.Name, gameScoreRegular);
-
-                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(scoreBoardService, "Looney Earth Alltime", LeaderboardType.Regular);
-            }
-            else
-            {
-                LeaderboardManager.PlayerRankProDaily = null;
-                LeaderboardManager.PlayerRankProWeekly = null;
-                LeaderboardManager.PlayerRankProMonthly = null;
-                LeaderboardManager.PlayerRankProAlltime = null;
-
-                var gameScorePro = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
-
-                scoreBoardService.SaveUserScore("Looney Moon Daily", Player.Instance.Name, gameScorePro);
-                scoreBoardService.SaveUserScore("Looney Moon Weekly", Player.Instance.Name, gameScorePro);
-                scoreBoardService.SaveUserScore("Looney Moon Monthly", Player.Instance.Name, gameScorePro);
-                scoreBoardService.SaveUserScore("Looney Moon Alltime", Player.Instance.Name, gameScorePro);
-
-                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(scoreBoardService, "Looney Moon Alltime", LeaderboardType.Pro);
-            }
-        }
-
-        private void FillLeaderboard(ScoreBoardService scoreBoardService, LeaderboardType type, List<LeaderboardItem> scoreList, string gameName)
-        {
-            scoreList.Clear();
-
-            try
-            {
-                var game = scoreBoardService.GetTopNRankers(gameName, 10);
-
-                if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
-                {
-                    for (var i = 0; i < game.GetScoreList().Count; i++)
-                    {
-                        if (game.GetScoreList()[i].GetValue() > 0)
-                        {
-                            LeaderboardItem lbi = null;
-
-                            if (type == LeaderboardType.Regular) lbi = LeaderboardManager.DecodeScoreRegular(i + 1, game.GetScoreList()[i].GetUserName(), game.GetScoreList()[i].GetValue());
-                            else if (type == LeaderboardType.Pro) lbi = LeaderboardManager.DecodeScorePro(i + 1, game.GetScoreList()[i].GetUserName(), game.GetScoreList()[i].GetValue());
-
-                            if (lbi != null) scoreList.Add(lbi);
-                        }
-                    }
-                }
-            }
-            catch (App42NotFoundException)
-            {
-
-            }
-        }
-
-
-        private void RefreshLeaderboardsAsync(Leaderboard leaderboard)
-        {
-            //---------- Prabhjot Singh ------//
-            // await Task.Run(() => refreshLeaderboards(leaderboard));
-        }
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
         {
-            switch (leaderboard.Type)
-            {
-                case LeaderboardType.Regular:
-                    Console.WriteLine("Leaderboard refresh - REGULAR");
-                    break;
-                case LeaderboardType.Pro:
-                    Console.WriteLine("Leaderboard refresh - PRO");
-                    break;
-                default:
-                    Console.WriteLine("Leaderboard refresh - ???");
-                    break;
-            }
-
-            App42API.Initialize("a0aa82036ff74c83b602de87b68a396cf724df6786ae9caa260e1175a7c8ce26", "14be26afb208c96b1cf16b3b197a988f451bfcf2e0ef2bc6c2dbd6f494f07382");
-
-            string gameName;
-
-            switch (leaderboard.Type)
-            {
-                case LeaderboardType.Regular:
-                    gameName = "Looney Earth";
-                    break;
-                case LeaderboardType.Pro:
-                    gameName = "Looney Moon";
-                    break;
-                default:
-                    return;
-            }
-
-            var scoreBoardService = App42API.BuildScoreBoardService();
-
-            FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreDaily, gameName + " Daily");
-            FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreWeekly, gameName + " Weekly");
-            FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreMonthly, gameName + " Monthly");
-            FillLeaderboard(scoreBoardService, leaderboard.Type, leaderboard.ScoreAllTime, gameName + " Alltime");
-
-            if (leaderboard.Type == LeaderboardType.Regular)
-            {
-                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(scoreBoardService, "Looney Earth Daily", LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(scoreBoardService, "Looney Earth Weekly", LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(scoreBoardService, "Looney Earth Monthly", LeaderboardType.Regular);
-                //LooneyInvaders.Model.LeaderboardManager.PlayerRankRegularAlltime = getPlayerRanking(scoreBoardService, "Looney Earth Alltime", LooneyInvaders.Model.LeaderboardType.REGULAR);
-            }
-            else if (leaderboard.Type == LeaderboardType.Pro)
-            {
-                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(scoreBoardService, "Looney Moon Daily", LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(scoreBoardService, "Looney Moon Weekly", LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(scoreBoardService, "Looney Moon Monthly", LeaderboardType.Pro);
-                //LooneyInvaders.Model.LeaderboardManager.PlayerRankProAlltime = getPlayerRanking(scoreBoardService, "Looney Moon Alltime", LooneyInvaders.Model.LeaderboardType.PRO);
-            }
-
-            BeginInvokeOnMainThread(() => { FireLeaderboardRefreshed(); });
+            App42.ScoreBoardService.Instance.RefreshLeaderboards(leaderboard);
         }
 
         private void FireLeaderboardRefreshed()

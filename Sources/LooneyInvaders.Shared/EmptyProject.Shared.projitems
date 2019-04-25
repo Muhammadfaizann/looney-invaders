@@ -87,15 +87,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\PushNotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\IOpenSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\INotificationAllowedService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ScoreBoard\ScoreBoardService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\App42\ScoreBoardService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\LeaderBoardItemField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\LeaderboardItemExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\App42\StorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\App42\IApp42ServiceInitialization.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\" />
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\PNS\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Services\ScoreBoard\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\App42\" />
   </ItemGroup>
 </Project>
