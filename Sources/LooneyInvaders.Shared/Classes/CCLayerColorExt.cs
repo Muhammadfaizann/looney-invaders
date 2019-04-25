@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 
@@ -61,18 +62,22 @@ namespace LooneyInvaders.Classes
                 Background.Dispose();
             }
 
-            Background = new CCSprite(GameEnvironment.ImageDirectory + imageName);
-            Background.AnchorPoint = new CCPoint(0, 0);
-            Background.Position = new CCPoint(0, 0);
+            Background = new CCSprite(GameEnvironment.ImageDirectory + imageName, CCRect.Zero)
+            {
+                AnchorPoint = new CCPoint(0, 0),
+                Position = new CCPoint(0, 0)
+            };
             AddChild(Background, -1000);
         }
 
         public CCSprite AddImageCentered(int x, int y, string imageName, int zOrder)
         {
-            var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName);
-            sprite.AnchorPoint = new CCPoint(0.5f, 0.5f);
-            sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
-            sprite.Position = new CCPoint(x, y);
+            var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName)
+            {
+                AnchorPoint = new CCPoint(0.5f, 0.5f),
+                BlendFunc = GameEnvironment.BlendFuncDefault,
+                Position = new CCPoint(x, y)
+            };
             AddChild(sprite, zOrder);
             return sprite;
         }
@@ -655,19 +660,18 @@ namespace LooneyInvaders.Classes
         {
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
-            //GC.WaitForPendingFinalizers();
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(layer);
+
             var transition = new CCTransitionFade(0.3f, gameScene);
             Director.ReplaceScene(transition);
         }
 
-        public void TransitionToLayerCartoonStyle(CCLayerColorExt layer)
+        public async Task TransitionToLayerCartoonStyle(CCLayerColorExt layer)
         {
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
-            //GC.WaitForPendingFinalizers();
 
             Enabled = false;
             LayerTransitionTarget = layer;
@@ -714,7 +718,7 @@ namespace LooneyInvaders.Classes
             actions[1] = new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            transitionImageSource.RunAction(seq);
+            await transitionImageSource.RunActionAsync(seq);
             ScheduleOnce(playEffect1, 0.1f);
             ScheduleOnce(playEffect2, 0.2f);
             ScheduleOnce(playEffect3, 0.3f);

@@ -616,13 +616,15 @@ namespace LooneyInvaders.Layers
             Schedule(FadeScoreNode);
         }
 
-        private void BtnContinue_OnClick(object sender, EventArgs e)
+        private async void BtnContinue_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
-            TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
+
+            var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void FadeScoreNode(float dt)
@@ -642,32 +644,32 @@ namespace LooneyInvaders.Layers
             _youAreDefeated.Opacity = (byte)(255 - _scoreNode.Opacity);
         }
 
-        private void mainMenu_OnClick(object sender, EventArgs e)
+        private async void mainMenu_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             AdMobManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void revenge_OnClick(object sender, EventArgs e)
+        private async void revenge_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
 
-            TransitionToLayerCartoonStyle(new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true));
+            var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
+            await TransitionToLayerCartoonStyle(newLayer);
         }
-
-
 
         //CCNodeExt shareNode;
         //CCSpriteTwoStateButton shareScoreBoard;
         //CCSpriteTwoStateButton shareTwitter;
         //CCSpriteTwoStateButton shareFacebook;
-
 
         private CCNodeExt _sl;
 

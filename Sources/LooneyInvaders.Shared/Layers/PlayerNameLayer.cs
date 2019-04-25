@@ -269,24 +269,24 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             if (_layerBack != null)
             {
                 Shared.GameDelegate.OnBackButton -= BtnBack_OnClick;
                 _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
-                //this.TransitionToPoppedLayerCartoonStyle();
             }
             else
             {
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
-                TransitionToLayerCartoonStyle(new MainScreenLayer());
+                var newLayer = new MainScreenLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
         }
 
-        private void BtnForward_OnClick(object sender, EventArgs e)
+        private async void BtnForward_OnClick(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(_strInput))
             {
@@ -334,12 +334,12 @@ namespace LooneyInvaders.Layers
             {
                 _layerBack.IsCartoonFadeIn = false;
                 Director.PopScene();
-                //this.TransitionToPoppedLayerCartoonStyle();
                 _layerBack.RefreshPlayerName();
             }
             else
             {
-                TransitionToLayerCartoonStyle(new MainScreenLayer());
+                var newLayer = new MainScreenLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
         }
     }

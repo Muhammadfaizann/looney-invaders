@@ -36,13 +36,14 @@ namespace LooneyInvaders.Layers
             _imgPage = AddImage(197, 45, "UI/privacy-policy-page1-plain-text.png");
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             if (_activePage == 1)
             {
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
-                TransitionToLayerCartoonStyle(new GameInfoScreenLayer());
+                var newLayer = new GameInfoScreenLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else
             {
@@ -52,11 +53,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
-		private void BtnBackThrow_OnClick(object sender, EventArgs e)
+		private async void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void SetImages()

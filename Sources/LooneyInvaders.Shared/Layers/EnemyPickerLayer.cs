@@ -234,7 +234,7 @@ namespace LooneyInvaders.Layers
             _btnGameTipCheckMark.SetStateImages();
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
@@ -248,7 +248,8 @@ namespace LooneyInvaders.Layers
             _isHoldAnimations = true;
             UnscheduleAll();
 
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
@@ -1757,7 +1758,7 @@ namespace LooneyInvaders.Layers
                             ScheduleOnce(NextWave, 3);
                             break;
                         case 3:
-                            ScheduleOnce(Victory, 1);
+                            ScheduleOnce(async (obj) => await Victory(obj), 1);
                             break;
                     }
                 }
@@ -1881,15 +1882,9 @@ namespace LooneyInvaders.Layers
 
         }
 
-        private void btnSurrender_OnClick(object sender, EventArgs e)
+        private async void btnSurrender_OnClick(object sender, EventArgs e)
         {
-            //elapsedTime += 200;
-
-            //Victory(0);
-
-            //score = 24500;
-            //wave = 13;
-            GameOver(0);
+            await GameOver(0f);
         }
 
         private void btnContinue_OnClick(object sender, EventArgs e)
@@ -1928,13 +1923,13 @@ namespace LooneyInvaders.Layers
                         switch (_wave)
                         {
                             case 1:
-                                ScheduleOnce(NextWave, 3);
+                                ScheduleOnce(NextWave, 3f);
                                 break;
                             case 2:
-                                ScheduleOnce(NextWave, 3);
+                                ScheduleOnce(NextWave, 3f);
                                 break;
                             case 3:
-                                ScheduleOnce(Victory, 1);
+                                ScheduleOnce(async (obj) => await Victory(obj), 1f);
                                 break;
                         }
                     }
@@ -2037,7 +2032,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void GameOver(float dt)
+        private async Task GameOver(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2053,21 +2048,36 @@ namespace LooneyInvaders.Layers
             if (_launchMode == LaunchMode.WeaponTest)
             {
                 AdMobManager.HideBanner();
-                TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
+
+                var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
                 AdMobManager.HideBanner();
-                TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
+
+                var newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
+                    (int)SelectedWeapon,
+                    CaliberSizeSelected,
+                    FireSpeedSelected,
+                    MagazineSizeSelected,
+                    LivesSelected);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else
             {
                 Settings.IsFromGameScreen = false;
-                TransitionToLayerCartoonStyle(new LossScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, _score, _wave));
+
+                var newLayer = new LossScreenLayer(SelectedEnemy,
+                    SelectedWeapon,
+                    SelectedBattleground,
+                    _score,
+                    _wave);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
         }
 
-        private void Victory(float dt)
+        private async Task Victory(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2086,12 +2096,21 @@ namespace LooneyInvaders.Layers
             if (_launchMode == LaunchMode.WeaponTest)
             {
                 AdMobManager.HideBanner();
-                TransitionToLayerCartoonStyle(new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon));
+
+                var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
                 AdMobManager.HideBanner();
-                TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
+
+                var newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
+                    (int)SelectedWeapon,
+                    CaliberSizeSelected,
+                    FireSpeedSelected,
+                    MagazineSizeSelected,
+                    LivesSelected);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_launchMode == LaunchMode.SteeringTest)
             {
@@ -2101,7 +2120,16 @@ namespace LooneyInvaders.Layers
             if (_launchMode == LaunchMode.Default)
             {
                 Settings.IsFromGameScreen = false;
-                TransitionToLayerCartoonStyle(new VictoryScreenLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, Convert.ToDecimal(_elapsedTime), Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired), _lives.Count, WinsInSuccession + 1));
+
+                var newLayer = new VictoryScreenLayer(
+                    SelectedEnemy,
+                    SelectedWeapon,
+                    SelectedBattleground,
+                    Convert.ToDecimal(_elapsedTime),
+                    Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
+                    _lives.Count,
+                    WinsInSuccession + 1);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
         }
 
@@ -3198,7 +3226,7 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        ScheduleOnce(GameOver, 1.6f);
+                        ScheduleOnce(async (obj) => await GameOver(obj), 1.6f);
                         _gameOverExplosion = null;
 
                     }
@@ -4034,15 +4062,15 @@ namespace LooneyInvaders.Layers
                                 if (SelectedBattleground == Battlegrounds.Finland)
                                 {
                                     _fireworkFrame = 1f;
-                                    ScheduleOnce(Victory, 4.5f);
+                                    ScheduleOnce(async (obj) => await Victory(obj), 4.5f);
                                 }
                                 if (SelectedBattleground == Battlegrounds.WhiteHouse)
                                 {
-                                    ScheduleOnce(Victory, 0.5f);
+                                    ScheduleOnce(async (obj) => await Victory(obj), 0.5f);
                                 }
                                 else
                                 {
-                                    ScheduleOnce(Victory, 1);
+                                    ScheduleOnce(async (obj) => await Victory(obj), 1);
                                 }
                                 break;
                         }
@@ -4104,7 +4132,7 @@ namespace LooneyInvaders.Layers
             }
             catch (Exception ex)
             {
-                var t = 0;
+                var mess = ex.Message;
             }
         }
 

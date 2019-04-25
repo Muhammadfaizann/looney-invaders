@@ -236,31 +236,11 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
             Unschedule(DisableBtn);
-
-
-            //----------------- Prabhjot ----------------//
-            /*    #if __IOS__
-                if (fakeTimer != null)
-                {
-                    fakeTimer.Invalidate();
-                    fakeTimer.Dispose();
-                    fakeTimer = null;
-
-                }
-                #endif
-
-           */
-
-            //if(fakeTimer != null)
-            //{
-            //    fakeTimer.UnscheduleAll();
-            //    fakeTimer = null;
-            //}
 
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
@@ -269,7 +249,8 @@ namespace LooneyInvaders.Layers
 
             if (_selectedWeapon == -1)
             {
-                TransitionToLayerCartoonStyle(new MainScreenLayer());
+                var newLayer = new MainScreenLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_caliberSizeSelected == -1)
             {

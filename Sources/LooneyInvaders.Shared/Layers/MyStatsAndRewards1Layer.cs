@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using CocosSharp;
-using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 using LooneyInvaders.DeviceInfo;
-using System.Linq;
-using System.Globalization;
 using LooneyInvaders.Extensions;
+using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Layers
 {
@@ -119,18 +119,20 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            TransitionToLayerCartoonStyle(new GameInfoScreenLayer());
+            var newLayer = new GameInfoScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnBackThrow_OnClick(object sender, EventArgs e)
+        private async void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)

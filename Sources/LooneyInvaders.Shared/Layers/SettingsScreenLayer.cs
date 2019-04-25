@@ -615,7 +615,7 @@ namespace LooneyInvaders.Layers
             RefreshSettings();
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             if (_pg1.Visible)
             {
@@ -634,7 +634,8 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                    TransitionToLayerCartoonStyle(new MainScreenLayer());
+                    var newLayer = new MainScreenLayer();
+                    await TransitionToLayerCartoonStyle(newLayer);
                 }
             }
             else if (!_pg2.Visible)
@@ -660,7 +661,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void BtnForward_OnClick(object sender, EventArgs e)
+        private async void BtnForward_OnClick(object sender, EventArgs e)
         {
             if (!_pg2.Visible)
             {
@@ -696,7 +697,8 @@ namespace LooneyInvaders.Layers
                 {
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                    TransitionToLayerCartoonStyle(new MainScreenLayer());
+                    var newLayer = new MainScreenLayer();
+                    await TransitionToLayerCartoonStyle(newLayer);
                 }
             }
         }
@@ -861,13 +863,14 @@ namespace LooneyInvaders.Layers
             Shared.GameDelegate.OnBackButton += BtnBackThrow_OnClick;
         }
 
-        private void BtnBackThrow_OnClick(object sender, EventArgs e)
+        private async void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             if (_fromPage == GameConstants.NavigationParam.MainScreen)
             {
                 PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
-                TransitionToLayerCartoonStyle(new MainScreenLayer());
+                var newLayer = new MainScreenLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_fromPage == GameConstants.NavigationParam.GameScreen)
             {

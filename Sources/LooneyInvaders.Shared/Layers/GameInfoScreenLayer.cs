@@ -62,33 +62,37 @@ namespace LooneyInvaders.Layers
             GameEnvironment.OpenWebPage("http://www.looneyinvaders.com");
         }
 
-        private void BtnPrivacyPolicy_OnClick(object sender, EventArgs e)
+        private async void BtnPrivacyPolicy_OnClick(object sender, EventArgs e)
         {
             AdMobManager.HideBanner();
 
-            TransitionToLayerCartoonStyle(new PrivacyPolicyScreenLayer());
+            var newLayer = new PrivacyPolicyScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnAboutGame_OnClick(object sender, EventArgs e)
+        private async void BtnAboutGame_OnClick(object sender, EventArgs e)
         {
             AdMobManager.HideBanner();
 
-            TransitionToLayerCartoonStyle(new AboutGameScreenLayer());
+            var newLayer = new AboutGameScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnMyStats_OnClick(object sender, EventArgs e)
+        private async void BtnMyStats_OnClick(object sender, EventArgs e)
         {
             AdMobManager.HideBanner();
 
-            TransitionToLayerCartoonStyle(new MyStatsAndRewards1Layer());
+            var newLayer = new MyStatsAndRewards1Layer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
             AdMobManager.HideBanner();
 
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
     }
 }

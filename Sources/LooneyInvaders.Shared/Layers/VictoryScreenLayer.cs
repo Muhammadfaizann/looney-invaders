@@ -1,8 +1,10 @@
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using CocosSharp;
-using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using LooneyInvaders.Model;
+using static LooneyInvaders.Model.Enums.LeaderBoardItemField;
 
 namespace LooneyInvaders.Layers
 {
@@ -655,24 +657,32 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(ShowScore, 0.5f);
             }
 
-            if (_isWeHaveScores
-                && (Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < AppConstants.Tolerance
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance
-                    || Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance)
-                && !_recordNotificationShown)
+            try
             {
-                ScheduleOnce(ShowRecordNotification, 0.5f);
-                return;
+                if (_isWeHaveScores
+                    && (Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularAlltimeField(Score)) < AppConstants.Tolerance
+                        || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularMonthlyField(Score)) < AppConstants.Tolerance
+                        || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularWeeklyField(Score)) < AppConstants.Tolerance
+                        || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularDailyField(Score)) < AppConstants.Tolerance)
+                    && !_recordNotificationShown)
+                {
+                    ScheduleOnce(ShowRecordNotification, 0.5f);
+                    return;
+                }
+
+                _scoreNode = new CCNodeExt();
+
+
+                _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
+                _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
+                _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
+                _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
+
             }
-
-            _scoreNode = new CCNodeExt();
-
-
-            _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
-            _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
-            _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
 
             /*old screen
             scoreNode.AddImage(650, 455, "UI/victory&social-share-global-ranking-all-text.png", 3);
@@ -724,12 +734,10 @@ namespace LooneyInvaders.Layers
             if (Player.Instance.IsProLevelSelected)
             {
                 _btnContinue = _scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-
             }
             else
             {
                 _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-
             }
 
             //btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
@@ -778,14 +786,11 @@ namespace LooneyInvaders.Layers
                 _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
             }
 
-
-
-
-
-
             _scoreNode.Opacity = 0;
-            foreach (var child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; }
-
+            foreach (var child in _scoreNode.Children)
+            {
+                child.Opacity = _scoreNode.Opacity;
+            }
 
             AddChild(_scoreNode);
 
@@ -804,7 +809,10 @@ namespace LooneyInvaders.Layers
                 Unschedule(FadeScore);
 
             }
-            foreach (var child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; }
+            foreach (var child in _scoreNode.Children)
+            {
+                child.Opacity = _scoreNode.Opacity;
+            }
         }
 
         private void BtnContinue_OnClick(object sender, EventArgs e)
@@ -817,16 +825,16 @@ namespace LooneyInvaders.Layers
         //CCSpriteButton _shareTwitter;
         //CCSpriteButton _shareFacebook;
 
-        private void mainMenu_OnClick(object sender, EventArgs e)
+        private async void mainMenu_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-
-
             AdMobManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         //CCLayerColorExt sl;
@@ -1126,7 +1134,7 @@ namespace LooneyInvaders.Layers
             _mainMenu.Visible = true;
         }
 
-        private void NextLevel()
+        private async Task NextLevel()
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
@@ -1136,11 +1144,22 @@ namespace LooneyInvaders.Layers
             if (_nextBattleGround == Battlegrounds.Moon)
             {
                 AdMobManager.HideBanner();
-                TransitionToLayerCartoonStyle(new EnemyPickerLayer());
+
+                var newLayer = new EnemyPickerLayer();
+                await TransitionToLayerCartoonStyle(newLayer);
             }
             else
             {
-                TransitionToLayerCartoonStyle(new GamePlayLayer(_nextEnemy, SelectedWeapon, _nextBattleGround, true, -1, -1, -1, -1, _nextEnemy, LaunchMode.Default, LivesLeft, WinsInSuccession));
+                var newLayer = new GamePlayLayer(
+                    _nextEnemy,
+                    SelectedWeapon,
+                    _nextBattleGround,
+                    true, -1, -1, -1, -1,
+                    _nextEnemy,
+                    LaunchMode.Default,
+                    LivesLeft,
+                    WinsInSuccession);
+                await TransitionToLayerCartoonStyle(newLayer);
             }
         }
 

@@ -95,11 +95,12 @@ namespace LooneyInvaders.Layers
             TransitionToLayer(new MyStatsAndRewards1Layer());
         }
 
-		private void BtnBackThrow_OnClick(object sender, EventArgs e)
+		private async void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            TransitionToLayerCartoonStyle(new MainScreenLayer());
+            var newLayer = new MainScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using System.Threading.Tasks;
 using LooneyInvaders.PNS;
 using System.Threading;
 
@@ -275,21 +274,24 @@ namespace LooneyInvaders.Layers
             RefreshLeaderboard(0);
         }
 
-        private void BtnGetCredits_OnClick(object sender, EventArgs e)
+        private async void BtnGetCredits_OnClick(object sender, EventArgs e)
         {
-            TransitionToLayerCartoonStyle(new GetMoreCreditsScreenLayer());
+            var newLayer = new GetMoreCreditsScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnGameSettings_OnClick(object sender, EventArgs e)
+        private async void BtnGameSettings_OnClick(object sender, EventArgs e)
         {
-            TransitionToLayerCartoonStyle(new SettingsScreenLayer(null, GameConstants.NavigationParam.MainScreen));
+            var newLayer = new SettingsScreenLayer(null, GameConstants.NavigationParam.MainScreen);
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnGameInfo_OnClick(object sender, EventArgs e)
+        private async void BtnGameInfo_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            TransitionToLayerCartoonStyle(new GameInfoScreenLayer());
+            var newLayer = new GameInfoScreenLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void StartDialog_Back(object sender, EventArgs e)
@@ -328,15 +330,18 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void BtnQuickGame_OnClick(object sender, EventArgs e)
+        private async void BtnQuickGame_OnClick(object sender, EventArgs e)
         {
             Player.Instance.GetQuickGame(out var enemy, out var battleground, out var weapon);
-            TransitionToLayerCartoonStyle(new GamePlayLayer(enemy, weapon, battleground, true));
+
+            var newLayer = new GamePlayLayer(enemy, weapon, battleground, true);
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
-        private void BtnSelectionMode_OnClick(object sender, EventArgs e)
+        private async void BtnSelectionMode_OnClick(object sender, EventArgs e)
         {
-            TransitionToLayerCartoonStyle(new EnemyPickerLayer());
+            var newLayer = new EnemyPickerLayer();
+            await TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void BtnRanking_OnClick(object sender, EventArgs e)
