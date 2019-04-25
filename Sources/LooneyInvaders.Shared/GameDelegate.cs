@@ -1,5 +1,6 @@
 ﻿using System;
 using CocosSharp;
+using LooneyInvaders.Classes;
 using LooneyInvaders.Layers;
 
 namespace LooneyInvaders.Shared
@@ -22,6 +23,7 @@ namespace LooneyInvaders.Shared
             OnBackButton = null;
         }
 
+        public static CCLayer Layer;
 
         public static CCGameView GameView;
 
@@ -74,7 +76,8 @@ namespace LooneyInvaders.Shared
             var gameScene = new CCScene(GameView);
             //gameScene.AddLayer(new EnemyPickerLayer());
             //gameScene.AddLayer(new MainScreenLayer());
-            gameScene.AddLayer(new SplashScreenLayer());
+            var splashLayer = new SplashScreenLayer();
+            gameScene.AddLayer(Layer ?? splashLayer);
             //gameScene.AddLayer(new VictoryScreenLayer(Model.ENEMIES.HITLER, Model.WEAPONS.BAZOOKA, Model.BATTLEGROUNDS.POLAND, 100, 99));
             //gameScene.AddLayer(new SettingsScreenLayer());
             GameView.RunWithScene(gameScene);

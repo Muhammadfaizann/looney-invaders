@@ -653,6 +653,7 @@ namespace LooneyInvaders.Classes
 
         public void TransitionToLayer(CCLayer layer)
         {
+            Shared.GameDelegate.Layer = layer;
             GC.Collect();
             //GC.WaitForPendingFinalizers();
 
@@ -664,6 +665,7 @@ namespace LooneyInvaders.Classes
 
         public void TransitionToLayerCartoonStyle(CCLayerColorExt layer)
         {
+            Shared.GameDelegate.Layer = layer;
             GC.Collect();
             //GC.WaitForPendingFinalizers();
 
