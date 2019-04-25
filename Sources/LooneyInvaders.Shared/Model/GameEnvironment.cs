@@ -5,7 +5,12 @@ namespace LooneyInvaders.Model
 {
     public class GameEnvironment
     {
-        public static string ImageDirectory = "Images/Hd/";
+        public static string ImageDirectory;
+
+        static GameEnvironment()
+        {
+            ImageDirectory = "Images/Hd/";
+        }
 
         public static CCBlendFunc BlendFuncDefault
         {
