@@ -46,8 +46,6 @@ namespace LooneyInvaders.Layers
             LivesLeft = livesLeft;
             WinsInSuccession = winsInSuccession;
 
-
-
             _nextEnemy = selectedEnemy;
             switch (SelectedBattleground)
             {
@@ -337,11 +335,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        ScheduleOnce(ShowScore, 2.3f);
+                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 2.3f);
                     }
                     else
                     {
-                        ScheduleOnce(ShowScore, 1f);
+                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 1f);
                     }
                 }
             }
@@ -488,7 +486,7 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce(ShowScore, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
@@ -502,7 +500,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_multiplierNode);
             UnscheduleAll();
             AdMobManager.ShowBannerBottom();
-            ScheduleOnce(ShowScore, 0.5f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.5f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
@@ -512,7 +510,7 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce(ShowScore, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
         }
 
 
@@ -541,7 +539,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                ScheduleOnce(ShowScore, 0.2f);
+                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
             }
         }
 
@@ -640,7 +638,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_recordOkIGotIt);
             RemoveChild(_recordNotification);
             if (_recordNotificationImage != null) RemoveChild(_recordNotificationImage);
-            ScheduleOnce(ShowScore, 0f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0f);
 
         }
 
@@ -654,7 +652,7 @@ namespace LooneyInvaders.Layers
             if (!_isDoneWaitingForScores && _waitForScoreCounter < 5)
             {
                 _waitForScoreCounter += dtt;
-                ScheduleOnce(ShowScore, 0.5f);
+                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.5f);
             }
 
             try
