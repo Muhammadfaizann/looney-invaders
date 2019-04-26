@@ -256,7 +256,7 @@ namespace LooneyInvaders.App42
                     {
                         break;
                     }
-                    saveIsSuccessful = GetService().SaveUserScore(gameName, gameUserName, gameScore).IsResponseSuccess();
+                    saveIsSuccessful = (bool)GetService().SaveUserScore(gameName, gameUserName, gameScore)?.IsResponseSuccess();
                     if (!saveIsSuccessful)
                     {
                         await Task.Delay(delayOnError);
