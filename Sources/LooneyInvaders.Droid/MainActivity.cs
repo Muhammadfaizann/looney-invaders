@@ -486,12 +486,11 @@ namespace LooneyInvaders.Droid
             base.OnPostResume();
 
             AdBanner?.Resume();
-            if (GameView != null)
+            if (GameDelegate.Layer != null)
             {
-                GameView.ViewCreated -= GameDelegate.LoadGame;
-                GameView.ViewCreated += GameDelegate.LoadGame;
+                GameDelegate.LoadGame(GameView, null);
+                GameDelegate.Layer.Resume();
             }
-            GameDelegate.Layer?.Resume();
 
             var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
             _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
@@ -507,10 +506,6 @@ namespace LooneyInvaders.Droid
             base.OnPause();
 
             AdBanner?.Pause();
-            if (GameView != null)
-            {
-                GameView.ViewCreated -= GameDelegate.LoadGame;
-            }
             GameDelegate.Layer?.Pause();
 
             _sensorManager.UnregisterListener(this);
@@ -628,6 +623,11 @@ namespace LooneyInvaders.Droid
             {
                 _svc.Dispose();
                 _svc = null;
+            }
+
+            if (GameView != null)
+            {
+                GameView.ViewCreated -= GameDelegate.LoadGame;
             }
             Java.Lang.Thread.DefaultUncaughtExceptionHandler = null;
 

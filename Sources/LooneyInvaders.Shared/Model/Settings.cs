@@ -9,7 +9,7 @@ namespace LooneyInvaders.Model
     /// </summary>
     public class Settings
     {
-        public static bool IsFromGameScreen = false;
+        public static bool IsFromGameScreen;
         private static Settings _instance;
         public static Settings Instance => _instance ?? (_instance = new Settings());
 

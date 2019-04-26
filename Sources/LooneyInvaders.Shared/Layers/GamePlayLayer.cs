@@ -1872,14 +1872,15 @@ namespace LooneyInvaders.Layers
 
         private void btnJust_OnClick(object sender, EventArgs e)
         {
+            Pause();
             //this.UnscheduleAll();
             //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
             //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
 
             var newScene = new CCScene(GameView);
-            newScene.AddLayer(new PauseScreenLayer(this));
+            var newLayer = new PauseScreenLayer(this);
+            newScene.AddLayer(newLayer);
             Director.PushScene(newScene);
-
         }
 
         private async void btnSurrender_OnClick(object sender, EventArgs e)
@@ -1909,6 +1910,7 @@ namespace LooneyInvaders.Layers
                 _btnSettings.Visible = true;
 
                 Schedule(UpdateAll);
+                Resume();
 
                 SetUpSteering(_launchMode == LaunchMode.Default);
 
