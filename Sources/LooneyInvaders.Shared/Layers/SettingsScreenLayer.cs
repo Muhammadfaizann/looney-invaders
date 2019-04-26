@@ -711,10 +711,10 @@ namespace LooneyInvaders.Layers
             Director.PushScene(newScene);
         }
 
-        private void _btnNoAdvertisements_OnClick(object sender, EventArgs e)
+        private async void _btnNoAdvertisements_OnClick(object sender, EventArgs e)
         {
             HideAdvertisementsTip();
-            PurchaseManager.Purchase("ads_off");
+            await PurchaseManager.Purchase("ads_off");
             Enabled = false;
         }
 

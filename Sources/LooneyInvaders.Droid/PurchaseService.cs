@@ -38,48 +38,53 @@ namespace CC.Mobile.Purchases
         {
             var activity = context as Activity;
             _inAppSvc = new IAB.InAppBillingServiceConnection(activity, _publicKey);
-            _inAppSvc.OnConnected += () =>
-            {
-                IsStarted = true;
-                _serviceStatusTask.SetResult(IsStarted);
-                _serviceStatusTask = null;
-                if (_inAppSvc?.BillingHandler != null)
-                {
-                    _inAppSvc.BillingHandler.OnProductPurchased += OnProductPurchased;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumed += OnPurchaseConsumed;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumedError += OnPurchaseConsumedError;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
-                    _inAppSvc.BillingHandler.OnUserCanceled += OnUserCanceled;
-                }
-            };
-
-            _inAppSvc.OnDisconnected += () =>
-            {
-                IsStarted = false;
-                _serviceStatusTask?.SetResult(IsStarted);
-                _serviceStatusTask = null;
-                if (_inAppSvc?.BillingHandler != null)
-                {
-                    _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnPurchaseFailedValidation -= OnPurchaseFailedValidation;
-                    _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
-                }
-            };
-
-            _inAppSvc.OnInAppBillingError += (errType, err) =>
-            {
-                IsStarted = false;
-                _serviceStatusTask.SetException(new PurchaseError($"{errType.ToString()}:{err}"));
-                _serviceStatusTask = null;
-            };
+            _inAppSvc.OnConnected += IABServiceConnectionOnConnected;
+            _inAppSvc.OnDisconnected += IABServiceConnectionOnDisconnected;
+            _inAppSvc.OnInAppBillingError += IABServiceConnectionOnIABError;
 
             return Task.FromResult(this as IPurchaseService);
+        }
+
+        private void IABServiceConnectionOnConnected()
+        {
+            IsStarted = true;
+            _serviceStatusTask.SetResult(IsStarted);
+            _serviceStatusTask = null;
+            if (_inAppSvc?.BillingHandler != null)
+            {
+                _inAppSvc.BillingHandler.OnProductPurchased += OnProductPurchased;
+                _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
+                _inAppSvc.BillingHandler.OnPurchaseConsumed += OnPurchaseConsumed;
+                _inAppSvc.BillingHandler.OnPurchaseConsumedError += OnPurchaseConsumedError;
+                _inAppSvc.BillingHandler.OnProductPurchasedError += OnProductPurchasedError;
+                _inAppSvc.BillingHandler.OnPurchaseFailedValidation += OnPurchaseFailedValidation;
+                _inAppSvc.BillingHandler.OnUserCanceled += OnUserCanceled;
+            }
+        }
+
+        private void IABServiceConnectionOnDisconnected()
+        {
+            IsStarted = false;
+            _serviceStatusTask?.SetResult(IsStarted);
+            _serviceStatusTask = null;
+            if (_inAppSvc?.BillingHandler != null)
+            {
+                _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
+                _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
+                _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
+                _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                _inAppSvc.BillingHandler.OnPurchaseFailedValidation -= OnPurchaseFailedValidation;
+                _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
+            }
+        }
+
+        private void IABServiceConnectionOnIABError(IAB.InAppBillingErrorType errorType, string message)
+        {
+            IsStarted = false;
+            _serviceStatusTask.SetException(new PurchaseError($"{errorType.ToString()}:{message}"));
+            //ToDo: Bass - check is it necessary
+            //_serviceStatusTask = null;
         }
 
         public Task<bool> Resume()
@@ -223,6 +228,9 @@ namespace CC.Mobile.Purchases
                     _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
                     _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
                 }
+                _inAppSvc.OnConnected -= IABServiceConnectionOnConnected;
+                _inAppSvc.OnDisconnected -= IABServiceConnectionOnDisconnected;
+                _inAppSvc.OnInAppBillingError -= IABServiceConnectionOnIABError;
                 _inAppSvc.Disconnect();
                 _inAppSvc = null;
             }
