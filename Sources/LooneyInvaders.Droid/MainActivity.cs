@@ -298,17 +298,12 @@ namespace LooneyInvaders.Droid
             return App42.StorageService.Instance.ChangeUsername(username);
         }
 
-        //ToDo: Bass - resolve Java.Lang.ClassNotFound (VibrationEffect) ex
         private void Vibrate(object sender, EventArgs e)
         {
-            try
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 var vibrator = (Vibrator)GetSystemService(VibratorService);
                 vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
-            }
-            catch (Exception ex)
-            {
-                var mess = ex.Message;
             }
         }
 
