@@ -144,9 +144,9 @@ namespace LooneyInvaders.Layers
             {
                 GameEnvironment.PlayMusic(Music.GameOver);
             }
-
-            if (SelectedEnemy == Enemies.Aliens)
-            {
+            //ToDo: Bass - what is it, is it normal logic???
+            //if (SelectedEnemy == Enemies.Aliens)
+            //{
                 //-------------- Prabhjot ----------------//
                 _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
                 _youAreDefeated.Opacity = 0;
@@ -167,14 +167,11 @@ namespace LooneyInvaders.Layers
                     _hasScore = true;
                     ScheduleOnce(ShowScoreAlien, 2f);
                 }
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 ScheduleOnce(ShowGetRevenge, 2);
-            }
-
-
-
+            //}
         }
 
         private void CalloutRevenge(float dt)
