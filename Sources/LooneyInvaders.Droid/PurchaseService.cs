@@ -19,7 +19,19 @@ namespace CC.Mobile.Purchases
         /// Gets a value indicating whether this <see cref="T:PurchaseExample.Droid.PurchaseService"/> is started.
         /// </summary>
         /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
-        public bool IsStarted { get; private set; }
+        static object toGetIsStarted = new object();
+        static bool _isStarted;
+        public bool IsStarted
+        {
+            get
+            {
+                lock (toGetIsStarted) { return _isStarted; }
+            }
+            private set
+            {
+                lock (toGetIsStarted) { _isStarted = value; }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PurchaseExample.Droid.PurchaseService"/> class.
@@ -37,10 +49,15 @@ namespace CC.Mobile.Purchases
         public Task<IPurchaseService> Init(object context = null)
         {
             var activity = context as Activity;
-            _inAppSvc = new IAB.InAppBillingServiceConnection(activity, _publicKey);
-            _inAppSvc.OnConnected += IABServiceConnectionOnConnected;
-            _inAppSvc.OnDisconnected += IABServiceConnectionOnDisconnected;
-            _inAppSvc.OnInAppBillingError += IABServiceConnectionOnIABError;
+            try
+            {
+                _inAppSvc = new IAB.InAppBillingServiceConnection(activity, _publicKey);
+                _inAppSvc.OnConnected += IABServiceConnectionOnConnected;
+                _inAppSvc.OnDisconnected += IABServiceConnectionOnDisconnected;
+                _inAppSvc.OnInAppBillingError += IABServiceConnectionOnIABError;
+            }
+            catch (System.Exception ex)
+            { var mess = ex.Message; }
 
             return Task.FromResult(this as IPurchaseService);
         }
@@ -48,7 +65,7 @@ namespace CC.Mobile.Purchases
         private void IABServiceConnectionOnConnected()
         {
             IsStarted = true;
-            _serviceStatusTask.SetResult(IsStarted);
+            _serviceStatusTask?.SetResult(IsStarted);
             _serviceStatusTask = null;
             if (_inAppSvc?.BillingHandler != null)
             {
@@ -82,9 +99,9 @@ namespace CC.Mobile.Purchases
         private void IABServiceConnectionOnIABError(IAB.InAppBillingErrorType errorType, string message)
         {
             IsStarted = false;
-            _serviceStatusTask.SetException(new PurchaseError($"{errorType.ToString()}:{message}"));
+            _serviceStatusTask?.SetException(new PurchaseError($"{errorType.ToString()}:{message}"));
             //ToDo: Bass - check is it necessary
-            //_serviceStatusTask = null;
+            _serviceStatusTask = null;
         }
 
         public Task<bool> Resume()
@@ -108,7 +125,9 @@ namespace CC.Mobile.Purchases
             _currentProduct = product;
 
             var products = new List<string> { product.ProductId };
-            var inAppProducts = await _inAppSvc.BillingHandler.QueryInventoryAsync(products, IAB.ItemType.Product);
+            var inAppProducts = _inAppSvc.BillingHandler != null
+                ? await _inAppSvc.BillingHandler.QueryInventoryAsync(products, IAB.ItemType.Product)
+                : null;
             if (inAppProducts == null || inAppProducts.Count == 0)
             {
                 _currentPurchaseTask = null;
