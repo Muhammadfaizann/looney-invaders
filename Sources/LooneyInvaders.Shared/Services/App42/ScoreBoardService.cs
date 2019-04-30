@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using com.shephertz.app42.paas.sdk.csharp;
+using com.shephertz.app42.paas.sdk.csharp.game;
+using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
 using app42ScoreBoardService = com.shephertz.app42.paas.sdk.csharp.game.ScoreBoardService;
 
@@ -9,18 +11,19 @@ namespace LooneyInvaders.App42
 {
     public class ScoreBoardService
     {
-        static object toGetInstance = new object();
+        static readonly object toGetInstance = new object();
         static readonly int maxAttemptsCount = 5;
         static (string, string, string, string) looneyEarthNames;
         static (string, string, string, string) looneyMoonNames;
 
         static ScoreBoardService _instance;
         static app42ScoreBoardService _service;
+        static GameService _gameService;
 
         public static string App42ApiKey { get; private set; }
         public static string App42SecretKey { get; private set; }
-        public static app42ScoreBoardService App42Service => GetService();
         public static ScoreBoardService Instance => GetInstance();
+        public static app42ScoreBoardService App42Service => GetService();
         public static Exception LastException { get; private set; }
         public static int DelayOnErrorMS { get; private set; }
 
@@ -30,7 +33,14 @@ namespace LooneyInvaders.App42
             looneyMoonNames = ("Looney Moon Daily", "Looney Moon Weekly", "Looney Moon Monthly", "Looney Moon Alltime");
 
             App42API.Initialize(App42ApiKey, App42SecretKey);
-            _service = App42API.BuildScoreBoardService();
+
+            try
+            {
+                _gameService = App42API.BuildGameService();
+                _service = App42API.BuildScoreBoardService();
+            }
+            catch (Exception ex)
+            { var mess = ex.Message; }
         }
 
         public static void Init(string app42ApiKey, string app42SecretKey, int delayOnErrorMS)
@@ -78,15 +88,21 @@ namespace LooneyInvaders.App42
                         looneyEarthNames.Item2,
                         looneyEarthNames.Item3,
                         looneyEarthNames.Item4);
-
+                }
+                catch (Exception ex)
+                {
+                    LastException = ex;
+                }
+                try
+                {
                     LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(App42Service,
-                        looneyEarthNames.Item1, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service,
-                        looneyEarthNames.Item2, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service,
-                        looneyEarthNames.Item3, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(App42Service,
-                        looneyEarthNames.Item4, LeaderboardType.Regular);
+                            looneyEarthNames.Item1, LeaderboardType.Regular);
+                        LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service,
+                            looneyEarthNames.Item2, LeaderboardType.Regular);
+                        LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service,
+                            looneyEarthNames.Item3, LeaderboardType.Regular);
+                        LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(App42Service,
+                            looneyEarthNames.Item4, LeaderboardType.Regular);
                 }
                 catch (Exception ex)
                 {
@@ -110,15 +126,21 @@ namespace LooneyInvaders.App42
                         looneyMoonNames.Item2,
                         looneyMoonNames.Item3,
                         looneyMoonNames.Item4);
-
+                }
+                catch (Exception ex)
+                {
+                    LastException = ex;
+                }
+                try
+                {
                     LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(App42Service,
-                        looneyMoonNames.Item1, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service,
-                        looneyMoonNames.Item2, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service,
-                        looneyMoonNames.Item3, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(App42Service,
-                        looneyMoonNames.Item4, LeaderboardType.Pro);
+                            looneyMoonNames.Item1, LeaderboardType.Pro);
+                        LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service,
+                            looneyMoonNames.Item2, LeaderboardType.Pro);
+                        LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service,
+                            looneyMoonNames.Item3, LeaderboardType.Pro);
+                        LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(App42Service,
+                            looneyMoonNames.Item4, LeaderboardType.Pro);
                 }
                 catch (Exception ex)
                 {
@@ -202,7 +224,8 @@ namespace LooneyInvaders.App42
         {
             try
             {
-                var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
+                //var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
+                var game = scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name);
 
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
@@ -252,11 +275,12 @@ namespace LooneyInvaders.App42
 
                 while (!saveIsSuccessful)
                 {
+                    ++attemptsCount;
                     if (attemptsCount > maxAttemptsCount)
                     {
                         break;
                     }
-                    saveIsSuccessful = (bool)GetService().SaveUserScore(gameName, gameUserName, gameScore)?.IsResponseSuccess();
+                    saveIsSuccessful = (GetService().SaveUserScore(gameName, gameUserName, gameScore, true)?.IsResponseSuccess()).GetValueOrDefault();
                     if (!saveIsSuccessful)
                     {
                         await Task.Delay(delayOnError);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using com.shephertz.app42.paas.sdk.csharp;
+using com.shephertz.app42.paas.sdk.csharp.game;
 using com.shephertz.app42.paas.sdk.csharp.storage;
 using LooneyInvaders.Model;
 using app42StorageService = com.shephertz.app42.paas.sdk.csharp.storage.StorageService;
@@ -9,12 +10,13 @@ namespace LooneyInvaders.App42
 {
     public class StorageService
     {
-        static object toGetInstance = new object();
+        static readonly object toGetInstance = new object();
         const string dbName = "users";
         const string collectionName = "users";
 
         static StorageService _instance;
         static app42StorageService _service;
+        static GameService _gameService;
 
         public static string App42ApiKey { get; private set; }
         public static string App42SecretKey { get; private set; }
@@ -25,7 +27,13 @@ namespace LooneyInvaders.App42
         private StorageService()
         {
             App42API.Initialize(App42ApiKey, App42SecretKey);
-            _service = App42API.BuildStorageService();
+            try
+            {
+                _gameService = App42API.BuildGameService();
+                _service = App42API.BuildStorageService();
+            }
+            catch (Exception ex)
+            { var mess = ex.Message; }
         }
 
         public static void Init(string app42ApiKey, string app42SecretKey)
@@ -88,11 +96,11 @@ namespace LooneyInvaders.App42
                 if (jsonDocList.Count == 0) return true; // no user
                 if (jsonDocList[0].GetJsonDoc().Contains(UserManager.UserGuid)) return true; // this user
             }
-            catch (App42NotFoundException)
+            catch (App42NotFoundException ex)
             {
                 return true;
             }
-            catch (System.Net.WebException)
+            catch (System.Net.WebException e)
             {
                 return true;
             }
