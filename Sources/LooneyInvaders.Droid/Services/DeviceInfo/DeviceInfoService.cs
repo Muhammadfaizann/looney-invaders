@@ -1,4 +1,5 @@
-﻿using Android.Telephony;
+﻿using Android.OS;
+using Android.Telephony;
 using LooneyInvaders.Model;
 using LooneyInvaders.Droid;
 
@@ -9,12 +10,12 @@ namespace LooneyInvaders.DeviceInfo
         public DeviceInfoModel GetDeviceInfo()
         {
             var androidID = Android.Provider.Settings.Secure.GetString(MainActivity.Instance.ApplicationContext.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
-			var osVersion = "Android " + (Android.OS.Build.VERSION.Release ?? "-");
-            var manufacturer = Android.OS.Build.Manufacturer;
-            var model = Android.OS.Build.Model;
+			var osVersion = "Android " + (Build.VERSION.Release ?? "-");
+            var manufacturer = Build.Manufacturer;
+            var model = Build.Model;
 
             var mTelephonyMgr = (TelephonyManager)MainActivity.Instance.ApplicationContext.GetSystemService(Android.Content.Context.TelephonyService);
-            var imei = mTelephonyMgr.DeviceId ?? "-";
+            var imei = Build.VERSION.SdkInt < BuildVersionCodes.O ? mTelephonyMgr.DeviceId ?? "-" : mTelephonyMgr.Imei;
 
             var deviceInfo = new DeviceInfoModel
             {
