@@ -108,7 +108,6 @@ namespace LooneyInvaders.Droid
         {
             base.OnNewIntent(intent);
             Push.CheckLaunchedFromNotification(this, intent);
-            //ToDo: Bass - what appearance is needed
         }
 
         #endregion
@@ -268,10 +267,10 @@ namespace LooneyInvaders.Droid
         //In-Game Purchases
         private async void InGamePurchasesAsync()
         {
-            _svc = new PurchaseService(ApiKey);
-
             try
             {
+                _svc = new PurchaseService(ApiKey);
+
                 await _svc.Init(this);
                 var svcResume = _svc.Resume();
                 if (svcResume != null)
@@ -567,7 +566,7 @@ namespace LooneyInvaders.Droid
 
         private void HideBannerUiThread()
         {
-            AdBanner.ChangeVisibility(ViewStates.Invisible);
+            AdBanner?.ChangeVisibility(ViewStates.Invisible);
         }
 
         private bool _isAdsShoving;
@@ -656,9 +655,9 @@ namespace LooneyInvaders.Droid
                     PurchaseManager.FireOnPurchaseFinished();
                 }
             }
-            catch (PurchaseError)
+            catch (PurchaseError ex)
             {
-                Console.WriteLine("Error with {product}:{ex.Message}");
+                Console.WriteLine($"Error with {product}:{ex.Message}");
                 PurchaseManager.FireOnPurchaseFinished();
             }
         }
