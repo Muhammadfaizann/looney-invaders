@@ -92,6 +92,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\LeaderboardItemExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\App42\StorageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\App42\IApp42ServiceInitialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCSpriteExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\App42ScoreBoardExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
