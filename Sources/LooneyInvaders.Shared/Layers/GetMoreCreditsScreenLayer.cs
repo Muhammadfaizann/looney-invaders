@@ -204,7 +204,10 @@ namespace LooneyInvaders.Layers
         {
             if (_imgPlayerCreditsLabel != null)
             {
-                foreach (var img in _imgPlayerCreditsLabel) img.RemoveFromParent();
+                foreach (var img in _imgPlayerCreditsLabel)
+                {
+                    img.RemoveFromParent();
+                }
             }
 
             _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
@@ -583,22 +586,23 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         { }
 
-        private void btn1m_OnClick(object sender, EventArgs e)
+        //ToDo: Bass - check if asyncs is profit
+        private async void btn1m_OnClick(object sender, EventArgs e)
         {
-            PurchaseManager.Purchase("credits_1_mil");
             Enabled = false;
+            await PurchaseManager.Purchase("credits_1_mil");
         }
 
-        private void btn300k_OnClick(object sender, EventArgs e)
+        private async void btn300k_OnClick(object sender, EventArgs e)
         {
-            PurchaseManager.Purchase("credits_300_k");
             Enabled = false;
+            await PurchaseManager.Purchase("credits_300_k");
         }
 
-        private void Btn100k_OnClick(object sender, EventArgs e)
+        private async void Btn100k_OnClick(object sender, EventArgs e)
         {
-            PurchaseManager.Purchase("credits_100_k");
             Enabled = false;
+            await PurchaseManager.Purchase("credits_100_k");
         }
 
         private void PurchaseManager_OnPurchaseFinished(object sender, EventArgs e)
