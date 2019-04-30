@@ -70,11 +70,11 @@ namespace LooneyInvaders.iOS
 
             // ----------- Prabhjot ----------- //
 
-            //if (Settings.isFromGameScreen == true)
-            //{
+            if (Settings.IsFromGameScreen)
+            {
                 //NSNotificationCenter.DefaultCenter.PostNotificationName("PlayToEnd", null);
                 NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
-            //}
+            }
 
         }
 
