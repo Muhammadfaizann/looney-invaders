@@ -144,9 +144,9 @@ namespace LooneyInvaders.Layers
             {
                 GameEnvironment.PlayMusic(Music.GameOver);
             }
-            //ToDo: Bass - what is it, is it normal logic???
-            //if (SelectedEnemy == Enemies.Aliens)
-            //{
+
+            if (SelectedEnemy == Enemies.Aliens)
+            {
                 //-------------- Prabhjot ----------------//
                 _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
                 _youAreDefeated.Opacity = 0;
@@ -157,6 +157,7 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
+
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
                     ScheduleOnce(ShowAd, 5f);
@@ -167,11 +168,9 @@ namespace LooneyInvaders.Layers
                     _hasScore = true;
                     ScheduleOnce(ShowScoreAlien, 2f);
                 }
-            //}
-            //else
-            //{
-                ScheduleOnce(ShowGetRevenge, 2);
-            //}
+            }
+
+            ScheduleOnce(ShowGetRevenge, 2);
         }
 
         private void CalloutRevenge(float dt)
