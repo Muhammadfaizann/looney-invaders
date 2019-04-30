@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CocosSharp;
-using LooneyInvaders.Model;
-using LooneyInvaders.Classes;
-using LooneyInvaders.Shared;
 using NotificationCenter;
+using LooneyInvaders.Classes;
+using LooneyInvaders.Extensions;
+using LooneyInvaders.Model;
+using LooneyInvaders.Shared;
 
 #if __IOS__
 using Foundation;
@@ -191,7 +192,7 @@ namespace LooneyInvaders.Layers
 
             // ----------- Prabhjot ----------- //
             //this.ScheduleOnce(Victory, 1);
-            Settings.IsFromGameScreen = true;
+            Settings.IsFromGameScreen = launchMode != LaunchMode.SteeringTest;
             NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
 
 
@@ -804,9 +805,6 @@ namespace LooneyInvaders.Layers
                 cache.AddImage(GameEnvironment.ImageDirectory + "UI/number_50_" + i.ToString() + ".png");
             }
 
-
-
-
             cache.AddImage("UI/Battle-screen-reloading-text.png");
             cache.AddImage("UI/Battle-screen-time-text.png");
 
@@ -843,8 +841,6 @@ namespace LooneyInvaders.Layers
             cache.AddImage("UI/get-ready-for-next-attack-countdown-(3).png");
             cache.AddImage("UI/get-ready-for-next-attack-countdown-(2).png");
             cache.AddImage("UI/get-ready-for-next-attack-countdown-(1).png");
-
-
 
             switch (selectedEnemy)
             {
@@ -1083,8 +1079,6 @@ namespace LooneyInvaders.Layers
                 AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
             }
 
-
-
             _countdown = 6;
 
             if (SelectedEnemy == Enemies.Aliens)
@@ -1263,8 +1257,6 @@ namespace LooneyInvaders.Layers
 
         private void CountDownUpdate(float dt)
         {
-
-
             _countdown--;
             switch (_countdown)
             {
@@ -1373,140 +1365,145 @@ namespace LooneyInvaders.Layers
 
         private void StartGame()
         {
-            RemoveAllChildren();
-
-            SetBackground(BattlegroundImageName);
-
-            if (_launchMode == LaunchMode.SteeringTest)
+            try
             {
-                AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
-            }
+                RemoveAllChildren();
 
-            if (SelectedEnemy == Enemies.Aliens)
-            {
-                _timeLabel = AddImage(840, 580, "UI/Battle-screen-score-text.png", 999);
-                _multiplierLabelLabel = AddImage(896, 540, "UI/multiplier-text.png", 999);
-                _multiplierLabelLabel.Opacity = 0;
+                SetBackground(BattlegroundImageName);
 
-            }
-            else
-            {
-                _timeLabel = AddImage(910, 580, "UI/Battle-screen-time-text.png", 999);
-            }
-            //if (!Settings.Instance.Vibration) timeLabel.Visible = false;
-
-            _reloading = AddImage(820, 5, "UI/Battle-screen-reloading-text.png", 999);
-            _reloading.Visible = false;
-
-            //player = this.AddImage(1136 / 2 - 100, 50, PlayerCannon, 100);
-
-            _player = new CCSprite(SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + "00.png"));
-            _player.BlendFunc = GameEnvironment.BlendFuncDefault;
-            _player.AnchorPoint = new CCPoint(0, 0);
-            _player.PositionX = 1136 / 2 - 100;
-            _player.PositionY = 50;
-            _player.ZOrder = 100;
-
-            AddChild(_player);
-
-
-
-            for (var i = 0; i < (LivesLeft > -1 ? LivesLeft : Weapon.GetLives(SelectedWeapon) - 1); i++)
-            {
-                var life = AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
-                _lives.Add(life);
-            }
-
-            for (var i = 0; i < _magazineSize; i++)
-            {
-                CCSprite ammo;
-                if (SelectedWeapon == Weapons.Hybrid)
+                if (_launchMode == LaunchMode.SteeringTest)
                 {
-                    ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                    AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
+                }
+
+                if (SelectedEnemy == Enemies.Aliens)
+                {
+                    _timeLabel = AddImage(840, 580, "UI/Battle-screen-score-text.png", 999);
+                    _multiplierLabelLabel = AddImage(896, 540, "UI/multiplier-text.png", 999);
+                    _multiplierLabelLabel.Opacity = 0;
+
                 }
                 else
                 {
-                    ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                    _timeLabel = AddImage(910, 580, "UI/Battle-screen-time-text.png", 999);
                 }
-                _ammos.Add(ammo);
-            }
+                //if (!Settings.Instance.Vibration) timeLabel.Visible = false;
 
-            AddAllEnemies(2);
+                _reloading = AddImage(820, 5, "UI/Battle-screen-reloading-text.png", 999);
+                _reloading.Visible = false;
 
-            _goingDown = 240;
-            _enemyCurrentSpeed = 0; //enemySpeed;
-            _firstGoingDown = true;
-            _bombDensity = 100;
+                //player = this.AddImage(1136 / 2 - 100, 50, PlayerCannon, 100);
 
-            _bulletsFired = 0;
-            _bulletsMissed = 0;
-            /*if(Settings.Instance.Vibration)*/
+                _player = new CCSprite(SsRecoil.Frames.Find(item => item.TextureFilename == SsRecoilKeyPrefix + "00.png"));
+                _player.BlendFunc = GameEnvironment.BlendFuncDefault;
+                _player.AnchorPoint = new CCPoint(0, 0);
+                _player.PositionX = 1136 / 2 - 100;
+                _player.PositionY = 50;
+                _player.ZOrder = 100;
 
-            _time = AddImageLabel(1040, 580, "0", 50);
+                AddChild(_player);
 
-            if (_launchMode == LaunchMode.SteeringTest)
-            {
-                foreach (var timeSprite in _time)
+
+
+                for (var i = 0; i < (LivesLeft > -1 ? LivesLeft : Weapon.GetLives(SelectedWeapon) - 1); i++)
                 {
-                    timeSprite.Visible = false;
-                }
-
-                _timeLabel.Visible = false;
-            }
-
-
-            _lastDisplayedTime = 0;
-            _elapsedTime = 0;
-            _wavePass = 1136;
-
-            Settings.Instance.ShowSteeringTip = true;
-
-            if (SelectedEnemy == Enemies.Aliens && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
-            {
-                ScheduleOnce(ShowAlienTip, 1);
-            }
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == ControlType.Gyroscope && !Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
-            {
-                ScheduleOnce(ShowTiltInstruction, 1);
-            }
-
-            else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
-            {
-                ScheduleOnce(ShowSteeringTip, 1);
-            }
-            else
-            {
-                if (_launchMode != LaunchMode.SteeringTest)
-                {
-                    _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
-                    _btnBack.OnClick += BtnBack_OnClick;
-                    _btnBack.ButtonType = ButtonType.Back;
-
-                    _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
-                    _btnSettings.OnClick += btnSettings_OnClick;
+                    var life = AddImage(i * 80 + 20, 10, PlayerLivesLeft, 102);
+                    _lives.Add(life);
                 }
 
-                Schedule(UpdateAll);
-
-                SetUpSteering(true);
-
-                /*if (!Settings.Instance.Vibration)
+                for (var i = 0; i < _magazineSize; i++)
                 {
-                    btnBack.Visible = false;
-                    btnSettings.Visible = false;
-                }*/
+                    CCSprite ammo;
+                    if (SelectedWeapon == Weapons.Hybrid)
+                    {
+                        ammo = AddImage(1080 - i * 16, 10, "Player/laser-ammo.png", 102);
+                    }
+                    else
+                    {
+                        ammo = AddImage(1080 - i * 16, 10, "Player/ammo.png", 102);
+                    }
+                    _ammos.Add(ammo);
+                }
 
+
+                _goingDown = 240;
+                _enemyCurrentSpeed = 0; //enemySpeed;
+                _firstGoingDown = true;
+                _bombDensity = 100;
+
+                _bulletsFired = 0;
+                _bulletsMissed = 0;
+                /*if(Settings.Instance.Vibration)*/
+
+                _time = AddImageLabel(1040, 580, "0", 50);
+
+                if (_launchMode == LaunchMode.SteeringTest)
+                {
+                    foreach (var timeSprite in _time)
+                    {
+                        timeSprite.Visible = false;
+                    }
+
+                    _timeLabel.Visible = false;
+                }
+
+
+                _lastDisplayedTime = 0;
+                _elapsedTime = 0;
+                _wavePass = 1136;
+
+                Settings.Instance.ShowSteeringTip = true;
+
+                if (SelectedEnemy == Enemies.Aliens && Settings.Instance.NotificationsEnabled && Settings.Instance.AlienGameTipGamePlayShow)
+                {
+                    ScheduleOnce(ShowAlienTip, 1);
+                }
+                else if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipGamePlayShow && Settings.Instance.ControlType == ControlType.Gyroscope && !Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
+                {
+                    ScheduleOnce(ShowTiltInstruction, 1);
+                }
+
+                else if (Settings.Instance.NotificationsEnabled && Settings.Instance.ShowSteeringTip && _launchMode == LaunchMode.Default)
+                {
+                    ScheduleOnce(ShowSteeringTip, 1);
+                }
+                else
+                {
+                    if (_launchMode != LaunchMode.SteeringTest)
+                    {
+                        _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
+                        _btnBack.OnClick += BtnBack_OnClick;
+                        _btnBack.ButtonType = ButtonType.Back;
+
+                        _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
+                        _btnSettings.OnClick += btnSettings_OnClick;
+                    }
+
+                    Schedule(UpdateAll);
+
+                    SetUpSteering(true);
+
+                    /*if (!Settings.Instance.Vibration)
+                    {
+                        btnBack.Visible = false;
+                        btnSettings.Visible = false;
+                    }*/
+
+                }
+
+                /*
+
+                CCLabel go = this.AddLabelCentered(1136 / 2, 315, "V I C T O R Y", "Fonts/AktivGroteskBold", 16);
+                go.Scale = 2;
+                go.ZOrder = 100;
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - killed .wav");
+                */
+                //this.ScheduleOnce(Victory, 40);
             }
-
-            /*
-            
-            CCLabel go = this.AddLabelCentered(1136 / 2, 315, "V I C T O R Y", "Fonts/AktivGroteskBold", 16);
-            go.Scale = 2;
-            go.ZOrder = 100;
-            CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - killed .wav");
-            */
-            //this.ScheduleOnce(Victory, 40);
-
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
         }
 
 
@@ -1892,7 +1889,7 @@ namespace LooneyInvaders.Layers
         {
             try
             {
-                Settings.IsFromGameScreen = true;
+                Settings.IsFromGameScreen = !(0 < _countdown && _countdown <= 5);
                 RemoveChild(_gamePauseBackground);
                 _gamePauseBackground = null;
                 RemoveChild(_btnJust);
@@ -1906,15 +1903,28 @@ namespace LooneyInvaders.Layers
                 RemoveChild(_gamePauseFriendlyCheckMark);
                 _gamePauseFriendlyCheckMark = null;
 
-                _btnBack.Visible = true;
-                _btnSettings.Visible = true;
+                _btnBack.CreateIfNeededAndChangeVisibility(Settings.IsFromGameScreen,
+                    this,
+                    2, 570,
+                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
+                    100, ButtonType.Back, BtnBack_OnClick);
+                _btnSettings.CreateIfNeededAndChangeVisibility(Settings.IsFromGameScreen,
+                    this,
+                    70, 570,
+                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
+                    100, ButtonType.Back, btnSettings_OnClick);
 
                 Schedule(UpdateAll);
                 Resume();
 
                 SetUpSteering(_launchMode == LaunchMode.Default);
 
-                if (_waveTransfer)
+                if (!Settings.IsFromGameScreen)
+                {
+                    Unschedule(CountDownUpdate);
+                    Schedule(CountDownUpdate, 1f);
+                }
+                else if (_waveTransfer)
                 {
                     if (SelectedEnemy == Enemies.Aliens)
                     {
