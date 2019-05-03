@@ -44,14 +44,21 @@ namespace LooneyInvaders.Droid
     //        }
     //    }
     //}
+    public static class Tracer
+    {
+        public static void Trace(string message)
+        {
+#if DEBUG
+            Console.WriteLine(message);
+#endif
+        }
+    }
 
     public class CustomExceptionHandler : Java.Lang.Object, Java.Lang.Thread.IUncaughtExceptionHandler
     {
         public void UncaughtException(Java.Lang.Thread t, Java.Lang.Throwable e)
         {
-#if DEBUG
-            Console.WriteLine($"{e.Message} {e.StackTrace}");
-#endif
+            Tracer.Trace($"{e.Message} {e.StackTrace}");
         }
     }
 
@@ -114,9 +121,9 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => Console.WriteLine($"{e.ExceptionObject.ToString()}");
-            TaskScheduler.UnobservedTaskException += (sender, e) => Console.WriteLine($"{e.Exception?.Message} {e.Exception?.StackTrace}");
-            AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Console.WriteLine($"{e.Exception?.Message} {e.Exception?.StackTrace}");
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
+            TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
+            AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             Java.Lang.Thread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
             //---------- Prabhjot ---------//
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -133,6 +140,7 @@ namespace LooneyInvaders.Droid
             // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(bundle);
             Instance = this;
+
             // remove navigation bar
             var decorView = Window.DecorView;
             var newUiOptions = (int)decorView.SystemUiVisibility;
