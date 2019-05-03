@@ -111,111 +111,116 @@ namespace LooneyInvaders.Layers
             _imgSpotlight = AddImage(370, 0, "UI/Choose-your-enemy-spotlight-front.png", 400);
             _imgSpotlight.Opacity = 0;
 
-            var touchListener = new CCEventListenerTouchAllAtOnce();
-            touchListener.OnTouchesBegan = OnTouchesBegan;
-            touchListener.OnTouchesEnded = OnTouchesEnded;
-            touchListener.OnTouchesCancelled = OnTouchesCancelled;
-            touchListener.OnTouchesMoved = OnTouchesMoved;
-
-            if (_selectedEnemy != (int)Enemies.Aliens)
+            try
             {
-                _images[0] = AddImage(-270, 260, "UI/compact-sprayer_bow_00.png", 0);
-                _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Scale = 0.6f;
-                _images[0].Tag = (int)Weapons.Compact;
+                var touchListener = new CCEventListenerTouchAllAtOnce();
+                touchListener.OnTouchesBegan = OnTouchesBegan;
+                touchListener.OnTouchesEnded = OnTouchesEnded;
+                touchListener.OnTouchesCancelled = OnTouchesCancelled;
+                touchListener.OnTouchesMoved = OnTouchesMoved;
 
-                _images[1] = AddImage(150, 260, "UI/black_bazooka_bow_00.png", 0);
-                _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Scale = 0.6f;
-                _images[1].Tag = (int)Weapons.Bazooka;
+                if (_selectedEnemy != (int)Enemies.Aliens)
+                {
+                    _images[0] = AddImage(-270, 260, "UI/compact-sprayer_bow_00.png", 0);
+                    _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[0].Scale = 0.6f;
+                    _images[0].Tag = (int)Weapons.Compact;
 
-                _images[2] = AddImage(570, 260, "UI/standard_gun_bow_00.png", 0);
-                _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Scale = 1.0f;
-                _images[2].Tag = (int)Weapons.Standard;
+                    _images[1] = AddImage(150, 260, "UI/black_bazooka_bow_00.png", 0);
+                    _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[1].Scale = 0.6f;
+                    _images[1].Tag = (int)Weapons.Bazooka;
 
-                //----------------- Prabhjot -----------------//
-                /*_images[3] = this.AddImage(990, 260, "UI/compact-sprayer_bow_00.png", 0);
-                _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Scale = 0.6f;
-                _images[3].Tag = (int)WEAPONS.COMPACT;
+                    _images[2] = AddImage(570, 260, "UI/standard_gun_bow_00.png", 0);
+                    _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[2].Scale = 1.0f;
+                    _images[2].Tag = (int)Weapons.Standard;
 
-                _images[4] = this.AddImage(1410, 260, "UI/black_bazooka_bow_00.png", 0);
-                _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Scale = 0.6f;
-                _images[4].Tag = (int)WEAPONS.BAZOOKA;
+                    //----------------- Prabhjot -----------------//
+                    /*_images[3] = this.AddImage(990, 260, "UI/compact-sprayer_bow_00.png", 0);
+                    _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[3].Scale = 0.6f;
+                    _images[3].Tag = (int)WEAPONS.COMPACT;
 
-                _images[5] = this.AddImage(1830, 260, "UI/standard_gun_bow_00.png", 0);
-                _images[5].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[5].Scale = 0.6f;
-                _images[5].Tag = (int)WEAPONS.STANDARD;
-                */
-                _selectedWeapon = (int)Weapons.Standard;
+                    _images[4] = this.AddImage(1410, 260, "UI/black_bazooka_bow_00.png", 0);
+                    _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[4].Scale = 0.6f;
+                    _images[4].Tag = (int)WEAPONS.BAZOOKA;
 
-                _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-standard-gun-text-board-all.png", 1000);
-                _imgWeaponDescription.Opacity = 0;
+                    _images[5] = this.AddImage(1830, 260, "UI/standard_gun_bow_00.png", 0);
+                    _images[5].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[5].Scale = 0.6f;
+                    _images[5].Tag = (int)WEAPONS.STANDARD;
+                    */
+                    _selectedWeapon = (int)Weapons.Standard;
 
+                    _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-standard-gun-text-board-all.png", 1000);
+                    _imgWeaponDescription.Opacity = 0;
+
+                }
+                else
+                {
+                    _isSwipingEnabled = false;
+
+                    _images[2] = AddImage(570, 260, "UI/hybrid_defender_bow_00.png", 0);
+                    _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
+                    _images[2].Scale = 1.0f;
+                    _images[2].Tag = (int)Weapons.Hybrid;
+
+                    _selectedWeapon = (int)Weapons.Hybrid;
+
+                    _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-hybrid-defender-text-board-plain-text.png", 1000);
+                    _imgWeaponDescription.Opacity = 0;
+
+                }
+
+                _imgWeaponLocked = AddImage(1136 / 2, 410, "UI/Choose-your-weapon-weapon-locked-text.png", 500);
+                _imgWeaponLocked.AnchorPoint = new CCPoint(0.5f, 0f);
+                _imgWeaponLocked.Opacity = 0;
+                _imgWeaponLocked.Visible = false;
+
+                SetWeaponStatsImages();
+                SetWeaponStatsOpacity(0);
+
+                _btnWeaponUpgrade = AddButton(2, 28, "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-untapped.png", "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-tapped.png", 1100);
+                _btnWeaponUpgrade.Opacity = 0;
+                _btnWeaponUpgrade.Enabled = false;
+                _btnWeaponUpgrade.OnClick += _btnWeaponUpgrade_OnClick;
+
+                _btnTestProperties = AddButton(2, 28, "UI/Choose-your-weapon-weapon-characters-board-test-properties-button-untapped.png", "UI/Choose-your-weapon-weapon-characters-board-test-properties-button-tapped.png", 1100);
+                _btnTestProperties.Opacity = 0;
+                _btnTestProperties.Enabled = false;
+                _btnTestProperties.OnClick += _btnTestProperties_OnClick;
+
+                _btnWeaponBuy = AddButton(2, 9, "UI/Choose-your-weapon-unlock-button-untapped.png", "UI/Choose-your-weapon-unlock-button-tapped.png", 1100);
+                _btnWeaponBuy.Opacity = 0;
+                _btnWeaponBuy.Enabled = false;
+                _btnWeaponBuy.OnClick += _btnWeaponBuy_OnClick;
+                _btnWeaponBuy.Visible = false;
+
+                _centerImage = _images[2];
+
+                AddEventListener(touchListener, this);
+                AddEventListener(touchListener);
+
+
+                SetWeaponStatsStars();
+
+                _startedBowing = false;
+
+                if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipWeaponPickerShow && gameTipAvailable)
+                {
+                    _isHoldAnimations = true;
+                    ShowGameTip();
+                }
+                else
+                {
+                    _isHoldAnimations = false;
+                    ScheduleOnce(DelayedBow, 1.0f);
+                }
             }
-            else
-            {
-                _isSwipingEnabled = false;
-
-                _images[2] = AddImage(570, 260, "UI/hybrid_defender_bow_00.png", 0);
-                _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Scale = 1.0f;
-                _images[2].Tag = (int)Weapons.Hybrid;
-
-                _selectedWeapon = (int)Weapons.Hybrid;
-
-                _imgWeaponDescription = AddImage(795, 15, "UI/Choose-your-weapon-hybrid-defender-text-board-plain-text.png", 1000);
-                _imgWeaponDescription.Opacity = 0;
-
-            }
-
-            _imgWeaponLocked = AddImage(1136 / 2, 410, "UI/Choose-your-weapon-weapon-locked-text.png", 500);
-            _imgWeaponLocked.AnchorPoint = new CCPoint(0.5f, 0f);
-            _imgWeaponLocked.Opacity = 0;
-            _imgWeaponLocked.Visible = false;
-
-            SetWeaponStatsImages();
-            SetWeaponStatsOpacity(0);
-
-            _btnWeaponUpgrade = AddButton(2, 28, "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-untapped.png", "UI/Choose-your-weapon-weapon-characters-board-get-more-firepower-button-tapped.png", 1100);
-            _btnWeaponUpgrade.Opacity = 0;
-            _btnWeaponUpgrade.Enabled = false;
-            _btnWeaponUpgrade.OnClick += _btnWeaponUpgrade_OnClick;
-
-            _btnTestProperties = AddButton(2, 28, "UI/Choose-your-weapon-weapon-characters-board-test-properties-button-untapped.png", "UI/Choose-your-weapon-weapon-characters-board-test-properties-button-tapped.png", 1100);
-            _btnTestProperties.Opacity = 0;
-            _btnTestProperties.Enabled = false;
-            _btnTestProperties.OnClick += _btnTestProperties_OnClick;
-
-            _btnWeaponBuy = AddButton(2, 9, "UI/Choose-your-weapon-unlock-button-untapped.png", "UI/Choose-your-weapon-unlock-button-tapped.png", 1100);
-            _btnWeaponBuy.Opacity = 0;
-            _btnWeaponBuy.Enabled = false;
-            _btnWeaponBuy.OnClick += _btnWeaponBuy_OnClick;
-            _btnWeaponBuy.Visible = false;
-
-            _centerImage = _images[2];
-
-            AddEventListener(touchListener, this);
-            AddEventListener(touchListener);
-
-
-            SetWeaponStatsStars();
-
-            _startedBowing = false;
-
-            if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipWeaponPickerShow && gameTipAvailable)
-            {
-                _isHoldAnimations = true;
-                ShowGameTip();
-            }
-            else
-            {
-                _isHoldAnimations = false;
-                ScheduleOnce(DelayedBow, 1.0f);
-            }
+            catch (Exception ex)
+            { var mess = ex.Message; }
         }
 
         private void _btnTestProperties_OnClick(object sender, EventArgs e)
@@ -242,7 +247,7 @@ namespace LooneyInvaders.Layers
             else if (selectedWeapon == (int)Weapons.Compact)
             {
                 MoveImages(840);
-                _centerImage = _images[3];
+                _centerImage = _images[0];
             }
 
             _selectedWeapon = selectedWeapon;
@@ -354,33 +359,32 @@ namespace LooneyInvaders.Layers
             var caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
             var firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
             var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
-
-            if (_selectedWeapon == (int)Weapons.Standard)
+            switch (_selectedWeapon)
             {
-                _imgWeaponStatsStars[4].Visible = false; // calibre size 5
-                _imgWeaponStatsStars[5].Visible = false; // calibre size 6
-                _imgWeaponStatsStars[10].Visible = false; // firespeed 5
-                _imgWeaponStatsStars[11].Visible = false; // firespeed 6
-                _imgWeaponStatsStars[16].Visible = false; // magazine size 5
-                _imgWeaponStatsStars[17].Visible = false; // magazine size 6                
-            }
-            else if (_selectedWeapon == (int)Weapons.Compact)
-            {
-                _imgWeaponStatsStars[4].Visible = false; // calibre size 5
-                _imgWeaponStatsStars[5].Visible = false; // calibre size 6
-                _imgWeaponStatsStars[10].Visible = true; // firespeed 5
-                _imgWeaponStatsStars[11].Visible = true; // firespeed 6
-                _imgWeaponStatsStars[16].Visible = true; // magazine size 5
-                _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
-            }
-            else if (_selectedWeapon == (int)Weapons.Bazooka)
-            {
-                _imgWeaponStatsStars[4].Visible = true; // calibre size 5
-                _imgWeaponStatsStars[5].Visible = true; // calibre size 6
-                _imgWeaponStatsStars[10].Visible = false; // firespeed 5
-                _imgWeaponStatsStars[11].Visible = false; // firespeed 6
-                _imgWeaponStatsStars[16].Visible = true; // magazine size 5
-                _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
+                case (int)Weapons.Standard:
+                    _imgWeaponStatsStars[4].Visible = false; // calibre size 5
+                    _imgWeaponStatsStars[5].Visible = false; // calibre size 6
+                    _imgWeaponStatsStars[10].Visible = false; // firespeed 5
+                    _imgWeaponStatsStars[11].Visible = false; // firespeed 6
+                    _imgWeaponStatsStars[16].Visible = false; // magazine size 5
+                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6                
+                    break;
+                case (int)Weapons.Compact:
+                    _imgWeaponStatsStars[4].Visible = false; // calibre size 5
+                    _imgWeaponStatsStars[5].Visible = false; // calibre size 6
+                    _imgWeaponStatsStars[10].Visible = true; // firespeed 5
+                    _imgWeaponStatsStars[11].Visible = true; // firespeed 6
+                    _imgWeaponStatsStars[16].Visible = true; // magazine size 5
+                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
+                    break;
+                case (int)Weapons.Bazooka:
+                    _imgWeaponStatsStars[4].Visible = true; // calibre size 5
+                    _imgWeaponStatsStars[5].Visible = true; // calibre size 6
+                    _imgWeaponStatsStars[10].Visible = false; // firespeed 5
+                    _imgWeaponStatsStars[11].Visible = false; // firespeed 6
+                    _imgWeaponStatsStars[16].Visible = true; // magazine size 5
+                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
+                    break;
             }
 
             for (var i = 0; i < 6; i++)
@@ -421,9 +425,6 @@ namespace LooneyInvaders.Layers
                 _imgWeaponLocked.Visible = false;
                 _btnForward.Visible = true;
                 _btnForwardNoPasaran.Visible = false;
-
-
-
             }
             else
             {
@@ -692,14 +693,11 @@ namespace LooneyInvaders.Layers
 
         private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
-
-
             if (_isHoldAnimations) return;
 
             if (_isSwiping) Schedule(SnapToCentre, 0.03f);
 
             _isSwiping = false;
-
         }
 
         private void OnTouchesCancelled(List<CCTouch> touches, CCEvent touchEvent)
