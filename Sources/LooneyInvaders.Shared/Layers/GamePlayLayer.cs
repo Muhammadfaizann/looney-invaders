@@ -1078,7 +1078,7 @@ namespace LooneyInvaders.Layers
                 AddImageLabelRightAligned(1136 / 2 + 92, 509, ((int)SelectedBattleground + 1).ToString(), 55);
                 AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
             }
-
+            //ToDo: look, steering test starts and what is going..
             _countdown = 6;
 
             if (SelectedEnemy == Enemies.Aliens)
@@ -1330,7 +1330,11 @@ namespace LooneyInvaders.Layers
                     {
                         GameEnvironment.PlayMusic(Music.BattleWave1);
                     }
+                    _countdown = 6;
                     StartGame();
+                    break;
+                default:
+                    _countdown = 0;
                     break;
             }
         }
@@ -1424,7 +1428,7 @@ namespace LooneyInvaders.Layers
                     }
                     _ammos.Add(ammo);
                 }
-
+                AddAllEnemies(2);
 
                 _goingDown = 240;
                 _enemyCurrentSpeed = 0; //enemySpeed;
@@ -1850,7 +1854,6 @@ namespace LooneyInvaders.Layers
 
         private void btnJust_OnClick(object sender, EventArgs e)
         {
-            Pause();
             //this.UnscheduleAll();
             //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
             //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
@@ -1870,7 +1873,7 @@ namespace LooneyInvaders.Layers
         {
             try
             {
-                Settings.IsFromGameScreen = !(0 < _countdown && _countdown <= 5);
+                Settings.IsFromGameScreen = true;
                 RemoveChild(_gamePauseBackground);
                 _gamePauseBackground = null;
                 RemoveChild(_btnJust);
@@ -1915,6 +1918,10 @@ namespace LooneyInvaders.Layers
                                 break;
                         }
                     }
+                }
+                else if (isCountingDown)
+                {
+                    Schedule(CountDownUpdate, 1f);
                 }
             }
             catch (Exception ex)
