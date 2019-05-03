@@ -40,7 +40,9 @@ namespace LooneyInvaders.App42
                 _service = App42API.BuildScoreBoardService();
             }
             catch (Exception ex)
-            { var mess = ex.Message; }
+            {
+                LastException = ex;
+            }
         }
 
         public static void Init(string app42ApiKey, string app42SecretKey, int delayOnErrorMS)
@@ -191,7 +193,6 @@ namespace LooneyInvaders.App42
             try
             {
                 var game = scoreBoardService.GetTopNRankers(gameName, 10);
-
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     for (var i = 0; i < game.GetScoreList().Count; i++)
@@ -222,11 +223,11 @@ namespace LooneyInvaders.App42
 
         private LeaderboardItem GetPlayerRanking(app42ScoreBoardService scoreBoardService, string gameName, LeaderboardType type)
         {
+            Game game;
+            game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
+                ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
             try
             {
-                //var game = scoreBoardService.GetUserRanking(gameName, Player.Instance.Name);
-                var game = scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name);
-
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     if (game.GetScoreList()[0].GetValue() > 0)
@@ -244,7 +245,6 @@ namespace LooneyInvaders.App42
                                     game.GetScoreList()[0].GetUserName(),
                                     game.GetScoreList()[0].GetValue());
                             default: return null;
-
                         }
                     }
                 }
@@ -259,6 +259,24 @@ namespace LooneyInvaders.App42
                 return null;
             }
 
+            return null;
+        }
+
+        private Game TryGetGame(Func<Game> getter)
+        {
+            try
+            {
+                return getter?.Invoke();
+            }
+            catch (App42NotFoundException ex)
+            {
+                LastException = ex;
+            }
+            catch (System.Net.WebException e)
+            {
+                LastException = e;
+                return null;
+            }
             return null;
         }
 

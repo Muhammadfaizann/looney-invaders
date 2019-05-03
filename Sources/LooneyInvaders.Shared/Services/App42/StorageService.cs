@@ -33,7 +33,9 @@ namespace LooneyInvaders.App42
                 _service = App42API.BuildStorageService();
             }
             catch (Exception ex)
-            { var mess = ex.Message; }
+            {
+                LastException = ex;
+            }
         }
 
         public static void Init(string app42ApiKey, string app42SecretKey)
