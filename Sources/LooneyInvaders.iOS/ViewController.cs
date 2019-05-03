@@ -131,7 +131,7 @@ namespace LooneyInvaders.iOS
             {
                 await _svc.Pause();
 
-                GameDelegate.Layer?.Pause();
+                GameDelegate.StopGame();
             }
             catch (Exception ex)
             {
@@ -153,11 +153,7 @@ namespace LooneyInvaders.iOS
             {
                 await _svc.Resume();
 
-                if (GameDelegate.Layer != null)
-                {
-                    GameDelegate.LoadGame(GameView, null);
-                    GameDelegate.Layer.Resume();
-                }
+                GameDelegate.LoadGame(null, null);
             }
             catch (Exception ex)
             {

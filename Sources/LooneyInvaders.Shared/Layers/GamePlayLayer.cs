@@ -1708,7 +1708,13 @@ namespace LooneyInvaders.Layers
             var newScene = new CCScene(GameView);
             newScene.AddLayer(new SettingsScreenLayer(this, GameConstants.NavigationParam.GameScreen));
             Director.PushScene(newScene);
+        }
 
+        public override void UnscheduleOnLayer()
+        {
+            base.UnscheduleOnLayer();
+
+            Unschedule(CountDownUpdate);
         }
 
         public CCLayerColorExt Continue()

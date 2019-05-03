@@ -493,11 +493,7 @@ namespace LooneyInvaders.Droid
             base.OnPostResume();
 
             AdBanner?.Resume();
-            if (GameDelegate.Layer != null)
-            {
-                GameDelegate.LoadGame(GameView, null);
-                GameDelegate.Layer.Resume();
-            }
+            GameDelegate.LoadGame(null, null);
 
             var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
             _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
@@ -513,7 +509,7 @@ namespace LooneyInvaders.Droid
             base.OnPause();
 
             AdBanner?.Pause();
-            GameDelegate.Layer?.Pause();
+            GameDelegate.StopGame();
 
             _sensorManager.UnregisterListener(this);
 
@@ -641,7 +637,6 @@ namespace LooneyInvaders.Droid
             base.OnDestroy();
         }
 
-        //ToDo: Bass - FIX -> In-app billing version 3 NOT supported
         private async Task MakePurchase(IProduct product)
         {
             try

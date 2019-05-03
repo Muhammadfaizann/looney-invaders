@@ -23,16 +23,28 @@ namespace LooneyInvaders.Shared
             OnBackButton = null;
         }
 
-        public static CCLayer Layer;
+        static readonly object toSetLayer = new object();
+        static CCLayer _layer;
+        public static CCLayer Layer
+        {
+            get => _layer;
+            set
+            {
+                lock(toSetLayer)
+                {
+                    _layer = value;
+                }
+            }
+        }
 
         public static CCGameView GameView;
 
         public static void LoadGame(object sender, EventArgs e)
         {
-            GameView = sender as CCGameView;
+            if (sender == null && Layer == null)
+            { return; }
 
-            if (GameView == null)
-                return;
+            GameView = sender as CCGameView ?? GameView;
 
             //var contentSearchPaths = new List<string>() { "Fonts", "Sounds" };
             //CCSizeI viewSize = GameView.ViewSize;
@@ -72,15 +84,22 @@ namespace LooneyInvaders.Shared
 
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
-
+            Layer = Layer ?? new SplashScreenLayer();
+            Layer.Resume();
             var gameScene = new CCScene(GameView);
-            //gameScene.AddLayer(new EnemyPickerLayer());
-            //gameScene.AddLayer(new MainScreenLayer());
-            var splashLayer = new SplashScreenLayer();
-            gameScene.AddLayer(Layer ?? splashLayer);
-            //gameScene.AddLayer(new VictoryScreenLayer(Model.ENEMIES.HITLER, Model.WEAPONS.BAZOOKA, Model.BATTLEGROUNDS.POLAND, 100, 99));
-            //gameScene.AddLayer(new SettingsScreenLayer());
+            gameScene.AddLayer(Layer);
             GameView.RunWithScene(gameScene);
+        }
+
+        public static void StopGame()
+        {
+            //ToDo: check usefulness
+            //var gameScene = new CCScene(GameView);
+            //gameScene.StopAllActions();
+
+            var currentLayer = Layer as CCLayerColorExt;
+            currentLayer?.UnscheduleOnLayer();
+            currentLayer?.Pause();
         }
     }
 

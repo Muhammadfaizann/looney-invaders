@@ -348,6 +348,10 @@ namespace LooneyInvaders.Classes
             sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
         }
 
+        public virtual void UnscheduleOnLayer()
+        {
+        }
+
         internal void FireOnTouchBegan()
         {
             OnTouchBegan?.Invoke(this, EventArgs.Empty);
