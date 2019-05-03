@@ -1471,24 +1471,12 @@ namespace LooneyInvaders.Layers
                 {
                     if (_launchMode != LaunchMode.SteeringTest)
                     {
-                        _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
-                        _btnBack.OnClick += BtnBack_OnClick;
-                        _btnBack.ButtonType = ButtonType.Back;
-
-                        _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
-                        _btnSettings.OnClick += btnSettings_OnClick;
+                        CreateBtnBackAndSettings();
                     }
 
-                    Schedule(UpdateAll);
-
                     SetUpSteering(true);
-
-                    /*if (!Settings.Instance.Vibration)
-                    {
-                        btnBack.Visible = false;
-                        btnSettings.Visible = false;
-                    }*/
-
+                    Schedule(UpdateAll);
+                    //SetUpSteering(true);
                 }
 
                 /*
@@ -1566,21 +1554,34 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                CreateBtnBack();
+                CreateBtnBackAndSettings();
+                SetUpSteering(_launchMode == LaunchMode.Default);
+                Schedule(UpdateAll);
             }
         }
 
-        private void CreateBtnBack()
+        private void CreateBtnBackAndSettings(bool forced = true)
         {
-            Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
-            _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = ButtonType.Back;
-
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
-            _btnSettings.OnClick += btnSettings_OnClick;
-
-            SetUpSteering(_launchMode == LaunchMode.Default);
+            if (forced)
+            {
+                _btnBack = this.CreateButton(2, 570,
+                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
+                    100, ButtonType.Back, BtnBack_OnClick);
+                _btnSettings = this.CreateButton(70, 570,
+                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
+                    100, ButtonType.Back, btnSettings_OnClick);
+            }
+            else
+            {
+                _btnBack = _btnBack.CreateIfNeeded(this,
+                    2, 570,
+                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
+                    100, ButtonType.Back, BtnBack_OnClick);
+                _btnSettings = _btnSettings.CreateIfNeeded(this,
+                    70, 570,
+                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
+                    100, ButtonType.Back, btnSettings_OnClick);
+            }
         }
 
         private void gameTipCheckMark_OnClick(object sender, EventArgs e)
@@ -1600,20 +1601,8 @@ namespace LooneyInvaders.Layers
             RemoveChild(_gameTipCheckMark);
             RemoveChild(_okIGotIt);
             OnTouchBegan += GamePlayLayer_OnTouchBegan;
+            CreateBtnBackAndSettings();
             Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
-            _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = ButtonType.Back;
-
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
-            _btnSettings.OnClick += btnSettings_OnClick;
-
-            /*if (!Settings.Instance.Vibration)
-            {
-                btnBack.Visible = false;
-                btnSettings.Visible = false;
-            }*/
-
         }
 
         private void okIGotIt_OnClickTouch(object sender, EventArgs e)
@@ -1629,11 +1618,11 @@ namespace LooneyInvaders.Layers
 
             Settings.Instance.ShowSteeringTip = false;
 
+            ////SetUpSteering(_launchMode == LaunchMode.Default);
+            CreateBtnBackAndSettings();
             SetUpSteering(_launchMode == LaunchMode.Default);
-
-            CreateBtnBack();
-
             Schedule(UpdateAll);
+            //SetUpSteering(_launchMode == LaunchMode.Default);
         }
 
         private void ShowAlienTip(float dt)
@@ -1658,20 +1647,8 @@ namespace LooneyInvaders.Layers
             RemoveChild(_gameTipCheckMark);
             RemoveChild(_okIGotIt);
             OnTouchBegan += GamePlayLayer_OnTouchBegan;
+            CreateBtnBackAndSettings();
             Schedule(UpdateAll);
-            _btnBack = AddButton(2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png", 100, ButtonType.Back);
-            _btnBack.OnClick += BtnBack_OnClick;
-            _btnBack.ButtonType = ButtonType.Back;
-
-            _btnSettings = AddButton(70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png", 100, ButtonType.Back);
-            _btnSettings.OnClick += btnSettings_OnClick;
-
-            /*if (!Settings.Instance.Vibration)
-            {
-                btnBack.Visible = false;
-                btnSettings.Visible = false;
-            }*/
-
         }
 
         private void ClearAll()
@@ -1851,11 +1828,9 @@ namespace LooneyInvaders.Layers
             _gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
             _gamePauseFriendlyCheckMark.SetStateImages();
 
-            if (_btnBack != null && _btnSettings != null)
-            {
-                _btnBack.Visible = false;
-                _btnSettings.Visible = false;
-            }
+            CreateBtnBackAndSettings();
+            _btnBack.ChangeVisibility(false);
+            _btnSettings.ChangeVisibility(false);
 
             /*
             clearAll();
@@ -1909,28 +1884,17 @@ namespace LooneyInvaders.Layers
                 RemoveChild(_gamePauseFriendlyCheckMark);
                 _gamePauseFriendlyCheckMark = null;
 
-                _btnBack.CreateIfNeededAndChangeVisibility(Settings.IsFromGameScreen,
-                    this,
-                    2, 570,
-                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
-                    100, ButtonType.Back, BtnBack_OnClick);
-                _btnSettings.CreateIfNeededAndChangeVisibility(Settings.IsFromGameScreen,
-                    this,
-                    70, 570,
-                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
-                    100, ButtonType.Back, btnSettings_OnClick);
+                CreateBtnBackAndSettings();
 
                 Schedule(UpdateAll);
-                Resume();
-
                 SetUpSteering(_launchMode == LaunchMode.Default);
 
-                if (!Settings.IsFromGameScreen)
-                {
-                    Unschedule(CountDownUpdate);
-                    Schedule(CountDownUpdate, 1f);
-                }
-                else if (_waveTransfer)
+                var isCountingDown = 0 < _countdown && _countdown <= 5;
+                _btnBack.ChangeVisibility(!isCountingDown);
+                _btnSettings.ChangeVisibility(!isCountingDown);
+
+
+                if (_waveTransfer)
                 {
                     if (SelectedEnemy == Enemies.Aliens)
                     {
