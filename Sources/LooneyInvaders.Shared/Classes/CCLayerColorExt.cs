@@ -348,6 +348,12 @@ namespace LooneyInvaders.Classes
             sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
         }
 
+        public new void Schedule(Action<float> selector)
+        {
+            base.Unschedule(selector);
+            base.Schedule(selector);
+        }
+
         public virtual void UnscheduleOnLayer()
         {
         }
@@ -368,6 +374,10 @@ namespace LooneyInvaders.Classes
 
                 foreach (var touch in touches)
                 {
+                    if (GameView == null)
+                    {
+                        continue;
+                    }
                     foreach (var node in Children)
                     {
                         if (node is CCSpriteButton button1 && button1.Visible && button1.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
@@ -525,6 +535,10 @@ namespace LooneyInvaders.Classes
             {
                 foreach (var touch in touches)
                 {
+                    if (GameView == null)
+                    {
+                        continue;
+                    }
                     foreach (var node in Children)
                     {
                         switch (node)

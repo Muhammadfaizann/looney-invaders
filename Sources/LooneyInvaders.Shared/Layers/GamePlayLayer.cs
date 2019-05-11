@@ -1566,25 +1566,24 @@ namespace LooneyInvaders.Layers
 
         private void CreateBtnBackAndSettings(bool forced = true)
         {
+            (int, int, string, string, int, ButtonType, EventHandler)
+                args1 = (2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
+                    100, ButtonType.Back, BtnBack_OnClick),
+                args2 = (70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
+                    100, ButtonType.Back, btnSettings_OnClick);
             if (forced)
             {
-                _btnBack = this.CreateButton(2, 570,
-                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
-                    100, ButtonType.Back, BtnBack_OnClick);
-                _btnSettings = this.CreateButton(70, 570,
-                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
-                    100, ButtonType.Back, btnSettings_OnClick);
+                _btnBack = this.CreateButton(args1.Item1, args1.Item2, args1.Item3,
+                    args1.Item4, args1.Item5, args1.Item6, args1.Item7);
+                _btnSettings = this.CreateButton(args2.Item1, args2.Item2, args2.Item3,
+                    args2.Item4, args2.Item5, args2.Item6, args2.Item7);
             }
             else
             {
-                _btnBack = _btnBack.CreateIfNeeded(this,
-                    2, 570,
-                    "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
-                    100, ButtonType.Back, BtnBack_OnClick);
-                _btnSettings = _btnSettings.CreateIfNeeded(this,
-                    70, 570,
-                    "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
-                    100, ButtonType.Back, btnSettings_OnClick);
+                _btnBack = _btnBack.CreateIfNeeded(this, args1.Item1, args1.Item2,
+                    args1.Item3, args1.Item4, args1.Item5, args1.Item6, args1.Item7);
+                _btnSettings = _btnBack.CreateIfNeeded(this, args2.Item1, args2.Item2,
+                    args2.Item3, args2.Item4, args2.Item5, args2.Item6, args2.Item7);
             }
         }
 
@@ -2014,6 +2013,10 @@ namespace LooneyInvaders.Layers
 
             foreach (var touch in touches)
             {
+                if (GameView == null)
+                {
+                    continue;
+                }
                 if (RectangleWithin(fireButtonBoundingBox, touch.Location))
                 {
                     FireBtnPressed();
@@ -4166,6 +4169,10 @@ namespace LooneyInvaders.Layers
 
             foreach (var touch in touches)
             {
+                if (GameView == null)
+                {
+                    continue;
+                }
                 if (RectangleWithin(movementButtonBoundingBox, touch.Location))
                 {
                     _isCannonMoving = true;
@@ -4249,7 +4256,10 @@ namespace LooneyInvaders.Layers
 
         private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
-
+            if (GameView == null)
+            {
+                return;
+            }
             if (_btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
             {
                 _isCannonMoving = false;
