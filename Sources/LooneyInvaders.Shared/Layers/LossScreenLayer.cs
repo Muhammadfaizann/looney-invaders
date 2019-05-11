@@ -259,7 +259,6 @@ namespace LooneyInvaders.Layers
                 _youAreDefeated.Opacity = 255;
                 Unschedule(FadeYouAreDefeated);
             }
-
         }
 
 
@@ -276,6 +275,11 @@ namespace LooneyInvaders.Layers
             {
                 child.Opacity = _getRevengeNode.Opacity;
             }
+        }
+
+        private void RemoveRevengeNode(float dt)
+        {
+            RemoveChild(_getRevengeNode);
         }
 
 
@@ -803,7 +807,9 @@ namespace LooneyInvaders.Layers
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
-        { }
+        {
+            ScheduleOnce(RemoveRevengeNode, 0f);
+        }
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
