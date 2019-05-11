@@ -341,15 +341,9 @@ namespace LooneyInvaders.iOS
             await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
         }
 
-
         private void RefreshLeaderboards(Leaderboard leaderboard)
         {
             App42.ScoreBoardService.Instance.RefreshLeaderboards(leaderboard);
-        }
-
-        private void FireLeaderboardRefreshed()
-        {
-            LeaderboardManager.FireOnLeaderboardsRefreshed();
         }
 
         public void ShareOnSocialNetworkHandler(string network, System.IO.Stream stream)
