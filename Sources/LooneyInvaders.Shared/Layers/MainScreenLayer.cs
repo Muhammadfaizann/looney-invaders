@@ -471,44 +471,51 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                List<LeaderboardItem> lbScore = null;
-
-                var leaderboard = LeaderboardManager.RegularLeaderboard;
-                if (_isShownLeaderboardRegular) leaderboard = LeaderboardManager.RegularLeaderboard;
-                else if (_isShownLeaderboardPro) leaderboard = LeaderboardManager.ProLeaderboard;
-
-                if (_isShownRankingDay) lbScore = leaderboard.ScoreDaily;
-                else if (_isShownRankingWeek) lbScore = leaderboard.ScoreWeekly;
-                else if (_isShownRankingMonthly) lbScore = leaderboard.ScoreMonthly;
-
-                for (var i = 1; i <= 10; i++)
+                try
                 {
-                    if (lbScore != null && lbScore.Count >= i)
-                    {
-                        var color = lbScore[i - 1].Name == Player.Instance.Name
-                            ? new CCColor3B(255, 235, 180)
-                            : new CCColor3B(255, 255, 255);
+                    List<LeaderboardItem> lbScore = null;
 
-                        if (_isShownLeaderboardRegular)
+                    var leaderboard = LeaderboardManager.RegularLeaderboard;
+                    if (_isShownLeaderboardRegular) leaderboard = LeaderboardManager.RegularLeaderboard;
+                    else if (_isShownLeaderboardPro) leaderboard = LeaderboardManager.ProLeaderboard;
+
+                    if (_isShownRankingDay) lbScore = leaderboard.ScoreDaily;
+                    else if (_isShownRankingWeek) lbScore = leaderboard.ScoreWeekly;
+                    else if (_isShownRankingMonthly) lbScore = leaderboard.ScoreMonthly;
+
+                    for (var i = 1; i <= 10; i++)
+                    {
+                        if (lbScore != null && lbScore.Count >= i)
                         {
-                            _leaderboardSprites.Add(AddLabel(305, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabel(410, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabelRightAligned(595, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabelRightAligned(710, 297 - i * 17, lbScore[i - 1].Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabelRightAligned(850, 297 - i * 17, lbScore[i - 1].Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, color));
+                            var color = lbScore[i - 1].Name == Player.Instance.Name
+                                ? new CCColor3B(255, 235, 180)
+                                : new CCColor3B(255, 255, 255);
+
+                            if (_isShownLeaderboardRegular)
+                            {
+                                _leaderboardSprites.Add(AddLabel(305, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabel(410, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabelRightAligned(595, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabelRightAligned(710, 297 - i * 17, lbScore[i - 1].Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabelRightAligned(850, 297 - i * 17, lbScore[i - 1].Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, color));
+                            }
+                            else
+                            {
+                                _leaderboardSprites.Add(AddLabel(355, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabel(480, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabelRightAligned(670, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
+                                _leaderboardSprites.Add(AddLabelRightAligned(800, 297 - i * 17, lbScore[i - 1].LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
+                            }
                         }
                         else
                         {
-                            _leaderboardSprites.Add(AddLabel(355, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabel(480, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabelRightAligned(670, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                            _leaderboardSprites.Add(AddLabelRightAligned(800, 297 - i * 17, lbScore[i - 1].LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
+                            // dots?
                         }
                     }
-                    else
-                    {
-                        // dots?
-                    }
+                }
+                catch (Exception ex)
+                {
+                    var mess = ex.Message;
                 }
 
                 LeaderboardItem lbi = null;
