@@ -1564,27 +1564,32 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void CreateBtnBackAndSettings(bool forced = true)
+        private void ChangeAvailabilityBtnBackAndSettings(bool isVisible, bool isEnabled = true)
+        {
+            _btnBack.ChangeVisibility(isVisible);
+            _btnSettings.ChangeVisibility(isVisible);
+            _btnBack.ChangeAvailability(!isVisible || isEnabled);
+            _btnSettings.ChangeAvailability(!isVisible || isEnabled);
+        }
+
+        private void CreateBtnBackAndSettings()
         {
             (int, int, string, string, int, ButtonType, EventHandler)
                 args1 = (2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
                     100, ButtonType.Back, BtnBack_OnClick),
                 args2 = (70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
                     100, ButtonType.Back, btnSettings_OnClick);
-            if (forced)
-            {
-                _btnBack = this.CreateButton(args1.Item1, args1.Item2, args1.Item3,
-                    args1.Item4, args1.Item5, args1.Item6, args1.Item7);
-                _btnSettings = this.CreateButton(args2.Item1, args2.Item2, args2.Item3,
-                    args2.Item4, args2.Item5, args2.Item6, args2.Item7);
-            }
-            else
-            {
-                _btnBack = _btnBack.CreateIfNeeded(this, args1.Item1, args1.Item2,
-                    args1.Item3, args1.Item4, args1.Item5, args1.Item6, args1.Item7);
-                _btnSettings = _btnBack.CreateIfNeeded(this, args2.Item1, args2.Item2,
+
+            _btnBack = _btnBack?.Parent == null
+                ? this.CreateButton(args1.Item1, args1.Item2, args1.Item3,
+                                    args1.Item4, args1.Item5, args1.Item6, args1.Item7)
+                : _btnBack.CreateIfNeeded(this, args1.Item1, args1.Item2, args1.Item3,
+                                            args1.Item4, args1.Item5, args1.Item6, args1.Item7);
+            _btnSettings = _btnSettings?.Parent == null
+                ? this.CreateButton(args2.Item1, args2.Item2, args2.Item3,
+                                    args2.Item4, args2.Item5, args2.Item6, args2.Item7)
+                : _btnSettings.CreateIfNeeded(this, args2.Item1, args2.Item2,
                     args2.Item3, args2.Item4, args2.Item5, args2.Item6, args2.Item7);
-            }
         }
 
         private void gameTipCheckMark_OnClick(object sender, EventArgs e)
@@ -1800,7 +1805,6 @@ namespace LooneyInvaders.Layers
             //------------- Prabhjot --------------//
             if (_isGameOver)
             {
-                //btnBack = this.AddButton(2, 570, "UI/pause-button-tapped.png", "UI/pause-button-untapped.png", 100, BUTTON_TYPE.Back);
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
@@ -1832,8 +1836,7 @@ namespace LooneyInvaders.Layers
             _gamePauseFriendlyCheckMark.SetStateImages();
 
             CreateBtnBackAndSettings();
-            _btnBack.ChangeVisibility(false);
-            _btnSettings.ChangeVisibility(false);
+            ChangeAvailabilityBtnBackAndSettings(false);
 
             /*
             clearAll();
@@ -1887,6 +1890,7 @@ namespace LooneyInvaders.Layers
                 _gamePauseFriendlyCheckMark = null;
 
                 CreateBtnBackAndSettings();
+                ChangeAvailabilityBtnBackAndSettings(true);
 
                 Schedule(UpdateAll);
                 SetUpSteering(_launchMode == LaunchMode.Default);
@@ -2887,7 +2891,9 @@ namespace LooneyInvaders.Layers
                                         {
                                             _scoreMultiplier = _scoreMultiplier * 2;
                                             _killsWithoutMiss = 0;
-                                            var multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX), Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2), "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
+                                            var multiplier = AddImageCentered(Convert.ToInt32(enemy.Sprite.PositionX),
+                                                                              Convert.ToInt32(enemy.Sprite.PositionY - enemy.Sprite.ContentSize.Height / 2),
+                                                                              "UI/" + _scoreMultiplier.ToString() + "X-text-for-explosion.png", 100);
                                             multiplier.Opacity = 200;
                                             _multipliers.Add(multiplier);
                                         }
@@ -2958,7 +2964,8 @@ namespace LooneyInvaders.Layers
                                         if (enemy.OpenMouth != null)
                                         {
                                             RemoveChild(enemy.OpenMouth);
-                                            enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2, new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
+                                            enemy.OpenMouth = new CCSprite(GameEnvironment.ImageDirectory + EnemyMouthOpenDamaged2,
+                                                                            new CCRect(0, 0, EnemyMouthClipWidth, EnemyMouthClipHeight));
                                             enemy.OpenMouth.Position = new CCPoint(enemy.Sprite.PositionX, enemy.Sprite.PositionY);
                                             enemy.OpenMouth.AnchorPoint = new CCPoint(0.5f, 1);
                                             enemy.OpenMouth.BlendFunc = GameEnvironment.BlendFuncDefault;
@@ -3024,7 +3031,6 @@ namespace LooneyInvaders.Layers
 
                 for (var i = 0; i < _bombs.Count;)
                 {
-                    const bool bombRemoved = false;
                     var bomb = _bombs[i];
 
                     if (bomb.Sprite.ScaleX < 1) bomb.Sprite.Scale = bomb.Sprite.ScaleX + 0.025f;
@@ -3073,16 +3079,28 @@ namespace LooneyInvaders.Layers
                     if (bomb.RotationSpeed > 0 && SelectedEnemy != Enemies.Aliens)
                     {
                         if (Convert.ToInt32(bomb.Rotation) > 16) bomb.Rotation = 0;
-                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "bomb-animation-image-" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => 
+                            item.TextureFilename == "bomb-animation-image-"
+                                                        + Convert.ToInt32(bomb.Rotation).ToString()
+                                                        + ".png").TextureRectInPixels;
                     }
                     else
                     {
                         if (Convert.ToInt32(bomb.Rotation) > 14) bomb.Rotation = 0;
-                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item => item.TextureFilename == "slime-ball-image_" + Convert.ToInt32(bomb.Rotation).ToString() + ".png").TextureRectInPixels;
+                        bomb.Sprite.TextureRectInPixels = SsBomb.Frames.Find(item =>
+                            item.TextureFilename == "slime-ball-image_"
+                                                        + Convert.ToInt32(bomb.Rotation).ToString()
+                                                        + ".png").TextureRectInPixels;
                     }
 
 
-                    if (!bomb.Collided && InRectangle(bomb.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height, SelectedEnemy == Enemies.Aliens ? 7 : 0, SelectedEnemy == Enemies.Aliens ? 7 : 0))
+                    if (!bomb.Collided
+                        && InRectangle(bomb.Sprite.BoundingBox,
+                            PlayerCollisionPoints,
+                            _player.PositionX,
+                            _player.PositionY + _player.ContentSize.Height,
+                            SelectedEnemy == Enemies.Aliens ? 7 : 0,
+                            SelectedEnemy == Enemies.Aliens ? 7 : 0))
                     {
                         //bomb.SpeedY = -random.Next(2, Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
                         //bomb.SpeedX = random.Next(Convert.ToInt32(Math.Abs(bomb.SpeedY) * 100)) / 100f;
@@ -3099,7 +3117,9 @@ namespace LooneyInvaders.Layers
                             //bombRemoved = true;
                             PlayerExplode();
 
-                            var explo = new Explosion(this, Convert.ToInt32(bomb.Sprite.PositionX), Convert.ToInt32(bomb.Sprite.PositionY));
+                            var explo = new Explosion(this,
+                                Convert.ToInt32(bomb.Sprite.PositionX),
+                                Convert.ToInt32(bomb.Sprite.PositionY));
                             _explos.Add(explo);
 
 
@@ -3126,10 +3146,7 @@ namespace LooneyInvaders.Layers
                         _bombs.Remove(bomb);
 
                     }
-                    else if (!bombRemoved)
-                    {
-                        i++;
-                    }
+                    i++;
                 }
 
 
@@ -3152,13 +3169,20 @@ namespace LooneyInvaders.Layers
                     {
                         if (Convert.ToInt32(_playerExploding) < 54)
                         {
-                            _playerExplosion.TextureRectInPixels = SsCannonExplosion1.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            _playerExplosion.TextureRectInPixels = SsCannonExplosion1.Frames.Find(item =>
+                                item.TextureFilename == "General_cannon_explosion_"
+                                                            + Convert.ToInt32(_playerExploding)
+                                                                     .ToString()
+                                                                     .PadLeft(2, '0')
+                                                            + ".png").TextureRectInPixels;
                         }
                         else
                         {
-                            if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png").Texture)
+                            if (_playerExplosion.Texture != SsCannonExplosion2.Frames.Find(item =>
+                                item.TextureFilename == "General_cannon_explosion_54.png").Texture)
                             {
-                                var newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_54.png"));
+                                var newPlayerExplosion = new CCSprite(SsCannonExplosion2.Frames.Find(item =>
+                                    item.TextureFilename == "General_cannon_explosion_54.png"));
                                 newPlayerExplosion.AnchorPoint = new CCPoint(0.5f, 0);
                                 newPlayerExplosion.PositionX = _playerExplosion.PositionX;
                                 newPlayerExplosion.PositionY = _playerExplosion.PositionY;
@@ -3166,7 +3190,12 @@ namespace LooneyInvaders.Layers
                                 RemoveChild(_playerExplosion);
                                 _playerExplosion = newPlayerExplosion;
                             }
-                            _playerExplosion.TextureRectInPixels = SsCannonExplosion2.Frames.Find(item => item.TextureFilename == "General_cannon_explosion_" + Convert.ToInt32(_playerExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            _playerExplosion.TextureRectInPixels = SsCannonExplosion2.Frames.Find(item =>
+                                item.TextureFilename == "General_cannon_explosion_"
+                                                            + Convert.ToInt32(_playerExploding)
+                                                                     .ToString()
+                                                                     .PadLeft(2, '0')
+                                                            + ".png").TextureRectInPixels;
                         }
                         _playerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                         if (_playerExploding > 40)
@@ -3186,7 +3215,8 @@ namespace LooneyInvaders.Layers
                     _playerExploding += 1f;
                     if (_playerExploding > 30 && _gameOver && _gameOverExplosion == null)
                     {
-                        _gameOverExplosion = new CCSprite(SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-00.png"));
+                        _gameOverExplosion = new CCSprite(SsGameOverExplosion.Frames.Find(item =>
+                            item.TextureFilename == "Game-over-explosion-image-00.png"));
                         _gameOverExplosion.PositionX = 0; // player.PositionX + player.ContentSize.Width / 2;
                         _gameOverExplosion.PositionY = 0; //player.PositionY;
                         _gameOverExplosion.AnchorPoint = new CCPoint(0, 0);
@@ -3200,7 +3230,12 @@ namespace LooneyInvaders.Layers
                 {
                     if (Convert.ToInt32(_gameOverExploding) <= 56)
                     {
-                        _gameOverExplosion.TextureRectInPixels = SsGameOverExplosion.Frames.Find(item => item.TextureFilename == "Game-over-explosion-image-" + Convert.ToInt32(_gameOverExploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _gameOverExplosion.TextureRectInPixels = SsGameOverExplosion.Frames.Find(item =>
+                            item.TextureFilename == "Game-over-explosion-image-"
+                                                        + Convert.ToInt32(_gameOverExploding)
+                                                                 .ToString()
+                                                                 .PadLeft(2, '0')
+                                                        + ".png").TextureRectInPixels;
                         _gameOverExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                         _gameOverExplosion.Scale = 4;
                         //playerExplosion.Scale = 4;
@@ -3238,7 +3273,12 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        laserSpark.Sprite.TextureRectInPixels = SsLaserSparks.Frames.Find(item => item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_" + Convert.ToInt32(laserSpark.Frame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        laserSpark.Sprite.TextureRectInPixels = SsLaserSparks.Frames.Find(item =>
+                            item.TextureFilename == "Alien-laser-hitting-animation-without-laser-image_"
+                                                        + Convert.ToInt32(laserSpark.Frame)
+                                                                 .ToString()
+                                                                 .PadLeft(2, '0')
+                                                        + ".png").TextureRectInPixels;
                         i++;
                     }
                 }
@@ -3316,12 +3356,22 @@ namespace LooneyInvaders.Layers
                             {
                                 if (SelectedEnemy == Enemies.Aliens)
                                 {
-                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "Alien_spitting" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item =>
+                                        item.TextureFilename == "Alien_spitting"
+                                                                    + Convert.ToInt32(enemy.Spitting)
+                                                                             .ToString()
+                                                                             .PadLeft(2, '0')
+                                                                    + ".png").TextureRectInPixels;
                                     enemy.Spit.Scale = 0.4f;
                                 }
                                 else
                                 {
-                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item => item.TextureFilename == "drooling_image_" + Convert.ToInt32(enemy.Spitting).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                                    enemy.Spit.TextureRectInPixels = SsDrooling.Frames.Find(item =>
+                                        item.TextureFilename == "drooling_image_"
+                                                                    + Convert.ToInt32(enemy.Spitting)
+                                                                             .ToString()
+                                                                             .PadLeft(2, '0')
+                                                                    + ".png").TextureRectInPixels;
                                 }
                                 enemy.Spit.BlendFunc = GameEnvironment.BlendFuncDefault;
                                 enemy.Spit.ZOrder = 997;
@@ -3332,7 +3382,9 @@ namespace LooneyInvaders.Layers
                                 enemy.Spit = null;
                             }
                         }
-                        if (enemy.AttachedBomb != null && !enemy.AttachedBomb.Spitted && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 3 - enemy.Sprite.ContentSize.Height / 2)
+                        if (enemy.AttachedBomb != null
+                            && !enemy.AttachedBomb.Spitted
+                            && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 3 - enemy.Sprite.ContentSize.Height / 2)
                         {
                             if (SelectedEnemy == Enemies.Aliens)
                             {
@@ -3371,7 +3423,9 @@ namespace LooneyInvaders.Layers
                             }
                             enemy.AttachedBomb.Spitted = true;
                         }
-                        if (enemy.AttachedBomb != null && enemy.Spit == null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 24 - enemy.Sprite.ContentSize.Height / 2)
+                        if (enemy.AttachedBomb != null
+                            && enemy.Spit == null
+                            && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 24 - enemy.Sprite.ContentSize.Height / 2)
                         {
 
                             if (enemy.Spit == null)
@@ -3395,7 +3449,8 @@ namespace LooneyInvaders.Layers
                                 AddChild(enemy.Spit, enemy.Sprite.ZOrder + 1);
                             }
                         }
-                        if (enemy.AttachedBomb != null && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
+                        if (enemy.AttachedBomb != null
+                            && enemy.AttachedBomb.Sprite.PositionY < enemy.Sprite.PositionY - 52 - enemy.Sprite.ContentSize.Height / 2)
                         {
                             enemy.BombOut();
                             var r = _random.Next(3);
@@ -3424,13 +3479,16 @@ namespace LooneyInvaders.Layers
                         if (_goingDown <= 32)
                         {
                             enemy.Sprite.PositionX += _enemyCurrentSpeed;
-                            if (enemy.AttachedBomb != null) enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
+                            if (enemy.AttachedBomb != null)
+                                enemy.AttachedBomb.Sprite.PositionX = enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0);
                         }
-                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
+                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance
+                            && enemy.Sprite.PositionX < 100 && _enemyCurrentSpeed < 0)
                         {
                             bounce = true;
                         }
-                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
+                        if (!bounce && Math.Abs(_enemyAcceleration) < AppConstants.Tolerance
+                            && enemy.Sprite.PositionX > 1136 - 100 && _enemyCurrentSpeed > 0)
                         {
                             bounce = true;
                         }
@@ -3457,7 +3515,15 @@ namespace LooneyInvaders.Layers
                             enemy.Spit.PositionY = enemy.Sprite.PositionY - EnemyMouthClipHeight;
                         }
 
-                        if (Math.Abs(_updateTillNextBomb) < AppConstants.Tolerance && _random.Next(_enemies.Count + 32) == 0 && enemy.AttachedBomb == null && _playerExplosion == null && enemy.Spit == null && !enemy.Killed && _launchMode == LaunchMode.Default && !_firstGoingDown && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
+                        if (Math.Abs(_updateTillNextBomb) < AppConstants.Tolerance
+                            && _random.Next(_enemies.Count + 32) == 0
+                            && enemy.AttachedBomb == null
+                            && _playerExplosion == null
+                            && enemy.Spit == null
+                            && !enemy.Killed
+                            && _launchMode == LaunchMode.Default
+                            && !_firstGoingDown
+                            && (SelectedEnemy != Enemies.Aliens || enemy.State == EnemyState.Normal))
                         {
                             var bomb = new Bomb(this, enemy.Sprite.PositionX + (SelectedEnemy == Enemies.Putin ? 2 : 0), enemy.Sprite.PositionY - 21);
                             _bombs.Add(bomb);
@@ -3472,9 +3538,19 @@ namespace LooneyInvaders.Layers
                             var sheet = 0;
                             if (Convert.ToInt32(enemy.LensFlareFrame) > 41) sheet = 1;
 
-                            if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").Texture)
+                            if (enemy.LensFlare.Texture != SsAlienLensFlare[sheet].Frames.Find(item =>
+                                item.TextureFilename == "alien-laser-lens-flair-image_"
+                                                            + Convert.ToInt32(enemy.LensFlareFrame)
+                                                                     .ToString()
+                                                                     .PadLeft(2, '0')
+                                                            + ".png").Texture)
                             {
-                                var newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png"));
+                                var newLensFlare = new CCSprite(SsAlienLensFlare[sheet].Frames.Find(item =>
+                                    item.TextureFilename == "alien-laser-lens-flair-image_"
+                                                                + Convert.ToInt32(enemy.LensFlareFrame)
+                                                                         .ToString()
+                                                                         .PadLeft(2, '0')
+                                                                + ".png"));
                                 newLensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
                                 newLensFlare.PositionX = enemy.Sprite.PositionX;
                                 newLensFlare.PositionY = enemy.Sprite.PositionY - 28;
@@ -3484,7 +3560,12 @@ namespace LooneyInvaders.Layers
                                 enemy.LensFlare = newLensFlare;
                             }
 
-                            enemy.LensFlare.TextureRectInPixels = SsAlienLensFlare[sheet].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_" + Convert.ToInt32(enemy.LensFlareFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            enemy.LensFlare.TextureRectInPixels = SsAlienLensFlare[sheet].Frames.Find(item =>
+                                item.TextureFilename == "alien-laser-lens-flair-image_"
+                                                            + Convert.ToInt32(enemy.LensFlareFrame)
+                                                                     .ToString()
+                                                                     .PadLeft(2, '0')
+                                                            + ".png").TextureRectInPixels;
 
                             enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
                             enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
@@ -3511,7 +3592,9 @@ namespace LooneyInvaders.Layers
                                     break;
                                 }
                             }
-                            if (_playerExplosion != null && _playerExploding > 40 && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2))
+                            if (_playerExplosion != null
+                                && _playerExploding > 40
+                                && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2))
                             {
                                 if (enemy.LaserFxId1 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId1.Value);
                                 if (enemy.LaserFxId2 != null) CCAudioEngine.SharedEngine.StopEffect(enemy.LaserFxId2.Value);
@@ -3525,7 +3608,11 @@ namespace LooneyInvaders.Layers
                                 if (enemy.LaserTop != null) enemy.LaserTop.Visible = false;
                                 enemy.KeepGrimace = 1.5f + _random.Next(5);
                             }
-                            if (enemy.OpenMouth == null && _random.Next(800) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0 && !_firstGoingDown && !hasEnemyBelow && _playerExplosion == null)
+                            if (enemy.OpenMouth == null
+                                && _random.Next(800) == 0
+                                && enemy.State == EnemyState.Normal
+                                && enemy.KeepGrimace <= 0 && !_firstGoingDown
+                                && !hasEnemyBelow && _playerExplosion == null)
                             {
                                 if (_random.Next(2) == 0)
                                 {
@@ -3544,7 +3631,8 @@ namespace LooneyInvaders.Layers
                                 //enemy.LaserFxId2 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
                                 //enemy.LaserFxId3 = GameEnvironment.PlaySoundEffect(SOUNDEFFECT.ALIEN_LASER);
 
-                                enemy.LensFlare = new CCSprite(SsAlienLensFlare[0].Frames.Find(item => item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
+                                enemy.LensFlare = new CCSprite(SsAlienLensFlare[0].Frames.Find(item =>
+                                    item.TextureFilename == "alien-laser-lens-flair-image_00.png"));
                                 enemy.LensFlare.AnchorPoint = new CCPoint(0.3445f, 0.6563f);
                                 enemy.LensFlare.PositionX = enemy.Sprite.PositionX;
                                 enemy.LensFlare.PositionY = enemy.Sprite.PositionY - 28;
@@ -3556,7 +3644,10 @@ namespace LooneyInvaders.Layers
                         else
                         {
 
-                            if (enemy.OpenMouth == null && _random.Next(200) == 0 && enemy.State == EnemyState.Normal && enemy.KeepGrimace <= 0)
+                            if (enemy.OpenMouth == null
+                                && _random.Next(200) == 0
+                                && enemy.State == EnemyState.Normal
+                                && enemy.KeepGrimace <= 0)
                             {
                                 if (_random.Next(2) == 0)
                                 {
@@ -3694,7 +3785,9 @@ namespace LooneyInvaders.Layers
                         if (enemy.KeepGrimace > 0)
                         {
                             enemy.KeepGrimace -= dt;
-                            if ((enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.OpenMouth == null && enemy.KeepGrimace <= 0)
+                            if ((enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2)
+                                && enemy.OpenMouth == null
+                                && enemy.KeepGrimace <= 0)
                             {
                                 enemy.State = EnemyState.Normal;
                                 enemy.Sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + EnemyMouthClosed);
@@ -3704,7 +3797,9 @@ namespace LooneyInvaders.Layers
                             }
                             else
                             {
-                                if (SelectedEnemy == Enemies.Aliens && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2) && enemy.KeepGrimace < 2f)
+                                if (SelectedEnemy == Enemies.Aliens
+                                    && (enemy.State == EnemyState.Grimace1 || enemy.State == EnemyState.Grimace2)
+                                    && enemy.KeepGrimace < 2f)
                                 {
                                     if (enemy.LaserTop == null)
                                     {
@@ -3831,7 +3926,12 @@ namespace LooneyInvaders.Layers
                         enemy.Explosion.PositionX += enemy.SpeedX;
                         if (enemy.Exploding < 29)
                         {
-                            enemy.Explosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(enemy.Exploding).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                            enemy.Explosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item =>
+                                item.TextureFilename == "General_enemy_explosion"
+                                                            + Convert.ToInt32(enemy.Exploding)
+                                                                     .ToString()
+                                                                     .PadLeft(2, '0')
+                                                            + ".png").TextureRectInPixels;
                             enemy.Explosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                             enemy.Exploding += 0.5f;
                             if (enemy.Exploding > 8)
@@ -3849,10 +3949,17 @@ namespace LooneyInvaders.Layers
                         }
                     }
 
-                    if (_playerExplosion == null && !enemy.Killed && enemy.Sprite != null && InRectangle(enemy.Sprite.BoundingBox, PlayerCollisionPoints, _player.PositionX, _player.PositionY + _player.ContentSize.Height))
+                    if (_playerExplosion == null
+                        && !enemy.Killed
+                        && enemy.Sprite != null
+                        && InRectangle(enemy.Sprite.BoundingBox,
+                                        PlayerCollisionPoints,
+                                        _player.PositionX,
+                                        _player.PositionY + _player.ContentSize.Height))
                     {
                         PlayerExplode(true);
                     }
+
                     if (_playerExplosion == null && enemy.Sprite != null && enemy.Sprite.PositionY < 80)
                     {
                         PlayerExplode(true);
@@ -3883,7 +3990,12 @@ namespace LooneyInvaders.Layers
                 {
                     _flyingSaucerFrame += 0.5f;
                     if (Convert.ToInt32(_flyingSaucerFrame) > 59) _flyingSaucerFrame = 0;
-                    _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item => item.TextureFilename == "Flying-saucer-image_" + Convert.ToInt32(_flyingSaucerFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                    _flyingSaucer.TextureRectInPixels = SsFlyingSaucer.Frames.Find(item =>
+                        item.TextureFilename == "Flying-saucer-image_"
+                                                    + Convert.ToInt32(_flyingSaucerFrame)
+                                                             .ToString()
+                                                             .PadLeft(2, '0')
+                                                    + ".png").TextureRectInPixels;
                     _flyingSaucer.BlendFunc = GameEnvironment.BlendFuncDefault;
                     _flyingSaucer.PositionX += _flyingSaucerSpeed;
                     if (_flyingSaucer.PositionX > 1136 && _flyingSaucerSpeed > 0 || _flyingSaucer.PositionX < -126 && _flyingSaucerSpeed < 0)
@@ -3894,7 +4006,16 @@ namespace LooneyInvaders.Layers
                         _flyingSaucer = null;
                     }
                 }
-                if (/*!inFsRect &&*/ _flyingSaucerWait <= 0 && _flyingSaucerIncoming <= 0 && _flyingSaucer == null && _random.Next(300 + _lives.Count * 200) == 1 && _playerExplosion == null && _flyingSaucerExplosion == null && SelectedEnemy == Enemies.Aliens && _lives.Count < 4 && _enemies.Count >= 16 && _wave > 2)
+                if (/*!inFsRect &&*/ _flyingSaucerWait <= 0
+                    && _flyingSaucerIncoming <= 0
+                    && _flyingSaucer == null
+                    && _random.Next(300 + _lives.Count * 200) == 1
+                    && _playerExplosion == null
+                    && _flyingSaucerExplosion == null
+                    && SelectedEnemy == Enemies.Aliens
+                    && _lives.Count < 4
+                    && _enemies.Count >= 16
+                    && _wave > 2)
                 {
                     _flyingSaucerIncoming = 2;
                     _flyingSaucerFlyingFxId = GameEnvironment.PlaySoundEffect(SoundEffect.FlyingSaucerIncoming);
@@ -3955,7 +4076,12 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        _flyingSaucerExplosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item => item.TextureFilename == "General_enemy_explosion" + Convert.ToInt32(_flyingSaucerExplosionFrame).ToString().PadLeft(2, '0') + ".png").TextureRectInPixels;
+                        _flyingSaucerExplosion.TextureRectInPixels = SsEnemyExplosion.Frames.Find(item =>
+                            item.TextureFilename == "General_enemy_explosion"
+                                                        + Convert.ToInt32(_flyingSaucerExplosionFrame)
+                                                                 .ToString()
+                                                                 .PadLeft(2, '0')
+                                                        + ".png").TextureRectInPixels;
                         _flyingSaucerExplosion.BlendFunc = GameEnvironment.BlendFuncDefault;
                     }
                 }
@@ -3996,7 +4122,10 @@ namespace LooneyInvaders.Layers
                             CCAudioEngine.SharedEngine.PlayEffect("Sounds/get ready for next wave VO_mono.wav");
                         }
                         _nextWaveSprite = AddImageCentered(1136 / 2 - 50, 630 / 2, "UI/get-ready-for-next-wave-alien-text.png", 100);
-                        _nextWaveNumberSprites = AddImageLabel(Convert.ToInt32(_nextWaveSprite.PositionX + _nextWaveSprite.ContentSize.Width / 2), Convert.ToInt32(_nextWaveSprite.PositionY - _nextWaveSprite.ContentSize.Height / 2), (_wave + 1).ToString(), 99);
+                        _nextWaveNumberSprites = AddImageLabel(Convert.ToInt32(_nextWaveSprite.PositionX + _nextWaveSprite.ContentSize.Width / 2),
+                                                               Convert.ToInt32(_nextWaveSprite.PositionY - _nextWaveSprite.ContentSize.Height / 2),
+                                                               (_wave + 1).ToString(),
+                                                               99);
                         ScheduleOnce(NextWave, 3);
                     }
                     else
@@ -4193,7 +4322,13 @@ namespace LooneyInvaders.Layers
                     _isCannonMoving = true;
                     MoveCannon(touch.Location.X);
                 }
-                else if (_isCannonMoving && RectangleNear(new CCRect(movementButtonBoundingBox.MinX, movementButtonBoundingBox.MinY - 60, movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX, movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60), touch.Location, 65, 65))
+                else if (_isCannonMoving
+                            && RectangleNear(new CCRect(movementButtonBoundingBox.MinX,
+                                             movementButtonBoundingBox.MinY - 60,
+                                             movementButtonBoundingBox.MaxX - movementButtonBoundingBox.MinX,
+                                             movementButtonBoundingBox.MaxY - movementButtonBoundingBox.MinY + 60),
+                                             touch.Location,
+                                             65, 65))
                 {
                     _isCannonMoving = false;
                     _speedTo = 0;
@@ -4279,7 +4414,10 @@ namespace LooneyInvaders.Layers
 
         private bool RectangleNear(CCRect rectangle, CCPoint point, int marginX, int marginY)
         {
-            return point.X >= rectangle.MinX - marginX && point.X <= rectangle.MaxX + marginX && point.Y <= rectangle.MaxY + marginY && point.Y >= rectangle.MinY + marginY;
+            return point.X >= rectangle.MinX - marginX
+                && point.X <= rectangle.MaxX + marginX
+                && point.Y <= rectangle.MaxY + marginY
+                && point.Y >= rectangle.MinY + marginY;
         }
 
         public void SetUpSteering(bool animatedControls = false)

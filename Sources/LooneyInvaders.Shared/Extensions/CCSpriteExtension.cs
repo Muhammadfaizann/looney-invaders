@@ -15,6 +15,14 @@ namespace LooneyInvaders.Extensions
             }
         }
 
+        public static void ChangeAvailability(this CCSpriteButton ccSprite, bool isEnabled)
+        {
+            if (ccSprite != null)
+            {
+                ccSprite.Enabled = isEnabled;
+            }
+        }
+
         public static CCSpriteButton CreateButton(this CCLayerColorExt layer,
             int x, int y,
             string imageNameUntapped,
