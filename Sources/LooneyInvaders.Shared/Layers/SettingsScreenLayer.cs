@@ -713,15 +713,17 @@ namespace LooneyInvaders.Layers
 
         private async void _btnNoAdvertisements_OnClick(object sender, EventArgs e)
         {
-            HideAdvertisementsTip();
-            await PurchaseManager.Purchase("ads_off");
             Enabled = false;
+            HideAdvertisementsTip();
+
+            await PurchaseManager.Purchase("ads_off");
         }
 
         private void PurchaseManager_OnPurchaseFinished(object sender, EventArgs e)
         {
             _btnAdvertisements.State = Settings.Instance.Advertisements ? 1 : 2;
-            if (Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
+            if (Settings.Instance.Advertisements == false)
+                _btnAdvertisements.Enabled = false;
             _btnAdvertisements.SetStateImages();
             Enabled = true;
         }
