@@ -319,6 +319,7 @@
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
     <Compile Include="Extensions\ViewExtension.cs" />
+    <Compile Include="Extensions\GenericExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
