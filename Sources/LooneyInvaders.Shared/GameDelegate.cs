@@ -85,7 +85,8 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
             Layer = Layer ?? new SplashScreenLayer();
-            Layer.Resume();
+            if (!Layer.IsRunning)
+                Layer.Resume();
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
             GameView.RunWithScene(gameScene);
