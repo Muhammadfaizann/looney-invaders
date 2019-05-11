@@ -182,6 +182,7 @@ namespace LooneyInvaders.Model
             { return; }
 
             _isRefreshing = true;
+            //for better responsiveness
             await Task.Run(() =>
             {
                 SubmitUnsubmittedScores();

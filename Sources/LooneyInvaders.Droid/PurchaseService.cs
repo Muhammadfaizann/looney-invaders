@@ -100,7 +100,6 @@ namespace CC.Mobile.Purchases
         {
             IsStarted = false;
             _serviceStatusTask?.SetException(new PurchaseError($"{errorType.ToString()}:{message}"));
-            //ToDo: Bass - check is it necessary
             _serviceStatusTask = null;
         }
 
