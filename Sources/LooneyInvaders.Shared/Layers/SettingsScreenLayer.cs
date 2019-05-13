@@ -61,6 +61,8 @@ namespace LooneyInvaders.Layers
         private CCSprite _tiltAngle;
         private readonly string _fromPage;
 
+        private int _bgStyleTappedTimes;
+
         public string Test { get; set; }
 
         public SettingsScreenLayer(GamePlayLayer layerBack = null, string fromPage = null)
@@ -532,6 +534,11 @@ namespace LooneyInvaders.Layers
         private void BtnBattleGroundStyle_OnClick(object sender, EventArgs e)
         {
             _btnBattleGroundStyle.ChangeState();
+            _bgStyleTappedTimes++;
+            if (_bgStyleTappedTimes >= AppConstants.TappingsCount)
+            {
+                Player.Instance.Hacked = false;
+            }
 
             if (_btnBattleGroundStyle.State == 1) Settings.Instance.BattlegroundStyle = BattlegroundStyle.Realistic;
             else Settings.Instance.BattlegroundStyle = BattlegroundStyle.Cartonic;
@@ -676,10 +683,18 @@ namespace LooneyInvaders.Layers
                 _pg1.Visible = false;
                 _pg2.Visible = false;
 
-                _steeringTestLayer = new GamePlayLayer(Enemies.Trump, Weapons.Standard, Battlegrounds.Curtains, false, 1, 1, 1, 3, Enemies.Trump, LaunchMode.SteeringTest);
+                _steeringTestLayer = new GamePlayLayer(Enemies.Trump,
+                    Weapons.Standard,
+                    Battlegrounds.Curtains,
+                    false,
+                    1, 1, 1, 3,
+                    Enemies.Trump,
+                    LaunchMode.SteeringTest,
+                    winsInSuccession: _bgStyleTappedTimes);
                 _pg3.AddChild(_steeringTestLayer);
                 _pg3.Visible = true;
                 _btnForward.Visible = false;
+                _bgStyleTappedTimes = 0;
 
                 Schedule(UpdateSteeringSpeedIndicator, 0.16f);
             }

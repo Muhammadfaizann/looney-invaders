@@ -25,6 +25,11 @@ namespace LooneyInvaders.Model
             get => CrossSettings.Current.GetValueOrDefault("Credits", 0);
             set => CrossSettings.Current.AddOrUpdateValue("Credits", value);
         }
+        public bool Hacked
+        {
+            get => CrossSettings.Current.GetValueOrDefault("Hacked", false);
+            set => CrossSettings.Current.AddOrUpdateValue("Hacked", value);
+        }
 
         public DateTime GetFixedDate(DateTime value)
         {
