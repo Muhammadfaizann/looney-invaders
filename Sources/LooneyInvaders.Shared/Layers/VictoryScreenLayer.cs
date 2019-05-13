@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Classes;
+using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
 using static LooneyInvaders.Model.Enums.LeaderBoardItemField;
 
@@ -335,11 +336,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 2.3f);
+                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("1"); } }, 2.3f);
                     }
                     else
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 1f);
+                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("2"); } }, 1f);
                     }
                 }
             }
@@ -374,6 +375,10 @@ namespace LooneyInvaders.Layers
             }
         }
 
+        private void Caught(string message)
+        {
+            var s = message;
+        }
 
         private void CalloutCountryNameVo(float dt)
         {
@@ -486,7 +491,7 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("3"); } }, 0.2f);
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
@@ -500,7 +505,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_multiplierNode);
             UnscheduleAll();
             AdMobManager.ShowBannerBottom();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.5f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("4"); } }, 0.5f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
@@ -510,7 +515,7 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("5"); } }, 0.2f);
         }
 
 
@@ -539,7 +544,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.2f);
+                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("6"); } }, 0.2f);
             }
         }
 
@@ -552,47 +557,47 @@ namespace LooneyInvaders.Layers
         private void ShowRecordNotification(float dt)
         {
 
-            if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
+            if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 2)
             {
                 Player.Instance.Credits += 30000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 3)
             {
                 Player.Instance.Credits += 15000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-month-3rd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularWeekly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 1)
             {
                 Player.Instance.Credits += 30000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularWeekly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 2)
             {
                 Player.Instance.Credits += 20000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularWeekly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularWeekly.Rank == 3)
             {
                 Player.Instance.Credits += 10000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-week-3rd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularDaily?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 1)
             {
                 Player.Instance.Credits += 15000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-1st-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularDaily?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 2)
             {
                 Player.Instance.Credits += 10000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-2nd-background-with-text.png", 3);
             }
-            else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
+            else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularDaily?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularDaily.Rank == 3)
             {
                 Player.Instance.Credits += 5000;
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-global-top-score-notification-day-3rd-background-with-text.png", 3);
@@ -600,15 +605,15 @@ namespace LooneyInvaders.Layers
             else
             {
                 _recordNotification = AddImageCentered(1136 / 2, 630 / 2 + 25, "UI/victory-notification-background-with-text.png", 3);
-                if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularAlltime.Score) < AppConstants.Tolerance)
+                if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularAlltime?.Score).Val()) < AppConstants.Tolerance)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-all-time.png", 4);
                 }
-                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance)
+                else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-month.png", 4);
                 }
-                else if (_isWeHaveScores && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance)
+                else if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularWeekly?.Score).Val()) < AppConstants.Tolerance)
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
                 }
@@ -638,7 +643,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_recordOkIGotIt);
             RemoveChild(_recordNotification);
             if (_recordNotificationImage != null) RemoveChild(_recordNotificationImage);
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0f);
+            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("7"); } }, 0f);
 
         }
 
@@ -652,7 +657,7 @@ namespace LooneyInvaders.Layers
             if (!_isDoneWaitingForScores && _waitForScoreCounter < 5)
             {
                 _waitForScoreCounter += dtt;
-                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { } }, 0.5f);
+                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("8"); } }, 0.5f);
             }
 
             try
@@ -664,7 +669,7 @@ namespace LooneyInvaders.Layers
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularDailyField(Score)) < AppConstants.Tolerance)
                     && !_recordNotificationShown)
                 {
-                    ScheduleOnce((obj) => { try { ShowRecordNotification(obj); } catch { } }, 0.5f);
+                    ScheduleOnce((obj) => { try { ShowRecordNotification(obj); } catch { Caught("9"); } }, 0.5f);
                     return;
                 }
 
