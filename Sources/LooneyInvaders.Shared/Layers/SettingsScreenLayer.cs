@@ -623,6 +623,7 @@ namespace LooneyInvaders.Layers
 
                 if (_layerBack != null)
                 {
+                    Settings.IsFromGameScreen = true;
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
                     Shared.GameDelegate.OnBackButton -= BtnBack_OnClick;
                     _layerBack.IsCartoonFadeIn = false;
@@ -867,6 +868,7 @@ namespace LooneyInvaders.Layers
 
         private async void BtnBackThrow_OnClick(object sender, EventArgs e)
         {
+            Settings.IsFromGameScreen = true;
             if (_fromPage == GameConstants.NavigationParam.MainScreen)
             {
                 PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;

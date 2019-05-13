@@ -1892,13 +1892,14 @@ namespace LooneyInvaders.Layers
                 CreateBtnBackAndSettings();
                 ChangeAvailabilityBtnBackAndSettings(true);
 
-                Schedule(UpdateAll);
-                SetUpSteering(_launchMode == LaunchMode.Default);
-
                 var isCountingDown = 0 < _countdown && _countdown <= 5;
+                if (!isCountingDown)
+                {
+                    Schedule(UpdateAll);
+                    SetUpSteering(_launchMode == LaunchMode.Default);
+                }
                 _btnBack.ChangeVisibility(!isCountingDown);
                 _btnSettings.ChangeVisibility(!isCountingDown);
-
 
                 if (_waveTransfer)
                 {
