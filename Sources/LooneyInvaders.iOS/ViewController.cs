@@ -129,6 +129,8 @@ namespace LooneyInvaders.iOS
 
             try
             {
+                GameDelegate.PauseMusic();
+
                 await _svc.Pause();
 
                 GameDelegate.StopGame();
@@ -137,12 +139,6 @@ namespace LooneyInvaders.iOS
             {
                 var mess = ex.Message;
             }
-
-            //if (GameView != null)
-            //{
-            //    GameView.Paused = true;
-            //    CCAudioEngine.SharedEngine.PauseBackgroundMusic();
-            //}
         }
 
         public override async void ViewDidAppear(bool animated)
@@ -151,6 +147,8 @@ namespace LooneyInvaders.iOS
 
             try
             {
+                GameDelegate.ResumeMusic();
+
                 await _svc.Resume();
 
                 GameDelegate.LoadGame(null, null);
@@ -159,12 +157,6 @@ namespace LooneyInvaders.iOS
             {
                 var mess = ex.Message;
             }
-
-            //if (GameView != null && GameView.Paused)
-            //{
-            //    GameView.Paused = false;
-            //    CCAudioEngine.SharedEngine.PauseBackgroundMusic();
-            //}
         }
 
         private void AddBannerToWindowTop()

@@ -2,6 +2,7 @@
 using CocosSharp;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Layers;
+//using CCSprite = LooneyInvaders.Classes.CCSprite;
 
 namespace LooneyInvaders.Shared
 {
@@ -33,9 +34,26 @@ namespace LooneyInvaders.Shared
                 lock(toSetLayer)
                 {
                     _layer = value;
+                    if (_layer?.Scene != null)
+                        Scene = _layer.Scene;
                 }
             }
         }
+
+        static readonly object toSetScene = new object();
+        static CCScene _scene;
+        public static CCScene Scene
+        {
+            get => _scene;
+            set
+            {
+                //lock (toSetScene)
+                //{
+                    _scene = value;
+                //}
+            }
+        }
+             
 
         public static CCGameView GameView;
 
@@ -90,6 +108,16 @@ namespace LooneyInvaders.Shared
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
             GameView.RunWithScene(gameScene);
+        }
+
+        public static void ResumeMusic()
+        {
+            CCAudioEngine.SharedEngine?.ResumeBackgroundMusic();
+        }
+
+        public static void PauseMusic()
+        {
+            CCAudioEngine.SharedEngine?.PauseBackgroundMusic();
         }
 
         public static void StopGame()
