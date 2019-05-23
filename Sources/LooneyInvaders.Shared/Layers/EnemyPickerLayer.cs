@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
+//using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Layers
 {

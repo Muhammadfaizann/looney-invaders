@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
-using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
+//using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Classes
 {
