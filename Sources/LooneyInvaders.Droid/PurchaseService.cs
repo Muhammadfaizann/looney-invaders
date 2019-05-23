@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using LooneyInvaders.Extensions;
 using IAB = Xamarin.InAppBilling;
 
 namespace CC.Mobile.Purchases
@@ -65,7 +67,7 @@ namespace CC.Mobile.Purchases
         private void IABServiceConnectionOnConnected()
         {
             IsStarted = true;
-            _serviceStatusTask?.SetResult(IsStarted);
+            _serviceStatusTask?.TrySetResult(IsStarted);
             _serviceStatusTask = null;
             if (_inAppSvc?.BillingHandler != null)
             {
@@ -82,7 +84,7 @@ namespace CC.Mobile.Purchases
         private void IABServiceConnectionOnDisconnected()
         {
             IsStarted = false;
-            _serviceStatusTask?.SetResult(IsStarted);
+            _serviceStatusTask?.TrySetResult(IsStarted);
             _serviceStatusTask = null;
             if (_inAppSvc?.BillingHandler != null)
             {
@@ -99,21 +101,21 @@ namespace CC.Mobile.Purchases
         private void IABServiceConnectionOnIABError(IAB.InAppBillingErrorType errorType, string message)
         {
             IsStarted = false;
-            _serviceStatusTask?.SetException(new PurchaseError($"{errorType.ToString()}:{message}"));
+            _serviceStatusTask?.TrySetException(new PurchaseError($"{errorType.ToString()}:{message}"));
             _serviceStatusTask = null;
         }
 
-        public Task<bool> Resume()
+        public Task<bool> Resume(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS)
         {
-            return SetObserver();
+            return SetObserver(timeoutMS);
         }
 
-        public async Task<bool> Pause()
+        public async Task<bool> Pause(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS)
         {
             //in case when there is ongoing purchase the service will not be paused
             if (IsStarted && _currentProduct == null)
             {
-                return await UnsetObserver();
+                return await UnsetObserver(timeoutMS);
             }
             return false;
         }
@@ -182,26 +184,27 @@ namespace CC.Mobile.Purchases
             _currentPurchaseTask = null;
         }
 
-        private Task<bool> SetObserver()
+        private Task<bool> SetObserver(int timeoutMS)
         {
             if (!IsStarted && _serviceStatusTask == null)
             {
                 _serviceStatusTask = new TaskCompletionSource<bool>();
-                _inAppSvc.Connect();
-                return _serviceStatusTask?.Task;
+                _inAppSvc?.Connect();
+                var cts = new CancellationTokenSource(timeoutMS);
+                return _serviceStatusTask.TaskWithTimeout(cts.Token);
             }
 
             throw new PurchaseError("Another task is already running and must be waited");
         }
 
-        private Task<bool> UnsetObserver()
+        private Task<bool> UnsetObserver(int timeoutMS)
         {
             if (IsStarted && _serviceStatusTask == null)
             {
                 _serviceStatusTask = new TaskCompletionSource<bool>();
-                // Attempt to connect to the service
-                _inAppSvc.Disconnect();
-                return _serviceStatusTask.Task;
+                _inAppSvc?.Disconnect();
+                var cts = new CancellationTokenSource(timeoutMS);
+                return _serviceStatusTask.TaskWithTimeout(cts.Token);
             }
 
             throw new PurchaseError("Another task is already running and must be waited");

@@ -72,7 +72,6 @@ namespace LooneyInvaders.iOS
 
             if (Settings.IsFromGameScreen)
             {
-                //NSNotificationCenter.DefaultCenter.PostNotificationName("PlayToEnd", null);
                 NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
             }
 

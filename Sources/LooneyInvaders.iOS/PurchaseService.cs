@@ -27,7 +27,7 @@ namespace CC.Mobile.Purchases
         /// Resumes the service and sets it to operational state
         /// returns the resulting state of the service started=true
         /// </summary>
-        public Task<bool> Resume()
+        public Task<bool> Resume(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS)
         {
             SetObserver();
             IsStarted = true;
@@ -39,7 +39,7 @@ namespace CC.Mobile.Purchases
         /// returns the resulting state of the service started=true
         /// in case when there is ongoing purchase the service will not be paused
         /// </summary>
-        public Task<bool> Pause()
+        public Task<bool> Pause(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS)
         {
             //in case when there is ongoing purchase the service will not be paused
             if (IsStarted && _currentProduct == null)
@@ -92,7 +92,7 @@ namespace CC.Mobile.Purchases
                 if (_currentPurchaseTask == null)
                     throw new PurchaseError("There was no purchase registered in the service");
                 var purchase = new Purchase(_currentProduct, e.TransactionId, e.Status);
-                _currentPurchaseTask.SetResult(purchase);
+                _currentPurchaseTask.TrySetResult(purchase);
                 _currentPurchaseTask = null;
                 _currentProduct = null;
             }
@@ -107,7 +107,7 @@ namespace CC.Mobile.Purchases
         {
             _currentProduct = null;
             if (_currentPurchaseTask != null)
-                _currentPurchaseTask.SetCanceled();
+                _currentPurchaseTask.TrySetCanceled();
         }
     }
 

@@ -20,14 +20,14 @@ namespace CC.Mobile.Purchases
         /// Resumes the service and sets it to operational state
         /// returns the resulting state of the service started=true
         /// </summary>
-        Task<bool> Resume();
+        Task<bool> Resume(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS);
 
         /// <summary>
         /// Pauses the purchase service
         /// returns the resulting state of the service started=true
         /// in case when there is ongoing purchase the service will not be paused
         /// </summary>
-        Task<bool> Pause();
+        Task<bool> Pause(int timeoutMS = LooneyInvaders.AppConstants.PurchasingTimeoutMS);
 
         /// <summary>
         /// Purchases the product.

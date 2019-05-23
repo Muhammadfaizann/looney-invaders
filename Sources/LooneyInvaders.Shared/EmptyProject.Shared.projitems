@@ -95,6 +95,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCSpriteExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\App42ScoreBoardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\NullableExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskCompletionSourceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
