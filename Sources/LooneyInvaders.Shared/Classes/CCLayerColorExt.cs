@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
+using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
+using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Classes
 {
-    public class CCLayerColorExt : CCLayerColor
+    public class CCLayerColorExt : CCLayerColor, IDisposable
     {
+        public static object lockingObj = new object();
+
         public CCSprite Background;
         public event EventHandler OnTouchBegan; // touch on the layer but not on any of the buttons
         public event EventHandler OnTouchEnded;
@@ -26,6 +32,33 @@ namespace LooneyInvaders.Classes
         {
             get => _position;
             set => _position = value;
+        }
+
+        public override CCGameView GameView
+        {
+            get => base.GameView ?? HoldValue(base.GameView, null, Shared.GameDelegate.GameView);
+            protected set => base.GameView = HoldValue(base.GameView, value);
+        }
+
+        public override CCScene Scene
+        {
+            get => base.Scene ?? HoldValue(base.Scene, null, Shared.GameDelegate.Scene);
+        }
+
+        protected virtual T HoldValue<T>(T backingField, T newValue, T reserveValue = default(T))
+            where T : class
+        {
+            T value = null;
+            if (!ReferenceEquals(backingField, newValue))
+            {
+                if (newValue == null)
+                {
+                    Console.WriteLine($"|NULL|{nameof(HoldValue)}<{typeof(T).Name}> got null!");
+                }
+                value = newValue;
+            }
+            backingField = value ?? reserveValue;
+            return backingField;
         }
 
         public CCLayerColorExt()
@@ -59,10 +92,10 @@ namespace LooneyInvaders.Classes
             if (Background != null)
             {
                 RemoveChild(Background);
+                //ToDo: Bass - useful? disposing object that will be used soon
                 Background.Dispose();
             }
-
-            Background = new CCSprite(GameEnvironment.ImageDirectory + imageName, CCRect.Zero)
+            Background = new CCSprite($"{GameEnvironment.ImageDirectory}{imageName}", CCRect.Zero)
             {
                 AnchorPoint = new CCPoint(0, 0),
                 Position = new CCPoint(0, 0)
@@ -674,8 +707,14 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public void TransitionToLayer(CCLayer layer)
+        public virtual async Task ContinueInitialize(bool condition = true)
         {
+            await Task.Run(() => {/*your base implemetation*/ });
+        }
+
+        public async Task TransitionToLayer(CCLayerColorExt layer)
+        {
+            await layer.ContinueInitialize();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
@@ -683,11 +722,15 @@ namespace LooneyInvaders.Classes
             gameScene.AddLayer(layer);
 
             var transition = new CCTransitionFade(0.3f, gameScene);
-            Director.ReplaceScene(transition);
+            if (Scene != null)
+                await Director.ReplaceSceneAsync(transition);
+            //RemoveAllListeners();
+            //Dispose();
         }
 
         public async Task TransitionToLayerCartoonStyle(CCLayerColorExt layer)
         {
+            await layer.ContinueInitialize();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
@@ -743,6 +786,7 @@ namespace LooneyInvaders.Classes
             ScheduleOnce(playEffect4, 0.4f);
             ScheduleOnce(playEffect5, 0.5f);
             ScheduleOnce(playEffect6, 0.6f);
+            //Dispose();
         }
 
         private void playEffect1(float dt)
@@ -782,7 +826,8 @@ namespace LooneyInvaders.Classes
             var newScene = new CCScene(GameView);
             LayerTransitionTarget.IsCartoonFadeIn = true;
             newScene.AddLayer(LayerTransitionTarget);
-            Director.ReplaceScene(newScene);
+            if (Scene != null)
+                Director.ReplaceScene(newScene);
         }
 
 

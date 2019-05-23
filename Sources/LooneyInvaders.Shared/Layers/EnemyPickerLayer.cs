@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Layers
 {
     public class EnemyPickerLayer : CCLayerColorExt
     {
-        private readonly CCSprite _imgEnemyName;
-        private readonly CCSprite _imgEnemyLocked;
+        private CCSprite _imgEnemyName;
+        private CCSprite _imgEnemyLocked;
+        private CCSprite _imgSpotlight;
 
         private CCSprite _centerImage;
-        private readonly CCSprite[] _images;
+        private CCSprite[] _images;
         private bool _isSwiping;
         private int _selectedEnemy;
         private float _lastMovement;
@@ -20,11 +22,10 @@ namespace LooneyInvaders.Layers
         private float _talkTimePassed;
         private bool _startedTalking;
         private bool _isHoldAnimations;
-        private readonly CCSprite _imgSpotlight;
 
         private CCSpriteButton _btnBack;
         private CCSpriteButton _btnForward;
-        private readonly CCSpriteButton _btnForwardNoPasaran;
+        private CCSpriteButton _btnForwardNoPasaran;
 
         private CCSprite _imgGameTip;
         private CCSprite _imgGameTipArrow;
@@ -34,6 +35,7 @@ namespace LooneyInvaders.Layers
 
         //------Prabhjot -------//
         private bool _isShowGameTipViewLoaded;
+        private bool _isInitialized;
 
         public EnemyPickerLayer()
         {
@@ -55,7 +57,16 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim Jong-un VO_mono.wav");
             }
 
-            while (GameAnimation.Instance.PreloadNextSpriteSheetEnemies()) { }
+            //ContinueInitialize().Wait();
+        }
+
+        public override async System.Threading.Tasks.Task ContinueInitialize(bool condition = true)
+        {
+            if (_isInitialized)
+                return;
+            _isInitialized = true;
+
+            while (await GameAnimation.Instance.PreloadNextSpriteSheetEnemiesAsync()) { }
 
             _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
@@ -269,6 +280,8 @@ namespace LooneyInvaders.Layers
 
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
+            if (GameView == null)
+                return;
             if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForwardNoPasaran.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;

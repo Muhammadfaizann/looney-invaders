@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Layers
 {
@@ -10,27 +11,38 @@ namespace LooneyInvaders.Layers
     {
         private readonly int _selectedEnemy;
 
-        private readonly CCSprite _imgWeaponDescription;
+        private CCSprite _imgWeaponDescription;
         private CCSprite _imgWeaponStatsBoard;
         private CCSprite _imgWeaponStatsText;
-        private readonly CCSprite _imgWeaponLocked;
-        private readonly CCSprite[] _imgWeaponStatsStars = new CCSprite[18];
+        private CCSprite _imgWeaponLocked;
+
+        private CCSprite[] imgWeaponStatsStars;
+        private CCSprite[] _imgWeaponStatsStars
+        {
+            get
+            {
+                if (imgWeaponStatsStars == null)
+                    imgWeaponStatsStars = new CCSprite[18];
+                return imgWeaponStatsStars;
+            }
+        }
 
         private CCSprite _centerImage;
-        private readonly CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6] ----- Prabhjot ------- 
+        private CCSprite[] _images = new CCSprite[3]; // Previous was CCSprite[6]
+        private bool _isInitialized;
         private bool _isSwiping;
-        private readonly bool _isSwipingEnabled = true;
+        private bool _isSwipingEnabled = true;
         private int _selectedWeapon;
         private float _lastMovement;
         private int _bowingSpriteIndex;
         private float _bowTimePassed;
         private bool _startedBowing;
         private bool _isHoldAnimations;
-        private readonly CCSprite _imgSpotlight;
+        private CCSprite _imgSpotlight;
 
         private CCSpriteButton _btnBack;
         private CCSpriteButton _btnForward;
-        private readonly CCSpriteButton _btnForwardNoPasaran;
+        private CCSpriteButton _btnForwardNoPasaran;
 
 
         private CCSprite _imgGameTip;
@@ -38,13 +50,13 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _btnGameTipOk;
         private CCSpriteTwoStateButton _btnGameTipCheckMark;
         private CCSprite _imgGameTipCheckMarkLabel;
-        private readonly CCSpriteButton _btnWeaponUpgrade;
-        private readonly CCSpriteButton _btnTestProperties;
-        private readonly CCSpriteButton _btnWeaponBuy;
+        private CCSpriteButton _btnWeaponUpgrade;
+        private CCSpriteButton _btnTestProperties;
+        private CCSpriteButton _btnWeaponBuy;
 
-        private readonly CCSprite _imgGameTipCredits;
-        private readonly CCSpriteButton _btnGetCredits;
-        private readonly CCSpriteButton _btnCancel;
+        private CCSprite _imgGameTipCredits;
+        private CCSpriteButton _btnGetCredits;
+        private CCSpriteButton _btnCancel;
 
         //----------- Prabhjot ----------//
         private bool _isShowGameTipViewLoaded;
@@ -76,7 +88,17 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hybrid Defender VO_mono.wav");
             }
 
-            while (GameAnimation.Instance.PreloadNextSpriteSheetWeapons()) { }
+            //ContinueInitialize(gameTipAvailable).Wait();
+        }
+
+        public override async System.Threading.Tasks.Task ContinueInitialize(bool gameTipAvailable = true)
+        {
+            if (_isInitialized)
+                return;
+            _isInitialized = true;
+
+            //Schedule((_) => GameAnimation.Instance.PreloadNextSpriteSheetWeapons(() => Unschedule((__) => GameAnimation.Instance.PreloadNextSpriteSheetWeapons())));
+            while (await GameAnimation.Instance.PreloadNextSpriteSheetWeaponsAsync()) { }
 
             _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
@@ -223,7 +245,7 @@ namespace LooneyInvaders.Layers
             { var mess = ex.Message; }
         }
 
-        private void _btnTestProperties_OnClick(object sender, EventArgs e)
+        private async void _btnTestProperties_OnClick(object sender, EventArgs e)
         {
             _isHoldAnimations = true;
             CCAudioEngine.SharedEngine.StopAllEffects();
@@ -234,7 +256,7 @@ namespace LooneyInvaders.Layers
             var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
             var lives = Weapon.GetLives((Weapons)_selectedWeapon);
 
-            TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest));
+            await TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest));
         }
 
         public WeaponPickerLayer(int selectedEnemy, int selectedWeapon) : this(selectedEnemy, false)

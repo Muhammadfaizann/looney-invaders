@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Layers
 {
@@ -474,7 +475,7 @@ namespace LooneyInvaders.Layers
             _btnGameTipCheckMark.SetStateImages();
         }
 
-        private void BtnBack_OnClick(object sender, EventArgs e)
+        private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
@@ -489,7 +490,7 @@ namespace LooneyInvaders.Layers
 
             UnscheduleAll();
 
-            TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
+            await TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)
