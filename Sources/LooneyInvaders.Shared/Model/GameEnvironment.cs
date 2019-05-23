@@ -5,7 +5,7 @@ namespace LooneyInvaders.Model
 {
     public class GameEnvironment
     {
-        public static string ImageDirectory;
+        public static readonly string ImageDirectory;
 
         static GameEnvironment()
         {
@@ -355,252 +355,258 @@ namespace LooneyInvaders.Model
 
         public static int? PlaySoundEffect(SoundEffect soundEffect)
         {
-            switch (soundEffect)
+            try
             {
-                case SoundEffect.MenuTap when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/general button (Menu Selection change 1).wav");
-                case SoundEffect.MenuTap when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General button (61).wav");
-                case SoundEffect.MenuTapBack when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/Back button (Menu Selection deselect (backwards) 2).wav");
-                case SoundEffect.MenuTapBack when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Back button (39).wav");
-                case SoundEffect.MenuTapForward when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Forward button (Menu Selection Select 2).wav");
-                case SoundEffect.MenuTapForward when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Forward button (38).wav");
-                case SoundEffect.MenuTapVolumeChange when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Volume Change.wav");
-                case SoundEffect.MenuTapVolumeChange when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Sound volume tester (06).wav");
-                case SoundEffect.MenuTapMinus when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Minus Sound 1.wav");
-                case SoundEffect.MenuTapMinus when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/- button (37).wav");
-                case SoundEffect.MenuTapPlus when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Plus Sound 1.wav");
-                case SoundEffect.MenuTapPlus when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/+ button (36).wav");
-                case SoundEffect.MenuTapCannotTap when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannot tap 1.wav");
-                case SoundEffect.MenuTapCannotTap when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Negative&Error (54).wav");
-                case SoundEffect.MenuTapCheckMark when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Check Sound 1.wav");
-                case SoundEffect.MenuTapCheckMark when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Checked (1).wav");
-                case SoundEffect.ClickLink when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/Click link effect (enemy or map change forward).wav");
-                case SoundEffect.ClickLink when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Click link effect (07).wav");
-                case SoundEffect.On when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/on button (Menu Selection deselect (backwards) 1).wav");
-                case SoundEffect.On when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/On button (41).wav");
-                case SoundEffect.Off when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/off button (Menu Selection Select 1).wav");
-                case SoundEffect.Off when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Off button (42).wav");
-                case SoundEffect.MenuTapCreditPurchase when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/purchase 3.wav");
-                case SoundEffect.MenuTapCreditPurchase when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Credit purchase (43).wav");
-                case SoundEffect.EnemyHurt1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
-                case SoundEffect.EnemyHurt1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
-                case SoundEffect.EnemyHurt2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
-                case SoundEffect.EnemyHurt2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
-                case SoundEffect.EnemyHurt3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
-                case SoundEffect.EnemyHurt3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
-                case SoundEffect.EnemyKilled when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - killed .wav");
-                case SoundEffect.EnemyKilled when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When killed (21).wav");
-                case SoundEffect.EnemySpit when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 1.wav");
-                case SoundEffect.EnemySpit when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_1.wav");
-                case SoundEffect.EnemySpit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 2.wav");
-                case SoundEffect.EnemySpit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_1.wav");
-                case SoundEffect.EnemySpit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 3.wav");
-                case SoundEffect.EnemySpit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_2.wav");
-                case SoundEffect.EnemySpit4 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 4.wav");
-                case SoundEffect.EnemySpit4 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_3.wav");
-                case SoundEffect.GunHit1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 1.wav");
-                case SoundEffect.GunHit1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
-                case SoundEffect.GunHit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 2.wav");
-                case SoundEffect.GunHit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
-                case SoundEffect.GunHit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 3.wav");
-                case SoundEffect.GunHit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
-                case SoundEffect.GunHitGameOver when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Game Over Explosion(instrumental).wav");
-                case SoundEffect.GunHitGameOver when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/game over explosion.wav");
-                case SoundEffect.Calibre1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reloading (Calibre 2).wav");
-                case SoundEffect.Calibre1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reloading (14 ).wav");
-                case SoundEffect.Calibre1Hybrid when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Canon Reload.wav");
-                //else if (soundEffect == SOUNDEFFECT.BOMB_FALL1)
-                //{
-                //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 1 .wav");
-                //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
-                //}
-                //else if (soundEffect == SOUNDEFFECT.BOMB_FALL2)
-                //{
-                //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 2.wav");
-                //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
-                //}
-                //else if (soundEffect == SOUNDEFFECT.BOMB_FALL3)
-                //{
-                //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 3 .wav");
-                //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
-                //}
-                case SoundEffect.Calibre1Hybrid when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/98 - Hybrid Reloading 1.wav");
-                case SoundEffect.EmptyCanon when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Empty Canon.wav");
-                case SoundEffect.EmptyCanon when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannot Shoot (10).wav");
-                case SoundEffect.EmptyCanonHybrid when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Canon No Ammo.wav");
-                case SoundEffect.EmptyCanonHybrid when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/62__Harsh_Click.wav");
-                case SoundEffect.Countdown when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Countdown (March) 4.wav");
-                case SoundEffect.Countdown when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/number countdown (53).wav");
-                case SoundEffect.CountdownAlien when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 1.wav");
-                case SoundEffect.CountdownAlien when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space countdown (84)_mono .wav");
-                case SoundEffect.RewardNotification when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reward Notification 2.wav");
-                case SoundEffect.RewardNotification when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reward Pop-up (43).wav");
-                case SoundEffect.NotificationPopUp when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General pop-up (Number pop 2).wav");
-                case SoundEffect.NotificationPopUp when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General Pop-up (35).wav");
-                case SoundEffect.Rewind when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Rewind (Numbers Rolling 1).wav");
-                case SoundEffect.Rewind when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Rewind (47).wav");
-                case SoundEffect.ShowScore when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Score & number poppin out (Number pop 3).wav");
-                case SoundEffect.ShowScore when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Score & numbers poppin out (40).wav");
-                case SoundEffect.Swipe when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Swipe effect (Screen Transition 2).wav");
-                case SoundEffect.Swipe when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Swipe effect (07).wav");
-                case SoundEffect.TextAppears when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/text appears (enemy or map change Backwards).wav");
-                case SoundEffect.TextAppears when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/text apears (23).wav");
-                case SoundEffect.TransitionLoop1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop1 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop1 (61).wav");
-                case SoundEffect.TransitionLoop2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop2 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop2 (61).wav");
-                case SoundEffect.TransitionLoop3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop3 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop3 (61).wav");
-                case SoundEffect.TransitionLoop4 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop4 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop4 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop4 (61).wav");
-                case SoundEffect.TransitionLoop5 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop5 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop5 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop5 (61).wav");
-                case SoundEffect.TransitionLoop6 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop6 (Number pop 1).wav");
-                case SoundEffect.TransitionLoop6 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop6 (61).wav");
-                case SoundEffect.AlienLaser when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/NEW LAZER 2.wav");
-                case SoundEffect.AlienLaser when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien lazer compo (6 & 10).wav");
-                case SoundEffect.AlienSpit when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 1.wav");
-                case SoundEffect.AlienSpit when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/Alien Spitting & slime oozing 1 (83 & 71).wav");
-                case SoundEffect.AlienSpit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 2.wav");
-                case SoundEffect.AlienSpit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/Alien Spitting & slime oozing 2 (83 & 72).wav");
-                case SoundEffect.AlienSpit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 3.wav");
-                case SoundEffect.AlienSpit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect(
-                        "Sounds/Alien Spitting & slime oozing 3 (83 & 72).wav");
-                case SoundEffect.MultiplierIndicator when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Multiplier level 4.wav");
-                case SoundEffect.MultiplierIndicator when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/multiplier indicator (87).wav");
-                case SoundEffect.MultiplierLost when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combo Loss2.wav");
-                case SoundEffect.MultiplierLost:
-                    {
-                        if (Settings.Instance.MusicStyle == MusicStyle.BeatBox)
-                            CCAudioEngine.SharedEngine.PreloadEffect("Sounds/109 - Score Multiplier Lost_with_echo.wav");
-                        break;
-                    }
-                case SoundEffect.FlyingSaucerIncoming when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership incoming 2.wav");
-                case SoundEffect.FlyingSaucerIncoming when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/106 - UFO Alarm Sound.wav");
-                case SoundEffect.FlyingSaucerFlying when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership Flying.wav");
-                case SoundEffect.FlyingSaucerFlying when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/107 - UFO Flying2_mono.wav");
-                case SoundEffect.FlyingSaucerExplosion when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership Destroy.wav");
-                case SoundEffect.FlyingSaucerExplosion when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/110A - UFO Explode_mono.wav");
-                case SoundEffect.CannonStill when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon Still.wav", true);
-                case SoundEffect.CannonStill when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_slow.wav", true);
-                case SoundEffect.CannonSlow when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon slow movement.wav", true);
-                case SoundEffect.CannonSlow when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_medium.wav", true);
-                case SoundEffect.CannonFast when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon moving.wav", true);
-                case SoundEffect.CannonFast when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
-                    return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_fast.wav", true);
+                switch (soundEffect)
+                {
+                    case SoundEffect.MenuTap when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/general button (Menu Selection change 1).wav");
+                    case SoundEffect.MenuTap when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General button (61).wav");
+                    case SoundEffect.MenuTapBack when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/Back button (Menu Selection deselect (backwards) 2).wav");
+                    case SoundEffect.MenuTapBack when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Back button (39).wav");
+                    case SoundEffect.MenuTapForward when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Forward button (Menu Selection Select 2).wav");
+                    case SoundEffect.MenuTapForward when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Forward button (38).wav");
+                    case SoundEffect.MenuTapVolumeChange when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Volume Change.wav");
+                    case SoundEffect.MenuTapVolumeChange when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Sound volume tester (06).wav");
+                    case SoundEffect.MenuTapMinus when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Minus Sound 1.wav");
+                    case SoundEffect.MenuTapMinus when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/- button (37).wav");
+                    case SoundEffect.MenuTapPlus when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Plus Sound 1.wav");
+                    case SoundEffect.MenuTapPlus when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/+ button (36).wav");
+                    case SoundEffect.MenuTapCannotTap when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannot tap 1.wav");
+                    case SoundEffect.MenuTapCannotTap when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Negative&Error (54).wav");
+                    case SoundEffect.MenuTapCheckMark when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Check Sound 1.wav");
+                    case SoundEffect.MenuTapCheckMark when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Checked (1).wav");
+                    case SoundEffect.ClickLink when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/Click link effect (enemy or map change forward).wav");
+                    case SoundEffect.ClickLink when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Click link effect (07).wav");
+                    case SoundEffect.On when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/on button (Menu Selection deselect (backwards) 1).wav");
+                    case SoundEffect.On when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/On button (41).wav");
+                    case SoundEffect.Off when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/off button (Menu Selection Select 1).wav");
+                    case SoundEffect.Off when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Off button (42).wav");
+                    case SoundEffect.MenuTapCreditPurchase when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/purchase 3.wav");
+                    case SoundEffect.MenuTapCreditPurchase when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Credit purchase (43).wav");
+                    case SoundEffect.EnemyHurt1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
+                    case SoundEffect.EnemyHurt1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
+                    case SoundEffect.EnemyHurt2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
+                    case SoundEffect.EnemyHurt2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
+                    case SoundEffect.EnemyHurt3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - hurt 1.wav");
+                    case SoundEffect.EnemyHurt3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When hurt (15).wav");
+                    case SoundEffect.EnemyKilled when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy - killed .wav");
+                    case SoundEffect.EnemyKilled when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy hit Sound When killed (21).wav");
+                    case SoundEffect.EnemySpit when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 1.wav");
+                    case SoundEffect.EnemySpit when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_1.wav");
+                    case SoundEffect.EnemySpit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 2.wav");
+                    case SoundEffect.EnemySpit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_1.wav");
+                    case SoundEffect.EnemySpit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 3.wav");
+                    case SoundEffect.EnemySpit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_2.wav");
+                    case SoundEffect.EnemySpit4 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combines enemy attack 4.wav");
+                    case SoundEffect.EnemySpit4 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Enemy drooling & bomb whistle (18 43)_3.wav");
+                    case SoundEffect.GunHit1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 1.wav");
+                    case SoundEffect.GunHit1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
+                    case SoundEffect.GunHit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 2.wav");
+                    case SoundEffect.GunHit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
+                    case SoundEffect.GunHit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Gun - Hit 3.wav");
+                    case SoundEffect.GunHit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannon explosion(49).wav");
+                    case SoundEffect.GunHitGameOver when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Game Over Explosion(instrumental).wav");
+                    case SoundEffect.GunHitGameOver when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/game over explosion.wav");
+                    case SoundEffect.Calibre1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reloading (Calibre 2).wav");
+                    case SoundEffect.Calibre1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reloading (14 ).wav");
+                    case SoundEffect.Calibre1Hybrid when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Canon Reload.wav");
+                    //else if (soundEffect == SOUNDEFFECT.BOMB_FALL1)
+                    //{
+                    //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 1 .wav");
+                    //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
+                    //}
+                    //else if (soundEffect == SOUNDEFFECT.BOMB_FALL2)
+                    //{
+                    //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 2.wav");
+                    //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
+                    //}
+                    //else if (soundEffect == SOUNDEFFECT.BOMB_FALL3)
+                    //{
+                    //    if (Settings.Instance.MusicStyle == MUSIC_STYLE.Instrumental) { }// return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bomb fall 3 .wav");
+                    //    else if (Settings.Instance.MusicStyle == MUSIC_STYLE.BeatBox) return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Falling bomb (27__Bomb_Whistle_tuned).wav");
+                    //}
+                    case SoundEffect.Calibre1Hybrid when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/98 - Hybrid Reloading 1.wav");
+                    case SoundEffect.EmptyCanon when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Empty Canon.wav");
+                    case SoundEffect.EmptyCanon when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Cannot Shoot (10).wav");
+                    case SoundEffect.EmptyCanonHybrid when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Canon No Ammo.wav");
+                    case SoundEffect.EmptyCanonHybrid when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/62__Harsh_Click.wav");
+                    case SoundEffect.Countdown when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Countdown (March) 4.wav");
+                    case SoundEffect.Countdown when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/number countdown (53).wav");
+                    case SoundEffect.CountdownAlien when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 1.wav");
+                    case SoundEffect.CountdownAlien when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space countdown (84)_mono .wav");
+                    case SoundEffect.RewardNotification when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reward Notification 2.wav");
+                    case SoundEffect.RewardNotification when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Reward Pop-up (43).wav");
+                    case SoundEffect.NotificationPopUp when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General pop-up (Number pop 2).wav");
+                    case SoundEffect.NotificationPopUp when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/General Pop-up (35).wav");
+                    case SoundEffect.Rewind when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Rewind (Numbers Rolling 1).wav");
+                    case SoundEffect.Rewind when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Rewind (47).wav");
+                    case SoundEffect.ShowScore when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Score & number poppin out (Number pop 3).wav");
+                    case SoundEffect.ShowScore when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Score & numbers poppin out (40).wav");
+                    case SoundEffect.Swipe when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Swipe effect (Screen Transition 2).wav");
+                    case SoundEffect.Swipe when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Swipe effect (07).wav");
+                    case SoundEffect.TextAppears when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/text appears (enemy or map change Backwards).wav");
+                    case SoundEffect.TextAppears when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/text apears (23).wav");
+                    case SoundEffect.TransitionLoop1 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop1 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop1 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop1 (61).wav");
+                    case SoundEffect.TransitionLoop2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop2 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop2 (61).wav");
+                    case SoundEffect.TransitionLoop3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop3 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop3 (61).wav");
+                    case SoundEffect.TransitionLoop4 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop4 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop4 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop4 (61).wav");
+                    case SoundEffect.TransitionLoop5 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop5 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop5 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop5 (61).wav");
+                    case SoundEffect.TransitionLoop6 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop6 (Number pop 1).wav");
+                    case SoundEffect.TransitionLoop6 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Transition_loop6 (61).wav");
+                    case SoundEffect.AlienLaser when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/NEW LAZER 2.wav");
+                    case SoundEffect.AlienLaser when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien lazer compo (6 & 10).wav");
+                    case SoundEffect.AlienSpit when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 1.wav");
+                    case SoundEffect.AlienSpit when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/Alien Spitting & slime oozing 1 (83 & 71).wav");
+                    case SoundEffect.AlienSpit2 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 2.wav");
+                    case SoundEffect.AlienSpit2 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/Alien Spitting & slime oozing 2 (83 & 72).wav");
+                    case SoundEffect.AlienSpit3 when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slime 3.wav");
+                    case SoundEffect.AlienSpit3 when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect(
+                            "Sounds/Alien Spitting & slime oozing 3 (83 & 72).wav");
+                    case SoundEffect.MultiplierIndicator when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Multiplier level 4.wav");
+                    case SoundEffect.MultiplierIndicator when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/multiplier indicator (87).wav");
+                    case SoundEffect.MultiplierLost when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Combo Loss2.wav");
+                    case SoundEffect.MultiplierLost:
+                        {
+                            if (Settings.Instance.MusicStyle == MusicStyle.BeatBox)
+                                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/109 - Score Multiplier Lost_with_echo.wav");
+                            break;
+                        }
+                    case SoundEffect.FlyingSaucerIncoming when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership incoming 2.wav");
+                    case SoundEffect.FlyingSaucerIncoming when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/106 - UFO Alarm Sound.wav");
+                    case SoundEffect.FlyingSaucerFlying when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership Flying.wav");
+                    case SoundEffect.FlyingSaucerFlying when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/107 - UFO Flying2_mono.wav");
+                    case SoundEffect.FlyingSaucerExplosion when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Mothership Destroy.wav");
+                    case SoundEffect.FlyingSaucerExplosion when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/110A - UFO Explode_mono.wav");
+                    case SoundEffect.CannonStill when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon Still.wav", true);
+                    case SoundEffect.CannonStill when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_slow.wav", true);
+                    case SoundEffect.CannonSlow when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon slow movement.wav", true);
+                    case SoundEffect.CannonSlow when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_medium.wav", true);
+                    case SoundEffect.CannonFast when Settings.Instance.MusicStyle == MusicStyle.Instrumental:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/Canon moving.wav", true);
+                    case SoundEffect.CannonFast when Settings.Instance.MusicStyle == MusicStyle.BeatBox:
+                        return CCAudioEngine.SharedEngine.PlayEffect("Sounds/108K - Hybrid Cannon Moving_fast.wav", true);
+                }
             }
-
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+            }
             return null;
         }
 
