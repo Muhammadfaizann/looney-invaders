@@ -405,7 +405,8 @@ namespace LooneyInvaders.Classes
                 {
                     if (GameView == null)
                     {
-                        continue;
+                        GameView = Shared.GameDelegate.GameView;
+                        if (GameView == null) continue;
                     }
                     foreach (var node in Children)
                     {
@@ -566,7 +567,8 @@ namespace LooneyInvaders.Classes
                 {
                     if (GameView == null)
                     {
-                        continue;
+                        GameView = Shared.GameDelegate.GameView;
+                        if (GameView == null) continue;
                     }
                     foreach (var node in Children)
                     {

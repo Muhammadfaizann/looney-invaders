@@ -294,7 +294,10 @@ namespace LooneyInvaders.Layers
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (GameView == null)
-                return;
+            {
+                GameView = Shared.GameDelegate.GameView;
+                if (GameView == null) return;
+            }
             if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForward.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;
             if (touches.Count > 0 && _btnForwardNoPasaran.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;

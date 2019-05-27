@@ -2031,7 +2031,8 @@ namespace LooneyInvaders.Layers
             {
                 if (GameView == null)
                 {
-                    continue;
+                    GameView = Shared.GameDelegate.GameView;
+                    if (GameView == null) continue;
                 }
                 if (RectangleWithin(fireButtonBoundingBox, touch.Location))
                 {
@@ -4317,7 +4318,8 @@ namespace LooneyInvaders.Layers
             {
                 if (GameView == null)
                 {
-                    continue;
+                    GameView = Shared.GameDelegate.GameView;
+                    if (GameView == null) continue;
                 }
                 if (RectangleWithin(movementButtonBoundingBox, touch.Location))
                 {
@@ -4432,7 +4434,8 @@ namespace LooneyInvaders.Layers
         {
             if (GameView == null)
             {
-                return;
+                GameView = Shared.GameDelegate.GameView;
+                if (GameView == null) return;
             }
             if (_btnMovement.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location))
             {
