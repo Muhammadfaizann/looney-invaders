@@ -323,8 +323,14 @@ namespace LooneyInvaders.Model
             {
                 CCAudioEngine.SharedEngine.StopBackgroundMusic();
                 MusicPlaying = newMusic;
-                CCAudioEngine.SharedEngine.PlayBackgroundMusic(MusicPlaying, true);
+                //CCAudioEngine.SharedEngine.PlayBackgroundMusic(MusicPlaying, true);
+                Shared.GameDelegate.Layer?.ScheduleOnce((_) => PlayBackgroundMusic(true), 0f);
             }
+        }
+
+        public static void PlayBackgroundMusic(bool looped = false)
+        {
+            CCAudioEngine.SharedEngine.PlayBackgroundMusic(MusicPlaying, looped);
         }
 
         public static void StopMusic()
