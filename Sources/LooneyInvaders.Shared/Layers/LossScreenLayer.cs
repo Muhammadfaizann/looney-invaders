@@ -628,7 +628,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private void FadeScoreNode(float dt)
@@ -657,7 +657,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void revenge_OnClick(object sender, EventArgs e)
@@ -667,7 +667,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
 
             var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         //CCNodeExt shareNode;

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
-//using CCSprite = LooneyInvaders.Classes.CCSpriteWrapper;
 
 namespace LooneyInvaders.Classes
 {
@@ -34,18 +32,15 @@ namespace LooneyInvaders.Classes
             set => _position = value;
         }
 
-        public override CCGameView GameView
+        /*public override CCGameView GameView
         {
-            get => base.GameView ?? HoldValue(base.GameView, null, Shared.GameDelegate.GameView);
-            protected set => base.GameView = HoldValue(base.GameView, value);
-        }
+            get => base.GameView ?? Shared.GameDelegate.GameView;
+            protected set => base.GameView = value;
+        }*/
 
-        public override CCScene Scene
-        {
-            get => base.Scene ?? HoldValue(base.Scene, null, Shared.GameDelegate.Scene);
-        }
+        //public override CCScene Scene => base.Scene ?? Shared.GameDelegate.Scene;
 
-        protected virtual T HoldValue<T>(T backingField, T newValue, T reserveValue = default(T))
+        /*protected virtual T HoldValue<T>(T backingField, T newValue, T reserveValue = default(T))
             where T : class
         {
             T value = null;
@@ -59,7 +54,7 @@ namespace LooneyInvaders.Classes
             }
             backingField = value ?? reserveValue;
             return backingField;
-        }
+        }*/
 
         public CCLayerColorExt()
             : base(CCColor4B.Black)
@@ -93,7 +88,8 @@ namespace LooneyInvaders.Classes
             {
                 RemoveChild(Background);
                 //ToDo: Bass - useful? disposing object that will be used soon
-                Background.Dispose();
+                if (Shared.GameDelegate.UseAnimationClearing)
+                    Background.Dispose();
             }
             Background = new CCSprite($"{GameEnvironment.ImageDirectory}{imageName}", CCRect.Zero)
             {
@@ -707,16 +703,39 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public virtual async Task ContinueInitialize(bool condition = true)
+        public virtual void ContinueInitialize()
+        { }
+
+        public virtual async Task ContinueInitializeAsync()
         {
-            await Task.Run(() => {/*your base implemetation*/ });
+            await Task.Run(() => { /*your base implemetation*/ });
         }
 
-        public async Task TransitionToLayer(CCLayerColorExt layer)
+        public void TransitionToLayer(CCLayerColorExt layer, bool dispose = false)
         {
-            await layer.ContinueInitialize();
+            layer.ContinueInitialize();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
+
+            dispose = !Shared.GameDelegate.UseAnimationClearing;
+
+            var gameScene = new CCScene(GameView);
+            gameScene.AddLayer(layer);
+
+            var transition = new CCTransitionFade(0.3f, gameScene);
+            if (Scene != null)
+                Director.ReplaceScene(transition);
+            if (dispose)
+                Dispose();
+        }
+
+        public async Task TransitionToLayerAsync(CCLayerColorExt layer, bool dispose = false)
+        {
+            await layer.ContinueInitializeAsync();
+            Shared.GameDelegate.Layer = layer;
+            GC.Collect();
+
+            dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(layer);
@@ -724,15 +743,90 @@ namespace LooneyInvaders.Classes
             var transition = new CCTransitionFade(0.3f, gameScene);
             if (Scene != null)
                 await Director.ReplaceSceneAsync(transition);
-            //RemoveAllListeners();
-            //Dispose();
+            if (dispose)
+                Dispose();
         }
 
-        public async Task TransitionToLayerCartoonStyle(CCLayerColorExt layer)
+        public void TransitionToLayerCartoonStyle(CCLayerColorExt layer, bool dispose = false)
         {
-            await layer.ContinueInitialize();
+            layer.ContinueInitialize();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
+
+            dispose = !Shared.GameDelegate.UseAnimationClearing;
+
+            Enabled = false;
+            LayerTransitionTarget = layer;
+
+            // source          
+
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop1);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop2);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop3);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop4);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop5);
+            GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop6);
+
+            var framesSource = new List<CCSpriteFrame>();
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_1.png"),
+                new CCRect(0, 0, 1136, 640)));
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_2.png"),
+                new CCRect(0, 0, 1136, 640)));
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_3.png"),
+                new CCRect(0, 0, 1136, 640)));
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_4.png"),
+                new CCRect(0, 0, 1136, 640)));
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_5.png"),
+                new CCRect(0, 0, 1136, 640)));
+            framesSource.Add(new CCSpriteFrame(
+                new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_6.png"),
+                new CCRect(0, 0, 1136, 640)));
+
+            var animationSource = new CCAnimation(framesSource, 0.10f);
+
+            var transitionImageSource = new CCSprite(framesSource[0]);
+            transitionImageSource.AnchorPoint = new CCPoint(0, 0);
+            transitionImageSource.Position = new CCPoint(0, 0);
+            transitionImageSource.BlendFunc = GameEnvironment.BlendFuncDefault;
+            AddChild(transitionImageSource, 9999);
+
+            var actions = new CCFiniteTimeAction[2];
+            actions[0] = new CCRepeat(new CCAnimate(animationSource), 1);
+            actions[1] = new CCCallFunc(ReplaceScene);
+
+            var seq = new CCSequence(actions);
+            transitionImageSource.RunAction(seq);
+            ScheduleOnce(playEffect1, 0.1f);
+            ScheduleOnce(playEffect2, 0.2f);
+            ScheduleOnce(playEffect3, 0.3f);
+            ScheduleOnce(playEffect4, 0.4f);
+            ScheduleOnce(playEffect5, 0.5f);
+            ScheduleOnce(playEffect6, 0.6f);
+
+#if __IOS__ && DEBUG
+            Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
+#endif
+            if (dispose)
+                Dispose();
+        }
+
+        public async Task TransitionToLayerCartoonStyleAsync(CCLayerColorExt layer,
+            bool isAsyncContinuation = false,
+            bool dispose = false)
+        {
+            if (isAsyncContinuation)
+                await layer.ContinueInitializeAsync();
+            else
+                layer.ContinueInitialize();
+            Shared.GameDelegate.Layer = layer;
+            GC.Collect();
+
+            dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             Enabled = false;
             LayerTransitionTarget = layer;
@@ -786,7 +880,12 @@ namespace LooneyInvaders.Classes
             ScheduleOnce(playEffect4, 0.4f);
             ScheduleOnce(playEffect5, 0.5f);
             ScheduleOnce(playEffect6, 0.6f);
-            //Dispose();
+
+#if __IOS__ && DEBUG
+            Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
+#endif
+            if (dispose)
+                Dispose();
         }
 
         private void playEffect1(float dt)

@@ -158,6 +158,9 @@ namespace LooneyInvaders.Droid
             /*Sensor gyro = sm.GetDefaultSensor(SensorType.RotationVector);
             sm.RegisterListener(this, gyro, SensorDelay.Game);*/
 
+            // clearing on iOS does not properly work
+            GameDelegate.UseAnimationClearing = true;
+
             // connect to AdMob
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);

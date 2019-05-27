@@ -123,6 +123,14 @@ namespace LooneyInvaders.iOS
             if (InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) pitch = pitch * -1;
         }
 
+        public override void DidReceiveMemoryWarning()
+        {
+#if DEBUG
+            Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
+#endif
+            base.DidReceiveMemoryWarning();
+        }
+
         public override async void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);

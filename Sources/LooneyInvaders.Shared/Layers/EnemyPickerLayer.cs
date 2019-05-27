@@ -57,16 +57,29 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kim Jong-un VO_mono.wav");
             }
 
-            //ContinueInitialize().Wait();
         }
 
-        public override async System.Threading.Tasks.Task ContinueInitialize(bool condition = true)
+        public override void ContinueInitialize()
         {
             if (_isInitialized)
                 return;
-            _isInitialized = true;
 
-            while (await GameAnimation.Instance.PreloadNextSpriteSheetEnemiesAsync()) { }
+            while (GameAnimation.Instance.PreloadNextSpriteSheetEnemies(Shared.GameDelegate.UseAnimationClearing)) { }
+            InitializingContinuation();
+        }
+
+        public override async System.Threading.Tasks.Task ContinueInitializeAsync()
+        {
+            if (_isInitialized)
+                return;
+
+            while (await GameAnimation.Instance.PreloadNextSpriteSheetEnemiesAsync(Shared.GameDelegate.UseAnimationClearing)) { }
+            InitializingContinuation();
+        }
+
+        protected void InitializingContinuation()
+        {
+            _isInitialized = true;
 
             _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
@@ -260,7 +273,7 @@ namespace LooneyInvaders.Layers
             UnscheduleAll();
 
             var newLayer = new MainScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)

@@ -32,6 +32,7 @@ namespace LooneyInvaders.Layers
         private bool _isInitialized;
         private bool _isSwiping;
         private bool _isSwipingEnabled = true;
+        private bool _gameTipAvailable;
         private int _selectedWeapon;
         private float _lastMovement;
         private int _bowingSpriteIndex;
@@ -71,6 +72,7 @@ namespace LooneyInvaders.Layers
             //CCLayer.DefaultCameraProjection = CCCameraProjection.Projection2D;
 
             _selectedEnemy = selectedEnemy;
+            _gameTipAvailable = gameTipAvailable;
 
             SetBackground("UI/Choose-your-curtain-background-with-spotlight.jpg");
 
@@ -88,23 +90,34 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hybrid Defender VO_mono.wav");
             }
 
-            //ContinueInitialize(gameTipAvailable).Wait();
         }
 
-        public override async System.Threading.Tasks.Task ContinueInitialize(bool gameTipAvailable = true)
+        public override void ContinueInitialize()
         {
             if (_isInitialized)
                 return;
-            _isInitialized = true;
 
-            //Schedule((_) => GameAnimation.Instance.PreloadNextSpriteSheetWeapons(() => Unschedule((__) => GameAnimation.Instance.PreloadNextSpriteSheetWeapons())));
-            while (await GameAnimation.Instance.PreloadNextSpriteSheetWeaponsAsync()) { }
+            while (GameAnimation.Instance.PreloadNextSpriteSheetWeapons(Shared.GameDelegate.UseAnimationClearing)) { }
+            InitializingContinuation();
+        }
+
+        public override async System.Threading.Tasks.Task ContinueInitializeAsync()
+        {
+            if (_isInitialized)
+                return;
+
+            while (await GameAnimation.Instance.PreloadNextSpriteSheetWeaponsAsync(Shared.GameDelegate.UseAnimationClearing)) { }
+            InitializingContinuation();
+        }
+
+        protected void InitializingContinuation()
+        {
+            _isInitialized = true;
 
             _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnBack.OnClick += BtnBack_OnClick;
             _btnBack.ButtonType = ButtonType.Back;
             Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
-
 
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _btnForward.OnClick += BtnForward_OnClick;
@@ -230,7 +243,7 @@ namespace LooneyInvaders.Layers
 
                 _startedBowing = false;
 
-                if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipWeaponPickerShow && gameTipAvailable)
+                if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipWeaponPickerShow && _gameTipAvailable)
                 {
                     _isHoldAnimations = true;
                     ShowGameTip();
@@ -256,11 +269,16 @@ namespace LooneyInvaders.Layers
             var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
             var lives = Weapon.GetLives((Weapons)_selectedWeapon);
 
-            await TransitionToLayer(new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest));
+            var newLayer = new GamePlayLayer(Enemies.Trump, (Weapons)_selectedWeapon, Battlegrounds.WhiteHouse, false, caliberSize, firespeed, magazineSize, lives, (Enemies)_selectedEnemy, LaunchMode.WeaponTest);
+            if (Shared.GameDelegate.UseAnimationClearing)
+                await TransitionToLayerAsync(newLayer);
+            else
+                TransitionToLayer(newLayer);
         }
 
         public WeaponPickerLayer(int selectedEnemy, int selectedWeapon) : this(selectedEnemy, false)
         {
+            InitializingContinuation();
             if (selectedWeapon == (int)Weapons.Bazooka)
             {
                 MoveImages(420);
@@ -381,44 +399,51 @@ namespace LooneyInvaders.Layers
             var caliberSize = Weapon.GetCaliberSize((Weapons)_selectedWeapon);
             var firespeed = Weapon.GetFirespeed((Weapons)_selectedWeapon);
             var magazineSize = Weapon.GetMagazineSize((Weapons)_selectedWeapon);
-            switch (_selectedWeapon)
+            try
             {
-                case (int)Weapons.Standard:
-                    _imgWeaponStatsStars[4].Visible = false; // calibre size 5
-                    _imgWeaponStatsStars[5].Visible = false; // calibre size 6
-                    _imgWeaponStatsStars[10].Visible = false; // firespeed 5
-                    _imgWeaponStatsStars[11].Visible = false; // firespeed 6
-                    _imgWeaponStatsStars[16].Visible = false; // magazine size 5
-                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6                
-                    break;
-                case (int)Weapons.Compact:
-                    _imgWeaponStatsStars[4].Visible = false; // calibre size 5
-                    _imgWeaponStatsStars[5].Visible = false; // calibre size 6
-                    _imgWeaponStatsStars[10].Visible = true; // firespeed 5
-                    _imgWeaponStatsStars[11].Visible = true; // firespeed 6
-                    _imgWeaponStatsStars[16].Visible = true; // magazine size 5
-                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
-                    break;
-                case (int)Weapons.Bazooka:
-                    _imgWeaponStatsStars[4].Visible = true; // calibre size 5
-                    _imgWeaponStatsStars[5].Visible = true; // calibre size 6
-                    _imgWeaponStatsStars[10].Visible = false; // firespeed 5
-                    _imgWeaponStatsStars[11].Visible = false; // firespeed 6
-                    _imgWeaponStatsStars[16].Visible = true; // magazine size 5
-                    _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
-                    break;
+                switch (_selectedWeapon)
+                {
+                    case (int)Weapons.Standard:
+                        _imgWeaponStatsStars[4].Visible = false; // calibre size 5
+                        _imgWeaponStatsStars[5].Visible = false; // calibre size 6
+                        _imgWeaponStatsStars[10].Visible = false; // firespeed 5
+                        _imgWeaponStatsStars[11].Visible = false; // firespeed 6
+                        _imgWeaponStatsStars[16].Visible = false; // magazine size 5
+                        _imgWeaponStatsStars[17].Visible = false; // magazine size 6                
+                        break;
+                    case (int)Weapons.Compact:
+                        _imgWeaponStatsStars[4].Visible = false; // calibre size 5
+                        _imgWeaponStatsStars[5].Visible = false; // calibre size 6
+                        _imgWeaponStatsStars[10].Visible = true; // firespeed 5
+                        _imgWeaponStatsStars[11].Visible = true; // firespeed 6
+                        _imgWeaponStatsStars[16].Visible = true; // magazine size 5
+                        _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
+                        break;
+                    case (int)Weapons.Bazooka:
+                        _imgWeaponStatsStars[4].Visible = true; // calibre size 5
+                        _imgWeaponStatsStars[5].Visible = true; // calibre size 6
+                        _imgWeaponStatsStars[10].Visible = false; // firespeed 5
+                        _imgWeaponStatsStars[11].Visible = false; // firespeed 6
+                        _imgWeaponStatsStars[16].Visible = true; // magazine size 5
+                        _imgWeaponStatsStars[17].Visible = false; // magazine size 6    
+                        break;
+                }
+
+                for (var i = 0; i < 6; i++)
+                {
+                    if (caliberSize > i) ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
+                    else ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
+
+                    if (firespeed > i) ChangeSpriteImage(_imgWeaponStatsStars[6 + i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
+                    else ChangeSpriteImage(_imgWeaponStatsStars[6 + i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
+
+                    if (magazineSize > i) ChangeSpriteImage(_imgWeaponStatsStars[12 + i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
+                    else ChangeSpriteImage(_imgWeaponStatsStars[12 + i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
+                }
             }
-
-            for (var i = 0; i < 6; i++)
+            catch (Exception ex)
             {
-                if (caliberSize > i) ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
-                else ChangeSpriteImage(_imgWeaponStatsStars[i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
-
-                if (firespeed > i) ChangeSpriteImage(_imgWeaponStatsStars[6 + i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
-                else ChangeSpriteImage(_imgWeaponStatsStars[6 + i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
-
-                if (magazineSize > i) ChangeSpriteImage(_imgWeaponStatsStars[12 + i], "UI/Choose-your-weapon-weapon-characters-board-star-filled.png");
-                else ChangeSpriteImage(_imgWeaponStatsStars[12 + i], "UI/Choose-your-weapon-weapon-characters-board-star-unfilled.png");
+                var mess = ex.Message;
             }
         }
 
@@ -428,7 +453,8 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             UnscheduleAll();
 
-            TransitionToLayer(new WeaponUpgradeScreenLayer(_selectedEnemy, _selectedWeapon));
+            var newLayer = new WeaponUpgradeScreenLayer(_selectedEnemy, _selectedWeapon);
+            TransitionToLayer(newLayer);
         }
 
 
@@ -473,7 +499,8 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
             UnscheduleAll();
 
-            TransitionToLayer(new GetMoreCreditsScreenLayer(30000, _selectedEnemy, _selectedWeapon));
+            var newLayer = new GetMoreCreditsScreenLayer(30000, _selectedEnemy, _selectedWeapon);
+            TransitionToLayer(newLayer);
         }
 
         private void BtnCancel_OnClick(object sender, EventArgs e)
@@ -583,7 +610,8 @@ namespace LooneyInvaders.Layers
             if (_selectedWeapon == (int)Weapons.Hybrid)
             {
                 UnscheduleAll();
-                TransitionToLayer(new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false));
+                var gamePlayLayer = new GamePlayLayer(Enemies.Aliens, (Weapons)_selectedWeapon, Battlegrounds.Moon, false);
+                TransitionToLayer(gamePlayLayer);
                 return;
             }
 
@@ -592,7 +620,8 @@ namespace LooneyInvaders.Layers
             UnscheduleAll();
 
             CCAudioEngine.SharedEngine.StopAllEffects();
-            TransitionToLayer(new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon));
+            var battlegroundPicker = new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon);
+            TransitionToLayer(battlegroundPicker);
         }
 
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)

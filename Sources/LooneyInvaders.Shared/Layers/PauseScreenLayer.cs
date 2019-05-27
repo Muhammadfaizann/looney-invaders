@@ -52,6 +52,7 @@ namespace LooneyInvaders.Layers
             _layerBack.IsCartoonFadeIn = false;
             Director.PopScene();
             _layerBack.Continue();
+            _layerBack.Resume();
             _imgBruises.Visible = false;
         }
 

@@ -253,7 +253,7 @@ namespace LooneyInvaders.Layers
             if (_selectedWeapon == -1)
             {
                 var newLayer = new MainScreenLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else if (_caliberSizeSelected == -1)
             {

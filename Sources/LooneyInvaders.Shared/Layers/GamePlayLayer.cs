@@ -8,9 +8,6 @@ using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
 using LooneyInvaders.Shared;
 
-#if __IOS__
-using Foundation;
-#endif
 namespace LooneyInvaders.Layers
 {
     public class GamePlayLayer : CCLayerColorExt
@@ -1880,9 +1877,9 @@ namespace LooneyInvaders.Layers
             Director.PushScene(newScene);
         }
 
-        private async void btnSurrender_OnClick(object sender, EventArgs e)
+        private void btnSurrender_OnClick(object sender, EventArgs e)
         {
-            await GameOver(0f);
+            GameOver(0f);
         }
 
         private void btnContinue_OnClick(object sender, EventArgs e)
@@ -2043,7 +2040,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private async Task GameOver(float dt)
+        private void GameOver(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2061,7 +2058,7 @@ namespace LooneyInvaders.Layers
                 AdMobManager.HideBanner();
 
                 var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
-                await TransitionToLayerCartoonStyle(newLayer);
+                TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
@@ -2073,7 +2070,7 @@ namespace LooneyInvaders.Layers
                     FireSpeedSelected,
                     MagazineSizeSelected,
                     LivesSelected);
-                await TransitionToLayerCartoonStyle(newLayer);
+                TransitionToLayerCartoonStyle(newLayer);
             }
             else
             {
@@ -2084,7 +2081,7 @@ namespace LooneyInvaders.Layers
                     SelectedBattleground,
                     _score,
                     _wave);
-                await TransitionToLayerCartoonStyle(newLayer);
+                TransitionToLayerCartoonStyle(newLayer);
             }
         }
 
@@ -2109,7 +2106,7 @@ namespace LooneyInvaders.Layers
                 AdMobManager.HideBanner();
 
                 var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
@@ -2121,7 +2118,7 @@ namespace LooneyInvaders.Layers
                     FireSpeedSelected,
                     MagazineSizeSelected,
                     LivesSelected);
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else if (_launchMode == LaunchMode.SteeringTest)
             {
@@ -2140,7 +2137,7 @@ namespace LooneyInvaders.Layers
                     Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
                     _lives.Count,
                     WinsInSuccession + 1);
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
         }
 
@@ -3268,7 +3265,7 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        ScheduleOnce(async (obj) => await GameOver(obj), 1.6f);
+                        ScheduleOnce(GameOver, 1.6f);
                         _gameOverExplosion = null;
 
                     }

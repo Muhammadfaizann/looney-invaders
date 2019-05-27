@@ -46,7 +46,7 @@ namespace LooneyInvaders.Layers
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
                 var newLayer = new GameInfoScreenLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else
             {
@@ -61,7 +61,7 @@ namespace LooneyInvaders.Layers
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
             var newLayer = new MainScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private void SetImages()

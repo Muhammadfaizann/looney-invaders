@@ -16,9 +16,8 @@ namespace LooneyInvaders.Extensions
                     {
                         if (resetSceneStack)
                             director?.ResetSceneStack();
-                        director?.ReplaceScene(scene);
                     });
-
+                    director?.ReplaceScene(scene);
                 }
             }
             catch (Exception ex)

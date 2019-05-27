@@ -277,13 +277,13 @@ namespace LooneyInvaders.Layers
         private async void BtnGetCredits_OnClick(object sender, EventArgs e)
         {
             var newLayer = new GetMoreCreditsScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnGameSettings_OnClick(object sender, EventArgs e)
         {
             var newLayer = new SettingsScreenLayer(null, GameConstants.NavigationParam.MainScreen);
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnGameInfo_OnClick(object sender, EventArgs e)
@@ -291,7 +291,7 @@ namespace LooneyInvaders.Layers
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
             var newLayer = new GameInfoScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private void StartDialog_Back(object sender, EventArgs e)
@@ -335,13 +335,16 @@ namespace LooneyInvaders.Layers
             Player.Instance.GetQuickGame(out var enemy, out var battleground, out var weapon);
 
             var newLayer = new GamePlayLayer(enemy, weapon, battleground, true);
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnSelectionMode_OnClick(object sender, EventArgs e)
         {
             var newLayer = new EnemyPickerLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            if (Shared.GameDelegate.UseAnimationClearing)
+                await TransitionToLayerCartoonStyleAsync(newLayer);
+            else
+                TransitionToLayerCartoonStyle(newLayer);
         }
 
         private void BtnRanking_OnClick(object sender, EventArgs e)

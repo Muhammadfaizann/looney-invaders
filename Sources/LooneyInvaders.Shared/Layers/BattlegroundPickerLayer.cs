@@ -490,7 +490,8 @@ namespace LooneyInvaders.Layers
 
             UnscheduleAll();
 
-            await TransitionToLayer(new WeaponPickerLayer(_selectedEnemy, _selectedWeapon));
+            var newLayer = new WeaponPickerLayer(_selectedEnemy, _selectedWeapon);
+            TransitionToLayer(newLayer);
         }
 
         private void BtnForward_OnClick(object sender, EventArgs e)

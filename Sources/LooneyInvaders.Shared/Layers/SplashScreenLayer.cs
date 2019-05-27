@@ -9,12 +9,12 @@ namespace LooneyInvaders.Layers
     {
         private float _musicTime;
         private bool? _backgroundLoading = false;
-        public bool EnabledTouch { get; set; }
+        //public bool EnabledTouch { get; set; }
 
         public SplashScreenLayer()
         {
             Enabled = false;
-            EnabledTouch = false;
+            //EnabledTouch = false;
             //ScheduleOnce((obj) => SetBackground("UI/Splash-screen-background-2.jpg"), 0f);
             //SetBackground("UI/Splash-screen-background-2.jpg");
             ScheduleOnce((obj) => SwitchBackground(obj), 0f);
@@ -73,7 +73,6 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-
             _musicTime -= dt;
 
             var date = DateTime.Now;
@@ -82,7 +81,6 @@ namespace LooneyInvaders.Layers
             {
                 //---------- Prabhjot ----------//
                 GameEnvironment.PlayMusic(Music.MainMenu);
-
             }
 
 
@@ -90,8 +88,9 @@ namespace LooneyInvaders.Layers
             {
                 //---------- Prabhjot ----------//
                 //GameEnvironment.PlayMusic(MUSIC.MAIN_MENU);
+                UnscheduleAll();
                 var newLayer = new MainScreenLayer();
-                await TransitionToLayer(newLayer);
+                await TransitionToLayerAsync(newLayer);
             }
 
             while (DateTime.Now.Subtract(date).TotalMilliseconds < 1000)

@@ -846,7 +846,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         //CCLayerColorExt sl;
@@ -1158,7 +1158,7 @@ namespace LooneyInvaders.Layers
                 AdMobManager.HideBanner();
 
                 var newLayer = new EnemyPickerLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else
             {
@@ -1171,7 +1171,7 @@ namespace LooneyInvaders.Layers
                     LaunchMode.Default,
                     LivesLeft,
                     WinsInSuccession);
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
         }
 

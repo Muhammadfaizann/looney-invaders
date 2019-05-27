@@ -24,6 +24,8 @@ namespace LooneyInvaders.Shared
             OnBackButton = null;
         }
 
+        public static bool UseAnimationClearing;
+
         static readonly object toSetLayer = new object();
         static CCLayer _layer;
         public static CCLayer Layer
@@ -40,20 +42,8 @@ namespace LooneyInvaders.Shared
             }
         }
 
-        static readonly object toSetScene = new object();
-        static CCScene _scene;
-        public static CCScene Scene
-        {
-            get => _scene;
-            set
-            {
-                //lock (toSetScene)
-                //{
-                    _scene = value;
-                //}
-            }
-        }
-             
+        public static CCScene Scene { get; set; }
+
 
         public static CCGameView GameView;
 
@@ -103,10 +93,11 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
             Layer = Layer ?? new SplashScreenLayer();
-            if (!Layer.IsRunning)
-                Layer.Resume();
+
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
+            if (!Layer.IsRunning)
+                Layer.Resume();
             GameView.RunWithScene(gameScene);
         }
 

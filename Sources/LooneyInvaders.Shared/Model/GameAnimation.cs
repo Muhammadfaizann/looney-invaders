@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CocosSharp;
-//using LooneyInvaders.Classes;
 using LooneyInvaders.Extensions;
 
 namespace LooneyInvaders.Model
@@ -28,8 +27,14 @@ namespace LooneyInvaders.Model
         private readonly List<CCSpriteSheet> _ssPutinRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssBushRotate = new List<CCSpriteSheet>();
 
+        private readonly bool _allowFreeingEnemies;
+        private readonly bool _allowFreeingWeapons;
+
         private GameAnimation()
-        { }
+        {
+            _allowFreeingEnemies = Shared.GameDelegate.UseAnimationClearing;
+            _allowFreeingWeapons = Shared.GameDelegate.UseAnimationClearing;
+        }   
 
         private static object toGetInstance = new object();
         private static GameAnimation _instance;
@@ -73,15 +78,15 @@ namespace LooneyInvaders.Model
             try
             {
                 var ssAll = new List<CCSpriteSheet>();
-                if (!onlyRotations) ssAll.AddRange(_ssAdolfTalk);
-                if (!onlyRotations) ssAll.AddRange(_ssBushTalk);
-                if (!onlyRotations) ssAll.AddRange(_ssKimTalk);
-                if (!onlyRotations) ssAll.AddRange(_ssPutinTalk);
-                if (!onlyRotations) ssAll.AddRange(_ssAlienTalk);
-                if (!onlyRotations) ssAll.AddRange(_ssStandardBow);
-                if (!onlyRotations) ssAll.AddRange(_ssCompactBow);
-                if (!onlyRotations) ssAll.AddRange(_ssBazookaBow);
-                if (!onlyRotations) ssAll.AddRange(_ssHybridBow);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssAdolfTalk);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssBushTalk);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssKimTalk);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssPutinTalk);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssAlienTalk);
+                if (!onlyRotations && _allowFreeingWeapons) ssAll.AddRange(_ssStandardBow);
+                if (!onlyRotations && _allowFreeingWeapons) ssAll.AddRange(_ssCompactBow);
+                if (!onlyRotations && _allowFreeingWeapons) ssAll.AddRange(_ssBazookaBow);
+                if (!onlyRotations && _allowFreeingWeapons) ssAll.AddRange(_ssHybridBow);
                 ssAll.AddRange(_ssStandardRotate);
                 ssAll.AddRange(_ssCompactRotate);
                 ssAll.AddRange(_ssBazookaRotate);
@@ -148,9 +153,9 @@ namespace LooneyInvaders.Model
             }
         }
 
-        public bool PreloadNextSpriteSheetEnemies()
+        public bool PreloadNextSpriteSheetEnemies(bool allowPreloadEnemies = true)
         {
-            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadEnemies) return false;
 
             int _ssAdolfTalkCount = (_ssAdolfTalk?.Count).GetValueOrDefault(),
                 _ssBushTalkCount = (_ssBushTalk?.Count).GetValueOrDefault(),
@@ -257,11 +262,12 @@ namespace LooneyInvaders.Model
             }
         }
 
-        static int naCount;
-        public async Task<bool> PreloadNextSpriteSheetWeaponsAsync(Action onReturnFalse = null)
-        { Console.WriteLine($"|PRELOAD|{naCount++}");
-            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
-        try {
+        public async Task<bool> PreloadNextSpriteSheetWeaponsAsync(bool allowPreloadWeapons = true)
+        {
+            if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadWeapons) return false;
+
+            try
+            {
                 int _ssStandardBowCount = (_ssStandardBow?.Count).GetValueOrDefault(),
                     _ssBazookaBowCount = (_ssBazookaBow?.Count).GetValueOrDefault(),
                     _ssCompactBowCount = (_ssCompactBow?.Count).GetValueOrDefault(),
@@ -271,8 +277,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Standard bow {0}/2", _ssStandardBowCount + 1);
                 var filename = $"{GameEnvironment.ImageDirectory}Animations/StandardBow-{_ssStandardBowCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(filename);
-                _ssStandardBow.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(filename);
+                _ssStandardBow.Add(await ss);
                 return true;
             }
 
@@ -280,8 +286,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Bazooka bow {0}/2", _ssBazookaBowCount + 1);
                 var filename = $"{GameEnvironment.ImageDirectory}Animations/BazookaBow-{_ssBazookaBowCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(filename);
-                _ssBazookaBow.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(filename);
+                _ssBazookaBow.Add(await ss);
                 return true;
             }
 
@@ -289,8 +295,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Compact bow {0}/2", _ssCompactBowCount + 1);
                 var filename = $"{GameEnvironment.ImageDirectory}Animations/CompactBow-{_ssCompactBowCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(filename);
-                _ssCompactBow.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(filename);
+                _ssCompactBow.Add(await ss);
                 return true;
             }
 
@@ -298,19 +304,21 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Hybrid bow {0}/2", _ssHybridBowCount + 1);
                 var filename = $"{GameEnvironment.ImageDirectory}Animations/HybridBow-{_ssHybridBowCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(filename);
-                _ssHybridBow.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(filename);
+                _ssHybridBow.Add(await ss);
                 return true;
             }
-            naCount = 0; } catch (Exception ex) 
-            { var mess = ex.Message; }
-            onReturnFalse?.Invoke();
+            }
+            catch (Exception ex) 
+            {
+                var mess = ex.Message;
+            }
             return false;
         }
 
-        public async Task<bool> PreloadNextSpriteSheetEnemiesAsync()
+        public async Task<bool> PreloadNextSpriteSheetEnemiesAsync(bool allowPreloadEnemies = true)
         {
-            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadEnemies) return false;
 
             int _ssAdolfTalkCount = (_ssAdolfTalk?.Count).GetValueOrDefault(),
                 _ssBushTalkCount = (_ssBushTalk?.Count).GetValueOrDefault(),
@@ -322,8 +330,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Hitler talk {0}/2", _ssAdolfTalkCount + 1);
                 var imagename = $"{GameEnvironment.ImageDirectory}Animations/Adolf-{_ssAdolfTalkCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssAdolfTalk.Add(ss);
+                var ss = Instance.CCSpriteSheetFactoryMethodAsync(imagename);
+                _ssAdolfTalk.Add(await ss);
                 return true;
             }
 
@@ -331,8 +339,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Bush talk {0}/2", _ssBushTalkCount + 1);
                 var imagename = $"{GameEnvironment.ImageDirectory}Animations/Bush-{_ssBushTalkCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssBushTalk.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(imagename);
+                _ssBushTalk.Add(await ss);
                 return true;
             }
 
@@ -340,8 +348,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Kim talk {0}/3", _ssKimTalkCount + 1);
                 var imagename = $"{GameEnvironment.ImageDirectory}Animations/Kim-{_ssKimTalkCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssKimTalk.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(imagename);
+                _ssKimTalk.Add(await ss);
                 return true;
             }
 
@@ -349,8 +357,8 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Putin talk {0}/2", _ssPutinTalkCount + 1);
                 var imagename = $"{GameEnvironment.ImageDirectory}Animations/Putin-{_ssPutinTalkCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssPutinTalk.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(imagename);
+                _ssPutinTalk.Add(await ss);
                 return true;
             }
 
@@ -358,18 +366,17 @@ namespace LooneyInvaders.Model
             {
                 Console.WriteLine("PRELOAD: Alien talk {0}/6", _ssAlienTalkCount + 1);
                 var imagename = $"{GameEnvironment.ImageDirectory}Animations/Alien-{_ssAlienTalkCount}.plist";
-                var ss = await Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssAlienTalk.Add(ss);
+                var ss = this.CCSpriteSheetFactoryMethodAsync(imagename);
+                _ssAlienTalk.Add(await ss);
                 return true;
             }
 
             return false;
         }
 
-        public bool PreloadNextSpriteSheetWeapons(Action onReturnFalse = null)
+        public bool PreloadNextSpriteSheetWeapons(bool allowPreloadWeapons = true)
         {
-            Console.WriteLine($"|PRELOAD|{naCount++}");
-            if (GameEnvironment.GetTotalRamSizeMb() < 500) return false;
+            if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadWeapons) return false;
             try
             {
                 int _ssStandardBowCount = (_ssStandardBow?.Count).GetValueOrDefault(),
@@ -412,11 +419,11 @@ namespace LooneyInvaders.Model
                     _ssHybridBow.Add(ss);
                     return true;
                 }
-                naCount = 0;
             }
             catch (Exception ex)
-            { var mess = ex.Message; }
-            onReturnFalse?.Invoke();
+            {
+                var mess = ex.Message;  
+            }
             return false;
         }
 

@@ -67,7 +67,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.HideBanner();
 
             var newLayer = new PrivacyPolicyScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnAboutGame_OnClick(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.HideBanner();
 
             var newLayer = new AboutGameScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnMyStats_OnClick(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.HideBanner();
 
             var newLayer = new MyStatsAndRewards1Layer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
@@ -92,7 +92,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.HideBanner();
 
             var newLayer = new MainScreenLayer();
-            await TransitionToLayerCartoonStyle(newLayer);
+            await TransitionToLayerCartoonStyleAsync(newLayer);
         }
     }
 }

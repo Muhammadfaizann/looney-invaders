@@ -282,7 +282,7 @@ namespace LooneyInvaders.Layers
                 Shared.GameDelegate.ClearOnBackButtonEvent();
 
                 var newLayer = new MainScreenLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
         }
 
@@ -339,7 +339,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 var newLayer = new MainScreenLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
         }
     }

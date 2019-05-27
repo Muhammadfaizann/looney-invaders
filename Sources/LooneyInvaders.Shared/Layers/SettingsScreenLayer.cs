@@ -643,7 +643,7 @@ namespace LooneyInvaders.Layers
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
                     var newLayer = new MainScreenLayer();
-                    await TransitionToLayerCartoonStyle(newLayer);
+                    await TransitionToLayerCartoonStyleAsync(newLayer);
                 }
             }
             else if (!_pg2.Visible)
@@ -714,7 +714,7 @@ namespace LooneyInvaders.Layers
                     PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
                     var newLayer = new MainScreenLayer();
-                    await TransitionToLayerCartoonStyle(newLayer);
+                    await TransitionToLayerCartoonStyleAsync(newLayer);
                 }
             }
         }
@@ -889,7 +889,7 @@ namespace LooneyInvaders.Layers
                 PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
                 var newLayer = new MainScreenLayer();
-                await TransitionToLayerCartoonStyle(newLayer);
+                await TransitionToLayerCartoonStyleAsync(newLayer);
             }
             else if (_fromPage == GameConstants.NavigationParam.GameScreen)
             {
