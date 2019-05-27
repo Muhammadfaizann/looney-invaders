@@ -4209,7 +4209,7 @@ namespace LooneyInvaders.Layers
                                 }
                                 else
                                 {
-                                    ScheduleOnce(async (obj) => await Victory(obj), 1);
+                                    ScheduleOnce(async (obj) => await Victory(obj), 0.1f);
                                 }
                                 break;
                         }

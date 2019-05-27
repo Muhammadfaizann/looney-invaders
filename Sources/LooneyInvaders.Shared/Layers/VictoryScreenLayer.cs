@@ -22,8 +22,8 @@ namespace LooneyInvaders.Layers
 
         private readonly int _score;
 
-        private readonly bool _isWeHaveScores;
-        private readonly bool _isDoneWaitingForScores;
+        private bool _isWeHaveScores;
+        private bool _isDoneWaitingForScores;
 
         private readonly CCSprite _defeated;
         private CCSpriteButton _okIGotIt;
@@ -360,11 +360,11 @@ namespace LooneyInvaders.Layers
 
             AdMobManager.ShowBannerBottom();
 
-
-
-
-            _isWeHaveScores = LeaderboardManager.SubmitScoreRegular(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
-            _isDoneWaitingForScores = true;
+            ScheduleOnce((_) =>
+            {
+                _isWeHaveScores = LeaderboardManager.SubmitScoreRegular(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
+                _isDoneWaitingForScores = true;
+            }, 0f);
 
             GameEnvironment.PlayMusic(Music.Victory);
 
