@@ -802,7 +802,13 @@ namespace LooneyInvaders.Classes
             actions[1] = new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            transitionImageSource.RunAction(seq);
+            var state = transitionImageSource.RunAction(seq);
+            var done = false;
+            var timer = new System.Timers.Timer(500);
+            timer.Elapsed += (s, e) => done = true;
+            timer.Enabled = true;
+
+            while (!state.IsDone && !done) { }
             ScheduleOnce(playEffect1, 0.1f);
             ScheduleOnce(playEffect2, 0.2f);
             ScheduleOnce(playEffect3, 0.3f);
@@ -875,7 +881,13 @@ namespace LooneyInvaders.Classes
             actions[1] = new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            await transitionImageSource.RunActionAsync(seq);
+            var state = await transitionImageSource.RunActionAsync(seq);
+            var done = false;
+            var timer = new System.Timers.Timer(500);
+            timer.Elapsed += (s, e) => done = true;
+            timer.Enabled = true;
+
+            while (!state.IsDone && !done) { }
             ScheduleOnce(playEffect1, 0.1f);
             ScheduleOnce(playEffect2, 0.2f);
             ScheduleOnce(playEffect3, 0.3f);
