@@ -719,7 +719,7 @@ namespace LooneyInvaders.Classes
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
-            dispose = !Shared.GameDelegate.UseAnimationClearing;
+            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(layer);
@@ -737,14 +737,16 @@ namespace LooneyInvaders.Classes
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
-            dispose = !Shared.GameDelegate.UseAnimationClearing;
+            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(layer);
 
             var transition = new CCTransitionFade(0.3f, gameScene);
             if (Scene != null)
+            {
                 await Director.ReplaceSceneAsync(transition);
+            }
             if (dispose)
                 Dispose();
         }
@@ -755,7 +757,7 @@ namespace LooneyInvaders.Classes
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
-            dispose = !Shared.GameDelegate.UseAnimationClearing;
+            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             Enabled = false;
             LayerTransitionTarget = layer;
@@ -834,7 +836,7 @@ namespace LooneyInvaders.Classes
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
-            dispose = !Shared.GameDelegate.UseAnimationClearing;
+            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             Enabled = false;
             LayerTransitionTarget = layer;
