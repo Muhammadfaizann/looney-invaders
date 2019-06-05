@@ -779,15 +779,22 @@ namespace LooneyInvaders.Layers
 
                 _mainMenu.Visible = false;
                 _btnContinue.Visible = false;
-
             }
             else
             {
-                //no internet
+                //no or weak internet
                 _shareYourScore.Visible = false;
-                _btnContinue.Visible = true;
-                _scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
-                _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
+                _btnContinue.ChangeVisibility(true);
+
+                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    _scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
+                    _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
+                }
+                else
+                {
+                    _scoreNode.AddImage(562, 300, "UI/My-stats-&-rewards-slow-internet-connection-notification.png", 3);
+                }
             }
 
             _scoreNode.Opacity = 0;
