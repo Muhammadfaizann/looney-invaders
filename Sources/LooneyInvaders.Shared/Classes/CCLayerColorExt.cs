@@ -793,7 +793,7 @@ namespace LooneyInvaders.Classes
                 new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_6.png"),
                 new CCRect(0, 0, 1136, 640)));
 
-            var animationSource = new CCAnimation(framesSource, 0.10f);
+            var animationSource = new CCAnimation(framesSource, 0.08f);
 
             var transitionImageSource = new CCSprite(framesSource[0]);
             transitionImageSource.AnchorPoint = new CCPoint(0, 0);
@@ -807,18 +807,13 @@ namespace LooneyInvaders.Classes
 
             var seq = new CCSequence(actions);
             var state = transitionImageSource.RunAction(seq);
-            var done = false;
-            var timer = new System.Timers.Timer(500);
-            timer.Elapsed += (s, e) => done = true;
-            timer.Enabled = true;
 
-            while (!state.IsDone && !done) { }
-            ScheduleOnce(playEffect1, 0.1f);
-            ScheduleOnce(playEffect2, 0.2f);
-            ScheduleOnce(playEffect3, 0.3f);
-            ScheduleOnce(playEffect4, 0.4f);
-            ScheduleOnce(playEffect5, 0.5f);
-            ScheduleOnce(playEffect6, 0.6f);
+            ScheduleOnce(playEffect1, 0.08f);
+            ScheduleOnce(playEffect2, 0.16f);
+            ScheduleOnce(playEffect3, 0.24f);
+            ScheduleOnce(playEffect4, 0.32f);
+            ScheduleOnce(playEffect5, 0.4f);
+            ScheduleOnce(playEffect6, 0.48f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -872,7 +867,7 @@ namespace LooneyInvaders.Classes
                 new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_6.png"),
                 new CCRect(0, 0, 1136, 640)));
 
-            var animationSource = new CCAnimation(framesSource, 0.10f);
+            var animationSource = new CCAnimation(framesSource, 0.08f);
 
             var transitionImageSource = new CCSprite(framesSource[0]);
             transitionImageSource.AnchorPoint = new CCPoint(0, 0);
@@ -886,18 +881,13 @@ namespace LooneyInvaders.Classes
 
             var seq = new CCSequence(actions);
             var state = await transitionImageSource.RunActionAsync(seq);
-            var done = false;
-            var timer = new System.Timers.Timer(500);
-            timer.Elapsed += (s, e) => done = true;
-            timer.Enabled = true;
 
-            while (!state.IsDone && !done) { }
-            ScheduleOnce(playEffect1, 0.1f);
-            ScheduleOnce(playEffect2, 0.2f);
-            ScheduleOnce(playEffect3, 0.3f);
-            ScheduleOnce(playEffect4, 0.4f);
-            ScheduleOnce(playEffect5, 0.5f);
-            ScheduleOnce(playEffect6, 0.6f);
+            ScheduleOnce(playEffect1, 0.08f);
+            ScheduleOnce(playEffect2, 0.16f);
+            ScheduleOnce(playEffect3, 0.24f);
+            ScheduleOnce(playEffect4, 0.32f);
+            ScheduleOnce(playEffect5, 0.4f);
+            ScheduleOnce(playEffect6, 0.48f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -970,8 +960,11 @@ namespace LooneyInvaders.Classes
                 framesTarget.Add(new CCSpriteFrame(
                     new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_1.png"),
                     new CCRect(0, 0, 1136, 640)));
+                framesTarget.Add(new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_0.png"),
+                    new CCRect(0, 0, 1136, 640)));
 
-                var animationTarget = new CCAnimation(framesTarget, 0.10f);
+                var animationTarget = new CCAnimation(framesTarget, 0.08f);
 
                 _transitionImage = new CCSprite(framesTarget[0]);
                 _transitionImage.AnchorPoint = new CCPoint(0, 0);
@@ -988,11 +981,11 @@ namespace LooneyInvaders.Classes
 
                 _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
 
-                ScheduleOnce(playEffect5, 0.1f);
-                ScheduleOnce(playEffect4, 0.2f);
-                ScheduleOnce(playEffect3, 0.3f);
-                ScheduleOnce(playEffect2, 0.4f);
-                ScheduleOnce(playEffect1, 0.5f);
+                ScheduleOnce(playEffect5, 0.08f);
+                ScheduleOnce(playEffect4, 0.16f);
+                ScheduleOnce(playEffect3, 0.24f);
+                ScheduleOnce(playEffect2, 0.32f);
+                ScheduleOnce(playEffect1, 0.4f);
             }
         }
 
