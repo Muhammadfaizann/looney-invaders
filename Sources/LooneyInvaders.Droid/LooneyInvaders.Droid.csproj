@@ -521,6 +521,12 @@
     </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidAsset Include="..\Content\Images\Hd\UI\screen-transition_stage_0.png">
+      <Link>Assets\Content\Images\Hd\UI\screen-transition_stage_0.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slow-internet-connection-notification.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-slow-internet-connection-notification.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

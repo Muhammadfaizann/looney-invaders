@@ -119,6 +119,12 @@
     <Compile Include="Services\DeviceInfo\DeviceHardware.cs" />
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slow-internet-connection-notification.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-slow-internet-connection-notification.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\LooneyInvaders.Droid\obj\Release\assets\Content\Images\Hd\UI\screen-transition_stage_0.png">
+      <Link>Content\Images\Hd\UI\screen-transition_stage_0.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">
