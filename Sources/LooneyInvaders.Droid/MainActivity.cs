@@ -161,6 +161,15 @@ namespace LooneyInvaders.Droid
             // clearing on iOS does not properly work
             GameDelegate.UseAnimationClearing = true;
 
+            GameDelegate.ResumeGameView = ResumeGameView;
+
+            var designedSize = new Point();
+            WindowManager.DefaultDisplay.GetSize(designedSize);
+            if (designedSize.X > 0)
+                GameDelegate.DesignSize.Width = designedSize.X;
+            if (designedSize.Y > 0)
+                GameDelegate.DesignSize.Height = designedSize.Y;
+
             // connect to AdMob
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
@@ -215,6 +224,7 @@ namespace LooneyInvaders.Droid
 
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
+            //GameView.RenderOnUIThread = true;
             GameView.ViewCreated += GameDelegate.LoadGame;
         }
 
@@ -306,6 +316,19 @@ namespace LooneyInvaders.Droid
         private bool ChangeUsername(string username)
         {
             return App42.StorageService.Instance.ChangeUsername(username);
+        }
+
+        public void ResumeGameView()
+        {
+            ResumeGameViewUIThread();
+        }
+
+        private void ResumeGameViewUIThread()
+        {
+            RunOnUiThread(() =>
+            {
+                GameView.Paused = false;
+            });
         }
 
         private void Vibrate(object sender, EventArgs e)

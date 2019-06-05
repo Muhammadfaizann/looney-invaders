@@ -2,7 +2,6 @@
 using CocosSharp;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Layers;
-//using CCSprite = LooneyInvaders.Classes.CCSprite;
 
 namespace LooneyInvaders.Shared
 {
@@ -11,6 +10,10 @@ namespace LooneyInvaders.Shared
         public delegate void GetGyroDelegate(out float yaw, out float tilt, out float pitch);
 
         public static GetGyroDelegate GetGyro;
+
+        public delegate void ResumeGameViewDelegate();
+
+        public static ResumeGameViewDelegate ResumeGameView;
 
         public static event EventHandler OnBackButton;
 
@@ -25,6 +28,8 @@ namespace LooneyInvaders.Shared
         }
 
         public static bool UseAnimationClearing;
+
+        public static (int? Width, int? Height) DesignSize;
 
         static readonly object toSetLayer = new object();
         static CCLayer _layer;
@@ -61,8 +66,12 @@ namespace LooneyInvaders.Shared
             const int height = 640; //640;    // 1125
 
             // Set world dimensions
-            GameView.DesignResolution = new CCSizeI(width, height);
-            GameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
+            if (Layer == null)
+            {
+                //GameView.DesignResolution = new CCSizeI(DesignSize.Width ?? width, DesignSize.Height ?? height);
+                GameView.DesignResolution = new CCSizeI(width, height);
+                GameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
+            }
 
             // Determine whether to use the high or low def versions of our images
             // Make sure the default texel to content size ratio is set correctly
@@ -96,9 +105,11 @@ namespace LooneyInvaders.Shared
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
-            if (!Layer.IsRunning)
-                Layer.Resume();
+            Layer.Resume();
+
             GameView.RunWithScene(gameScene);
+            if (GameView.Paused && ResumeGameView != null)
+                ResumeGameView();
         }
 
         public static void ResumeMusic()
@@ -120,6 +131,9 @@ namespace LooneyInvaders.Shared
             var currentLayer = Layer as CCLayerColorExt;
             currentLayer?.UnscheduleOnLayer();
             currentLayer?.Pause();
+
+            if (GameView != null && ResumeGameView != null)
+                ResumeGameView();
         }
     }
 

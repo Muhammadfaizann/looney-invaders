@@ -41,6 +41,7 @@ namespace LooneyInvaders.iOS
 
             //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
+            GameDelegate.ResumeGameView = ResumeGameView;
 
             GameView.MultipleTouchEnabled = true;
 
@@ -165,6 +166,19 @@ namespace LooneyInvaders.iOS
             {
                 var mess = ex.Message;
             }
+        }
+
+        public void ResumeGameView()
+        {
+            ResumeGameViewUIThread();
+        }
+
+        private void ResumeGameViewUIThread()
+        {
+            BeginInvokeOnMainThread(() =>
+            {
+                GameView.Paused = false;
+            });
         }
 
         private void AddBannerToWindowTop()
