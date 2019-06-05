@@ -1340,7 +1340,7 @@ namespace LooneyInvaders.Layers
                     {
                         GameEnvironment.PlayMusic(Music.BattleWave1);
                     }
-                    _countdown = 6;
+                    _countdown = 7;
                     StartGame();
                     break;
                 default:
@@ -1757,7 +1757,7 @@ namespace LooneyInvaders.Layers
                             ScheduleOnce(NextWave, 3);
                             break;
                         case 3:
-                            ScheduleOnce(async (obj) => await Victory(obj), 1);
+                            ScheduleOnce(Victory, 1);
                             break;
                     }
                 }
@@ -1903,7 +1903,7 @@ namespace LooneyInvaders.Layers
                 CreateBtnBackAndSettings();
                 ChangeAvailabilityBtnBackAndSettings(true);
 
-                var isCountingDown = 0 < _countdown && _countdown <= 5;
+                var isCountingDown = 0 <= _countdown && _countdown <= 5;
                 if (!isCountingDown)
                 {
                     Schedule(UpdateAll);
@@ -1929,12 +1929,12 @@ namespace LooneyInvaders.Layers
                                 ScheduleOnce(NextWave, 3f);
                                 break;
                             case 3:
-                                ScheduleOnce(async (obj) => await Victory(obj), 1f);
+                                ScheduleOnce(Victory, 1f);
                                 break;
                         }
                     }
                 }
-                else if (isCountingDown)
+                else if (isCountingDown || _countdown == 6)
                 {
                     Schedule(CountDownUpdate, 1f);
                 }
@@ -1973,7 +1973,6 @@ namespace LooneyInvaders.Layers
         {
             if (_ammos.Count > 0 && _playerExplosion == null && _gunCoolness <= 0)
             {
-                //GameDelegate.Vibrate(100);
                 var gunSmoke = new GunSmoke(this, Convert.ToInt32(_player.PositionX + _player.ContentSize.Width / 2) + 5, Convert.ToInt32(_player.PositionY + _player.ContentSize.Height + _smokeOffsetY));
                 _gunSmokes.Add(gunSmoke);
                 CCSprite bulletSprite;
@@ -2087,7 +2086,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private async Task Victory(float dt)
+        private void Victory(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2103,43 +2102,43 @@ namespace LooneyInvaders.Layers
             ClearAll();
             SetGameDuration();
 
-            if (_launchMode == LaunchMode.WeaponTest)
+            CCLayerColorExt newLayer;
+            switch (_launchMode)
             {
-                AdMobManager.HideBanner();
+                case LaunchMode.WeaponTest:
+                    AdMobManager.HideBanner();
 
-                var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
-                await TransitionToLayerCartoonStyleAsync(newLayer);
-            }
-            else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
-            {
-                AdMobManager.HideBanner();
+                    newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
+                    TransitionToLayerCartoonStyle(newLayer);
+                    break;
+                case LaunchMode.WeaponsUpgradeTest:
+                    AdMobManager.HideBanner();
 
-                var newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
-                    (int)SelectedWeapon,
-                    CaliberSizeSelected,
-                    FireSpeedSelected,
-                    MagazineSizeSelected,
-                    LivesSelected);
-                await TransitionToLayerCartoonStyleAsync(newLayer);
-            }
-            else if (_launchMode == LaunchMode.SteeringTest)
-            {
-                AdMobManager.HideBanner();
-                StartGame();
-            }
-            if (_launchMode == LaunchMode.Default)
-            {
-                Settings.IsFromGameScreen = false;
+                    newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
+                        (int)SelectedWeapon,
+                        CaliberSizeSelected,
+                        FireSpeedSelected,
+                        MagazineSizeSelected,
+                        LivesSelected);
+                    TransitionToLayerCartoonStyle(newLayer);
+                    break;
+                case LaunchMode.SteeringTest:
+                    AdMobManager.HideBanner();
+                    StartGame();
+                    break;
+                case LaunchMode.Default:
+                    Settings.IsFromGameScreen = false;
 
-                var newLayer = new VictoryScreenLayer(
-                    SelectedEnemy,
-                    SelectedWeapon,
-                    SelectedBattleground,
-                    Convert.ToDecimal(_elapsedTime),
-                    Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
-                    _lives.Count,
-                    WinsInSuccession + 1);
-                await TransitionToLayerCartoonStyleAsync(newLayer);
+                    newLayer = new VictoryScreenLayer(
+                        SelectedEnemy,
+                        SelectedWeapon,
+                        SelectedBattleground,
+                        Convert.ToDecimal(_elapsedTime),
+                        Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
+                        _lives.Count,
+                        WinsInSuccession + 1);
+                    TransitionToLayerCartoonStyle(newLayer);
+                    break;
             }
         }
 
@@ -4202,15 +4201,15 @@ namespace LooneyInvaders.Layers
                                 if (SelectedBattleground == Battlegrounds.Finland)
                                 {
                                     _fireworkFrame = 1f;
-                                    ScheduleOnce(async (obj) => await Victory(obj), 4.5f);
+                                    ScheduleOnce(Victory, 4.5f);
                                 }
                                 if (SelectedBattleground == Battlegrounds.WhiteHouse)
                                 {
-                                    ScheduleOnce(async (obj) => await Victory(obj), 0.5f);
+                                    ScheduleOnce(Victory, 0.5f);
                                 }
                                 else
                                 {
-                                    ScheduleOnce(async (obj) => await Victory(obj), 0.1f);
+                                    ScheduleOnce(Victory, 0.1f);
                                 }
                                 break;
                         }
