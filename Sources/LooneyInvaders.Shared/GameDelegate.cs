@@ -42,13 +42,12 @@ namespace LooneyInvaders.Shared
                 {
                     _layer = value;
                     if (_layer?.Scene != null)
-                        Scene = _layer.Scene;
+                        CurrentScene = _layer.Scene;
                 }
             }
         }
 
-        public static CCScene Scene { get; set; }
-
+        public static CCScene CurrentScene { get; private set; }
 
         public static CCGameView GameView;
 

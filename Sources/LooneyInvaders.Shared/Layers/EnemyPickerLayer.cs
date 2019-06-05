@@ -295,7 +295,8 @@ namespace LooneyInvaders.Layers
         {
             if (GameView == null)
             {
-                GameView = Shared.GameDelegate.GameView;
+                if (Shared.GameDelegate.CurrentScene != null)
+                    Director?.ReplaceScene(Shared.GameDelegate.CurrentScene);
                 if (GameView == null) return;
             }
             if (touches.Count > 0 && _btnBack.BoundingBoxTransformedToWorld.ContainsPoint(touches[0].Location)) return;

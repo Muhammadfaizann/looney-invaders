@@ -405,7 +405,8 @@ namespace LooneyInvaders.Classes
                 {
                     if (GameView == null)
                     {
-                        GameView = Shared.GameDelegate.GameView;
+                        if (Shared.GameDelegate.CurrentScene != null)
+                            Director?.ReplaceScene(Shared.GameDelegate.CurrentScene);
                         if (GameView == null) continue;
                     }
                     foreach (var node in Children)
@@ -567,7 +568,8 @@ namespace LooneyInvaders.Classes
                 {
                     if (GameView == null)
                     {
-                        GameView = Shared.GameDelegate.GameView;
+                        if (Shared.GameDelegate.CurrentScene != null)
+                            Director?.ReplaceScene(Shared.GameDelegate.CurrentScene);
                         if (GameView == null) continue;
                     }
                     foreach (var node in Children)
