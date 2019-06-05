@@ -238,23 +238,30 @@ namespace CC.Mobile.Purchases
 
         public void Dispose()
         {
-            if (_inAppSvc != null)
+            try
             {
-                if (_inAppSvc?.BillingHandler != null)
+                if (_inAppSvc != null)
                 {
-                    _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
-                    _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
-                    _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
-                    _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
+                    if (_inAppSvc?.BillingHandler != null)
+                    {
+                        _inAppSvc.BillingHandler.OnProductPurchased -= OnProductPurchased;
+                        _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                        _inAppSvc.BillingHandler.OnPurchaseConsumed -= OnPurchaseConsumed;
+                        _inAppSvc.BillingHandler.OnPurchaseConsumedError -= OnPurchaseConsumedError;
+                        _inAppSvc.BillingHandler.OnProductPurchasedError -= OnProductPurchasedError;
+                        _inAppSvc.BillingHandler.OnUserCanceled -= OnUserCanceled;
+                    }
+                    _inAppSvc.OnConnected -= IABServiceConnectionOnConnected;
+                    _inAppSvc.OnDisconnected -= IABServiceConnectionOnDisconnected;
+                    _inAppSvc.OnInAppBillingError -= IABServiceConnectionOnIABError;
+                    _inAppSvc.Disconnect();
                 }
-                _inAppSvc.OnConnected -= IABServiceConnectionOnConnected;
-                _inAppSvc.OnDisconnected -= IABServiceConnectionOnDisconnected;
-                _inAppSvc.OnInAppBillingError -= IABServiceConnectionOnIABError;
-                _inAppSvc.Disconnect();
-                _inAppSvc = null;
             }
+            catch (System.Exception ex)
+            {
+                var mess = ex.Message;
+            }
+            finally { _inAppSvc = null; }
 
             _currentProduct = null;
             _currentPurchase = null;
