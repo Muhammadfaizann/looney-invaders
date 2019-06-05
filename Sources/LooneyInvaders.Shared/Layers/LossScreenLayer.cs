@@ -22,11 +22,12 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _no;
         private readonly CCSprite _youAreDefeated;
 
-        private readonly bool _isWeHaveScores;
+        private bool _isWeHaveScores;
         //private bool _isDoneWaitingForScores;
 
         private readonly int _alienScore;
         private readonly int _alienWave;
+        private readonly float _delayOnRepeatS;
 
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
@@ -38,7 +39,7 @@ namespace LooneyInvaders.Layers
 
             _alienScore = alienScore;
             _alienWave = alienWave;
-
+            _delayOnRepeatS = 0.5f;
 
             switch (SelectedBattleground)
             {
@@ -125,7 +126,11 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
-            AdMobManager.ShowBannerBottom();
+            ScheduleOnce((_) =>
+            {
+                try { AdMobManager.ShowBannerBottom(); }
+                catch { }
+            }, 0f);
 
             //submit score during shown victory image
             if (_alienScore > GamePlayLayer.BestScoreAlien)
@@ -136,7 +141,9 @@ namespace LooneyInvaders.Layers
                 Player.Instance.SetDayScore(_alienScore, true);
             }
             Player.Instance.Credits += _alienScore;
-            _isWeHaveScores = LeaderboardManager.SubmitScorePro(_alienScore, _alienWave);
+            ScheduleOnce(async (_) => 
+                _isWeHaveScores = await LeaderboardManager.SubmitScorePro(_alienScore, _alienWave),
+                0f);
             //_isDoneWaitingForScores = true;
 
             if (SelectedEnemy == Enemies.Aliens)
@@ -163,7 +170,7 @@ namespace LooneyInvaders.Layers
 
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce(ShowAd, 5f);
+                    ScheduleOnce(ShowAd, 3.5f);
                 }
                 else
                 {
@@ -173,7 +180,7 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            ScheduleOnce(ShowGetRevenge, 2);
+            ScheduleOnce(ShowGetRevenge, 2f);
         }
 
         private void CalloutRevenge(float dt)
@@ -229,7 +236,7 @@ namespace LooneyInvaders.Layers
                 if (SelectedEnemy == Enemies.Aliens)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-                    ScheduleOnce(CalloutRevenge, 2.5f);
+                    //ScheduleOnce(CalloutRevenge, 2.5f);
                 }
                 else
                 {
@@ -284,7 +291,6 @@ namespace LooneyInvaders.Layers
         {
             RemoveChild(_getRevengeNode);
         }
-
 
         private CCNodeExt _scoreNode;
 
@@ -474,7 +480,6 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
             _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
@@ -491,10 +496,17 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(ShowScoreAlien, 0f);
         }
 
+        private float _waitForScoreCounter;
         private CCSprite[] _creditsLabels;
 
         private void ShowScoreAlien(float d)
         {
+            WaitScoreBoardServiceResponseWhile(false, ref _waitForScoreCounter, _delayOnRepeatS);
+
+            ScheduleOnce(RemoveRevengeNode, 0f);
+            _btnContinue.ChangeAvailability(true);
+            _mainMenu.ChangeAvailability(true);
+
             if (_isWeHaveScores
                 && _alienScore > 0
                 && (Math.Abs(_alienScore - (double)LeaderboardManager.PlayerRankProAlltime.GetLeaderboardItemField(Score)) < Tolerance
@@ -513,9 +525,6 @@ namespace LooneyInvaders.Layers
 
 
             _scoreNode = new CCNodeExt();
-
-
-
             _scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
             _scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
             _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
@@ -567,10 +576,12 @@ namespace LooneyInvaders.Layers
             _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             //btnContinue = scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             _btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
+            _btnContinue.OnClick -= BtnContinue_OnClick;
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             _mainMenu.Visible = true; // Previously this line was not written --- Changed by Prabhjot
+            _mainMenu.OnClick -= mainMenu_OnClick;
             _mainMenu.OnClick += mainMenu_OnClick;
 
             if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && LeaderboardManager.PlayerRankProWeekly != null && LeaderboardManager.PlayerRankProMonthly != null)
@@ -604,7 +615,8 @@ namespace LooneyInvaders.Layers
             {
                 //no internet
                 _shareYourScore.Visible = false;
-                _btnContinue.Visible = true;
+                ScheduleOnce((_) => _btnContinue.ChangeVisibility(true), 0f);
+
                 _scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
             }
 
@@ -806,6 +818,9 @@ namespace LooneyInvaders.Layers
 
         private void ShowAd(float dt)
         {
+            _btnContinue.ChangeAvailability(false);
+            _mainMenu.ChangeAvailability(false);
+
             AdMobManager.HideBanner();
             AdMobManager.ShowInterstitial(0);
         }

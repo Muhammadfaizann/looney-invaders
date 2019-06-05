@@ -383,6 +383,31 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
+        public virtual void WaitScoreBoardServiceResponseWhile(bool? condition, ref float counter, float eachDelayS, Action eachRepeatCall = null)
+        {
+            if (condition == null)
+            {
+                return;
+            }
+
+            var county = counter;
+            var repeats = App42.ScoreBoardService.OverallDelayMS / ((eachDelayS > 0 ? eachDelayS : 1) * 1000);
+            var timer = new System.Timers.Timer(eachDelayS)
+            {
+                AutoReset = true,
+                Enabled = true
+            };
+            timer.Elapsed += delegate { county += 1; };
+            while ((bool)condition && county < repeats)
+            {
+                eachRepeatCall?.Invoke();
+            }
+            timer.Stop();
+            timer.Dispose();
+
+            counter = county;
+        }
+
         public virtual void UnscheduleOnLayer()
         {
         }

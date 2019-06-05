@@ -116,7 +116,7 @@ namespace LooneyInvaders.Model
         private static bool _isRefreshing;
 
 
-        public static bool SubmitScoreRegular(double score, double accuracy, double fastestTime)
+        public static async Task<bool> SubmitScoreRegularAsync(double score, double accuracy, double fastestTime)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
                 return true;
@@ -131,14 +131,14 @@ namespace LooneyInvaders.Model
 
             if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                SubmitScoreHandler(score, accuracy, fastestTime, -1);
+                await Task.Run(() => SubmitScoreHandler(score, accuracy, fastestTime, -1)).ConfigureAwait(false);
                 BestScoreRegularSubmitted = true;
                 return true;
             }
             return false;
         }
 
-        public static bool SubmitScorePro(double score, double levelsCompleted)
+        public static async Task<bool> SubmitScorePro(double score, double levelsCompleted)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
                 return true;
@@ -152,8 +152,8 @@ namespace LooneyInvaders.Model
 
             if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
+                await Task.Run(() => SubmitScoreHandler(score, -1, -1, levelsCompleted)).ConfigureAwait(false);
                 BestScoreProSubmitted = true;
-                SubmitScoreHandler(score, -1, -1, levelsCompleted);
                 return true;
             }
             return false;

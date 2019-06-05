@@ -21,14 +21,16 @@ namespace LooneyInvaders.Layers
         public int WinsInSuccession;
 
         private readonly int _score;
+        private readonly float _delayOnRepeatS;
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
 
         private readonly CCSprite _defeated;
+        private readonly CCSprite _justSavedTitle;
+
         private CCSpriteButton _okIGotIt;
         private CCSpriteButton _btnContinue;
-        private readonly CCSprite _justSavedTitle;
         private CCSprite _shareYourScore;
         private CCSpriteButton _mainMenu;
         private CCSpriteButton _yes;
@@ -47,6 +49,7 @@ namespace LooneyInvaders.Layers
             LivesLeft = livesLeft;
             WinsInSuccession = winsInSuccession;
 
+            _delayOnRepeatS = 0.5f;
             _nextEnemy = selectedEnemy;
             switch (SelectedBattleground)
             {
@@ -360,9 +363,9 @@ namespace LooneyInvaders.Layers
 
             AdMobManager.ShowBannerBottom();
 
-            ScheduleOnce((_) =>
+            ScheduleOnce(async (_) =>
             {
-                _isWeHaveScores = LeaderboardManager.SubmitScoreRegular(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
+                _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
                 _isDoneWaitingForScores = true;
             }, 0f);
 
@@ -370,7 +373,7 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav");
+                ScheduleOnce((_) => CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav"), 0f);
                 ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
         }
@@ -654,11 +657,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowScore(float dtt)
         {
-            if (!_isDoneWaitingForScores && _waitForScoreCounter < 5)
-            {
-                _waitForScoreCounter += dtt;
-                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("8"); } }, 0.5f);
-            }
+            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatS);
 
             try
             {
@@ -672,15 +671,11 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce((obj) => { try { ShowRecordNotification(obj); } catch { Caught("9"); } }, 0.5f);
                     return;
                 }
-
                 _scoreNode = new CCNodeExt();
-
-
                 _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
                 _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
                 _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
                 _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
-
             }
             catch (Exception ex)
             {
@@ -700,9 +695,6 @@ namespace LooneyInvaders.Layers
             scoreNode.AddImageLabelRightAligned(572, 318, Accuracy.ToString("0.00"), 57);
             scoreNode.AddImage(570, 315, "UI/victory&social-share-score-numbers-(%).png", 4);
             */
-
-
-
 
 
             //current score
@@ -849,8 +841,6 @@ namespace LooneyInvaders.Layers
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
-        //CCLayerColorExt sl;
-
         private CCNodeExt _sl;
 
         private void yes_OnClick(object sender, EventArgs e)
@@ -939,12 +929,9 @@ namespace LooneyInvaders.Layers
                     //sl.SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-vietnam.png", 2);
                     break;
-
             }
             _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
-
             _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
-
             _sl.AddImageLabel(420, 295, _score.ToString(), 52);
 
             if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance)
@@ -977,15 +964,17 @@ namespace LooneyInvaders.Layers
             _scoreNode.Visible = false;
             AddChild(_sl);
 
+            ScheduleOnce((_) =>
+            {
+                _yes.ChangeVisibility(false);
+                _no.ChangeVisibility(false);
+            }, 0f);
             _shareYourScore.Visible = false;
-            _yes.Visible = false;
-            _no.Visible = false;
-            SocialNetworkShareManager.ShareLayer("facebook", this);
 
+            SocialNetworkShareManager.ShareLayer("facebook", this);
 
             _scoreNode.Visible = true;
             RemoveChild(_sl);
-
 
             Player.Instance.Credits += 5000;
             foreach (var spr in _creditsLabels)
