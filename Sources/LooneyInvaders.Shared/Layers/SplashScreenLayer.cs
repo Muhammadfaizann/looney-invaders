@@ -9,15 +9,11 @@ namespace LooneyInvaders.Layers
     {
         private float _musicTime;
         private bool? _backgroundLoading = false;
-        //public bool EnabledTouch { get; set; }
 
         public SplashScreenLayer()
         {
             Enabled = false;
-            //EnabledTouch = false;
-            //ScheduleOnce((obj) => SetBackground("UI/Splash-screen-background-2.jpg"), 0f);
-            //SetBackground("UI/Splash-screen-background-2.jpg");
-            ScheduleOnce((obj) => SwitchBackground(obj), 0f);
+            SwitchBackground(0f);
             Settings.Instance.ApplyValues(false);
 
             GameEnvironment.PlayMusic(Music.SplashScreen);
@@ -60,7 +56,6 @@ namespace LooneyInvaders.Layers
             {
                 if (!_backgroundLoading.Value)
                 {
-                    //await SetBackgroundAsync("UI/Splash-screen-background-1.jpg");
                     _backgroundLoading = true;
                 }
                 else
@@ -68,7 +63,6 @@ namespace LooneyInvaders.Layers
                     Schedule((obj) => SwitchBackground(obj), 1f);
                     //await SwitchBackground(0.16f);
 
-                    //await SetBackgroundAsync("UI/Splash-screen-background-2.jpg");
                     _backgroundLoading = null;
                 }
             }
