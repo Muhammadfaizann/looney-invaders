@@ -255,7 +255,11 @@ namespace LooneyInvaders.iOS
 
         public void ShowInterstitial()
         {
-            BeginInvokeOnMainThread(() => { if (_intAd.IsReady) _intAd.PresentFromRootViewController(this); });
+            BeginInvokeOnMainThread(() =>
+            {
+                if (_intAd.IsReady && !Settings.IsFromGameScreen)
+                    _intAd.PresentFromRootViewController(this);
+            });
         }
 
         public void LoadInterstitial()

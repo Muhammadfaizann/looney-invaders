@@ -610,7 +610,8 @@ namespace LooneyInvaders.Droid
 
         private void ShowInterstitialUiThread()
         {
-            if (_intAd.IsLoaded) _intAd.Show();
+            if (_intAd.IsLoaded && !Settings.IsFromGameScreen)
+                _intAd.Show();
         }
 
         public void HideInterstitial()
