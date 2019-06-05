@@ -8,7 +8,7 @@ using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Classes
 {
-    public class CCLayerColorExt : CCLayerColor, IDisposable
+    public class CCLayerColorExt : CCLayerColor
     {
         public static object lockingObj = new object();
 

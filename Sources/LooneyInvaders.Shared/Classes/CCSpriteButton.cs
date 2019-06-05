@@ -4,7 +4,7 @@ using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Classes
 {
-    public class CCSpriteButton : CCSprite, IDisposable
+    public class CCSpriteButton : CCSprite
     {
         public bool Enabled { get; set; } = true;
         public string ImageNameTapped { get; set; }

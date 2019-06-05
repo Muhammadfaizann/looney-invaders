@@ -5,7 +5,7 @@ using LooneyInvaders.Model;
 
 namespace LooneyInvaders.Classes
 {
-    public class CCNodeExt : CCNode, IDisposable
+    public class CCNodeExt : CCNode
     {
         public CCNodeExt() : base()
         {
