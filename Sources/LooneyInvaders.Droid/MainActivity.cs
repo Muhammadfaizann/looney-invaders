@@ -327,6 +327,7 @@ namespace LooneyInvaders.Droid
         {
             RunOnUiThread(() =>
             {
+                GameView.Resume();
                 GameView.Paused = false;
             });
         }

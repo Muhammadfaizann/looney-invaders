@@ -107,7 +107,7 @@ namespace LooneyInvaders.Shared
             Layer.Resume();
 
             GameView.RunWithScene(gameScene);
-            if (GameView.Paused && ResumeGameView != null)
+            if (GameView != null && ResumeGameView != null)
                 ResumeGameView();
         }
 
