@@ -11,9 +11,9 @@ namespace LooneyInvaders.Shared
 
         public static GetGyroDelegate GetGyro;
 
-        public delegate void ResumeGameViewDelegate();
+        public delegate void UpdateGameViewDelegate();
 
-        public static ResumeGameViewDelegate ResumeGameView;
+        public static UpdateGameViewDelegate UpdateGameView;
 
         public static event EventHandler OnBackButton;
 
@@ -107,8 +107,8 @@ namespace LooneyInvaders.Shared
             Layer.Resume();
 
             GameView.RunWithScene(gameScene);
-            if (GameView != null && ResumeGameView != null)
-                ResumeGameView();
+            if (GameView != null && UpdateGameView != null)
+                UpdateGameView();
         }
 
         public static void ResumeMusic()
@@ -131,8 +131,8 @@ namespace LooneyInvaders.Shared
             currentLayer?.UnscheduleOnLayer();
             currentLayer?.Pause();
 
-            if (GameView != null && ResumeGameView != null)
-                ResumeGameView();
+            if (GameView != null && UpdateGameView != null)
+                UpdateGameView();
         }
     }
 

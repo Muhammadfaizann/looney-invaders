@@ -41,7 +41,7 @@ namespace LooneyInvaders.iOS
 
             //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
-            GameDelegate.ResumeGameView = ResumeGameView;
+            GameDelegate.UpdateGameView = UpdateGameViewState;
 
             GameView.MultipleTouchEnabled = true;
 
@@ -168,16 +168,17 @@ namespace LooneyInvaders.iOS
             }
         }
 
-        public void ResumeGameView()
+        public void UpdateGameViewState()
         {
-            ResumeGameViewUIThread();
+            UpdateGameViewStateUIThread();
         }
 
-        private void ResumeGameViewUIThread()
+        private void UpdateGameViewStateUIThread()
         {
             BeginInvokeOnMainThread(() =>
             {
-                GameView.Paused = false;
+                //GameView.Paused = false;
+                GameView.MobilePlatformUpdatePaused();
             });
         }
 

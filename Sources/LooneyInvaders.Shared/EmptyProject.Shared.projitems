@@ -98,6 +98,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskCompletionSourceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCSpriteSheetExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCDirectorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />

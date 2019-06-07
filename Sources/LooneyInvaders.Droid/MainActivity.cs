@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -27,33 +28,6 @@ using LaunchMode = Android.Content.PM.LaunchMode;
 
 namespace LooneyInvaders.Droid
 {
-    //[BroadcastReceiver(Enabled = true)]
-    //[IntentFilter(new[] { Intent.ActionUserPresent, Intent.ActionUserInitialize, Intent.ActionUserForeground })]
-    //public class UserPresentReceiver : BroadcastReceiver
-    //{
-    //    public override void OnReceive(Context context, Intent intent)
-    //    {
-    //        if (MainActivity.Instance == null) return;
-
-    //        if (MainActivity.Instance.AdBanner != null) MainActivity.Instance.AdBanner.Resume();
-    //        var gameView = (CCGameView)MainActivity.Instance.FindViewById(Resource.Id.GameView);
-    //        if (gameView != null)
-    //        {
-    //            gameView.Paused = false;
-    //            MainActivity.Instance.GameView = gameView;
-    //        }
-    //    }
-    //}
-    public static class Tracer
-    {
-        public static void Trace(string message)
-        {
-#if DEBUG
-            Console.WriteLine(message);
-#endif
-        }
-    }
-
     public class CustomExceptionHandler : Java.Lang.Object, Java.Lang.Thread.IUncaughtExceptionHandler
     {
         public void UncaughtException(Java.Lang.Thread t, Java.Lang.Throwable e)
@@ -73,8 +47,6 @@ namespace LooneyInvaders.Droid
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
     {
-        //public const string HOCKEYAPP_KEY = "9316a9e8222e467a8fdc7ffc7e7c2f21";
-
         public static MainActivity Instance;
 
         public CCGameView GameView;
@@ -121,6 +93,12 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
+            ////for analytics
+            var counter = 0;
+            var maxTime = 5000;
+            var timer = new Stopwatch();
+            timer.Start();
+            ////
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
@@ -136,11 +114,12 @@ namespace LooneyInvaders.Droid
             SetSessionInfo();
             CheckNotificationPremissions();
             //toGetPermissionsForStorage();
-
+            Tracer.Title = "LaunchingAppTime(ms)";
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(bundle);
             Instance = this;
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // remove navigation bar
             var decorView = Window.DecorView;
             var newUiOptions = (int)decorView.SystemUiVisibility;
@@ -151,7 +130,7 @@ namespace LooneyInvaders.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // add gyro
             GameDelegate.GetGyro = GetGyro;
             _sensorManager = (SensorManager)GetSystemService(SensorService);
@@ -160,8 +139,7 @@ namespace LooneyInvaders.Droid
 
             // clearing on iOS does not properly work
             GameDelegate.UseAnimationClearing = true;
-
-            GameDelegate.ResumeGameView = ResumeGameView;
+            GameDelegate.UpdateGameView = UpdateGameViewState;
 
             var designedSize = new Point();
             WindowManager.DefaultDisplay.GetSize(designedSize);
@@ -169,16 +147,16 @@ namespace LooneyInvaders.Droid
                 GameDelegate.DesignSize.Width = designedSize.X;
             if (designedSize.Y > 0)
                 GameDelegate.DesignSize.Height = designedSize.Y;
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // connect to AdMob
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
             requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
             //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             AdBanner = new AdView(Application.Context)
             {
                 AdSize = AdSize.SmartBanner,
@@ -187,26 +165,28 @@ namespace LooneyInvaders.Droid
                 Id = 999,
                 LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
             };
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             AdBanner.SetY(0);
             AdBanner.SetX(0);
             AdBanner.LoadAd(requestbuilder.Build());
             AdBanner.ChangeVisibility(ViewStates.Invisible);
             AdBanner.AdListener = new AdListenerEx(AdBanner);
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
             AddContentView(AdBanner, adParams);
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             AdMobManager.ShowBannerTopHandler = ShowBannerTop;
             AdMobManager.ShowBannerBottomHandler = ShowBannerBottom;
             AdMobManager.HideBannerHandler = HideBanner;
             AdMobManager.LoadInterstitialHandler = LoadInterstitial;
             AdMobManager.ShowInterstitialHandler = ShowInterstitial;
             AdMobManager.HideInterstitialHandler = HideInterstitial;
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             LoadInterstitial();
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // set up in-game purchases
             InGamePurchasesAsync();
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             PurchaseManager.PurchaseHandler = PurchaseProduct;
             VibrationManager.VibrationHandler = Vibrate;
             LeaderboardManager.SubmitScoreHandler = SubmitScoreAsync;
@@ -214,18 +194,22 @@ namespace LooneyInvaders.Droid
 
             // social network sharing
             SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // user management
             Model.UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
 
             if (!Model.UserManager.IsUserGuidSet) Model.UserManager.GenerateGuid();
-
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
             //GameView.RenderOnUIThread = true;
             GameView.ViewCreated += GameDelegate.LoadGame;
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}",
+                timer.ElapsedMilliseconds > maxTime,
+                true);
+            timer.Stop();
         }
 
         public void InitScoreBoardService()
@@ -318,12 +302,12 @@ namespace LooneyInvaders.Droid
             return App42.StorageService.Instance.ChangeUsername(username);
         }
 
-        public void ResumeGameView()
+        public void UpdateGameViewState()
         {
-            ResumeGameViewUIThread();
+            UpdateGameViewStateUIThread();
         }
 
-        private void ResumeGameViewUIThread()
+        private void UpdateGameViewStateUIThread()
         {
             RunOnUiThread(() =>
             {
