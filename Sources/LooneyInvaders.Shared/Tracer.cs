@@ -54,7 +54,7 @@ namespace LooneyInvaders
             {
                 if (condition)
                 {
-                    Track($"{Tracker.Id}-Event", Tracker.Messages);
+                    Track($"[{Tracker.Id}]{(new DeviceInfo.DeviceInfoService()).GetDeviceInfo()?.DeviceModel}({DateTime.Now.ToShortDateString()})", Tracker.Messages);
                 }
                 id = null;
             }
