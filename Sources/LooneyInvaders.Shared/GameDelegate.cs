@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CocosSharp;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Layers;
@@ -51,6 +52,15 @@ namespace LooneyInvaders.Shared
 
         public static CCGameView GameView;
 
+        /// <summary>
+        /// Analytics
+        /// </summary>
+        public static int Counter = 0;
+
+        public static readonly int MaxTime = 5000;
+
+        public static Stopwatch Timer = new Stopwatch();
+
         public static void LoadGame(object sender, EventArgs e)
         {
             if (sender == null && Layer == null)
@@ -102,13 +112,28 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
             Layer = Layer ?? new SplashScreenLayer();
 
+            if (Timer != null)
+                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
             Layer.Resume();
 
+            if (Timer != null)
+                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+
             GameView.RunWithScene(gameScene);
             if (GameView != null && UpdateGameView != null)
                 UpdateGameView();
+
+            if (Timer != null)
+            {
+                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}",
+                    Timer.ElapsedMilliseconds > MaxTime,
+                    true);
+                Timer.Stop();
+                Timer = null;
+            }
         }
 
         public static void ResumeMusic()

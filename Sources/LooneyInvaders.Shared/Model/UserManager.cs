@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Plugin.Settings;
 
 namespace LooneyInvaders.Model
 {
     public class UserManager
     {
-        public delegate bool UsernameHandlerDelegate(string guid);
+        public delegate Task<bool> UsernameHandlerDelegate(string guid);
         public delegate bool UsernameChangeHandlerDelegate(string userName);
 
         public static UsernameHandlerDelegate UsernameGuidInsertHandler;

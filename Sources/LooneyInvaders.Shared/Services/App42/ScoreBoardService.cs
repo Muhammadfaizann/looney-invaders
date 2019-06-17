@@ -227,6 +227,10 @@ namespace LooneyInvaders.App42
             Game game;
             game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
                 ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
+            if (game == null)
+            {
+                game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, $"{gameName}: manually created");
+            }
             try
             {
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
@@ -299,7 +303,11 @@ namespace LooneyInvaders.App42
                     {
                         break;
                     }
-                    saveIsSuccessful = (GetService().SaveUserScore(gameName, gameUserName, gameScore, true)?.IsResponseSuccess()).GetValueOrDefault();
+                    try
+                    {
+                        saveIsSuccessful = (GetService().SaveUserScore(gameName, gameUserName, gameScore, true)?.IsResponseSuccess()).GetValueOrDefault();
+                    }
+                    catch { }
                     if (!saveIsSuccessful)
                     {
                         await Task.Delay(delayOnError);

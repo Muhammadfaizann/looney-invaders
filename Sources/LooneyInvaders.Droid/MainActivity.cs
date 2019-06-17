@@ -94,9 +94,9 @@ namespace LooneyInvaders.Droid
         protected override void OnCreate(Bundle bundle)
         {
             ////for analytics
-            var counter = 0;
-            var maxTime = 5000;
-            var timer = new Stopwatch();
+            var counter = GameDelegate.Counter;
+            var maxTime = GameDelegate.MaxTime;
+            var timer = GameDelegate.Timer;
             timer.Start();
             ////
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
@@ -206,10 +206,8 @@ namespace LooneyInvaders.Droid
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
             //GameView.RenderOnUIThread = true;
             GameView.ViewCreated += GameDelegate.LoadGame;
-            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}",
-                timer.ElapsedMilliseconds > maxTime,
-                true);
-            timer.Stop();
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
+            GameDelegate.Counter = counter;
         }
 
         public void InitScoreBoardService()
@@ -287,9 +285,9 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        private bool UsernameGUIDInsertHandler(string guid)
+        private async Task<bool> UsernameGUIDInsertHandler(string guid)
         {
-            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
+            return await App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
         }
 
         private bool CheckIsUsernameFree(string username)
@@ -311,8 +309,9 @@ namespace LooneyInvaders.Droid
         {
             RunOnUiThread(() =>
             {
-                GameView.Resume();
-                GameView.Paused = false;
+                //GameView.Resume();
+                //GameView.Paused = false;
+                GameView.MobilePlatformUpdatePaused();
             });
         }
 

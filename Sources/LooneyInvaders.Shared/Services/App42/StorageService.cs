@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.game;
 using com.shephertz.app42.paas.sdk.csharp.storage;
@@ -62,7 +63,7 @@ namespace LooneyInvaders.App42
             return _service;
         }
 
-        public bool UsernameGUIDInsertHandler(string guid)
+        public Task<bool> UsernameGUIDInsertHandler(string guid)
         {
             var json = "{\"name\":\"guest\",\"guid\":\"" + guid + "\"}";
 
@@ -78,14 +79,16 @@ namespace LooneyInvaders.App42
                 Player.Instance.Name = playerName;
 
                 json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
-                App42Service.UpdateDocumentByDocId(dbName, collectionName, id, json);
+
+                Task.Run(() => 
+                    App42Service.UpdateDocumentByDocId(dbName, collectionName, id, json));
 
             }
             catch (Exception ex)
             {
                 var mess = ex.Message;
             }
-            return true;
+            return Task.FromResult(true);
         }
 
         public bool CheckIsUsernameFree(string username)

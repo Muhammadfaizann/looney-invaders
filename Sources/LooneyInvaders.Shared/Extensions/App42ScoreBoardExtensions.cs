@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using com.shephertz.app42.paas.sdk.csharp.game;
 using com.shephertz.app42.paas.sdk.csharp.user;
 using app42ScoreBoardService = com.shephertz.app42.paas.sdk.csharp.game.ScoreBoardService;
@@ -25,7 +26,6 @@ namespace LooneyInvaders.Extensions
             catch (Exception ex)
             {
                 var mess = ex.Message;
-                return game;
             }
             finally
             {
@@ -33,8 +33,23 @@ namespace LooneyInvaders.Extensions
                 {
                     user = new User();
                     user.SetUserName(gameUserName);
+                    user.SetAccountLocked(false);
+                    user.SetResponseSuccess(true);
                 }
-                game = service.SaveUserScore(gameName, gameUserName, gameScore);
+                try
+                {
+                    game = service.GetLastGameScore(gameUserName);
+                    if (game != null)
+                    {
+                        service.EditScoreValueById(game.GetScoreList()?.LastOrDefault()?.GetScoreId(), gameScore);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Tracer.Trace($"|Cannot Edit Score Value By Id| name = {gameUserName} | {ex.Message}");
+                }
+                if (game == null)
+                    game = service.SaveUserScore(gameName, gameUserName, gameScore);
             }
             return game;
         }
