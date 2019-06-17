@@ -57,7 +57,7 @@ namespace LooneyInvaders.Shared
         /// </summary>
         public static int Counter = 0;
 
-        public static readonly int MaxTime = 5000;
+        public static readonly int MaxTime = 6000;
 
         public static Stopwatch Timer = new Stopwatch();
 
