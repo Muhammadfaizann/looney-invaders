@@ -92,9 +92,9 @@ namespace LooneyInvaders.iOS
             App42.StorageService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey);
         }
 
-        private bool UsernameGUIDInsertHandler(string guid)
+        private async Task<bool> UsernameGUIDInsertHandler(string guid)
         {
-            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
+            return await App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
         }
 
         private bool CheckIsUsernameFree(string username)
