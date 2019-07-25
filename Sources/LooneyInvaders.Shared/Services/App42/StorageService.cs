@@ -69,19 +69,23 @@ namespace LooneyInvaders.App42
 
             try
             {
+                var time = DateTime.Now;
+                Console.WriteLine($"{nameof(UsernameGUIDInsertHandler)}1 : start");
                 var storage = App42Service.InsertJSONDocument(dbName, collectionName, json);
+                Console.WriteLine($"{nameof(UsernameGUIDInsertHandler)}2 : {(DateTime.Now - time)}");
                 var jsonDocList = storage.GetJsonDocList();
-
                 var id = jsonDocList[0].GetDocId();
                 var playerName = "player_" + id.Substring(id.Length - 9, 8);
 
                 UserManager.UserGuid = guid;
+                Console.WriteLine($"{nameof(UsernameGUIDInsertHandler)}3 : {(DateTime.Now - time)}");
                 Player.Instance.Name = playerName;
 
                 json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
 
                 Task.Run(() => 
                     App42Service.UpdateDocumentByDocId(dbName, collectionName, id, json));
+                Console.WriteLine($"{nameof(UsernameGUIDInsertHandler)}3 : {(DateTime.Now - time)}");
 
             }
             catch (Exception ex)

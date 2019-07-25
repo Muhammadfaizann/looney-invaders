@@ -199,8 +199,11 @@ namespace LooneyInvaders.Droid
             Model.UserManager.UsernameGuidInsertHandler = UsernameGUIDInsertHandler;
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
-
-            if (!Model.UserManager.IsUserGuidSet) Model.UserManager.GenerateGuid();
+            Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
+            if (!Model.UserManager.IsUserGuidSet)
+            {
+                Task.Run(() => Model.UserManager.GenerateGuid()).ConfigureAwait(false);
+            }
             Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
@@ -285,9 +288,9 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        private async Task<bool> UsernameGUIDInsertHandler(string guid)
+        private Task<bool> UsernameGUIDInsertHandler(string guid)
         {
-            return await App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
+            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
         }
 
         private bool CheckIsUsernameFree(string username)

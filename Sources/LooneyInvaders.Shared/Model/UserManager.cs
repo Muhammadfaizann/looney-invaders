@@ -21,20 +21,20 @@ namespace LooneyInvaders.Model
             set => CrossSettings.Current.AddOrUpdateValue("UserGUID", value);
         }
 
-        public static void GenerateGuid()
+        public static Task GenerateGuid()
         {
             if (IsUserGuidSet)
-                return;
+                return Task.CompletedTask;
             if (UsernameGuidInsertHandler == null)
-                return;
+                return Task.CompletedTask;
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
-                return;
+                return Task.CompletedTask;
 
             Console.WriteLine("GenerateGUID()");
 
             var guid = Guid.NewGuid().ToString();
 
-            UsernameGuidInsertHandler(guid);
+            return UsernameGuidInsertHandler(guid);
         }
 
         public static bool CheckIsUsernameFree(string userName)

@@ -76,7 +76,10 @@ namespace LooneyInvaders.iOS
             UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             UserManager.ChangeUsernameHandler = ChangeUsername;
 
-            if (!UserManager.IsUserGuidSet) UserManager.GenerateGuid();
+            if (!UserManager.IsUserGuidSet)
+            {
+                Task.Run(() => UserManager.GenerateGuid()).ConfigureAwait(false);
+            }
 
             // Set loading event to be called once game view is fully initialised
             GameView.ViewCreated += GameDelegate.LoadGame;
@@ -92,9 +95,9 @@ namespace LooneyInvaders.iOS
             App42.StorageService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey);
         }
 
-        private async Task<bool> UsernameGUIDInsertHandler(string guid)
+        private Task<bool> UsernameGUIDInsertHandler(string guid)
         {
-            return await App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
+            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
         }
 
         private bool CheckIsUsernameFree(string username)

@@ -110,6 +110,10 @@ namespace LooneyInvaders.Shared
 
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
+
+            if (Timer != null)
+                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+
             Layer = Layer ?? new SplashScreenLayer();
 
             if (Timer != null)
