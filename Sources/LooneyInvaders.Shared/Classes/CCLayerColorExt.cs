@@ -963,7 +963,7 @@ namespace LooneyInvaders.Classes
         }
 
 
-        public override void OnEnterTransitionDidFinish()
+        public override async void OnEnterTransitionDidFinish()
         {
             base.OnEnterTransitionDidFinish();
 
@@ -1002,15 +1002,23 @@ namespace LooneyInvaders.Classes
                 actions[1] = new CCCallFunc(RemoveTransitionImage);
 
                 var seq = new CCSequence(actions);
-                _transitionImage.RunAction(seq);
+                var statePreTask = _transitionImage.RunActionAsync(seq);
 
-                _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
+                var soundTask = new Task(() =>
+                {
+                    ScheduleOnce(playEffect5, 0.08f);
+                    ScheduleOnce(playEffect4, 0.16f);
+                    ScheduleOnce(playEffect3, 0.24f);
+                    ScheduleOnce(playEffect2, 0.32f);
+                    ScheduleOnce(playEffect1, 0.4f);
+                });
 
-                ScheduleOnce(playEffect5, 0.08f);
-                ScheduleOnce(playEffect4, 0.16f);
-                ScheduleOnce(playEffect3, 0.24f);
-                ScheduleOnce(playEffect2, 0.32f);
-                ScheduleOnce(playEffect1, 0.4f);
+                soundTask.Start();
+                var res = await statePreTask;
+                res.Update(1f);
+
+                _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
+                //res = await statePostTask;
             }
         }
 

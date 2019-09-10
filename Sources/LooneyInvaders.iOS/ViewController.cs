@@ -171,17 +171,18 @@ namespace LooneyInvaders.iOS
             }
         }
 
-        public void UpdateGameViewState()
+        public void UpdateGameViewState(bool isPaused)
         {
-            UpdateGameViewStateUIThread();
+            UpdateGameViewStateUIThread(isPaused);
         }
 
-        private void UpdateGameViewStateUIThread()
+        private void UpdateGameViewStateUIThread(bool isPaused)
         {
             BeginInvokeOnMainThread(() =>
             {
-                //GameView.Paused = false;
-                GameView.MobilePlatformUpdatePaused();
+                GameView = GameDelegate.GameView;
+                //GameView.MobilePlatformUpdatePaused();
+                GameView.Paused = isPaused;
             });
         }
 

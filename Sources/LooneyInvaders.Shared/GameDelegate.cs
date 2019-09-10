@@ -12,7 +12,7 @@ namespace LooneyInvaders.Shared
 
         public static GetGyroDelegate GetGyro;
 
-        public delegate void UpdateGameViewDelegate();
+        public delegate void UpdateGameViewDelegate(bool isPaused);
 
         public static UpdateGameViewDelegate UpdateGameView;
 
@@ -36,16 +36,31 @@ namespace LooneyInvaders.Shared
         static CCLayer _layer;
         public static CCLayer Layer
         {
-            get => _layer;
+            get
+            {
+                ////
+                TrackTime("|getLayer");
+                ////
+                return _layer;
+            }
             set
             {
                 lock(toSetLayer)
                 {
                     _layer = value;
+                    ////
+                    TrackTime("|setLayer");
+                    ////
                     if (_layer?.Scene != null)
                         CurrentScene = _layer.Scene;
                 }
             }
+        }
+
+        private static void TrackTime(string extraInfo = "")
+        {
+            if (Timer != null)
+                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}{extraInfo}-{Timer.ElapsedMilliseconds}");
         }
 
         public static CCScene CurrentScene { get; private set; }
@@ -53,13 +68,16 @@ namespace LooneyInvaders.Shared
         public static CCGameView GameView;
 
         /// <summary>
-        /// Analytics
+        /// Analytics>>
         /// </summary>
-        public static int Counter = 0;
+        public static int Counter;
 
-        public static readonly int MaxTime = 6000;
+        public static readonly int MaxTime = 6500;
 
         public static Stopwatch Timer = new Stopwatch();
+        /// <summary>
+        /// 
+        /// </summary>
 
         public static void LoadGame(object sender, EventArgs e)
         {
@@ -111,25 +129,30 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
 
-            if (Timer != null)
-                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+            ////
+            TrackTime();
+            ////
 
             Layer = Layer ?? new SplashScreenLayer();
 
-            if (Timer != null)
-                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+            ////
+            TrackTime();
+            ////
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(Layer);
             Layer.Resume();
+            (Layer as CCLayerColorExt).Enabled = true;
 
-            if (Timer != null)
-                Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}");
+            ////
+            TrackTime();
+            ////
 
             GameView.RunWithScene(gameScene);
             if (GameView != null && UpdateGameView != null)
-                UpdateGameView();
+                UpdateGameView(false);
 
+            ////end tracking
             if (Timer != null)
             {
                 Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}-{Timer.ElapsedMilliseconds}",
@@ -152,16 +175,12 @@ namespace LooneyInvaders.Shared
 
         public static void StopGame()
         {
-            //ToDo: check usefulness
-            //var gameScene = new CCScene(GameView);
-            //gameScene.StopAllActions();
-
             var currentLayer = Layer as CCLayerColorExt;
             currentLayer?.UnscheduleOnLayer();
             currentLayer?.Pause();
 
             if (GameView != null && UpdateGameView != null)
-                UpdateGameView();
+                UpdateGameView(true);
         }
     }
 
