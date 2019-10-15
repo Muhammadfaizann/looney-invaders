@@ -111,8 +111,7 @@ namespace LooneyInvaders.Droid
                     typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
             MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
-            InitScoreBoardService();
-            InitStorageService();
+            CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
             //toGetPermissionsForStorage();
@@ -202,11 +201,7 @@ namespace LooneyInvaders.Droid
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
             TrackTime();
-            if (!Model.UserManager.IsUserGuidSet)
-            {
-                Task.Run(() => Model.UserManager.GenerateGuid()).ConfigureAwait(false);
-            }
-            TrackTime();
+            Task.Run(() => Model.UserManager.GenerateGuid()).ConfigureAwait(false);
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
             //GameView.RenderOnUIThread = true;
@@ -221,14 +216,9 @@ namespace LooneyInvaders.Droid
             }
         }
 
-        public void InitScoreBoardService()
+        public void CallInitOnApp42ServiceBuilder()
         {
-            App42.ScoreBoardService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 400);
-        }
-
-        public void InitStorageService()
-        {
-            App42.StorageService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey);
+            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
         }
 
         /* private void toGetPermissionsForStorage()

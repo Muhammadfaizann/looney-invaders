@@ -5,6 +5,7 @@ using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.game;
 using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services.App42;
 using app42ScoreBoardService = com.shephertz.app42.paas.sdk.csharp.game.ScoreBoardService;
 
 namespace LooneyInvaders.App42
@@ -12,7 +13,7 @@ namespace LooneyInvaders.App42
     public class ScoreBoardService
     {
         static readonly object toGetInstance = new object();
-        static readonly int maxAttemptsCount = 5;
+        static readonly int maxAttemptsCount = 4;
         static (string, string, string, string) looneyEarthNames;
         static (string, string, string, string) looneyMoonNames;
 
@@ -25,32 +26,21 @@ namespace LooneyInvaders.App42
         public static ScoreBoardService Instance => GetInstance();
         public static app42ScoreBoardService App42Service => GetService();
         public static Exception LastException { get; private set; }
-        public static int DelayOnErrorMS { get; private set; }
-        public static int OverallDelayMS => maxAttemptsCount * DelayOnErrorMS;
 
         private ScoreBoardService()
         {
             looneyEarthNames = ("Looney Earth Daily", "Looney Earth Weekly", "Looney Earth Monthly", "Looney Earth Alltime");
             looneyMoonNames = ("Looney Moon Daily", "Looney Moon Weekly", "Looney Moon Monthly", "Looney Moon Alltime");
 
-            App42API.Initialize(App42ApiKey, App42SecretKey);
-
             try
             {
-                _gameService = App42API.BuildGameService();
-                _service = App42API.BuildScoreBoardService();
+                _gameService = App42ServiceBuilder.CommonGameService;
+                _service = App42ServiceBuilder.API.BuildScoreBoardService();
             }
             catch (Exception ex)
             {
                 LastException = ex;
             }
-        }
-
-        public static void Init(string app42ApiKey, string app42SecretKey, int delayOnErrorMS)
-        {
-            App42ApiKey = app42ApiKey;
-            App42SecretKey = app42SecretKey;
-            DelayOnErrorMS = delayOnErrorMS;
         }
 
         private static ScoreBoardService GetInstance()
@@ -83,10 +73,10 @@ namespace LooneyInvaders.App42
 
                 try
                 {
-                    var encodedScore = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
+                    double encodedScore = LeaderboardManager.EncodeScoreRegular(score, fastestTime, accuracy);
                     await SaveUserScoreForGamesAsync(Player.Instance.Name,
                         encodedScore,
-                        TimeSpan.FromMilliseconds(DelayOnErrorMS),
+                        TimeSpan.FromMilliseconds(App42ServiceBuilder.CommonDelayOnErrorMS),
                         looneyEarthNames.Item1,
                         looneyEarthNames.Item2,
                         looneyEarthNames.Item3,
@@ -121,10 +111,10 @@ namespace LooneyInvaders.App42
 
                 try
                 {
-                    var encodedScore = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
+                    double encodedScore = LeaderboardManager.EncodeScorePro(score, levelsCompleted);
                     await SaveUserScoreForGamesAsync(Player.Instance.Name,
                         encodedScore,
-                        TimeSpan.FromMilliseconds(DelayOnErrorMS),
+                        TimeSpan.FromMilliseconds(App42ServiceBuilder.CommonDelayOnErrorMS),
                         looneyMoonNames.Item1,
                         looneyMoonNames.Item2,
                         looneyMoonNames.Item3,
@@ -287,31 +277,37 @@ namespace LooneyInvaders.App42
 
         private async Task SaveUserScoreForGamesAsync(string gameUserName, double gameScore, TimeSpan delayOnError, params string[] gameNames)
         {
+            var useCallbackApproach = false; //we can manage that
             if (gameNames.Length <= 0)
             {
                 return;
             }
+
             foreach (var gameName in gameNames)
             {
-                var attemptsCount = 0;
-                var saveIsSuccessful = false;
-
-                while (!saveIsSuccessful)
+                var callbackHandler = new App42CallbackHandler();
+                callbackHandler.OnErrorCallback = () =>
                 {
-                    ++attemptsCount;
-                    if (attemptsCount > maxAttemptsCount)
+                    callbackHandler.Response = null;
+                    GetService().SaveUserScoreCallback(gameName, gameUserName, gameScore, _gameService, callbackHandler);
+                };
+
+                for (var i = 1; i <= maxAttemptsCount; ++i)
+                {
+                    if (useCallbackApproach) //using app42 api with callback approach
                     {
-                        break;
+                        callbackHandler.OnErrorCallback();
+
+                        while (callbackHandler.Response == null) { }
+                        if (callbackHandler.IsSuccess) break;
                     }
-                    try
+                    else
                     {
-                        saveIsSuccessful = (GetService().SaveUserScore(gameName, gameUserName, gameScore, true)?.IsResponseSuccess()).GetValueOrDefault();
+                        if (GetService().SaveUserScore(gameName, gameUserName, gameScore, _gameService))
+                            break;
                     }
-                    catch { }
-                    if (!saveIsSuccessful)
-                    {
-                        await Task.Delay(delayOnError);
-                    }
+
+                    await Task.Delay(delayOnError);
                 }
             }
         }
