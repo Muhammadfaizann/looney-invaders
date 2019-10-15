@@ -103,15 +103,15 @@ namespace LooneyInvaders.Model
             return PlayerRankProAlltime.GetLeaderboardItemField(field);
         }
 
-        public static LeaderboardItem PlayerRankRegularDaily = null;
-        public static LeaderboardItem PlayerRankRegularWeekly = null;
-        public static LeaderboardItem PlayerRankRegularMonthly = null;
-        public static LeaderboardItem PlayerRankRegularAlltime = null;
+        public static LeaderboardItem PlayerRankRegularDaily;
+        public static LeaderboardItem PlayerRankRegularWeekly;
+        public static LeaderboardItem PlayerRankRegularMonthly;
+        public static LeaderboardItem PlayerRankRegularAlltime;
 
-        public static LeaderboardItem PlayerRankProDaily = null;
-        public static LeaderboardItem PlayerRankProWeekly = null;
-        public static LeaderboardItem PlayerRankProMonthly = null;
-        public static LeaderboardItem PlayerRankProAlltime = null;
+        public static LeaderboardItem PlayerRankProDaily;
+        public static LeaderboardItem PlayerRankProWeekly;
+        public static LeaderboardItem PlayerRankProMonthly;
+        public static LeaderboardItem PlayerRankProAlltime;
 
         private static bool _isRefreshing;
 
