@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="42">
 	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
 	<application android:label="Looney Invaders" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false">
+		<!--to use d8 dex compiler-->
+		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/app_id" />
