@@ -95,12 +95,6 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            ////for analytics
-            var counter = GameDelegate.Counter;
-            var maxTime = GameDelegate.MaxTime;
-            var timer = GameDelegate.Timer;
-            timer?.Start();
-            ////
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
@@ -201,19 +195,16 @@ namespace LooneyInvaders.Droid
             Model.UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             Model.UserManager.ChangeUsernameHandler = ChangeUsername;
             TrackTime();
-            Task.Run(() => Model.UserManager.GenerateGuid()).ConfigureAwait(false);
+            Task.Run(Model.UserManager.GenerateGuid).ConfigureAwait(false);
+            TrackTime();
+
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
             //GameView.RenderOnUIThread = true;
             GameView.ViewCreated += GameDelegate.LoadGame;
             TrackTime();
-            GameDelegate.Counter = counter;
 
-            void TrackTime()
-            {
-                if (timer != null)
-                    Tracer.TrackerAppendUntil($"{(++counter).ToString("D4")}-{timer.ElapsedMilliseconds}");
-            }
+            void TrackTime() { GameDelegate.TrackTime(); }
         }
 
         public void CallInitOnApp42ServiceBuilder()

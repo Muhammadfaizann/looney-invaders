@@ -29,7 +29,6 @@ namespace LooneyInvaders.Shared
         }
 
         public static bool UseAnimationClearing;
-
         public static (int? Width, int? Height) DesignSize;
 
         static readonly object toSetLayer = new object();
@@ -57,8 +56,11 @@ namespace LooneyInvaders.Shared
             }
         }
 
-        private static void TrackTime(string extraInfo = "")
+        public static void TrackTime(string extraInfo = "")
         {
+            if (!UseTimeTracking)
+                return;
+
             if (Timer != null)
                 Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}{extraInfo}-{Timer.ElapsedMilliseconds}");
         }
@@ -71,9 +73,13 @@ namespace LooneyInvaders.Shared
         /// Analytics>>
         /// </summary>
         public static int Counter;
-
-        public static readonly int MaxTime = 6500;
-
+        public static readonly int MaxTime = 7000;
+        public static readonly bool UseTimeTracking =
+#if DEBUG
+        false;
+#else
+        true;
+#endif
         public static Stopwatch Timer = new Stopwatch();
         /// <summary>
         /// 
