@@ -26,6 +26,7 @@ namespace LooneyInvaders.App42
         public static ScoreBoardService Instance => GetInstance();
         public static app42ScoreBoardService App42Service => GetService();
         public static Exception LastException { get; private set; }
+        public static int OverallDelayMS => maxAttemptsCount * App42ServiceBuilder.CommonDelayOnErrorMS;
 
         private ScoreBoardService()
         {
