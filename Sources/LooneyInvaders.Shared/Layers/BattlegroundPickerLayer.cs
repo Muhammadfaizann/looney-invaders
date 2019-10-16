@@ -475,7 +475,7 @@ namespace LooneyInvaders.Layers
             _btnGameTipCheckMark.SetStateImages();
         }
 
-        private async void BtnBack_OnClick(object sender, EventArgs e)
+        private void BtnBack_OnClick(object sender, EventArgs e)
         {
             //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
