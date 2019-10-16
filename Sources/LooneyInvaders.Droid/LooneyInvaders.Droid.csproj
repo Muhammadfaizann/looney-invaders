@@ -24,7 +24,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <AndroidSupportedAbis>armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
-    <JavaMaximumHeapSize>5G</JavaMaximumHeapSize>
+    <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
@@ -37,10 +37,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Debugger>Xamarin</Debugger>
-    <JavaMaximumHeapSize>5G</JavaMaximumHeapSize>
-    <AndroidSupportedAbis>arm64-v8a;armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
+    <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidDexTool>d8</AndroidDexTool>
+    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,8 +51,8 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <Debugger>Xamarin</Debugger>
     <DebugSymbols>False</DebugSymbols>
-    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
-    <AndroidDexTool>d8</AndroidDexTool>
+    <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
+    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -113,7 +112,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
-    <Reference Include="Java.Interop" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
