@@ -389,16 +389,16 @@ namespace LooneyInvaders.Classes
             {
                 return;
             }
-
+            
             var county = counter;
-            var repeats = App42.ScoreBoardService.OverallDelayMS / ((eachDelayS > 0 ? eachDelayS : 1) * 1000);
+            var repeats = 1.0f * App42.ScoreBoardService.OverallDelayMS / (eachDelayS > 0 ? eachDelayS : 1000);
             var timer = new System.Timers.Timer(eachDelayS)
             {
                 AutoReset = true,
                 Enabled = true
             };
-            timer.Elapsed += delegate { county += 1; };
-            while ((bool)condition && county < repeats)
+            timer.Elapsed += (s, e) => { county += 1; };
+            while ((bool)condition && county <= repeats)
             {
                 eachRepeatCall?.Invoke();
             }

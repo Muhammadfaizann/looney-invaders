@@ -26,7 +26,7 @@ namespace LooneyInvaders.App42
         public static ScoreBoardService Instance => GetInstance();
         public static app42ScoreBoardService App42Service => GetService();
         public static Exception LastException { get; private set; }
-        public static int OverallDelayMS => maxAttemptsCount * App42ServiceBuilder.CommonDelayOnErrorMS;
+        public static int OverallDelayMS => 5000;
 
         private ScoreBoardService()
         {
@@ -220,7 +220,7 @@ namespace LooneyInvaders.App42
                 ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
             if (game == null)
             {
-                game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, $"{gameName}: manually created");
+                game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, gameName);
             }
             try
             {

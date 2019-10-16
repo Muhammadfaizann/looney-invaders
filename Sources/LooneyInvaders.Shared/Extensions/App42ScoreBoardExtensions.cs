@@ -37,7 +37,7 @@ namespace LooneyInvaders.Extensions
                 game = service.GetGameOnSaveUserScoreException(ex, gameName, gameUserName, gameScore, gameService);
                 if (game == null)
                 {
-                    callbackHandler.Response = new object();
+                    callbackHandler.Response = ex;
                 }
             }
         }

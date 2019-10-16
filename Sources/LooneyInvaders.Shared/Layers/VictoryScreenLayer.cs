@@ -21,7 +21,7 @@ namespace LooneyInvaders.Layers
         public int WinsInSuccession;
 
         private readonly int _score;
-        private readonly float _delayOnRepeatS;
+        private readonly float _delayOnRepeatMS;
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
@@ -49,7 +49,7 @@ namespace LooneyInvaders.Layers
             LivesLeft = livesLeft;
             WinsInSuccession = winsInSuccession;
 
-            _delayOnRepeatS = 0.5f;
+            _delayOnRepeatMS = 500f;
             _nextEnemy = selectedEnemy;
             switch (SelectedBattleground)
             {
@@ -657,7 +657,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowScore(float dtt)
         {
-            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatS);
+            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
 
             try
             {
