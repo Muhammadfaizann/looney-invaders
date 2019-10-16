@@ -36,8 +36,7 @@ namespace LooneyInvaders.iOS
             _motionManager = new CMMotionManager();
             _motionManager.StartDeviceMotionUpdates();
 
-            InitScoreBoardService();
-            InitStorageService();
+            CallInitOnApp42ServiceBuilder();
 
             //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
@@ -76,23 +75,15 @@ namespace LooneyInvaders.iOS
             UserManager.CheckIsUsernameFreeHandler = CheckIsUsernameFree;
             UserManager.ChangeUsernameHandler = ChangeUsername;
 
-            if (!UserManager.IsUserGuidSet)
-            {
-                Task.Run(() => UserManager.GenerateGuid()).ConfigureAwait(false);
-            }
+            Task.Run(() => UserManager.GenerateGuid()).ConfigureAwait(false);
 
             // Set loading event to be called once game view is fully initialised
             GameView.ViewCreated += GameDelegate.LoadGame;
         }
 
-        public void InitScoreBoardService()
+        public void CallInitOnApp42ServiceBuilder()
         {
-            App42.ScoreBoardService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 400);
-        }
-
-        public void InitStorageService()
-        {
-            App42.StorageService.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey);
+            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
         }
 
         private Task<bool> UsernameGUIDInsertHandler(string guid)
@@ -181,8 +172,15 @@ namespace LooneyInvaders.iOS
             BeginInvokeOnMainThread(() =>
             {
                 GameView = GameDelegate.GameView;
-                //GameView.MobilePlatformUpdatePaused();
-                GameView.Paused = isPaused;
+                try
+                {
+                    GameView.Paused = isPaused;
+                }
+                catch (Exception ex)
+                {
+                    var mess = ex.Message;
+                    System.Diagnostics.Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewStateUIThread)}: {mess}");
+                }
             });
         }
 
