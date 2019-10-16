@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using com.shephertz.app42.paas.sdk.csharp;
-using com.shephertz.app42.paas.sdk.csharp.game;
 using com.shephertz.app42.paas.sdk.csharp.storage;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;

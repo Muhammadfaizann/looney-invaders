@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.game;
 using LooneyInvaders.Services.App42;
@@ -18,7 +19,7 @@ namespace LooneyInvaders.Extensions
             if (service == null)
             {
                 var message = $"{nameof(SaveUserScoreCallback)} {ErrPrefix}: {nameof(app42ScoreBoardService)} is null";
-                Console.WriteLine(message); throw new ArgumentNullException(message);
+                Debug.WriteLine(message); throw new ArgumentNullException(message);
             }
 
             try
@@ -49,7 +50,7 @@ namespace LooneyInvaders.Extensions
             if (service == null)
             {
                 var message = $"{nameof(SaveUserScoreCallback)} {ErrPrefix}: {nameof(app42ScoreBoardService)} is null";
-                Console.WriteLine(message); throw new ArgumentNullException(message);
+                Debug.WriteLine(message); throw new ArgumentNullException(message);
             }
 
             try
@@ -75,14 +76,14 @@ namespace LooneyInvaders.Extensions
 
             if (exception == null || service == null)
             {
-                Console.WriteLine(message); throw new ArgumentNullException(message);
+                Debug.WriteLine(message); throw new ArgumentNullException(message);
             }
 
             /// Exception Caught
             if (!(exception is App42Exception _exception))
             {
-                Console.WriteLine($"{nameof(GetGameOnSaveUserScoreException)} not {nameof(App42Exception)} handled {ErrPrefix}: {exception.Message}");
-                Console.WriteLine(exception.StackTrace);
+                Debug.WriteLine($"{nameof(GetGameOnSaveUserScoreException)} not {nameof(App42Exception)} handled {ErrPrefix}: {exception.Message}");
+                Debug.WriteLine(exception.StackTrace);
                 return game;
             }
             /// Do exception Handling of Score Board Service functions.
@@ -96,16 +97,16 @@ namespace LooneyInvaders.Extensions
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Inner {ErrPrefix} is : " + ex);
+                    Debug.WriteLine($"Inner {ErrPrefix} is : " + ex);
                 }
             }
             else if (_exception.GetAppErrorCode() == 1401)
             {
-                Console.WriteLine("Please verify your API_KEY and SECRET_KEY From AppHq Console (Apphq.shephertz.com).");
+                Debug.WriteLine("Please verify your API_KEY and SECRET_KEY From AppHq Debug (Apphq.shephertz.com).");
             }
             else
             {
-                Console.WriteLine("Exception is : " + exception);
+                Debug.WriteLine("Exception is : " + exception);
             }
 
             return game;

@@ -90,13 +90,13 @@ namespace LooneyInvaders.App42
                 try
                 {
                     LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(App42Service,
-                            looneyEarthNames.Item1, LeaderboardType.Regular);
-                        LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service,
-                            looneyEarthNames.Item2, LeaderboardType.Regular);
-                        LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service,
-                            looneyEarthNames.Item3, LeaderboardType.Regular);
-                        LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(App42Service,
-                            looneyEarthNames.Item4, LeaderboardType.Regular);
+                        looneyEarthNames.Item1, LeaderboardType.Regular);
+                    LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service,
+                        looneyEarthNames.Item2, LeaderboardType.Regular);
+                    LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service,
+                        looneyEarthNames.Item3, LeaderboardType.Regular);
+                    LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(App42Service,
+                        looneyEarthNames.Item4, LeaderboardType.Regular);
                 }
                 catch (Exception ex)
                 {
@@ -128,13 +128,13 @@ namespace LooneyInvaders.App42
                 try
                 {
                     LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(App42Service,
-                            looneyMoonNames.Item1, LeaderboardType.Pro);
-                        LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service,
-                            looneyMoonNames.Item2, LeaderboardType.Pro);
-                        LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service,
-                            looneyMoonNames.Item3, LeaderboardType.Pro);
-                        LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(App42Service,
-                            looneyMoonNames.Item4, LeaderboardType.Pro);
+                        looneyMoonNames.Item1, LeaderboardType.Pro);
+                    LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service,
+                        looneyMoonNames.Item2, LeaderboardType.Pro);
+                    LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service,
+                        looneyMoonNames.Item3, LeaderboardType.Pro);
+                    LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(App42Service,
+                        looneyMoonNames.Item4, LeaderboardType.Pro);
                 }
                 catch (Exception ex)
                 {
