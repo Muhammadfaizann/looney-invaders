@@ -93,6 +93,11 @@ namespace LooneyInvaders.Droid
 
         #endregion
 
+        protected override void AttachBaseContext(Context @base)
+        {
+            base.AttachBaseContext(@base);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");

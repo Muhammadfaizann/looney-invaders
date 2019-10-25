@@ -34,7 +34,7 @@ namespace LooneyInvaders.Model
                 var code = parts[1].Substring(1, parts[1].Length - 3);
                 return code;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
                 //return string.Empty;
@@ -97,7 +97,7 @@ namespace LooneyInvaders.Model
                 var code = parts[1].Substring(1, parts[1].Length - 3);
                 return code;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return string.Empty;
             }
