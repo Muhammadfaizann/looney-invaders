@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\OpenAL.Soft.1.19.1\build\openal.soft.props" Condition="Exists('..\packages\OpenAL.Soft.1.19.1\build\openal.soft.props')" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.props')" />
   <Import Project="..\LooneyInvaders.Shared\EmptyProject.Shared.projitems" Label="Shared" Condition="Exists('..\LooneyInvaders.Shared\EmptyProject.Shared.projitems')" />
   <PropertyGroup>
@@ -28,6 +29,11 @@
     <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AotAssemblies>true</AotAssemblies>
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>Properties\tpetrovic_INIT.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
+    <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
+    <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -50,11 +56,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Debugger>Xamarin</Debugger>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
     <BundleAssemblies>true</BundleAssemblies>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidErrorOnCustomJavaObject>false</AndroidErrorOnCustomJavaObject>
@@ -62,11 +67,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
-    <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>Properties/tpetrovic_INIT.keystore</AndroidSigningKeyStore>
-    <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
+    <MandroidI18n />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -570,7 +571,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -8682,4 +8682,10 @@
   <Import Project="..\packages\Xamarin.GooglePlayServices.Ads.Lite.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.Lite.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Ads.Lite.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.Lite.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Gass.71.1720.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Gass.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Gass.71.1720.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Gass.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Ads.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Ads.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenAL.Soft.1.19.1\build\openal.soft.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenAL.Soft.1.19.1\build\openal.soft.props'))" />
+  </Target>
 </Project>
