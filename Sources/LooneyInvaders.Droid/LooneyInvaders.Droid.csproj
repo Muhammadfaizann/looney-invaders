@@ -51,7 +51,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Debugger>Xamarin</Debugger>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
     <BundleAssemblies>true</BundleAssemblies>
@@ -65,6 +65,7 @@
     <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
+    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -560,7 +561,6 @@
     <AndroidAsset Include="..\Content\Images\Hd\Animations\FlyingSaucer.plist">
       <Link>Assets\Content\Images\Hd\Animations\FlyingSaucer.plist</Link>
     </AndroidAsset>
-    <None Include="arm64-v8a\libopenal32.so" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
