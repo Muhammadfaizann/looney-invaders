@@ -25,7 +25,9 @@
     </NuGetPackageImportStamp>
     <AndroidSupportedAbis>armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
-    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidErrorOnCustomJavaObject>false</AndroidErrorOnCustomJavaObject>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AotAssemblies>true</AotAssemblies>
   </PropertyGroup>
@@ -39,7 +41,6 @@
     <WarningLevel>4</WarningLevel>
     <Debugger>Xamarin</Debugger>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -53,13 +54,10 @@
     <DebugSymbols>false</DebugSymbols>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
+    <BundleAssemblies>true</BundleAssemblies>
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
     <AndroidLinkTool>proguard</AndroidLinkTool>
-    <BundleAssemblies>true</BundleAssemblies>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidErrorOnCustomJavaObject>false</AndroidErrorOnCustomJavaObject>
     <AndroidUseAapt2>false</AndroidUseAapt2>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidKeyStore>True</AndroidKeyStore>
@@ -74,10 +72,6 @@
     </Reference>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CocosSharp.1.7.1.0\lib\MonoAndroid10\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CocosSharp.1.7.1.0\lib\MonoAndroid10\MonoGame.Framework.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
@@ -316,11 +310,12 @@
     <Reference Include="Xamarin.Firebase.Analytics">
       <HintPath>..\packages\Xamarin.Firebase.Analytics.71.1630.0\lib\monoandroid90\Xamarin.Firebase.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing">
       <HintPath>..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\ref\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\CocosSharp.1.7.1.0\lib\MonoAndroid10\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -353,6 +348,7 @@
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
     <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\GenericExtension.cs" />
+    <Compile Include="Helpers\EglHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -564,6 +560,7 @@
     <AndroidAsset Include="..\Content\Images\Hd\Animations\FlyingSaucer.plist">
       <Link>Assets\Content\Images\Hd\Animations\FlyingSaucer.plist</Link>
     </AndroidAsset>
+    <None Include="arm64-v8a\libopenal32.so" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -577,6 +574,7 @@
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -8624,6 +8622,9 @@
   <ItemGroup>
     <ProguardConfiguration Include="proguard.cfg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidNativeLibrary Include="lib\arm64-v8a\libopenal32.so" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" />
@@ -8689,4 +8690,5 @@
   <Import Project="..\packages\Xamarin.GooglePlayServices.Gass.71.1720.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Gass.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Gass.71.1720.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Gass.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Ads.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Ads.71.1720.1\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.targets')" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\MonoGame.Framework.Android.3.7.1.189\build\MonoGame.Framework.Android.targets" Condition="Exists('..\packages\MonoGame.Framework.Android.3.7.1.189\build\MonoGame.Framework.Android.targets')" />
 </Project>

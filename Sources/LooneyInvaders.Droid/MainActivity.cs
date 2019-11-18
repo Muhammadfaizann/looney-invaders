@@ -25,6 +25,7 @@ using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using Debug = System.Diagnostics.Debug;
+using Javax.Microedition.Khronos.Egl;
 
 namespace LooneyInvaders.Droid
 {
@@ -104,7 +105,9 @@ namespace LooneyInvaders.Droid
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             Java.Lang.Thread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
-            //---------- Prabhjot ---------//
+
+            //Helpers.EglHelper.InitEgl();
+                //---------- Prabhjot ---------//
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
                     typeof(Analytics), typeof(Crashes));
