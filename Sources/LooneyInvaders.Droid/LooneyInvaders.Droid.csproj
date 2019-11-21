@@ -55,10 +55,9 @@
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
     <BundleAssemblies>true</BundleAssemblies>
-	<AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
-	<AndroidEnableMultiDex>false</AndroidEnableMultiDex>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
+    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AndroidUseAapt2>false</AndroidUseAapt2>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
@@ -66,7 +65,10 @@
     <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
-	<AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <AotAssemblies>false</AotAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -574,8 +576,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">

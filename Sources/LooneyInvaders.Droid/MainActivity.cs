@@ -495,33 +495,6 @@ namespace LooneyInvaders.Droid
                 }
             }
 
-            /*
-            float[] rotationMatrix = new float[16];
-            float[] orientation = new float[3];
-
-            float[] values = new float[3];
-            values[0] = e.Values[0];
-            values[1] = e.Values[1];
-            values[2] = e.Values[2];
-          
-
-            SensorManager.GetRotationMatrixFromVector(rotationMatrix, values);
-            SensorManager.GetOrientation(rotationMatrix, orientation);
-
-            //_yaw = (float) (orientation[0] * 180 / Math.PI) + 90;
-            //_pitch = (float) (-orientation[2] * 180 / Math.PI) - 90;
-            //_tilt = (float) (-orientation[1] * 180 / Math.PI);
-
-            if (GetScreenOrientation() == ScreenOrientation.ReverseLandscape)
-            {
-
-                _pitch = (float)(-orientation[1] * 180 / Math.PI);
-            }
-            else
-            {
-                _pitch = (float)(-orientation[1] * 180 / Math.PI) + 180;
-            }
-            */
         }
 
         protected override void OnPostResume()
@@ -549,8 +522,6 @@ namespace LooneyInvaders.Droid
 
             _sensorManager.UnregisterListener(this);
 
-            //_music = GameEnvironment.MusicPlaying;
-            //CCAudioEngine.SharedEngine?.StopBackgroundMusic();
             if (!_isAdsShoving)
                 Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
             _isAdsShoving = false;
