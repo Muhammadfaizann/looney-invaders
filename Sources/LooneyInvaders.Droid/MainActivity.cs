@@ -119,8 +119,10 @@ namespace LooneyInvaders.Droid
             //toGetPermissionsForStorage();
             Tracer.Title = "LaunchingAppTime(ms)";
             TrackTime();
+
             // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(savedInstanceState);
+
             Instance = this;
             TrackTime();
             // remove navigation bar
@@ -508,9 +510,6 @@ namespace LooneyInvaders.Droid
             _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
             var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
             _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
-
-            //if (!string.IsNullOrWhiteSpace(_music))
-                //CCAudioEngine.SharedEngine.PlayBackgroundMusic(_music, true);
         }
 
         protected override void OnPause()
@@ -740,11 +739,13 @@ namespace LooneyInvaders.Droid
 
             var drawable = Android.Graphics.Drawables.Drawable.CreateFromStream(stream, "looney");
             var bitmap = ((Android.Graphics.Drawables.BitmapDrawable)drawable).Bitmap;
-
-            var file = StoreScreenShot(bitmap);
-            if (file == null) return;
-
-            RunOnUiThread(() => ShareOnSocialNetwork(network, file));
+            using (var file = StoreScreenShot(bitmap))
+            {
+                if (file == null) {
+                    return;
+                }
+                RunOnUiThread(() => ShareOnSocialNetwork(network, file));
+            }
         }
 
         public void ShareOnSocialNetwork(string network, Java.IO.File file)

@@ -29,7 +29,6 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidErrorOnCustomJavaObject>false</AndroidErrorOnCustomJavaObject>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
-    <AotAssemblies>true</AotAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -55,8 +54,8 @@
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
     <BundleAssemblies>true</BundleAssemblies>
-    <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AndroidUseAapt2>false</AndroidUseAapt2>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
@@ -65,6 +64,7 @@
     <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
+    <AndroidLinkTool>proguard</AndroidLinkTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
