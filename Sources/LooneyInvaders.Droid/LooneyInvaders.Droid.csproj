@@ -65,10 +65,6 @@
     <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidLinkTool>proguard</AndroidLinkTool>
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
-    <EnableLLVM>false</EnableLLVM>
-    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <AotAssemblies>false</AotAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
