@@ -55,7 +55,7 @@ namespace LooneyInvaders.Layers
             Schedule(RotateGun, 0.1f);
         }
 
-        private void BtnSend_OnClick(object sender, EventArgs e)
+        private async void BtnSend_OnClick(object sender, EventArgs e)
         {
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
@@ -69,10 +69,10 @@ namespace LooneyInvaders.Layers
 
             AddImage(175, 20, "UI/My-stats-&-rewards-your-activation-code-text.png");
 
-            GetRewardCode();
+            await GetRewardCode();
         }
 
-        private async void GetRewardCode()
+        private async Task GetRewardCode()
         {
             _lblCode = AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
 
