@@ -23,6 +23,7 @@ namespace LooneyInvaders.Layers
         //CCSprite imgSpotlightWeek;
         //CCSprite imgSpotlightAllTime;
 
+        private readonly CCSpriteButton _btnQuitGame;
         private readonly CCSpriteButton _btnTapToStart;
         private CCSpriteButton _btnRanking;
         private readonly CCSpriteButton _btnGameSettings;
@@ -34,6 +35,11 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _imgOffline;
 
         // modal window
+        private readonly CCSprite _imgQuitGameWindow;
+        private readonly CCSprite _notShowNotificationText;
+        private readonly CCSpriteTwoStateButton _btnQuitGameNotificationCheckMark;
+        private readonly CCSpriteButton _btnProceedQuittingGame;
+        private readonly CCSpriteButton _btnStopQuittingGame;
         private readonly CCSprite _imgQuickGameWindow;
         private readonly CCSpriteButton _btnQuickGame;
         private readonly CCSpriteButton _btnSelectionMode;
@@ -55,7 +61,7 @@ namespace LooneyInvaders.Layers
 
 
             //------------ Prabhjot -----------//
-
+            Settings.Instance.GameTipQuitGameShow = true;
             //SetTimer();
 
             //this.Enabled = false;
@@ -109,6 +115,9 @@ namespace LooneyInvaders.Layers
             _btnTapToStart = AddButton(370, 475, "UI/Main-screen-tap-to-start-button-untapped.png", "UI/Main-screen-tap-to-start-button-tapped.png");
             _btnTapToStart.OnClick += BtnTapToStart_OnClick;
 
+            _btnQuitGame = AddButton(1040, 560, "UI/Main-screen-quit-button-untapped.png", "UI/Main-screen-quit-button-tapped.png");
+            _btnQuitGame.OnClick += BtnQuitGame_OnClick;
+            _btnQuitGame.Visible = Shared.GameDelegate.CloseAppAllowed;
 
             _btnGameSettings = AddButton(30, 5, "UI/Main-screen-game_settings-button-untapped.png", "UI/Main-screen-game_settings-button-tapped.png");
             _btnGameSettings.OnClick += BtnGameSettings_OnClick;
@@ -118,6 +127,21 @@ namespace LooneyInvaders.Layers
 
             _btnGameInfo = AddButton(760, 5, "UI/Main-screen-game_info-button-untapped.png", "UI/Main-screen-game_info-button-tapped.png");
             _btnGameInfo.OnClick += BtnGameInfo_OnClick;
+
+            /* quit the game notification */
+
+            _imgQuitGameWindow = AddImage(14, 40, "UI/Main-screen-quit-game-notification-background.png", 500);
+            _imgQuitGameWindow.Visible = false;
+            _btnQuitGameNotificationCheckMark = AddTwoStateButton(35, 205, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
+            _btnQuitGameNotificationCheckMark.ButtonType = ButtonType.CheckMark;
+            _btnQuitGameNotificationCheckMark.OnClick += BtnQuitGameNotificationCheckMark_OnClick;
+            _btnQuitGameNotificationCheckMark.Visible = false;
+            _notShowNotificationText = AddImage(95, 210, "UI/do-not-show-this-notification-text.png", 610);
+            _notShowNotificationText.Visible = false;
+            _btnProceedQuittingGame = AddButton(705, 75, "UI/exit-game-button-untapped.png", "UI/exit-game-button-tapped.png", 510);
+            _btnProceedQuittingGame.Visible = false;
+            _btnStopQuittingGame = AddButton(35, 75, "UI/back-to-game-button-untapped.png", "UI/back-to-game-button-tapped.png", 510);
+            _btnStopQuittingGame.Visible = false;
 
             /* quick game notification */
 
@@ -188,6 +212,12 @@ namespace LooneyInvaders.Layers
 
             }));
             backgroundTask.Start();
+        }
+
+        private void BtnQuitGameNotificationCheckMark_OnClick(object sender, EventArgs e)
+        {
+            _btnQuitGameNotificationCheckMark.ChangeState();
+            //_btnQuitGameNotificationCheckMark.SetStateImages();
         }
 
         private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)
@@ -292,6 +322,20 @@ namespace LooneyInvaders.Layers
 
             var newLayer = new GameInfoScreenLayer();
             await TransitionToLayerCartoonStyleAsync(newLayer);
+        }
+
+        private void BtnQuitGame_OnClick(object sender, EventArgs e)
+        {
+            if (Settings.Instance.NotificationsEnabled && Settings.Instance.GameTipQuitGameShow)
+            {
+                Shared.GameDelegate.OnBackButton -= HideQuitGameNotification;
+                Shared.GameDelegate.OnBackButton += HideQuitGameNotification;
+                ShowQuitGameNotification();
+            }
+            else
+            {
+                Shared.GameDelegate.QuitGame();
+            }
         }
 
         private void StartDialog_Back(object sender, EventArgs e)
@@ -568,6 +612,43 @@ namespace LooneyInvaders.Layers
 
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
             Shared.GameDelegate.OnBackButton -= HideProNotification;
+        }
+
+        private void ShowQuitGameNotification()
+        {
+            _imgQuitGameWindow.Visible = true;
+            _btnQuitGameNotificationCheckMark.Enabled = true;
+            _btnQuitGameNotificationCheckMark.Visible = true;
+            _notShowNotificationText.Visible = true;
+            _btnProceedQuittingGame.OnClick -= OnProceedQuittingGame;
+            _btnProceedQuittingGame.OnClick += OnProceedQuittingGame;
+            _btnProceedQuittingGame.Visible = true;
+            _btnStopQuittingGame.OnClick -= OnStopQuittingGame;
+            _btnStopQuittingGame.OnClick += OnStopQuittingGame;
+            _btnStopQuittingGame.Visible = true;
+
+            void OnProceedQuittingGame(object sender, EventArgs e)
+            {
+                Settings.Instance.GameTipQuitGameShow = _btnQuitGameNotificationCheckMark.State != 1;
+                Shared.GameDelegate.QuitGame();
+            }
+
+            void OnStopQuittingGame(object sender, EventArgs e)
+            {
+                Settings.Instance.GameTipQuitGameShow = _btnQuitGameNotificationCheckMark.State != 1;
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapBack);
+                HideQuitGameNotification(null, EventArgs.Empty);
+            }
+        }
+
+        private void HideQuitGameNotification(object sender, EventArgs e)
+        {
+            _imgQuitGameWindow.Visible = false;
+            _btnQuitGameNotificationCheckMark.Enabled = false;
+            _btnQuitGameNotificationCheckMark.Visible = false;
+            _notShowNotificationText.Visible = false;
+            _btnProceedQuittingGame.Visible = false;
+            _btnStopQuittingGame.Visible = false;
         }
 
         private void ShowProNotification()

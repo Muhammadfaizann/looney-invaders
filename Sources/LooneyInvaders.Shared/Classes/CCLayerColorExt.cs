@@ -160,8 +160,8 @@ namespace LooneyInvaders.Classes
             string imageNameTapped1, string imageNameUntapped2, string imageNameTapped2, int zOrder = 100)
         {
             var sprite = new CCSpriteTwoStateButton(
-                GameEnvironment.ImageDirectory + imageNameUntapped1, GameEnvironment.ImageDirectory + imageNameTapped1,
-                GameEnvironment.ImageDirectory + imageNameUntapped2, GameEnvironment.ImageDirectory + imageNameTapped2);
+                GameEnvironment.ImageDirectory + imageNameTapped1, GameEnvironment.ImageDirectory + imageNameUntapped1,
+                GameEnvironment.ImageDirectory + imageNameTapped2, GameEnvironment.ImageDirectory + imageNameUntapped2);
             sprite.AnchorPoint = new CCPoint(0, 0);
             sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
             sprite.Position = new CCPoint(x, y);

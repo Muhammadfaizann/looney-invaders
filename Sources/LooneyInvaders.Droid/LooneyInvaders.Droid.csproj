@@ -560,6 +560,30 @@
     <AndroidAsset Include="..\Content\Images\Hd\Animations\FlyingSaucer.plist">
       <Link>Assets\Content\Images\Hd\Animations\FlyingSaucer.plist</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-quit-button-tapped.png">
+      <Link>Assets\Content\Images\Hd\UI\Main-screen-quit-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-quit-button-untapped.png">
+      <Link>Assets\Content\Images\Hd\UI\Main-screen-quit-button-untapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-quit-game-notification-background.png">
+      <Link>Assets\Content\Images\Hd\UI\Main-screen-quit-game-notification-background.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\exit-game-button-tapped.png">
+      <Link>Assets\Content\Images\Hd\UI\exit-game-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\exit-game-button-untapped.png">
+      <Link>Assets\Content\Images\Hd\UI\exit-game-button-untapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\back-to-game-button-tapped.png">
+      <Link>Assets\Content\Images\Hd\UI\back-to-game-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\back-to-game-button-untapped.png">
+      <Link>Assets\Content\Images\Hd\UI\back-to-game-button-untapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\do-not-show-this-notification-text.png">
+      <Link>Assets\Content\Images\Hd\UI\do-not-show-this-notification-text.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -867,18 +891,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -887,18 +901,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -907,18 +911,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\england_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -927,18 +921,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -947,18 +931,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -967,18 +941,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\france_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -987,18 +951,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1007,18 +961,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1027,18 +971,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1047,18 +981,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1067,18 +991,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1087,18 +1001,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1107,18 +1011,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1127,18 +1021,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1147,18 +1031,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1167,18 +1041,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1187,23 +1051,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\tempBattlefield.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\tempBattlefield.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1222,18 +1071,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1242,18 +1081,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1262,18 +1091,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640_BW.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640.jpg">
       <Link>Assets\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640_BW.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640_BW.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1364,16 +1183,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png">
       <Link>Assets\Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Enemies\enemy_abomb.png">
-      <Link>Assets\Content\Images\Hd\Enemies\enemy_abomb.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Enemies\green-slime-ball.png">
-      <Link>Assets\Content\Images\Hd\Enemies\green-slime-ball.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3022,11 +2831,6 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-your-enemy-example.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-your-enemy-example.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-your-enemy-game-tip-notification-background-with-text.png">
       <Link>Assets\Content\Images\Hd\UI\Choose-your-enemy-game-tip-notification-background-with-text.png</Link>
     </AndroidAsset>
@@ -3857,16 +3661,6 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-all_time-spotlight-on-text-visible.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-all_time-spotlight-on-text-visible.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-all_time-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-all_time-text.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-background-all_time-spotlight-on.jpg">
       <Link>Assets\Content\Images\Hd\UI\Main-screen-background-all_time-spotlight-on.jpg</Link>
     </AndroidAsset>
@@ -3894,16 +3688,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-best_accuracy-text.png">
       <Link>Assets\Content\Images\Hd\UI\Main-screen-best_accuracy-text.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-day-spotlight-on-day-text-visible.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-day-spotlight-on-day-text-visible.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-day-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-day-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4049,16 +3833,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-tap-to-start-button-untapped.png">
       <Link>Assets\Content\Images\Hd\UI\Main-screen-tap-to-start-button-untapped.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-week-spotlight-on-week-text-visible.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-week-spotlight-on-week-text-visible.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Main-screen-week-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Main-screen-week-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -5799,11 +5573,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Settings_your_player_name_text.png">
       <Link>Assets\Content\Images\Hd\UI\Settings_your_player_name_text.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Settings-add-free-notification-example.png">
-      <Link>Assets\Content\Images\Hd\UI\Settings-add-free-notification-example.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

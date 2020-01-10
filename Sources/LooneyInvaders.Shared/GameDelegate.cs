@@ -16,6 +16,12 @@ namespace LooneyInvaders.Shared
 
         public static UpdateGameViewDelegate UpdateGameView;
 
+        public delegate void CloseAppDelegate();
+
+        public static CloseAppDelegate CloseApp;
+
+        public static bool CloseAppAllowed;
+
         public static event EventHandler OnBackButton;
 
         public static void FireBackButtonPressed()
@@ -187,6 +193,11 @@ namespace LooneyInvaders.Shared
 
             if (GameView != null && UpdateGameView != null)
                 UpdateGameView(true);
+        }
+
+        public static void QuitGame()
+        {
+            CloseApp?.Invoke();
         }
     }
 

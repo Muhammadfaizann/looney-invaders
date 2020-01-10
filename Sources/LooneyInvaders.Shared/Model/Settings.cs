@@ -161,6 +161,13 @@ namespace LooneyInvaders.Model
             set { _advertisements = value; CrossSettings.Current.AddOrUpdateValue("advertisements", value); ApplyValues(); }
         }
 
+        private bool _gameTipQuitGameShow = true;
+        public bool GameTipQuitGameShow
+        {
+            get => _gameTipQuitGameShow;
+            set { _gameTipQuitGameShow = value; CrossSettings.Current.AddOrUpdateValue("gameTipQuitGameShow", value); ApplyValues(); }
+        }
+
         private bool _gameTipProLevelShow = true;
         public bool GameTipProLevelShow
         {

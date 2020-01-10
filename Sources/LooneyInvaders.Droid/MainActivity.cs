@@ -142,6 +142,8 @@ namespace LooneyInvaders.Droid
             /*Sensor gyro = sm.GetDefaultSensor(SensorType.RotationVector);
             sm.RegisterListener(this, gyro, SensorDelay.Game);*/
 
+            GameDelegate.CloseAppAllowed = true;
+            GameDelegate.CloseApp = CloseActivity;
             // clearing on iOS does not properly work
             GameDelegate.UseAnimationClearing = true;
             GameDelegate.UpdateGameView = UpdateGameViewState;
@@ -285,6 +287,12 @@ namespace LooneyInvaders.Droid
             {
                 var mess = ex.Message;
             }
+        }
+
+        private void CloseActivity()
+        {
+            //ToDo: Bass - here's the place to save everything before definetely close the app
+            FinishAndRemoveTask();
         }
 
         private Task<bool> UsernameGUIDInsertHandler(string guid)

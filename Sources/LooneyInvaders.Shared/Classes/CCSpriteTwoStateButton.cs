@@ -18,7 +18,7 @@ namespace LooneyInvaders.Classes
             ImageNameTapped1 = imageNameTapped1;
             ImageNameUntapped2 = imageNameUntapped2;
             ImageNameTapped2 = imageNameTapped2;
-            State = 1;
+            State = 2;
         }
 
         public void ChangeState()
