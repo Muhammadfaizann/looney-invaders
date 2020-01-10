@@ -501,209 +501,104 @@
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\afganistan_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\england_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\england_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\estonia_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\finland_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\finland_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\france_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\france_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\georgia_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\great-britain_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\great-britain_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\iraq_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\iraq_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\israel_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\israel_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\israel_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\israel_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\japan_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\japan_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\japan_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\japan_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\libya_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\libya_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\norway_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\poland_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\russia_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\russia_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\russia_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\south-korea_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\south-korea_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\syria_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\syria_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\syria_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\syria_realistic_1136x640_BW.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\tempBattlefield.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\tempBattlefield.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\Test-battleground-moon-cartonic.jpg">
       <Link>Content\Images\Hd\Battlegrounds\Test-battleground-moon-cartonic.jpg</Link>
@@ -714,38 +609,20 @@
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\ukraine_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\ukraine_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\usa_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\usa_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\usa_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\usa_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\vietnam_cartonic_1136x640_BW.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640.jpg</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640_BW.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\vietnam_realistic_1136x640_BW.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\whitehouse-battle-ground-cartoon-style.jpg">
       <Link>Content\Images\Hd\Battlegrounds\whitehouse-battle-ground-cartoon-style.jpg</Link>
@@ -800,12 +677,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png">
       <Link>Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\enemy_abomb.png">
-      <Link>Content\Images\Hd\Enemies\enemy_abomb.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\green-slime-ball.png">
-      <Link>Content\Images\Hd\Enemies\green-slime-ball.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-evil-grimace.png">
       <Link>Content\Images\Hd\Enemies\Hitler-evil-grimace.png</Link>
@@ -2091,9 +1962,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Moon-victory-scene.jpg">
-      <Link>Content\Images\Hd\UI\Victory scenes\Moon-victory-scene.jpg</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg</Link>
     </BundleResource>
@@ -2324,9 +2192,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-your-enemy-alien-text.png">
       <Link>Content\Images\Hd\UI\Choose-your-enemy-alien-text.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-your-enemy-example.png">
-      <Link>Content\Images\Hd\UI\Choose-your-enemy-example.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-your-enemy-game-tip-notification-background-with-text.png">
       <Link>Content\Images\Hd\UI\Choose-your-enemy-game-tip-notification-background-with-text.png</Link>
@@ -2829,12 +2694,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Lets-try-button-untapped.png">
       <Link>Content\Images\Hd\UI\Lets-try-button-untapped.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-all_time-spotlight-on-text-visible.png">
-      <Link>Content\Images\Hd\UI\Main-screen-all_time-spotlight-on-text-visible.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-all_time-text.png">
-      <Link>Content\Images\Hd\UI\Main-screen-all_time-text.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-background-all_time-spotlight-on.jpg">
       <Link>Content\Images\Hd\UI\Main-screen-background-all_time-spotlight-on.jpg</Link>
     </BundleResource>
@@ -2852,12 +2711,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-best_accuracy-text.png">
       <Link>Content\Images\Hd\UI\Main-screen-best_accuracy-text.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-day-spotlight-on-day-text-visible.png">
-      <Link>Content\Images\Hd\UI\Main-screen-day-spotlight-on-day-text-visible.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-day-text.png">
-      <Link>Content\Images\Hd\UI\Main-screen-day-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-earth-lvl-scoreboard-table.png">
       <Link>Content\Images\Hd\UI\Main-screen-earth-lvl-scoreboard-table.png</Link>
@@ -2948,12 +2801,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-tap-to-start-button-untapped.png">
       <Link>Content\Images\Hd\UI\Main-screen-tap-to-start-button-untapped.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-week-spotlight-on-week-text-visible.png">
-      <Link>Content\Images\Hd\UI\Main-screen-week-spotlight-on-week-text-visible.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-week-text.png">
-      <Link>Content\Images\Hd\UI\Main-screen-week-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-world-ranking-earth-lvl-button-tapped.png">
       <Link>Content\Images\Hd\UI\Main-screen-world-ranking-earth-lvl-button-tapped.png</Link>
@@ -3786,9 +3633,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-bush-untapped.png">
       <Link>Content\Images\Hd\UI\Pause-screen-bush-untapped.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.png">
-      <Link>Content\Images\Hd\UI\Pause-screen-example-bush-untapped.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-Hitler.png">
       <Link>Content\Images\Hd\UI\Pause-screen-Hitler.png</Link>
     </BundleResource>
@@ -4001,9 +3845,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Settings_your_player_name_text.png">
       <Link>Content\Images\Hd\UI\Settings_your_player_name_text.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Settings-add-free-notification-example.png">
-      <Link>Content\Images\Hd\UI\Settings-add-free-notification-example.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Settings-advertisements-text.png">
       <Link>Content\Images\Hd\UI\Settings-advertisements-text.png</Link>
