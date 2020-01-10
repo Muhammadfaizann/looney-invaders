@@ -13,7 +13,7 @@ namespace LooneyInvaders.Layers
         public PauseScreenLayer(GamePlayLayer layerBack)
         {
             _layerBack = layerBack;
-            SetBackground("UI/Pause-screen-example-bush-untapped.png");
+            SetBackground("UI/Pause-screen-example-bush-untapped.jpg");
 
             _imgBruises = AddImage(390, 210, "UI/Pause-screen-bush-bruises.png");
             _imgBruises.Visible = false;

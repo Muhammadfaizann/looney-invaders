@@ -584,6 +584,9 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\do-not-show-this-notification-text.png">
       <Link>Assets\Content\Images\Hd\UI\do-not-show-this-notification-text.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.jpg</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -5221,11 +5224,6 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.png">
-      <Link>Assets\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-Hitler.png">
       <Link>Assets\Content\Images\Hd\UI\Pause-screen-Hitler.png</Link>
     </AndroidAsset>
@@ -6933,11 +6931,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg">
       <Link>Assets\Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Moon-victory-scene.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Moon-victory-scene.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
