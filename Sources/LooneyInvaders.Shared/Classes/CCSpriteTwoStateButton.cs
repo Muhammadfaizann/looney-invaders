@@ -14,11 +14,11 @@ namespace LooneyInvaders.Classes
 
         public CCSpriteTwoStateButton(string imageNameUntapped1, string imageNameTapped1, string imageNameUntapped2, string imageNameTapped2) : base(imageNameUntapped1, imageNameTapped1)
         {
-            ImageNameUntapped1 = imageNameUntapped1;
-            ImageNameTapped1 = imageNameTapped1;
-            ImageNameUntapped2 = imageNameUntapped2;
-            ImageNameTapped2 = imageNameTapped2;
-            State = 2;
+            ImageNameUntapped1 = imageNameUntapped2;
+            ImageNameTapped1 = imageNameTapped2;
+            ImageNameUntapped2 = imageNameUntapped1;
+            ImageNameTapped2 = imageNameTapped1;
+            State = 1;
         }
 
         public void ChangeState()

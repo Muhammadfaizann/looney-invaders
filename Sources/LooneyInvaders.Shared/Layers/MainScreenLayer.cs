@@ -61,7 +61,6 @@ namespace LooneyInvaders.Layers
 
 
             //------------ Prabhjot -----------//
-            Settings.Instance.GameTipQuitGameShow = true;
             //SetTimer();
 
             //this.Enabled = false;
@@ -179,11 +178,15 @@ namespace LooneyInvaders.Layers
             AddImage(790, 410, "UI/Main-screen-leaderboard-type-text.png");
 
             _btnScoreboardRegular = AddTwoStateButton(790, 355, "UI/Main-screen-regular-button-untapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-untapped.png");
-            _btnScoreboardRegular.State = 2;
+            _btnScoreboardRegular.State = 1;
             _btnScoreboardRegular.SetStateImages();
+            _btnScoreboardRegular.OnClick -= BtnScoreboardRegular_OnClick;
             _btnScoreboardRegular.OnClick += BtnScoreboardRegular_OnClick;
 
             _btnScoreboardPro = AddTwoStateButton(975, 355, "UI/Main-screen-pro-button-untapped.png", "UI/Main-screen-pro-button-tapped.png", "UI/Main-screen-pro-button-tapped.png", "UI/Main-screen-pro-button-untapped.png");
+            _btnScoreboardPro.State = 2;
+            _btnScoreboardPro.SetStateImages();
+            _btnScoreboardPro.OnClick -= BtnScoreboardPro_OnClick;
             _btnScoreboardPro.OnClick += BtnScoreboardPro_OnClick;
 
             Settings.Instance.ApplyValues(); // main menu background music starts to play here after setting the volume
@@ -217,7 +220,7 @@ namespace LooneyInvaders.Layers
         private void BtnQuitGameNotificationCheckMark_OnClick(object sender, EventArgs e)
         {
             _btnQuitGameNotificationCheckMark.ChangeState();
-            //_btnQuitGameNotificationCheckMark.SetStateImages();
+            _btnQuitGameNotificationCheckMark.SetStateImages();
         }
 
         private void BtnProNotificationCheckMark_OnClick(object sender, EventArgs e)

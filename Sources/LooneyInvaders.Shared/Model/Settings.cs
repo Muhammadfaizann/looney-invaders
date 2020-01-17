@@ -24,6 +24,7 @@ namespace LooneyInvaders.Model
             _soundEnabled = CrossSettings.Current.GetValueOrDefault("soundEnabled", _soundEnabled);
             _soundVolume = CrossSettings.Current.GetValueOrDefault("soundVolume", _soundVolume);
             _vibration = CrossSettings.Current.GetValueOrDefault("vibration", _vibration);
+            _gameTipQuitGameShow = CrossSettings.Current.GetValueOrDefault("gameTipQuitGameShow", _gameTipQuitGameShow);
             _gameTipProLevelShow = CrossSettings.Current.GetValueOrDefault("gameTipProLevelShow", _gameTipProLevelShow);
             _gameTipEnemyPickerShow = CrossSettings.Current.GetValueOrDefault("gameTipEnemyPickerShow", _gameTipEnemyPickerShow);
             _gameTipWeaponPickerShow = CrossSettings.Current.GetValueOrDefault("gameTipWeaponPickerShow", _gameTipWeaponPickerShow);
