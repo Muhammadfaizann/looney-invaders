@@ -2769,9 +2769,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-pro-level-notification-background.png">
       <Link>Content\Images\Hd\UI\Main-screen-pro-level-notification-background.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-pro-level-notification-example.png">
-      <Link>Content\Images\Hd\UI\Main-screen-pro-level-notification-example.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Main-screen-quick-game-notification-quick-game-button-tapped.png">
       <Link>Content\Images\Hd\UI\Main-screen-quick-game-notification-quick-game-button-tapped.png</Link>
     </BundleResource>
