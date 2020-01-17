@@ -23,11 +23,11 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _youAreDefeated;
 
         private bool _isWeHaveScores;
-        //private bool _isDoneWaitingForScores;
+        private bool _isDoneWaitingForScores;
 
         private readonly int _alienScore;
         private readonly int _alienWave;
-        private readonly float _delayOnRepeatS;
+        private readonly float _delayOnRepeatMS;
 
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
@@ -39,7 +39,7 @@ namespace LooneyInvaders.Layers
 
             _alienScore = alienScore;
             _alienWave = alienWave;
-            _delayOnRepeatS = 0.5f;
+            _delayOnRepeatMS = 500f;
 
             switch (SelectedBattleground)
             {
@@ -141,8 +141,11 @@ namespace LooneyInvaders.Layers
                 Player.Instance.SetDayScore(_alienScore, true);
             }
             Player.Instance.Credits += _alienScore;
-            ScheduleOnce(async (_) => 
-                _isWeHaveScores = await LeaderboardManager.SubmitScorePro(_alienScore, _alienWave),
+            ScheduleOnce(async (_) =>
+            {
+                _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
+                _isDoneWaitingForScores = true;
+            },
                 0f);
             //_isDoneWaitingForScores = true;
 
@@ -501,7 +504,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowScoreAlien(float d)
         {
-            WaitScoreBoardServiceResponseWhile(false, ref _waitForScoreCounter, _delayOnRepeatS);
+            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
 
             ScheduleOnce(RemoveRevengeNode, 0f);
             _btnContinue.ChangeAvailability(true);
@@ -613,11 +616,20 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                //no internet
+                //no or weak internet
                 _shareYourScore.Visible = false;
                 ScheduleOnce((_) => _btnContinue.ChangeVisibility(true), 0f);
 
                 _scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
+
+                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    _scoreNode.AddImage(562, 280, "UI/Main-screen-off-line-notification.png", 3);
+                }
+                else
+                {
+                    _scoreNode.AddImage(562, 280, "UI/My-stats-&-rewards-slow-internet-connection-notification.png", 3);
+                }
             }
 
             _scoreNode.Opacity = 0;

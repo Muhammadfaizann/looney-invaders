@@ -138,7 +138,7 @@ namespace LooneyInvaders.Model
             return false;
         }
 
-        public static async Task<bool> SubmitScorePro(double score, double levelsCompleted)
+        public static async Task<bool> SubmitScoreProAsync(double score, double levelsCompleted)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
                 return true;
