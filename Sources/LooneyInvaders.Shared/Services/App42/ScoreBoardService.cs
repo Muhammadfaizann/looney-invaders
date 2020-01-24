@@ -30,8 +30,8 @@ namespace LooneyInvaders.App42
 
         private ScoreBoardService()
         {
-            looneyEarthNames = ("Looney Earth Daily test", "Looney Earth Weekly test", "Looney Earth Monthly test", "Looney Earth Alltime test");
-            looneyMoonNames = ("Looney Moon Daily test", "Looney Moon Weekly test", "Looney Moon Monthly test", "Looney Moon Alltime test");
+            looneyEarthNames = ("Looney Earth Daily", "Looney Earth Weekly", "Looney Earth Monthly", "Looney Earth Alltime");
+            looneyMoonNames = ("Looney Moon Daily", "Looney Moon Weekly", "Looney Moon Monthly", "Looney Moon Alltime");
 
             try
             {
