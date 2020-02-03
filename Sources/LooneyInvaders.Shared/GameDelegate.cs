@@ -197,7 +197,10 @@ namespace LooneyInvaders.Shared
 
         public static void QuitGame()
         {
-            CloseApp?.Invoke();
+			var currentLayer = Layer as CCLayerColorExt;
+			currentLayer?.AddImage(1, 1, "UI/closing-the-app-image.jpg", 610);
+
+			CloseApp?.Invoke();
         }
     }
 

@@ -587,6 +587,9 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.jpg">
       <Link>Assets\Content\Images\Hd\UI\Pause-screen-example-bush-untapped.jpg</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\closing-the-app-image.jpg">
+      <Link>Assets\Content\Images\Hd\UI\closing-the-app-image.jpg</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

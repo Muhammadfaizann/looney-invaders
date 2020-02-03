@@ -571,6 +571,7 @@ namespace LooneyInvaders.Layers
                 Settings.Instance.GameTipWeaponPickerShow = true;
                 Settings.Instance.GameTipBattlegroundPickerShow = true;
                 Settings.Instance.GameTipGamePlayShow = true;
+				Settings.Instance.GameTipQuitGameShow = true;
             }
             else Settings.Instance.NotificationsEnabled = false;
 

@@ -291,8 +291,11 @@ namespace LooneyInvaders.Droid
 
         private void CloseActivity()
         {
-            //ToDo: Bass - here's the place to save everything before definetely close the app
-            FinishAndRemoveTask();
+			//ToDo: Bass - here's the place to save everything before definetely close the app
+			//Quitting guide: https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
+			FinishAndRemoveTask();
+			FinishAffinity();
+			Process.KillProcess(Process.MyPid());
         }
 
         private Task<bool> UsernameGUIDInsertHandler(string guid)
