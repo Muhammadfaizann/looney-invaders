@@ -1843,8 +1843,7 @@ namespace LooneyInvaders.Layers
             _gamePauseFriendlyCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
             _gamePauseFriendlyCheckMark.OnClick += gamePauseFriendlyCheckMark_OnClick;
             _gamePauseFriendlyCheckMark.ButtonType = ButtonType.CheckMark;
-            _gamePauseFriendlyCheckMark.State = Settings.Instance.GamePauseFriendly ? 1 : 2;
-            _gamePauseFriendlyCheckMark.SetStateImages();
+            _gamePauseFriendlyCheckMark.SetStateImages(Settings.Instance.GamePauseFriendly ? 1 : 2);
 
             CreateBtnBackAndSettings();
             ChangeAvailabilityBtnBackAndSettings(false);

@@ -10,7 +10,7 @@ namespace LooneyInvaders.Classes
         public string ImageNameTapped2 { get; set; }
         public string ImageNameUntapped2 { get; set; }
 
-        public int State { get; set; }
+        public int State { get; protected set; }
 
         public CCSpriteTwoStateButton(string imageNameUntapped1, string imageNameTapped1, string imageNameUntapped2, string imageNameTapped2) : base(imageNameUntapped1, imageNameTapped1)
         {
@@ -26,8 +26,13 @@ namespace LooneyInvaders.Classes
             State = State == 1 ? 2 : 1;
         }
 
-        public void SetStateImages(bool refreshImage = false)
+        public void SetStateImages(int? state = null)
         {
+			if (state != null && (state.Value == 1 || state.Value == 2))
+			{
+                State = state.Value;
+			}
+
             if (State == 1)
             {
                 ImageNameUntapped = ImageNameUntapped1;

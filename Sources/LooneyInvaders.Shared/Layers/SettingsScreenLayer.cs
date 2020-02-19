@@ -311,8 +311,7 @@ namespace LooneyInvaders.Layers
         {
             var settings = Settings.Instance;
 
-            _btnMusicState.State = settings.MusicEnabled ? 1 : 2;
-            _btnMusicState.SetStateImages();
+            _btnMusicState.SetStateImages(settings.MusicEnabled ? 1 : 2);
 
             if (settings.MusicEnabled)
             {
@@ -327,22 +326,14 @@ namespace LooneyInvaders.Layers
 
             _imgMusicVolume.BlendFunc = GameEnvironment.BlendFuncDefault;
 
-            _btnSoundState.State = settings.SoundEnabled ? 1 : 2;
-            _btnSoundState.SetStateImages();
-
-            _btnVoiceOvers.State = settings.VoiceoversEnabled ? 1 : 2;
-            _btnVoiceOvers.SetStateImages();
-
-            _btnSwearing.State = settings.SwearingEnabled ? 1 : 2;
-            _btnSwearing.SetStateImages();
-
-            _btnControlType.State = settings.ControlType == ControlType.Gyroscope ? 1 : 2;
-            _btnControlType.SetStateImages();
+            _btnSoundState.SetStateImages(settings.SoundEnabled ? 1 : 2);
+            _btnVoiceOvers.SetStateImages(settings.VoiceoversEnabled ? 1 : 2);
+            _btnSwearing.SetStateImages(settings.SwearingEnabled ? 1 : 2);
+            _btnControlType.SetStateImages(settings.ControlType == ControlType.Gyroscope ? 1 : 2);
 
             if (_btnHandeness != null)
             {
-                _btnHandeness.State = settings.RightHanded ? 1 : 2;
-                _btnHandeness.SetStateImages();
+                _btnHandeness.SetStateImages(settings.RightHanded ? 1 : 2);
             }
 
             if (settings.SensitivityLevel == 0) ChangeSpriteImage(_imgSenseLevel, "UI/Settings-loudness-indicator-level0.png");
@@ -361,26 +352,18 @@ namespace LooneyInvaders.Layers
 
             _imgSoundVolume.BlendFunc = GameEnvironment.BlendFuncDefault;
 
-            _btnMusicStyle.State = settings.MusicStyle == MusicStyle.Instrumental ? 1 : 2;
-            _btnMusicStyle.SetStateImages();
-
-            _btnVibrationState.State = settings.Vibration ? 1 : 2;
-            _btnVibrationState.SetStateImages();
-
-            _btnBattleGroundStyle.State = settings.BattlegroundStyle == BattlegroundStyle.Realistic ? 1 : 2;
-            _btnBattleGroundStyle.SetStateImages();
-
-            _btnNotifications.State = settings.NotificationsEnabled ? 1 : 2;
-            _btnNotifications.SetStateImages();
+            _btnMusicStyle.SetStateImages(settings.MusicStyle == MusicStyle.Instrumental ? 1 : 2);
+            _btnVibrationState.SetStateImages(settings.Vibration ? 1 : 2);
+            _btnBattleGroundStyle.SetStateImages(settings.BattlegroundStyle == BattlegroundStyle.Realistic ? 1 : 2);
+            _btnNotifications.SetStateImages(settings.NotificationsEnabled ? 1 : 2);
 
             var notificationsAllowed = new NotificationAllowedService();
             Settings.Instance.IsPushNotificationEnabled = notificationsAllowed.IsNotificationsAllowed();
 
-            _btnPushNotifications.State = settings.IsPushNotificationEnabled ? 1 : 2;
-            _btnPushNotifications.SetStateImages();
+            _btnPushNotifications.SetStateImages(settings.IsPushNotificationEnabled ? 1 : 2);
 
-            _btnAdvertisements.State = settings.Advertisements ? 1 : 2;
-            _btnAdvertisements.SetStateImages();
+            _btnAdvertisements.SetStateImages(settings.Advertisements ? 1 : 2);
+
             if (Settings.Instance.Advertisements == false) _btnAdvertisements.Enabled = false;
         }
 
@@ -738,10 +721,11 @@ namespace LooneyInvaders.Layers
 
         private void PurchaseManager_OnPurchaseFinished(object sender, EventArgs e)
         {
-            _btnAdvertisements.State = Settings.Instance.Advertisements ? 1 : 2;
+            _btnAdvertisements.SetStateImages(Settings.Instance.Advertisements ? 1 : 2);
+
             if (Settings.Instance.Advertisements == false)
                 _btnAdvertisements.Enabled = false;
-            _btnAdvertisements.SetStateImages();
+
             Enabled = true;
         }
 
