@@ -62,13 +62,13 @@ namespace LooneyInvaders.Layers
             if (Player.Instance.GetSavedCountries(Battlegrounds.Russia) > 0)
             {
                 AddImage(181, 95, "UI/My-stats-&-rewards-reward-unlocked.png");
-                _btnSend = AddButton(185, 42, "UI/check-button-untapped.png", "UI/check-button-tapped.png");
+                _btnSend = AddButton(185, 42, "UI/check-button-untapped_old.png", "UI/check-button-tapped_old.png");
                 _btnSend.OnClick += BtnSend_OnClick;
             }
             else
             {
                 AddImage(181, 95, "UI/My-stats-&-rewards-reward-locked.png");
-                _btnSend = AddButton(185, 42, "UI/check-button-tapped.png", "UI/check-button-untapped.png");
+                _btnSend = AddButton(185, 42, "UI/check-button-tapped_old.png", "UI/check-button-untapped_old.png");
                 _btnSend.ButtonType = ButtonType.CannotTap;
             }
 
