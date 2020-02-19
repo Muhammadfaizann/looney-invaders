@@ -178,14 +178,12 @@ namespace LooneyInvaders.Layers
             AddImage(790, 410, "UI/Main-screen-leaderboard-type-text.png");
 
             _btnScoreboardRegular = AddTwoStateButton(790, 355, "UI/Main-screen-regular-button-untapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-tapped.png", "UI/Main-screen-regular-button-untapped.png");
-            _btnScoreboardRegular.State = 1;
-            _btnScoreboardRegular.SetStateImages();
+            _btnScoreboardRegular.SetStateImages(1);
             _btnScoreboardRegular.OnClick -= BtnScoreboardRegular_OnClick;
             _btnScoreboardRegular.OnClick += BtnScoreboardRegular_OnClick;
 
             _btnScoreboardPro = AddTwoStateButton(975, 355, "UI/Main-screen-pro-button-untapped.png", "UI/Main-screen-pro-button-tapped.png", "UI/Main-screen-pro-button-tapped.png", "UI/Main-screen-pro-button-untapped.png");
-            _btnScoreboardPro.State = 2;
-            _btnScoreboardPro.SetStateImages();
+            _btnScoreboardPro.SetStateImages(2);
             _btnScoreboardPro.OnClick -= BtnScoreboardPro_OnClick;
             _btnScoreboardPro.OnClick += BtnScoreboardPro_OnClick;
 

@@ -43,12 +43,14 @@ namespace LooneyInvaders.Layers
             var btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 485, ButtonType.Forward);
             btnForward.OnClick += BtnForward_OnClick;
 
-            _btnDateFormat = AddTwoStateButton(375, 480, "UI/My-stats-&-rewards-page1-week-button-untapped.png", "UI/My-stats-&-rewards-page1-week-button-tapped.png", "UI/My-stats-&-rewards-page1-month-button-untapped.png", "UI/My-stats-&-rewards-page1-month-button-tapped.png", 485);
+            _btnDateFormat = AddTwoStateButton(375, 480, "UI/My-stats-&-rewards-page1-week-button-tapped.png", "UI/My-stats-&-rewards-page1-week-button-untapped.png", "UI/My-stats-&-rewards-page1-month-button-tapped.png", "UI/My-stats-&-rewards-page1-month-button-untapped.png", 485);
             _btnDateFormat.ButtonType = ButtonType.OnOff;
+            _btnDateFormat.SetStateImages(2);
             _btnDateFormat.OnClick += OnBtnDateFormatClicked;
 
-            _btnGameType = AddTwoStateButton(540, 480, "UI/My-stats-&-rewards-page1-regular-button-untapped.png", "UI/My-stats-&-rewards-page1-regular-button-tapped.png", "UI/My-stats-&-rewards-page1-pro-button-untapped.png", "UI/My-stats-&-rewards-page1-pro-button-tapped.png", 485);
+            _btnGameType = AddTwoStateButton(540, 480, "UI/My-stats-&-rewards-page1-regular-button-tapped.png", "UI/My-stats-&-rewards-page1-regular-button-untapped.png", "UI/My-stats-&-rewards-page1-pro-button-tapped.png", "UI/My-stats-&-rewards-page1-pro-button-untapped.png", 485);
             _btnGameType.ButtonType = ButtonType.OnOff;
+            _btnGameType.SetStateImages(2);
             _btnGameType.OnClick += OnBtnGameTypeClicked;
 
             AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png", 485);
