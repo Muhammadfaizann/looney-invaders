@@ -215,13 +215,9 @@ namespace LooneyInvaders.Layers
             var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += mainMenu_OnClick;
 
-            var revenge = Player.Instance.IsProLevelSelected
-                ? _getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png")
-                : _getRevengeNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-
+            var revenge = _getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             revenge.ButtonType = ButtonType.Rewind;
             revenge.OnClick += revenge_OnClick;
-
 
             _getRevengeNode.Opacity = 0;
             foreach (var child in _getRevengeNode.Children)
@@ -576,8 +572,8 @@ namespace LooneyInvaders.Layers
             //credits
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
-            _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-            //btnContinue = scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
+            //_btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+            _btnContinue = _scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             _btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
             _btnContinue.OnClick -= BtnContinue_OnClick;
             _btnContinue.OnClick += BtnContinue_OnClick;
