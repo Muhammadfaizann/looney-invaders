@@ -48,7 +48,7 @@ namespace LooneyInvaders.Layers
                 AddImage(260, 95, "UI/My-stats-&-rewards-reward-unlocked.png");
                 _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
 
-                _btnSend = AddButton(185, 42, "UI/check-button-untapped.png", "UI/check-button-tapped.png");
+                _btnSend = AddButton(185, 42, "UI/check-button-untapped_old.png", "UI/check-button-tapped_old.png");
                 _btnSend.OnClick += BtnSend_OnClick;
 
                 _imgOffline = AddImage(300, 230, "UI/My-stats-&-rewards-no-internet-connection-notification.png");
@@ -58,7 +58,7 @@ namespace LooneyInvaders.Layers
             {
                 _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");
 
-                _btnSend = AddButton(185, 42, "UI/check-button-tapped.png", "UI/check-button-tapped.png");
+                _btnSend = AddButton(185, 42, "UI/check-button-tapped_old.png", "UI/check-button-tapped_old.png");
                 _btnSend.ButtonType = ButtonType.CannotTap;
 
                 AddImage(260, 95, "UI/My-stats-&-rewards-reward-locked.png");

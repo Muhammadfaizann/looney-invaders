@@ -590,6 +590,12 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\closing-the-app-image.jpg">
       <Link>Assets\Content\Images\Hd\UI\closing-the-app-image.jpg</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\check-button-tapped_old.png">
+      <Link>Assets\Content\Images\Hd\UI\check-button-tapped_old.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\check-button-untapped_old.png">
+      <Link>Assets\Content\Images\Hd\UI\check-button-untapped_old.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
