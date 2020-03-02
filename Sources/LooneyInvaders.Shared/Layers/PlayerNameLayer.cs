@@ -14,7 +14,28 @@ namespace LooneyInvaders.Layers
 
         //int _activePage = 1;
 
+        private bool isButtonDisable;
         private string _strInput;
+        private string StrInput
+        {
+            get => _strInput;
+            set
+            {
+                _strInput = value;
+
+                if (_strInput.Length >= 3)
+                {
+                    if(isButtonDisable)
+                        EnableBtn(_btnForward);
+                }
+                else
+                {
+                    isButtonDisable = true;
+                    DisableBtn(_btnForward);
+                }
+            }
+        }
+
         private readonly CCLabel _lblInputLabel;
         private readonly CCLabel _lblInput;
         private readonly CCLabel _lblCursor;
@@ -43,12 +64,13 @@ namespace LooneyInvaders.Layers
             _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_untapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
             _btnForward.OnClick += BtnForward_OnClick;
             _btnForward.ButtonType = ButtonType.Silent;
+            
 
-            _strInput = Player.Instance.Name;
+            StrInput = Player.Instance.Name;
 
             _lblInputLabel = AddLabelCentered(1136 / 2, 550, "Please enter player name below", "Fonts/AktivGroteskBold", 14);
 
-            _lblInput = AddLabelCentered(1136 / 2, 500, _strInput, "Fonts/AktivGroteskBold", 16);
+            _lblInput = AddLabelCentered(1136 / 2, 500, StrInput, "Fonts/AktivGroteskBold", 16);
             _lblInput.Scale = 2;
             _lblInput.ZOrder = 1000;
 
@@ -224,7 +246,7 @@ namespace LooneyInvaders.Layers
         {
             _tick++;
 
-            _lblCursor.Position = _strInput.Length > 0
+            _lblCursor.Position = StrInput.Length > 0
                 ? new CCPoint(_lblInput.BoundingBoxTransformedToWorld.MaxX + 5, 500)
                 : new CCPoint(568, 500);
 
@@ -236,11 +258,11 @@ namespace LooneyInvaders.Layers
 
         private void btnSlovo_OnClick(object sender, EventArgs e)
         {
-            if (_strInput.Length < 15)
+            if (StrInput.Length < 15)
             {
-                _strInput = _strInput + ((CCSpriteButton)sender).Slovo;
-                _lblInput.Text = _strInput;
-                if (_strInput.Length == 1 && _btnShift.State != 1)
+                StrInput = StrInput + ((CCSpriteButton)sender).Slovo;
+                _lblInput.Text = StrInput;
+                if (StrInput.Length == 1 && _btnShift.State != 1)
                 {
                     btnShift_OnClick(sender, e);
                 }
@@ -253,18 +275,17 @@ namespace LooneyInvaders.Layers
 
         private void btnBackSpace_OnClick(object sender, EventArgs e)
         {
-            if (_strInput.Length > 0)
+            if (!String.IsNullOrWhiteSpace(StrInput))
             {
-                _strInput = _strInput.Substring(0, _strInput.Length - 1);
-                _lblInput.Text = _strInput;
-                if (_strInput.Length == 0 && _btnShift.State == 1)
+                StrInput = StrInput.Substring(0, StrInput.Length - 1);
+                _lblInput.Text = StrInput;
+                if (StrInput.Length == 0 && _btnShift.State == 1)
                 {
                     btnShift_OnClick(sender, e);
                 }
             }
             else
             {
-                _btnForward = AddButton(1136 - 245, 578, "Keyboard/Keyboard_save_name_button_tapped.png", "Keyboard/Keyboard_save_name_button_tapped.png");
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             }
         }
@@ -288,7 +309,8 @@ namespace LooneyInvaders.Layers
 
         private async void BtnForward_OnClick(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(_strInput))
+            var inputName = StrInput;
+            if (String.IsNullOrWhiteSpace(inputName))
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
@@ -296,7 +318,7 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            if (_strInput.Length < 3 || _strInput.Length > 0 && !char.IsLetter(_strInput[0]))
+            if (inputName.Length < 3 || inputName.Length > 0 && !char.IsLetter(inputName[0]))
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
@@ -310,7 +332,7 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            if (!UserManager.CheckIsUsernameFree(_strInput))
+            if (!UserManager.CheckIsUsernameFree(inputName))
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name already taken, please try another one";
@@ -318,7 +340,7 @@ namespace LooneyInvaders.Layers
             }
 
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
-            UserManager.ChangeUsername(_strInput);
+            UserManager.ChangeUsername(inputName);
             _lblInputLabel.Text = "Player name changed";
 
             LeaderboardManager.BestScoreProScore = 0;

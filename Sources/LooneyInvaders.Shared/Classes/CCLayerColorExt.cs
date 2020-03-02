@@ -1024,5 +1024,17 @@ namespace LooneyInvaders.Classes
         {
             _transitionImage.RemoveFromParent();
         }
+
+        public void DisableBtn(CCSpriteButton button)
+        {
+            button.Texture = new CCTexture2D(button.ImageNameTapped);
+            button.Enabled = false;
+        }
+
+        public void EnableBtn(CCSpriteButton button)
+        {
+            button.Texture = new CCTexture2D(button.ImageNameUntapped);
+            button.Enabled = true;
+        }
     }
 }
