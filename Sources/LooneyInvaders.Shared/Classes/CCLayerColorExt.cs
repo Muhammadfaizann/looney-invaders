@@ -443,8 +443,6 @@ namespace LooneyInvaders.Classes
                             if (!button1.Enabled)
                                 continue;
 
-                            CCAudioEngine.SharedEngine.StopAllEffects();
-
                             switch (button1.ButtonType)
                             {
                                 case ButtonType.Back:
