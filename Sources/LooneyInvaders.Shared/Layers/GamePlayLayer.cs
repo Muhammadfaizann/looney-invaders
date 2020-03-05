@@ -97,7 +97,9 @@ namespace LooneyInvaders.Layers
 
         private readonly Random _random;
 
-        public string SoundCannonShoot;
+        private string _instrumentalCannonShootSound;
+        private string _beatboxCannonShootSound;
+        private string _currentCannonShootSound;
         public string VoiceEnemyHit;
         public string VoicePlayerHit;
         public string VoiceGameOver;
@@ -515,8 +517,8 @@ namespace LooneyInvaders.Layers
                     _playerSpeed = 30;
                     _reloadTime = 2f;
                     _smokeOffsetY = -40;
-                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
+                    _beatboxCannonShootSound = "Sounds/cannon shot standard cannon (23).wav";
+                    _instrumentalCannonShootSound = "Sounds/Standard cannon (canon cal 3-3).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/GunRecoil.plist");
                     SsRecoilKeyPrefix = "standard_gun_recoil_image_";
@@ -548,8 +550,8 @@ namespace LooneyInvaders.Layers
                     _playerSpeed = 45;
                     _reloadTime = 3f;
                     _smokeOffsetY = -60;
-                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
+                    _beatboxCannonShootSound = "Sounds/cannon shot compact sprayer (23).wav";
+                    _instrumentalCannonShootSound = "Sounds/Compact sprayer (canon cal 3-3).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/CompactSprayerRecoil.plist");
                     SsRecoilKeyPrefix = "Compact_sprayer_recoil_animation_image_";
@@ -586,8 +588,8 @@ namespace LooneyInvaders.Layers
                     _playerSpeed = 20;
                     _reloadTime = 1f;
                     _smokeOffsetY = -15;
-                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
-                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
+                    _beatboxCannonShootSound = "Sounds/cannon shot black bazooka (23).wav";
+                    _instrumentalCannonShootSound = "Sounds/Black bazooka (canon cal 3-3).wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/BlackBazookaRecoil.plist");
                     SsRecoilKeyPrefix = "Black _bazooka_recoil_animation_image_";
@@ -625,8 +627,8 @@ namespace LooneyInvaders.Layers
                     _playerSpeed = 20;
                     _reloadTime = 2f;
                     _smokeOffsetY = -15;
-                    if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
-                    else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
+                    _beatboxCannonShootSound = "Sounds/85 - Hybrid Laser 2.wav";
+                    _instrumentalCannonShootSound = "Sounds/Hybrid Canon Shoot Combo.wav";
 
                     SsRecoil = new CCSpriteSheet(GameEnvironment.ImageDirectory + "Animations/HybridDefenderRecoil.plist");
                     SsRecoilKeyPrefix = "Hybrid_defender_recoil_animation_image_";
@@ -685,7 +687,7 @@ namespace LooneyInvaders.Layers
             }
 
 
-            CCAudioEngine.SharedEngine.PreloadEffect(SoundCannonShoot);
+            PreloadCannonSound();
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceEnemyHit);
             CCAudioEngine.SharedEngine.PreloadEffect(VoicePlayerHit);
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceGameOver);
@@ -1717,21 +1719,7 @@ namespace LooneyInvaders.Layers
         {
             BattlegroundImageName = Battleground.GetBattlegroundImageName(SelectedBattleground, Settings.Instance.BattlegroundStyle);
             SetBackground(BattlegroundImageName);
-
-            //ako se promjenio instrumental/beatbox
-            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Standard cannon (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot standard cannon (23).wav";
-
-            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Black bazooka (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot black bazooka (23).wav";
-
-            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Hybrid Canon Shoot Combo.wav";
-            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/85 - Hybrid Laser 2.wav";
-
-            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental) SoundCannonShoot = "Sounds/Compact sprayer (canon cal 3-3).wav";
-            else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox) SoundCannonShoot = "Sounds/cannon shot compact sprayer (23).wav";
-
-            CCAudioEngine.SharedEngine.PreloadEffect(SoundCannonShoot);
+            PreloadCannonSound();
             SetUpSteering(true);
 
             //Schedule(UpdateAll);
@@ -2001,7 +1989,7 @@ namespace LooneyInvaders.Layers
                 _ammos.RemoveAt(_ammos.Count - 1);
                 _bulletsFired++;
                 _gunCoolness = _gunCooloff;
-                CCAudioEngine.SharedEngine.PlayEffect(SoundCannonShoot);
+                CCAudioEngine.SharedEngine.PlayEffect(_currentCannonShootSound);
                 if (_ammos.Count == 0)
                 {
                     _reloading.Visible = true;
@@ -4536,6 +4524,16 @@ namespace LooneyInvaders.Layers
             }
 
             AddEventListener(_touchListener, this);
+        }
+
+        private void PreloadCannonSound()
+        {
+            if (Settings.Instance.MusicStyle == MusicStyle.Instrumental)
+                _currentCannonShootSound = _instrumentalCannonShootSound;
+            else
+                _currentCannonShootSound = _beatboxCannonShootSound;
+
+            CCAudioEngine.SharedEngine.PreloadEffect(_currentCannonShootSound);
         }
     }
 }

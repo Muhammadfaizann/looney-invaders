@@ -893,7 +893,7 @@ namespace LooneyInvaders.Layers
             {
                 _steeringTestLayer.StopAllActions();
                 _pg3.RemoveChild(_steeringTestLayer);
-                GameEnvironment.PlayMusic(Music.MainMenu, true);
+                //GameEnvironment.PlayMusic(Music.MainMenu, true);
 
                 Unschedule(UpdateSteeringSpeedIndicator);
             }
