@@ -16,6 +16,7 @@
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5373308786713201~4768370178" />
 	</application>
 	<uses-permission android:name="com.android.vending.BILLING" />
+	<uses-permission android:name="android.permission.REORDER_TASKS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
