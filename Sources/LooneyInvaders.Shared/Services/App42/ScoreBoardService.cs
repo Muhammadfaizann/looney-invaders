@@ -220,7 +220,14 @@ namespace LooneyInvaders.App42
                 ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
             if (game == null)
             {
-                game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, gameName);
+                try
+                {
+                    game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, gameName);
+                }
+				catch (Exception _ex)
+				{
+                    LastException = _ex;
+                }
             }
             try
             {
