@@ -8,5 +8,12 @@ namespace LooneyInvaders.Model
         {
             return CrossConnectivity.Current.IsConnected;
         }
+
+        public static bool IsInternetConnectionAvailable(int millisecondsToWaitBeforeCheck)
+        {   //another manner with delay helps avoid extremal connection break
+            System.Threading.Thread.Sleep(millisecondsToWaitBeforeCheck);
+
+            return CrossConnectivity.Current.IsConnected;
+        }
     }
 }

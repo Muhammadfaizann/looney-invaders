@@ -25,7 +25,7 @@ using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using Debug = System.Diagnostics.Debug;
-using Javax.Microedition.Khronos.Egl;
+//using Javax.Microedition.Khronos.Egl;
 
 namespace LooneyInvaders.Droid
 {
@@ -43,7 +43,7 @@ namespace LooneyInvaders.Droid
         Icon = "@drawable/icon",
         Theme = "@android:style/Theme.Holo.NoActionBar.Fullscreen",
         AlwaysRetainTaskState = true,
-        LaunchMode = LaunchMode.SingleTop,
+        LaunchMode = LaunchMode.SingleTop, 
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden,
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
@@ -261,6 +261,52 @@ namespace LooneyInvaders.Droid
 
         // Storage Permissions
 
+        protected override void OnPostResume()
+        {
+            base.OnPostResume();
+
+            AdBanner?.Resume();
+            GameDelegate.LoadGame(null, null);
+
+            var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
+            _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
+            var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
+            _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            if (GameDelegate.Layer is Layers.GamePlayLayer)
+            {
+                ActivityManager activityManager = ApplicationContext.GetSystemService(Context.ActivityService) as ActivityManager;
+
+                activityManager.MoveTaskToFront(TaskId, 0);
+            }
+            else
+            {
+                AdBanner?.Pause();
+                GameDelegate.StopGame();
+
+                _sensorManager.UnregisterListener(this);
+
+                if (!_isAdsShoving)
+                    Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
+                _isAdsShoving = false;
+
+                if (Settings.IsFromGameScreen)
+                {
+                    NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
+                }
+            }
+        }
+
+        public override void OnBackPressed()
+        {
+            GameDelegate.FireBackButtonPressed();
+        }
+
         public override void OnTrimMemory([GeneratedEnum] TrimMemory level)
         {
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
@@ -269,6 +315,40 @@ namespace LooneyInvaders.Droid
                 Java.Lang.JavaSystem.Gc();
             }
             base.OnTrimMemory(level);
+        }
+
+		public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
+		{
+			if (((keyCode == Keycode.Home || keyCode == Keycode.MoveHome) &&
+				 GameDelegate.Layer is Layers.GamePlayLayer)
+                || (keyCode == Keycode.Back &&
+					!(GameDelegate.Layer is Layers.MainScreenLayer)))
+			{
+                return true;
+			}
+			return base.OnKeyDown(keyCode, e);
+		}
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            (_svc as PurchaseService)?.HandleActivityResult(requestCode, resultCode, data);
+        }
+
+        protected override void OnDestroy()
+        {
+            if (_svc != null)
+            {
+                _svc.Dispose();
+                _svc = null;
+            }
+
+            if (GameView != null)
+            {
+                GameView.ViewCreated -= GameDelegate.LoadGame;
+            }
+            Java.Lang.Thread.DefaultUncaughtExceptionHandler = null;
+
+            base.OnDestroy();
         }
 
         //In-Game Purchases
@@ -510,38 +590,6 @@ namespace LooneyInvaders.Droid
 
         }
 
-        protected override void OnPostResume()
-        {
-            base.OnPostResume();
-
-            AdBanner?.Resume();
-            GameDelegate.LoadGame(null, null);
-
-            var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
-            _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
-            var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
-            _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-
-            AdBanner?.Pause();
-            GameDelegate.StopGame();
-
-            _sensorManager.UnregisterListener(this);
-
-            if (!_isAdsShoving)
-                Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
-            _isAdsShoving = false;
-
-            if (Settings.IsFromGameScreen)
-            {
-                NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
-            }
-        }
-
         public void ShowBannerTop()
         {
             RunOnUiThread(ShowBannerTopUiThread);
@@ -633,28 +681,6 @@ namespace LooneyInvaders.Droid
             _intAd.LoadAd(requestbuilder.Build());
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            (_svc as PurchaseService)?.HandleActivityResult(requestCode, resultCode, data);
-        }
-
-        protected override void OnDestroy()
-        {
-            if (_svc != null)
-            {
-                _svc.Dispose();
-                _svc = null;
-            }
-
-            if (GameView != null)
-            {
-                GameView.ViewCreated -= GameDelegate.LoadGame;
-            }
-            Java.Lang.Thread.DefaultUncaughtExceptionHandler = null;
-
-            base.OnDestroy();
-        }
-
         private async Task MakePurchase(IProduct product)
         {
             try
@@ -693,11 +719,6 @@ namespace LooneyInvaders.Droid
         private async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
         {
             await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
-        }
-
-        public override void OnBackPressed()
-        {
-            GameDelegate.FireBackButtonPressed();
         }
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
