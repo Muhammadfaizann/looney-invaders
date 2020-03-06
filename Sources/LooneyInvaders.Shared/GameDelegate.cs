@@ -53,6 +53,7 @@ namespace LooneyInvaders.Shared
                 lock(toSetLayer)
                 {
                     _layer = value;
+                    IsCartoonFadeInOnLayer = ((_layer as CCLayerColorExt)?.IsCartoonFadeIn).GetValueOrDefault();
                     ////
                     TrackTime("|setLayer");
                     ////
@@ -61,6 +62,7 @@ namespace LooneyInvaders.Shared
                 }
             }
         }
+        public static bool IsCartoonFadeInOnLayer;
 
         public static void TrackTime(string extraInfo = "")
         {
@@ -197,10 +199,10 @@ namespace LooneyInvaders.Shared
 
         public static void QuitGame()
         {
-			var currentLayer = Layer as CCLayerColorExt;
-			currentLayer?.AddImage(1, 1, "UI/closing-the-app-image.jpg", 610);
+            var currentLayer = Layer as CCLayerColorExt;
+            currentLayer?.AddImage(1, 1, "UI/closing-the-app-image.jpg", 610);
 
-			CloseApp?.Invoke();
+            CloseApp?.Invoke();
         }
     }
 

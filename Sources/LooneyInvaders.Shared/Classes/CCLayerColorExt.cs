@@ -32,32 +32,7 @@ namespace LooneyInvaders.Classes
             set => _position = value;
         }
 
-        /*public override CCGameView GameView
-        {
-            get => base.GameView ?? Shared.GameDelegate.GameView;
-            protected set => base.GameView = value;
-        }*/
-
-        //public override CCScene Scene => base.Scene ?? Shared.GameDelegate.Scene;
-
-        /*protected virtual T HoldValue<T>(T backingField, T newValue, T reserveValue = default(T))
-            where T : class
-        {
-            T value = null;
-            if (!ReferenceEquals(backingField, newValue))
-            {
-                if (newValue == null)
-                {
-                    Console.WriteLine($"|NULL|{nameof(HoldValue)}<{typeof(T).Name}> got null!");
-                }
-                value = newValue;
-            }
-            backingField = value ?? reserveValue;
-            return backingField;
-        }*/
-
-        public CCLayerColorExt()
-            : base(CCColor4B.Black)
+        public CCLayerColorExt() : base(CCColor4B.Black)
         {
             _position = new CCPoint(0, 1);
             Shared.GameDelegate.ClearOnBackButtonEvent();
@@ -949,8 +924,6 @@ namespace LooneyInvaders.Classes
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6);
         }
 
-
-
         public void ReplaceScene()
         {
             var newScene = new CCScene(GameView);
@@ -959,7 +932,6 @@ namespace LooneyInvaders.Classes
             if (Scene != null)
                 Director.ReplaceScene(newScene);
         }
-
 
         public override async void OnEnterTransitionDidFinish()
         {
@@ -1018,6 +990,8 @@ namespace LooneyInvaders.Classes
                 _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
                 //res = await statePostTask;
             }
+
+            IsCartoonFadeIn = Shared.GameDelegate.IsCartoonFadeInOnLayer;
         }
 
         public void RemoveTransitionImage()

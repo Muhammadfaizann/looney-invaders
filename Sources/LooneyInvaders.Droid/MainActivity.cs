@@ -25,7 +25,7 @@ using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using Debug = System.Diagnostics.Debug;
-//using Javax.Microedition.Khronos.Egl;
+using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 
 namespace LooneyInvaders.Droid
 {
@@ -83,6 +83,12 @@ namespace LooneyInvaders.Droid
             var res = notificationsAllowed.IsNotificationsAllowed();
             Settings.Instance.IsPushNotificationEnabled = res;
         }
+
+        public void CallInitOnApp42ServiceBuilder()
+        {
+            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
+        }
+
 
         #region -- Push notification --
 
@@ -219,11 +225,6 @@ namespace LooneyInvaders.Droid
             void TrackTime() { GameDelegate.TrackTime(); }
         }
 
-        public void CallInitOnApp42ServiceBuilder()
-        {
-            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
-        }
-
         /* private void toGetPermissionsForStorage()
          {
              if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int)Android.Content.PM.Permission.Granted &&
@@ -278,11 +279,14 @@ namespace LooneyInvaders.Droid
         {
             base.OnPause();
 
-            if (GameDelegate.Layer is Layers.GamePlayLayer)
+            if (GameDelegate.Layer is Layers.GamePlayLayer || GameDelegate.Layer is Layers.PauseScreenLayer)
             {
-                ActivityManager activityManager = ApplicationContext.GetSystemService(Context.ActivityService) as ActivityManager;
+                var layer = GameDelegate.Layer as CCLayerColorExt;
+                GameDelegate.IsCartoonFadeInOnLayer = layer.IsCartoonFadeIn;
+                layer.IsCartoonFadeIn = false;
 
-                activityManager.MoveTaskToFront(TaskId, 0);
+                ActivityManager activityManager = ApplicationContext.GetSystemService(ActivityService) as ActivityManager;
+                activityManager?.MoveTaskToFront(TaskId, 0);
             }
             else
             {
