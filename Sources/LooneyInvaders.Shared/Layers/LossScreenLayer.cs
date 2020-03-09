@@ -24,6 +24,7 @@ namespace LooneyInvaders.Layers
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
+        private bool _isYouAreDefPlayed;
 
         private readonly int _alienScore;
         private readonly int _alienWave;
@@ -167,6 +168,7 @@ namespace LooneyInvaders.Layers
                 Schedule(FadeYouAreDefeated);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
+                    _isYouAreDefPlayed = true;
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
@@ -234,7 +236,8 @@ namespace LooneyInvaders.Layers
             {
                 if (SelectedEnemy == Enemies.Aliens)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
+                    if(!_isYouAreDefPlayed)
+                        CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
                     //ScheduleOnce(CalloutRevenge, 2.5f);
                 }
                 else
@@ -685,7 +688,8 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-
+            CCAudioEngine.SharedEngine.StopAllEffects();
+            
             var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
