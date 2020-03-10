@@ -37,12 +37,11 @@ namespace LooneyInvaders.Classes
             _position = new CCPoint(0, 1);
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-
             var touchListener = new CCEventListenerTouchAllAtOnce();
-            touchListener.OnTouchesBegan = OnTouchesBegan;
-            touchListener.OnTouchesEnded = OnTouchesEnded;
-            touchListener.OnTouchesCancelled = OnTouchesCancelled;
-            touchListener.OnTouchesMoved = OnTouchesMoved;
+            touchListener.OnTouchesBegan = (list, @event) => ScheduleOnce((obj) => OnTouchesBegan(list, @event), 0f);
+            touchListener.OnTouchesEnded = (list, @event) => ScheduleOnce((obj) => OnTouchesEnded(list, @event), 0f);
+            touchListener.OnTouchesCancelled = (list, @event) => ScheduleOnce((obj) => OnTouchesCancelled(list, @event), 0f);
+            touchListener.OnTouchesMoved = (list, @event) => ScheduleOnce((obj) => OnTouchesMoved(list, @event), 0f);
             AddEventListener(touchListener, this);
         }
 
