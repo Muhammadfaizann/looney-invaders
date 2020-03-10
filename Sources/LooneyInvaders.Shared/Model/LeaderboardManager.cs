@@ -8,8 +8,14 @@ namespace LooneyInvaders.Model
 {
     public class LeaderboardManager
     {
-        private static Leaderboard _regularLeaderboard;
+        static LeaderboardManager()
+        {
+            ReloadNetworkConnectionManagerSubscribe();
+        }
 
+        private static bool _isRefreshing;
+
+        private static Leaderboard _regularLeaderboard;
         public static Leaderboard RegularLeaderboard => _regularLeaderboard ?? (_regularLeaderboard = new Leaderboard(LeaderboardType.Regular));
 
         private static Leaderboard _proLeaderboard;
@@ -23,10 +29,18 @@ namespace LooneyInvaders.Model
 
         public static event EventHandler OnLeaderboardsRefreshed;
 
+        private static void ReloadNetworkConnectionManagerSubscribe()
+        {
+            NetworkConnectionManager.ConnectionChanged -= FireOnLeaderboardsRefreshed;
+            NetworkConnectionManager.ConnectionChanged += FireOnLeaderboardsRefreshed;
+        }
+
         public static void ClearOnLeaderboardsRefreshedEvent()
         {
             OnLeaderboardsRefreshed = null;
+            ReloadNetworkConnectionManagerSubscribe();
         }
+
         public static double BestScoreRegularScore
         {
             get => CrossSettings.Current.GetValueOrDefault("BestScoreRegular_Score", Convert.ToDouble(0));
@@ -113,9 +127,6 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly;
         public static LeaderboardItem PlayerRankProAlltime;
 
-        private static bool _isRefreshing;
-
-
         public static async Task<bool> SubmitScoreRegularAsync(double score, double accuracy, double fastestTime)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
@@ -131,7 +142,7 @@ namespace LooneyInvaders.Model
 
             if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await Task.Run(() => SubmitScoreHandler(score, accuracy, fastestTime, -1)).ConfigureAwait(false);
+                await Task.Run(() => SubmitScoreHandler(score, accuracy, fastestTime, -1));
                 BestScoreRegularSubmitted = true;
                 return true;
             }
@@ -141,7 +152,9 @@ namespace LooneyInvaders.Model
         public static async Task<bool> SubmitScoreProAsync(double score, double levelsCompleted)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
+            {
                 return true;
+            }
 
             if (score > BestScoreProScore)
             {
@@ -192,7 +205,7 @@ namespace LooneyInvaders.Model
             _isRefreshing = false;
         }
 
-        internal static void FireOnLeaderboardsRefreshed()
+        internal static void FireOnLeaderboardsRefreshed(object sender = null, EventArgs eventArgs = null)
         {
             OnLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
         }
@@ -241,7 +254,5 @@ namespace LooneyInvaders.Model
 
             return Convert.ToDouble(scoreString + levelsCompletedString);
         }
-
-
     }
 }

@@ -130,6 +130,15 @@
     <BundleResource Include="..\Content\Images\Hd\UI\check-button-untapped_old.png">
       <Link>Content\Images\Hd\UI\check-button-untapped_old.png</Link>
     </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full1.png">
+      <Link>Content\Images\Hd\UI\looney_background_full1.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full2.png">
+      <Link>Content\Images\Hd\UI\looney_background_full2.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full3.png">
+      <Link>Content\Images\Hd\UI\looney_background_full3.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">
