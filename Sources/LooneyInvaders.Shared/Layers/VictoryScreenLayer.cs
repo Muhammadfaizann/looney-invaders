@@ -192,9 +192,7 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-
             var saved = false;
-
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:
@@ -297,13 +295,11 @@ namespace LooneyInvaders.Layers
                     SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
                     break;
-
             }
 
             AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
-
 
             _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
             if (_score > GamePlayLayer.BestScore)
@@ -313,7 +309,6 @@ namespace LooneyInvaders.Layers
                 GamePlayLayer.BestScoreTime = Time;
                 GamePlayLayer.BestScoreCountry = SelectedBattleground;
             }
-
 
             //submit score during shown victory image
             Player.Instance.Score += _score;
@@ -333,7 +328,6 @@ namespace LooneyInvaders.Layers
                     {
                         ScheduleOnce(ShowMultiplierAd, 1);
                     }
-
                 }
                 else
                 {
@@ -682,21 +676,6 @@ namespace LooneyInvaders.Layers
                 var mess = ex.Message;
             }
 
-            /*old screen
-            scoreNode.AddImage(650, 455, "UI/victory&social-share-global-ranking-all-text.png", 3);
-            scoreNode.AddImage(0, 153, "UI/victory-score-board-just-background.png", 2);
-            scoreNode.AddImage(0, 153, "UI/victory-score-board-just-text.png", 3);
-
-            scoreNode.AddImage(0, 70, "UI/victory-share-your-score-and-earn-credits-text.png", 3);
-
-            scoreNode.AddImageLabelRightAligned(466, 391, Time.ToString("0.00"), 57);
-            scoreNode.AddImage(466, 385, "UI/victory&social-share-score-numbers-(sec).png", 4);
-
-            scoreNode.AddImageLabelRightAligned(572, 318, Accuracy.ToString("0.00"), 57);
-            scoreNode.AddImage(570, 315, "UI/victory&social-share-score-numbers-(%).png", 4);
-            */
-
-
             //current score
             _scoreNode.AddImageLabelCentered(155, 432, _score.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
@@ -726,23 +705,12 @@ namespace LooneyInvaders.Layers
 
             //--------- Prabhjot ----------//
 
-            if (Player.Instance.IsProLevelSelected)
-            {
-                _btnContinue = _scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            }
-            else
-            {
-                _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
-            }
-
-            //btnContinue = scoreNode.AddButton(700, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            //btnContinue = scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
+            _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             _btnContinue.Visible = false;
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             _mainMenu.OnClick += mainMenu_OnClick;
-
 
             if (_isWeHaveScores)
             {
