@@ -596,6 +596,15 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\check-button-untapped_old.png">
       <Link>Assets\Content\Images\Hd\UI\check-button-untapped_old.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\looney_background_full1.png">
+      <Link>Assets\Content\Images\Hd\UI\looney_background_full1.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\looney_background_full2.png">
+      <Link>Assets\Content\Images\Hd\UI\looney_background_full2.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\looney_background_full3.png">
+      <Link>Assets\Content\Images\Hd\UI\looney_background_full3.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
