@@ -752,7 +752,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_sl);
 
 
-            Player.Instance.Credits += 5000;
+            Player.Instance.Credits += _alienWave * 1000;
             foreach (var spr in _creditsLabels)
             {
                 _scoreNode.RemoveChild(spr);
