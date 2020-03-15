@@ -222,7 +222,8 @@ namespace LooneyInvaders.Droid
         {
             base.OnPause();
 
-            if (GameDelegate.Layer is Layers.GamePlayLayer || GameDelegate.Layer is Layers.PauseScreenLayer)
+            if ((GameDelegate.Layer is Layers.GamePlayLayer || GameDelegate.Layer is Layers.PauseScreenLayer)
+                && IsScreenOn(GetSystemService(PowerService) as PowerManager))
             {
                 var layer = GameDelegate.Layer as CCLayerColorExt;
                 GameDelegate.IsCartoonFadeInOnLayer = layer.IsCartoonFadeIn;
@@ -247,6 +248,25 @@ namespace LooneyInvaders.Droid
                     NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
                 }
             }
+
+            bool IsScreenOn(PowerManager pm)
+            {
+                if (pm == null) {
+                    return true;
+                }
+
+                if (Build.VERSION.SdkInt > BuildVersionCodes.Kitkat)
+                {
+                    if (!pm.IsInteractive)
+                        return false;
+                }
+                else
+                {
+                    if (!pm.IsScreenOn)
+                        return false;
+                }
+                return true;
+            }
         }
 
         public override void OnBackPressed()
@@ -264,17 +284,17 @@ namespace LooneyInvaders.Droid
             base.OnTrimMemory(level);
         }
 
-		public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
-		{
-			if (((keyCode == Keycode.Home || keyCode == Keycode.MoveHome) &&
-				 GameDelegate.Layer is Layers.GamePlayLayer)
+        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if (((keyCode == Keycode.Home || keyCode == Keycode.MoveHome) &&
+                    GameDelegate.Layer is Layers.GamePlayLayer)
                 || (keyCode == Keycode.Back &&
-					!(GameDelegate.Layer is Layers.MainScreenLayer)))
-			{
+                    !(GameDelegate.Layer is Layers.MainScreenLayer)))
+            {
                 return true;
-			}
-			return base.OnKeyDown(keyCode, e);
-		}
+            }
+            return base.OnKeyDown(keyCode, e);
+        }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -333,8 +353,10 @@ namespace LooneyInvaders.Droid
 
         private void CloseActivity()
         {
-			//ToDo: Bass - here's the place to save everything before definetely close the app
-			//Quitting guide: https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
+            //ToDo: Bass - here's the place to save everything before definetely close the app
+            //Quitting guide: https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
+            Debug.WriteLine("quitting game");
+
 			FinishAndRemoveTask();
 			FinishAffinity();
 			Process.KillProcess(Process.MyPid());
