@@ -1,6 +1,6 @@
 ﻿using LooneyInvaders.Model;
 
-namespace LooneyInvaders.DeviceInfo
+namespace LooneyInvaders.Services.DeviceInfo
 {
     public interface IDeviceInfoService
     {

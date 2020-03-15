@@ -25,6 +25,7 @@ using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using Debug = System.Diagnostics.Debug;
+using ActivityCompat = Android.Support.V4.App.ActivityCompat;
 using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 
 namespace LooneyInvaders.Droid
@@ -48,8 +49,6 @@ namespace LooneyInvaders.Droid
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
     {
-        public static MainActivity Instance;
-
         public CCGameView GameView;
 
         public Action CheckGamePauseState;
@@ -69,36 +68,11 @@ namespace LooneyInvaders.Droid
         //GoogleApiClient _mGoogleApiClient;
         private SensorManager _sensorManager;
 
-        private void SetSessionInfo()
-        {
-            var count = Settings.Instance.GetSessionsCount();
-            Settings.Instance.SetSessionsCount(count + 1);
-            Settings.Instance.SetTodaySessionDuration(0, true);
-            Settings.Instance.IsAskForNotificationToday = false;
-        }
-
-        private void CheckNotificationPremissions()
-        {
-            var notificationsAllowed = new NotificationAllowedService();
-            var res = notificationsAllowed.IsNotificationsAllowed();
-            Settings.Instance.IsPushNotificationEnabled = res;
-        }
-
-        public void CallInitOnApp42ServiceBuilder()
-        {
-            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
-        }
-
-
-        #region -- Push notification --
-
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
             Push.CheckLaunchedFromNotification(this, intent);
         }
-
-        #endregion
 
         protected override void AttachBaseContext(Context @base)
         {
@@ -122,14 +96,15 @@ namespace LooneyInvaders.Droid
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
-            //toGetPermissionsForStorage();
             Tracer.Title = "LaunchingAppTime(ms)";
             TrackTime();
 
-            // ErrorReport crashReport = Crashes.GetLastSessionCrashReportAsync();
             base.OnCreate(savedInstanceState);
 
-            Instance = this;
+            GameDelegate.PermissionService = new Permissions.PermissionService(this);
+            GameDelegate.DeviceInfoService = new DeviceInfo.DeviceInfoService(this);
+            GameDelegate.OpenSettingsService = new PNS.OpenSettingsService(this);
+
             TrackTime();
             // remove navigation bar
             var decorView = Window.DecorView;
@@ -225,42 +200,10 @@ namespace LooneyInvaders.Droid
             void TrackTime() { GameDelegate.TrackTime(); }
         }
 
-        /* private void toGetPermissionsForStorage()
-         {
-             if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int)Android.Content.PM.Permission.Granted &&
-                 ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int)Android.Content.PM.Permission.Granted)
-             {
-                 // We have permission, go ahead and use the camera.
-             }
-             else
-             {
-                 // Camera permission is not granted. If necessary display rationale & request.
-                 if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
-                 {
-                     // Provide an additional rationale to the user if the permission was not granted
-                     // and the user would benefit from additional context for the use of the permission.
-                     // For example if the user has previously denied the permission.
-                     Console.WriteLine("Displaying camera permission rationale to provide additional context.");
-
-                     var requiredPermissions = new System.String[] { Manifest.Permission.ReadExternalStorage };
-                     Snackbar.Make(Layout,
-                                    Resource.String.permission_location_rationale,
-                                    Snackbar.LengthIndefinite)
-                             .SetAction(Resource.String.ok,
-                                        new Action<View>(delegate (View obj) {
-                                            ActivityCompat.RequestPermissions(this, requiredPermissions, REQUEST_LOCATION);
-                                        }
-                             )
-                     ).Show();
-                 }
-                 else
-                 {
-                     ActivityCompat.RequestPermissions(this, new System.String[] { Manifest.Permission.ReadExternalStorage }, REQUEST_LOCATION);
-                 }
-             }
-         }*/
-
-        // Storage Permissions
+        public void CallInitOnApp42ServiceBuilder()
+        {
+            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
+        }
 
         protected override void OnPostResume()
         {
@@ -353,6 +296,21 @@ namespace LooneyInvaders.Droid
             Java.Lang.Thread.DefaultUncaughtExceptionHandler = null;
 
             base.OnDestroy();
+        }
+
+        private void CheckNotificationPremissions()
+        {
+            var notificationsAllowed = new NotificationAllowedService();
+            var res = notificationsAllowed.IsNotificationsAllowed();
+            Settings.Instance.IsPushNotificationEnabled = res;
+        }
+
+        private void SetSessionInfo()
+        {
+            var count = Settings.Instance.GetSessionsCount();
+            Settings.Instance.SetSessionsCount(count + 1);
+            Settings.Instance.SetTodaySessionDuration(0, true);
+            Settings.Instance.IsAskForNotificationToday = false;
         }
 
         //In-Game Purchases
@@ -456,10 +414,7 @@ namespace LooneyInvaders.Droid
             pitch = (float)Math.Round(_pitch, 3);
         }
 
-        void ISensorEventListener.OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
-        {
-
-        }
+        void ISensorEventListener.OnAccuracyChanged(Sensor sensor, SensorStatus accuracy) { }
 
         private ScreenOrientation GetScreenOrientation()
         {
@@ -732,39 +687,37 @@ namespace LooneyInvaders.Droid
 
         private static Java.IO.File StoreScreenShot(Bitmap picture)
         {
-            var folder = Android.OS.Environment.ExternalStorageDirectory + Java.IO.File.Separator + "LooneyInvaders";
-            var extFileName = Android.OS.Environment.ExternalStorageDirectory +
-            Java.IO.File.Separator +
-            Guid.NewGuid() + ".jpeg";
+            var folder = $"{Android.OS.Environment.ExternalStorageDirectory}{Java.IO.File.Separator}LooneyInvaders";
+            var extFileName = $"{folder}{Java.IO.File.Separator}{Guid.NewGuid()}.jpeg";
             try
             {
                 if (!Directory.Exists(folder))
+                {
                     Directory.CreateDirectory(folder);
-
+                }
                 var file = new Java.IO.File(extFileName);
-
                 using (var fs = new FileStream(extFileName, FileMode.OpenOrCreate))
                 {
                     try
                     {
-                        picture.Compress(Bitmap.CompressFormat.Jpeg, 100, fs);
+                        picture.Compress(Bitmap.CompressFormat.Jpeg, 96, fs);
                     }
                     finally
                     {
                         fs.Flush();
                         fs.Close();
                     }
-                    return file;
                 }
+                return file;
             }
             catch (UnauthorizedAccessException ex)
             {
-                Console.WriteLine("ERROR: " + ex.Message);
+                Debug.WriteLine("ERROR: " + ex.Message);
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR: " + ex.Message);
+                Debug.WriteLine("ERROR: " + ex.Message);
                 return null;
             }
         }
@@ -780,14 +733,16 @@ namespace LooneyInvaders.Droid
                 if (file == null) {
                     return;
                 }
-                RunOnUiThread(() => ShareOnSocialNetwork(network, file));
+                ShareOnSocialNetwork(network, file);
             }
         }
 
-        public void ShareOnSocialNetwork(string network, Java.IO.File file)
+        public void ShareOnSocialNetwork<TFile>(string network, TFile file)
+            where TFile : Java.IO.File
         {
             try
             {
+                var store = Android.OS.Environment.ExternalStorageDirectory;
                 var uri = Android.Net.Uri.FromFile(file);
                 var i = new Intent(Intent.ActionSend);
 

@@ -1,11 +1,14 @@
 ﻿using LooneyInvaders.iOS.Services.DeviceInfo;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services.DeviceInfo;
 using UIKit;
 
 namespace LooneyInvaders.DeviceInfo
 {
     public class DeviceInfoService : IDeviceInfoService
     {
+        public DeviceInfoService() { }
+
         public DeviceInfoModel GetDeviceInfo()
         {
             var osVersion = $"{UIDevice.CurrentDevice.SystemName} {UIDevice.CurrentDevice.SystemVersion}";

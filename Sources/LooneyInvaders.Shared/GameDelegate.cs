@@ -34,6 +34,10 @@ namespace LooneyInvaders.Shared
             OnBackButton = null;
         }
 
+        public static Services.Permissions.IPermissionService PermissionService;
+        public static Services.DeviceInfo.IDeviceInfoService DeviceInfoService;
+        public static Services.PNS.IOpenSettingsService OpenSettingsService;
+
         public static bool UseAnimationClearing;
         public static (int? Width, int? Height) DesignSize;
 

@@ -7,6 +7,7 @@ using LooneyInvaders.Classes;
 using LooneyInvaders.DeviceInfo;
 using LooneyInvaders.Extensions;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services.DeviceInfo;
 
 namespace LooneyInvaders.Layers
 {
@@ -152,7 +153,7 @@ namespace LooneyInvaders.Layers
 
         private void GetBaseStatistics()
         {
-            _deviceInfoService = new DeviceInfoService();
+            _deviceInfoService = Shared.GameDelegate.DeviceInfoService ?? new DeviceInfoService();
             var deviceInfo = _deviceInfoService.GetDeviceInfo();
 
             //device model

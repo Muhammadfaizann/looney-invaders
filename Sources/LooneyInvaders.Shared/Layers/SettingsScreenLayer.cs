@@ -250,7 +250,7 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(Music.MainMenu);
 
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
-            _openSettingsService = new OpenSettingsService();
+            _openSettingsService = Shared.GameDelegate.OpenSettingsService ?? new OpenSettingsService();
 
             SetAdditionalBackBtn();
         }

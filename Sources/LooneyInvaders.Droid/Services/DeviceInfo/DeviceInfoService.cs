@@ -1,35 +1,43 @@
-﻿using System;
-using Android;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Telephony;
-using Android.Widget;
-using LooneyInvaders.Droid;
 using LooneyInvaders.Droid.Extensions;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services.DeviceInfo;
 using ActivityCompat = Android.Support.V4.App.ActivityCompat;
 using ContextCompat = Android.Support.V4.Content.ContextCompat;
+using MPermission = Android.Manifest.Permission;
 
 namespace LooneyInvaders.DeviceInfo
 {
     public class DeviceInfoService : IDeviceInfoService
     {
+        private readonly Activity activity;
+
+        public DeviceInfoService() { }
+
+        public DeviceInfoService(Activity activity)
+        {
+            this.activity = activity;
+        }
+
         public DeviceInfoModel GetDeviceInfo()
         {
             const string none = "-";
-            var androidID = Android.Provider.Settings.Secure.GetString(MainActivity.Instance.ApplicationContext.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
+            var androidID = Android.Provider.Settings.Secure.GetString(activity.ApplicationContext.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
 			var osVersion = "Android " + (Build.VERSION.Release ?? none);
             var manufacturer = Build.Manufacturer;
             var model = Build.Model;
 
-            var mTelephonyMgr = (TelephonyManager)MainActivity.Instance.ApplicationContext.GetSystemService(Android.Content.Context.TelephonyService);
+            var mTelephonyMgr = (TelephonyManager)activity.ApplicationContext.GetSystemService(Android.Content.Context.TelephonyService);
             var imei = (Build.VERSION.SdkInt <= BuildVersionCodes.LollipopMr1)
                 ? (mTelephonyMgr?.DeviceId ?? none)
-                : (ContextCompat.CheckSelfPermission(MainActivity.Instance, Manifest.Permission.ReadPhoneState) == Permission.Granted)
+                : (ContextCompat.CheckSelfPermission(activity, MPermission.ReadPhoneState) == Permission.Granted)
                     ? (Build.VERSION.SdkInt < BuildVersionCodes.O)
                         ? (mTelephonyMgr?.DeviceId ?? none)
                         : (mTelephonyMgr?.Imei ?? none)
-                    : none.WithAction(() => RequestPermission(Manifest.Permission.ReadPhoneState));
+                    : none.WithAction(() => ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, MPermission.ReadPhoneState.GetHashCode()));
 
             var deviceInfo = new DeviceInfoModel
             {
@@ -39,20 +47,6 @@ namespace LooneyInvaders.DeviceInfo
             };
 
             return deviceInfo;
-        }
-
-        private void RequestPermission(string permission)
-        {
-            var permissions = new string[]{ permission };
-            try
-            {
-                ActivityCompat.RequestPermissions(MainActivity.Instance, permissions, 1);
-            }
-            catch (Exception ex)
-            {
-                var mess = ex.Message;
-                Toast.MakeText(MainActivity.Instance, "Unknown error", ToastLength.Short);
-            }
         }
     }
 }

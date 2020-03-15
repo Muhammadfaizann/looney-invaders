@@ -100,6 +100,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCSpriteSheetExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CCDirectorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tracer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Permissions\IPermissionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
@@ -107,5 +108,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\PNS\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\App42\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\Permissions\" />
   </ItemGroup>
 </Project>

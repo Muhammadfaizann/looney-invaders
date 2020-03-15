@@ -200,6 +200,7 @@ namespace LooneyInvaders.Layers
             LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce(RefreshLeaderboard, 0.1f);
             ScheduleOnce(FireRefreshLeaderboard, 0.02f);
 
+            _permissionService = Shared.GameDelegate.PermissionService;
             CheckForNotification();
         }
 
@@ -236,6 +237,8 @@ namespace LooneyInvaders.Layers
 
         private async void FireRefreshLeaderboard(float delta)
         {
+            _permissionService?.GetPermissions();
+
             await LeaderboardManager.RefreshLeaderboards();
         }
 

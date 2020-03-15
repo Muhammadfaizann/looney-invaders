@@ -349,6 +349,7 @@
     <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\GenericExtension.cs" />
     <Compile Include="Helpers\EglHelper.cs" />
+    <Compile Include="Services\Permissions\PermissionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -617,6 +618,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
+    <Folder Include="Services\Permissions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
