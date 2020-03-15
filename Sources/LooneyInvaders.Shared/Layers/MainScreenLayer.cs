@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
@@ -430,7 +429,6 @@ namespace LooneyInvaders.Layers
             {
                 var imageIndex = _leaderboardBackground.Images.Count - --_leaderboardBackground.Count;
                 var image = AddImage(408, 100, _leaderboardBackground.Images[imageIndex]);
-                Console.WriteLine($"ANIMATION||Index={imageIndex}");
                 RemoveChild(_imgScoresBackground);
                 _imgScoresBackground = image;
             }
@@ -476,13 +474,13 @@ namespace LooneyInvaders.Layers
             {
                 _btnRanking = AddButton(0, 355,
                     _imgOffline.Visible ? "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png",
-					"UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
+                    "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
             }
             else
             {
                 _btnRanking = AddButton(0, 355,
                     _imgOffline.Visible ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
-					"UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
+                    "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
             }
 
             foreach (var s in _leaderboardSprites)
