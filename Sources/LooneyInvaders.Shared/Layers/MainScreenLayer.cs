@@ -12,7 +12,7 @@ namespace LooneyInvaders.Layers
     public class MainScreenLayer : CCLayerColorExt
     {
         private PushNotificationService _pushNs;
-        // TODO: neki enum za ovo u modelu
+
         private bool _isShownRankingDay = true;
         private bool _isShownRankingWeek;
         private bool _isShownRankingMonthly;
@@ -20,13 +20,10 @@ namespace LooneyInvaders.Layers
         private bool _isShownLeaderboardRegular = true;
         private bool _isShownLeaderboardPro;
 
-        //CCSprite imgSpotlightDay;
-        //CCSprite imgSpotlightWeek;
-        //CCSprite imgSpotlightAllTime;
-
+        private readonly Services.Permissions.IPermissionService _permissionService;
         private readonly CCSpriteButton _btnQuitGame;
         private readonly CCSpriteButton _btnTapToStart;
-        private CCSpriteButton _btnRanking;
+        
         private readonly CCSpriteButton _btnGameSettings;
         private readonly CCSpriteButton _btnGetCredits;
         private readonly CCSpriteButton _btnGameInfo;
@@ -37,10 +34,10 @@ namespace LooneyInvaders.Layers
         // modal window
         private readonly CCSprite _imgQuitGameWindow;
         private readonly CCSprite _notShowNotificationText;
+        private readonly CCSprite _imgQuickGameWindow;
         private readonly CCSpriteTwoStateButton _btnQuitGameNotificationCheckMark;
         private readonly CCSpriteButton _btnProceedQuittingGame;
         private readonly CCSpriteButton _btnStopQuittingGame;
-        private readonly CCSprite _imgQuickGameWindow;
         private readonly CCSpriteButton _btnQuickGame;
         private readonly CCSpriteButton _btnSelectionMode;
 
@@ -55,6 +52,7 @@ namespace LooneyInvaders.Layers
 
         private CCSprite _imgScoresBackground;
         private CCSprite _gameTipBackground;
+        private CCSpriteButton _btnRanking;
         private CCSpriteButton _yesThanks;
         private CCSpriteButton _noThanks;
 
@@ -64,12 +62,6 @@ namespace LooneyInvaders.Layers
 
             //------------ Prabhjot -----------//
             //SetTimer();
-
-            //this.Enabled = false;
-            //this.SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
-            //btnRanking = this.AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-            //btnRanking.OnClick += BtnRanking_OnClick;
-
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 if (_isShownLeaderboardPro == false)
@@ -118,6 +110,7 @@ namespace LooneyInvaders.Layers
             _imgScoresBackground = AddImage(408, 100, _leaderboardBackground.Images[0]);
             _imgScoresBackground.Visible = !_imgOffline.Visible;
             Schedule(AnimateScoresBackground, 0.5f);
+            ScheduleOnce(SetScoresBackgroundIfNoTrack, 30.0f);
 
             _btnTapToStart = AddButton(370, 475, "UI/Main-screen-tap-to-start-button-untapped.png", "UI/Main-screen-tap-to-start-button-tapped.png");
             _btnTapToStart.OnClick += BtnTapToStart_OnClick;
@@ -197,7 +190,11 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(Music.MainMenu);
 
             LeaderboardManager.ClearOnLeaderboardsRefreshedEvent();
-            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce(RefreshLeaderboard, 0.1f);
+            LeaderboardManager.OnLeaderboardsRefreshed += async (s, e) =>
+            {
+                await System.Threading.Tasks.Task.Run(() =>
+                    ScheduleOnce(RefreshLeaderboard, 0.1f));
+            };
             ScheduleOnce(FireRefreshLeaderboard, 0.02f);
 
             _permissionService = Shared.GameDelegate.PermissionService;
@@ -439,14 +436,30 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
-                if (!_imgScoresBackground.Visible)
-                {
-                    RemoveChild(_imgScoresBackground);
-                    Unschedule(AnimateScoresBackground);
-                    return;
-                }
+                StopScoresBackgroundAnimation();
             }
+        }
+
+        private void StopScoresBackgroundAnimation()
+        {
+            _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
+            if (!_imgScoresBackground.Visible)
+            {
+                RemoveChild(_imgScoresBackground);
+                Unschedule(AnimateScoresBackground);
+            }
+        }
+
+        private void SetScoresBackgroundIfNoTrack(float obj)
+        {
+            if (_leaderboardSprites.Count != 0 || _imgOffline.Visible)
+            {
+                return;
+            }
+            StopScoresBackgroundAnimation();
+
+            _imgScoresBackground = AddImage(408, 100, _leaderboardBackground.Images[0]);
+            _imgScoresBackground.Visible = true;
         }
 
         private void RefreshLeaderboard(float obj)
