@@ -772,10 +772,12 @@ namespace LooneyInvaders.Layers
                 }
 
                 _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                _yes.OnClick += yes_OnClick;
+                _yes.OnClick -= yes_OnClick_Handler;
+                _yes.OnClick += yes_OnClick_Handler;
 
                 _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-                _no.OnClick += no_OnClick;
+                _no.OnClick -= no_OnClick_Handler;
+                _no.OnClick += no_OnClick_Handler;
 
                 _mainMenu.Visible = false;
                 _btnContinue.Visible = false;
@@ -807,6 +809,16 @@ namespace LooneyInvaders.Layers
 
             GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
             Schedule(FadeScore);
+
+            void yes_OnClick_Handler(object sender, EventArgs ea)
+            {
+                ScheduleOnce(yes_OnClick, 0f);
+            }
+
+            void no_OnClick_Handler(object sender, EventArgs ea)
+            {
+                ScheduleOnce(no_OnClick, 0f);
+            }
         }
 
         private void FadeScore(float dt)
@@ -850,8 +862,11 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _sl;
 
-        private void yes_OnClick(object sender, EventArgs e)
+        private void yes_OnClick(float obj)
         {
+            _yes.ChangeVisibility(false);
+            _no.ChangeVisibility(false);
+
             _sl = new CCNodeExt();
 
             switch (SelectedBattleground)
@@ -971,11 +986,6 @@ namespace LooneyInvaders.Layers
             _scoreNode.Visible = false;
             AddChild(_sl);
 
-            ScheduleOnce((_) =>
-            {
-                _yes.ChangeVisibility(false);
-                _no.ChangeVisibility(false);
-            }, 0f);
             _shareYourScore.Visible = false;
 
             SocialNetworkShareManager.ShareLayer("facebook", this);
@@ -1133,7 +1143,7 @@ namespace LooneyInvaders.Layers
         //}
 
 
-        private void no_OnClick(object sender, EventArgs e)
+        private void no_OnClick(float obj)
         {
             _shareYourScore.Visible = false;
             _yes.Visible = false;
