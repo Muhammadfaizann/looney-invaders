@@ -25,14 +25,14 @@ namespace LooneyInvaders.Model
             rt.End();
             rt.Sprite.Position = layer.VisibleBoundsWorldspace.Center;
 
-            var shareCommand = new CCCustomCommand(() =>
+            var shareCommand = new CCCustomCommand(() => Shared.GameDelegate.Layer.ScheduleOnce((obj) =>
             {
                 using (var ms = new MemoryStream())
                 {
                     rt.Texture.SaveAsPng(ms, (int)layer.VisibleBoundsWorldspace.Size.Width, (int)layer.VisibleBoundsWorldspace.Size.Height);
                     ShareImage(network, ms);
                 }
-            });
+            }, 0.0f));
             layer.Renderer.AddCommand(shareCommand);
         }
 
@@ -40,7 +40,6 @@ namespace LooneyInvaders.Model
         {
             ShareOnSocialNetwork?.Invoke(network, stream);
         }
-
 
         /*
         
