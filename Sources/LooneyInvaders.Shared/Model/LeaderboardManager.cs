@@ -207,7 +207,8 @@ namespace LooneyInvaders.Model
 
         internal static void FireOnLeaderboardsRefreshed(object sender = null, EventArgs eventArgs = null)
         {
-            OnLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
+            var onLeaderboardsRefreshed = OnLeaderboardsRefreshed;
+            onLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
         }
 
         public static LeaderboardItem DecodeScoreRegular(int rank, string name, double encodedScore)
