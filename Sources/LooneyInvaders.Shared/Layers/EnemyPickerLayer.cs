@@ -285,6 +285,7 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
+            CCAudioEngine.SharedEngine.StopAllEffects();
             _isHoldAnimations = true;
             UnscheduleAll();
 
