@@ -41,6 +41,8 @@ namespace LooneyInvaders.iOS
             //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
             GameDelegate.UpdateGameView = UpdateGameViewState;
+            //the way to force shared code be invoked on the UI thread
+            GameDelegate.InvokeActionOnUIThread = BeginInvokeOnMainThread;
 
             GameView.MultipleTouchEnabled = true;
 

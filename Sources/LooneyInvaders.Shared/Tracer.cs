@@ -35,6 +35,7 @@ namespace LooneyInvaders
 #if DEBUG
             Console.WriteLine(message);
 #endif
+            System.Diagnostics.Debug.WriteLine(message);
         }
 
         public static void Track(string message, IDictionary<string, string> properties = null)

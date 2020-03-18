@@ -20,6 +20,10 @@ namespace LooneyInvaders.Shared
 
         public static CloseAppDelegate CloseApp;
 
+        public delegate void InvokeActionDelegate(Action action);
+
+        public static InvokeActionDelegate InvokeActionOnUIThread;
+
         public static bool CloseAppAllowed;
 
         public static event EventHandler OnBackButton;
@@ -38,6 +42,7 @@ namespace LooneyInvaders.Shared
         public static Services.DeviceInfo.IDeviceInfoService DeviceInfoService;
         public static Services.PNS.IOpenSettingsService OpenSettingsService;
 
+        public static bool IsBusyLayerProperty;
         public static bool UseAnimationClearing;
         public static (int? Width, int? Height) DesignSize;
 
@@ -54,7 +59,8 @@ namespace LooneyInvaders.Shared
             }
             set
             {
-                lock(toSetLayer)
+                IsBusyLayerProperty = true;
+                lock (toSetLayer)
                 {
                     _layer = value;
                     IsCartoonFadeInOnLayer = ((_layer as CCLayerColorExt)?.IsCartoonFadeIn).GetValueOrDefault();
@@ -62,16 +68,20 @@ namespace LooneyInvaders.Shared
                     TrackTime("|setLayer");
                     ////
                     if (_layer?.Scene != null)
+                    {
                         CurrentScene = _layer.Scene;
+                    }
                 }
+                IsBusyLayerProperty = false;
             }
         }
         public static bool IsCartoonFadeInOnLayer;
 
         public static void TrackTime(string extraInfo = "")
         {
-            if (!UseTimeTracking)
+            if (!UseTimeTracking) {
                 return;
+            }
 
             if (Timer != null)
                 Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}{extraInfo}-{Timer.ElapsedMilliseconds}");
@@ -143,9 +153,13 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.Settings.Instance.Advertisements = false;
             //LooneyInvaders.Model.Player.Instance.Credits = 1000000;
             //
-
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
+
+            if (InvokeActionOnUIThread == null)
+            {
+                throw new Exception($"You must set {nameof(InvokeActionOnUIThread)} first in your platform specific code!");
+            }
 
             ////
             TrackTime();
@@ -168,8 +182,9 @@ namespace LooneyInvaders.Shared
 
             GameView.RunWithScene(gameScene);
             if (GameView != null && UpdateGameView != null)
+            {
                 UpdateGameView(false);
-
+            }
             ////end tracking
             if (Timer != null)
             {

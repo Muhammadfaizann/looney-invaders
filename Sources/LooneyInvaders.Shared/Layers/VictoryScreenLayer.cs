@@ -333,11 +333,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("1"); } }, 2.3f);
+                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 2.3f);
                     }
                     else
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("2"); } }, 1f);
+                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("2"); } }, 1f);
                     }
                 }
             }
@@ -375,6 +375,7 @@ namespace LooneyInvaders.Layers
         private void Caught(string message)
         {
             var s = message;
+            System.Diagnostics.Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {s}");
         }
 
         private void CalloutCountryNameVo(float dt)
@@ -444,26 +445,23 @@ namespace LooneyInvaders.Layers
             }
         }
 
-
         private CCNodeExt _multiplierNode;
         private CCSprite _multiplierArrow;
         private CCSprite[] _scoreBefore;
         private CCSpriteButton _showAd;
-
 
         private void ShowMultiplierAd(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
 
             _multiplierNode = new CCNodeExt();
-
             _multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
             _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
             _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession + "X", 57);
             _scoreBefore = _multiplierNode.AddImageLabel(40, 270, _score.ToString(), 57);
             _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
             _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
-            _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += showMultiplierAdCancel_Onclick;
+            _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += ShowMultiplierAdCancel_Onclick;
             _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
             _showAd.OnClick += showMultiplierAd_Onclick;
             AddChild(_multiplierNode, 1000);
@@ -483,16 +481,15 @@ namespace LooneyInvaders.Layers
             AdMobManager.ShowInterstitial(0);
         }
 
-        private void showMultiplierAdCancel_Onclick(object sender, EventArgs e)
+        private void ShowMultiplierAdCancel_Onclick(object sender, EventArgs e)
         {
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("3"); } }, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("3"); } }, 0.2f);
         }
 
-        private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
-        { }
+        private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e) { }
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
@@ -502,7 +499,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_multiplierNode);
             UnscheduleAll();
             AdMobManager.ShowBannerBottom();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("4"); } }, 0.5f);
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
@@ -512,13 +509,11 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAll();
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("5"); } }, 0.2f);
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("5"); } }, 0.2f);
         }
-
 
         private void ShowDefeated(float dt)
         {
-
             _defeated.Visible = true;
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             if (Settings.Instance.VoiceoversEnabled)
@@ -526,25 +521,22 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(CalloutCongratulations, 1f);
             }
             _okIGotIt = AddButton(42, 58, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            _okIGotIt.OnClick += okIGotIt_OnClick;
-
+            _okIGotIt.OnClick += OkIGotIt_OnClick;
         }
 
-        private void okIGotIt_OnClick(object sender, EventArgs e)
+        private void OkIGotIt_OnClick(object sender, EventArgs e)
         {
             RemoveChild(_okIGotIt);
             RemoveChild(_defeated);
             if (WinsInSuccession > 1 && NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 ScheduleOnce(ShowMultiplierAd, 0.2f);
-
             }
             else
             {
-                ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("6"); } }, 0.2f);
+                ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("6"); } }, 0.2f);
             }
         }
-
 
         private CCSprite _recordNotification;
         private CCSprite _recordNotificationImage;
@@ -553,7 +545,6 @@ namespace LooneyInvaders.Layers
 
         private void ShowRecordNotification(float dt)
         {
-
             if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
@@ -614,7 +605,7 @@ namespace LooneyInvaders.Layers
                 {
                     _recordNotificationImage = AddImage(35, 367, "UI/victory-notification-personal-best-of-week.png", 4);
                 }
-                else /*if (isWeHaveScores && score == LeaderboardManager.PlayerRankRegularDaily.Score)*/
+                else
                 {
                     _recordNotificationImage = AddImage(35, 379, "UI/victory-notification-personal-best-of-day.png", 4);
                 }
@@ -626,7 +617,7 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(CalloutCongratulations, 1f);
             }
             _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
+            _recordOkIGotIt.OnClick += RecordOkIGotIt_OnClick;
             _recordNotificationShown = true;
         }
 
@@ -635,13 +626,15 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PlayEffect("Sounds/Congratulations VO_mono.wav");
         }
 
-        private void recordOkIGotIt_OnClick(object sender, EventArgs e)
+        private void RecordOkIGotIt_OnClick(object sender, EventArgs e)
         {
             RemoveChild(_recordOkIGotIt);
             RemoveChild(_recordNotification);
-            if (_recordNotificationImage != null) RemoveChild(_recordNotificationImage);
-            ScheduleOnce((obj) => { try { ShowScore(obj); } catch { Caught("7"); } }, 0f);
-
+            if (_recordNotificationImage != null)
+            {
+                RemoveChild(_recordNotificationImage);
+            }
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("7"); } }, 0f);
         }
 
         private float _waitForScoreCounter;
@@ -649,9 +642,9 @@ namespace LooneyInvaders.Layers
 
         private CCSprite[] _creditsLabels;
 
-        private void ShowScore(float dtt)
+        private void ShowScore()
         {
-            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
+            WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
 
             try
             {
@@ -674,6 +667,7 @@ namespace LooneyInvaders.Layers
             catch (Exception ex)
             {
                 var mess = ex.Message;
+                Caught($" {nameof(ShowScore)} - first try!");
             }
 
             //current score
@@ -710,9 +704,26 @@ namespace LooneyInvaders.Layers
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            _mainMenu.OnClick += mainMenu_OnClick;
+            _mainMenu.OnClick += MainMenu_OnClick;
 
-            if (_isWeHaveScores)
+            if (!_isWeHaveScores
+                || (LeaderboardManager.PlayerRankRegularDaily == null && LeaderboardManager.PlayerRankRegularWeekly == null && LeaderboardManager.PlayerRankRegularMonthly == null))
+            {
+                //no or weak internet
+                _shareYourScore.Visible = false;
+                _btnContinue.ChangeVisibility(true);
+
+                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    _scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
+                    _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
+                }
+                else
+                {
+                    _scoreNode.AddImage(562, 300, "UI/My-stats-&-rewards-slow-internet-connection-notification.png", 3);
+                }
+            }
+            else
             {
                 //day
                 if (LeaderboardManager.PlayerRankRegularDaily != null)
@@ -750,22 +761,6 @@ namespace LooneyInvaders.Layers
                 _mainMenu.Visible = false;
                 _btnContinue.Visible = false;
             }
-            else
-            {
-                //no or weak internet
-                _shareYourScore.Visible = false;
-                _btnContinue.ChangeVisibility(true);
-
-                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
-                {
-                    _scoreNode.AddImage(633, 247, "UI/victory-no-internet-connection-text.png", 3);
-                    _scoreNode.AddImage(562, 300, "UI/Main-screen-off-line-notification.png", 3);
-                }
-                else
-                {
-                    _scoreNode.AddImage(562, 300, "UI/My-stats-&-rewards-slow-internet-connection-notification.png", 3);
-                }
-            }
 
             _scoreNode.Opacity = 0;
             foreach (var child in _scoreNode.Children)
@@ -780,12 +775,12 @@ namespace LooneyInvaders.Layers
 
             void yes_OnClick_Handler(object sender, EventArgs ea)
             {
-                ScheduleOnce(yes_OnClick, 0f);
+                ScheduleOnce(Yes_OnClick, 0f);
             }
 
             void no_OnClick_Handler(object sender, EventArgs ea)
             {
-                ScheduleOnce(no_OnClick, 0f);
+                ScheduleOnce(No_OnClick, 0f);
             }
         }
 
@@ -798,7 +793,6 @@ namespace LooneyInvaders.Layers
                 _scoreNode.Opacity = 255;
                 _justSavedTitle.Opacity = 0;
                 Unschedule(FadeScore);
-
             }
             foreach (var child in _scoreNode.Children)
             {
@@ -811,12 +805,7 @@ namespace LooneyInvaders.Layers
             await NextLevel();
         }
 
-        //CCNodeExt shareNode;
-        //CCSpriteTwoStateButton _shareScoreBoard;
-        //CCSpriteButton _shareTwitter;
-        //CCSpriteButton _shareFacebook;
-
-        private async void mainMenu_OnClick(object sender, EventArgs e)
+        private async void MainMenu_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
@@ -830,7 +819,7 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _sl;
 
-        private void yes_OnClick(float obj)
+        private void Yes_OnClick(float obj)
         {
             _yes.ChangeVisibility(false);
             _no.ChangeVisibility(false);
@@ -969,149 +958,9 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
             _btnContinue.Visible = true;
             _mainMenu.Visible = true;
-            /*                        
-            this.Schedule(delegate (float dt)
-            {
-                if (this.IsSharing == true)
-                {
-                    Console.WriteLine("nema fokus");
-                }
-                else
-                {
-                    Console.WriteLine("ima fokus");
-                    this.UnscheduleAll();
-                }
-            }, 0.5f);
-            */
-
-            //nextLevel();
-
-            //if (shareNode == null)
-            //{
-            //    shareNode = new CCNodeExt();
-            //    shareNode.AddImageCentered(1136 / 2, 598, "UI/Score-share-picker-share-your-score-in-text.png", 2);
-
-            //    shareScoreBoard = shareNode.AddTwoStateButton(45, 465, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-            //    shareScoreBoard.OnClick += shareScoreBoard_OnClick;
-            //    shareScoreBoard.ButtonType = BUTTON_TYPE.OnOff;
-            //    shareNode.AddImage(197, 469, "UI/Score-share-picker-game-score-board-text.png", 3);
-
-
-            //    shareTwitter = shareNode.AddButton(45, 374, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-            //    shareTwitter.OnClick += shareTwitter_OnClick;
-            //    shareTwitter.ButtonType = BUTTON_TYPE.Regular;
-            //    shareNode.AddImage(197, 378, "UI/Score-share-picker-twitter-text.png", 3);
-
-            //    shareFacebook = shareNode.AddButton(45, 275, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-            //    shareFacebook.OnClick += shareFacebook_OnClick;
-            //    shareFacebook.ButtonType = BUTTON_TYPE.Regular;
-            //    shareNode.AddImage(197, 279, "UI/Score-share-picker-facebook-text.png", 3);
-
-
-            //    CCSpriteButton cancelBtn = shareNode.AddButton(47, 148, "UI/Score-share-picker-cancel-button-untapped.png", "UI/Score-share-picker-cancel-button-tapped.png");
-            //    cancelBtn.OnClick += cancelBtn_OnClick;
-
-            //    CCSpriteButton shareBtn = shareNode.AddButton(809, 148, "UI/Score-share-picker-share-button-untapped.png", "UI/Score-share-picker-share-button-tapped.png");
-            //    shareBtn.OnClick += shareBtn_OnClick;
-
-
-            //    shareNode.AddImage(1,70, "UI/Score-share-picker-terms-of-sharing-backqround.png", 3);
-            //    shareNode.AddImage(2, 70, "UI/Score-share-picker-terms-of-sharing-text-area-without-links.png", 4);
-
-            //    CCSpriteButton terms = shareNode.AddButton(555, 70, "UI/Score-share-picker-terms-of-sharing-text-area1-with-link.png", "UI/Score-share-picker-terms-of-sharing-text-area1-with-link.png", 5);
-            //    terms.ButtonType = BUTTON_TYPE.Link;
-
-            //    CCSpriteButton privacy = shareNode.AddButton(888, 70, "UI/Score-share-picker-terms-of-sharing-text-area2-with-link.png", "UI/Score-share-picker-terms-of-sharing-text-area2-with-link.png", 5);
-            //    privacy.ButtonType = BUTTON_TYPE.Link;
-
-            //    shareNode.Opacity = 0;
-            //    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-            //    this.AddChild(shareNode);
-
-            //}
-
-            //this.Schedule(delegate (float dt) 
-            //{
-            //    if (scoreNode.Opacity > 0)
-            //    {
-            //        scoreNode.Opacity -= 20;
-            //        //justSavedTitle.Opacity -= 20;
-            //        if (scoreNode.Opacity < 20)
-            //        {
-            //            scoreNode.Opacity = 0;
-            //            //justSavedTitle.Opacity = 0;
-            //        }
-            //        foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-            //    }
-            //    else
-            //    {
-            //        shareNode.Opacity += 20;
-            //        if (shareNode.Opacity > 235)
-            //        {
-            //            this.UnscheduleAll();
-            //            shareNode.Opacity = 255;
-            //        }
-            //        foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-            //    }
-            //});
-
         }
 
-
-        //private void shareScoreBoard_OnClick(object sender, EventArgs e)
-        //{
-        //    //SocialNetworkShareManager.ShareLayer("facebook", this);
-        //    //shareScoreBoard.ChangeState();
-        //    //shareScoreBoard.SetStateImages();
-        //}
-
-        //private void shareTwitter_OnClick(object sender, EventArgs e)
-        //{
-        //    SocialNetworkShareManager.ShareLayer("twitter", this);
-        //}
-
-        //private void shareFacebook_OnClick(object sender, EventArgs e)
-        //{
-        //    SocialNetworkShareManager.ShareLayer("facebook", this);
-        //}
-
-        //private void cancelBtn_OnClick(object sender, EventArgs e)
-        //{
-        //    this.Schedule(delegate (float dt)
-        //    {
-        //        if (shareNode.Opacity > 0)
-        //        {
-        //            shareNode.Opacity -= 20;
-        //            if (shareNode.Opacity < 20)
-        //            {
-        //                shareNode.Opacity = 0;
-        //            }
-        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-        //        }
-        //        else
-        //        {
-        //            scoreNode.Opacity += 20;
-        //            //justSavedTitle.Opacity += 20;
-        //            if (scoreNode.Opacity >= 235)
-        //            {
-        //                scoreNode.Opacity = 255;
-        //                //justSavedTitle.Opacity = 255;
-        //                this.UnscheduleAll();
-        //            }
-        //            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-        //        }
-        //    });
-
-        //}
-
-
-        //private void shareBtn_OnClick(object sender, EventArgs e)
-        //{
-        //    nextLevel();
-        //}
-
-
-        private void no_OnClick(float obj)
+        private void No_OnClick(float obj)
         {
             _shareYourScore.Visible = false;
             _yes.Visible = false;

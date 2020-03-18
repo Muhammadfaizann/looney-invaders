@@ -503,7 +503,7 @@ namespace LooneyInvaders.Layers
 
         private void ShowScoreAlien(float d)
         {
-            WaitScoreBoardServiceResponseWhile(!_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
+            WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
 
             ScheduleOnce(RemoveRevengeNode, 0f);
             _btnContinue.ChangeAvailability(true);

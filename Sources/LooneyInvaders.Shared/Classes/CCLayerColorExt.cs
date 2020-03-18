@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Extensions;
@@ -226,7 +225,6 @@ namespace LooneyInvaders.Classes
                     s.PositionX += offsetX;
                 }
             }
-
         }
 
 
@@ -357,9 +355,19 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
-        public virtual void WaitScoreBoardServiceResponseWhile(bool? condition, ref float counter, float eachDelayS, Action eachRepeatCall = null)
+        /*public new void Schedule(Action<float> selector, float interval)
         {
-            if (condition == null)
+            base.Schedule((obj) =>
+            {
+                var o = obj;
+            //Shared.GameDelegate.InvokeActionOnUIThread(() =>
+            selector(o);//);
+            }, interval);
+        }*/
+
+        public virtual void WaitScoreBoardServiceResponseWhile(Func<bool?> condition, ref float counter, float eachDelayS, Action eachRepeatCall = null)
+        {
+            if (condition?.Invoke() == null)
             {
                 return;
             }
@@ -372,7 +380,7 @@ namespace LooneyInvaders.Classes
                 Enabled = true
             };
             timer.Elapsed += (s, e) => { county += 1; };
-            while ((bool)condition && county <= repeats)
+            while (condition?.Invoke() == true && county <= repeats)
             {
                 eachRepeatCall?.Invoke();
             }
@@ -390,7 +398,6 @@ namespace LooneyInvaders.Classes
         {
             OnTouchBegan?.Invoke(this, EventArgs.Empty);
         }
-
 
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {

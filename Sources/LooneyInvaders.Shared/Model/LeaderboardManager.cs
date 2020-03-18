@@ -214,7 +214,6 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem DecodeScoreRegular(int rank, string name, double encodedScore)
         {
             var s = encodedScore.ToString("000000000000000");
-
             var accuracy = Convert.ToDouble(s.Substring(s.Length - 4, 4)) / 100;
             var time = Convert.ToDouble(s.Substring(s.Length - 9, 5)) / 100;
             var score = Convert.ToDouble(s.Substring(0, s.Length - 9));

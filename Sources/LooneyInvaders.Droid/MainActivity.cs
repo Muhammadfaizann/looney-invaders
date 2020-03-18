@@ -123,6 +123,9 @@ namespace LooneyInvaders.Droid
             /*Sensor gyro = sm.GetDefaultSensor(SensorType.RotationVector);
             sm.RegisterListener(this, gyro, SensorDelay.Game);*/
 
+            //the way to force shared code be invoked on the UI thread
+            GameDelegate.InvokeActionOnUIThread = RunOnUiThread;
+
             GameDelegate.CloseAppAllowed = true;
             GameDelegate.CloseApp = CloseActivity;
             // clearing on iOS does not properly work
@@ -196,6 +199,7 @@ namespace LooneyInvaders.Droid
             //GameView.RenderOnUIThread = true;
             GameView.ViewCreated += GameDelegate.LoadGame;
             TrackTime();
+            Debug.WriteLine("Activity created(OnCreate passed)");
 
             void TrackTime() { GameDelegate.TrackTime(); }
         }
@@ -348,6 +352,7 @@ namespace LooneyInvaders.Droid
             catch (Exception ex)
             {
                 var mess = ex.Message;
+                Debug.WriteLine($"Exception detected! In {nameof(InGamePurchasesAsync)}: {ex.StackTrace}");
             }
         }
 
@@ -393,14 +398,15 @@ namespace LooneyInvaders.Droid
                     {
                         GameView.Paused = isPaused;
                     });
-                    CheckGamePauseState = new Action(() =>
+                    CheckGamePauseState = new Action(async () =>
                     {
-                        if (((GameDelegate.Layer as Classes.CCLayerColorExt)?.Enabled).GetValueOrDefault()
-                            && (GameView?.Paused).GetValueOrDefault())
+                        if (await isGamePaused(200))
+                        {
                             RunOnUiThread(() =>
                             {
                                 GameView.Paused = false;
                             });
+                        }
                     });
                 }
                 else
@@ -413,6 +419,19 @@ namespace LooneyInvaders.Droid
             {
                 var mess = ex.Message;
                 Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewStateUIThread)}: {mess}");
+            }
+
+            async Task<bool> isGamePaused(int delayMS)
+            {
+                if (GameDelegate.IsBusyLayerProperty) {
+                    return false;
+                }
+                GameDelegate.IsBusyLayerProperty = true;
+                await Task.Delay(delayMS);
+                
+                var enabled = (GameDelegate.Layer as Classes.CCLayerColorExt)?.Enabled == true;
+                GameDelegate.IsBusyLayerProperty = false;
+                return enabled && GameView?.Paused == true;
             }
         }
 
