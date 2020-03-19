@@ -130,14 +130,104 @@
     <BundleResource Include="..\Content\Images\Hd\UI\check-button-untapped_old.png">
       <Link>Content\Images\Hd\UI\check-button-untapped_old.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full1.png">
-      <Link>Content\Images\Hd\UI\looney_background_full1.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\no-score-in-leaderboard.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\no-score-in-leaderboard.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full2.png">
-      <Link>Content\Images\Hd\UI\looney_background_full2.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-121.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-121.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\looney_background_full3.png">
-      <Link>Content\Images\Hd\UI\looney_background_full3.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-109.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-109.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-108.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-108.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-120.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-120.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-122.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-122.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-123.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-123.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-127.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-127.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-126.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-126.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-118.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-118.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-124.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-124.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-130.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-130.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-131.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-131.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-125.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-125.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-119.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-119.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-100.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-100.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-114.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-114.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-128.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-128.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-129.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-129.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-115.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-115.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-101.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-101.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-117.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-117.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-103.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-103.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-102.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-102.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-116.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-116.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-112.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-112.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-106.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-106.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-107.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-107.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-113.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-113.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-105.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-105.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-111.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-111.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-110.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-110.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-104.png">
+      <Link>Content\Images\Hd\UI\Leaderboard\Conneting-to-leaderboard-104.png</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>

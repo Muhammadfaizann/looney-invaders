@@ -355,15 +355,25 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
-        /*public new void Schedule(Action<float> selector, float interval)
+        public virtual void LoopAnimateWithCCSprites(List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder, Func<bool?> stopCondition = null)
         {
-            base.Schedule((obj) =>
+            var currentIndex = index;
+            placeholder.Visible = stopCondition?.Invoke() == true;
+
+            if (currentIndex > 0 && placeholder.Visible)
             {
-                var o = obj;
-            //Shared.GameDelegate.InvokeActionOnUIThread(() =>
-            selector(o);//);
-            }, interval);
-        }*/
+                var imageIndex = imageNames.Count - currentIndex;
+                index = currentIndex - 1;
+                CCSprite image = AddImage(x, y, imageNames[imageIndex]);
+                RemoveChild(placeholder);
+                placeholder = image;
+            }
+            else
+            {
+                index = imageNames.Count;
+                RemoveChild(placeholder);
+            }
+        }
 
         public virtual void WaitScoreBoardServiceResponseWhile(Func<bool?> condition, ref float counter, float eachDelayS, Action eachRepeatCall = null)
         {
