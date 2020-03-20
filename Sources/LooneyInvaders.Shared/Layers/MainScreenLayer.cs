@@ -528,10 +528,6 @@ namespace LooneyInvaders.Layers
                                 _leaderboardSprites.Add(AddLabelRightAligned(800, 297 - i * 17, lbScore[i - 1].LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
                             }
                         }
-                        else
-                        {
-                            // dots?
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -548,7 +544,7 @@ namespace LooneyInvaders.Layers
                 else if (_isShownLeaderboardPro && _isShownRankingWeek) lbi = LeaderboardManager.PlayerRankProWeekly;
                 else if (_isShownLeaderboardPro && _isShownRankingMonthly) lbi = LeaderboardManager.PlayerRankProMonthly;
 
-                {
+                { //avoid duplicate var color
                     var color = new CCColor3B(255, 235, 180);
                     if (_isShownLeaderboardRegular && lbi != null && lbi.Rank > 10)
                     {
@@ -566,6 +562,7 @@ namespace LooneyInvaders.Layers
                         _leaderboardSprites.Add(AddLabelRightAligned(800, 105, lbi.LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
                     }
                 }
+                _leaderboardBackgroundPlaceholder.Visible = _leaderboardSprites.Count == 0;
             }
             _isLeaderboardRefreshing = false;
         }
