@@ -50,7 +50,7 @@ namespace LooneyInvaders.Layers
         private (int Count, List<string> Images) _leaderboardBackground = (0, new List<string>());
         private List<CCLabel> _leaderboardSprites = new List<CCLabel>();
 
-        private CCSprite _imgScoresBackground;
+        private CCSprite _leaderboardBackgroundPlaceholder;
         private CCSprite _gameTipBackground;
         private CCSpriteButton _btnRanking;
         private CCSpriteButton _yesThanks;
@@ -98,18 +98,18 @@ namespace LooneyInvaders.Layers
             _imgOffline = AddImage(300, 92, "UI/Main-screen-off-line-notification.png");
             _imgOffline.Visible = !NetworkConnectionManager.IsInternetConnectionAvailable();
 
-            for (var i = 0; i < 32; ++i)
+            for (var i = 1; i <= 26; ++i)
             {
-                _leaderboardBackground.Images.Add($"UI/Leaderboard/Conneting-to-leaderboard-1{i.ToString("D" + 2)}.png");
+                _leaderboardBackground.Images.Add($"UI/Leaderboard/connecting-to-leaderboard-{i.ToString()}.png");
             }
             _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
-            _imgScoresBackground = new CCSprite
+            _leaderboardBackgroundPlaceholder = new CCSprite
             {
                 Visible = !_imgOffline.Visible
             };
 
-            Schedule(AnimateScoresBackground, 0.07f);
-            ScheduleOnce((obj) => SetScoresBackgroundIfNoTrack(208, 100, "UI/Leaderboard/no-score-in-leaderboard.png"), 14.0f);
+            Schedule(AnimateScoresBackground, 0.06f);
+            ScheduleOnce((obj) => SetScoresBackgroundIfNoTrack(360, 160, "UI/Leaderboard/no-score-in-leaderboard.png"), 14.0f);
 
             _btnTapToStart = AddButton(370, 475, "UI/Main-screen-tap-to-start-button-untapped.png", "UI/Main-screen-tap-to-start-button-tapped.png");
             _btnTapToStart.OnClick += BtnTapToStart_OnClick;
@@ -418,9 +418,9 @@ namespace LooneyInvaders.Layers
         private void AnimateScoresBackground(float obj)
         {
             LoopAnimateWithCCSprites(_leaderboardBackground.Images,
-                190, 100,
+                360, 160,
                 ref _leaderboardBackground.Count,
-                ref _imgScoresBackground,
+                ref _leaderboardBackgroundPlaceholder,
                 () => _leaderboardSprites.Count == 0 && !_imgOffline.Visible);
         }
 
@@ -432,11 +432,11 @@ namespace LooneyInvaders.Layers
             }
             _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
 
-            RemoveChild(_imgScoresBackground);
+            RemoveChild(_leaderboardBackgroundPlaceholder);
             Unschedule(AnimateScoresBackground);
 
-            _imgScoresBackground = AddImage(x, y, imageName);
-            _imgScoresBackground.Visible = true;
+            _leaderboardBackgroundPlaceholder = AddImage(x, y, imageName);
+            _leaderboardBackgroundPlaceholder.Visible = true;
         }
 
         private void RefreshLeaderboard()
@@ -471,7 +471,7 @@ namespace LooneyInvaders.Layers
             }
             _leaderboardSprites.Clear();
             _leaderboardSprites = new List<CCLabel>();
-
+            
             // offline score
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {

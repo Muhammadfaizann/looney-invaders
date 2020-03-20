@@ -696,6 +696,84 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\no-score-in-leaderboard.png">
       <Link>Assets\Content\Images\Hd\UI\Leaderboard\no-score-in-leaderboard.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-1.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-1.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-2.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-2.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-3.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-3.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-4.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-4.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-5.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-5.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-6.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-6.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-7.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-7.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-8.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-8.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-9.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-9.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-10.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-10.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-11.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-11.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-12.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-12.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-13.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-13.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-14.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-14.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-15.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-15.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-16.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-16.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-17.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-17.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-18.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-18.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-19.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-19.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-20.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-20.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-21.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-21.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-22.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-22.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-23.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-23.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-24.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-24.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-25.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-25.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-26.png">
+      <Link>Assets\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-26.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

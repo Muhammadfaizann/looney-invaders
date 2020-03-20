@@ -355,10 +355,10 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
-        public virtual void LoopAnimateWithCCSprites(List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder, Func<bool?> stopCondition = null)
+        public virtual void LoopAnimateWithCCSprites(List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder, Func<bool?> proceedCondition = null)
         {
             var currentIndex = index;
-            placeholder.Visible = stopCondition?.Invoke() == true;
+            placeholder.Visible = proceedCondition?.Invoke() == true;
 
             if (currentIndex > 0 && placeholder.Visible)
             {

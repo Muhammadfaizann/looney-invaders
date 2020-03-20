@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using CocosSharp;
@@ -22,6 +24,8 @@ namespace LooneyInvaders.Layers
 
         private readonly int _score;
         private readonly float _delayOnRepeatMS;
+        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(20); //for loading view
+        private readonly Stopwatch _animationTimer = new Stopwatch();
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
@@ -29,9 +33,11 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _defeated;
         private readonly CCSprite _justSavedTitle;
 
+        private (int Count, List<string> Images) _loadingView = (0, new List<string>());
+        private CCSprite _loadingViewPlaceholder;
+        private CCSprite _shareYourScore;
         private CCSpriteButton _okIGotIt;
         private CCSpriteButton _btnContinue;
-        private CCSprite _shareYourScore;
         private CCSpriteButton _mainMenu;
         private CCSpriteButton _yes;
         private CCSpriteButton _no;
@@ -120,8 +126,17 @@ namespace LooneyInvaders.Layers
                     break;
             }
 
-            Player.Instance.SetQuickGame(_nextEnemy, _nextBattleGround, selectedWeapon);
+            for (var i = 0; i < 32; ++i)
+            {
+                _loadingView.Images.Add($"UI/Leaderboard/Conneting-to-leaderboard-1{i.ToString("D" + 2)}.png");
+            }
+            _loadingView.Count = _loadingView.Images.Count;
+            _loadingViewPlaceholder = new CCSprite();
+            Background = new CCSprite();
 
+            Schedule(AnimateLoadingView, 0.06f);
+
+            Player.Instance.SetQuickGame(_nextEnemy, _nextBattleGround, selectedWeapon);
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
 
             if (Settings.Instance.VoiceoversEnabled)
@@ -316,6 +331,9 @@ namespace LooneyInvaders.Layers
             Player.Instance.AddSavedCountry(SelectedBattleground);
             Player.Instance.SetDayScore(_score);
 
+            Background.Opacity = 120;
+            _animationTimer.Start();
+
             if (!saved)
             {
                 if (WinsInSuccession >= 2 && NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -375,7 +393,22 @@ namespace LooneyInvaders.Layers
         private void Caught(string message)
         {
             var s = message;
-            System.Diagnostics.Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {s}");
+            Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {s}");
+        }
+
+        private void AnimateLoadingView(float obj)
+        {
+            var needStopAnimation = _isDoneWaitingForScores || _animationTimer.Elapsed > _animationMaxTime;
+            if (needStopAnimation)
+            {
+                _animationTimer.Stop();
+                Background.Opacity = 255;
+            }
+            LoopAnimateWithCCSprites(_loadingView.Images,
+                204, 260,
+                ref _loadingView.Count,
+                ref _loadingViewPlaceholder,
+                () => !needStopAnimation);
         }
 
         private void CalloutCountryNameVo(float dt)
@@ -463,18 +496,18 @@ namespace LooneyInvaders.Layers
             _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
             _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += ShowMultiplierAdCancel_Onclick;
             _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
-            _showAd.OnClick += showMultiplierAd_Onclick;
+            _showAd.OnClick += ShowMultiplierAd_Onclick;
             AddChild(_multiplierNode, 1000);
             Schedule(AnimateArrow, 0.03f);
         }
 
         private void AnimateArrow(float dt)
         {
-            _multiplierArrow.ScaleX = _multiplierArrow.ScaleX + 0.012f;
+            _multiplierArrow.ScaleX += 0.012f;
             if (_multiplierArrow.ScaleX > 1.23) _multiplierArrow.ScaleX = 0.85f;
         }
 
-        private void showMultiplierAd_Onclick(object sender, EventArgs e)
+        private void ShowMultiplierAd_Onclick(object sender, EventArgs e)
         {
             _showAd.Enabled = false;
             AdMobManager.HideBanner();
@@ -543,7 +576,7 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _recordOkIGotIt;
         private bool _recordNotificationShown;
 
-        private void ShowRecordNotification(float dt)
+        private void ShowRecordNotification()
         {
             if (_isWeHaveScores && Math.Abs(_score - (LeaderboardManager.PlayerRankRegularMonthly?.Score).Val()) < AppConstants.Tolerance && LeaderboardManager.PlayerRankRegularMonthly.Rank == 1)
             {
@@ -655,7 +688,7 @@ namespace LooneyInvaders.Layers
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularDailyField(Score)) < AppConstants.Tolerance)
                     && !_recordNotificationShown)
                 {
-                    ScheduleOnce((obj) => { try { ShowRecordNotification(obj); } catch { Caught("9"); } }, 0.5f);
+                    ScheduleOnce((obj) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
                     return;
                 }
                 _scoreNode = new CCNodeExt();
