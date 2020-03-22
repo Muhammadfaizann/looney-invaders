@@ -31,8 +31,8 @@ namespace LooneyInvaders.Model
 
         private static void ReloadNetworkConnectionManagerSubscribe()
         {
-            NetworkConnectionManager.ConnectionChanged -= FireOnLeaderboardsRefreshed;
-            NetworkConnectionManager.ConnectionChanged += FireOnLeaderboardsRefreshed;
+            NetworkConnectionManager.ConnectionChanged -= FireLeaderboardsToBeRefreshed;
+            NetworkConnectionManager.ConnectionChanged += FireLeaderboardsToBeRefreshed;
         }
 
         public static void ClearOnLeaderboardsRefreshedEvent()
@@ -127,6 +127,17 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly;
         public static LeaderboardItem PlayerRankProAlltime;
 
+        internal async static void FireLeaderboardsToBeRefreshed(object sender, EventArgs args)
+        {
+            await RefreshLeaderboards();
+        }
+
+        internal static void FireOnLeaderboardsRefreshed()
+        {
+            var onLeaderboardsRefreshed = OnLeaderboardsRefreshed;
+            onLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
+        }
+
         public static async Task<bool> SubmitScoreRegularAsync(double score, double accuracy, double fastestTime)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
@@ -189,26 +200,23 @@ namespace LooneyInvaders.Model
 
         public static async Task RefreshLeaderboards()
         {
-            if (_isRefreshing
-                || !NetworkConnectionManager.IsInternetConnectionAvailable()
-                || RefreshLeaderboardsHandler == null)
-            { return; }
-
+            if (_isRefreshing || RefreshLeaderboardsHandler == null)
+            {
+                return;
+            }
             _isRefreshing = true;
-            //for better responsiveness
+
             await Task.Run(() =>
             {
-                SubmitUnsubmittedScores();
-                RefreshLeaderboardsHandler(RegularLeaderboard);
-                RefreshLeaderboardsHandler(ProLeaderboard);
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    SubmitUnsubmittedScores();
+                    RefreshLeaderboardsHandler(RegularLeaderboard);
+                    RefreshLeaderboardsHandler(ProLeaderboard);
+                }
+                else FireOnLeaderboardsRefreshed();
             });
             _isRefreshing = false;
-        }
-
-        internal static void FireOnLeaderboardsRefreshed(object sender = null, EventArgs eventArgs = null)
-        {
-            var onLeaderboardsRefreshed = OnLeaderboardsRefreshed;
-            onLeaderboardsRefreshed?.Invoke(null, EventArgs.Empty);
         }
 
         public static LeaderboardItem DecodeScoreRegular(int rank, string name, double encodedScore)

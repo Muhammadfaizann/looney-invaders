@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using CocosSharp;
-using LooneyInvaders.Model;
-using LooneyInvaders.Classes;
-using LooneyInvaders.PNS;
 using System.Threading;
+using CocosSharp;
+using LooneyInvaders.Classes;
+using LooneyInvaders.Model;
+using LooneyInvaders.PNS;
 
 namespace LooneyInvaders.Layers
 {
@@ -46,6 +46,9 @@ namespace LooneyInvaders.Layers
         private readonly CCSpriteTwoStateButton _btnProNotificationCheckMark;
         private readonly CCSprite _imgProNotificationCheckMarkLabel;
         private readonly CCSprite _imgOffline;
+        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14); //for loading view
+        private readonly Action SetScoresBackgroundAction;
+        private Action<float> AnimateScoresBackgroundAction;
 
         private (int Count, List<string> Images) _leaderboardBackground = (0, new List<string>());
         private List<CCLabel> _leaderboardSprites = new List<CCLabel>();
@@ -68,14 +71,14 @@ namespace LooneyInvaders.Layers
                 {
                     SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
                     _btnRanking = AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-                    _btnRanking.OnClick += BtnRanking_OnClick;
+                    
                 }
                 else
                 {
                     SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
                     _btnRanking = AddButton(0, 355, "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-                    _btnRanking.OnClick += BtnRanking_OnClick;
                 }
+                _btnRanking.OnClick += BtnRanking_OnClick;
             }
             else
             {
@@ -94,7 +97,6 @@ namespace LooneyInvaders.Layers
             _permissionService = Shared.GameDelegate.PermissionService;
 
             _imgScoreboard = AddImage(220, 80, "UI/Main-screen-earth-lvl-scoreboard-table.png");
-
             _imgOffline = AddImage(300, 92, "UI/Main-screen-off-line-notification.png");
             _imgOffline.Visible = !NetworkConnectionManager.IsInternetConnectionAvailable();
 
@@ -107,10 +109,18 @@ namespace LooneyInvaders.Layers
             {
                 Visible = !_imgOffline.Visible
             };
-
-            Schedule(AnimateScoresBackground, 0.06f);
-            ScheduleOnce((obj) => SetScoresBackgroundIfNoTrack(360, 160, "UI/Leaderboard/no-score-in-leaderboard.png"), 14.0f);
-
+            AnimateScoresBackgroundAction = (time) =>
+                LoopAnimateWithCCSprites(_leaderboardBackground.Images,
+                    360, 180,
+                    ref _leaderboardBackground.Count,
+                    ref _leaderboardBackgroundPlaceholder,
+                    () => _leaderboardSprites.Count == 0 && !_imgOffline.Visible,
+                    SetScoresBackgroundAction, _animationMaxTime);
+            SetScoresBackgroundAction = () => SetScoresBackgroundIfNoScore(360, 180, "UI/Leaderboard/no-score-in-leaderboard.png");
+            if (!_imgOffline.Visible)
+            {
+                Schedule((elapsed) => AnimateScoresBackgroundAction?.Invoke(elapsed), 0.06f);
+            }
             _btnTapToStart = AddButton(370, 475, "UI/Main-screen-tap-to-start-button-untapped.png", "UI/Main-screen-tap-to-start-button-tapped.png");
             _btnTapToStart.OnClick += BtnTapToStart_OnClick;
 
@@ -128,7 +138,6 @@ namespace LooneyInvaders.Layers
             _btnGameInfo.OnClick += BtnGameInfo_OnClick;
 
             /* quit the game notification */
-
             _imgQuitGameWindow = AddImage(14, 40, "UI/Main-screen-quit-game-notification-background.png", 500);
             _imgQuitGameWindow.Visible = false;
             _btnQuitGameNotificationCheckMark = AddTwoStateButton(35, 205, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 610);
@@ -187,10 +196,15 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(Music.MainMenu);
 
             LeaderboardManager.ClearOnLeaderboardsRefreshedEvent();
-            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce((obj) => RefreshLeaderboard(), 0.01f);
+            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce((time) => RefreshLeaderboard(), 0.01f);
 
-            ScheduleOnce(FireRefreshLeaderboard, 0.02f);
+            ScheduleOnceRefreshLeaderboard(0.03f);
             CheckForNotification();
+
+            void ScheduleOnceRefreshLeaderboard(float secondsToWait)
+            {
+                ScheduleOnce(FireRefreshLeaderboard, secondsToWait);
+            }
         }
 
         private void SetTimer()
@@ -226,6 +240,7 @@ namespace LooneyInvaders.Layers
 
         private async void FireRefreshLeaderboard(float delta)
         {
+            Unschedule(FireRefreshLeaderboard);
             _permissionService?.GetPermissions();
 
             await LeaderboardManager.RefreshLeaderboards();
@@ -388,60 +403,60 @@ namespace LooneyInvaders.Layers
 
         private void BtnRanking_OnClick(object sender, EventArgs e)
         {
-            if (_isShownRankingDay)
-            {
-                SetBackground("UI/Main-screen-background-week-spotlight-on.jpg");
-                _isShownRankingDay = false;
-                _isShownRankingWeek = true;
-            }
-            else if (_isShownRankingWeek)
-            {
-                SetBackground("UI/Main-screen-background-month-spotlight-on.jpg");
-                _isShownRankingWeek = false;
-                _isShownRankingMonthly = true;
-            }
-            else if (_isShownRankingMonthly)
-            {
-                SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
-                _isShownRankingMonthly = false;
-                _isShownRankingDay = true;
-            }
+            ScheduleOnce(BtnRankingOnClick, 0f);
 
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            void BtnRankingOnClick(float elapsed)
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-            }
+                if (_isShownRankingDay)
+                {
+                    SetBackground("UI/Main-screen-background-week-spotlight-on.jpg");
+                    _isShownRankingDay = false;
+                    _isShownRankingWeek = true;
+                }
+                else if (_isShownRankingWeek)
+                {
+                    SetBackground("UI/Main-screen-background-month-spotlight-on.jpg");
+                    _isShownRankingWeek = false;
+                    _isShownRankingMonthly = true;
+                }
+                else if (_isShownRankingMonthly)
+                {
+                    SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
+                    _isShownRankingMonthly = false;
+                    _isShownRankingDay = true;
+                }
 
-            RefreshLeaderboard();
+                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                }
+
+                RefreshLeaderboard();
+            }
         }
 
-        private void AnimateScoresBackground(float obj)
+        private void SetScoresBackgroundIfNoScore(int x, int y, string imageName)
         {
-            LoopAnimateWithCCSprites(_leaderboardBackground.Images,
-                360, 160,
-                ref _leaderboardBackground.Count,
-                ref _leaderboardBackgroundPlaceholder,
-                () => _leaderboardSprites.Count == 0 && !_imgOffline.Visible);
-        }
-
-        private void SetScoresBackgroundIfNoTrack(int x, int y, string imageName)
-        {
-            if (_leaderboardSprites.Count != 0 || _imgOffline.Visible)
-            {
-                return;
-            }
             _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
 
+            var needToShow = _leaderboardSprites.Count == 0 && !_imgOffline.Visible;
+            if (AnimateScoresBackgroundAction != null)
+            {
+                Unschedule(AnimateScoresBackgroundAction);
+                AnimateScoresBackgroundAction = null;
+            }
             RemoveChild(_leaderboardBackgroundPlaceholder);
-            Unschedule(AnimateScoresBackground);
 
             _leaderboardBackgroundPlaceholder = AddImage(x, y, imageName);
-            _leaderboardBackgroundPlaceholder.Visible = true;
+            _leaderboardBackgroundPlaceholder.Visible = needToShow;
         }
 
         private void RefreshLeaderboard()
         {
-            if (_isLeaderboardRefreshing) { return; }
+            if (_isLeaderboardRefreshing)
+            {
+                return;
+            }
             _isLeaderboardRefreshing = true;
 
             _imgOffline.Visible = !NetworkConnectionManager.IsInternetConnectionAvailable();
@@ -464,6 +479,8 @@ namespace LooneyInvaders.Layers
                     _imgOffline.Visible ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
                     "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
             }
+            _btnRanking.OnClick -= BtnRanking_OnClick;
+            _btnRanking.OnClick += BtnRanking_OnClick;
 
             foreach (var s in _leaderboardSprites)
             {
@@ -471,10 +488,11 @@ namespace LooneyInvaders.Layers
             }
             _leaderboardSprites.Clear();
             _leaderboardSprites = new List<CCLabel>();
-            
+
             // offline score
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
+                _imgOffline.Visible = true;
                 if (_isShownLeaderboardRegular && Math.Abs(LeaderboardManager.BestScoreRegularScore) > AppConstants.Tolerance)
                 {
                     _leaderboardSprites.Add(AddLabel(410, 280, "YOUR BEST", "Fonts/AktivGroteskBold", 12));
@@ -562,8 +580,9 @@ namespace LooneyInvaders.Layers
                         _leaderboardSprites.Add(AddLabelRightAligned(800, 105, lbi.LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
                     }
                 }
-                _leaderboardBackgroundPlaceholder.Visible = _leaderboardSprites.Count == 0;
             }
+            SetScoresBackgroundAction?.Invoke();
+
             _isLeaderboardRefreshing = false;
         }
 

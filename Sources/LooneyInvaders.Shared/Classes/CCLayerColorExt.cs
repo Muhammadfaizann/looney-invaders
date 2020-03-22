@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Extensions;
@@ -9,21 +10,22 @@ namespace LooneyInvaders.Classes
 {
     public class CCLayerColorExt : CCLayerColor
     {
-        public static object lockingObj = new object();
+        private readonly Stopwatch _animationTimer = new Stopwatch();
 
-        public CCSprite Background;
-        public event EventHandler OnTouchBegan; // touch on the layer but not on any of the buttons
-        public event EventHandler OnTouchEnded;
         private bool _buttonDown;
         private CCPoint _position;
-
-        public bool Enabled { get; set; } = true;
-
-        public bool EnableMultiTouch { get; set; }
-
         private CCSprite _transitionImage;
+
         internal CCLayerColorExt LayerTransitionTarget;
         internal bool IsCartoonFadeIn;
+
+        public event EventHandler OnTouchBegan; // touch on the layer but not on any of the buttons
+        public event EventHandler OnTouchEnded;
+        
+        public bool Enabled { get; set; } = true;
+        public bool EnableMultiTouch { get; set; }
+
+        public CCSprite Background;
 
         public override CCPoint Position
         {
@@ -355,11 +357,39 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
-        public virtual void LoopAnimateWithCCSprites(List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder, Func<bool?> proceedCondition = null)
+        public virtual void LoopAnimateWithCCSprites(List<string> imageNames,
+            int x, int y,
+            ref int index,
+            ref CCSprite placeholder,
+            Func<bool?> proceedCondition = null,
+            Action finalCallback = null,
+            TimeSpan? timeToCallback = null)
         {
-            var currentIndex = index;
-            placeholder.Visible = proceedCondition?.Invoke() == true;
+            var timeToStop = false;
+            if (timeToCallback != null)
+            {
+                if (!_animationTimer.IsRunning)
+                {
+                    _animationTimer.Start();
+                }
+                var elapsed = _animationTimer.Elapsed;
+                if (elapsed > timeToCallback)
+                {
+                    _animationTimer.Stop();
+                    timeToStop = true;
+                }
+            }
 
+            var needToProceed = proceedCondition?.Invoke() == true;
+            placeholder.Visible = needToProceed;
+            if (timeToStop || !needToProceed)
+            {
+                finalCallback?.Invoke();
+
+                if (timeToStop) { return; }
+            }
+
+            var currentIndex = index;
             if (currentIndex > 0 && placeholder.Visible)
             {
                 var imageIndex = imageNames.Count - currentIndex;

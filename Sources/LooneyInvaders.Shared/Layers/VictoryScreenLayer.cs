@@ -24,8 +24,7 @@ namespace LooneyInvaders.Layers
 
         private readonly int _score;
         private readonly float _delayOnRepeatMS;
-        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(20); //for loading view
-        private readonly Stopwatch _animationTimer = new Stopwatch();
+        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14); //for loading view
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
@@ -57,6 +56,7 @@ namespace LooneyInvaders.Layers
 
             _delayOnRepeatMS = 500f;
             _nextEnemy = selectedEnemy;
+
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:
@@ -332,7 +332,6 @@ namespace LooneyInvaders.Layers
             Player.Instance.SetDayScore(_score);
 
             Background.Opacity = 120;
-            _animationTimer.Start();
 
             if (!saved)
             {
@@ -398,17 +397,12 @@ namespace LooneyInvaders.Layers
 
         private void AnimateLoadingView(float obj)
         {
-            var needStopAnimation = _isDoneWaitingForScores || _animationTimer.Elapsed > _animationMaxTime;
-            if (needStopAnimation)
-            {
-                _animationTimer.Stop();
-                Background.Opacity = 255;
-            }
             LoopAnimateWithCCSprites(_loadingView.Images,
                 204, 260,
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
-                () => !needStopAnimation);
+                () => !_isDoneWaitingForScores,
+                () => Background.Opacity = 255, _animationMaxTime);
         }
 
         private void CalloutCountryNameVo(float dt)
