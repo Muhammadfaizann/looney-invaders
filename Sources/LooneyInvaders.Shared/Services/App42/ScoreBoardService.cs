@@ -184,7 +184,10 @@ namespace LooneyInvaders.App42
 
             try
             {
-                var game = scoreBoardService.GetTopNRankers(gameName, 10);
+                Game game = null;
+
+                var gameTask = Task.Run(() => game = scoreBoardService.GetTopNRankers(gameName, 10));
+                gameTask.Wait(20000);
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     for (var i = 0; i < game.GetScoreList().Count; i++)

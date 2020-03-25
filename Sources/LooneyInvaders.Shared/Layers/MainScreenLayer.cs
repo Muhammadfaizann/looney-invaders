@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Model;
@@ -23,7 +25,8 @@ namespace LooneyInvaders.Layers
         private readonly Services.Permissions.IPermissionService _permissionService;
         private readonly CCSpriteButton _btnQuitGame;
         private readonly CCSpriteButton _btnTapToStart;
-        
+
+        private readonly CCSpriteButton _btnRanking;
         private readonly CCSpriteButton _btnGameSettings;
         private readonly CCSpriteButton _btnGetCredits;
         private readonly CCSpriteButton _btnGameInfo;
@@ -47,31 +50,31 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _imgProNotificationCheckMarkLabel;
         private readonly CCSprite _imgOffline;
         private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14); //for loading view
-        private readonly Action SetScoresBackgroundAction;
-        private Action<float> AnimateScoresBackgroundAction;
+        private readonly Action<float> _animateScoresBackgroundActionHolder;
+        protected readonly Action<bool> SetScoresBackgroundAction;
+        protected Action<float> AnimateScoresBackgroundAction;
 
-        private (int Count, List<string> Images) _leaderboardBackground = (0, new List<string>());
         private List<CCLabel> _leaderboardSprites = new List<CCLabel>();
+        private (int Count, List<string> Images) _leaderboardBackground = (0, new List<string>());
 
+        private bool _needToForceRefreshLeaderboards;
         private CCSprite _leaderboardBackgroundPlaceholder;
         private CCSprite _gameTipBackground;
-        private CCSpriteButton _btnRanking;
         private CCSpriteButton _yesThanks;
         private CCSpriteButton _noThanks;
+
+        protected bool LeaderboardTableIsEmpty => !_leaderboardSprites.Any() && !_imgOffline.Visible;
 
         public MainScreenLayer()
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            //------------ Prabhjot -----------//
-            //SetTimer();
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 if (_isShownLeaderboardPro == false)
                 {
                     SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
                     _btnRanking = AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-                    
                 }
                 else
                 {
@@ -86,7 +89,6 @@ namespace LooneyInvaders.Layers
                 {
                     SetBackground("UI/Main-screen-background-spotlights-off.jpg");
                     _btnRanking = AddButton(0, 355, "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png", "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-
                 }
                 else
                 {
@@ -96,9 +98,10 @@ namespace LooneyInvaders.Layers
             }
             _permissionService = Shared.GameDelegate.PermissionService;
 
+            var noInternet = !NetworkConnectionManager.IsInternetConnectionAvailable();
             _imgScoreboard = AddImage(220, 80, "UI/Main-screen-earth-lvl-scoreboard-table.png");
             _imgOffline = AddImage(300, 92, "UI/Main-screen-off-line-notification.png");
-            _imgOffline.Visible = !NetworkConnectionManager.IsInternetConnectionAvailable();
+            _imgOffline.Visible = noInternet;
 
             for (var i = 1; i <= 26; ++i)
             {
@@ -109,14 +112,15 @@ namespace LooneyInvaders.Layers
             {
                 Visible = !_imgOffline.Visible
             };
-            AnimateScoresBackgroundAction = (time) =>
+            _animateScoresBackgroundActionHolder = (time) =>
                 LoopAnimateWithCCSprites(_leaderboardBackground.Images,
-                    360, 180,
+                    360, 186,
                     ref _leaderboardBackground.Count,
                     ref _leaderboardBackgroundPlaceholder,
-                    () => _leaderboardSprites.Count == 0 && !_imgOffline.Visible,
-                    SetScoresBackgroundAction, _animationMaxTime);
-            SetScoresBackgroundAction = () => SetScoresBackgroundIfNoScore(360, 180, "UI/Leaderboard/no-score-in-leaderboard.png");
+                    () => LeaderboardTableIsEmpty,
+                    (o) => SetScoresBackgroundAction(o), _animationMaxTime);
+            AnimateScoresBackgroundAction = _animateScoresBackgroundActionHolder;
+            SetScoresBackgroundAction = (force) => SetScoresBackgroundIfNoScore(360, 186, "UI/Leaderboard/no-score-in-leaderboard.png", force);
             if (!_imgOffline.Visible)
             {
                 Schedule((elapsed) => AnimateScoresBackgroundAction?.Invoke(elapsed), 0.06f);
@@ -196,27 +200,40 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(Music.MainMenu);
 
             LeaderboardManager.ClearOnLeaderboardsRefreshedEvent();
-            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce((time) => RefreshLeaderboard(), 0.01f);
+            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce(RefreshLeaderboard, 0.01f);
+            NetworkConnectionManager.ConnectionChanged += (o, a) => // to show table immediately
+            {
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    ScheduleOnce((_) =>
+                    {
+                        RefreshLeaderboard(false);
+                        AnimateScoresBackgroundAction = _animateScoresBackgroundActionHolder;
+                        Schedule((elapsed) => AnimateScoresBackgroundAction?.Invoke(elapsed), 0.06f);
+                    }, 0.01f);
+                }
+            };
 
-            ScheduleOnceRefreshLeaderboard(0.03f);
+            ScheduleOnce(RefreshLeaderboardOnStart, 0.03f);
             CheckForNotification();
 
-            void ScheduleOnceRefreshLeaderboard(float secondsToWait)
+            async void RefreshLeaderboardOnStart(float time)
             {
-                ScheduleOnce(FireRefreshLeaderboard, secondsToWait);
+                if (noInternet) RefreshLeaderboard(time);
+                else await ForceLeaderboardManagerRefreshAsync();
             }
         }
 
         private void SetTimer()
         {
-            var backgroundTask = new Thread(new ThreadStart(() =>
+            var backgrounThreadTask = new Thread(new ThreadStart(() =>
             {
                 var timer = new Timer((e) => Enabled = true,
                     null,
                     TimeSpan.FromSeconds(1),
                     TimeSpan.Zero);
             }));
-            backgroundTask.Start();
+            backgrounThreadTask.Start();
         }
 
         private void BtnQuitGameNotificationCheckMark_OnClick(object sender, EventArgs e)
@@ -238,9 +255,8 @@ namespace LooneyInvaders.Layers
             HideProNotification(sender, e);
         }
 
-        private async void FireRefreshLeaderboard(float delta)
+        private async Task ForceLeaderboardManagerRefreshAsync()
         {
-            Unschedule(FireRefreshLeaderboard);
             _permissionService?.GetPermissions();
 
             await LeaderboardManager.RefreshLeaderboards();
@@ -266,19 +282,6 @@ namespace LooneyInvaders.Layers
             ChangeSpriteImage(_imgScoreboard, "UI/Main-screen-extinction-lvl-scoreboard-table.png");
 
             Player.Instance.IsProLevelSelected = true;
-            if (NetworkConnectionManager.IsInternetConnectionAvailable())
-            {
-                ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png");
-                _btnRanking.ImageNameTapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png";
-                _btnRanking.ImageNameUntapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png";
-            }
-            else
-            {
-                ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
-                _btnRanking.ImageNameTapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png";
-                _btnRanking.ImageNameUntapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png";
-            }
-
             RefreshLeaderboard();
         }
 
@@ -297,18 +300,6 @@ namespace LooneyInvaders.Layers
             ChangeSpriteImage(_imgScoreboard, "UI/Main-screen-earth-lvl-scoreboard-table.png");
 
             Player.Instance.IsProLevelSelected = false;
-            if (NetworkConnectionManager.IsInternetConnectionAvailable())
-            {
-                ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png");
-                _btnRanking.ImageNameTapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png";
-                _btnRanking.ImageNameUntapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png";
-            }
-            else
-            {
-                ChangeSpriteImage(_btnRanking, "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
-                _btnRanking.ImageNameTapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png";
-                _btnRanking.ImageNameUntapped = GameEnvironment.ImageDirectory + "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png";
-            }
             RefreshLeaderboard();
         }
 
@@ -431,56 +422,77 @@ namespace LooneyInvaders.Layers
                     GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 }
 
-                RefreshLeaderboard();
+                RefreshLeaderboard(false);
             }
         }
 
-        private void SetScoresBackgroundIfNoScore(int x, int y, string imageName)
+        private void SetScoresBackgroundIfNoScore(int x, int y, string imageName, bool forceStop)
         {
             _leaderboardBackground.Count = _leaderboardBackground.Images.Count;
 
-            var needToShow = _leaderboardSprites.Count == 0 && !_imgOffline.Visible;
-            if (AnimateScoresBackgroundAction != null)
+            if (forceStop)
             {
-                Unschedule(AnimateScoresBackgroundAction);
-                AnimateScoresBackgroundAction = null;
+                if (AnimateScoresBackgroundAction != null)
+                {
+                    Unschedule(AnimateScoresBackgroundAction);
+                    AnimateScoresBackgroundAction = null;
+                }
+                RemoveChild(_leaderboardBackgroundPlaceholder);
+                ChangeVisibilityAndAddImageIfNeeded(true);
             }
-            RemoveChild(_leaderboardBackgroundPlaceholder);
+            else
+            {
+                ChangeVisibilityAndAddImageIfNeeded(false);
+            }
 
-            _leaderboardBackgroundPlaceholder = AddImage(x, y, imageName);
-            _leaderboardBackgroundPlaceholder.Visible = needToShow;
+            void ChangeVisibilityAndAddImageIfNeeded(bool needed)
+            {
+                if (_leaderboardBackgroundPlaceholder.Texture == null || needed)
+                {
+                    _leaderboardBackgroundPlaceholder = AddImage(x, y, imageName);
+                }
+                _leaderboardBackgroundPlaceholder.Visible = LeaderboardTableIsEmpty;
+            }
         }
 
-        private void RefreshLeaderboard()
+        private void RefreshLeaderboard(float time)
+        {
+            RefreshLeaderboard();
+        }
+
+        private void RefreshLeaderboard(bool scheduled = true)
         {
             if (_isLeaderboardRefreshing)
             {
+                System.Diagnostics.Debug.WriteLine("RETURNED!");
                 return;
             }
             _isLeaderboardRefreshing = true;
 
-            _imgOffline.Visible = !NetworkConnectionManager.IsInternetConnectionAvailable();
-            if (!_imgOffline.Visible)
-            {
-                if (_isShownRankingDay) SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
-                else if (_isShownRankingWeek) SetBackground("UI/Main-screen-background-week-spotlight-on.jpg");
-                else if (_isShownRankingMonthly) SetBackground("UI/Main-screen-background-month-spotlight-on.jpg");
-            }
+            var noInternet = !NetworkConnectionManager.IsInternetConnectionAvailable();
+            if (noInternet) SetBackground("UI/Main-screen-background-spotlights-off.jpg");
 
             if (!_isShownLeaderboardPro)
             {
-                _btnRanking = AddButton(0, 355,
-                    _imgOffline.Visible ? "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png",
+                _btnRanking.ChangeImagesTo(noInternet ? "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png",
                     "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
             }
             else
             {
-                _btnRanking = AddButton(0, 355,
-                    _imgOffline.Visible ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
+                _btnRanking.ChangeImagesTo(noInternet ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
                     "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
             }
-            _btnRanking.OnClick -= BtnRanking_OnClick;
-            _btnRanking.OnClick += BtnRanking_OnClick;
+            _btnRanking.DisableClick();
+
+            ChangeSpriteButtonImage(_btnRanking);
+            if (noInternet == false)
+            {
+                _btnRanking.OnClick += BtnRanking_OnClick;
+
+                if (_isShownRankingDay) SetBackground("UI/Main-screen-background-day-spotlight-on.jpg");
+                else if (_isShownRankingWeek) SetBackground("UI/Main-screen-background-week-spotlight-on.jpg");
+                else if (_isShownRankingMonthly) SetBackground("UI/Main-screen-background-month-spotlight-on.jpg");
+            }
 
             foreach (var s in _leaderboardSprites)
             {
@@ -510,47 +522,41 @@ namespace LooneyInvaders.Layers
             else
             {
                 _imgOffline.Visible = false;
-                try
+                List<LeaderboardItem> lbScore = null;
+
+                var leaderboard = LeaderboardManager.RegularLeaderboard;
+
+                if (_isShownLeaderboardRegular) leaderboard = LeaderboardManager.RegularLeaderboard;
+                else if (_isShownLeaderboardPro) leaderboard = LeaderboardManager.ProLeaderboard;
+
+                if (_isShownRankingDay) lbScore = leaderboard.ScoreDaily;
+                else if (_isShownRankingWeek) lbScore = leaderboard.ScoreWeekly;
+                else if (_isShownRankingMonthly) lbScore = leaderboard.ScoreMonthly;
+
+                for (var i = 1; i <= 10; i++)
                 {
-                    List<LeaderboardItem> lbScore = null;
-
-                    var leaderboard = LeaderboardManager.RegularLeaderboard;
-                    if (_isShownLeaderboardRegular) leaderboard = LeaderboardManager.RegularLeaderboard;
-                    else if (_isShownLeaderboardPro) leaderboard = LeaderboardManager.ProLeaderboard;
-
-                    if (_isShownRankingDay) lbScore = leaderboard.ScoreDaily;
-                    else if (_isShownRankingWeek) lbScore = leaderboard.ScoreWeekly;
-                    else if (_isShownRankingMonthly) lbScore = leaderboard.ScoreMonthly;
-
-                    for (var i = 1; i <= 10; i++)
+                    if (lbScore != null && lbScore.Count >= i)
                     {
-                        if (lbScore != null && lbScore.Count >= i)
-                        {
-                            var color = lbScore[i - 1].Name == Player.Instance.Name
-                                ? new CCColor3B(255, 235, 180)
-                                : new CCColor3B(255, 255, 255);
+                        var color = lbScore[i - 1].Name == Player.Instance.Name
+                            ? new CCColor3B(255, 235, 180)
+                            : new CCColor3B(255, 255, 255);
 
-                            if (_isShownLeaderboardRegular)
-                            {
-                                _leaderboardSprites.Add(AddLabel(305, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabel(410, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabelRightAligned(595, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabelRightAligned(710, 297 - i * 17, lbScore[i - 1].Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabelRightAligned(850, 297 - i * 17, lbScore[i - 1].Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, color));
-                            }
-                            else
-                            {
-                                _leaderboardSprites.Add(AddLabel(355, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabel(480, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabelRightAligned(670, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                                _leaderboardSprites.Add(AddLabelRightAligned(800, 297 - i * 17, lbScore[i - 1].LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
-                            }
+                        if (_isShownLeaderboardRegular)
+                        {
+                            _leaderboardSprites.Add(AddLabel(305, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabel(410, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabelRightAligned(595, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabelRightAligned(710, 297 - i * 17, lbScore[i - 1].Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabelRightAligned(850, 297 - i * 17, lbScore[i - 1].Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, color));
+                        }
+                        else
+                        {
+                            _leaderboardSprites.Add(AddLabel(355, 297 - i * 17, lbScore[i - 1].Rank + ".", "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabel(480, 297 - i * 17, lbScore[i - 1].Name, "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabelRightAligned(670, 297 - i * 17, lbScore[i - 1].Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
+                            _leaderboardSprites.Add(AddLabelRightAligned(800, 297 - i * 17, lbScore[i - 1].LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    var mess = ex.Message;
                 }
 
                 LeaderboardItem lbi = null;
@@ -562,27 +568,37 @@ namespace LooneyInvaders.Layers
                 else if (_isShownLeaderboardPro && _isShownRankingWeek) lbi = LeaderboardManager.PlayerRankProWeekly;
                 else if (_isShownLeaderboardPro && _isShownRankingMonthly) lbi = LeaderboardManager.PlayerRankProMonthly;
 
-                { //avoid duplicate var color
-                    var color = new CCColor3B(255, 235, 180);
-                    if (_isShownLeaderboardRegular && lbi != null && lbi.Rank > 10)
-                    {
-                        _leaderboardSprites.Add(AddLabel(305, 105, lbi.Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabel(410, 105, lbi.Name, "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabelRightAligned(595, 105, lbi.Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabelRightAligned(710, 105, lbi.Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabelRightAligned(850, 105, lbi.Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, color));
-                    }
-                    else if (_isShownLeaderboardPro && lbi != null && lbi.Rank > 10)
-                    {
-                        _leaderboardSprites.Add(AddLabel(355, 105, lbi.Rank + ".", "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabel(480, 105, lbi.Name, "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabelRightAligned(670, 105, lbi.Score.ToString("######"), "Fonts/AktivGroteskBold", 12, color));
-                        _leaderboardSprites.Add(AddLabelRightAligned(800, 105, lbi.LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, color));
-                    }
+                var _color = new CCColor3B(255, 235, 180);
+                if (_isShownLeaderboardRegular && lbi != null && lbi.Rank > 10)
+                {
+                    _leaderboardSprites.Add(AddLabel(305, 105, lbi.Rank + ".", "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabel(410, 105, lbi.Name, "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabelRightAligned(595, 105, lbi.Score.ToString("######"), "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabelRightAligned(710, 105, lbi.Time.ToString("##0.00") + " s", "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabelRightAligned(850, 105, lbi.Accuracy.ToString("#0.00") + " %", "Fonts/AktivGroteskBold", 12, _color));
+                }
+                else if (_isShownLeaderboardPro && lbi != null && lbi.Rank > 10)
+                {
+                    _leaderboardSprites.Add(AddLabel(355, 105, lbi.Rank + ".", "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabel(480, 105, lbi.Name, "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabelRightAligned(670, 105, lbi.Score.ToString("######"), "Fonts/AktivGroteskBold", 12, _color));
+                    _leaderboardSprites.Add(AddLabelRightAligned(800, 105, lbi.LevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12, _color));
                 }
             }
-            SetScoresBackgroundAction?.Invoke();
 
+            SetScoresBackgroundAction(false);
+            if (LeaderboardTableIsEmpty && scheduled)
+            {
+                if (_needToForceRefreshLeaderboards)
+                {
+                    ForceLeaderboardManagerRefreshAsync();
+                    _needToForceRefreshLeaderboards = false;
+                }
+            }
+            else
+            {
+                _needToForceRefreshLeaderboards = true;
+            }
             _isLeaderboardRefreshing = false;
         }
 

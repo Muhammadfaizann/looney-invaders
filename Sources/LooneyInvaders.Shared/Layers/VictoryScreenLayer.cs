@@ -401,8 +401,8 @@ namespace LooneyInvaders.Layers
                 204, 260,
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
-                () => !_isDoneWaitingForScores,
-                () => Background.Opacity = 255, _animationMaxTime);
+                () => !_isDoneWaitingForScores && (_shareYourScore?.Visible).GetValueOrDefault(true),
+                (_) => Background.Opacity = 255, _animationMaxTime);
         }
 
         private void CalloutCountryNameVo(float dt)
@@ -512,7 +512,7 @@ namespace LooneyInvaders.Layers
         {
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
-            UnscheduleAll();
+            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("3"); } }, 0.2f);
         }
 
@@ -524,7 +524,7 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
-            UnscheduleAll();
+            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
             AdMobManager.ShowBannerBottom();
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
         }
@@ -535,7 +535,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.ShowBannerBottom();
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
-            UnscheduleAll();
+            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("5"); } }, 0.2f);
         }
 

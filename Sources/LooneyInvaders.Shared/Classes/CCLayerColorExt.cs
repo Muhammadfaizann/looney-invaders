@@ -337,9 +337,14 @@ namespace LooneyInvaders.Classes
             return images;
         }
 
-        public void ChangeSpriteImage(CCSprite sprite, string imageName)
+        public void ChangeSpriteButtonImage(CCSpriteButton button)
         {
-            var texture = new CCTexture2D(GameEnvironment.ImageDirectory + imageName);
+            ChangeSpriteImage(button, button.ImageNameUntapped, false);
+        }
+
+        public void ChangeSpriteImage(CCSprite sprite, string imageName, bool fullName = true)
+        {
+            var texture = new CCTexture2D((fullName ? GameEnvironment.ImageDirectory : "") + imageName);
             sprite.ReplaceTexture(texture,
                 new CCRect(0, 0, texture.ContentSizeInPixels.Width, texture.ContentSizeInPixels.Height));
             sprite.BlendFunc = GameEnvironment.BlendFuncDefault;
@@ -357,12 +362,21 @@ namespace LooneyInvaders.Classes
             base.Schedule(selector);
         }
 
+        public void UnscheduleAllExcept(params (Action<float> action, float timeout)[] except)
+        {
+            base.UnscheduleAll();
+            foreach (var (action, timeout) in except)
+            {
+                Schedule(action, timeout);
+            }
+        }
+
         public virtual void LoopAnimateWithCCSprites(List<string> imageNames,
             int x, int y,
             ref int index,
             ref CCSprite placeholder,
             Func<bool?> proceedCondition = null,
-            Action finalCallback = null,
+            Action<bool> finalCallback = null,
             TimeSpan? timeToCallback = null)
         {
             var timeToStop = false;
@@ -370,7 +384,7 @@ namespace LooneyInvaders.Classes
             {
                 if (!_animationTimer.IsRunning)
                 {
-                    _animationTimer.Start();
+                    _animationTimer.Restart();
                 }
                 var elapsed = _animationTimer.Elapsed;
                 if (elapsed > timeToCallback)
@@ -384,13 +398,12 @@ namespace LooneyInvaders.Classes
             placeholder.Visible = needToProceed;
             if (timeToStop || !needToProceed)
             {
-                finalCallback?.Invoke();
-
-                if (timeToStop) { return; }
+                finalCallback?.Invoke(timeToStop);
+                return;
             }
-
+            // animation - image replacement
             var currentIndex = index;
-            if (currentIndex > 0 && placeholder.Visible)
+            if (currentIndex > 0)
             {
                 var imageIndex = imageNames.Count - currentIndex;
                 index = currentIndex - 1;
@@ -1045,13 +1058,13 @@ namespace LooneyInvaders.Classes
             _transitionImage.RemoveFromParent();
         }
 
-        public void DisableBtn(CCSpriteButton button)
+        public void DisableBtnOnLayer(CCSpriteButton button)
         {
             button.Texture = new CCTexture2D(button.ImageNameTapped);
             button.Enabled = false;
         }
 
-        public void EnableBtn(CCSpriteButton button)
+        public void EnableBtnOnLayer(CCSpriteButton button)
         {
             button.Texture = new CCTexture2D(button.ImageNameUntapped);
             button.Enabled = true;

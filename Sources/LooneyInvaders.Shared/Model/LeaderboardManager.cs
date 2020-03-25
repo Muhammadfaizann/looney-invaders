@@ -10,7 +10,7 @@ namespace LooneyInvaders.Model
     {
         static LeaderboardManager()
         {
-            ReloadNetworkConnectionManagerSubscribe();
+            ReloadNetworkConnectionManagerSubscription();
         }
 
         private static bool _isRefreshing;
@@ -29,16 +29,16 @@ namespace LooneyInvaders.Model
 
         public static event EventHandler OnLeaderboardsRefreshed;
 
-        private static void ReloadNetworkConnectionManagerSubscribe()
+        private static void ReloadNetworkConnectionManagerSubscription()
         {
-            NetworkConnectionManager.ConnectionChanged -= FireLeaderboardsToBeRefreshed;
-            NetworkConnectionManager.ConnectionChanged += FireLeaderboardsToBeRefreshed;
+            NetworkConnectionManager.ConnectionChanged -= ForceLeaderboardsToBeRefreshed;
+            NetworkConnectionManager.ConnectionChanged += ForceLeaderboardsToBeRefreshed;
         }
 
         public static void ClearOnLeaderboardsRefreshedEvent()
         {
             OnLeaderboardsRefreshed = null;
-            ReloadNetworkConnectionManagerSubscribe();
+            ReloadNetworkConnectionManagerSubscription();
         }
 
         public static double BestScoreRegularScore
@@ -127,9 +127,9 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly;
         public static LeaderboardItem PlayerRankProAlltime;
 
-        internal async static void FireLeaderboardsToBeRefreshed(object sender, EventArgs args)
+        internal async static void ForceLeaderboardsToBeRefreshed(object sender, EventArgs args)
         {
-            await RefreshLeaderboards();
+            await RefreshLeaderboards(750); //delay to ensure inet connection isn't so weak
         }
 
         internal static void FireOnLeaderboardsRefreshed()
@@ -198,10 +198,10 @@ namespace LooneyInvaders.Model
             }
         }
 
-        public static async Task RefreshLeaderboards()
+        public static async Task RefreshLeaderboards(int millisecondsPreDelay = 0)
         {
-            if (_isRefreshing || RefreshLeaderboardsHandler == null)
-            {
+            await Task.Delay(millisecondsPreDelay);
+            if (_isRefreshing || RefreshLeaderboardsHandler == null) {
                 return;
             }
             _isRefreshing = true;

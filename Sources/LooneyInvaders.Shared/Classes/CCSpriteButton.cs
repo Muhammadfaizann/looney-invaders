@@ -22,6 +22,17 @@ namespace LooneyInvaders.Classes
             ButtonType = buttonType;
         }
 
+        public void DisableClick()
+        {
+            OnClick = null;
+        }
+
+        public void ChangeImagesTo(string imageNameUntapped, string imageNameTapped)
+        {
+            ImageNameUntapped = GameEnvironment.ImageDirectory + imageNameUntapped;
+            ImageNameTapped = GameEnvironment.ImageDirectory + imageNameTapped;
+        }
+
         internal void FireOnClick()
         {
             OnClick?.Invoke(this, EventArgs.Empty);

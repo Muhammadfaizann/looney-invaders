@@ -123,9 +123,6 @@ namespace LooneyInvaders.Droid
             /*Sensor gyro = sm.GetDefaultSensor(SensorType.RotationVector);
             sm.RegisterListener(this, gyro, SensorDelay.Game);*/
 
-            //the way to force shared code be invoked on the UI thread
-            GameDelegate.InvokeActionOnUIThread = RunOnUiThread;
-
             GameDelegate.CloseAppAllowed = true;
             GameDelegate.CloseApp = CloseActivity;
             // clearing on iOS does not properly work

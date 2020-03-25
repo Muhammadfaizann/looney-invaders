@@ -20,10 +20,6 @@ namespace LooneyInvaders.Shared
 
         public static CloseAppDelegate CloseApp;
 
-        public delegate void InvokeActionDelegate(Action action);
-
-        public static InvokeActionDelegate InvokeActionOnUIThread;
-
         public static bool CloseAppAllowed;
 
         public static event EventHandler OnBackButton;
@@ -156,17 +152,10 @@ namespace LooneyInvaders.Shared
             //LooneyInvaders.Model.LeaderboardManager.SubmitScorePro(12345, 12);
             //LooneyInvaders.Model.LeaderboardManager.SubmitScoreRegular(2345, 67.89, 123.45);
 
-            if (InvokeActionOnUIThread == null)
-            {
-                throw new Exception($"You must set {nameof(InvokeActionOnUIThread)} first in your platform specific code!");
-            }
-
             ////
             TrackTime();
             ////
-
             Layer = Layer ?? new SplashScreenLayer();
-
             ////
             TrackTime();
             ////
