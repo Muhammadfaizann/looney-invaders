@@ -193,8 +193,8 @@ namespace LooneyInvaders.Model
 
             if (BestScoreProSubmitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreProScore > 0)
             {
-                BestScoreProSubmitted = true;
                 SubmitScoreHandler(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted);
+                BestScoreProSubmitted = true;
             }
         }
 

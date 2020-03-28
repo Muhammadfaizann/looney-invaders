@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using CocosSharp;
 using LooneyInvaders.Model;
 
@@ -15,6 +17,8 @@ namespace LooneyInvaders.Classes
 
         public char Slovo;
 
+        private readonly List<EventHandler> _clickHandlers = new List<EventHandler>();
+
         public CCSpriteButton(string imageNameUntapped, string imageNameTapped, ButtonType buttonType = ButtonType.Regular) : base(imageNameUntapped)
         {
             ImageNameUntapped = imageNameUntapped;
@@ -22,9 +26,22 @@ namespace LooneyInvaders.Classes
             ButtonType = buttonType;
         }
 
+        public void EnableClick()
+        {
+            if (OnClick == null)
+            {
+                _clickHandlers.ForEach((handler) => OnClick += handler);
+            }
+        }
+
         public void DisableClick()
         {
-            OnClick = null;
+            if (OnClick != null)
+            {
+                _clickHandlers.Clear();
+                _clickHandlers.AddRange(OnClick.GetInvocationList().Cast<EventHandler>());
+                OnClick = null;
+            }
         }
 
         public void ChangeImagesTo(string imageNameUntapped, string imageNameTapped)
