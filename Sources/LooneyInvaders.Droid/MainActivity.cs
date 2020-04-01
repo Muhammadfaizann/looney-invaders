@@ -25,9 +25,10 @@ using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using Debug = System.Diagnostics.Debug;
-using ActivityCompat = Android.Support.V4.App.ActivityCompat;
 using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
+using FileProvider = Android.Support.V4.Content.FileProvider;
 
+[assembly: UsesLibrary("org.apache.http.legacy", false)]
 namespace LooneyInvaders.Droid
 {
     public class CustomExceptionHandler : Java.Lang.Object, Java.Lang.Thread.IUncaughtExceptionHandler
@@ -766,13 +767,10 @@ namespace LooneyInvaders.Droid
 
             var drawable = Android.Graphics.Drawables.Drawable.CreateFromStream(stream, "looney");
             var bitmap = ((Android.Graphics.Drawables.BitmapDrawable)drawable).Bitmap;
-            using (var file = StoreScreenShot(bitmap))
-            {
-                if (file == null) {
-                    return;
-                }
-                ShareOnSocialNetwork(network, file);
-            }
+            using var file = StoreScreenShot(bitmap);
+            if (file == null) { return; }
+
+            ShareOnSocialNetwork(network, file);
         }
 
         public void ShareOnSocialNetwork<TFile>(string network, TFile file)
@@ -780,8 +778,9 @@ namespace LooneyInvaders.Droid
         {
             try
             {
-                var store = Android.OS.Environment.ExternalStorageDirectory;
-                var uri = Android.Net.Uri.FromFile(file);
+                //https://forums.xamarin.com/discussion/151985/xamarin-fileprovider-cant-open-files-in-android
+
+                var uri = FileProvider.GetUriForFile(this, Application.Context.PackageName + ".fileprovider", file);
                 var i = new Intent(Intent.ActionSend);
 
                 // if (network == "facebook") i.SetPackage("com.facebook.katana");
