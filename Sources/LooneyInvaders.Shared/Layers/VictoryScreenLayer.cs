@@ -335,7 +335,7 @@ namespace LooneyInvaders.Layers
             Player.Instance.SetDayScore(_score);
 
             Background = Background ?? new CCSprite();
-            Background.Opacity = 120;
+            //Background.Opacity = 120;
 
             if (!saved)
             {
@@ -999,11 +999,15 @@ namespace LooneyInvaders.Layers
 
             var shadow = AddImage(0, 0, "UI/screen-shadow.png", 9999);
             _btnContinue.Visible = true;
+            _btnContinue.DisableClick();
             _mainMenu.Visible = true;
+            _mainMenu.DisableClick();
 
             ScheduleOnce((_) =>
             {
                 RemoveChild(shadow);
+                _btnContinue.EnableClick();
+                _mainMenu.EnableClick();
             }, 1.0f);
         }
 
