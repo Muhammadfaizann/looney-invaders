@@ -199,7 +199,7 @@ namespace LooneyInvaders.Droid
             TrackTime();
             Debug.WriteLine("Activity created(OnCreate passed)");
 
-            void TrackTime() { GameDelegate.TrackTime(); }
+            static void TrackTime() { GameDelegate.TrackTime(); }
         }
 
         public void CallInitOnApp42ServiceBuilder()
@@ -253,9 +253,7 @@ namespace LooneyInvaders.Droid
 
             bool IsScreenOn(PowerManager pm)
             {
-                if (pm == null) {
-                    return true;
-                }
+                if (pm == null) { return true; }
 
                 if (Build.VERSION.SdkInt > BuildVersionCodes.Kitkat)
                 {
@@ -623,6 +621,8 @@ namespace LooneyInvaders.Droid
             catch (Exception ex)
             {
                 var mess = ex.Message;
+                Debug.WriteLine($"Exception taken in {nameof(ShareOnSocialNetwork)}: {mess}");
+                Debug.WriteLine(ex.StackTrace);
             }
         }
 
@@ -702,7 +702,7 @@ namespace LooneyInvaders.Droid
             }
             catch (PurchaseError ex)
             {
-                Console.WriteLine($"Error with {product}:{ex.Message}");
+                Debug.WriteLine($"Error with {product}:{ex.Message}");
                 PurchaseManager.FireOnPurchaseFinished();
             }
         }
@@ -802,6 +802,8 @@ namespace LooneyInvaders.Droid
             catch (Exception ex)
             {
                 var mess = ex.Message;
+                Debug.WriteLine($"Exception taken in {nameof(ShareOnSocialNetwork)}: {mess}");
+                Debug.WriteLine(ex.StackTrace);
             }
         }
     }

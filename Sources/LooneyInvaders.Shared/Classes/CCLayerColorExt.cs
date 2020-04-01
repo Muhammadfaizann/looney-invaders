@@ -98,10 +98,13 @@ namespace LooneyInvaders.Classes
 
         public CCSprite AddImage(int x, int y, string imageName, int zOrder, CCBlendFunc blendFunc)
         {
-            var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName);
+            //var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName);
+            var sprite = new CCSprite();
+            sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + imageName);
             sprite.AnchorPoint = new CCPoint(0, 0);
             sprite.BlendFunc = blendFunc;
             sprite.Position = new CCPoint(x, y);
+            //sprite.IsColorModifiedByOpacity = true;
             AddChild(sprite, zOrder);
 
             return sprite;
@@ -764,12 +767,11 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public virtual void ContinueInitialize()
-        { }
+        public virtual void ContinueInitialize() { }
 
         public virtual async Task ContinueInitializeAsync()
         {
-            await Task.Run(() => { /*your base implemetation*/ });
+            await Task.CompletedTask;
         }
 
         public void TransitionToLayer(CCLayerColorExt layer, bool dispose = false)
@@ -784,10 +786,9 @@ namespace LooneyInvaders.Classes
             gameScene.AddLayer(layer);
 
             var transition = new CCTransitionFade(0.3f, gameScene);
-            if (Scene != null)
-                Director.ReplaceScene(transition);
-            if (dispose)
-                Dispose();
+            if (Scene != null) Director.ReplaceScene(transition);
+
+            if (dispose) Dispose();
         }
 
         public async Task TransitionToLayerAsync(CCLayerColorExt layer, bool dispose = false)
@@ -806,11 +807,11 @@ namespace LooneyInvaders.Classes
             {
                 await Director.ReplaceSceneAsync(transition);
             }
-            if (dispose)
-                Dispose();
+
+            if (dispose) Dispose();
         }
 
-        public void TransitionToLayerCartoonStyle(CCLayerColorExt layer, bool dispose = false)
+        public void TransitionToLayerCartoonStyle(CCLayerColorExt layer, bool usePause = false, bool dispose = false)
         {
             layer.ContinueInitialize();
             Shared.GameDelegate.Layer = layer;
@@ -822,7 +823,6 @@ namespace LooneyInvaders.Classes
             LayerTransitionTarget = layer;
 
             // source          
-
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop1);
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop2);
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop3);
@@ -850,43 +850,46 @@ namespace LooneyInvaders.Classes
                 new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_6.png"),
                 new CCRect(0, 0, 1136, 640)));
 
-            var animationSource = new CCAnimation(framesSource, 0.08f);
-
-            var transitionImageSource = new CCSprite(framesSource[0]);
-            transitionImageSource.AnchorPoint = new CCPoint(0, 0);
-            transitionImageSource.Position = new CCPoint(0, 0);
-            transitionImageSource.BlendFunc = GameEnvironment.BlendFuncDefault;
+            var animationSource = new CCAnimation(framesSource, 0.09f);
+            var transitionImageSource = new CCSprite(framesSource[0])
+            {
+                AnchorPoint = new CCPoint(0, 0),
+                Position = new CCPoint(0, 0),
+                BlendFunc = GameEnvironment.BlendFuncDefault
+            };
             AddChild(transitionImageSource, 9999);
 
             var actions = new CCFiniteTimeAction[2];
             actions[0] = new CCRepeat(new CCAnimate(animationSource), 1);
-            actions[1] = new CCCallFunc(ReplaceScene);
+            actions[1] = usePause ? new CCCallFunc(ReplaceSceneWithoutFadeIn) : new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
             var state = transitionImageSource.RunAction(seq);
 
-            ScheduleOnce(playEffect1, 0.08f);
-            ScheduleOnce(playEffect2, 0.16f);
-            ScheduleOnce(playEffect3, 0.24f);
-            ScheduleOnce(playEffect4, 0.32f);
-            ScheduleOnce(playEffect5, 0.4f);
-            ScheduleOnce(playEffect6, 0.48f);
+            ScheduleOnce(PlayEffect1, 0.09f);
+            ScheduleOnce(PlayEffect2, 0.18f);
+            ScheduleOnce(PlayEffect3, 0.27f);
+            ScheduleOnce(PlayEffect4, 0.36f);
+            ScheduleOnce(PlayEffect5, 0.45f);
+            ScheduleOnce(PlayEffect6, 0.54f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
 #endif
-            if (dispose)
-                Dispose();
+            if (dispose) Dispose();
         }
 
         public async Task TransitionToLayerCartoonStyleAsync(CCLayerColorExt layer,
             bool isAsyncContinuation = false,
+            bool usePause = false,
             bool dispose = false)
         {
             if (isAsyncContinuation)
+            {
                 await layer.ContinueInitializeAsync();
-            else
-                layer.ContinueInitialize();
+            }
+            else layer.ContinueInitialize();
+
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
@@ -896,7 +899,6 @@ namespace LooneyInvaders.Classes
             LayerTransitionTarget = layer;
 
             // source          
-
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop1);
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop2);
             GameEnvironment.PreloadSoundEffect(SoundEffect.TransitionLoop3);
@@ -924,72 +926,155 @@ namespace LooneyInvaders.Classes
                 new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_6.png"),
                 new CCRect(0, 0, 1136, 640)));
 
-            var animationSource = new CCAnimation(framesSource, 0.08f);
-
-            var transitionImageSource = new CCSprite(framesSource[0]);
-            transitionImageSource.AnchorPoint = new CCPoint(0, 0);
-            transitionImageSource.Position = new CCPoint(0, 0);
-            transitionImageSource.BlendFunc = GameEnvironment.BlendFuncDefault;
-            AddChild(transitionImageSource, 9999);
+            var animationSource = new CCAnimation(framesSource, 0.09f);
+            _transitionImage = new CCSprite(framesSource[0])
+            {
+                AnchorPoint = new CCPoint(0, 0),
+                Position = new CCPoint(0, 0),
+                BlendFunc = GameEnvironment.BlendFuncDefault
+            };
+            AddChild(_transitionImage, 9999);
 
             var actions = new CCFiniteTimeAction[2];
             actions[0] = new CCRepeat(new CCAnimate(animationSource), 1);
-            actions[1] = new CCCallFunc(ReplaceScene);
+            actions[1] = usePause ? new CCCallFunc(ReplaceSceneWithoutFadeIn) : new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            var state = await transitionImageSource.RunActionAsync(seq);
+            var soundTask = new Task(() =>
+            {
+                ScheduleOnce(PlayEffect1, 0.09f);
+                ScheduleOnce(PlayEffect2, 0.18f);
+                ScheduleOnce(PlayEffect3, 0.27f);
+                ScheduleOnce(PlayEffect4, 0.36f);
+                ScheduleOnce(PlayEffect5, 0.45f);
+                ScheduleOnce(PlayEffect6, 0.54f);
+            });
+            var stateTask = _transitionImage.RunActionAsync(seq);
 
-            ScheduleOnce(playEffect1, 0.08f);
-            ScheduleOnce(playEffect2, 0.16f);
-            ScheduleOnce(playEffect3, 0.24f);
-            ScheduleOnce(playEffect4, 0.32f);
-            ScheduleOnce(playEffect5, 0.4f);
-            ScheduleOnce(playEffect6, 0.48f);
+            soundTask.Start();
+            var res = await stateTask;
+            res.Update(1f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
 #endif
-            if (dispose)
-                Dispose();
+            if (dispose) Dispose();
         }
 
-        private void playEffect1(float dt)
+        private void PlayEffect1(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1);
         }
 
-        private void playEffect2(float dt)
+        private void PlayEffect2(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2);
         }
 
-        private void playEffect3(float dt)
+        private void PlayEffect3(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3);
         }
 
-        private void playEffect4(float dt)
+        private void PlayEffect4(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4);
         }
 
-        private void playEffect5(float dt)
+        private void PlayEffect5(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5);
         }
 
-        private void playEffect6(float dt)
+        private void PlayEffect6(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6);
         }
 
-        public void ReplaceScene()
+        private void RemoveTransitionImage()
+        {
+            _transitionImage.RemoveFromParent();
+        }
+
+        protected async Task AnimateFadeInAsync(Action prepAction = null)
+        {
+            var framesTarget = new List<CCSpriteFrame>
+            {
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_5.png"),
+                    new CCRect(0, 0, 1136, 640)),
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_4.png"),
+                    new CCRect(0, 0, 1136, 640)),
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_3.png"),
+                    new CCRect(0, 0, 1136, 640)),
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_2.png"),
+                    new CCRect(0, 0, 1136, 640)),
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_1.png"),
+                    new CCRect(0, 0, 1136, 640)),
+                new CCSpriteFrame(
+                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_0.png"),
+                    new CCRect(0, 0, 1136, 640))
+            };
+
+            var animationTarget = new CCAnimation(framesTarget, 0.08f);
+
+            _transitionImage = new CCSprite(framesTarget[0])
+            {
+                AnchorPoint = new CCPoint(0, 0),
+                Position = new CCPoint(0, 0),
+                BlendFunc = GameEnvironment.BlendFuncDefault
+            };
+            AddChild(_transitionImage, 9999);
+
+            var actions = new CCFiniteTimeAction[2];
+            actions[0] = new CCRepeat(new CCAnimate(animationTarget), 1);
+            actions[1] = new CCCallFunc(RemoveTransitionImage);
+
+            prepAction?.Invoke();
+
+            var seq = new CCSequence(actions);
+            var statePreTask = _transitionImage.RunActionAsync(seq);
+
+            var soundTask = new Task(() =>
+            {
+                ScheduleOnce(PlayEffect5, 0.08f);
+                ScheduleOnce(PlayEffect4, 0.16f);
+                ScheduleOnce(PlayEffect3, 0.24f);
+                ScheduleOnce(PlayEffect2, 0.32f);
+                ScheduleOnce(PlayEffect1, 0.4f);
+            });
+
+            soundTask.Start();
+            var res = await statePreTask;
+            res.Update(1f);
+
+            _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
+        }
+
+        protected void ReplaceSceneByTargetLayer()
         {
             var newScene = new CCScene(GameView);
-            LayerTransitionTarget.IsCartoonFadeIn = true;
             newScene.AddLayer(LayerTransitionTarget);
             if (Scene != null)
+            {
                 Director.ReplaceScene(newScene);
+            }
+        }
+
+        public void ReplaceSceneWithoutFadeIn()
+        {
+            LayerTransitionTarget.IsCartoonFadeIn = false;
+            ReplaceSceneByTargetLayer();
+        }
+
+        public void ReplaceScene()
+        {
+            LayerTransitionTarget.IsCartoonFadeIn = true;
+            ReplaceSceneByTargetLayer();
         }
 
         public override async void OnEnterTransitionDidFinish()
@@ -998,73 +1083,18 @@ namespace LooneyInvaders.Classes
 
             if (IsCartoonFadeIn)
             {
-                var framesTarget = new List<CCSpriteFrame>();
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_5.png"),
-                    new CCRect(0, 0, 1136, 640)));
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_4.png"),
-                    new CCRect(0, 0, 1136, 640)));
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_3.png"),
-                    new CCRect(0, 0, 1136, 640)));
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_2.png"),
-                    new CCRect(0, 0, 1136, 640)));
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_1.png"),
-                    new CCRect(0, 0, 1136, 640)));
-                framesTarget.Add(new CCSpriteFrame(
-                    new CCTexture2D(GameEnvironment.ImageDirectory + "UI/screen-transition_stage_0.png"),
-                    new CCRect(0, 0, 1136, 640)));
-
-                var animationTarget = new CCAnimation(framesTarget, 0.08f);
-
-                _transitionImage = new CCSprite(framesTarget[0]);
-                _transitionImage.AnchorPoint = new CCPoint(0, 0);
-                _transitionImage.Position = new CCPoint(0, 0);
-                _transitionImage.BlendFunc = GameEnvironment.BlendFuncDefault;
-                AddChild(_transitionImage, 9999);
-
-                var actions = new CCFiniteTimeAction[2];
-                actions[0] = new CCRepeat(new CCAnimate(animationTarget), 1);
-                actions[1] = new CCCallFunc(RemoveTransitionImage);
-
-                var seq = new CCSequence(actions);
-                var statePreTask = _transitionImage.RunActionAsync(seq);
-
-                var soundTask = new Task(() =>
-                {
-                    ScheduleOnce(playEffect5, 0.08f);
-                    ScheduleOnce(playEffect4, 0.16f);
-                    ScheduleOnce(playEffect3, 0.24f);
-                    ScheduleOnce(playEffect2, 0.32f);
-                    ScheduleOnce(playEffect1, 0.4f);
-                });
-
-                soundTask.Start();
-                var res = await statePreTask;
-                res.Update(1f);
-
-                _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
-                //res = await statePostTask;
+                await AnimateFadeInAsync();
             }
-
             IsCartoonFadeIn = Shared.GameDelegate.IsCartoonFadeInOnLayer;
         }
 
-        public void RemoveTransitionImage()
-        {
-            _transitionImage.RemoveFromParent();
-        }
-
-        public void DisableBtnOnLayer(CCSpriteButton button)
+        public void DisableButtonOnLayer(CCSpriteButton button)
         {
             button.Texture = new CCTexture2D(button.ImageNameTapped);
             button.Enabled = false;
         }
 
-        public void EnableBtnOnLayer(CCSpriteButton button)
+        public void EnableButtonOnLayer(CCSpriteButton button)
         {
             button.Texture = new CCTexture2D(button.ImageNameUntapped);
             button.Enabled = true;

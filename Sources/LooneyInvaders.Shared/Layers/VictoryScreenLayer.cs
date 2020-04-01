@@ -31,15 +31,21 @@ namespace LooneyInvaders.Layers
 
         private readonly CCSprite _defeated;
         private readonly CCSprite _justSavedTitle;
+        private readonly CCSprite _cartoonBackground;
 
-        private (int Count, List<string> Images) _loadingView = (0, new List<string>());
-        private CCSprite _loadingViewPlaceholder;
-        private CCSprite _shareYourScore;
         private CCSpriteButton _okIGotIt;
         private CCSpriteButton _btnContinue;
         private CCSpriteButton _mainMenu;
         private CCSpriteButton _yes;
         private CCSpriteButton _no;
+        private CCSpriteButton _showAd;
+        private CCSprite _loadingViewPlaceholder;
+        private CCSprite _shareYourScore;
+        private CCSprite _multiplierArrow;
+        private CCSprite[] _scoreBefore;
+        private (int Count, List<string> Images) _loadingView = (0, new List<string>());
+
+        private CCNodeExt _multiplierNode;
 
         private readonly Battlegrounds _nextBattleGround;
         private readonly Enemies _nextEnemy;
@@ -132,9 +138,6 @@ namespace LooneyInvaders.Layers
             }
             _loadingView.Count = _loadingView.Images.Count;
             _loadingViewPlaceholder = new CCSprite();
-            Background = new CCSprite();
-
-            Schedule(AnimateLoadingView, 0.06f);
 
             Player.Instance.SetQuickGame(_nextEnemy, _nextBattleGround, selectedWeapon);
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
@@ -331,6 +334,7 @@ namespace LooneyInvaders.Layers
             Player.Instance.AddSavedCountry(SelectedBattleground);
             Player.Instance.SetDayScore(_score);
 
+            Background = Background ?? new CCSprite();
             Background.Opacity = 120;
 
             if (!saved)
@@ -339,11 +343,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        ScheduleOnce(ShowMultiplierAd, 2.8f);
+                        ScheduleOnce(ShowMultiplierAd, 3.8f);
                     }
                     else
                     {
-                        ScheduleOnce(ShowMultiplierAd, 1);
+                        ScheduleOnce(ShowMultiplierAd, 2);
                     }
                 }
                 else
@@ -371,15 +375,9 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce(ShowDefeated, 2);
                 }
             }
+            _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
 
             AdMobManager.ShowBannerBottom();
-
-            ScheduleOnce(async (_) =>
-            {
-                _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
-                _isDoneWaitingForScores = true;
-            }, 0f);
-
             GameEnvironment.PlayMusic(Music.Victory);
 
             if (Settings.Instance.VoiceoversEnabled)
@@ -387,6 +385,20 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce((_) => CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav"), 0f);
                 ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
+
+            ScheduleOnce(async (_) =>
+            {
+                _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
+                _isDoneWaitingForScores = true;
+            }, 0f);
+            Schedule(AnimateLoadingView, 0.05f);
+        }
+
+        public override async Task ContinueInitializeAsync()
+        {
+            ScheduleOnce((_) => { }, 0f);
+
+            await base.ContinueInitializeAsync();
         }
 
         private void Caught(string message)
@@ -401,8 +413,22 @@ namespace LooneyInvaders.Layers
                 204, 260,
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
-                () => !_isDoneWaitingForScores && (_shareYourScore?.Visible).GetValueOrDefault(true),
-                (_) => Background.Opacity = 255, _animationMaxTime);
+                () => !_isDoneWaitingForScores &&
+                     !(_btnContinue?.Visible).GetValueOrDefault() &&
+                     !(_shareYourScore?.Visible).GetValueOrDefault() &&
+                     !(_multiplierNode?.Visible).GetValueOrDefault(),
+                async (_) =>
+                {
+                    if (_cartoonBackground == null) { return; }
+                    if (!_cartoonBackground.Visible) { Unschedule(AnimateLoadingView); return; }
+
+                    await AnimateFadeInAsync(() =>
+                    {
+                        _cartoonBackground.Visible = false;
+                        Unschedule(AnimateLoadingView);
+                        RemoveChild(_cartoonBackground);
+                    });
+                }, _animationMaxTime);
         }
 
         private void CalloutCountryNameVo(float dt)
@@ -472,11 +498,6 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private CCNodeExt _multiplierNode;
-        private CCSprite _multiplierArrow;
-        private CCSprite[] _scoreBefore;
-        private CCSpriteButton _showAd;
-
         private void ShowMultiplierAd(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
@@ -492,13 +513,17 @@ namespace LooneyInvaders.Layers
             _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
             _showAd.OnClick += ShowMultiplierAd_Onclick;
             AddChild(_multiplierNode, 1000);
+            
             Schedule(AnimateArrow, 0.03f);
         }
 
         private void AnimateArrow(float dt)
         {
             _multiplierArrow.ScaleX += 0.012f;
-            if (_multiplierArrow.ScaleX > 1.23) _multiplierArrow.ScaleX = 0.85f;
+            if (_multiplierArrow.ScaleX > 1.23)
+            {
+                _multiplierArrow.ScaleX = 0.85f;
+            }
         }
 
         private void ShowMultiplierAd_Onclick(object sender, EventArgs e)
@@ -564,6 +589,8 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("6"); } }, 0.2f);
             }
         }
+
+        #region ShowRecordNotification
 
         private CCSprite _recordNotification;
         private CCSprite _recordNotificationImage;
@@ -663,6 +690,9 @@ namespace LooneyInvaders.Layers
             }
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("7"); } }, 0f);
         }
+        #endregion
+
+        #region ShowScore
 
         private float _waitForScoreCounter;
         private CCNodeExt _scoreNode;
@@ -794,7 +824,6 @@ namespace LooneyInvaders.Layers
             {
                 child.Opacity = _scoreNode.Opacity;
             }
-
             AddChild(_scoreNode);
 
             GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
@@ -819,6 +848,8 @@ namespace LooneyInvaders.Layers
             {
                 _scoreNode.Opacity = 255;
                 _justSavedTitle.Opacity = 0;
+                _justSavedTitle.Visible = false;
+
                 Unschedule(FadeScore);
             }
             foreach (var child in _scoreNode.Children)
@@ -843,6 +874,9 @@ namespace LooneyInvaders.Layers
             var newLayer = new MainScreenLayer();
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
+        #endregion
+
+        #region YesNo_OnClick
 
         private CCNodeExt _sl;
 
@@ -856,83 +890,63 @@ namespace LooneyInvaders.Layers
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:
-                    //sl.SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-afghanistan.png", 2);
                     break;
                 case Battlegrounds.Denmark:
-                    //sl.SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-denmark.png", 2);
                     break;
                 case Battlegrounds.England:
-                    //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-england.png", 2);
                     break;
                 case Battlegrounds.Estonia:
-                    //sl.SetBackground("UI/Victory scenes/Estonia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-estonia.png", 2);
                     break;
                 case Battlegrounds.Finland:
-                    //sl.SetBackground("UI/Victory scenes/Finland-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-finland.png", 2);
                     break;
                 case Battlegrounds.France:
-                    //sl.SetBackground("UI/Victory scenes/France-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-france.png", 2);
                     break;
                 case Battlegrounds.Georgia:
-                    //sl.SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-georgia.png", 2);
                     break;
                 case Battlegrounds.GreatBritain:
-                    //sl.SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-great-britain.png", 2);
                     break;
                 case Battlegrounds.Iraq:
-                    //sl.SetBackground("UI/Victory scenes/Iraq-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-iraq.png", 2);
                     break;
                 case Battlegrounds.Israel:
-                    //sl.SetBackground("UI/Victory scenes/Israel-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-israel.png", 2);
                     break;
                 case Battlegrounds.Japan:
-                    //sl.SetBackground("UI/Victory scenes/Japan-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-japan.png", 2);
                     break;
                 case Battlegrounds.Libya:
-                    //sl.SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-libya.png", 2);
                     break;
                 case Battlegrounds.Norway:
-                    //sl.SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-norway.png", 2);
                     break;
                 case Battlegrounds.Poland:
-                    //sl.SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-poland.png", 2);
                     break;
                 case Battlegrounds.Russia:
-                    //sl.SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-russia.png", 2);
                     break;
                 case Battlegrounds.SouthKorea:
-                    //sl.SetBackground("UI/Victory scenes/South-Korea-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-south-korea.png", 2);
                     break;
                 case Battlegrounds.Syria:
-                    //sl.SetBackground("UI/Victory scenes/Syria-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-syria.png", 2);
                     break;
                 case Battlegrounds.Ukraine:
-                    //sl.SetBackground("UI/Victory scenes/Ukraine-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-ukraine.png", 2);
                     break;
                 case Battlegrounds.UnitedStates:
-                    //sl.SetBackground("UI/Victory scenes/USA-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Kim defeaded/victory-i-just-saved-united-states.png", 2);
                     break;
                 case Battlegrounds.Vietnam:
-                    //sl.SetBackground("UI/Victory scenes/Vietnam-victory-scene.jpg");
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-vietnam.png", 2);
                     break;
             }
@@ -966,10 +980,9 @@ namespace LooneyInvaders.Layers
             {
                 _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
             }
-
             _scoreNode.Visible = false;
-            AddChild(_sl);
 
+            AddChild(_sl);
             _shareYourScore.Visible = false;
 
             SocialNetworkShareManager.ShareLayer("facebook", this);
@@ -983,8 +996,15 @@ namespace LooneyInvaders.Layers
                 _scoreNode.RemoveChild(spr);
             }
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+
+            var shadow = AddImage(0, 0, "UI/screen-shadow.png", 9999);
             _btnContinue.Visible = true;
             _mainMenu.Visible = true;
+
+            ScheduleOnce((_) =>
+            {
+                RemoveChild(shadow);
+            }, 1.0f);
         }
 
         private void No_OnClick(float obj)
@@ -1024,6 +1044,7 @@ namespace LooneyInvaders.Layers
                 await TransitionToLayerCartoonStyleAsync(newLayer);
             }
         }
+        #endregion
 
         public override void OnEnter()
         {

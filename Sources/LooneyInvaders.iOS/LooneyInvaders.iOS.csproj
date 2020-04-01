@@ -307,6 +307,9 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-26.png">
       <Link>Content\Images\Hd\UI\Leaderboard\connecting-to-leaderboard-26.png</Link>
     </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\screen-shadow.png">
+      <Link>Content\Images\Hd\UI\screen-shadow.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">

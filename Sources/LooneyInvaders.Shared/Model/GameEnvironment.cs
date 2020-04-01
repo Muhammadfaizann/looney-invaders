@@ -72,8 +72,6 @@ namespace LooneyInvaders.Model
 
         public static string MusicPlaying = "";
 
-
-
         public static void PlayMusic(Music music, bool fromStart = false)
         {
             if (music == Music.MainMenu)
@@ -187,8 +185,6 @@ namespace LooneyInvaders.Model
                 else if (Settings.Instance.MusicStyle == MusicStyle.BeatBox)
                     PlayMusic("Sounds/06 - Looney Invaders Battle Theme (Wave 3) FINAL.mp3", true);
             }
-
-
 
             else if (music == Music.BattleAlien1)
             {

@@ -1132,7 +1132,6 @@ namespace LooneyInvaders.Layers
 
         private void CalloutCountryName(float dt)
         {
-
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:
@@ -1196,9 +1195,7 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
                     break;
             }
-
         }
-
 
         private void CalloutCountryNameVo(float dt)
         {
@@ -1351,7 +1348,6 @@ namespace LooneyInvaders.Layers
             }
         }
 
-
         private CCSpriteButton _btnBack;
         private CCSpriteButton _btnSettings;
 
@@ -1463,7 +1459,6 @@ namespace LooneyInvaders.Layers
 
                     _timeLabel.Visible = false;
                 }
-
 
                 _lastDisplayedTime = 0;
                 _elapsedTime = 0;
@@ -2073,7 +2068,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void Victory(float dt)
+        private async void Victory(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2115,7 +2110,7 @@ namespace LooneyInvaders.Layers
                     break;
                 case LaunchMode.Default:
                     Settings.IsFromGameScreen = false;
-
+                    //victory
                     newLayer = new VictoryScreenLayer(
                         SelectedEnemy,
                         SelectedWeapon,
@@ -2124,7 +2119,7 @@ namespace LooneyInvaders.Layers
                         Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
                         _lives.Count,
                         WinsInSuccession + 1);
-                    TransitionToLayerCartoonStyle(newLayer);
+                    await TransitionToLayerCartoonStyleAsync(newLayer, true, usePause: true);
                     break;
             }
         }
@@ -4296,8 +4291,6 @@ namespace LooneyInvaders.Layers
 
         private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-
-
             var movementButtonBoundingBox = _btnMovement.BoundingBoxTransformedToWorld;
             var fireButtonBoundingBox = _btnFire.BoundingBoxTransformedToWorld;
 
