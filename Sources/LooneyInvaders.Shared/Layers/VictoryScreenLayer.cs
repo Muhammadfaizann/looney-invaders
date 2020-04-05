@@ -314,6 +314,8 @@ namespace LooneyInvaders.Layers
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
                     break;
             }
+            _justSavedTitle = _justSavedTitle ?? new CCSprite();
+            _justSavedTitle.Visible = false;
 
             AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
@@ -398,6 +400,7 @@ namespace LooneyInvaders.Layers
         {
             ScheduleOnce((_) => { }, 0f);
 
+            await Task.Delay(5);
             await base.ContinueInitializeAsync();
         }
 
@@ -410,7 +413,7 @@ namespace LooneyInvaders.Layers
         private void AnimateLoadingView(float obj)
         {
             LoopAnimateWithCCSprites(_loadingView.Images,
-                204, 260,
+                204, 230,
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
@@ -424,6 +427,7 @@ namespace LooneyInvaders.Layers
 
                     await AnimateFadeInAsync(() =>
                     {
+                        _justSavedTitle.Visible = true;
                         _cartoonBackground.Visible = false;
                         Unschedule(AnimateLoadingView);
                         RemoveChild(_cartoonBackground);
@@ -538,6 +542,7 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAllExcept((AnimateLoadingView, 0.06f));
+            ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("3"); } }, 0.2f);
         }
 
@@ -550,7 +555,9 @@ namespace LooneyInvaders.Layers
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
             UnscheduleAllExcept((AnimateLoadingView, 0.06f));
+
             AdMobManager.ShowBannerBottom();
+            ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
         }
 
@@ -558,9 +565,12 @@ namespace LooneyInvaders.Layers
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             AdMobManager.ShowBannerBottom();
+
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
+
             UnscheduleAllExcept((AnimateLoadingView, 0.06f));
+            ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("5"); } }, 0.2f);
         }
 
