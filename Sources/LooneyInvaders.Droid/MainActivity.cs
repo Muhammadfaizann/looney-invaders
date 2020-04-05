@@ -727,7 +727,7 @@ namespace LooneyInvaders.Droid
         private static Java.IO.File StoreScreenShot(Bitmap picture)
         {
             var folder = $"{Android.OS.Environment.ExternalStorageDirectory}{Java.IO.File.Separator}LooneyInvaders";
-            var extFileName = $"{folder}{Java.IO.File.Separator}{Guid.NewGuid()}.jpeg";
+            var extFileName = $"{folder}{Java.IO.File.Separator}looney_invaders_{ DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.jpeg";
             try
             {
                 if (!Directory.Exists(folder))
