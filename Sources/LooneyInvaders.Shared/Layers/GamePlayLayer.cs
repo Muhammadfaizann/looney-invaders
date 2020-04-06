@@ -203,7 +203,6 @@ namespace LooneyInvaders.Layers
             EnableMultiTouch = true;
 
             // ----------- Prabhjot ----------- //
-            //this.ScheduleOnce(Victory, 1);
             Settings.IsFromGameScreen = launchMode != LaunchMode.SteeringTest;
             NotificationCenterManager.Instance.AddObserver(OnSwitchIsOn, @"GameInBackground");
 
@@ -1364,10 +1363,9 @@ namespace LooneyInvaders.Layers
                     var enemy = new Enemy(this, 1136 / 2 - 50 - i * 100, 570 - j * 65 + 290);
                     enemy.Sprite.ZOrder = 10 - j * 3;
                     _enemies.Add(enemy);
-                    if (isHacked)
-                    {
-                        continue;
-                    }
+
+                    if (isHacked) { continue; }
+
                     enemy = new Enemy(this, 1136 / 2 + 50 + i * 100, 570 - j * 65 + 290);
                     _enemies.Add(enemy);
                     enemy.Sprite.ZOrder = 10 - j * 3;
@@ -1380,7 +1378,6 @@ namespace LooneyInvaders.Layers
             try
             {
                 RemoveAllChildren();
-
                 SetBackground(BattlegroundImageName);
 
                 if (_launchMode == LaunchMode.SteeringTest)
@@ -1586,7 +1583,7 @@ namespace LooneyInvaders.Layers
                 args1 = (2, 570, "UI/pause-button-untapped.png", "UI/pause-button-tapped.png",
                     100, ButtonType.Back, BtnBack_OnClick),
                 args2 = (70, 570, "UI/settings-button-untapped.png", "UI/settings-button-tapped.png",
-                    100, ButtonType.Back, btnSettings_OnClick);
+                    100, ButtonType.Back, BtnSettings_OnClick);
 
             _btnBack = _btnBack?.Parent == null
                 ? this.CreateButton(args1.Item1, args1.Item2, args1.Item3,
@@ -1652,10 +1649,10 @@ namespace LooneyInvaders.Layers
             _gameTipCheckMark.ButtonType = ButtonType.CheckMark;
 
             _okIGotIt = AddButton(660, 20, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 1005);
-            _okIGotIt.OnClick += alienOkIGotIt_OnClick;
+            _okIGotIt.OnClick += AlienOkIGotIt_OnClick;
         }
 
-        private void alienOkIGotIt_OnClick(object sender, EventArgs e)
+        private void AlienOkIGotIt_OnClick(object sender, EventArgs e)
         {
             Settings.Instance.AlienGameTipGamePlayShow = _gameTipCheckMark.State != 1;
             RemoveChild(_gameTipBackground);
@@ -1667,32 +1664,13 @@ namespace LooneyInvaders.Layers
             Schedule(UpdateAll);
         }
 
-        private void ClearAll()
+        private void BtnSettings_OnClick(object sender, EventArgs e)
         {
-            RemoveAllChildren();
-            //cache.RemoveAllTextures();
-            //cache.UnloadContent();
-            /*cache.Dispose();
-            bullets = null;
-            enemies = null;
-            bombs = null;
-            ammos = null;
-            lives = null;
-            gunSmokes = null;*/
-        }
-
-        private void btnSettings_OnClick(object sender, EventArgs e)
-        {
-            //this.UnscheduleAll();
-            //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
-            //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
-
             Console.WriteLine("Settings Button Clicked");
 
             //------------- Prabhjot --------------//
             if (_isGameOver)
             {
-                //btnSettings = this.AddButton(70, 570, "UI/settings-button-tapped.png", "UI/settings-button-tapped.png", 100, BUTTON_TYPE.Back);
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
@@ -1716,9 +1694,6 @@ namespace LooneyInvaders.Layers
             SetBackground(BattlegroundImageName);
             PreloadCannonSound();
             SetUpSteering(true);
-
-            //Schedule(UpdateAll);
-            //this.OnTouchBegan += GamePlayLayer_OnTouchBegan;
 
             if (_waveTransfer)
             {
@@ -1815,16 +1790,16 @@ namespace LooneyInvaders.Layers
                 _gamePauseBackground = AddImageCentered(1136 / 2, 630 / 2, "UI/game-paused-rude-notification-background-with-text.png", 2002);
             }
             _btnJust = AddButton(176, 320, "UI/game-paused-just-paused-button-untapped.png", "UI/game-paused-just-paused-button-tapped.png", 2003);
-            _btnJust.OnClick += btnJust_OnClick;
+            _btnJust.OnClick += BtnJust_OnClick;
             _btnSurrender = AddButton(176, 203, "UI/game-paused-surrender-button-untapped.png", "UI/game-paused-surrender-button-tapped.png", 2003);
-            _btnSurrender.OnClick += btnSurrender_OnClick;
+            _btnSurrender.OnClick += BtnSurrender_OnClick;
             _btnContinue = AddButton(176, 85, "UI/game-paused-lets-continue-button-untapped.png", "UI/game-paused-lets-continue-button-tapped.png", 2003);
-            _btnContinue.OnClick += btnContinue_OnClick;
+            _btnContinue.OnClick += BtnContinue_OnClick;
 
             _gamePauseFriendlyLabel = AddImage(120, 25, "UI/game-paused-friendly-do-not-insult-me-text.png", 2003);
 
             _gamePauseFriendlyCheckMark = AddTwoStateButton(45, 20, "UI/check-button-untapped.png", "UI/check-button-tapped.png", "UI/check-button-tapped.png", "UI/check-button-untapped.png", 2005);
-            _gamePauseFriendlyCheckMark.OnClick += gamePauseFriendlyCheckMark_OnClick;
+            _gamePauseFriendlyCheckMark.OnClick += GamePauseFriendlyCheckMark_OnClick;
             _gamePauseFriendlyCheckMark.ButtonType = ButtonType.CheckMark;
             _gamePauseFriendlyCheckMark.SetStateImages(Settings.Instance.GamePauseFriendly ? 1 : 2);
 
@@ -1847,24 +1822,20 @@ namespace LooneyInvaders.Layers
             */
         }
 
-        private void btnJust_OnClick(object sender, EventArgs e)
+        private void BtnJust_OnClick(object sender, EventArgs e)
         {
-            //this.UnscheduleAll();
-            //this.OnTouchBegan -= GamePlayLayer_OnTouchBegan;
-            //this.TransitionToLayerCartoonStyle(new SettingsScreenLayer(), true);
-
             var newScene = new CCScene(GameView);
             var newLayer = new PauseScreenLayer(this);
             newScene.AddLayer(newLayer);
             Director.PushScene(newScene);
         }
 
-        private void btnSurrender_OnClick(object sender, EventArgs e)
+        private void BtnSurrender_OnClick(object sender, EventArgs e)
         {
             GameOver(0f);
         }
 
-        private void btnContinue_OnClick(object sender, EventArgs e)
+        private void BtnContinue_OnClick(object sender, EventArgs e)
         {
             try
             {
@@ -1928,7 +1899,7 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void gamePauseFriendlyCheckMark_OnClick(object sender, EventArgs e)
+        private void GamePauseFriendlyCheckMark_OnClick(object sender, EventArgs e)
         {
             _gamePauseFriendlyCheckMark.ChangeState();
             _gamePauseFriendlyCheckMark.SetStateImages();
@@ -2028,12 +1999,7 @@ namespace LooneyInvaders.Layers
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
 
-            //CCLabel go = this.AddLabelCentered(1136 / 2, 315, "G A M E   O V E R", "Fonts/AktivGroteskBold", 16);
-            //go.Scale = 2;
-            //go.ZOrder = 100;
-            ClearAll();
             Enabled = false;
-
             SetGameDuration();
 
             if (_launchMode == LaunchMode.WeaponTest)
@@ -2081,7 +2047,6 @@ namespace LooneyInvaders.Layers
             {
                 _elapsedTime = 1;
             }
-            ClearAll();
             SetGameDuration();
 
             CCLayerColorExt newLayer;
@@ -2089,13 +2054,13 @@ namespace LooneyInvaders.Layers
             {
                 case LaunchMode.WeaponTest:
                     AdMobManager.HideBanner();
-
+                    //weapon test
                     newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
                     TransitionToLayerCartoonStyle(newLayer);
                     break;
                 case LaunchMode.WeaponsUpgradeTest:
                     AdMobManager.HideBanner();
-
+                    //weapon upgrade
                     newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
                         (int)SelectedWeapon,
                         CaliberSizeSelected,

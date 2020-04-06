@@ -336,7 +336,7 @@ namespace LooneyInvaders.Layers
             Player.Instance.AddSavedCountry(SelectedBattleground);
             Player.Instance.SetDayScore(_score);
 
-            Background = Background ?? new CCSprite();
+            //Background = Background ?? new CCSprite();
             //Background.Opacity = 120;
 
             if (!saved)
@@ -398,9 +398,7 @@ namespace LooneyInvaders.Layers
 
         public override async Task ContinueInitializeAsync()
         {
-            ScheduleOnce((_) => { }, 0f);
-
-            await Task.Delay(5);
+            await Task.Delay(10);
             await base.ContinueInitializeAsync();
         }
 

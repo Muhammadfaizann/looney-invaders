@@ -949,11 +949,9 @@ namespace LooneyInvaders.Classes
                 ScheduleOnce(PlayEffect5, 0.45f);
                 ScheduleOnce(PlayEffect6, 0.54f);
             });
-            var stateTask = _transitionImage.RunActionAsync(seq);
-
             soundTask.Start();
-            var res = await stateTask;
-            res.Update(1f);
+
+            (await _transitionImage.RunActionAsync(seq))?.Update(1f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -1020,8 +1018,7 @@ namespace LooneyInvaders.Classes
                     new CCRect(0, 0, 1136, 640))
             };
 
-            var animationTarget = new CCAnimation(framesTarget, 0.08f);
-
+            var animationTarget = new CCAnimation(framesTarget, 0.09f);
             _transitionImage = new CCSprite(framesTarget[0])
             {
                 AnchorPoint = new CCPoint(0, 0),
@@ -1037,20 +1034,17 @@ namespace LooneyInvaders.Classes
             prepAction?.Invoke();
 
             var seq = new CCSequence(actions);
-            var statePreTask = _transitionImage.RunActionAsync(seq);
-
             var soundTask = new Task(() =>
             {
-                ScheduleOnce(PlayEffect5, 0.08f);
-                ScheduleOnce(PlayEffect4, 0.16f);
-                ScheduleOnce(PlayEffect3, 0.24f);
-                ScheduleOnce(PlayEffect2, 0.32f);
-                ScheduleOnce(PlayEffect1, 0.4f);
+                ScheduleOnce(PlayEffect5, 0.09f);
+                ScheduleOnce(PlayEffect4, 0.18f);
+                ScheduleOnce(PlayEffect3, 0.27f);
+                ScheduleOnce(PlayEffect2, 0.36f);
+                ScheduleOnce(PlayEffect1, 0.45f);
             });
-
             soundTask.Start();
-            var res = await statePreTask;
-            res.Update(1f);
+
+            (await _transitionImage.RunActionAsync(seq))?.Update(1f);
 
             _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
         }
@@ -1063,6 +1057,11 @@ namespace LooneyInvaders.Classes
             {
                 Director.ReplaceScene(newScene);
             }
+            ScheduleOnce((_) =>
+            {
+                RemoveAllChildren();
+                Dispose();
+            }, 1f);
         }
 
         public void ReplaceSceneWithoutFadeIn()

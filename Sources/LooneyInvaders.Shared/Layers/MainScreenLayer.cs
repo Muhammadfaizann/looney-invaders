@@ -431,6 +431,8 @@ namespace LooneyInvaders.Layers
 
         private async void BtnSelectionMode_OnClick(object sender, EventArgs e)
         {
+            _imgQuickGameWindow.Visible = false;
+
             var newLayer = new EnemyPickerLayer();
             if (Shared.GameDelegate.UseAnimationClearing)
             {
