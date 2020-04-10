@@ -1,8 +1,8 @@
 using System;
+using System.Diagnostics;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-
 
 #if __IOS__
 using Foundation;
@@ -71,13 +71,13 @@ namespace LooneyInvaders.Layers
             AddImage(307, 560, "UI/Get-more-credits-title-text.png");
 
             var btn1M = AddButton(0, 475, "UI/Get-more-credits-get-1000000-credits-button-untapped.png", "UI/Get-more-credits-get-1000000-credits-button-tapped.png");
-            btn1M.OnClick += btn1m_OnClick;
+            btn1M.OnClick += Btn1m_OnClick;
             btn1M.ButtonType = ButtonType.CreditPurchase;
 
             AddImage(517, 470, "UI/Get-more-credits-get-7_99-USD.png");
 
             var btn300K = AddButton(0, 381, "UI/Get-more-credits-get-300000-credits-button-untapped.png", "UI/Get-more-credits-get-300000-credits-button-tapped.png");
-            btn300K.OnClick += btn300k_OnClick;
+            btn300K.OnClick += Btn300k_OnClick;
             btn300K.ButtonType = ButtonType.CreditPurchase;
 
             AddImage(517, 379, "UI/Get-more-credits-get-4_99-USD.png");
@@ -102,7 +102,7 @@ namespace LooneyInvaders.Layers
             _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
 
 
-            _btn4000.OnClick += btn4000_OnClick;
+            _btn4000.OnClick += Btn4000_OnClick;
             _btn4000.ButtonType = ButtonType.Silent;
 
             AddImage(437, 199, "UI/Get-more-credits-like-us-on-facebook-text.png");
@@ -120,15 +120,15 @@ namespace LooneyInvaders.Layers
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
 
             _btn2000Hiden = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
-            _btn2000Hiden.OnClick += btn2000Hiden_OnClick;
+            _btn2000Hiden.OnClick += Btn2000Hiden_OnClick;
             _btn2000Hiden.ButtonType = ButtonType.Silent;
             _btn2000Hiden.Visible = false;
 
-            if (lastAdWatchDayCount >= 10)  // Prabhjot 10
+            if (lastAdWatchDayCount >= 10)
             {
                 _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
                 _btn2000.Enabled = false;
-                _btn2000.OnClick += btn2000_OnClick;
+                _btn2000.OnClick += Btn2000_OnClick;
                 _btn2000.ButtonType = ButtonType.Silent;
                 var timeToNewDay = DateTime.Now.AddDays(1).Date - DateTime.Now;
                 DisableBtnOnTime(timeToNewDay.TotalSeconds);
@@ -136,7 +136,7 @@ namespace LooneyInvaders.Layers
             else
             {
                 _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-untapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
-                _btn2000.OnClick += btn2000_OnClick;
+                _btn2000.OnClick += Btn2000_OnClick;
                 _btn2000.ButtonType = ButtonType.Silent;
 
                 if (Settings.Instance.TimeToNewAd > 0)
@@ -213,7 +213,7 @@ namespace LooneyInvaders.Layers
             _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
         }
 
-        private void btn4000_OnClick(object sender, EventArgs e)
+        private void Btn4000_OnClick(object sender, EventArgs e)
         {
 
             //if (!NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -222,6 +222,7 @@ namespace LooneyInvaders.Layers
             //    _btn4000.Enabled = false;
             //    return;
             //}
+            //Player.Instance.FacebookLikeUsed = false;
 
             if (Player.Instance.FacebookLikeUsed || !NetworkConnectionManager.IsInternetConnectionAvailable())
             {
@@ -265,15 +266,13 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void btn2000Hiden_OnClick(object sender, EventArgs e)
+        private void Btn2000Hiden_OnClick(object sender, EventArgs e)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
         }
 
-        private void btn2000_OnClick(object sender, EventArgs e)
+        private void Btn2000_OnClick(object sender, EventArgs e)
         {
-            //Crashes.GenerateTestCrash();
-
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
@@ -285,7 +284,7 @@ namespace LooneyInvaders.Layers
             _btn2000Hiden.Visible = true;
             _btn2000.Visible = false;
 
-            Console.WriteLine("Last watch count before: " + Player.Instance.LastAdWatchDayCount);
+            Debug.WriteLine("Last watch count before: " + Player.Instance.LastAdWatchDayCount);
 
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
             {
@@ -306,7 +305,7 @@ namespace LooneyInvaders.Layers
             //  return;
             //}
 
-            if (lastAdWatchDayCount >= 10)  // Prabhjot 10
+            if (lastAdWatchDayCount >= 10)
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 Console.WriteLine("limited to 10 ads a day");
@@ -563,19 +562,18 @@ namespace LooneyInvaders.Layers
         {
             Player.Instance.LastAdWatchTime = DateTime.Now;
 
-            Player.Instance.LastAdWatchDayCount = Player.Instance.LastAdWatchDayCount + 1;
+            ++Player.Instance.LastAdWatchDayCount;
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
 
-            if (Player.Instance.LastAdWatchDayCount >= 10) // Prabhjot 10
+            if (Player.Instance.LastAdWatchDayCount >= 10)
             {
                 Children.Remove(_btn2000);
                 _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
                 _btn2000.Enabled = false;
-                _btn2000.OnClick += btn2000_OnClick;
+                _btn2000.OnClick += Btn2000_OnClick;
                 _btn2000.ButtonType = ButtonType.Silent;
                 var timeToNewDay = DateTime.Now.AddDays(1).Date - DateTime.Now;
                 DisableBtnOnTime(timeToNewDay.TotalSeconds);
-
             }
 
             Player.Instance.Credits += 2000;
@@ -583,17 +581,16 @@ namespace LooneyInvaders.Layers
             RefreshPlayerCreditsLabel();
         }
 
-        private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
-        { }
+        private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e) { }
 
         //ToDo: Bass - check if asyncs is profit
-        private async void btn1m_OnClick(object sender, EventArgs e)
+        private async void Btn1m_OnClick(object sender, EventArgs e)
         {
             Enabled = false;
             await PurchaseManager.Purchase("credits_1_mil");
         }
 
-        private async void btn300k_OnClick(object sender, EventArgs e)
+        private async void Btn300k_OnClick(object sender, EventArgs e)
         {
             Enabled = false;
             await PurchaseManager.Purchase("credits_300_k");
