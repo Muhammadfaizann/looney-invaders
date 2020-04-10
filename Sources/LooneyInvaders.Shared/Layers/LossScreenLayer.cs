@@ -498,12 +498,12 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(ShowScoreAlien, 0f);
         }
 
-        private float _waitForScoreCounter;
+        private int _waitForScoreCounter;
         private CCSprite[] _creditsLabels;
 
-        private void ShowScoreAlien(float d)
+        private async void ShowScoreAlien(float d)
         {
-            WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
+            await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
 
             ScheduleOnce(RemoveRevengeNode, 0f);
             _btnContinue.ChangeAvailability(true);

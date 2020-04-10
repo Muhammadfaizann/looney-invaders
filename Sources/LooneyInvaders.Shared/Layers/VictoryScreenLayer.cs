@@ -316,9 +316,15 @@ namespace LooneyInvaders.Layers
             }
             _justSavedTitle = _justSavedTitle ?? new CCSprite();
             _justSavedTitle.Visible = false;
-
+            _multiplierNode = new CCNodeExt
+            {
+                Visible = false
+            };
+            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
+            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
+            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
 
             _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
@@ -360,7 +366,7 @@ namespace LooneyInvaders.Layers
                     }
                     else
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("2"); } }, 1f);
+                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("2"); } }, 1.0f);
                     }
                 }
             }
@@ -393,12 +399,12 @@ namespace LooneyInvaders.Layers
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
                 _isDoneWaitingForScores = true;
             }, 0f);
-            Schedule(AnimateLoadingView, 0.05f);
+            Schedule(AnimateLoadingView, 0.066f); //reached experimentally
         }
 
         public override async Task ContinueInitializeAsync()
         {
-            await Task.Delay(10);
+            await Task.Delay(15); //some small delay
             await base.ContinueInitializeAsync();
         }
 
@@ -411,23 +417,23 @@ namespace LooneyInvaders.Layers
         private void AnimateLoadingView(float obj)
         {
             LoopAnimateWithCCSprites(_loadingView.Images,
-                204, 230,
+                200, 230,
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
+                     ! _multiplierNode.Visible &&
                      !(_btnContinue?.Visible).GetValueOrDefault() &&
-                     !(_shareYourScore?.Visible).GetValueOrDefault() &&
-                     !(_multiplierNode?.Visible).GetValueOrDefault(),
+                     !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
                 {
                     if (_cartoonBackground == null) { return; }
                     if (!_cartoonBackground.Visible) { Unschedule(AnimateLoadingView); return; }
 
+                    Unschedule(AnimateLoadingView);
                     await AnimateFadeInAsync(() =>
                     {
                         _justSavedTitle.Visible = true;
                         _cartoonBackground.Visible = false;
-                        Unschedule(AnimateLoadingView);
                         RemoveChild(_cartoonBackground);
                     });
                 }, _animationMaxTime);
@@ -500,11 +506,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void ShowMultiplierAd(float dt)
+        private async void ShowMultiplierAd(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
 
-            _multiplierNode = new CCNodeExt();
+            _multiplierNode.Opacity = 0;
+            _multiplierNode.Visible = true;
             _multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
             _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
             _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession + "X", 57);
@@ -515,8 +522,11 @@ namespace LooneyInvaders.Layers
             _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
             _showAd.OnClick += ShowMultiplierAd_Onclick;
             AddChild(_multiplierNode, 1000);
-            
+
+            await Task.Delay(330);
             Schedule(AnimateArrow, 0.03f);
+
+            _multiplierNode.Opacity = 255;
         }
 
         private void AnimateArrow(float dt)
@@ -702,15 +712,23 @@ namespace LooneyInvaders.Layers
 
         #region ShowScore
 
-        private float _waitForScoreCounter;
+        private int _waitForScoreCounter;
         private CCNodeExt _scoreNode;
 
         private CCSprite[] _creditsLabels;
 
-        private void ShowScore()
+        private async void ShowScore()
         {
-            WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, ref _waitForScoreCounter, _delayOnRepeatMS);
+            await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
+            _scoreNode = new CCNodeExt
+            {
+                Opacity = 0
+            };
+            ScheduleOnce(ShowScoreScheduled, 0.5f);
+        }
 
+        private void ShowScoreScheduled(float obj)
+        {
             try
             {
                 if (_isWeHaveScores
@@ -723,7 +741,7 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce((obj) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
                     return;
                 }
-                _scoreNode = new CCNodeExt();
+                _scoreNode.Opacity = 255;
                 _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
                 _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
                 _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
@@ -734,7 +752,6 @@ namespace LooneyInvaders.Layers
                 var mess = ex.Message;
                 Caught($" {nameof(ShowScore)} - first try!");
             }
-
             //current score
             _scoreNode.AddImageLabelCentered(155, 432, _score.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
@@ -763,7 +780,6 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             //--------- Prabhjot ----------//
-
             _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             _btnContinue.Visible = false;
             _btnContinue.OnClick += BtnContinue_OnClick;

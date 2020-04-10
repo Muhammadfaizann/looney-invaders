@@ -421,14 +421,14 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public virtual void WaitScoreBoardServiceResponseWhile(Func<bool?> condition, ref float counter, float eachDelayS, Action eachRepeatCall = null)
+        public virtual async Task WaitScoreBoardServiceResponseWhile(Func<bool?> condition, (Func<int> Get, Action<int> Set) counter /*ref float counter*/, float eachDelayS, Action eachRepeatCall = null)
         {
             if (condition?.Invoke() == null)
             {
                 return;
             }
             
-            var county = counter;
+            var county = counter.Get();
             var repeats = 1.0f * App42.ScoreBoardService.OverallDelayMS / (eachDelayS > 0 ? eachDelayS : 1000);
             var timer = new System.Timers.Timer(eachDelayS)
             {
@@ -436,14 +436,17 @@ namespace LooneyInvaders.Classes
                 Enabled = true
             };
             timer.Elapsed += (s, e) => { county += 1; };
-            while (condition?.Invoke() == true && county <= repeats)
+            await Task.Run(() =>
             {
-                eachRepeatCall?.Invoke();
-            }
+                while (condition?.Invoke() == true && county <= repeats)
+                {
+                    eachRepeatCall?.Invoke();
+                }
+            });
             timer.Stop();
             timer.Dispose();
 
-            counter = county;
+            counter.Set(county);
         }
 
         public virtual void UnscheduleOnLayer()
