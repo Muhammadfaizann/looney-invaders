@@ -738,7 +738,7 @@ namespace LooneyInvaders.Layers
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularDailyField(Score)) < AppConstants.Tolerance)
                     && !_recordNotificationShown)
                 {
-                    ScheduleOnce((obj) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
+                    ScheduleOnce((_) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
                     return;
                 }
                 _scoreNode.Opacity = 255;
