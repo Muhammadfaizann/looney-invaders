@@ -954,7 +954,7 @@ namespace LooneyInvaders.Classes
             });
             soundTask.Start();
 
-            (await _transitionImage.RunActionAsync(seq))?.Update(1f);
+            (await _transitionImage?.RunActionAsync(seq))?.Update(1f);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -1047,9 +1047,9 @@ namespace LooneyInvaders.Classes
             });
             soundTask.Start();
 
-            (await _transitionImage.RunActionAsync(seq))?.Update(1f);
+            (await _transitionImage?.RunActionAsync(seq))?.Update(1f);
 
-            _ = _transitionImage.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
+            _transitionImage?.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
         }
 
         protected void ReplaceSceneByTargetLayer()

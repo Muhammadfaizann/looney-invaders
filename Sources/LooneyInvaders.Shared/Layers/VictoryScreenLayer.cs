@@ -509,24 +509,26 @@ namespace LooneyInvaders.Layers
         private async void ShowMultiplierAd(float dt)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
+            if (_multiplierNode != null)
+            {
+                _multiplierNode.Opacity = 0;
+                _multiplierNode.Visible = true;
+                _multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
+                _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
+                _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession + "X", 57);
+                _scoreBefore = _multiplierNode.AddImageLabel(40, 270, _score.ToString(), 57);
+                _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
+                _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
+                _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += ShowMultiplierAdCancel_Onclick;
+                _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
+                _showAd.OnClick += ShowMultiplierAd_Onclick;
+                AddChild(_multiplierNode, 1000);
 
-            _multiplierNode.Opacity = 0;
-            _multiplierNode.Visible = true;
-            _multiplierNode.AddImageCentered(1136 / 2, 630 / 2, "UI/victory-multiply-notification-background.png", 3);
-            _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
-            _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession + "X", 57);
-            _scoreBefore = _multiplierNode.AddImageLabel(40, 270, _score.ToString(), 57);
-            _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
-            _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
-            _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += ShowMultiplierAdCancel_Onclick;
-            _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
-            _showAd.OnClick += ShowMultiplierAd_Onclick;
-            AddChild(_multiplierNode, 1000);
+                await Task.Delay(330);
+                Schedule(AnimateArrow, 0.03f);
 
-            await Task.Delay(330);
-            Schedule(AnimateArrow, 0.03f);
-
-            _multiplierNode.Opacity = 255;
+                _multiplierNode.Opacity = 255;
+            }
         }
 
         private void AnimateArrow(float dt)
