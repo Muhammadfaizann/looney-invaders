@@ -21,7 +21,7 @@ namespace LooneyInvaders.Layers
 
                 if (_strInput.Length >= 3)
                 {
-                    if(isButtonDisable)
+                    if(isButtonDisable & char.IsLetter(_strInput[0]))
                         EnableButtonOnLayer(_btnForward);
                 }
                 else
@@ -171,7 +171,6 @@ namespace LooneyInvaders.Layers
             for (var i = 0; i < slova.Length; i++)
             {
                 if (slova[i] != '.' && slova[i] != '-')
-
                  {
                     var btnSlovo = AddButton(1136 / 2 + spX * 3 / 2 + (i - 6) * spX, keyboardY - spX * 3, "Keyboard/Capital letters/Keyboard_" + slova[i] + "_untapped.png", "Keyboard/Capital letters/Keyboard_" + slova[i] + "_tapped.png");
                     btnSlovo.OnClick += btnSlovo_OnClick;
@@ -309,30 +308,31 @@ namespace LooneyInvaders.Layers
             var inputName = StrInput;
             if (string.IsNullOrWhiteSpace(inputName))
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
-                //lblInputLabel.Text = "Please enter player name below";
                 return;
             }
             inputName = inputName.Trim();
 
             if (inputName.Length < 3 || inputName.Length > 0 && !char.IsLetter(inputName[0]))
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 _lblInputLabel.Text = "Player name must be more than 3 symbols and start with letter"; // from to with
                 return;
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable() == false)
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                if(_btnForward.ButtonType != ButtonType.CannotTap)
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                
                 _lblInputLabel.Text = "You have to be connected to internet to change your player name";
                 return;
             }
 
             if (!UserManager.CheckIsUsernameFree(inputName))
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                if(_btnForward.ButtonType != ButtonType.CannotTap)
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                
                 _lblInputLabel.Text = "Player name already taken, please try another one";
                 return;
             }

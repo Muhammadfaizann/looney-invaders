@@ -1090,16 +1090,32 @@ namespace LooneyInvaders.Classes
             IsCartoonFadeIn = Shared.GameDelegate.IsCartoonFadeInOnLayer;
         }
 
-        public void DisableButtonOnLayer(CCSpriteButton button)
+        public void DisableButtonOnLayer(params CCSpriteButton[] buttons)
         {
-            button.Texture = new CCTexture2D(button.ImageNameTapped);
-            button.Enabled = false;
+            foreach (var button in buttons)
+            {
+                if (button.ImageNameTapped != button.ImageNameUntapped)
+                {
+                    button.CachedImageNameUntapped = button.ImageNameUntapped;
+                    button.CachedButtonType = button.ButtonType;
+                }
+
+                button.ButtonType = ButtonType.CannotTap;
+                button.ImageNameTapped = button.ImageNameTapped;
+                button.ImageNameUntapped = button.ImageNameTapped;
+                ChangeSpriteButtonImage(button);
+            }
         }
 
-        public void EnableButtonOnLayer(CCSpriteButton button)
+        public void EnableButtonOnLayer(params CCSpriteButton[] buttons)
         {
-            button.Texture = new CCTexture2D(button.ImageNameUntapped);
-            button.Enabled = true;
+            foreach (var button in buttons)
+            {
+                button.ButtonType = button.CachedButtonType;
+                button.ImageNameTapped = button.ImageNameTapped;
+                button.ImageNameUntapped = button.CachedImageNameUntapped;
+                ChangeSpriteButtonImage(button);
+            }
         }
     }
 }

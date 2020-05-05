@@ -33,6 +33,9 @@ namespace LooneyInvaders.Layers
         private readonly CCSpriteButton _btn2000Hiden;
         private CCSpriteButton _btn2000;
         private CCSpriteButton _btn4000;
+        private CCSpriteButton _btn100K;
+        private CCSpriteButton _btn300K;
+        private CCSpriteButton _btn1M;
         private readonly CCSprite _tenTimesText;
 
         private CCSprite _timeToNextAdsImg;
@@ -70,21 +73,21 @@ namespace LooneyInvaders.Layers
 
             AddImage(307, 560, "UI/Get-more-credits-title-text.png");
 
-            var btn1M = AddButton(0, 475, "UI/Get-more-credits-get-1000000-credits-button-untapped.png", "UI/Get-more-credits-get-1000000-credits-button-tapped.png");
-            btn1M.OnClick += Btn1m_OnClick;
-            btn1M.ButtonType = ButtonType.CreditPurchase;
+            _btn1M = AddButton(0, 475, "UI/Get-more-credits-get-1000000-credits-button-untapped.png", "UI/Get-more-credits-get-1000000-credits-button-tapped.png");
+            _btn1M.OnClick += Btn1m_OnClick;
+            _btn1M.ButtonType = ButtonType.CreditPurchase;
 
             AddImage(517, 470, "UI/Get-more-credits-get-7_99-USD.png");
 
-            var btn300K = AddButton(0, 381, "UI/Get-more-credits-get-300000-credits-button-untapped.png", "UI/Get-more-credits-get-300000-credits-button-tapped.png");
-            btn300K.OnClick += Btn300k_OnClick;
-            btn300K.ButtonType = ButtonType.CreditPurchase;
+            _btn300K = AddButton(0, 381, "UI/Get-more-credits-get-300000-credits-button-untapped.png", "UI/Get-more-credits-get-300000-credits-button-tapped.png");
+            _btn300K.OnClick += Btn300k_OnClick;
+            _btn300K.ButtonType = ButtonType.CreditPurchase;
 
             AddImage(517, 379, "UI/Get-more-credits-get-4_99-USD.png");
 
-            var btn100K = AddButton(0, 290, "UI/Get-more-credits-get-100000-credits-button-untapped.png", "UI/Get-more-credits-get-100000-credits-button-tapped.png");
-            btn100K.OnClick += Btn100k_OnClick;
-            btn100K.ButtonType = ButtonType.CreditPurchase;
+            _btn100K = AddButton(0, 290, "UI/Get-more-credits-get-100000-credits-button-untapped.png", "UI/Get-more-credits-get-100000-credits-button-tapped.png");
+            _btn100K.OnClick += Btn100k_OnClick;
+            _btn100K.ButtonType = ButtonType.CreditPurchase;
 
             AddImage(517, 291, "UI/Get-more-credits-get-1_99-USD.png");
 
@@ -160,6 +163,8 @@ namespace LooneyInvaders.Layers
 
             Children.Add(_tenTimesText);
 
+            CheckNetworkConnection();
+
             if (creditsRequired != 0)
             {
                 AddImage(0, 0, "UI/Get-more-credits-credits-needed-for-your-text.png");
@@ -184,17 +189,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
 
-            //-------------- Prabhjot -------------//
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
-            {
-                Console.WriteLine("No Net");
-
-                _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
-                _btn2000.Enabled = false;
-                _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-                _btn4000.Enabled = false;
-            }
-            else if (Player.Instance.FacebookLikeUsed)
+            if (Player.Instance.FacebookLikeUsed)
             {
                 _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
             }
@@ -215,19 +210,19 @@ namespace LooneyInvaders.Layers
 
         private void Btn4000_OnClick(object sender, EventArgs e)
         {
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            {
+                return;
+            }
+            Player.Instance.FacebookLikeUsed = false;
 
-            //if (!NetworkConnectionManager.IsInternetConnectionAvailable())
-            //{
-            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            //    _btn4000.Enabled = false;
-            //    return;
-            //}
-            //Player.Instance.FacebookLikeUsed = false;
-
-            if (Player.Instance.FacebookLikeUsed || !NetworkConnectionManager.IsInternetConnectionAvailable())
+            if (Player.Instance.FacebookLikeUsed)
             {
                 _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                
+                if(_btn4000.ButtonType != ButtonType.CannotTap)
+                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+                
                 return;
             }
 
@@ -275,9 +270,6 @@ namespace LooneyInvaders.Layers
         {
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
-                _btn2000.Enabled = false;
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
 
@@ -606,6 +598,22 @@ namespace LooneyInvaders.Layers
         {
             Enabled = true;
             ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
+        }
+
+        private void CheckNetworkConnection()
+        {
+            var isButtonsDisabled = false;
+            
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            {
+                isButtonsDisabled = true;
+                DisableButtonOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
+            }
+            else
+            {
+                if(isButtonsDisabled)
+                    EnableButtonOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
+            }
         }
     }
 }

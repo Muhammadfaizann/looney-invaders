@@ -11,9 +11,11 @@ namespace LooneyInvaders.Classes
         public bool Enabled { get; set; } = true;
         public string ImageNameTapped { get; set; }
         public string ImageNameUntapped { get; set; }
+        public string CachedImageNameUntapped { get; set; }
         public event EventHandler OnClick;
         public bool IsBeingTapped { get; set; }
         public ButtonType ButtonType { get; set; }
+        public ButtonType CachedButtonType { get; set; }
 
         public char Slovo;
 
