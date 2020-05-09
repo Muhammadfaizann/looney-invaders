@@ -173,9 +173,10 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
 
+                
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce(ShowAd, 3.5f);
+                    ScheduleOnce(ShowAd, 4f);
                 }
                 else
                 {
@@ -575,7 +576,6 @@ namespace LooneyInvaders.Layers
             //credits
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
-            //_btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             _btnContinue = _scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             _btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
             _btnContinue.OnClick -= BtnContinue_OnClick;
