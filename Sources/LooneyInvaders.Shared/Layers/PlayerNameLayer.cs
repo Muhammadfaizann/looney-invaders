@@ -22,12 +22,12 @@ namespace LooneyInvaders.Layers
                 if (_strInput.Length >= 3)
                 {
                     if(isButtonDisable & char.IsLetter(_strInput[0]))
-                        EnableButtonOnLayer(_btnForward);
+                        EnableButtonsOnLayer(_btnForward);
                 }
                 else
                 {
                     isButtonDisable = true;
-                    DisableButtonOnLayer(_btnForward);
+                    DisableButtonsOnLayer(_btnForward);
                 }
             }
         }

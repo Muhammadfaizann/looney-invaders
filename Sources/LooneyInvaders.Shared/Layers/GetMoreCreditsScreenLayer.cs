@@ -607,12 +607,12 @@ namespace LooneyInvaders.Layers
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 isButtonsDisabled = true;
-                DisableButtonOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
+                DisableButtonsOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
             }
             else
             {
                 if(isButtonsDisabled)
-                    EnableButtonOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
+                    EnableButtonsOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
             }
         }
     }

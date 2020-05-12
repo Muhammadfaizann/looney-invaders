@@ -1090,7 +1090,7 @@ namespace LooneyInvaders.Classes
             IsCartoonFadeIn = Shared.GameDelegate.IsCartoonFadeInOnLayer;
         }
 
-        public void DisableButtonOnLayer(params CCSpriteButton[] buttons)
+        public void DisableButtonsOnLayer(params CCSpriteButton[] buttons)
         {
             foreach (var button in buttons)
             {
@@ -1107,7 +1107,7 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public void EnableButtonOnLayer(params CCSpriteButton[] buttons)
+        public void EnableButtonsOnLayer(params CCSpriteButton[] buttons)
         {
             foreach (var button in buttons)
             {
