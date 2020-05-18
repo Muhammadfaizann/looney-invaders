@@ -906,7 +906,7 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _sl;
 
-        private void Yes_OnClick(float obj)
+        private async void Yes_OnClick(float obj)
         {
             _yes.ChangeVisibility(false);
             _no.ChangeVisibility(false);
@@ -986,16 +986,16 @@ namespace LooneyInvaders.Layers
             }
             else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance)
             {
-                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
+                _sl.AddImageCentered(995, 320, "UI/number_52_NA.png", 3); //---------- Prabhjot ----------// 295
             }
 
             if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularWeekly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularWeekly.Score) < AppConstants.Tolerance)
             {
-                _sl.AddImageLabelCentered(837, 285, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
+                _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankRegularWeekly.Rank.ToString("0"), 52);
             }
             else if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance)
             {
-                _sl.AddImageCentered(837, 285, "UI/number_52_NA.png", 2); //---------- Prabhjot ----------// 295
+                _sl.AddImageCentered(837, 320, "UI/number_52_NA.png", 3); //---------- Prabhjot ----------// 295
             }
 
             if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularDaily != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularDaily.Score) < AppConstants.Tolerance)
