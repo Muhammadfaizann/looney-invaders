@@ -62,14 +62,24 @@ namespace LooneyInvaders.Layers
         private bool _needToForceRefreshLeaderboards;
         private CCSprite _leaderboardBackgroundPlaceholder;
         private CCSprite _gameTipBackground;
+        private CCNodeExt _imgChangeNameWindow;
         private CCSpriteButton _yesThanks;
         private CCSpriteButton _noThanks;
+        private CCSpriteButton _btnYesChangeName;
+        private CCSpriteButton _btnDontChangeName;
+        private CCLabel _labelPlayerName;
 
         protected bool LeaderboardTableIsEmpty => !_leaderboardSprites.Any() && !_imgOffline.Visible;
 
         public MainScreenLayer()
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
+
+            if (!Player.Instance.IsPopupShown)
+            {
+                ShowChangeNameNotification();
+                Player.Instance.IsPopupShown = true;
+            }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
@@ -165,7 +175,7 @@ namespace LooneyInvaders.Layers
             /* quick game notification */
             _imgQuickGameWindow = AddImage(14, 8, "UI/Main-screen-quick-game-notification-with-text.png", 500);
             _imgQuickGameWindow.Visible = false;
-
+            
             _btnSelectionMode = AddButton(35, 25, "UI/Main-screen-quick-game-notification-selection-mode-button-untapped.png", "UI/Main-screen-quick-game-notification-selection-mode-button-tapped.png", 510);
             _btnSelectionMode.Visible = false;
             _btnSelectionMode.Enabled = false;
@@ -799,6 +809,45 @@ namespace LooneyInvaders.Layers
             RemoveChild(_gameTipBackground);
             RemoveChild(_yesThanks);
             RemoveChild(_noThanks);
+        }
+        
+        private void ShowChangeNameNotification()
+        {
+            _imgChangeNameWindow = new CCNodeExt();
+            _imgChangeNameWindow.AddImage(14, 48, "UI/username-notification.png", 500);
+           
+            
+            _btnYesChangeName = _imgChangeNameWindow.AddButton(35, 70, "UI/push-notification-yes-button-untapped.png", "UI/push-notification-yes-button-tapped.png", 510);
+            _btnYesChangeName.OnClick -= OnChangeName;
+            _btnYesChangeName.OnClick += OnChangeName;
+            
+            _btnDontChangeName = _imgChangeNameWindow.AddButton(644, 70, "UI/push-notification-no-button-untapped.png", "UI/push-notification-no-button-tapped.png", 510);
+            _btnDontChangeName.OnClick -= OnDontChangeName;
+            _btnDontChangeName.OnClick += OnDontChangeName;
+            
+            _labelPlayerName = _imgChangeNameWindow.AddLabel(400, 396, Player.Instance.Name, "Fonts/AktivGroteskBold", 16);
+            _labelPlayerName.ZOrder = 520;
+            
+            AddChild(_imgChangeNameWindow, 520);
+
+            async void OnChangeName(object sender, EventArgs e)
+            {
+                var newLayer = new PlayerNameLayer();
+                await TransitionToLayerCartoonStyleAsync(newLayer);
+            }
+
+            void OnDontChangeName(object sender, EventArgs e)
+            {
+                HideChangeNameNotification();
+                _btnDontChangeName.OnClick -= OnDontChangeName;
+                _btnYesChangeName.OnClick -= OnChangeName;
+            }
+        }
+
+        private void HideChangeNameNotification()
+        {
+            _imgChangeNameWindow.Visible = false;
+            
         }
     }
 }
