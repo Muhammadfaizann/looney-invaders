@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Plugin.Settings;
 
 namespace LooneyInvaders.Model
@@ -20,6 +21,11 @@ namespace LooneyInvaders.Model
             get => CrossSettings.Current.GetValueOrDefault("Score", 0);
             set => CrossSettings.Current.AddOrUpdateValue("Score", value);
         }
+        public int WinCount
+        {
+            get => CrossSettings.Current.GetValueOrDefault(nameof(WinCount), 0);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(WinCount), value);
+        }
         public int Credits
         {
             get => CrossSettings.Current.GetValueOrDefault("Credits", 0);
@@ -29,6 +35,12 @@ namespace LooneyInvaders.Model
         {
             get => CrossSettings.Current.GetValueOrDefault("Hacked", false);
             set => CrossSettings.Current.AddOrUpdateValue("Hacked", value);
+        }
+        
+        public bool IsNameChanged
+        {
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsNameChanged), false);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsNameChanged), value);
         }
 
         public DateTime GetFixedDate(DateTime value)
@@ -81,6 +93,13 @@ namespace LooneyInvaders.Model
         public int GetKillsTotal()
         {
             return CrossSettings.Current.GetValueOrDefault("STATS3_enemyKillsTotal", 0);
+        }
+        
+        
+        public bool IsPopupShown
+        {
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsPopupShown), true);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsPopupShown), value);
         }
 
         public void AddKill(Enemies enemy)
@@ -165,5 +184,6 @@ namespace LooneyInvaders.Model
                 CrossSettings.Current.AddOrUpdateValue(keyName, score);
             }
         }
+
     }
 }

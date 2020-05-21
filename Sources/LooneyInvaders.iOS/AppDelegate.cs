@@ -127,6 +127,9 @@ namespace LooneyInvaders.iOS
             Settings.Instance.SetSessionsCount(count + 1);
             Settings.Instance.SetTodaySessionDuration(0, true);
             Settings.Instance.IsAskForNotificationToday = false;
+
+            if (count == 3 || count == 5 || count == 10)
+                Player.Instance.IsPopupShown = false;
         }
 
         private void CheckNotificationPremissions()
