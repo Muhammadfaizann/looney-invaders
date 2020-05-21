@@ -66,7 +66,7 @@ namespace LooneyInvaders.Layers
             Player.Instance.WinCount += 1;
             
             if (Player.Instance.WinCount == 1)
-                Player.Instance.IsPopupShown = false;
+                Player.Instance.IsChangeNamePopupShown = false;
 
             switch (SelectedBattleground)
             {

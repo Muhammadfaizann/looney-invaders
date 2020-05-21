@@ -306,6 +306,14 @@ namespace LooneyInvaders.Model
             CrossSettings.Current.AddOrUpdateValue("sessionscount", count);
         }
 
+        public void CheckIfChangeNamePopupShown()
+        {
+            var count = GetSessionsCount();
+            
+            if (count == 3 || count == 5 || count == 10)
+                Player.Instance.IsChangeNamePopupShown = false;
+        }
+
         private bool _isAskForNotificationToday;
         public bool IsAskForNotificationToday
         {

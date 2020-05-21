@@ -75,10 +75,10 @@ namespace LooneyInvaders.Layers
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            if (!Player.Instance.IsPopupShown)
+            if (!Player.Instance.IsChangeNamePopupShown)
             {
                 ShowChangeNameNotification();
-                Player.Instance.IsPopupShown = true;
+                Player.Instance.IsChangeNamePopupShown = true;
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())

@@ -28,6 +28,8 @@ namespace LooneyInvaders.Layers
                     break;
             }
 
+            Settings.Instance.CheckIfChangeNamePopupShown();
+
             Schedule(async (obj) => await WaitForMusicToEnd(obj), 0.5f);
         }
 

@@ -96,10 +96,10 @@ namespace LooneyInvaders.Model
         }
         
         
-        public bool IsPopupShown
+        public bool IsChangeNamePopupShown
         {
-            get => CrossSettings.Current.GetValueOrDefault(nameof(IsPopupShown), true);
-            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsPopupShown), value);
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsChangeNamePopupShown), true);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsChangeNamePopupShown), value);
         }
 
         public void AddKill(Enemies enemy)
