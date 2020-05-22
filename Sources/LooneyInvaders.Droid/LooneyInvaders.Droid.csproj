@@ -8587,7 +8587,7 @@
     <AndroidNativeLibrary Include="lib\arm64-v8a\libopenal32.so" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\..\..\Downloads\username-notification.png">
+    <AndroidAsset Include="..\Content\Images\Hd\UI\username-notification.png">
       <Link>Assets/Content/Images/Hd/UI/username-notification.png</Link>
     </AndroidAsset>
   </ItemGroup>

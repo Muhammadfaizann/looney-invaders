@@ -71,6 +71,7 @@ namespace LooneyInvaders.App42
                 UserManager.UserGuid = guid;
                 Console.WriteLine($"{nameof(UsernameGUIDInsertHandler)}3 : {(DateTime.Now - time)}");
                 Player.Instance.Name = playerName;
+                Player.Instance.NameChanged = false;
 
                 json = "{\"name\":\"a" + playerName.ToUpper() + "\",\"guid\":\"" + guid + "\"}";
 

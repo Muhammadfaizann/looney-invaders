@@ -296,22 +296,16 @@ namespace LooneyInvaders.Model
             CrossSettings.Current.AddOrUpdateValue(stringDate, totalTodayPlayd);
         }
 
-        public int GetSessionsCount()
-        {
-            return CrossSettings.Current.GetValueOrDefault("sessionscount", 0);
-        }
-
-        public void SetSessionsCount(int count)
-        {
-            CrossSettings.Current.AddOrUpdateValue("sessionscount", count);
-        }
+        public int GetSessionsCount() => CrossSettings.Current.GetValueOrDefault("sessionscount", 0);
+        public void SetSessionsCount(int count) => CrossSettings.Current.AddOrUpdateValue("sessionscount", count);
 
         public void CheckIfChangeNamePopupShown()
         {
             var count = GetSessionsCount();
-            
-            if (count == 3 || count == 5 || count == 10)
+            if ((count == 3 || count == 5 || count == 10) && !Player.Instance.NameChanged)
+            {
                 Player.Instance.IsChangeNamePopupShown = false;
+            }
         }
 
         private bool _isAskForNotificationToday;

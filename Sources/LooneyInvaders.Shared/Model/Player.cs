@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Plugin.Settings;
 
 namespace LooneyInvaders.Model
@@ -11,10 +10,23 @@ namespace LooneyInvaders.Model
         private static Player _instance;
         public static Player Instance => _instance ?? (_instance = new Player());
 
+        public bool NameChanged
+        {
+            get => CrossSettings.Current.GetValueOrDefault("PlayerNameChanged", false);
+            set => CrossSettings.Current.AddOrUpdateValue("PlayerNameChanged", value);
+        }
         public string Name
         {
             get => CrossSettings.Current.GetValueOrDefault("PlayerName", "LOONEY");
-            set => CrossSettings.Current.AddOrUpdateValue("PlayerName", value);
+            set
+            {
+                var oldName = CrossSettings.Current.GetValueOrDefault("PlayerName", "LOONEY");
+                if (oldName != value)
+                {
+                    CrossSettings.Current.AddOrUpdateValue("PlayerName", value);
+                    NameChanged = true;
+                }
+            }
         }
         public int Score
         {
