@@ -41,7 +41,7 @@
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
     <AndroidUseAapt2>false</AndroidUseAapt2>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
     <AndroidDexTool>d8</AndroidDexTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -65,7 +65,7 @@
     <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tpetrovic_INIT</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
 <AndroidDexTool>d8</AndroidDexTool>
   </PropertyGroup>
   <ItemGroup>
