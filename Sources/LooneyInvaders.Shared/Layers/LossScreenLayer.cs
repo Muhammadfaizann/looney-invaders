@@ -705,7 +705,7 @@ namespace LooneyInvaders.Layers
         {
             _sl = new CCNodeExt();
 
-            _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-saved-planet-earth.png", 2);
+            _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
 
             _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
 

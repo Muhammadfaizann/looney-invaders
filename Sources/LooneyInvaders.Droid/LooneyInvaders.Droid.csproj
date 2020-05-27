@@ -783,6 +783,9 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\screen-shadow.png">
       <Link>Assets\Content\Images\Hd\UI\screen-shadow.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png">
+      <Link>Assets\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -6168,11 +6171,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\victory-global-top-score-notification-week-3rd-background-with-text.png">
       <Link>Assets\Content\Images\Hd\UI\victory-global-top-score-notification-week-3rd-background-with-text.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\victory-i-just-saved-planet-earth.png">
-      <Link>Assets\Content\Images\Hd\UI\victory-i-just-saved-planet-earth.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

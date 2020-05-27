@@ -310,6 +310,9 @@
     <BundleResource Include="..\Content\Images\Hd\UI\screen-shadow.png">
       <Link>Content\Images\Hd\UI\screen-shadow.png</Link>
     </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png">
+      <Link>Content\Images\Hd\UI\victory-i-just-made-impressive-score.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">
@@ -4267,9 +4270,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\victory-global-top-score-notification-week-3rd-background-with-text.png">
       <Link>Content\Images\Hd\UI\victory-global-top-score-notification-week-3rd-background-with-text.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\victory-i-just-saved-planet-earth.png">
-      <Link>Content\Images\Hd\UI\victory-i-just-saved-planet-earth.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\victory-multiply-arrow.png">
       <Link>Content\Images\Hd\UI\victory-multiply-arrow.png</Link>
