@@ -783,13 +783,10 @@ namespace LooneyInvaders.Classes
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
-            //dispose = !Shared.GameDelegate.UseAnimationClearing;
+            LayerTransitionTarget = layer;
 
-            var gameScene = new CCScene(GameView);
-            gameScene.AddLayer(layer);
-
-            var transition = new CCTransitionFade(0.3f, gameScene);
-            if (Scene != null) Director.ReplaceScene(transition);
+            if (Scene != null)
+                ReplaceSceneWithoutFadeIn();
 
             if (dispose) Dispose();
         }
