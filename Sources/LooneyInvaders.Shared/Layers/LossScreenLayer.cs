@@ -213,6 +213,7 @@ namespace LooneyInvaders.Layers
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
+                      !_getRevengeNode.Visible &&
                       !(_btnContinue?.Visible).GetValueOrDefault() &&
                       !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
