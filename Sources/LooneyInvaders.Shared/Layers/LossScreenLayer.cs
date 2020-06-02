@@ -177,7 +177,7 @@ namespace LooneyInvaders.Layers
                 
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 2.3f);
+                    ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 1.9f);
                 }
                 else
                 {
@@ -395,7 +395,7 @@ namespace LooneyInvaders.Layers
             {
                 Opacity = 0
             };
-            ScheduleOnce(ShowScoreAlien, 0.5f);
+            ScheduleOnce(ShowScoreAlien, 0f);
         }
 
         private void ShowScoreAlien(float d)
