@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using CocosSharp;
 using LooneyInvaders.Extensions;
@@ -176,7 +177,7 @@ namespace LooneyInvaders.Layers
                 
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce(ShowAd, 4f);
+                    ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 2.3f);
                 }
                 else
                 {
@@ -246,9 +247,7 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
-
             }
-
         }
 
         //private void CalloutDefeated(float dt)
@@ -297,125 +296,12 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _scoreNode;
 
-        //private void ShowScore(float d)
-        //{
-        //    switch (GamePlayLayer.BestScoreCountry)
-        //    {
-        //        case BATTLEGROUNDS.AFGHANISTAN:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-afghanistan.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.DENMARK:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-denmark.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.ENGLAND:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-england.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.ESTONIA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-estonia.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.FINLAND:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-finland.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.FRANCE:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-france.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.GEORGIA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-georgia.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.GREAT_BRITAIN:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-great-britain.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.IRAQ:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-iraq.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.ISRAEL:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-israel.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.JAPAN:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-japan.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.LIBYA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-libya.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.NORWAY:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-norway.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.POLAND:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-poland.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.RUSSIA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-russia.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.SOUTH_KOREA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-south-korea.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.SYRIA:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-syria.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.UKRAINE:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-ukraine.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.UNITED_STATES:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-united-states.png", 3);
-        //            break;
-        //        case BATTLEGROUNDS.VIETNAM:
-        //            _scoreNode.AddImage(5, 455, "UI/Loss scenes/You-are-dead-top-score-text-vietnam.png", 3);
-        //            break;
-        //    }
-
-        //    _scoreNode.AddImage(0, 153, "UI/victory-score-board-just-background.png", 2);
-        //    _scoreNode.AddImage(0, 153, "UI/victory-score-board-just-text.png", 3);
-
-        //    _scoreNode.AddImage(0, 70, "UI/victory-share-your-score-and-earn-credits-text.png", 3);
-
-        //    _scoreNode.AddImageLabelRightAligned(466, 391, GamePlayLayer.BestScoreTime.ToString("0.00"), 57);
-        //    _scoreNode.AddImage(466, 385, "UI/victory&social-share-score-numbers-(sec).png", 4);
-
-        //    _scoreNode.AddImageLabelRightAligned(572, 318, GamePlayLayer.BestScoreAccuracy.ToString("0.00"), 57);
-        //    _scoreNode.AddImage(570, 315, "UI/victory&social-share-score-numbers-(%).png", 4);
-
-
-
-        //    _scoreNode.AddImageLabel(420, 245, GamePlayLayer.BestScore.ToString(), 57);
-
-        //    _scoreNode.AddImageLabel(490, 170, Player.Instance.Score.ToString(), 57);
-
-        //    CCSpriteButton yes = _scoreNode.AddButton(850, 70, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-        //    yes.OnClick += yes_OnClick;
-
-        //    CCSpriteButton no = _scoreNode.AddButton(600, 70, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-        //    no.OnClick += no_OnClick;
-
-        //    _scoreNode.Opacity = 0;
-        //    foreach (CCNode child in _scoreNode.Children) { child.Opacity = _scoreNode.Opacity; };
-
-
-        //    AddChild(_scoreNode);
-
-        //    GameEnvironment.PlaySoundEffect(SOUNDEFFECT.SHOWSCORE);
-        //    Schedule(delegate
-        //    {
-        //        _scoreNode.Opacity += 5;
-        //        if (_scoreNode.Opacity > 250)
-        //        {
-        //            _scoreNode.Opacity = 255;
-        //            UnscheduleAll();
-        //        }
-
-        //        foreach (CCNode child in _scoreNode.Children)
-        //        {
-        //            child.Opacity = _scoreNode.Opacity;
-        //        }
-        //    });
-        //}
-
-
         private CCSprite _recordNotification;
         private CCSprite _recordNotificationImage;
         private CCSpriteButton _recordOkIGotIt;
         private bool _recordNotificationShown;
 
-        private void ShowRecordNotification(float dt)
+        private void ShowRecordNotification()
         {
             if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance && LeaderboardManager.PlayerRankProMonthly.Rank == 1)
             {
@@ -496,20 +382,26 @@ namespace LooneyInvaders.Layers
             RemoveChild(_recordNotification);
             if (_recordNotificationImage != null)
                 RemoveChild(_recordNotificationImage);
-            ScheduleOnce(ShowScoreAlien, 0f);
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 0f);
         }
 
         private int _waitForScoreCounter;
         private CCSprite[] _creditsLabels;
-
-        private async void ShowScoreAlien(float d)
+        
+        private async void ShowScore()
         {
             await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
+            _scoreNode = new CCNodeExt
+            {
+                Opacity = 0
+            };
+            ScheduleOnce(ShowScoreAlien, 0.5f);
+        }
 
-            ScheduleOnce(RemoveRevengeNode, 0f);
-            _btnContinue.ChangeAvailability(true);
-            _mainMenu.ChangeAvailability(true);
-
+        private void ShowScoreAlien(float d)
+        {
+            Schedule(RemoveRevengeNode, 0f);
+            
             if (_isWeHaveScores
                 && _alienScore > 0
                 && (Math.Abs(_alienScore - (double)LeaderboardManager.PlayerRankProAlltime.GetLeaderboardItemField(Score)) < Tolerance
@@ -518,40 +410,20 @@ namespace LooneyInvaders.Layers
                     || Math.Abs(_alienScore - (double)LeaderboardManager.PlayerRankProDaily.GetLeaderboardItemField(Score)) < Tolerance)
                 && !_recordNotificationShown)
             {
-                ScheduleOnce(ShowRecordNotification, 0.5f);
+                ScheduleOnce((_) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
                 return;
             }
 
-            //scoreNode = new CCNodeExt();
-            //scoreNode.AddImage(0, 564, "UI/Loss scenes/You-are-dead-title.png", 3);
-            //scoreNode.AddImage(650, 455, "UI/victory&social-share-global-ranking-all-text.png", 3);
-
-
-            _scoreNode = new CCNodeExt();
+            _scoreNode.Opacity = 255;
             _scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
             _scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
             _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
-
-
-            /* old
-
-            scoreNode.AddImage(147, 488, "UI/game-over-screen-moon-level-game-over-text.png", 3);
-            scoreNode.AddImage(610, 290, "UI/game-over-screen-moon-level-global-ranking-text.png", 3);
-            scoreNode.AddImage(5, 290, "UI/game-over-screen-moon-level-your-score-text.png", 3);
-
-            scoreNode.AddImage(0, 198, "UI/game-over-screen-moon-level-score-board-just-background.png", 2);
-            scoreNode.AddImage(10, 219, "UI/game-over-screen-moon-level-credits-earned-text.png", 3);
-
-            scoreNode.AddImage(0, 70, "UI/victory-share-your-score-and-earn-credits-text.png", 3);
-
-            */
+            _shareYourScore = _scoreNode.AddImage(0, 80,
+                "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
 
             //current score
             _scoreNode.AddImageLabelCentered(155, 380, _alienScore.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 314, _alienWave.ToString(), 50);
-            //scoreNode.AddImageLabelCentered(155, 247, rank.ToString(), 52);
-
 
             if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance)
             {
@@ -577,47 +449,16 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             _btnContinue = _scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            _btnContinue.Visible = true; // Previously --- false --- Changed by Prabhjot
-            _btnContinue.OnClick -= BtnContinue_OnClick;
+            _btnContinue.Visible = false; // Previously --- false --- Changed by Prabhjot
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            _mainMenu.Visible = true; // Previously this line was not written --- Changed by Prabhjot
-            _mainMenu.OnClick -= mainMenu_OnClick;
             _mainMenu.OnClick += mainMenu_OnClick;
 
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && LeaderboardManager.PlayerRankProWeekly != null && LeaderboardManager.PlayerRankProMonthly != null)
+            if (!_isWeHaveScores && LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null)
             {
-                //day
-                _scoreNode.AddImageLabelCentered(700, 380, LeaderboardManager.PlayerRankProDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProDaily.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProDaily.Score ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(700, 314, LeaderboardManager.PlayerRankProDaily.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(700, 247, LeaderboardManager.PlayerRankProDaily.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : "green");
-
-                //------------ Prabhjot ------------//
-                //week
-                _scoreNode.AddImageLabelCentered(847, 380, LeaderboardManager.PlayerRankProWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProWeekly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProWeekly.Score ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(847, 314, LeaderboardManager.PlayerRankProWeekly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(847, 247, LeaderboardManager.PlayerRankProWeekly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : "green");
-                //month
-                _scoreNode.AddImageLabelCentered(1011, 380, LeaderboardManager.PlayerRankProMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProMonthly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProMonthly.Score ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(1011, 314, LeaderboardManager.PlayerRankProMonthly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "green" : "yellow");
-                _scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : "green");
-
-                _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                _yes.OnClick += yes_OnClick;
-
-
-                _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-                _no.OnClick += no_OnClick;
-
-                _mainMenu.Visible = false;
-                _btnContinue.Visible = false;
-            }
-            else
-            {
-                //no or weak internet
                 _shareYourScore.Visible = false;
-                ScheduleOnce((_) => _btnContinue.ChangeVisibility(true), 0f);
+                _btnContinue.ChangeVisibility(true);
 
                 _scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
 
@@ -629,6 +470,40 @@ namespace LooneyInvaders.Layers
                 {
                     _scoreNode.AddImage(562, 280, "UI/My-stats-&-rewards-slow-internet-connection-notification.png", 3);
                 }
+            }
+            else
+            {
+                //day
+                if (LeaderboardManager.PlayerRankProDaily != null)
+                {
+                    _scoreNode.AddImageLabelCentered(700, 380, LeaderboardManager.PlayerRankProDaily.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProDaily.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProDaily.Score ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(700, 314, LeaderboardManager.PlayerRankProDaily.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProDaily.LevelsCompleted ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(700, 247, LeaderboardManager.PlayerRankProDaily.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance ? null : "green");
+                }
+                //week
+                if (LeaderboardManager.PlayerRankProWeekly != null)
+                {
+                    _scoreNode.AddImageLabelCentered(847, 380, LeaderboardManager.PlayerRankProWeekly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProWeekly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProWeekly.Score ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(847, 314, LeaderboardManager.PlayerRankProWeekly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProWeekly.LevelsCompleted ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(847, 247, LeaderboardManager.PlayerRankProWeekly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance ? null : "green");
+                }
+                //month
+                if (LeaderboardManager.PlayerRankProMonthly != null)
+                {
+                    _scoreNode.AddImageLabelCentered(1011, 380, LeaderboardManager.PlayerRankProMonthly.Score.ToString(CultureInfo.InvariantCulture), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : _alienScore > LeaderboardManager.PlayerRankProMonthly.Score ? "red" : _alienScore < LeaderboardManager.PlayerRankProMonthly.Score ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(1011, 314, LeaderboardManager.PlayerRankProMonthly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "green" : "yellow");
+                    _scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : "green");
+                }
+
+                _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
+                _yes.OnClick += yes_OnClick;
+
+
+                _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
+                _no.OnClick += no_OnClick;
+
+                _mainMenu.Visible = false;
+                _btnContinue.Visible = false;
             }
 
             _scoreNode.Opacity = 0;
@@ -760,71 +635,6 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
             _btnContinue.Visible = true;
             _mainMenu.Visible = true;
-            /*
-            if (shareNode == null)
-            {
-                shareNode = new CCNodeExt();
-                shareNode.AddImageCentered(1136 / 2, 598, "UI/Score-share-picker-share-your-score-in-text.png", 2);
-
-                shareScoreBoard = shareNode.AddTwoStateButton(45, 465, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-                shareScoreBoard.OnClick += shareScoreBoard_OnClick;
-                shareScoreBoard.ButtonType = BUTTON_TYPE.OnOff;
-                shareNode.AddImage(197, 469, "UI/Score-share-picker-game-score-board-text.png", 3);
-
-
-                shareTwitter = shareNode.AddTwoStateButton(45, 374, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-                shareTwitter.OnClick += shareTwitter_OnClick;
-                shareTwitter.ButtonType = BUTTON_TYPE.OnOff;
-                shareNode.AddImage(197, 378, "UI/Score-share-picker-twitter-text.png", 3);
-
-                shareFacebook = shareNode.AddTwoStateButton(45, 275, "UI/Score-share-picker-no-button-untapped(yes-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-tapped(no-mode).png", "UI/Score-share-picker-no-button-untapped(yes-mode).png", 5);
-                shareFacebook.OnClick += shareFacebook_OnClick;
-                shareFacebook.ButtonType = BUTTON_TYPE.OnOff;
-                shareNode.AddImage(197, 279, "UI/Score-share-picker-facebook-text.png", 3);
-
-
-                CCSpriteButton cancelBtn = shareNode.AddButton(47, 148, "UI/Score-share-picker-cancel-button-untapped.png", "UI/Score-share-picker-cancel-button-tapped.png");
-                cancelBtn.OnClick += cancelBtn_OnClick;
-
-                CCSpriteButton shareBtn = shareNode.AddButton(809, 148, "UI/Score-share-picker-share-button-untapped.png", "UI/Score-share-picker-share-button-tapped.png");
-                shareBtn.OnClick += shareBtn_OnClick;
-
-
-                shareNode.AddImage(1, 70, "UI/Score-share-picker-terms-of-sharing-backqround.png", 3);
-                shareNode.AddImage(2, 70, "UI/Score-share-picker-terms-of-sharing-text-area-without-links.png", 4);
-
-                CCSpriteButton terms = shareNode.AddButton(555, 70, "UI/Score-share-picker-terms-of-sharing-text-area1-with-link.png", "UI/Score-share-picker-terms-of-sharing-text-area1-with-link.png", 5);
-
-                CCSpriteButton privacy = shareNode.AddButton(888, 70, "UI/Score-share-picker-terms-of-sharing-text-area2-with-link.png", "UI/Score-share-picker-terms-of-sharing-text-area2-with-link.png", 5);
-
-                shareNode.Opacity = 0;
-                foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                this.AddChild(shareNode);
-
-            }
-
-            this.Schedule(delegate (float dt)
-            {
-                if (scoreNode.Opacity > 0)
-                {
-                    scoreNode.Opacity -= 20;
-                    if (scoreNode.Opacity < 20)
-                    {
-                        scoreNode.Opacity = 0;
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-                else
-                {
-                    shareNode.Opacity += 20;
-                    if (shareNode.Opacity > 235)
-                    {
-                        this.UnscheduleAll();
-                        shareNode.Opacity = 255;
-                    }
-                    foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-                }
-            });*/
         }
 
 
@@ -847,7 +657,7 @@ namespace LooneyInvaders.Layers
             AdMobManager.ShowBannerBottom();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             _hasScore = true;
-            ScheduleOnce(ShowScoreAlien, 0.1f);
+            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 2.3f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
@@ -858,68 +668,6 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(ShowScoreAlien, 0.1f);
         }
 
-        //private void shareScoreBoard_OnClick(object sender, EventArgs e)
-        //{
-        //    shareScoreBoard.ChangeState();
-        //    shareScoreBoard.SetStateImages();
-        //}
-
-        //private void shareTwitter_OnClick(object sender, EventArgs e)
-        //{
-        //    shareTwitter.ChangeState();
-        //    shareTwitter.SetStateImages();
-        //}
-
-        //private void shareFacebook_OnClick(object sender, EventArgs e)
-        //{
-        //    shareFacebook.ChangeState();
-        //    shareFacebook.SetStateImages();
-        //}
-
-        //private void cancelBtn_OnClick(object sender, EventArgs e)
-        //{
-        //    this.Schedule(delegate (float dt)
-        //    {
-        //        if (shareNode.Opacity > 0)
-        //        {
-        //            shareNode.Opacity -= 20;
-        //            if (shareNode.Opacity < 20)
-        //            {
-        //                shareNode.Opacity = 0;
-        //            }
-        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-        //        }
-        //        else
-        //        {
-        //            scoreNode.Opacity += 20;
-        //            if (scoreNode.Opacity >= 235)
-        //            {
-        //                scoreNode.Opacity = 255;
-        //                this.UnscheduleAll();
-        //            }
-        //            foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-        //        }
-        //    });
-        //}
-
-        //private void shareBtn_OnClick(object sender, EventArgs e)
-        //{
-        //    GamePlayLayer.BestScore = 0;
-        //    this.Schedule(delegate (float dt)
-        //    {
-        //        if (shareNode.Opacity > 0)
-        //        {
-        //            shareNode.Opacity -= 20;
-        //            if (shareNode.Opacity < 20)
-        //            {
-        //                shareNode.Opacity = 0;
-        //                this.UnscheduleAll();
-        //                showGetRevenge(0);
-        //            }
-        //            foreach (CCNode child in shareNode.Children) { child.Opacity = shareNode.Opacity; };
-        //        }
-        //    });
-        //}
 
         private void no_OnClick(object sender, EventArgs e)
         {
@@ -928,21 +676,12 @@ namespace LooneyInvaders.Layers
             _no.Visible = false;
             _btnContinue.Visible = true;
             _mainMenu.Visible = true;
-            /*
-            this.Schedule(delegate (float dt)
-            {
-                if (scoreNode.Opacity > 0)
-                {
-                    scoreNode.Opacity -= 20;
-                    if (scoreNode.Opacity < 20)
-                    {
-                        scoreNode.Opacity = 0;
-                        this.UnscheduleAll();
-                        showGetRevenge(0);
-                    }
-                    foreach (CCNode child in scoreNode.Children) { child.Opacity = scoreNode.Opacity; };
-                }
-            });**/
+        }
+        
+        private void Caught(string message)
+        {
+            var s = message;
+            Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {s}");
         }
     }
 }
