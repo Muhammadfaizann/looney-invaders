@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using CocosSharp;
@@ -19,9 +20,11 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _btnContinue;
         private CCSpriteButton _mainMenu;
         private CCSprite _shareYourScore;
+        private CCSprite _loadingViewPlaceholder;
         private CCSpriteButton _yes;
         private CCSpriteButton _no;
         private readonly CCSprite _youAreDefeated;
+        private readonly CCSprite _cartoonBackground;
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
@@ -30,6 +33,10 @@ namespace LooneyInvaders.Layers
         private readonly int _alienScore;
         private readonly int _alienWave;
         private readonly float _delayOnRepeatMS;
+        
+        private (int Count, List<string> Images) _loadingView = (0, new List<string>());
+        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14);
+
 
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
@@ -42,6 +49,13 @@ namespace LooneyInvaders.Layers
             _alienScore = alienScore;
             _alienWave = alienWave;
             _delayOnRepeatMS = 500f;
+            
+            for (var i = 0; i < 32; ++i)
+            {
+                _loadingView.Images.Add($"UI/Leaderboard/Conneting-to-leaderboard-1{i.ToString("D" + 2)}.png");
+            }
+            _loadingView.Count = _loadingView.Images.Count;
+            _loadingViewPlaceholder = new CCSprite();
 
             switch (SelectedBattleground)
             {
@@ -149,6 +163,8 @@ namespace LooneyInvaders.Layers
                 _isDoneWaitingForScores = true;
             },
                 0f);
+            _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
+            Schedule(AnimateLoadingView, 0.066f);
             //_isDoneWaitingForScores = true;
 
             if (SelectedEnemy == Enemies.Aliens)
@@ -188,6 +204,30 @@ namespace LooneyInvaders.Layers
             }
 
             ScheduleOnce(ShowGetRevenge, 2f);
+        }
+        
+        private void AnimateLoadingView(float obj)
+        {
+            LoopAnimateWithCCSprites(_loadingView.Images,
+                200, 230,
+                ref _loadingView.Count,
+                ref _loadingViewPlaceholder,
+                () => !_isDoneWaitingForScores &&
+                      !(_btnContinue?.Visible).GetValueOrDefault() &&
+                      !(_shareYourScore?.Visible).GetValueOrDefault(),
+                async (_) =>
+                {
+                    if (_cartoonBackground == null) { return; }
+                    if (!_cartoonBackground.Visible) { Unschedule(AnimateLoadingView); return; }
+
+                    Unschedule(AnimateLoadingView);
+                    await AnimateFadeInAsync(() =>
+                    {
+                        _youAreDefeated.Visible = true;
+                        _cartoonBackground.Visible = false;
+                        RemoveChild(_cartoonBackground);
+                    });
+                }, _animationMaxTime);
         }
 
         private void CalloutRevenge(float dt)
