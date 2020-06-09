@@ -21,9 +21,6 @@ namespace LooneyInvaders.Model
         private static Leaderboard _proLeaderboard;
         public static Leaderboard ProLeaderboard => _proLeaderboard ?? (_proLeaderboard = new Leaderboard(LeaderboardType.Pro));
 
-        public delegate Task SubmitScoreDelegate(double score, double accuracy, double fastestTime, double levelsCompleted);
-        public static SubmitScoreDelegate SubmitScoreHandler;
-
         public delegate void RefreshLeaderboardsDelegate(Leaderboard leaderboard);
         public static RefreshLeaderboardsDelegate RefreshLeaderboardsHandler;
 
@@ -31,8 +28,8 @@ namespace LooneyInvaders.Model
 
         private static void ReloadNetworkConnectionManagerSubscription()
         {
-            NetworkConnectionManager.ConnectionChanged -= ForceLeaderboardsToBeRefreshed;
-            NetworkConnectionManager.ConnectionChanged += ForceLeaderboardsToBeRefreshed;
+            NetworkConnectionManager.ConnectionChanged -= ForceLeaderboardsToBeRefreshedAndTrySetOfflineScores;
+            NetworkConnectionManager.ConnectionChanged += ForceLeaderboardsToBeRefreshedAndTrySetOfflineScores;
         }
 
         public static void ClearOnLeaderboardsRefreshedEvent()
@@ -127,9 +124,32 @@ namespace LooneyInvaders.Model
         public static LeaderboardItem PlayerRankProMonthly;
         public static LeaderboardItem PlayerRankProAlltime;
 
-        internal async static void ForceLeaderboardsToBeRefreshed(object sender, EventArgs args)
+        internal async static void ForceLeaderboardsToBeRefreshedAndTrySetOfflineScores(object sender, EventArgs args)
         {
             await RefreshLeaderboards(750); //delay to ensure inet connection isn't so weak
+
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+                return;
+            
+            if (Settings.Instance.LastOfflineProScore > 0 && 
+                Settings.Instance.LastOfflineAlienWave >= 0)
+            {
+                await SubmitScoreProAsync(Settings.Instance.LastOfflineProScore, Settings.Instance.LastOfflineAlienWave);
+                Settings.Instance.LastOfflineProScore = 0;
+                Settings.Instance.LastOfflineAlienWave = 0;
+            }
+                
+            if (Settings.Instance.LastOfflineRegularScore > 0 && 
+                Settings.Instance.LastOfflineAccuracy > 0 &&
+                Settings.Instance.LastOfflineTime > 0)
+            {
+                await SubmitScoreRegularAsync(Settings.Instance.LastOfflineRegularScore, Settings.Instance.LastOfflineAccuracy, Settings.Instance.LastOfflineTime);
+                Settings.Instance.LastOfflineRegularScore = 0;
+                Settings.Instance.LastOfflineTime = 0;
+                Settings.Instance.LastOfflineAccuracy = 0;
+
+            }
+
         }
 
         internal static void FireOnLeaderboardsRefreshed()
@@ -151,9 +171,9 @@ namespace LooneyInvaders.Model
                 BestScoreRegularSubmitted = false;
             }
 
-            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
+            if ( NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await Task.Run(() => SubmitScoreHandler(score, accuracy, fastestTime, -1));
+                await SubmitScoreAsync(score, accuracy, fastestTime, -1);
                 BestScoreRegularSubmitted = true;
                 return true;
             }
@@ -174,9 +194,9 @@ namespace LooneyInvaders.Model
                 BestScoreProSubmitted = false;
             }
 
-            if (SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable())
+            if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await Task.Run(() => SubmitScoreHandler(score, -1, -1, levelsCompleted)).ConfigureAwait(false);
+                await SubmitScoreAsync(score, -1, -1, levelsCompleted).ConfigureAwait(false);
                 BestScoreProSubmitted = true;
                 return true;
             }
@@ -185,15 +205,15 @@ namespace LooneyInvaders.Model
 
         public static void SubmitUnsubmittedScores()
         {
-            if (BestScoreRegularSubmitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreRegularScore > 0)
+            if (BestScoreRegularSubmitted == false && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreRegularScore > 0)
             {
-                SubmitScoreHandler(BestScoreRegularScore, BestScoreRegularAccuracy, BestScoreRegularFastestTime, -1);
+                SubmitScoreAsync(BestScoreRegularScore, BestScoreRegularAccuracy, BestScoreRegularFastestTime, -1);
                 BestScoreRegularSubmitted = true;
             }
 
-            if (BestScoreProSubmitted == false && SubmitScoreHandler != null && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreProScore > 0)
+            if (BestScoreProSubmitted == false && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreProScore > 0)
             {
-                SubmitScoreHandler(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted);
+                SubmitScoreAsync(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted);
                 BestScoreProSubmitted = true;
             }
         }
@@ -261,6 +281,11 @@ namespace LooneyInvaders.Model
             if (levelsCompletedString.Length > 9) levelsCompletedString = "999999999";
 
             return Convert.ToDouble(scoreString + levelsCompletedString);
+        }
+        
+        private static async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
+        {
+            await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
         }
     }
 }

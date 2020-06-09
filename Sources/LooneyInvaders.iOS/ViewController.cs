@@ -64,7 +64,6 @@ namespace LooneyInvaders.iOS
             //SignIn.SharedInstance.UIDelegate = this;
             //Google.Play.GameServices.Manager.SharedInstance.SignIn(googlePlayGamesClientID, false);
 
-            LeaderboardManager.SubmitScoreHandler = SubmitScoreAsync;
             LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboards;
 
             // social network sharing
@@ -355,11 +354,6 @@ namespace LooneyInvaders.iOS
         private void Vibrate(object sender, EventArgs e)
         {
             AudioToolbox.SystemSound.Vibrate.PlaySystemSound();
-        }
-
-        private async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
-        {
-            await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
         }
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
