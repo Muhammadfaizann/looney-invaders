@@ -178,7 +178,6 @@ namespace LooneyInvaders.Droid
             TrackTime();
             PurchaseManager.PurchaseHandler = PurchaseProduct;
             VibrationManager.VibrationHandler = Vibrate;
-            LeaderboardManager.SubmitScoreHandler = SubmitScoreAsync;
             LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboards;
 
             // social network sharing
@@ -714,10 +713,6 @@ namespace LooneyInvaders.Droid
             return true;
         }
 
-        private async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
-        {
-            await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
-        }
 
         private void RefreshLeaderboards(Leaderboard leaderboard)
         {

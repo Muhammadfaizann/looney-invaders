@@ -158,6 +158,9 @@ namespace LooneyInvaders.Layers
                 Player.Instance.SetDayScore(_alienScore, true);
             }
             Player.Instance.Credits += _alienScore;
+            Settings.Instance.LastOfflineProScore = _alienScore;
+            Settings.Instance.LastOfflineAlienWave = _alienWave;
+            
             ScheduleOnce(async (_) =>
             {
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
