@@ -36,6 +36,7 @@ namespace LooneyInvaders.Layers
         //------Prabhjot -------//
         private bool _isShowGameTipViewLoaded;
         private bool _isInitialized;
+        private int _soundId;
 
         public EnemyPickerLayer()
         {
@@ -285,10 +286,11 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            CCAudioEngine.SharedEngine.StopAllEffects();
+            if(_soundId != 0)
+                CCAudioEngine.SharedEngine.StopEffect(_soundId);
+            
             _isHoldAnimations = true;
             UnscheduleAll();
-
             TransitionToLayer(new WeaponPickerLayer(_selectedEnemy));
         }
 
@@ -486,11 +488,11 @@ namespace LooneyInvaders.Layers
             Unschedule(StartTalking);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
-                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
-                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
-                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
-                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Adolf Hitler VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
 
                 Schedule(StartFading, 0.025f);
                 ScheduleOnce(StartStartTalking, 1.8f);
@@ -522,11 +524,11 @@ namespace LooneyInvaders.Layers
         {
             if (!_startedTalking)
             {
-                if (_centerImage.Tag == (int)Enemies.Bush) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
-                else if (_centerImage.Tag == (int)Enemies.Hitler) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
-                else if (_centerImage.Tag == (int)Enemies.Putin) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
-                else if (_centerImage.Tag == (int)Enemies.Kim) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
-                else if (_centerImage.Tag == (int)Enemies.Aliens) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
+                if (_centerImage.Tag == (int)Enemies.Bush) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
+                else if (_centerImage.Tag == (int)Enemies.Hitler) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler_1_strenght_for_echo.wav");
+                else if (_centerImage.Tag == (int)Enemies.Putin) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
+                else if (_centerImage.Tag == (int)Enemies.Kim) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
+                else if (_centerImage.Tag == (int)Enemies.Aliens) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
 
                 _startedTalking = true;
                 _talkTimePassed = 0;

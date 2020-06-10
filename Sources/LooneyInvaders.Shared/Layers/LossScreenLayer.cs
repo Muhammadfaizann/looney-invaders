@@ -206,7 +206,7 @@ namespace LooneyInvaders.Layers
                 }
             }
 
-            ScheduleOnce(ShowGetRevenge, 2f);
+            ScheduleOnce(ShowGetRevenge, 2.2f);
         }
         
         private void AnimateLoadingView(float obj)
