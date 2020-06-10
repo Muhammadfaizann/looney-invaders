@@ -61,6 +61,7 @@ namespace LooneyInvaders.Layers
 
         //----------- Prabhjot ----------//
         private bool _isShowGameTipViewLoaded;
+        private int _soundId;
 
         public WeaponPickerLayer(int selectedEnemy, bool gameTipAvailable = true)
         {
@@ -619,7 +620,9 @@ namespace LooneyInvaders.Layers
 
             UnscheduleAll();
 
-            CCAudioEngine.SharedEngine.StopAllEffects();
+            if (_soundId != 0)
+                CCAudioEngine.SharedEngine.StopEffect(_soundId);
+            
             var battlegroundPicker = new BattlegroundPickerLayer(_selectedEnemy, _selectedWeapon);
             TransitionToLayer(battlegroundPicker);
         }
@@ -824,10 +827,10 @@ namespace LooneyInvaders.Layers
             Unschedule(StartBowing);
             if (Settings.Instance.VoiceoversEnabled)
             {
-                if (_centerImage.Tag == (int)Weapons.Standard) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Standard Gun VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.36f); }
-                else if (_centerImage.Tag == (int)Weapons.Compact) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Compact Sprayer VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
-                else if (_centerImage.Tag == (int)Weapons.Bazooka) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Black Bazooka VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.5f); }
-                else if (_centerImage.Tag == (int)Weapons.Hybrid) { CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Defender VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
+                if (_centerImage.Tag == (int)Weapons.Standard) { _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Standard Gun VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.36f); }
+                else if (_centerImage.Tag == (int)Weapons.Compact) { _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Compact Sprayer VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
+                else if (_centerImage.Tag == (int)Weapons.Bazooka) { _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Black Bazooka VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.5f); }
+                else if (_centerImage.Tag == (int)Weapons.Hybrid) { _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hybrid Defender VO_mono.wav"); ScheduleOnce(StartStartBowing, 1.8f); }
 
 
                 Schedule(StartFading, 0.025f);
@@ -876,10 +879,10 @@ namespace LooneyInvaders.Layers
             {
                 CCAudioEngine.SharedEngine.StopAllEffects();
 
-                if (_centerImage.Tag == (int)Weapons.Standard) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Proper UK Service.wav");
-                else if (_centerImage.Tag == (int)Weapons.Compact) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Hardened Japan Service.wav");
-                else if (_centerImage.Tag == (int)Weapons.Bazooka) CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Young Thug Service.wav");
-                else if (_centerImage.Tag == (int)Weapons.Hybrid) CCAudioEngine.SharedEngine.PlayEffect("Sounds/hybrid_defender_service.wav");
+                if (_centerImage.Tag == (int)Weapons.Standard) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Proper UK Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Compact) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Hardened Japan Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Bazooka) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Soldier Young Thug Service.wav");
+                else if (_centerImage.Tag == (int)Weapons.Hybrid) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/hybrid_defender_service.wav");
 
                 _startedBowing = true;
                 _bowTimePassed = 0;
