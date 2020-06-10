@@ -126,6 +126,7 @@ namespace LooneyInvaders.Layers
                     break;
             }
 
+
             if (Settings.Instance.VoiceoversEnabled)
             {
                 if (SelectedEnemy == Enemies.Aliens)
@@ -157,6 +158,9 @@ namespace LooneyInvaders.Layers
                 Player.Instance.SetDayScore(_alienScore, true);
             }
             Player.Instance.Credits += _alienScore;
+            Settings.Instance.LastOfflineProScore = _alienScore;
+            Settings.Instance.LastOfflineAlienWave = _alienWave;
+            
             ScheduleOnce(async (_) =>
             {
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
@@ -165,7 +169,6 @@ namespace LooneyInvaders.Layers
                 0f);
             _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
             Schedule(AnimateLoadingView, 0.066f);
-            //_isDoneWaitingForScores = true;
 
             if (SelectedEnemy == Enemies.Aliens)
             {
@@ -181,6 +184,7 @@ namespace LooneyInvaders.Layers
                 //-------------- Prabhjot ----------------//
                 _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
                 _youAreDefeated.Opacity = 0;
+                _youAreDefeated.Visible = false;
                 SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
                 Schedule(FadeYouAreDefeated);
                 if (Settings.Instance.VoiceoversEnabled)
@@ -190,10 +194,9 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
 
-                
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 1.9f);
+                    ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 1.8f);
                 }
                 else
                 {
@@ -213,6 +216,7 @@ namespace LooneyInvaders.Layers
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
+                      !(_getRevengeNode?.Visible).GetValueOrDefault() &&
                       !(_btnContinue?.Visible).GetValueOrDefault() &&
                       !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>

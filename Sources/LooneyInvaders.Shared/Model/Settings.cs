@@ -232,6 +232,41 @@ namespace LooneyInvaders.Model
             get => _sensitivityLevel;
             set { _sensitivityLevel = value; CrossSettings.Current.AddOrUpdateValue("sensitivityLevel", value); }
         }
+        
+        private double _lastOfflineRegularScore;
+        public double LastOfflineRegularScore
+        {
+            get => _lastOfflineRegularScore;
+            set { _lastOfflineRegularScore = value; CrossSettings.Current.AddOrUpdateValue(nameof(_lastOfflineRegularScore), value); }
+        }
+        
+        private double _lastOfflineAccuracy;
+        public double LastOfflineAccuracy
+        {
+            get => _lastOfflineAccuracy;
+            set { _lastOfflineAccuracy = value; CrossSettings.Current.AddOrUpdateValue(nameof(_lastOfflineAccuracy), value); }
+        }
+        
+        private double _lastOfflineTime;
+        public double LastOfflineTime
+        {
+            get => _lastOfflineTime;
+            set { _lastOfflineTime = value; CrossSettings.Current.AddOrUpdateValue(nameof(_lastOfflineTime), value); }
+        }
+        
+        private double _lastOfflineProScore;
+        public double LastOfflineProScore
+        {
+            get => _lastOfflineProScore;
+            set { _lastOfflineProScore = value; CrossSettings.Current.AddOrUpdateValue(nameof(_lastOfflineProScore), value); }
+        }
+
+        private double _lastOfflineAlienWave;
+        public double LastOfflineAlienWave
+        {
+            get => _lastOfflineAlienWave;
+            set { _lastOfflineAlienWave = value; CrossSettings.Current.AddOrUpdateValue(nameof(_lastOfflineAlienWave), value); }
+        }
 
         private bool _rightHanded = true;
         public bool RightHanded

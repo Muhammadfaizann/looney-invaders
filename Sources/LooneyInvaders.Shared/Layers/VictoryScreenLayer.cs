@@ -399,6 +399,10 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
 
+            Settings.Instance.LastOfflineRegularScore = _score;
+            Settings.Instance.LastOfflineTime = Convert.ToDouble(Time);
+            Settings.Instance.LastOfflineAccuracy = Convert.ToDouble(Accuracy);
+            
             ScheduleOnce(async (_) =>
             {
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));

@@ -68,6 +68,7 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _btnYesChangeName;
         private CCSpriteButton _btnDontChangeName;
         private CCLabel _labelPlayerName;
+        private CCLabel _sessionCount;
 
         protected bool LeaderboardTableIsEmpty => !_leaderboardSprites.Any() && !_imgOffline.Visible;
 
@@ -75,10 +76,13 @@ namespace LooneyInvaders.Layers
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            if (!Player.Instance.IsChangeNamePopupShown)
+            if (!Player.Instance.IsNameChanged)
             {
-                ShowChangeNameNotification();
-                Player.Instance.IsChangeNamePopupShown = true;
+                if (!Player.Instance.IsChangeNamePopupShown)
+                {
+                    ShowChangeNameNotification();
+                    Player.Instance.IsChangeNamePopupShown = true;
+                }
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -265,6 +269,8 @@ namespace LooneyInvaders.Layers
                 if (noInternet) RefreshLeaderboard(time);
                 else await ForceLeaderboardManagerRefreshAsync();
             }
+
+            _sessionCount = AddLabel(10, 10, Settings.Instance.GetSessionsCount().ToString(),"Fonts/AktivGroteskBold", 16f);
         }
 
         private void CallAnimateScoresBackground(float parameter)
