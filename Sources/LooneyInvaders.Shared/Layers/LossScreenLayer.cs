@@ -150,9 +150,10 @@ namespace LooneyInvaders.Layers
                 catch { }
             }, 0f);
 
-
             if (SelectedEnemy == Enemies.Aliens)
             {
+                _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
+
                 if (_alienScore > GamePlayLayer.BestScoreAlien)
                 {
                     GamePlayLayer.BestScoreAlien = _alienScore;
@@ -160,35 +161,36 @@ namespace LooneyInvaders.Layers
 
                     Player.Instance.SetDayScore(_alienScore, true);
                 }
-                Player.Instance.Credits += _alienScore;
-                Settings.Instance.LastOfflineProScore = _alienScore;
-                Settings.Instance.LastOfflineAlienWave = _alienWave;
-                _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
-                GameEnvironment.PlayMusic(Music.GameOverAlien);
-            
-                ScheduleOnce(async (_) =>
-                    {
-                        _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
-                        _isDoneWaitingForScores = true;
-                    },
-                    0f);
-                Schedule(AnimateLoadingView, 0.066f);
-                
+
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
                     ScheduleOnce(CalloutRevenge, 2f);
                 }
 
+                Player.Instance.Credits += _alienScore;
+                Settings.Instance.LastOfflineProScore = _alienScore;
+                Settings.Instance.LastOfflineAlienWave = _alienWave;
+                GameEnvironment.PlayMusic(Music.GameOverAlien);
+                GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+
+                ScheduleOnce(async (_) =>
+                {
+                    _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
+                    //await Task.Delay(5000);
+                    _isDoneWaitingForScores = true;
+                },
+                0f);
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce(ShowScore, 0f);
+                    ScheduleOnce(ShowScore, 0.2f);
                 }
                 else
                 {
                     GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
                     ScheduleOnce(ShowScoreAlienScheduled, 2f);
                 }
+                Schedule(AnimateLoadingView, 0.066f); //reached experimentally
             }
             else
             {
@@ -196,7 +198,13 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(ShowGetRevengeRegularLevel, 2.2f);
             }
         }
-        
+
+        public override async Task ContinueInitializeAsync()
+        {
+            await Task.Delay(10); //some small delay
+            await base.ContinueInitializeAsync();
+        }
+
         private void AnimateLoadingView(float obj)
         {
             LoopAnimateWithCCSprites(_loadingView.Images,
@@ -204,6 +212,7 @@ namespace LooneyInvaders.Layers
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
+                      !(_recordNotification?.Visible).GetValueOrDefault() &&
                       !(_btnContinue?.Visible).GetValueOrDefault() &&
                       !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
@@ -244,11 +253,11 @@ namespace LooneyInvaders.Layers
             // }
 
             var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            mainMenu.OnClick += mainMenu_OnClick;
+            mainMenu.OnClick += MainMenu_OnClick;
 
             var revenge = _getRevengeNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
             revenge.ButtonType = ButtonType.Rewind;
-            revenge.OnClick += revenge_OnClick;
+            revenge.OnClick += Revenge_OnClick;
 
             _getRevengeNode.Opacity = 0;
             foreach (var child in _getRevengeNode.Children)
@@ -267,19 +276,6 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        //private void CalloutDefeated(float dt)
-        //{
-        //    CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-        //    ScheduleOnce(CalloutRevenge, 2.5f);
-
-        //}
-
-        //private void CalloutDead(float dt)
-        //{
-        //    CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
-        //    ScheduleOnce(CalloutRevenge, 2f);
-        //}
-
         private void FadeYouAreDefeated(float dt)
         {
             _youAreDefeated.Opacity += 2;
@@ -289,7 +285,6 @@ namespace LooneyInvaders.Layers
                 Unschedule(FadeYouAreDefeated);
             }
         }
-
 
         private void FadeRevengeNode(float dt)
         {
@@ -388,12 +383,11 @@ namespace LooneyInvaders.Layers
 
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
-            _recordOkIGotIt.OnClick += recordOkIGotIt_OnClick;
+            _recordOkIGotIt.OnClick += RecordOkIGotIt_OnClick;
             _recordNotificationShown = true;
         }
 
-
-        private void recordOkIGotIt_OnClick(object sender, EventArgs e)
+        private void RecordOkIGotIt_OnClick(object sender, EventArgs e)
         {
             RemoveChild(_recordOkIGotIt);
             RemoveChild(_recordNotification);
@@ -468,7 +462,7 @@ namespace LooneyInvaders.Layers
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
-            _mainMenu.OnClick += mainMenu_OnClick;
+            _mainMenu.OnClick += MainMenu_OnClick;
 
             if (!_isWeHaveScores && LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null)
             {
@@ -512,7 +506,7 @@ namespace LooneyInvaders.Layers
                 }
 
                 _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                _yes.OnClick += yes_OnClick;
+                _yes.OnClick += Yes_OnClick;
 
 
                 _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
@@ -562,7 +556,7 @@ namespace LooneyInvaders.Layers
             _youAreDefeated.Opacity = (byte)(255 - _scoreNode.Opacity);
         }
 
-        private async void mainMenu_OnClick(object sender, EventArgs e)
+        private async void MainMenu_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
@@ -574,7 +568,7 @@ namespace LooneyInvaders.Layers
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
-        private async void revenge_OnClick(object sender, EventArgs e)
+        private async void Revenge_OnClick(object sender, EventArgs e)
         {
             AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
@@ -592,7 +586,7 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _sl;
 
-        private void yes_OnClick(object sender, EventArgs e)
+        private void Yes_OnClick(object sender, EventArgs e)
         {
             _sl = new CCNodeExt();
 
