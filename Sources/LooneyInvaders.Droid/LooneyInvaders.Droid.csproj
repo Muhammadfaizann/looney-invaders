@@ -44,6 +44,7 @@
     <AndroidDexTool>dx</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -358,6 +359,8 @@
     <Compile Include="Extensions\GenericExtension.cs" />
     <Compile Include="Helpers\EglHelper.cs" />
     <Compile Include="Services\Permissions\PermissionService.cs" />
+    <Compile Include="AdListeners\InterstitialAdListener.cs" />
+    <Compile Include="AdListeners\BannerAdListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -805,11 +808,16 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\xml\network_security_config.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Services\Permissions\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="AdListeners\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">

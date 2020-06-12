@@ -44,11 +44,11 @@ namespace LooneyInvaders.iOS
 
             GameView.MultipleTouchEnabled = true;
 
-            AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
-            AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
-            AdMobManager.HideBannerHandler = HideBanner;
-            AdMobManager.LoadInterstitialHandler = LoadInterstitial;
-            AdMobManager.ShowInterstitialHandler = ShowInterstitial;
+            AdManager.ShowBannerTopHandler = AddBannerToWindowTop;
+            AdManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
+            AdManager.HideBannerHandler = HideBanner;
+            AdManager.LoadInterstitialHandler = LoadInterstitial;
+            AdManager.ShowInterstitialHandler = ShowInterstitial;
 
             GameView.BackgroundColor = UIColor.Black;
 
@@ -283,21 +283,21 @@ namespace LooneyInvaders.iOS
         {
             Console.WriteLine("Interstitial ad: receive ad failed");
 
-            AdMobManager.InterstitialAdFailedToLoad();
+            AdManager.InterstitialAdFailedToLoad();
         }
 
         private void IntAd_WillPresentScreen(object sender, EventArgs e)
         {
             Console.WriteLine("Interstitial ad: will present screen");
 
-            AdMobManager.InterstitialAdOpened();
+            AdManager.InterstitialAdOpened();
         }
 
         private void IntAd_ScreenDismissed(object sender, EventArgs e)
         {
             Console.WriteLine("Interstitial ad: screen dismissed");
 
-            AdMobManager.InterstitialAdClosed();
+            AdManager.InterstitialAdClosed();
 
             _intAd.Dispose();
             _intAd = null;
