@@ -790,7 +790,6 @@ namespace LooneyInvaders.Layers
             //credits
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
-            //--------- Prabhjot ----------//
             _btnContinue = _scoreNode.AddButton(700, 90, "UI/score-comparison-score-board-lets-continue-button-untapped.png", "UI/score-comparison-score-board-lets-continue-button-tapped.png");
             _btnContinue.Visible = false;
             _btnContinue.OnClick += BtnContinue_OnClick;

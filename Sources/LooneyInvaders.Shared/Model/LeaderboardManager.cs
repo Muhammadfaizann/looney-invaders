@@ -196,7 +196,7 @@ namespace LooneyInvaders.Model
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await SubmitScoreAsync(score, -1, -1, levelsCompleted).ConfigureAwait(false);
+                await SubmitScoreAsync(score, -1, -1, levelsCompleted);
                 BestScoreProSubmitted = true;
                 return true;
             }
