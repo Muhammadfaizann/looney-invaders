@@ -1994,7 +1994,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void GameOver(float dt)
+        private async void GameOver(float dt)
         {
             UnscheduleAll();
             Player.Instance.AddKills(SelectedEnemy, Kills);
@@ -2030,7 +2030,7 @@ namespace LooneyInvaders.Layers
                     SelectedBattleground,
                     _score,
                     _wave);
-                TransitionToLayerCartoonStyle(newLayer, true);
+                await TransitionToLayerCartoonStyleAsync(newLayer, SelectedEnemy == Enemies.Aliens);
             }
         }
 
