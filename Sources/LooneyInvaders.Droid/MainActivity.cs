@@ -40,7 +40,7 @@ namespace LooneyInvaders.Droid
         }
     }
 
-    [Activity(
+    [Activity( //ToDo: Bass - split the class!
         Label = "Looney Invaders",
         MainLauncher = true,
         Icon = "@drawable/icon",
@@ -68,18 +68,19 @@ namespace LooneyInvaders.Droid
 
         private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
         //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";
-        private const string AppodealApiKey = "6d20b7f252ded4791970fbcfee2e541e";
+        private const string AppodealApiKey = "c0502298783c2decd053ad8514ee4cf2fa08d25e1f676360";
 
-        private int requiredAdTypes = Appodeal.INTERSTITIAL
-                                | Appodeal.BANNER
-                                | Appodeal.BANNER_BOTTOM
-                                | Appodeal.BANNER_TOP;
+        private readonly int requiredAdTypes = Appodeal.INTERSTITIAL
+                                             //| Appodeal.REWARDED_VIDEO
+                                             | Appodeal.BANNER
+                                             | Appodeal.BANNER_BOTTOM
+                                             | Appodeal.BANNER_TOP;
         private InterstitialAdListener interstitialAdListener;
         private BannerAdListener bannerAdListener;
         private IPurchaseService _svc;
 
-        public AdView AdBanner;
-        private InterstitialAd _intAd;
+        //public AdView AdBanner;
+        //private InterstitialAd _intAd;
 
         // Facebook
         //const string FacebookAppId = "487297588275151";
@@ -92,13 +93,11 @@ namespace LooneyInvaders.Droid
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
+
             Push.CheckLaunchedFromNotification(this, intent);
         }
 
-        protected override void AttachBaseContext(Context @base)
-        {
-            base.AttachBaseContext(@base);
-        }
+        protected override void AttachBaseContext(Context @base) => base.AttachBaseContext(@base);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -107,20 +106,17 @@ namespace LooneyInvaders.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             Java.Lang.Thread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
 
-            //Helpers.EglHelper.InitEgl();
-                //---------- Prabhjot ---------//
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
                     typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
+            //Helpers.EglHelper.InitEgl();
 
-            Appodeal.SetSmartBanners(true);
-            Appodeal.SetBannerAnimation(true);
-            Appodeal.DisableLocationPermissionCheck();
-            Appodeal.SetAutoCache(requiredAdTypes, true);
-            Appodeal.SetTriggerOnLoadedOnPrecache(requiredAdTypes, true);
+            Appodeal.SetTesting(false);
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
-
+            Appodeal.SetAutoCache(requiredAdTypes, false);
+            Appodeal.SetBannerAnimation(true);
+            Appodeal.SetSmartBanners(true);
 
             //MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
             CallInitOnApp42ServiceBuilder();
@@ -162,45 +158,57 @@ namespace LooneyInvaders.Droid
             var designedSize = new Point();
             WindowManager.DefaultDisplay.GetSize(designedSize);
             if (designedSize.X > 0)
+            {
                 GameDelegate.DesignSize.Width = designedSize.X;
+            }
             if (designedSize.Y > 0)
+            {
                 GameDelegate.DesignSize.Height = designedSize.Y;
+            }
             TrackTime();
-            // connect to AdMob
+
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
-            TrackTime();
+            //TrackTime();
+            // connect to AdMob
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
             requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
             //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
-            TrackTime();
-            AdBanner = new AdView(Application.Context)
+            /*AdBanner = new AdView(Application.Context)
             {
                 AdSize = AdSize.SmartBanner,
                 AdUnitId = "ca-app-pub-5373308786713201/9938442971", // Android
                 //AdUnitId = "ca-app-pub-5373308786713201/3891909370";   // iOS
                 Id = 999,
                 LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
-            };
+            };*/
             TrackTime();
-
-            //interstitialAdListener = interstitialAdListener ?? new InterstitialAdListener();
             Appodeal.SetInterstitialCallbacks(this);
-            //bannerAdListener = bannerAdListener ?? new BannerAdListener();
             Appodeal.SetBannerCallbacks(this);
-            Appodeal.SetTesting(true);
-            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
 
+            Appodeal.GetUserSettings(this)
+                    .SetAge(30)
+                    .SetGender(UserSettings.Gender.MALE);
+            Appodeal.SetCustomRule("name", 10);
+            Appodeal.SetCustomRule("name", 100.5);
+            Appodeal.SetCustomRule("name", true);
+            Appodeal.SetCustomRule("name", "value");
+            Appodeal.SetAutoCacheNativeIcons(false);
+            Appodeal.SetAutoCacheNativeMedia(false);
 
-            AdBanner.SetY(0);
+            //Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
+            //Appodeal.Cache(this, requiredAdTypes);
+            //Appodeal.SetBannerViewId(Resource.Id.appodealBannerView);
+
+            /*AdBanner.SetY(0);
             AdBanner.SetX(0);
             AdBanner.LoadAd(requestbuilder.Build());
             AdBanner.ChangeVisibility(ViewStates.Invisible);
             AdBanner.AdListener = new AdListenerEx(AdBanner);
             TrackTime();
             var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
-            AddContentView(AdBanner, adParams);
+            AddContentView(AdBanner, adParams);*/
             TrackTime();
             AdManager.ShowBannerTopHandler = ShowBannerTop;
             AdManager.ShowBannerBottomHandler = ShowBannerBottom;
@@ -209,7 +217,7 @@ namespace LooneyInvaders.Droid
             AdManager.ShowInterstitialHandler = ShowInterstitial;
             AdManager.HideInterstitialHandler = HideInterstitial;
             TrackTime();
-            LoadInterstitial();
+            //LoadInterstitial();
             TrackTime();
             // set up in-game purchases
             InGamePurchasesAsync();
@@ -248,14 +256,14 @@ namespace LooneyInvaders.Droid
         {
             base.OnResume();
 
-            Appodeal.OnResume(this, requiredAdTypes);
+            //Appodeal.OnResume(this, requiredAdTypes);
         }
 
         protected override void OnPostResume()
         {
             base.OnPostResume();
 
-            AdBanner?.Resume();
+            //AdBanner?.Resume();
             GameDelegate.LoadGame(null, null);
 
             var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
@@ -280,7 +288,7 @@ namespace LooneyInvaders.Droid
             }
             else
             {
-                AdBanner?.Pause();
+                //AdBanner?.Pause();
                 GameDelegate.StopGame();
 
                 _sensorManager.UnregisterListener(this);
@@ -306,7 +314,9 @@ namespace LooneyInvaders.Droid
                 }
                 else
                 {
+    #pragma warning disable CS0618 // Type or member is obsolete
                     if (!pm.IsScreenOn)
+    #pragma warning restore CS0618 // Type or member is obsolete
                         return false;
                 }
                 return true;
@@ -641,7 +651,10 @@ namespace LooneyInvaders.Droid
             AdBanner?.SetX(0);
             AdBanner.ChangeVisibility(ViewStates.Visible);
             AdBanner?.BringToFront();*/
-
+            if (!Appodeal.IsLoaded(Appodeal.BANNER_TOP))
+            {
+                Appodeal.Cache(this, Appodeal.BANNER_TOP);
+            }
             Appodeal.Show(this, Appodeal.BANNER_TOP);
         }
 
@@ -664,7 +677,26 @@ namespace LooneyInvaders.Droid
                 AdBanner.ChangeVisibility(ViewStates.Visible);
                 AdBanner?.BringToFront();*/
 
+                if (!Appodeal.IsLoaded(Appodeal.BANNER_BOTTOM))
+                {
+                    Appodeal.Initialize(this, AppodealApiKey, Appodeal.BANNER_BOTTOM);
+                    Appodeal.Cache(this, Appodeal.BANNER_BOTTOM);
+                }
                 Appodeal.Show(this, Appodeal.BANNER_BOTTOM);
+                /*if (!Appodeal.IsLoaded(Appodeal.BANNER_BOTTOM))
+                {
+                    Appodeal.Initialize(this, AppodealApiKey, Appodeal.BANNER_BOTTOM);
+                }
+
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                while (!Appodeal.IsLoaded(Appodeal.BANNER_BOTTOM))
+                {
+                    if (timer.ElapsedMilliseconds > 7000) break;
+
+                    await Task.Delay(1000);
+                    Appodeal.Cache(this, Appodeal.BANNER_BOTTOM);
+                }
+                Appodeal.Show(this, Appodeal.BANNER_BOTTOM);*/
             }
             catch (Exception ex)
             {
@@ -719,13 +751,13 @@ namespace LooneyInvaders.Droid
 
         public void LoadInterstitial()
         {
-            //RunOnUiThread(LoadInterstitialUiThread);
+            RunOnUiThread(LoadInterstitialUiThread);
         }
 
         private void LoadInterstitialUiThread()
         {
-
-            _intAd = new InterstitialAd(Application.Context);
+            Appodeal.Cache(this, Appodeal.INTERSTITIAL);
+            /*_intAd = new InterstitialAd(Application.Context);
             _intAd.AdUnitId = "ca-app-pub-5373308786713201/3641230573";
             _intAd.AdListener = new AdListenerInterstitial(_intAd, this);
 
@@ -733,7 +765,7 @@ namespace LooneyInvaders.Droid
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
             requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
             //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); //MY device
-            _intAd.LoadAd(requestbuilder.Build());
+            _intAd.LoadAd(requestbuilder.Build());*/
         }
 
         private async Task MakePurchase(IProduct product)
