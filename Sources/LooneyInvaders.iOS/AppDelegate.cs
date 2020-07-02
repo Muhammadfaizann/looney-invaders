@@ -1,4 +1,5 @@
 using System;
+using AppodealBinding;
 using Foundation;
 using UIKit;
 using LooneyInvaders.Model;
@@ -31,6 +32,11 @@ namespace LooneyInvaders.iOS
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method         
 
+            String appKey = "91c63f844fc0bd37c391b011852f0fc7ebf890f98e02b7a6";
+  
+            Appodeal.SetFramework(APDFramework.Xamarin);  //this is required method, just copy-paste it before init
+            Appodeal.InitializeWithApiKey(appKey, AppodealAdType.Banner | AppodealAdType.Interstitial);
+            
             CrashAnalyticsAppInit();
             SetSessionInfo();
             CheckNotificationPremissions();

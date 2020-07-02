@@ -1,10 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using CC.Mobile.Purchases;
-using CoreGraphics;
 using CoreMotion;
 using Foundation;
-using Google.MobileAds;
 using UIKit;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
@@ -15,10 +13,10 @@ namespace LooneyInvaders.iOS
     public partial class ViewController : UIViewController, IApp42ServiceInitialization
     {
         private CMMotionManager _motionManager;
-        private BannerView _adViewWindow;
+        //private BannerView _adViewWindow;
         private bool _adOnWindow;
         private readonly nfloat _adBannerYCoord = -1;
-        private Interstitial _intAd;
+        //private Interstitial _intAd;
 
         private IPurchaseService _svc;
         //string _googlePlayGamesClientId = "647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt.apps.googleusercontent.com";
@@ -44,15 +42,15 @@ namespace LooneyInvaders.iOS
 
             GameView.MultipleTouchEnabled = true;
 
-            AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
-            AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
-            AdMobManager.HideBannerHandler = HideBanner;
-            AdMobManager.LoadInterstitialHandler = LoadInterstitial;
-            AdMobManager.ShowInterstitialHandler = ShowInterstitial;
+            // AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
+            // AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
+            // AdMobManager.HideBannerHandler = HideBanner;
+            //AdMobManager.LoadInterstitialHandler = LoadInterstitial;
+            //AdMobManager.ShowInterstitialHandler = ShowInterstitial;
 
             GameView.BackgroundColor = UIColor.Black;
 
-            LoadInterstitial();
+            //LoadInterstitial();
 
             _svc = new PurchaseService();
             await _svc.Init();
@@ -183,137 +181,137 @@ namespace LooneyInvaders.iOS
             });
         }
 
-        private void AddBannerToWindowTop()
-        {
-            BeginInvokeOnMainThread(() => { AddBannerToWindow(0); });
-        }
+        // private void AddBannerToWindowTop()
+        // {
+        //     BeginInvokeOnMainThread(() => { AddBannerToWindow(0); });
+        // }
+        //
+        // private void AddBannerToWindowBottom()
+        // {
+        //     BeginInvokeOnMainThread(() => { AddBannerToWindow(View.Bounds.Size.Height - 50); });
+        // }
 
-        private void AddBannerToWindowBottom()
-        {
-            BeginInvokeOnMainThread(() => { AddBannerToWindow(View.Bounds.Size.Height - 50); });
-        }
+        // private void HideBanner()
+        // {
+        //     BeginInvokeOnMainThread(() => { RemoveBannerFromWindow(); });
+        // }
 
-        private void HideBanner()
-        {
-            BeginInvokeOnMainThread(() => { RemoveBannerFromWindow(); });
-        }
+//         private void AddBannerToWindow(nfloat yCoord)
+//         {
+//             if (_adViewWindow != null && yCoord == _adBannerYCoord) return;
+//
+//             if (_adViewWindow != null) RemoveBannerFromWindow();
+//
+//             if (_adViewWindow == null)
+//             {
+//                 // Setup your GADBannerView, review AdSizeCons class for more Ad sizes. 
+//                 _adViewWindow = new BannerView(AdSizeCons.Banner, new CGPoint((View.Bounds.Size.Width - 320) / 2, yCoord));
+//                 _adViewWindow.AdUnitID = "ca-app-pub-5373308786713201/3891909370";
+//                 _adViewWindow.RootViewController = this;
+//
+//                 // Wire AdReceived event to know when the Ad is ready to be displayed
+//                 _adViewWindow.AdReceived += AdViewWindow_AdReceived;
+//                 _adViewWindow.ReceiveAdFailed += AdViewWindow_ReceiveAdFailed;
+//             }
+//
+//             var request = Request.GetDefaultRequest();
+// #if DEBUG
+//             //request.TestDevices = new string[] { "91081e0a39a84d0f81f550efec64ec47" };
+// #endif
+//
+//             _adViewWindow.LoadRequest(request);
+//         }
+//
+//         private void RemoveBannerFromWindow()
+//         {
+//             if (_adViewWindow != null)
+//             {
+//                 if (_adOnWindow)
+//                 {
+//                     _adViewWindow.RemoveFromSuperview();
+//                 }
+//                 _adOnWindow = false;
+//
+//                 // You need to explicitly Dispose BannerView when you dont need it anymore
+//                 // to avoid crashes if pending request are in progress
+//                 _adViewWindow.Dispose();
+//                 _adViewWindow = null;
+//             }
+//         }
+//
+//         private void AdViewWindow_AdReceived(object sender, EventArgs e)
+//         {
+//             if (!_adOnWindow)
+//             {
+//                 View.AddSubview(_adViewWindow);
+//                 _adOnWindow = true;
+//             }
+//         }
 
-        private void AddBannerToWindow(nfloat yCoord)
-        {
-            if (_adViewWindow != null && yCoord == _adBannerYCoord) return;
+        // private void AdViewWindow_ReceiveAdFailed(object sender, BannerViewErrorEventArgs e)
+        // {
+        //     Console.WriteLine("Ad receive failed: " + e.Error.DebugDescription);
+        // }
 
-            if (_adViewWindow != null) RemoveBannerFromWindow();
+        // public void ShowInterstitial()
+        // {
+        //     BeginInvokeOnMainThread(() =>
+        //     {
+        //         if (_intAd.IsReady && !Settings.IsFromGameScreen)
+        //             _intAd.PresentFromRootViewController(this);
+        //     });
+        // }
 
-            if (_adViewWindow == null)
-            {
-                // Setup your GADBannerView, review AdSizeCons class for more Ad sizes. 
-                _adViewWindow = new BannerView(AdSizeCons.Banner, new CGPoint((View.Bounds.Size.Width - 320) / 2, yCoord));
-                _adViewWindow.AdUnitID = "ca-app-pub-5373308786713201/3891909370";
-                _adViewWindow.RootViewController = this;
+//         public void LoadInterstitial()
+//         {
+//             _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
+//             _intAd.Delegate = new InterstitialDelegate();
+//             _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
+//             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
+//             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
+//
+//             var request = Request.GetDefaultRequest();
+// #if DEBUG
+//             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
+// #endif
+//             _intAd.LoadRequest(request);
+//         }
+//
+//         private void IntAd_ReceiveAdFailed(object sender, InterstitialDidFailToReceiveAdWithErrorEventArgs e)
+//         {
+//             Console.WriteLine("Interstitial ad: receive ad failed");
+//
+//             AdMobManager.InterstitialAdFailedToLoad();
+//         }
 
-                // Wire AdReceived event to know when the Ad is ready to be displayed
-                _adViewWindow.AdReceived += AdViewWindow_AdReceived;
-                _adViewWindow.ReceiveAdFailed += AdViewWindow_ReceiveAdFailed;
-            }
-
-            var request = Request.GetDefaultRequest();
-#if DEBUG
-            //request.TestDevices = new string[] { "91081e0a39a84d0f81f550efec64ec47" };
-#endif
-
-            _adViewWindow.LoadRequest(request);
-        }
-
-        private void RemoveBannerFromWindow()
-        {
-            if (_adViewWindow != null)
-            {
-                if (_adOnWindow)
-                {
-                    _adViewWindow.RemoveFromSuperview();
-                }
-                _adOnWindow = false;
-
-                // You need to explicitly Dispose BannerView when you dont need it anymore
-                // to avoid crashes if pending request are in progress
-                _adViewWindow.Dispose();
-                _adViewWindow = null;
-            }
-        }
-
-        private void AdViewWindow_AdReceived(object sender, EventArgs e)
-        {
-            if (!_adOnWindow)
-            {
-                View.AddSubview(_adViewWindow);
-                _adOnWindow = true;
-            }
-        }
-
-        private void AdViewWindow_ReceiveAdFailed(object sender, BannerViewErrorEventArgs e)
-        {
-            Console.WriteLine("Ad receive failed: " + e.Error.DebugDescription);
-        }
-
-        public void ShowInterstitial()
-        {
-            BeginInvokeOnMainThread(() =>
-            {
-                if (_intAd.IsReady && !Settings.IsFromGameScreen)
-                    _intAd.PresentFromRootViewController(this);
-            });
-        }
-
-        public void LoadInterstitial()
-        {
-            _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
-            _intAd.Delegate = new InterstitialDelegate();
-            _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
-            _intAd.ScreenDismissed += IntAd_ScreenDismissed;
-            _intAd.WillPresentScreen += IntAd_WillPresentScreen;
-
-            var request = Request.GetDefaultRequest();
-#if DEBUG
-            request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
-#endif
-            _intAd.LoadRequest(request);
-        }
-
-        private void IntAd_ReceiveAdFailed(object sender, InterstitialDidFailToReceiveAdWithErrorEventArgs e)
-        {
-            Console.WriteLine("Interstitial ad: receive ad failed");
-
-            AdMobManager.InterstitialAdFailedToLoad();
-        }
-
-        private void IntAd_WillPresentScreen(object sender, EventArgs e)
-        {
-            Console.WriteLine("Interstitial ad: will present screen");
-
-            AdMobManager.InterstitialAdOpened();
-        }
-
-        private void IntAd_ScreenDismissed(object sender, EventArgs e)
-        {
-            Console.WriteLine("Interstitial ad: screen dismissed");
-
-            AdMobManager.InterstitialAdClosed();
-
-            _intAd.Dispose();
-            _intAd = null;
-
-            _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
-            _intAd.Delegate = new InterstitialDelegate();
-            _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
-            _intAd.ScreenDismissed += IntAd_ScreenDismissed;
-            _intAd.WillPresentScreen += IntAd_WillPresentScreen;
-
-            var request = Request.GetDefaultRequest();
-#if DEBUG
-            request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
-#endif
-            _intAd.LoadRequest(request);
-        }
+//         private void IntAd_WillPresentScreen(object sender, EventArgs e)
+//         {
+//             Console.WriteLine("Interstitial ad: will present screen");
+//
+//             AdMobManager.InterstitialAdOpened();
+//         }
+//
+//         private void IntAd_ScreenDismissed(object sender, EventArgs e)
+//         {
+//             Console.WriteLine("Interstitial ad: screen dismissed");
+//
+//             AdMobManager.InterstitialAdClosed();
+//
+//             _intAd.Dispose();
+//             _intAd = null;
+//
+//             _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
+//             _intAd.Delegate = new InterstitialDelegate();
+//             _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
+//             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
+//             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
+//
+//             var request = Request.GetDefaultRequest();
+// #if DEBUG
+//             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
+// #endif
+//             _intAd.LoadRequest(request);
+//         }
 
         private async Task MakePurchase(IProduct product)
         {
