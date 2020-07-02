@@ -36,7 +36,7 @@ namespace LooneyInvaders.Layers
             var btnTwitter = AddButton(300, 80, "UI/Game-info-follow-us-on-twitter-untapped.png", "UI/Game-info-follow-us-on-twitter-tapped.png");
             btnTwitter.OnClick += BtnTwitter_OnClick;
 
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
 
             ScheduleOnce(FreeAllSpriteSheets, 0.54f);
         }
@@ -64,7 +64,7 @@ namespace LooneyInvaders.Layers
 
         private async void BtnPrivacyPolicy_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.HideBanner();
+            AdManager.HideBanner();
 
             var newLayer = new PrivacyPolicyScreenLayer();
             await TransitionToLayerCartoonStyleAsync(newLayer);
@@ -72,7 +72,7 @@ namespace LooneyInvaders.Layers
 
         private async void BtnAboutGame_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.HideBanner();
+            AdManager.HideBanner();
 
             var newLayer = new AboutGameScreenLayer();
             await TransitionToLayerCartoonStyleAsync(newLayer);
@@ -80,7 +80,7 @@ namespace LooneyInvaders.Layers
 
         private async void BtnMyStats_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.HideBanner();
+            AdManager.HideBanner();
 
             var newLayer = new MyStatsAndRewards1Layer();
             await TransitionToLayerCartoonStyleAsync(newLayer);
@@ -89,7 +89,7 @@ namespace LooneyInvaders.Layers
         private async void BtnBack_OnClick(object sender, EventArgs e)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
-            AdMobManager.HideBanner();
+            AdManager.HideBanner();
 
             var newLayer = new MainScreenLayer();
             await TransitionToLayerCartoonStyleAsync(newLayer);

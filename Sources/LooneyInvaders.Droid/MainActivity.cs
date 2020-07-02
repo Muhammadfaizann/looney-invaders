@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using CC.Mobile.Purchases;
 using CocosSharp;
+using Com.Appodeal.Ads;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -48,14 +49,33 @@ namespace LooneyInvaders.Droid
         LaunchMode = LaunchMode.SingleTop, 
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden,
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
-    public class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
+    public class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
     {
-        public CCGameView GameView;
+        public void OnBannerClicked() { }
+        public void OnBannerFailedToLoad() { }
+        public void OnBannerLoaded(int p0, bool p1) { }
+        public void OnBannerShown() { }
 
+        public void OnInterstitialLoaded(bool b) { }
+        public void OnInterstitialFailedToLoad() { Model.AdManager.InterstitialAdFailedToLoad(); }
+        public void OnInterstitialShown() { Model.AdManager.InterstitialAdOpened(); }
+        public void OnInterstitialClosed() { Model.AdManager.InterstitialAdClosed(); }
+        public void OnInterstitialClicked() { }
+
+        public CCGameView GameView;
+        
         public Action CheckGamePauseState;
 
         private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
-        //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";        
+        //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";
+        private const string AppodealApiKey = "6d20b7f252ded4791970fbcfee2e541e";
+
+        private int requiredAdTypes = Appodeal.INTERSTITIAL
+                                | Appodeal.BANNER
+                                | Appodeal.BANNER_BOTTOM
+                                | Appodeal.BANNER_TOP;
+        private InterstitialAdListener interstitialAdListener;
+        private BannerAdListener bannerAdListener;
         private IPurchaseService _svc;
 
         public AdView AdBanner;
@@ -93,7 +113,16 @@ namespace LooneyInvaders.Droid
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38",
                     typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
-            MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
+
+            Appodeal.SetSmartBanners(true);
+            Appodeal.SetBannerAnimation(true);
+            Appodeal.DisableLocationPermissionCheck();
+            Appodeal.SetAutoCache(requiredAdTypes, true);
+            Appodeal.SetTriggerOnLoadedOnPrecache(requiredAdTypes, true);
+            Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
+
+
+            //MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -155,6 +184,15 @@ namespace LooneyInvaders.Droid
                 LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
             };
             TrackTime();
+
+            //interstitialAdListener = interstitialAdListener ?? new InterstitialAdListener();
+            Appodeal.SetInterstitialCallbacks(this);
+            //bannerAdListener = bannerAdListener ?? new BannerAdListener();
+            Appodeal.SetBannerCallbacks(this);
+            Appodeal.SetTesting(true);
+            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
+
+
             AdBanner.SetY(0);
             AdBanner.SetX(0);
             AdBanner.LoadAd(requestbuilder.Build());
@@ -164,12 +202,12 @@ namespace LooneyInvaders.Droid
             var adParams = new ViewGroup.LayoutParams(size.X, AdBanner.AdSize.GetHeightInPixels(Application.Context));
             AddContentView(AdBanner, adParams);
             TrackTime();
-            AdMobManager.ShowBannerTopHandler = ShowBannerTop;
-            AdMobManager.ShowBannerBottomHandler = ShowBannerBottom;
-            AdMobManager.HideBannerHandler = HideBanner;
-            AdMobManager.LoadInterstitialHandler = LoadInterstitial;
-            AdMobManager.ShowInterstitialHandler = ShowInterstitial;
-            AdMobManager.HideInterstitialHandler = HideInterstitial;
+            AdManager.ShowBannerTopHandler = ShowBannerTop;
+            AdManager.ShowBannerBottomHandler = ShowBannerBottom;
+            AdManager.HideBannerHandler = HideBanner;
+            AdManager.LoadInterstitialHandler = LoadInterstitial;
+            AdManager.ShowInterstitialHandler = ShowInterstitial;
+            AdManager.HideInterstitialHandler = HideInterstitial;
             TrackTime();
             LoadInterstitial();
             TrackTime();
@@ -204,6 +242,13 @@ namespace LooneyInvaders.Droid
         public void CallInitOnApp42ServiceBuilder()
         {
             App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            Appodeal.OnResume(this, requiredAdTypes);
         }
 
         protected override void OnPostResume()
@@ -592,10 +637,12 @@ namespace LooneyInvaders.Droid
 
         private void ShowBannerTopUiThread()
         {
-            AdBanner?.SetY(0);
+            /*AdBanner?.SetY(0);
             AdBanner?.SetX(0);
             AdBanner.ChangeVisibility(ViewStates.Visible);
-            AdBanner?.BringToFront();
+            AdBanner?.BringToFront();*/
+
+            Appodeal.Show(this, Appodeal.BANNER_TOP);
         }
 
         public void ShowBannerBottom()
@@ -607,7 +654,7 @@ namespace LooneyInvaders.Droid
         {
             try
             {
-                var size = new Point();
+                /*var size = new Point();
                 WindowManager.DefaultDisplay.GetRealSize(size);
 
                 AdBanner?.SetY(size.Y - AdBanner.AdSize.GetHeightInPixels(Application.Context));
@@ -615,7 +662,9 @@ namespace LooneyInvaders.Droid
                 AdBanner?.SetX(0);
 
                 AdBanner.ChangeVisibility(ViewStates.Visible);
-                AdBanner?.BringToFront();
+                AdBanner?.BringToFront();*/
+
+                Appodeal.Show(this, Appodeal.BANNER_BOTTOM);
             }
             catch (Exception ex)
             {
@@ -632,7 +681,9 @@ namespace LooneyInvaders.Droid
 
         private void HideBannerUiThread()
         {
-            AdBanner?.ChangeVisibility(ViewStates.Invisible);
+            //AdBanner?.ChangeVisibility(ViewStates.Invisible);
+
+            Appodeal.Hide(this, Appodeal.BANNER);
         }
 
         private bool _isAdsShoving;
@@ -646,8 +697,12 @@ namespace LooneyInvaders.Droid
 
         private void ShowInterstitialUiThread()
         {
-            if (_intAd.IsLoaded && !Settings.IsFromGameScreen)
-                _intAd.Show();
+            //if (_intAd.IsLoaded && !Settings.IsFromGameScreen)
+            //    _intAd.Show();
+            if (Appodeal.IsLoaded(Appodeal.INTERSTITIAL) && !Settings.IsFromGameScreen)
+            {
+                Appodeal.Show(this, Appodeal.INTERSTITIAL);
+            }
         }
 
         public void HideInterstitial()
@@ -657,16 +712,19 @@ namespace LooneyInvaders.Droid
 
         private void HideInterstitialUiThread()
         {
-            FindViewById(Resource.Id.GameView).BringToFront();
+            //FindViewById(Resource.Id.GameView).BringToFront();
+
+            Appodeal.Hide(this, Appodeal.INTERSTITIAL);
         }
 
         public void LoadInterstitial()
         {
-            RunOnUiThread(LoadInterstitialUiThread);
+            //RunOnUiThread(LoadInterstitialUiThread);
         }
 
         private void LoadInterstitialUiThread()
         {
+
             _intAd = new InterstitialAd(Application.Context);
             _intAd.AdUnitId = "ca-app-pub-5373308786713201/3641230573";
             _intAd.AdListener = new AdListenerInterstitial(_intAd, this);

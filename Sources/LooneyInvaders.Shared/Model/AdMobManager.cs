@@ -2,7 +2,7 @@
 
 namespace LooneyInvaders.Model
 {
-    public class AdMobManager
+    public class AdManager
     {
         public delegate void ShowBannerDelegate();
 
@@ -47,7 +47,7 @@ namespace LooneyInvaders.Model
             LoadInterstitialHandler?.Invoke();
         }
 
-        public static void ShowInterstitial(double sec)
+        public static void ShowInterstitial()
         {
             ShowInterstitialHandler?.Invoke();
         }

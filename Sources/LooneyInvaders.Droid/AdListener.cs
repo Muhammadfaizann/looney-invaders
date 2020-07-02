@@ -61,7 +61,7 @@ namespace LooneyInvaders.Droid
 
             Console.WriteLine("Interstitial ad closed");
 
-            Model.AdMobManager.InterstitialAdClosed();
+            Model.AdManager.InterstitialAdClosed();
 
             var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
@@ -83,7 +83,7 @@ namespace LooneyInvaders.Droid
 
             Console.WriteLine("Interstitial ad opened");
 
-            Model.AdMobManager.InterstitialAdOpened();
+            Model.AdManager.InterstitialAdOpened();
         }
 
         public override void OnAdFailedToLoad(int errorCode)
@@ -92,7 +92,7 @@ namespace LooneyInvaders.Droid
 
             Console.WriteLine("Interstitial ad failed to load. Error code: " + errorCode);
 
-            Model.AdMobManager.InterstitialAdFailedToLoad();
+            Model.AdManager.InterstitialAdFailedToLoad();
         }
     }
 }

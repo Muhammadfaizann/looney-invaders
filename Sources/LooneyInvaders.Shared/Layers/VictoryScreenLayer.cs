@@ -325,12 +325,12 @@ namespace LooneyInvaders.Layers
             {
                 Visible = false
             };
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-            AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
 
             _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
             if (_score > GamePlayLayer.BestScore)
@@ -390,7 +390,7 @@ namespace LooneyInvaders.Layers
             }
             _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
 
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
             GameEnvironment.PlayMusic(Music.Victory);
 
             if (Settings.Instance.VoiceoversEnabled)
@@ -402,7 +402,7 @@ namespace LooneyInvaders.Layers
             Settings.Instance.LastOfflineRegularScore = _score;
             Settings.Instance.LastOfflineTime = Convert.ToDouble(Time);
             Settings.Instance.LastOfflineAccuracy = Convert.ToDouble(Accuracy);
-            
+
             ScheduleOnce(async (_) =>
             {
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
@@ -430,7 +430,7 @@ namespace LooneyInvaders.Layers
                 ref _loadingView.Count,
                 ref _loadingViewPlaceholder,
                 () => !_isDoneWaitingForScores &&
-                     ! _multiplierNode.Visible &&
+                     !_multiplierNode.Visible &&
                      !(_btnContinue?.Visible).GetValueOrDefault() &&
                      !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
@@ -552,8 +552,8 @@ namespace LooneyInvaders.Layers
         private void ShowMultiplierAd_Onclick(object sender, EventArgs e)
         {
             _showAd.Enabled = false;
-            AdMobManager.HideBanner();
-            AdMobManager.ShowInterstitial(0);
+            AdManager.HideBanner();
+            AdManager.ShowInterstitial();
         }
 
         private void ShowMultiplierAdCancel_Onclick(object sender, EventArgs e)
@@ -575,7 +575,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_multiplierNode);
             UnscheduleAllExcept((AnimateLoadingView, 0.06f));
 
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
             ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
         }
@@ -583,7 +583,7 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
 
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
@@ -899,10 +899,10 @@ namespace LooneyInvaders.Layers
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-            AdMobManager.HideBanner();
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
@@ -1056,14 +1056,14 @@ namespace LooneyInvaders.Layers
 
         private async Task NextLevel()
         {
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             if (_nextBattleGround == Battlegrounds.Moon)
             {
-                AdMobManager.HideBanner();
+                AdManager.HideBanner();
 
                 var newLayer = new EnemyPickerLayer();
                 await TransitionToLayerCartoonStyleAsync(newLayer);

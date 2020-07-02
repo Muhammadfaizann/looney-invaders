@@ -40,9 +40,11 @@
     <Debugger>Xamarin</Debugger>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
-    <AndroidUseAapt2>false</AndroidUseAapt2>
     <AndroidLinkTool>r8</AndroidLinkTool>
-    <AndroidDexTool>d8</AndroidDexTool>
+    <AndroidDexTool>dx</AndroidDexTool>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,7 +60,7 @@
     <BundleAssemblies>true</BundleAssemblies>
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
-    <AndroidUseAapt2>false</AndroidUseAapt2>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>Properties/tpetrovic_INIT.keystore</AndroidSigningKeyStore>
@@ -67,6 +69,7 @@
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidLinkTool>r8</AndroidLinkTool>
 <AndroidDexTool>d8</AndroidDexTool>
+<AndroidPackageFormat>aab</AndroidPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -93,12 +96,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Android" />
@@ -323,6 +323,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>..\packages\CocosSharp.1.7.1.0\lib\MonoAndroid10\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="AppodealXamarinPlugin">
+      <HintPath>..\..\References\AppodealXamarinPlugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="App42_CSHARP_SDK_2.3">
@@ -356,6 +359,8 @@
     <Compile Include="Extensions\GenericExtension.cs" />
     <Compile Include="Helpers\EglHelper.cs" />
     <Compile Include="Services\Permissions\PermissionService.cs" />
+    <Compile Include="AdListeners\InterstitialAdListener.cs" />
+    <Compile Include="AdListeners\BannerAdListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -799,11 +804,20 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\values\Colors.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\xml\network_security_config.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Services\Permissions\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="AdListeners\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">

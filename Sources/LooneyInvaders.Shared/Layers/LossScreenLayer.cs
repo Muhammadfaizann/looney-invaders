@@ -141,12 +141,12 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Now get up and get your revenge VO_mono.wav");
             }
 
-            AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
             ScheduleOnce((_) =>
             {
-                try { AdMobManager.ShowBannerBottom(); }
+                try { AdManager.ShowBannerBottom(); }
                 catch { }
             }, 0f);
 
@@ -530,9 +530,9 @@ namespace LooneyInvaders.Layers
 
         private async void BtnContinue_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
@@ -558,10 +558,10 @@ namespace LooneyInvaders.Layers
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-            AdMobManager.HideBanner();
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
@@ -570,9 +570,9 @@ namespace LooneyInvaders.Layers
 
         private async void Revenge_OnClick(object sender, EventArgs e)
         {
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
             
             var newLayer = new GamePlayLayer(SelectedEnemy, SelectedWeapon, SelectedBattleground, true);
@@ -653,8 +653,8 @@ namespace LooneyInvaders.Layers
             _btnContinue.ChangeAvailability(false);
             _mainMenu.ChangeAvailability(false);
 
-            AdMobManager.HideBanner();
-            AdMobManager.ShowInterstitial(0);
+            AdManager.HideBanner();
+            AdManager.ShowInterstitial();
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
@@ -664,14 +664,14 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             ScheduleOnce(ShowScore, 2.3f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            AdMobManager.ShowBannerBottom();
+            AdManager.ShowBannerBottom();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             ScheduleOnce(ShowScoreAlienScheduled, 0.1f);
         }

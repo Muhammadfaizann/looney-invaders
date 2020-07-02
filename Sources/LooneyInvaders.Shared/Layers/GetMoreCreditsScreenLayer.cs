@@ -181,12 +181,12 @@ namespace LooneyInvaders.Layers
 
             RefreshPlayerCreditsLabel();
 
-            AdMobManager.ClearEvents();
+            AdManager.ClearEvents();
             PurchaseManager.ClearEvents();
 
-            AdMobManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
 
             if (Player.Instance.FacebookLikeUsed)
@@ -241,9 +241,9 @@ namespace LooneyInvaders.Layers
 
             Unschedule(DisableBtn);
 
-            AdMobManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdMobManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdMobManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
 
             if (_selectedWeapon == -1)
@@ -379,7 +379,7 @@ namespace LooneyInvaders.Layers
         private void RunAdInDelay(float obj)
         {
 
-            AdMobManager.ShowInterstitial(0);
+            AdManager.ShowInterstitial();
             //_timeToNextAds = -1;
             Console.WriteLine("NSTimer chal peya");
 
