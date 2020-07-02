@@ -4,19 +4,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CocosSharp;
-using Firebase.Components;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Model;
 using LooneyInvaders.PNS;
 using LooneyInvaders.App42;
-using LooneyInvaders.Droid.Services.AdvertismentProvider;
 
 namespace LooneyInvaders.Layers
 {
     public class MainScreenLayer : CCLayerColorExt
     {
         private PushNotificationService _pushNs;
-        private IAdvertisementProvider _advertisementProvider;
 
         private bool _isShownRankingDay = true;
         private bool _isShownRankingWeek;
