@@ -44,6 +44,7 @@
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -248,9 +249,6 @@
     <Reference Include="Xamarin.Firebase.Messaging">
       <HintPath>..\packages\Xamarin.Firebase.Messaging.71.1740.0\lib\monoandroid90\Xamarin.Firebase.Messaging.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Audience">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Audience.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Drive">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Drive.dll</HintPath>
     </Reference>
@@ -339,9 +337,6 @@
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Games">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\lib\monoandroid90\Xamarin.GooglePlayServices.Games.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Plus">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Plus.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -8643,10 +8638,8 @@
   <Import Project="..\packages\Xamarin.Firebase.Iid.Interop.71.1601.0\build\MonoAndroid90\Xamarin.Firebase.Iid.Interop.targets" Condition="Exists('..\packages\Xamarin.Firebase.Iid.Interop.71.1601.0\build\MonoAndroid90\Xamarin.Firebase.Iid.Interop.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Iid.71.1710.0\build\MonoAndroid90\Xamarin.Firebase.Iid.targets" Condition="Exists('..\packages\Xamarin.Firebase.Iid.71.1710.0\build\MonoAndroid90\Xamarin.Firebase.Iid.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Messaging.71.1740.0\build\MonoAndroid90\Xamarin.Firebase.Messaging.targets" Condition="Exists('..\packages\Xamarin.Firebase.Messaging.71.1740.0\build\MonoAndroid90\Xamarin.Firebase.Messaging.targets')" />
-  <Import Project="..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Audience.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Audience.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Drive.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Drive.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Games.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Games.targets')" />
-  <Import Project="..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Plus.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Plus.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.CardView.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.CardView.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.CardView.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.CardView.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.Palette.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.Palette.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.Palette.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.Palette.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Vector.Drawable.targets')" />

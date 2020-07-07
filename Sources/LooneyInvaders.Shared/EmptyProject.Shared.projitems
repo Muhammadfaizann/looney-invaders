@@ -45,7 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\Purchase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\PurchaseError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\TransactionStatus.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\AdMobManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AdManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\BattlegroundStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ButtonType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ControlType.cs" />

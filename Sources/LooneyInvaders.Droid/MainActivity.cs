@@ -57,9 +57,9 @@ namespace LooneyInvaders.Droid
         public void OnBannerShown() { }
 
         public void OnInterstitialLoaded(bool b) { }
-        public void OnInterstitialFailedToLoad() { Model.AdManager.InterstitialAdFailedToLoad(); }
-        public void OnInterstitialShown() { Model.AdManager.InterstitialAdOpened(); }
-        public void OnInterstitialClosed() { Model.AdManager.InterstitialAdClosed(); }
+        public void OnInterstitialFailedToLoad() => Model.AdManager.InterstitialAdFailedToLoad();
+        public void OnInterstitialShown() => Model.AdManager.InterstitialAdOpened();
+        public void OnInterstitialClosed() => Model.AdManager.InterstitialAdClosed();
         public void OnInterstitialClicked() { }
 
         public CCGameView GameView;
@@ -72,7 +72,6 @@ namespace LooneyInvaders.Droid
 
         private readonly int requiredAdTypes = Appodeal.INTERSTITIAL
                                              //| Appodeal.REWARDED_VIDEO
-                                             | Appodeal.BANNER
                                              | Appodeal.BANNER_BOTTOM
                                              | Appodeal.BANNER_TOP;
         private InterstitialAdListener interstitialAdListener;
@@ -171,10 +170,10 @@ namespace LooneyInvaders.Droid
             WindowManager.DefaultDisplay.GetRealSize(size);
             //TrackTime();
             // connect to AdMob
-            var requestbuilder = new AdRequest.Builder();
+            /* var requestbuilder = new AdRequest.Builder();
             requestbuilder.AddTestDevice(AdRequest.DeviceIdEmulator);
             requestbuilder.AddTestDevice("C663A5E7C7E3925C26A199E85E3E39D6"); // Client Device
-            //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
+            */ //requestbuilder.AddTestDevice("03DFB7A18513DDF6BDB8533960DADD46"); // My Device
             /*AdBanner = new AdView(Application.Context)
             {
                 AdSize = AdSize.SmartBanner,
@@ -186,7 +185,6 @@ namespace LooneyInvaders.Droid
             TrackTime();
             Appodeal.SetInterstitialCallbacks(this);
             Appodeal.SetBannerCallbacks(this);
-
             Appodeal.GetUserSettings(this)
                     .SetAge(30)
                     .SetGender(UserSettings.Gender.MALE);
@@ -217,7 +215,7 @@ namespace LooneyInvaders.Droid
             AdManager.ShowInterstitialHandler = ShowInterstitial;
             AdManager.HideInterstitialHandler = HideInterstitial;
             TrackTime();
-            //LoadInterstitial();
+            LoadInterstitial();
             TrackTime();
             // set up in-game purchases
             InGamePurchasesAsync();
@@ -663,7 +661,7 @@ namespace LooneyInvaders.Droid
             RunOnUiThread(ShowBannerBottomUiThread);
         }
 
-        private void ShowBannerBottomUiThread()
+        private async void ShowBannerBottomUiThread()
         {
             try
             {
@@ -679,7 +677,9 @@ namespace LooneyInvaders.Droid
 
                 if (!Appodeal.IsLoaded(Appodeal.BANNER_BOTTOM))
                 {
+                    Appodeal.Cache(this, Appodeal.BANNER_BOTTOM);
                     Appodeal.Initialize(this, AppodealApiKey, Appodeal.BANNER_BOTTOM);
+                    await Task.Delay(6000);
                     Appodeal.Cache(this, Appodeal.BANNER_BOTTOM);
                 }
                 Appodeal.Show(this, Appodeal.BANNER_BOTTOM);
@@ -756,7 +756,10 @@ namespace LooneyInvaders.Droid
 
         private void LoadInterstitialUiThread()
         {
-            Appodeal.Cache(this, Appodeal.INTERSTITIAL);
+            if (!Appodeal.IsLoaded(Appodeal.INTERSTITIAL))
+            {
+                Appodeal.Cache(this, Appodeal.INTERSTITIAL);
+            }
             /*_intAd = new InterstitialAd(Application.Context);
             _intAd.AdUnitId = "ca-app-pub-5373308786713201/3641230573";
             _intAd.AdListener = new AdListenerInterstitial(_intAd, this);
@@ -798,8 +801,8 @@ namespace LooneyInvaders.Droid
 
         private async Task<bool> PurchaseProduct(string productId)
         {
-            await MakePurchase(new Product(productId))
-                .ConfigureAwait(false);
+            await MakePurchase(new Product(productId)).ConfigureAwait(false);
+
             return true;
         }
 
