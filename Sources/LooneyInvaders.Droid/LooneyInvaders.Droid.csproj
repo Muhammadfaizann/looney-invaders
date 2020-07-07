@@ -340,20 +340,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdListener.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="PurchaseService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeviceInfo\DeviceInfoService.cs" />
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
-    <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\GenericExtension.cs" />
     <Compile Include="Helpers\EglHelper.cs" />
     <Compile Include="Services\Permissions\PermissionService.cs" />
-    <Compile Include="AdListeners\InterstitialAdListener.cs" />
-    <Compile Include="AdListeners\BannerAdListener.cs" />
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Services\Purchase\PurchaseService.cs" />
+    <Compile Include="MainActivity.Ads.cs" />
+    <Compile Include="MainActivity.Orientation.cs" />
+    <Compile Include="MainActivity.Purchasing.cs" />
+    <Compile Include="MainActivity.Sharing.cs" />
+    <Compile Include="Helpers\AppodealAdsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -810,7 +811,7 @@
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Services\Permissions\" />
     <Folder Include="Resources\xml\" />
-    <Folder Include="AdListeners\" />
+    <Folder Include="Services\Purchase\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">

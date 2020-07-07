@@ -5,12 +5,7 @@
     android:layout_height="fill_parent"
     >
 <CocosSharp.CCGameView
-	 android:id="@+id/GameView"
-	 android:layout_width="fill_parent"
-	 android:layout_height="fill_parent" />
-<!--<com.appodeal.ads.BannerView
-        android:id="@+id/appodealBannerView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:visibility="gone" />-->
+    android:id="@+id/GameView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" />
 </LinearLayout>
