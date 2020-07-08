@@ -350,10 +350,18 @@
     <Compile Include="Services\Permissions\PermissionService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Services\Purchase\PurchaseService.cs" />
-    <Compile Include="MainActivity.Ads.cs" />
-    <Compile Include="MainActivity.Orientation.cs" />
-    <Compile Include="MainActivity.Purchasing.cs" />
-    <Compile Include="MainActivity.Sharing.cs" />
+    <Compile Include="MainActivity.Ads.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Orientation.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Purchasing.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Sharing.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AppodealAdsHelper.cs" />
   </ItemGroup>
   <ItemGroup>

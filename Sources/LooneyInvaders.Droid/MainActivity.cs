@@ -26,6 +26,21 @@ using LooneyInvaders.Services.App42;
 using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 
+/* //probably future setting
+Configure R8 to complete successfully despite warnings
+
+Add a new text file to the project, named for example proguard-rules.pro.
+Set the contents of the file to: -ignorewarnings
+
+This changes R8’s behavior so that it will complete successfully even it encounters warnings like “Missing class: java.lang.ClassValue.”
+When using R8 for multidex only and not code shrinking, this approach should work correctly, as long as the app was working correctly in the previous Xamarin.Android version when using multidex.
+
+Edit the .csproj file in a text editor and add --pg-conf proguard-rules.pro to the AndroidR8ExtraArguments MSBuild property, for example by adding the following lines:
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <AndroidR8ExtraArguments>--pg-conf proguard-rules.pro</AndroidR8ExtraArguments>
+    </PropertyGroup>
+*/
 //[assembly: UsesLibrary("org.apache.http.legacy", false)]
 namespace LooneyInvaders.Droid
 {
