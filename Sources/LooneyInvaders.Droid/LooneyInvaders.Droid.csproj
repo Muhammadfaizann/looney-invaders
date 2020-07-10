@@ -23,7 +23,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <AndroidSupportedAbis>armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
@@ -40,11 +40,11 @@
     <Debugger>Xamarin</Debugger>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <NoStdLib>true</NoStdLib>
-    <AndroidLinkTool>r8</AndroidLinkTool>
     <AndroidDexTool>dx</AndroidDexTool>
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,7 +61,6 @@
     <AndroidAotAdditionalArguments>no-write-symbols</AndroidAotAdditionalArguments>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>Properties/tpetrovic_INIT.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>mojasifra</AndroidSigningStorePass>
@@ -250,9 +249,6 @@
     <Reference Include="Xamarin.Firebase.Messaging">
       <HintPath>..\packages\Xamarin.Firebase.Messaging.71.1740.0\lib\monoandroid90\Xamarin.Firebase.Messaging.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Audience">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Audience.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Drive">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Drive.dll</HintPath>
     </Reference>
@@ -342,25 +338,31 @@
     <Reference Include="Xamarin.GooglePlayServices.Games">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\lib\monoandroid90\Xamarin.GooglePlayServices.Games.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Plus">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\lib\monoandroid90\Xamarin.GooglePlayServices.Plus.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdListener.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="PurchaseService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeviceInfo\DeviceInfoService.cs" />
     <Compile Include="Services\PNS\OpenSettingsService.cs" />
     <Compile Include="Services\PNS\NotificationAllowedService.cs" />
-    <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\GenericExtension.cs" />
     <Compile Include="Helpers\EglHelper.cs" />
     <Compile Include="Services\Permissions\PermissionService.cs" />
-    <Compile Include="AdListeners\InterstitialAdListener.cs" />
-    <Compile Include="AdListeners\BannerAdListener.cs" />
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Services\Purchase\PurchaseService.cs" />
+    <Compile Include="MainActivity.Ads.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Orientation.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Purchasing.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainActivity.Sharing.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AppodealAdsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
@@ -817,7 +819,7 @@
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Services\Permissions\" />
     <Folder Include="Resources\xml\" />
-    <Folder Include="AdListeners\" />
+    <Folder Include="Services\Purchase\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -8645,10 +8647,8 @@
   <Import Project="..\packages\Xamarin.Firebase.Iid.Interop.71.1601.0\build\MonoAndroid90\Xamarin.Firebase.Iid.Interop.targets" Condition="Exists('..\packages\Xamarin.Firebase.Iid.Interop.71.1601.0\build\MonoAndroid90\Xamarin.Firebase.Iid.Interop.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Iid.71.1710.0\build\MonoAndroid90\Xamarin.Firebase.Iid.targets" Condition="Exists('..\packages\Xamarin.Firebase.Iid.71.1710.0\build\MonoAndroid90\Xamarin.Firebase.Iid.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Messaging.71.1740.0\build\MonoAndroid90\Xamarin.Firebase.Messaging.targets" Condition="Exists('..\packages\Xamarin.Firebase.Messaging.71.1740.0\build\MonoAndroid90\Xamarin.Firebase.Messaging.targets')" />
-  <Import Project="..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Audience.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Audience.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Audience.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Drive.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Drive.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Drive.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Games.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Games.71.1700.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Games.targets')" />
-  <Import Project="..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Plus.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Plus.71.1600.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Plus.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.CardView.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.CardView.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.CardView.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.CardView.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.v7.Palette.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.Palette.targets" Condition="Exists('..\packages\Xamarin.Android.Support.v7.Palette.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.v7.Palette.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Vector.Drawable.targets')" />
