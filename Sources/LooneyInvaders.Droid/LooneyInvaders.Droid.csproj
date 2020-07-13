@@ -68,7 +68,7 @@
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidLinkTool>r8</AndroidLinkTool>
 <AndroidDexTool>d8</AndroidDexTool>
-<AndroidPackageFormat>aab</AndroidPackageFormat>
+<AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
