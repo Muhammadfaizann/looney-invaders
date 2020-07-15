@@ -59,7 +59,19 @@ namespace LooneyInvaders.Model
         {
             return TimeZoneInfo.ConvertTime(value.ToUniversalTime(), TimeZoneInfo.Utc, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id));
         }
-
+        
+        public bool IsAdBreak
+        {
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsAdBreak), false);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsAdBreak), value);
+        }
+        
+        public DateTime DateTimeOfLastOpenedAd
+        {
+            get => GetFixedDate(CrossSettings.Current.GetValueOrDefault(nameof(DateTimeOfLastOpenedAd), default(DateTime)));
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(DateTimeOfLastOpenedAd), value);
+        }
+        
         public DateTime LastAdWatchTime
         {
             get => GetFixedDate(CrossSettings.Current.GetValueOrDefault("LastAdWatchTime", Convert.ToDateTime("1990-01-01")));

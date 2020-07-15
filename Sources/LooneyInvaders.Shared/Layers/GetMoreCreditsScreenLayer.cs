@@ -1,36 +1,21 @@
 using System;
-using System.Diagnostics;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
 
-#if __IOS__
-using Foundation;
-using Microsoft.AppCenter.Crashes;
-#endif
 namespace LooneyInvaders.Layers
 {
     public class GetMoreCreditsScreenLayer : CCLayerColorExt
     {
-        //int _creditsRequired;
         private readonly int _selectedEnemy;
         private readonly int _selectedWeapon;
         private readonly int _caliberSizeSelected;
         private readonly int _firespeedSelected;
         private readonly int _magazineSizeSelected;
         private readonly int _livesSelected;
-
         private readonly int _imgPlayerCreditsXCoord;
-#if __IOS__
-        //NSTimer fakeTimer;
-
-#endif
-
-        //CCScheduler m_pScheduler;
-        //CCActionManager m_pActionManager;
 
         private CCSprite[] _imgPlayerCreditsLabel;
-        private readonly CCSpriteButton _btn2000Hiden;
         private CCSpriteButton _btn2000;
         private CCSpriteButton _btn4000;
         private CCSpriteButton _btn100K;
@@ -91,17 +76,6 @@ namespace LooneyInvaders.Layers
 
             AddImage(517, 291, "UI/Get-more-credits-get-1_99-USD.png");
 
-            //------------ Prabhjot -----------//
-
-            //if(Player.Instance.FacebookLikeUsed)
-            //{
-            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            //}
-            //else
-            //{
-            //    _btn4000 = this.AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            //}
-
             _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
 
 
@@ -121,42 +95,34 @@ namespace LooneyInvaders.Layers
             }
 
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
-
-            _btn2000Hiden = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
-            _btn2000Hiden.OnClick += Btn2000Hiden_OnClick;
-            _btn2000Hiden.ButtonType = ButtonType.Silent;
-            _btn2000Hiden.Visible = false;
-
+            
+            _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-untapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
+            _btn2000.ButtonType = ButtonType.CreditPurchase;
+            
             if (lastAdWatchDayCount >= 10)
             {
-                _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
-                _btn2000.Enabled = false;
-                _btn2000.OnClick += Btn2000_OnClick;
-                _btn2000.ButtonType = ButtonType.Silent;
-                var timeToNewDay = DateTime.Now.AddDays(1).Date - DateTime.Now;
-                DisableBtnOnTime(timeToNewDay.TotalSeconds);
+                DisableButtonsOnLayer(_btn2000);
+                
+                var backgroundTask = new System.Threading.Thread(() =>
+                {
+                    var timeCountdown = CountTimeSpan(Player.Instance.LastAdWatchTime.AddDays(1));
+                    DisableBtnOnTime(timeCountdown.Seconds);
+                });
+                    
+                backgroundTask.Start();
             }
             else
             {
-                _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-untapped.png", "UI/Get-more-credits-get-2000-credits-button-tapped.png");
                 _btn2000.OnClick += Btn2000_OnClick;
-                _btn2000.ButtonType = ButtonType.Silent;
 
-                if (Settings.Instance.TimeToNewAd > 0)
+                if (Player.Instance.IsAdBreak)
                 {
-                    _btn2000.Visible = false;
-                    _btn2000Hiden.Visible = true;
-
-                    var timeBeforeLeave = Settings.Instance.TimeWhenPageAdsLeaved;
-                    var timeNow = DateTime.Now;
-                    var secondsSpent = (timeBeforeLeave - timeNow).Seconds;
-                    var timeVal = Settings.Instance.TimeToNewAd + secondsSpent;
-                    Settings.Instance.TimeWhenPageAdsLeaved = default(DateTime);
-                    //DisableBtnOnTime(timeVal);
                     var backgroundTask = new System.Threading.Thread(() =>
                     {
-                        DisableBtnOnTime(timeVal);
+                        var adCountdown = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd).Seconds;
+                        DisableBtnOnTime(adCountdown);
                     });
+                    
                     backgroundTask.Start();
                 }
             }
@@ -261,22 +227,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void Btn2000Hiden_OnClick(object sender, EventArgs e)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-        }
-
         private void Btn2000_OnClick(object sender, EventArgs e)
         {
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 return;
             }
-
-            _btn2000Hiden.Visible = true;
-            _btn2000.Visible = false;
-
-            Debug.WriteLine("Last watch count before: " + Player.Instance.LastAdWatchDayCount);
 
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
             {
@@ -285,236 +241,112 @@ namespace LooneyInvaders.Layers
                 Player.Instance.LastAdWatchDayCount = 0;
             }
 
+            Player.Instance.IsAdBreak = true;
             var lastAdWatchTime = Player.Instance.LastAdWatchTime;
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
 
-            Console.WriteLine($"Total seconds passed: {(DateTime.Now - lastAdWatchTime).TotalSeconds}");
-
-            //if ((DateTime.Now - LastAdWatchTime).TotalSeconds < 5)
-            //{
-            //  GameEnvironment.PlaySoundEffect(SOUNDEFFECT.MENU_TAP_CANNOT_TAP);
-            //  Console.WriteLine("5 seconds must pass between ads, passed " + (DateTime.Now - LastAdWatchTime).Seconds.ToString());
-            //  return;
-            //}
-
-            if (lastAdWatchDayCount >= 10)
+            if (lastAdWatchDayCount == 10)
             {
-                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-                Console.WriteLine("limited to 10 ads a day");
-
-                var timeToNewDay = DateTime.Now.AddDays(1).Date - DateTime.Now;
+                var timeToNewDay = CountTimeSpan(lastAdWatchTime.AddDays(1));
                 DisableBtnOnTime(timeToNewDay.TotalSeconds);
                 return;
             }
-
-            // NSTimer.CreateScheduledTimer(1, (_) => AdMobManager.ShowInterstitial(2));
+            
             DisableBtnOnTime(6);
-
-            //NSTimer.CreateScheduledTimer(new TimeSpan(0, 0, 5), delegate {
-            //   AdMobManager.ShowInterstitial(0);
-            //});
-            //bool isNeedToFire;
-
-            //isNeedToFire = false;
-
-            /*
-#if __IOS__
-            if (fakeTimer != null){
-                fakeTimer.Invalidate();
-                fakeTimer.Dispose();
-                fakeTimer = null;
-            }
-            fakeTimer = NSTimer.CreateRepeatingScheduledTimer(TimeSpan.FromSeconds(2.0), delegate {
-
-                //Write Action Here
-                //_s1 = AddImage(843, 83, $"UI/number_57_0.png");
-                // _s2 = AddImage(870, 83, $"UI/number_57_0.png");
-                //_btn2000.Enabled = true;
-
-                //_s1.Visible = false;
-                //_s2.Visible = false;
-                // _tenTimesText.Visible = true;
-                //_btn2000Hiden.Visible = false;
-                // _btn2000.Visible = true;
-
-                if (isNeedToFire == true) {
-                    _timeToNextAds = -1;
-                    Console.WriteLine("NSTimer chal peya");
-
-                    if (fakeTimer != null)
-                    {
-                        fakeTimer.Invalidate();
-                        fakeTimer.Dispose();
-                        fakeTimer = null;
-                    }
-                }
-
-                isNeedToFire = true;
-
-            });
-            fakeTimer.Fire();
-#endif
-
-            */
-
-
-            // scheduler
-            // m_pScheduler = new CCScheduler();
-            // action manager
-            //m_pActionManager = new CCActionManager();
-
-            // m_pScheduler.ScheduleUpdateForTarget(m_pActionManager, CCScheduler.kCCPrioritySystem, false)
-
-
-            // ScheduleOnce(setTimeInDelay, 0.16f);
-
             ScheduleOnce(RunAdInDelay, 0.16f);
-
-            //_s1 = AddImage(843, 83, $"UI/number_57_0.png");
-            //_s2 = AddImage(870, 83, $"UI/number_57_0.png");
-
-
         }
 
         private void RunAdInDelay(float obj)
         {
-
             AdManager.ShowInterstitial();
-            //_timeToNextAds = -1;
-            Console.WriteLine("NSTimer chal peya");
-
-
         }
-        //private void setTimeInDelay(float obj)
-        //{
-        //    _timeToNextAds = 0;
-
-        //}
 
         private void DisableBtnOnTime(double sec)
         {
-            // MainThread.BeginInvokeOnMainThread(() =>
-            // {
-            _btn2000.Enabled = false;
-
+            Player.Instance.DateTimeOfLastOpenedAd = DateTime.Now.AddSeconds(sec);
+            DisableButtonsOnLayer(_btn2000);
             _tenTimesText.Visible = false;
-
             _timeToNextAdsImg = AddImage(437, 83, "UI/next-ad-available-in-text.png");
-
-            _timeToNextAds = sec;
-
-            // });
-
+            //_timeToNextAds = sec;
 
             var backgroundTask = new System.Threading.Thread(() =>
             {
                 Schedule(DisableBtn, 0.16f);
             });
+            
             backgroundTask.Start();
-
         }
 
-        public override void OnExit()
-        {
-            if (_timeToNextAds > 0)
-            {
-                Settings.Instance.TimeToNewAd = _timeToNextAds;
-                Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
-            }
-
-            base.OnExit();
-        }
-
+        // public override void OnExit()
+        // {
+        //     if (_timeToNextAds > 0)
+        //     {
+        //         Settings.Instance.TimeToNewAd = _timeToNextAds;
+        //         Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
+        //     }
+        //
+        //     base.OnExit();
+        // }
 
         private void DisableBtn(float dt)
         {
-            // this.Invoke(new Action(() => MyFunction()));
-
-            // MainThread.BeginInvokeOnMainThread(() =>
-            // {
-
-
             RemoveChild(_h1);
             RemoveChild(_h2);
             RemoveChild(_m1);
             RemoveChild(_m2);
             RemoveChild(_s1);
             RemoveChild(_s2);
-
-
-            // });
-
-            if (Settings.Instance.TimeWhenPageAdsLeaved != default(DateTime))
-            {
-                var timeBeforeLeave = Settings.Instance.TimeWhenPageAdsLeaved;
-                var timeNow = DateTime.Now;
-                var secondsSpent = (timeBeforeLeave - timeNow).Seconds;
-                var timeVal = Settings.Instance.TimeToNewAd + secondsSpent;
-                Settings.Instance.TimeWhenPageAdsLeaved = default(DateTime);
-                _timeToNextAds += timeVal;
-            }
-            else
-            {
-                _timeToNextAds -= dt;
-            }
-
-            var time = TimeSpan.FromSeconds(_timeToNextAds);
-
+            var currentTimeSpan = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd);
+            
             var h1 = '0';
             var h2 = '0';
-            // MainThread.BeginInvokeOnMainThread(() =>
-            //{
-
-            if (time.Hours > 9)
+            
+            if (currentTimeSpan.Hours > 9)
             {
-                h1 = time.Hours.ToString()[0];
-                h2 = time.Hours.ToString()[1];
+                h1 = currentTimeSpan.Hours.ToString()[0];
+                h2 = currentTimeSpan.Hours.ToString()[1];
             }
             else
             {
-                h2 = time.Hours.ToString()[0];
+                h2 = currentTimeSpan.Hours.ToString()[0];
             }
-
+            
             _h1 = AddImage(513, 83, $"UI/number_57_{h1}.png");
             _h2 = AddImage(540, 83, $"UI/number_57_{h2}.png");
-
+            
             var m1 = '0';
             var m2 = '0';
-            if (time.Minutes > 9)
+            if (currentTimeSpan.Minutes > 9)
             {
-                m1 = time.Minutes.ToString()[0];
-                m2 = time.Minutes.ToString()[1];
+                m1 = currentTimeSpan.Minutes.ToString()[0];
+                m2 = currentTimeSpan.Minutes.ToString()[1];
             }
             else
             {
-                m2 = time.Minutes.ToString()[0];
-
+                m2 = currentTimeSpan.Minutes.ToString()[0];
+            
             }
             _m1 = AddImage(663, 83, $"UI/number_57_{m1}.png");
             _m2 = AddImage(690, 83, $"UI/number_57_{m2}.png");
-
+            
             var s1 = '0';
             var s2 = '0';
-            if (time.Seconds > 9)
+            if (currentTimeSpan.Seconds > 9)
             {
-                s1 = time.Seconds.ToString()[0];
-                s2 = time.Seconds.ToString()[1];
+                s1 = currentTimeSpan.Seconds.ToString()[0];
+                s2 = currentTimeSpan.Seconds.ToString()[1];
             }
             else
             {
-                s2 = time.Seconds.ToString()[0];
+                s2 = currentTimeSpan.Seconds.ToString()[0];
             }
-
+            
             _s1 = AddImage(843, 83, $"UI/number_57_{s1}.png");
             _s2 = AddImage(870, 83, $"UI/number_57_{s2}.png");
-
-            //  });
-
-
-            if (_timeToNextAds < 0)
+            
+            if (currentTimeSpan.Seconds == 0)
             {
-                //MainThread.BeginInvokeOnMainThread(() =>
-                //{
+                Player.Instance.IsAdBreak = false;
                 RemoveChild(_timeToNextAdsImg);
                 RemoveChild(_h1);
                 RemoveChild(_h2);
@@ -522,19 +354,15 @@ namespace LooneyInvaders.Layers
                 RemoveChild(_m2);
                 RemoveChild(_s1);
                 RemoveChild(_s2);
-
-                _btn2000.Enabled = true;
+            
+                EnableButtonsOnLayer(_btn2000);
                 _tenTimesText.Visible = true;
-                _btn2000Hiden.Visible = false;
-                _btn2000.Visible = true;
-
-                //  });
-
-
+            
                 var backgroundTask = new System.Threading.Thread(() =>
                 {
                     Unschedule(DisableBtn);
                 });
+                
                 backgroundTask.Start();
             }
         }
@@ -542,7 +370,6 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
         {
             ScheduleOnce(InterstitialOpened, 0.01f);
-
         }
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
@@ -614,6 +441,12 @@ namespace LooneyInvaders.Layers
                 if(isButtonsDisabled)
                     EnableButtonsOnLayer(_btn2000, _btn4000, _btn100K, _btn300K, _btn1M);
             }
+        }
+
+        private TimeSpan CountTimeSpan(DateTime pastDateTime)
+        {
+            var currentDateTime = DateTime.Now;
+            return pastDateTime - currentDateTime;
         }
     }
 }
