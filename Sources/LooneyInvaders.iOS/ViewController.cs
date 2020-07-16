@@ -73,7 +73,7 @@ namespace LooneyInvaders.iOS
             Appodeal.SetLogLevel(APDLogLevel.Verbose);
             Appodeal.SetTestingEnabled(false);
             Appodeal.SetBannerAnimationEnabled(true);
-            Appodeal.SetBannerBackgroundVisible(true);
+            Appodeal.SetBannerBackgroundVisible(false);
             Appodeal.SetSmartBannersEnabled(true);
             Appodeal.SetAutocache(false, AppDelegate.RequiredAdTypes);
             Appodeal.SetAutocache(true, AppodealAdType.Banner);

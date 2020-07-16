@@ -23,13 +23,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements />
     <CodesignResourceRules />
     <CodesignExtraArgs />
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
     <MtouchFastDev>true</MtouchFastDev>
   </PropertyGroup>
@@ -72,11 +71,13 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Teemu Ruotsalainen (WWY3H8269W)</CodesignKey>
     <CodesignProvision>LIProvisionsFile</CodesignProvision>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
+    <MtouchLink>Full</MtouchLink>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhone'">
     <OutputPath>bin\iPhone\AppStore</OutputPath>
@@ -95,6 +96,7 @@
     <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <IpaPackageDir>$(OutputPath)</IpaPackageDir>
     <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhoneSimulator'">
     <CodesignKey>iPhone Developer: Tomislav Petrovic (JHYR75LT9N)</CodesignKey>
@@ -5272,11 +5274,11 @@
     <Reference Include="NotificationCenter">
       <HintPath>..\..\References\NotificationCenter.dll</HintPath>
     </Reference>
-    <Reference Include="AppodealXamariniOS">
-      <HintPath>..\..\References\iOS\AppodealXamariniOS.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Essentials">
       <HintPath>..\packages\Xamarin.Essentials.1.5.3.2\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="AppodealXamariniOS">
+      <HintPath>..\..\References\iOS\AppodealXamariniOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
