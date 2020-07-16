@@ -1,4 +1,4 @@
-using AppodealBinding;
+using AppodealXamariniOS;
 using LooneyInvaders.Droid.Services.AdvertisementProvider;
 using UIKit;
 

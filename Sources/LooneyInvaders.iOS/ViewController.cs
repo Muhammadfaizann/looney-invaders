@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using AppodealXamariniOS;
 using CC.Mobile.Purchases;
 using CoreMotion;
 using Foundation;
 using UIKit;
+using LooneyInvaders.iOS.Services.Ads;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 using LooneyInvaders.Shared;
@@ -12,58 +15,84 @@ namespace LooneyInvaders.iOS
 {
     public partial class ViewController : UIViewController, IApp42ServiceInitialization
     {
-        private CMMotionManager _motionManager;
-        //private BannerView _adViewWindow;
-        private bool _adOnWindow;
         private readonly nfloat _adBannerYCoord = -1;
-        //private Interstitial _intAd;
+
+        private CMMotionManager _motionManager;
+        private bool _adOnWindow;
 
         private IPurchaseService _svc;
         //string _googlePlayGamesClientId = "647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt.apps.googleusercontent.com";
 
-        public ViewController(IntPtr handle) : base(handle)
-        { }
+        public ViewController(IntPtr handle) : base(handle) { }
 
-        public override async void ViewDidLoad()
+        public void CallInitOnApp42ServiceBuilder() => App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
+
+        private bool ChangeUsername(string username) => App42.StorageService.Instance.ChangeUsername(username);
+        private bool CheckIsUsernameFree(string username) => App42.StorageService.Instance.CheckIsUsernameFree(username);
+        private Task<bool> UsernameGUIDInsertHandler(string guid) => App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
+        private void RefreshLeaderboards(Leaderboard leaderboard) => App42.ScoreBoardService.Instance.RefreshLeaderboards(leaderboard);
+
+        private void UpdateGameViewState(bool isPaused) => BeginInvokeOnMainThread(() =>
+        {
+            GameView = GameDelegate.GameView;
+            try
+            {
+                GameView.Paused = isPaused;
+            }
+            catch (Exception ex)
+            {
+                var mess = ex.Message;
+                Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewState)}: {mess}");
+            }
+        });
+
+        public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             if (GameView == null)
+            {
                 return;
-
+            }
             _motionManager = new CMMotionManager();
             _motionManager.StartDeviceMotionUpdates();
 
-            CallInitOnApp42ServiceBuilder();
-
-            //------------ Prabhjot -----------//
             GameDelegate.GetGyro = GetGyro;
             GameDelegate.UpdateGameView = UpdateGameViewState;
 
+            CallInitOnApp42ServiceBuilder();
+
             GameView.MultipleTouchEnabled = true;
-
-            // AdMobManager.ShowBannerTopHandler = AddBannerToWindowTop;
-            // AdMobManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
-            // AdMobManager.HideBannerHandler = HideBanner;
-            //AdMobManager.LoadInterstitialHandler = LoadInterstitial;
-            //AdMobManager.ShowInterstitialHandler = ShowInterstitial;
-
             GameView.BackgroundColor = UIColor.Black;
 
-            //LoadInterstitial();
+            AdManager.ShowBannerTopHandler = AddBannerToWindowTop;
+            AdManager.ShowBannerBottomHandler = AddBannerToWindowBottom;
+            AdManager.HideBannerHandler = HideBanner;
+            AdManager.LoadInterstitialHandler = LoadInterstitial;
+            AdManager.ShowInterstitialHandler = ShowInterstitial;
+            Appodeal.SetLogLevel(APDLogLevel.Verbose);
+            Appodeal.SetTestingEnabled(false);
+            Appodeal.SetBannerAnimationEnabled(true);
+            Appodeal.SetBannerBackgroundVisible(true);
+            Appodeal.SetSmartBannersEnabled(true);
+            Appodeal.SetAutocache(false, AppDelegate.RequiredAdTypes);
+            Appodeal.SetAutocache(true, AppodealAdType.Banner);
+            AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
+            Appodeal.SetInterstitialDelegate(new InterstitialDelegate());
+            Appodeal.SetBannerDelegate(new BannerDelegate());
+            Appodeal.CacheAd(AppDelegate.RequiredAdTypes);
 
             _svc = new PurchaseService();
-            await _svc.Init();
-
-            PurchaseManager.PurchaseHandler = PurchaseProduct;
+            Task.Run(async () => await _svc.Init())
+                .ContinueWith(task =>
+                {
+                    PurchaseManager.PurchaseHandler = PurchaseProduct;
+                })
+                .ConfigureAwait(false);
 
             VibrationManager.VibrationHandler = Vibrate;
 
-            //SignIn.SharedInstance.UIDelegate = this;
-            //Google.Play.GameServices.Manager.SharedInstance.SignIn(googlePlayGamesClientID, false);
-
             LeaderboardManager.RefreshLeaderboardsHandler = RefreshLeaderboards;
-
             // social network sharing
             SocialNetworkShareManager.ShareOnSocialNetwork = ShareOnSocialNetworkHandler;
 
@@ -78,48 +107,10 @@ namespace LooneyInvaders.iOS
             GameView.ViewCreated += GameDelegate.LoadGame;
         }
 
-        public void CallInitOnApp42ServiceBuilder()
-        {
-            App42ServiceBuilder.Init(GameConstants.App42.ApiKey, GameConstants.App42.SecretKey, 300);
-        }
-
-        private Task<bool> UsernameGUIDInsertHandler(string guid)
-        {
-            return App42.StorageService.Instance.UsernameGUIDInsertHandler(guid);
-        }
-
-        private bool CheckIsUsernameFree(string username)
-        {
-            return App42.StorageService.Instance.CheckIsUsernameFree(username);
-        }
-
-        private bool ChangeUsername(string username)
-        {
-            return App42.StorageService.Instance.ChangeUsername(username);
-        }
-
-        private float RadiansToDegrees(double radians)
-        {
-            return (float)(180 / Math.PI * radians);
-        }
-
-
-        private void GetGyro(out float yaw, out float tilt, out float pitch)
-        {
-            var fullPitch = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Pitch);
-
-            yaw = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Yaw);
-            tilt = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Roll);
-            pitch = (float)Math.Round(fullPitch, 3);
-
-            if (InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) pitch = pitch * -1;
-        }
-
         public override void DidReceiveMemoryWarning()
         {
-#if DEBUG
-            Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
-#endif
+            Debug.WriteLine($"||MEMORY||total: {NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{Process.GetCurrentProcess().WorkingSet64}");
+
             base.DidReceiveMemoryWarning();
         }
 
@@ -159,160 +150,6 @@ namespace LooneyInvaders.iOS
             }
         }
 
-        public void UpdateGameViewState(bool isPaused)
-        {
-            UpdateGameViewStateUIThread(isPaused);
-        }
-
-        private void UpdateGameViewStateUIThread(bool isPaused)
-        {
-            BeginInvokeOnMainThread(() =>
-            {
-                GameView = GameDelegate.GameView;
-                try
-                {
-                    GameView.Paused = isPaused;
-                }
-                catch (Exception ex)
-                {
-                    var mess = ex.Message;
-                    System.Diagnostics.Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewStateUIThread)}: {mess}");
-                }
-            });
-        }
-
-        // private void AddBannerToWindowTop()
-        // {
-        //     BeginInvokeOnMainThread(() => { AddBannerToWindow(0); });
-        // }
-        //
-        // private void AddBannerToWindowBottom()
-        // {
-        //     BeginInvokeOnMainThread(() => { AddBannerToWindow(View.Bounds.Size.Height - 50); });
-        // }
-
-        // private void HideBanner()
-        // {
-        //     BeginInvokeOnMainThread(() => { RemoveBannerFromWindow(); });
-        // }
-
-//         private void AddBannerToWindow(nfloat yCoord)
-//         {
-//             if (_adViewWindow != null && yCoord == _adBannerYCoord) return;
-//
-//             if (_adViewWindow != null) RemoveBannerFromWindow();
-//
-//             if (_adViewWindow == null)
-//             {
-//                 // Setup your GADBannerView, review AdSizeCons class for more Ad sizes. 
-//                 _adViewWindow = new BannerView(AdSizeCons.Banner, new CGPoint((View.Bounds.Size.Width - 320) / 2, yCoord));
-//                 _adViewWindow.AdUnitID = "ca-app-pub-5373308786713201/3891909370";
-//                 _adViewWindow.RootViewController = this;
-//
-//                 // Wire AdReceived event to know when the Ad is ready to be displayed
-//                 _adViewWindow.AdReceived += AdViewWindow_AdReceived;
-//                 _adViewWindow.ReceiveAdFailed += AdViewWindow_ReceiveAdFailed;
-//             }
-//
-//             var request = Request.GetDefaultRequest();
-// #if DEBUG
-//             //request.TestDevices = new string[] { "91081e0a39a84d0f81f550efec64ec47" };
-// #endif
-//
-//             _adViewWindow.LoadRequest(request);
-//         }
-//
-//         private void RemoveBannerFromWindow()
-//         {
-//             if (_adViewWindow != null)
-//             {
-//                 if (_adOnWindow)
-//                 {
-//                     _adViewWindow.RemoveFromSuperview();
-//                 }
-//                 _adOnWindow = false;
-//
-//                 // You need to explicitly Dispose BannerView when you dont need it anymore
-//                 // to avoid crashes if pending request are in progress
-//                 _adViewWindow.Dispose();
-//                 _adViewWindow = null;
-//             }
-//         }
-//
-//         private void AdViewWindow_AdReceived(object sender, EventArgs e)
-//         {
-//             if (!_adOnWindow)
-//             {
-//                 View.AddSubview(_adViewWindow);
-//                 _adOnWindow = true;
-//             }
-//         }
-
-        // private void AdViewWindow_ReceiveAdFailed(object sender, BannerViewErrorEventArgs e)
-        // {
-        //     Console.WriteLine("Ad receive failed: " + e.Error.DebugDescription);
-        // }
-
-        // public void ShowInterstitial()
-        // {
-        //     BeginInvokeOnMainThread(() =>
-        //     {
-        //         if (_intAd.IsReady && !Settings.IsFromGameScreen)
-        //             _intAd.PresentFromRootViewController(this);
-        //     });
-        // }
-
-//         public void LoadInterstitial()
-//         {
-//             _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
-//             _intAd.Delegate = new InterstitialDelegate();
-//             _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
-//             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
-//             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
-//
-//             var request = Request.GetDefaultRequest();
-// #if DEBUG
-//             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
-// #endif
-//             _intAd.LoadRequest(request);
-//         }
-//
-//         private void IntAd_ReceiveAdFailed(object sender, InterstitialDidFailToReceiveAdWithErrorEventArgs e)
-//         {
-//             Console.WriteLine("Interstitial ad: receive ad failed");
-//
-//             AdMobManager.InterstitialAdFailedToLoad();
-//         }
-
-//         private void IntAd_WillPresentScreen(object sender, EventArgs e)
-//         {
-//             Console.WriteLine("Interstitial ad: will present screen");
-//
-//             AdMobManager.InterstitialAdOpened();
-//         }
-//
-//         private void IntAd_ScreenDismissed(object sender, EventArgs e)
-//         {
-//             Console.WriteLine("Interstitial ad: screen dismissed");
-//
-//             AdMobManager.InterstitialAdClosed();
-//
-//             _intAd.Dispose();
-//             _intAd = null;
-//
-//             _intAd = new Interstitial("ca-app-pub-5373308786713201/2524424172");
-//             _intAd.Delegate = new InterstitialDelegate();
-//             _intAd.ReceiveAdFailed += IntAd_ReceiveAdFailed;
-//             _intAd.ScreenDismissed += IntAd_ScreenDismissed;
-//             _intAd.WillPresentScreen += IntAd_WillPresentScreen;
-//
-//             var request = Request.GetDefaultRequest();
-// #if DEBUG
-//             request.TestDevices = new string[] { "e62a2b8cda8eb947dcd2033062559b9f" };
-// #endif
-//             _intAd.LoadRequest(request);
-//         }
-
         private async Task MakePurchase(IProduct product)
         {
             try
@@ -343,8 +180,7 @@ namespace LooneyInvaders.iOS
 
         private async Task<bool> PurchaseProduct(string productId)
         {
-            await MakePurchase(new Product(productId))
-                .ConfigureAwait(false);
+            await MakePurchase(new Product(productId)).ConfigureAwait(false);
 
             return true;
         }
@@ -354,9 +190,20 @@ namespace LooneyInvaders.iOS
             AudioToolbox.SystemSound.Vibrate.PlaySystemSound();
         }
 
-        private void RefreshLeaderboards(Leaderboard leaderboard)
+        private float RadiansToDegrees(double radians) => (float)(180 / Math.PI * radians);
+
+        private void GetGyro(out float yaw, out float tilt, out float pitch)
         {
-            App42.ScoreBoardService.Instance.RefreshLeaderboards(leaderboard);
+            var fullPitch = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Pitch);
+
+            yaw = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Yaw);
+            tilt = RadiansToDegrees(_motionManager.DeviceMotion.Attitude.Roll);
+            pitch = (float)Math.Round(fullPitch, 3);
+
+            if (InterfaceOrientation == UIInterfaceOrientation.LandscapeRight)
+            {
+                pitch *= -1;
+            }
         }
 
         public void ShareOnSocialNetworkHandler(string network, System.IO.Stream stream)
@@ -364,6 +211,7 @@ namespace LooneyInvaders.iOS
             if (stream == null)
             {
                 Console.WriteLine("stream is null");
+
                 return;
             }
 
@@ -380,7 +228,6 @@ namespace LooneyInvaders.iOS
         public void ShareOnSocialNetworkIos(string network, UIImage img)
         {
             var activityVc = new UIActivityViewController(new NSObject[] { img }, null);
-
             /*
             if (network == "facebook")
             {
@@ -423,10 +270,10 @@ namespace LooneyInvaders.iOS
                     };
             }
             */
-
             if (activityVc.PopoverPresentationController != null)
+            {
                 activityVc.PopoverPresentationController.SourceView = View;
-
+            }
             PresentViewController(activityVc, true, null);
         }
     }
