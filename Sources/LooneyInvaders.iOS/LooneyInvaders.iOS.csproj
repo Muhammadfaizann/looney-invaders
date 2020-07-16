@@ -317,13 +317,19 @@
     <BundleResource Include="..\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png">
       <Link>Content\Images\Hd\UI\victory-i-just-made-impressive-score.png</Link>
     </BundleResource>
-    <Compile Include="ViewController.Ads.cs" />
+    <Compile Include="ViewController.Ads.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\Ads\InterstitialDelegate.cs" />
     <Compile Include="Services\Ads\RewardedVideoDelegate.cs" />
     <Compile Include="Services\Ads\AppodealAdsHelper.cs" />
     <Compile Include="Services\Ads\BannerDelegate.cs" />
-    <Compile Include="ViewController.Purchasing.cs" />
-    <Compile Include="ViewController.Sharing.cs" />
+    <Compile Include="ViewController.Purchasing.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewController.Sharing.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">
