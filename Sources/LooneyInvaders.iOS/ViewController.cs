@@ -150,41 +150,6 @@ namespace LooneyInvaders.iOS
             }
         }
 
-        private async Task MakePurchase(IProduct product)
-        {
-            try
-            {
-                var purchase = await _svc.Purchase(product);
-                if (purchase.Status == TransactionStatus.Purchased)
-                {
-                    //new UIAlertView("Success", $"Just Purchased {product}", null, "OK").Show();
-                    if (product.ProductId == "credits_1_mil") Player.Instance.Credits += 1000000;
-                    else if (product.ProductId == "credits_300_k") Player.Instance.Credits += 300000;
-                    else if (product.ProductId == "credits_100_k") Player.Instance.Credits += 100000;
-                    else if (product.ProductId == "ads_off") Settings.Instance.Advertisements = false;
-
-                    PurchaseManager.FireOnPurchaseFinished();
-                }
-                else
-                {
-                    Console.WriteLine("Failed Purchase: Cannot Purchase " + product.ProductId);
-                    PurchaseManager.FireOnPurchaseFinished();
-                }
-            }
-            catch (PurchaseError)
-            {
-                Console.WriteLine("Error with {product}:{ex.Message}");
-                PurchaseManager.FireOnPurchaseFinished();
-            }
-        }
-
-        private async Task<bool> PurchaseProduct(string productId)
-        {
-            await MakePurchase(new Product(productId)).ConfigureAwait(false);
-
-            return true;
-        }
-
         private void Vibrate(object sender, EventArgs e)
         {
             AudioToolbox.SystemSound.Vibrate.PlaySystemSound();
@@ -204,77 +169,6 @@ namespace LooneyInvaders.iOS
             {
                 pitch *= -1;
             }
-        }
-
-        public void ShareOnSocialNetworkHandler(string network, System.IO.Stream stream)
-        {
-            if (stream == null)
-            {
-                Console.WriteLine("stream is null");
-
-                return;
-            }
-
-            var ms = (System.IO.MemoryStream)stream;
-
-            var data = NSData.FromArray(ms.ToArray());
-            var img = UIImage.LoadFromData(data);
-
-            Console.WriteLine($"IMAGE width: {img.Size.Width} height: {img.Size.Height}");
-
-            BeginInvokeOnMainThread(() => { ShareOnSocialNetworkIos(network, img); });
-        }
-
-        public void ShareOnSocialNetworkIos(string network, UIImage img)
-        {
-            var activityVc = new UIActivityViewController(new NSObject[] { img }, null);
-            /*
-            if (network == "facebook")
-            {
-                activityVC.ExcludedActivityTypes = new NSString[]
-                    {
-                        UIActivityType.AddToReadingList,
-                        UIActivityType.AirDrop,
-                        UIActivityType.AssignToContact,
-                        UIActivityType.CopyToPasteboard,
-                        UIActivityType.Mail,
-                        UIActivityType.Message,
-                        UIActivityType.OpenInIBooks,                
-                        UIActivityType.PostToFlickr,
-                        UIActivityType.PostToTencentWeibo,
-                        UIActivityType.PostToTwitter,
-                        UIActivityType.PostToVimeo,
-                        UIActivityType.PostToWeibo,
-                        UIActivityType.Print,
-                        UIActivityType.SaveToCameraRoll
-                    };
-            }
-            else if(network == "twitter")
-            {
-                activityVC.ExcludedActivityTypes = new NSString[]
-                    {
-                        UIActivityType.AddToReadingList,
-                        UIActivityType.AirDrop,
-                        UIActivityType.AssignToContact,
-                        UIActivityType.CopyToPasteboard,
-                        UIActivityType.Mail,
-                        UIActivityType.Message,
-                        UIActivityType.OpenInIBooks,
-                        UIActivityType.PostToFacebook,
-                        UIActivityType.PostToFlickr,
-                        UIActivityType.PostToTencentWeibo,                
-                        UIActivityType.PostToVimeo,
-                        UIActivityType.PostToWeibo,
-                        UIActivityType.Print,
-                        UIActivityType.SaveToCameraRoll
-                    };
-            }
-            */
-            if (activityVc.PopoverPresentationController != null)
-            {
-                activityVc.PopoverPresentationController.SourceView = View;
-            }
-            PresentViewController(activityVc, true, null);
         }
     }
 }
