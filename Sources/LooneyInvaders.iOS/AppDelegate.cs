@@ -1,15 +1,15 @@
 using System;
-using AppodealBinding;
+using AppodealXamariniOS;
 using Foundation;
 using UIKit;
-using LooneyInvaders.Model;
-using LooneyInvaders.Services.PNS;
-
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using NotificationCenter;
+using AdType = AppodealXamariniOS.AppodealAdType;
+using LooneyInvaders.Model;
+using LooneyInvaders.Services.PNS;
 
 namespace LooneyInvaders.iOS
 {
@@ -18,24 +18,21 @@ namespace LooneyInvaders.iOS
     [Register("AppDelegate")]
     public class AppDelegate : UIApplicationDelegate
     {
-        // class-level declarations
-        public const string HockeyappKey = "7b026ab1c1fd4dc8bea25d9b232d618f";
+        //private const string HockeyappKey = "7b026ab1c1fd4dc8bea25d9b232d618f";
+        private const string AppodealApiKey = "c0502298783c2decd053ad8514ee4cf2fa08d25e1f676360";
 
-        public override UIWindow Window
-        {
-            get;
-            set;
-        }
+        public static readonly AdType RequiredAdTypes = AdType.Interstitial
+                                                      | AdType.RewardedVideo
+                                                      | AdType.Banner;
+
+        public override UIWindow Window { get; set; }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // Override point for customization after application launch.
-            // If not required for your application you can safely delete this method         
-
-            String appKey = "91c63f844fc0bd37c391b011852f0fc7ebf890f98e02b7a6";
-  
-            Appodeal.SetFramework(APDFramework.Xamarin);  //this is required method, just copy-paste it before init
-            Appodeal.InitializeWithApiKey(appKey, AppodealAdType.Banner | AppodealAdType.Interstitial);
+            // If not required for your application you can safely delete this method
+            Appodeal.SetFramework(APDFramework.Xamarin, ObjCRuntime.Constants.Version);  //this is required method, just copy-paste it before init
+            Appodeal.InitializeWithApiKey(AppodealApiKey, RequiredAdTypes, false);
             
             CrashAnalyticsAppInit();
             SetSessionInfo();
@@ -44,15 +41,11 @@ namespace LooneyInvaders.iOS
             return true;
         }
 
-        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
-        {
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken) =>
             Push.RegisteredForRemoteNotifications(deviceToken);
-        }
 
-        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
-        {
+        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error) =>
             Push.FailedToRegisterForRemoteNotifications(error);
-        }
 
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
@@ -73,14 +66,10 @@ namespace LooneyInvaders.iOS
             // This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) 
             // or when the user quits the application and it begins the transition to the background state.
             // Games should use this method to pause the game.
-
-            // ----------- Prabhjot ----------- //
-
             if (Settings.IsFromGameScreen)
             {
                 NotificationCenterManager.Instance.PostNotification(@"GameInBackground");
             }
-
         }
 
         public override void DidEnterBackground(UIApplication application)
@@ -113,14 +102,6 @@ namespace LooneyInvaders.iOS
 
         private void CrashAnalyticsAppInit()
         {
-            //var manager = HockeyApp.iOS.BITHockeyManager.SharedHockeyManager;
-            //manager.Configure(HOCKEYAPP_KEY);
-            //manager.StartManager();
-            //manager.Authenticator.AuthenticateInstallation();
-
-
-            //--------- Prabhjot ---------//
-
             const string keyForNotification = "4cd7f485-df2b-40b9-ad4c-f9e08623a548";
 
             AppCenter.Start(keyForNotification, typeof(Crashes), typeof(Analytics));

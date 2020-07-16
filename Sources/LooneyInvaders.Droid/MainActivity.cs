@@ -144,6 +144,12 @@ namespace LooneyInvaders.Droid
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
             //Helpers.EglHelper.InitEgl();
+            AdManager.ShowBannerTopHandler = ShowBannerTop;
+            AdManager.ShowBannerBottomHandler = ShowBannerBottom;
+            AdManager.HideBannerHandler = HideBanner;
+            AdManager.LoadInterstitialHandler = LoadInterstitial;
+            AdManager.ShowInterstitialHandler = ShowInterstitial;
+            AdManager.HideInterstitialHandler = HideInterstitial;
             Appodeal.SetTesting(false);
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
             Appodeal.SetBannerAnimation(true);
@@ -198,12 +204,6 @@ namespace LooneyInvaders.Droid
             WindowManager.DefaultDisplay.GetRealSize(size);
             TrackTime();
 
-            AdManager.ShowBannerTopHandler = ShowBannerTop;
-            AdManager.ShowBannerBottomHandler = ShowBannerBottom;
-            AdManager.HideBannerHandler = HideBanner;
-            AdManager.LoadInterstitialHandler = LoadInterstitial;
-            AdManager.ShowInterstitialHandler = ShowInterstitial;
-            AdManager.HideInterstitialHandler = HideInterstitial;
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
             Appodeal.SetInterstitialCallbacks(this);
             Appodeal.SetBannerCallbacks(this);

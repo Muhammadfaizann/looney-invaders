@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="46">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="47">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<application android:label="Looney Invaders" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
@@ -121,7 +121,7 @@
 			</intent-filter>
 		</receiver>
 		<!--optional, remove if not using Millennial Media-->
-		<provider android:name="com.millennialmedia.internal.utils.MediaContentProvider" android:authorities="${applicationId}.MediaContentProvider" android:grantUriPermissions="true" android:exported="false" />
+		<!-- <provider android:name="com.millennialmedia.internal.utils.MediaContentProvider" android:authorities="${applicationId}.MediaContentProvider" android:grantUriPermissions="true" android:exported="false" /> -->
 		<!-- firebase -->
 		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
 		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
