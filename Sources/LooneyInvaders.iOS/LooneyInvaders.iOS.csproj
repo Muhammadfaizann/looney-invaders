@@ -96,7 +96,6 @@
     <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <IpaPackageDir>$(OutputPath)</IpaPackageDir>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhoneSimulator'">
     <CodesignKey>iPhone Developer: Tomislav Petrovic (JHYR75LT9N)</CodesignKey>
