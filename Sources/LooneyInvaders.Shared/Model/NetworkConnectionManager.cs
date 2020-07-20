@@ -1,5 +1,6 @@
 ﻿using System;
-using Plugin.Connectivity;
+using Xamarin.Essentials;
+using Access = Xamarin.Essentials.NetworkAccess;
 
 namespace LooneyInvaders.Model
 {
@@ -9,18 +10,18 @@ namespace LooneyInvaders.Model
 
         static NetworkConnectionManager()
         {
-            CrossConnectivity.Current.ConnectivityChanged += ConnectionChangedHandler;
+            Connectivity.ConnectivityChanged += ConnectionChangedHandler;
         }
 
         private static void ConnectionChangedHandler(object sender, EventArgs args)
         {
             var @event = ConnectionChanged;
-            @event?.Invoke(typeof(CrossConnectivity), EventArgs.Empty);
+            @event?.Invoke(sender, EventArgs.Empty);
         }
 
         public static bool IsInternetConnectionAvailable()
         {
-            return CrossConnectivity.Current.IsConnected;
+            return Connectivity.NetworkAccess == Access.Internet;
         }
     }
 }

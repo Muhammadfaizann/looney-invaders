@@ -81,7 +81,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\VibrationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Weapon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\DeviceInfoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AdvertisementProvider\IAdvertisementProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\IDeviceInfoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameConstants.cs" />
