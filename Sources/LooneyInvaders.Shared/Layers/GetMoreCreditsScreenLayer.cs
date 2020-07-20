@@ -115,12 +115,12 @@ namespace LooneyInvaders.Layers
             {
                 _btn2000.OnClick += Btn2000_OnClick;
 
-                if (Player.Instance.IsAdBreak)
+                if (Player.Instance.IsAdInCountdown)
                 {
                     var backgroundTask = new System.Threading.Thread(() =>
                     {
-                        var adCountdown = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd).Seconds;
-                        DisableBtnOnTime(adCountdown);
+                        var adCountdown = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd);
+                        DisableBtnOnTime(adCountdown.Seconds);
                     });
                     
                     backgroundTask.Start();
@@ -230,9 +230,7 @@ namespace LooneyInvaders.Layers
         private void Btn2000_OnClick(object sender, EventArgs e)
         {
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
-            {
                 return;
-            }
 
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
             {
@@ -241,9 +239,11 @@ namespace LooneyInvaders.Layers
                 Player.Instance.LastAdWatchDayCount = 0;
             }
 
-            Player.Instance.IsAdBreak = true;
             var lastAdWatchTime = Player.Instance.LastAdWatchTime;
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
+            
+            if(lastAdWatchDayCount > 10)
+                return;
 
             if (lastAdWatchDayCount == 10)
             {
@@ -253,6 +253,7 @@ namespace LooneyInvaders.Layers
             }
             
             DisableBtnOnTime(6);
+            Player.Instance.IsAdInCountdown = true;
             ScheduleOnce(RunAdInDelay, 0.16f);
         }
 
@@ -344,9 +345,9 @@ namespace LooneyInvaders.Layers
             _s1 = AddImage(843, 83, $"UI/number_57_{s1}.png");
             _s2 = AddImage(870, 83, $"UI/number_57_{s2}.png");
             
-            if (currentTimeSpan.Seconds == 0)
+            if (currentTimeSpan.Seconds <= 0)
             {
-                Player.Instance.IsAdBreak = false;
+                Player.Instance.IsAdInCountdown = false;
                 RemoveChild(_timeToNextAdsImg);
                 RemoveChild(_h1);
                 RemoveChild(_h2);
@@ -357,13 +358,7 @@ namespace LooneyInvaders.Layers
             
                 EnableButtonsOnLayer(_btn2000);
                 _tenTimesText.Visible = true;
-            
-                var backgroundTask = new System.Threading.Thread(() =>
-                {
-                    Unschedule(DisableBtn);
-                });
-                
-                backgroundTask.Start();
+                Unschedule(DisableBtn);
             }
         }
 
@@ -380,23 +375,8 @@ namespace LooneyInvaders.Layers
         private void InterstitialOpened(float dt = 0.00f)
         {
             Player.Instance.LastAdWatchTime = DateTime.Now;
-
             ++Player.Instance.LastAdWatchDayCount;
-            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
-
-            if (Player.Instance.LastAdWatchDayCount >= 10)
-            {
-                Children.Remove(_btn2000);
-                _btn2000 = AddButton(0, 105, "UI/Get-more-credits-get-2000-credits-button-tapped.png", "UI/Get-more-credits-get-2000-credits-button-untapped.png");
-                _btn2000.Enabled = false;
-                _btn2000.OnClick += Btn2000_OnClick;
-                _btn2000.ButtonType = ButtonType.Silent;
-                var timeToNewDay = DateTime.Now.AddDays(1).Date - DateTime.Now;
-                DisableBtnOnTime(timeToNewDay.TotalSeconds);
-            }
-
             Player.Instance.Credits += 2000;
-            Console.WriteLine("Last watch count after: " + Player.Instance.LastAdWatchDayCount);
             RefreshPlayerCreditsLabel();
         }
 

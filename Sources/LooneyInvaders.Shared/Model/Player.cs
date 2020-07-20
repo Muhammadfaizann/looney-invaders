@@ -60,10 +60,10 @@ namespace LooneyInvaders.Model
             return TimeZoneInfo.ConvertTime(value.ToUniversalTime(), TimeZoneInfo.Utc, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id));
         }
         
-        public bool IsAdBreak
+        public bool IsAdInCountdown
         {
-            get => CrossSettings.Current.GetValueOrDefault(nameof(IsAdBreak), false);
-            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsAdBreak), value);
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsAdInCountdown), false);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsAdInCountdown), value);
         }
         
         public DateTime DateTimeOfLastOpenedAd
