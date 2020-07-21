@@ -99,8 +99,7 @@ namespace LooneyInvaders.Layers
             {
                 ScheduleOnce(_ =>
                 {
-                    var timeCountdown = CountTimeSpan(Player.Instance.LastAdWatchTime.AddDays(1));
-                    DisableBtn2000ForTime(timeCountdown.Seconds);
+                    DisableButton2000ForTime(Player.Instance.LastAdWatchTime.AddDays(1));
                 }, 0.1f);
             }
             else
@@ -111,8 +110,7 @@ namespace LooneyInvaders.Layers
                 {
                     ScheduleOnce(_ =>
                     {
-                        var adCountdown = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd);
-                        DisableBtn2000ForTime(adCountdown.Seconds);
+                        DisableButton2000ForTime(Player.Instance.DateTimeOfCountdownPassed);
                     }, 0.1f);
                 }
             }
@@ -224,19 +222,18 @@ namespace LooneyInvaders.Layers
 
             if (lastAdWatchDayCount == 10)
             {
-                var timeToNewDay = CountTimeSpan(lastAdWatchTime.AddDays(1));
-                DisableBtn2000ForTime(timeToNewDay.TotalSeconds);
+                DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
                 return;
             }
 
             Player.Instance.IsAdInCountdown = true;
-            DisableBtn2000ForTime(6);
+            DisableButton2000ForTime(DateTime.Now.AddSeconds(6));
             ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.05f);
         }
 
-        private void DisableBtn2000ForTime(double seconds)
+        private void DisableButton2000ForTime(DateTime dateTimeButtonActivated)
         {
-            Player.Instance.DateTimeOfLastOpenedAd = DateTime.Now.AddSeconds(seconds);
+            Player.Instance.DateTimeOfCountdownPassed = dateTimeButtonActivated;
 
             _tenTimesText.Visible = false;
             _timeToNextAdsImg = AddImage(437, 83, "UI/next-ad-available-in-text.png");
@@ -249,7 +246,7 @@ namespace LooneyInvaders.Layers
         {
             RemoveChildren(_h1, _h2, _m1, _m2, _s1, _s2);
 
-            var currentTimeSpan = CountTimeSpan(Player.Instance.DateTimeOfLastOpenedAd);
+            var currentTimeSpan = CountTimeSpan(Player.Instance.DateTimeOfCountdownPassed);
             var h1 = '0';
             var h2 = '0';
             if (currentTimeSpan.Hours > 9)

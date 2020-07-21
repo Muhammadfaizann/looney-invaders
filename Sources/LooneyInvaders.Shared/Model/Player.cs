@@ -66,10 +66,10 @@ namespace LooneyInvaders.Model
             set => CrossSettings.Current.AddOrUpdateValue(nameof(IsAdInCountdown), value);
         }
         
-        public DateTime DateTimeOfLastOpenedAd
+        public DateTime DateTimeOfCountdownPassed
         {
-            get => GetFixedDate(CrossSettings.Current.GetValueOrDefault(nameof(DateTimeOfLastOpenedAd), default(DateTime)));
-            set => CrossSettings.Current.AddOrUpdateValue(nameof(DateTimeOfLastOpenedAd), value);
+            get => GetFixedDate(CrossSettings.Current.GetValueOrDefault(nameof(DateTimeOfCountdownPassed), default(DateTime)));
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(DateTimeOfCountdownPassed), value);
         }
         
         public DateTime LastAdWatchTime
