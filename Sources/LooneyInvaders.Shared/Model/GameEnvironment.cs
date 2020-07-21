@@ -343,7 +343,7 @@ namespace LooneyInvaders.Model
         }
 
         public static void OpenWebPage(string url)
-        {
+        {   //ToDo: everyone - change that to Xamarin.Essentials
 #if __IOS__
             UIKit.UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(url));
 #endif
