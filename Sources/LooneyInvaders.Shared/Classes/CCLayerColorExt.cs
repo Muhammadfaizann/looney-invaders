@@ -994,6 +994,14 @@ namespace LooneyInvaders.Classes
             _transitionImage.RemoveFromParent();
         }
 
+        protected void RemoveChildren(params CCSprite[] sprites)
+        {
+            foreach (var sprite in sprites)
+            {
+                RemoveChild(sprite);
+            }
+        }
+
         protected async Task AnimateFadeInAsync(Action prepAction = null)
         {
             var framesTarget = new List<CCSpriteFrame>
@@ -1097,6 +1105,7 @@ namespace LooneyInvaders.Classes
                     button.CachedButtonType = button.ButtonType;
                 }
 
+                button.DisableClick();
                 button.ButtonType = ButtonType.CannotTap;
                 button.ImageNameTapped = button.ImageNameTapped;
                 button.ImageNameUntapped = button.ImageNameTapped;
@@ -1108,6 +1117,7 @@ namespace LooneyInvaders.Classes
         {
             foreach (var button in buttons)
             {
+                button.EnableClick();
                 button.ButtonType = button.CachedButtonType;
                 button.ImageNameTapped = button.ImageNameTapped;
                 button.ImageNameUntapped = button.CachedImageNameUntapped;

@@ -17,7 +17,7 @@ namespace LooneyInvaders.Model
         public static event EventHandler OnInterstitialAdClosed;
         public static event EventHandler OnInterstitialAdFailedToLoad;
 
-        public static void ClearEvents()
+        public static void ClearInterstitialEvents()
         {
             OnInterstitialAdOpened = null;
             OnInterstitialAdClosed = null;

@@ -27,7 +27,7 @@ namespace LooneyInvaders.Layers
                 else
                 {
                     isButtonDisable = true;
-                    DisableButtonsOnLayer(_btnForward);
+                    ScheduleOnce(_ => DisableButtonsOnLayer(_btnForward), 0f);
                 }
             }
         }
