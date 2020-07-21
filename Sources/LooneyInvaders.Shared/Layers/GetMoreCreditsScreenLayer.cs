@@ -18,11 +18,11 @@ namespace LooneyInvaders.Layers
         private readonly CCSpriteButton _btn1M;
         private readonly CCSpriteButton _btn300K;
         private readonly CCSpriteButton _btn100K;
+        private readonly CCSpriteButton _btn4000;
         private readonly CCSpriteButton _btn2000;
         private readonly CCSprite _tenTimesText;
-        private CCSpriteButton _btn4000;
-        private CCSprite[] _imgPlayerCreditsLabel;
 
+        private CCSprite[] _imgPlayerCreditsLabel;
         private CCSprite _timeToNextAdsImg;
         private CCSprite _h1;
         private CCSprite _h2;
@@ -77,7 +77,7 @@ namespace LooneyInvaders.Layers
             AddImage(517, 291, "UI/Get-more-credits-get-1_99-USD.png");
 
             _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            _btn4000.OnClick += Btn4000_OnClick;
+            _btn4000.OnClick += (s, e) => ScheduleOnce(Btn4000_OnClick, 0f);
             _btn4000.ButtonType = ButtonType.Silent;
 
             AddImage(437, 199, "UI/Get-more-credits-like-us-on-facebook-text.png");
@@ -149,7 +149,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void RefreshPlayerCreditsLabel(float dt = 0.00f)
+        private void RefreshPlayerCreditsLabel(float dt = 0f)
         {
             if (_imgPlayerCreditsLabel != null)
             {
@@ -161,31 +161,20 @@ namespace LooneyInvaders.Layers
             _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
         }
 
-        private void Btn4000_OnClick(object sender, EventArgs e)
+        private void Btn4000_OnClick(float period)
         {
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable() || Player.Instance.FacebookLikeUsed)
             {
+                GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
-            Player.Instance.FacebookLikeUsed = false;
-
-            if (Player.Instance.FacebookLikeUsed)
-            {
-                _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-
-                if (_btn4000.ButtonType != ButtonType.CannotTap)
-                {
-                    GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-                }
-                return;
-            }
+            DisableButtonsOnLayer(_btn4000);
 
             GameEnvironment.OpenWebPage("http://www.facebook.com/looneyinvaders");
-
-            _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
-            Player.Instance.Credits += 4000;
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
+            Player.Instance.Credits += 4000;
             Player.Instance.FacebookLikeUsed = true;
+
             ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
         }
 
