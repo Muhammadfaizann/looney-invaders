@@ -80,7 +80,7 @@ namespace LooneyInvaders.Layers
             {
                 if (!Player.Instance.IsChangeNamePopupShown)
                 {
-                    ShowChangeNameNotification();
+                    ScheduleOnce(ShowChangeNameNotification, 0.7f);
                     Player.Instance.IsChangeNamePopupShown = true;
                 }
             }
@@ -817,7 +817,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_noThanks);
         }
         
-        private void ShowChangeNameNotification()
+        private void ShowChangeNameNotification(float dt = 0f)
         {
             _imgChangeNameWindow = new CCNodeExt();
             _imgChangeNameWindow.AddImage(14, 48, "UI/username-notification.png", 500);
