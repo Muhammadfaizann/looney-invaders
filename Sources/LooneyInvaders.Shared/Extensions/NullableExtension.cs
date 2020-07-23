@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace LooneyInvaders.Extensions
 {
     public static class NullableExtension

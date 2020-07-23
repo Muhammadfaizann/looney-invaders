@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Extensions;
 
 namespace LooneyInvaders.Layers
 {
@@ -160,7 +159,7 @@ namespace LooneyInvaders.Layers
                     img.RemoveFromParent();
                 }
             }
-            _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
+            _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 0);
         }
 
         private void Btn4000_OnClick(float period)
@@ -299,7 +298,7 @@ namespace LooneyInvaders.Layers
                 {
                     AdManager.HideInterstitial();
                     AdManager.LoadInterstitial();
-                    ShowNotification("ads-not-quick-loaded-notification");
+                    ShowErrorNotification("ads-not-quick-loaded-notification");
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -328,8 +327,8 @@ namespace LooneyInvaders.Layers
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
-        {   
-            ShowNotification("ads-not-available-notification");
+        {
+            ScheduleOnce(_ => ShowErrorNotification("ads-not-available-notification"), 0f);
             _adWasShownOrFailed = true;
         }
 
@@ -371,35 +370,27 @@ namespace LooneyInvaders.Layers
             return pastDateTime - currentDateTime;
         }
 
-        private async void ShowNotification(string imageName)
+        private async void ShowErrorNotification(string imageName)
         {
-            _notificationTokenSource = new CustomCancellationTokenSource();
-            _notificationImage = new CCSprite();
-            _notificationImage = AddImage(44, 28, $"UI/{imageName}.png", 500);
-            OnTouchBegan += HideNotification;
-            
-            try
+            if (_notificationImage == null)
             {
-                await Task.Delay(5000, _notificationTokenSource.Token);
-                FireOnTouchBegan();
+                _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
+                _notificationImage.Opacity = 210;
+                AddChild(_notificationImage, 600);
             }
-            catch (OperationCanceledException ex)
-            {
-                return;
-            }
-            finally
-            {
-                _notificationTokenSource.Dispose();
-            }
-        }
+            _notificationImage.Visible = true;
+            PauseListeners();
 
-        private void HideNotification(object sender, EventArgs eventArgs)
-        {
-            if (_notificationTokenSource.IsDead == false) 
+            using (_notificationTokenSource = new CustomCancellationTokenSource())
+            {
+                await Task.Delay(2000, _notificationTokenSource.Token);
+                //custom token source isn't still used since all events are paused
+                _notificationImage.Visible = false;
+                //cancel token where you want to hide _notificationImage
                 _notificationTokenSource.Cancel();
-            
-            _notificationImage.Visible = false;
-            OnTouchBegan -= HideNotification;
+
+                ResumeListeners();
+            }
         }
     }
 }
