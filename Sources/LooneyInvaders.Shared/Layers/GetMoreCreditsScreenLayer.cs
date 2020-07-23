@@ -1,7 +1,9 @@
 using System;
+using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using LooneyInvaders.Extensions;
 
 namespace LooneyInvaders.Layers
 {
@@ -23,6 +25,7 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _tenTimesText;
 
         private CCSprite[] _imgPlayerCreditsLabel;
+        private CCSprite _notificationImage;
         private CCSprite _timeToNextAdsImg;
         private CCSprite _h1;
         private CCSprite _h2;
@@ -31,6 +34,8 @@ namespace LooneyInvaders.Layers
         private CCSprite _s1;
         private CCSprite _s2;
         private bool _adWasShownOrFailed;
+
+        private CustomCancellationTokenSource _notificationTokenSource;
 
         public GetMoreCreditsScreenLayer() : this(0, -1, -1, -1, -1, -1, -1) { }
 
@@ -41,8 +46,7 @@ namespace LooneyInvaders.Layers
         public GetMoreCreditsScreenLayer(int creditsRequired, int selectedEnemy, int selectedWeapon, int caliberSizeSelected, int fireSpeedSelected, int magazineSizeSelected, int livesSelected)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
-
-            //_creditsRequired = creditsRequired;
+            
             _selectedEnemy = selectedEnemy;
             _selectedWeapon = selectedWeapon;
             _caliberSizeSelected = caliberSizeSelected;
@@ -295,8 +299,7 @@ namespace LooneyInvaders.Layers
                 {
                     AdManager.HideInterstitial();
                     AdManager.LoadInterstitial();
-                    //ToDo: Pavel - here we need to show another notification that
-                    //we didn't show ad in time or we might ask about what to show
+                    ShowNotification("ads-not-quick-loaded-notification");
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -325,7 +328,8 @@ namespace LooneyInvaders.Layers
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
-        {   //ToDo: Pavel - show notification "no advertisements currently available"
+        {   
+            ShowNotification("ads-not-available-notification");
             _adWasShownOrFailed = true;
         }
 
@@ -365,6 +369,37 @@ namespace LooneyInvaders.Layers
         {
             var currentDateTime = DateTime.Now;
             return pastDateTime - currentDateTime;
+        }
+
+        private async void ShowNotification(string imageName)
+        {
+            _notificationTokenSource = new CustomCancellationTokenSource();
+            _notificationImage = new CCSprite();
+            _notificationImage = AddImage(44, 28, $"UI/{imageName}.png", 500);
+            OnTouchBegan += HideNotification;
+            
+            try
+            {
+                await Task.Delay(5000, _notificationTokenSource.Token);
+                FireOnTouchBegan();
+            }
+            catch (OperationCanceledException ex)
+            {
+                return;
+            }
+            finally
+            {
+                _notificationTokenSource.Dispose();
+            }
+        }
+
+        private void HideNotification(object sender, EventArgs eventArgs)
+        {
+            if (_notificationTokenSource.IsDead == false) 
+                _notificationTokenSource.Cancel();
+            
+            _notificationImage.Visible = false;
+            OnTouchBegan -= HideNotification;
         }
     }
 }

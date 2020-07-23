@@ -2773,7 +2773,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\about-the-game-page3-plain-text.png">
-      <Link>Assets\Content\Images\Hd\UI\about-the-game-page3-plain-text.png</Link>
+      <Link>Assets/Content/Images/Hd/UI/about-the-game-page3-plain-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8601,6 +8601,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="proguard-rules.pro" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\ads-not-available-notification.png">
+      <Link>Assets/Content/Images/Hd/UI/ads-not-available-notification.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\ads-not-quick-loaded-notification.png">
+      <Link>Assets/Content/Images/Hd/UI/ads-not-quick-loaded-notification.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
