@@ -137,6 +137,7 @@ namespace LooneyInvaders.Layers
                 else
                 {
                     CCAudioEngine.SharedEngine.PreloadEffect("Sounds/You are dead VO_mono.wav");
+                    
                 }
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Now get up and get your revenge VO_mono.wav");
             }
@@ -241,7 +242,13 @@ namespace LooneyInvaders.Layers
         {
             _getRevengeNode = new CCNodeExt();
             _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
-
+            
+            if (Settings.Instance.VoiceoversEnabled)
+            {
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
+                ScheduleOnce(CalloutRevenge, 2f);
+            }
+            
             // TODO: Find out if is it useful the second image
             // if ()
             // {
@@ -266,14 +273,7 @@ namespace LooneyInvaders.Layers
             }
 
             AddChild(_getRevengeNode);
-
             Schedule(FadeRevengeNode);
-
-            if (Settings.Instance.VoiceoversEnabled)
-            {
-                CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
-                ScheduleOnce(CalloutRevenge, 2f);
-            }
         }
 
         private void FadeYouAreDefeated(float dt)
@@ -458,7 +458,7 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             _btnContinue = _scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            _btnContinue.Visible = false; // Previously --- false --- Changed by Prabhjot
+            _btnContinue.Visible = false;
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
