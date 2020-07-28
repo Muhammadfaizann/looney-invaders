@@ -36,6 +36,7 @@ namespace LooneyInvaders.Layers
         
         private (int Count, List<string> Images) _loadingView = (0, new List<string>());
         private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14);
+        private bool _isNextLayerPreparing;
 
 
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
@@ -233,7 +234,9 @@ namespace LooneyInvaders.Layers
 
         private void CalloutRevenge(float dt)
         {
-            CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
+            if(_isNextLayerPreparing == false)
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
+            
         }
 
         private CCNodeExt _getRevengeNode;
@@ -558,6 +561,7 @@ namespace LooneyInvaders.Layers
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
+            _isNextLayerPreparing = true;
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
@@ -570,6 +574,7 @@ namespace LooneyInvaders.Layers
 
         private async void Revenge_OnClick(object sender, EventArgs e)
         {
+            _isNextLayerPreparing = true;
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
