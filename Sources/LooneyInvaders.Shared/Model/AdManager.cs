@@ -24,37 +24,62 @@ namespace LooneyInvaders.Model
             OnInterstitialAdFailedToLoad = null;
         }
 
+        public static void ClearInterstitialEvents(
+            EventHandler onAdOpenedHandler,
+            EventHandler onAdClosedHandler = null,
+            EventHandler onAdFailedToLoadHandler = null)
+        {
+            OnInterstitialAdOpened -= onAdOpenedHandler;
+            OnInterstitialAdClosed -= onAdClosedHandler;
+            OnInterstitialAdFailedToLoad -= onAdFailedToLoadHandler;
+        }
+
         public static void ShowBannerTop()
         {
-            if (Settings.Instance.Advertisements) 
-                ShowBannerTopHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            {
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                { ShowBannerTopHandler?.Invoke(); }
+            }
         }
 
         public static void ShowBannerBottom()
         {
-            if (Settings.Instance.Advertisements) 
-                ShowBannerBottomHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            {
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                { ShowBannerBottomHandler?.Invoke(); }
+            }
         }
 
         public static void HideBanner()
         {
-            if (Settings.Instance.Advertisements) 
-                HideBannerHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            { HideBannerHandler?.Invoke(); }
         }
 
         public static void LoadInterstitial()
         {
-            LoadInterstitialHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            { LoadInterstitialHandler?.Invoke(); }
         }
 
         public static void ShowInterstitial()
         {
-            ShowInterstitialHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            {
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                { ShowInterstitialHandler?.Invoke(); }
+                else InterstitialAdFailedToLoad();
+            }
         }
 
         public static void HideInterstitial()
         {
-            HideInterstitialHandler?.Invoke();
+            if (Settings.Instance.Advertisements)
+            {
+                HideInterstitialHandler?.Invoke();
+            }
         }
 
         public static void InterstitialAdOpened()

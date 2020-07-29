@@ -49,8 +49,8 @@ namespace LooneyInvaders.Layers
 
             _selectedEnemy = selectedEnemy;
             _selectedWeapon = selectedWeapon;
-
-
+            //uncomment to go to extinction level
+            _selectedEnemy = (Convert.ChangeType(Enemies.Aliens, Enum.GetUnderlyingType(typeof(Enemies))) as int?).Value;
 
             if (_selectedEnemy == (int)Enemies.Hitler)
             {

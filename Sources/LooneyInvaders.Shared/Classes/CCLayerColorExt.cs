@@ -621,10 +621,9 @@ namespace LooneyInvaders.Classes
         private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             _buttonDown = false;
-            if (Enabled == false) return;
+            if (Enabled == false) { return; }
 
             var buttonsToFireOnClick = new List<CCSpriteButton>();
-
             if (touches.Count > 0)
             {
                 foreach (var touch in touches)
@@ -632,8 +631,10 @@ namespace LooneyInvaders.Classes
                     if (GameView == null)
                     {
                         if (Shared.GameDelegate.CurrentScene != null)
+                        {
                             Director?.ReplaceScene(Shared.GameDelegate.CurrentScene);
-                        if (GameView == null) continue;
+                        }
+                        if (GameView == null) { continue; }
                     }
                     foreach (var node in Children)
                     {
@@ -772,10 +773,7 @@ namespace LooneyInvaders.Classes
 
         public virtual void ContinueInitialize() { }
 
-        public virtual async Task ContinueInitializeAsync()
-        {
-            await Task.CompletedTask;
-        }
+        public virtual async Task ContinueInitializeAsync() => await Task.CompletedTask;
 
         public void TransitionToLayer(CCLayerColorExt layer, bool dispose = false)
         {
@@ -786,8 +784,9 @@ namespace LooneyInvaders.Classes
             LayerTransitionTarget = layer;
 
             if (Scene != null)
+            {
                 ReplaceSceneWithoutFadeIn();
-
+            }
             if (dispose) Dispose();
         }
 
@@ -865,7 +864,6 @@ namespace LooneyInvaders.Classes
 
             var seq = new CCSequence(actions);
             var state = transitionImageSource.RunAction(seq);
-
             ScheduleOnce(PlayEffect1, 0.09f);
             ScheduleOnce(PlayEffect2, 0.18f);
             ScheduleOnce(PlayEffect3, 0.27f);

@@ -128,9 +128,10 @@ namespace LooneyInvaders.Model
         {
             await RefreshLeaderboards(750); //delay to ensure inet connection isn't so weak
 
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable()) {
                 return;
-            
+            }
+
             if (Settings.Instance.LastOfflineProScore > 0 && 
                 Settings.Instance.LastOfflineAlienWave >= 0)
             {
@@ -147,9 +148,7 @@ namespace LooneyInvaders.Model
                 Settings.Instance.LastOfflineRegularScore = 0;
                 Settings.Instance.LastOfflineTime = 0;
                 Settings.Instance.LastOfflineAccuracy = 0;
-
             }
-
         }
 
         internal static void FireOnLeaderboardsRefreshed()

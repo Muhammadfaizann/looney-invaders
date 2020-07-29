@@ -37,7 +37,6 @@ namespace LooneyInvaders.Layers
         private (int Count, List<string> Images) _loadingView = (0, new List<string>());
         private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14);
 
-
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
@@ -57,6 +56,8 @@ namespace LooneyInvaders.Layers
                 }
                 _loadingView.Count = _loadingView.Images.Count;
                 _loadingViewPlaceholder = new CCSprite();
+
+                _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
             }
 
             switch (SelectedBattleground)
@@ -140,68 +141,60 @@ namespace LooneyInvaders.Layers
                 }
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Now get up and get your revenge VO_mono.wav");
             }
-
+            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
             AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
-            ScheduleOnce((_) =>
-            {
-                try { AdManager.ShowBannerBottom(); }
-                catch { }
-            }, 0f);
 
             if (SelectedEnemy == Enemies.Aliens)
             {
-                _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
-
                 if (_alienScore > GamePlayLayer.BestScoreAlien)
                 {
                     GamePlayLayer.BestScoreAlien = _alienScore;
                     GamePlayLayer.BestScoreAlienWave = _alienWave;
-
                     Player.Instance.SetDayScore(_alienScore, true);
                 }
 
                 if (Settings.Instance.VoiceoversEnabled)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/you are defeaded VO_mono.wav");
-                    ScheduleOnce(CalloutRevenge, 2f);
+                    ScheduleOnce(CalloutRevenge, 2.4f);
                 }
-
                 Player.Instance.Credits += _alienScore;
                 Settings.Instance.LastOfflineProScore = _alienScore;
                 Settings.Instance.LastOfflineAlienWave = _alienWave;
                 GameEnvironment.PlayMusic(Music.GameOverAlien);
                 GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
 
-                ScheduleOnce(async (_) =>
-                {
-                    _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
-                    //await Task.Delay(5000);
-                    _isDoneWaitingForScores = true;
-                },
-                0f);
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
-                    ScheduleOnce(ShowScore, 0.2f);
+                    ScheduleOnce(ShowScore, 2.3f);
                 }
                 else
                 {
                     GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-                    ScheduleOnce(ShowScoreAlienScheduled, 2f);
+                    ScheduleOnce(ShowScoreAliens, 2.4f);
                 }
-                Schedule(AnimateLoadingView, 0.066f); //reached experimentally
+
+                var millisecondsToWaitAnimation = 2000;
+                ScheduleOnce(async (_) =>
+                {
+                    _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
+                    await Task.Delay(millisecondsToWaitAnimation);
+                    _isDoneWaitingForScores = true;
+                }, 0f);
+                Schedule(AnimateLoadingView, 0.065f); //reached experimentally
             }
             else
             {
                 GameEnvironment.PlayMusic(Music.GameOver);
-                ScheduleOnce(ShowGetRevengeRegularLevel, 2.2f);
+                ScheduleOnce(ShowGetRevengeRegularLevel, 2.3f);
             }
         }
 
         public override async Task ContinueInitializeAsync()
         {
-            await Task.Delay(10); //some small delay
+            await Task.Delay(15); //some small delay
             await base.ContinueInitializeAsync();
         }
 
@@ -217,8 +210,10 @@ namespace LooneyInvaders.Layers
                       !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
                 {
-                    if (_cartoonBackground == null) { return; }
-                    if (!_cartoonBackground.Visible) { Unschedule(AnimateLoadingView); return; }
+                    if (_cartoonBackground == null)
+                    { return; }
+                    if (!_cartoonBackground.Visible)
+                    { Unschedule(AnimateLoadingView); return; }
 
                     Unschedule(AnimateLoadingView);
                     await AnimateFadeInAsync(() =>
@@ -226,6 +221,7 @@ namespace LooneyInvaders.Layers
                         //_youAreDefeated.Visible = true;
                         _cartoonBackground.Visible = false;
                         RemoveChild(_cartoonBackground);
+                        ScheduleOnce(ShowFullScreenAd, 0.7f);
                     });
                 }, _animationMaxTime);
         }
@@ -241,16 +237,6 @@ namespace LooneyInvaders.Layers
         {
             _getRevengeNode = new CCNodeExt();
             _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
-
-            // TODO: Find out if is it useful the second image
-            // if ()
-            // {
-            //     _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
-            // }
-            // else
-            // {
-            //     _getRevengeNode.AddImage(0, 380, "UI/You-are-dead-now-get-up-and-get-your-revenge.png", 3);
-            // }
 
             var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += MainMenu_OnClick;
@@ -392,7 +378,9 @@ namespace LooneyInvaders.Layers
             RemoveChild(_recordOkIGotIt);
             RemoveChild(_recordNotification);
             if (_recordNotificationImage != null)
+            {
                 RemoveChild(_recordNotificationImage);
+            }
             ScheduleOnce(ShowScore, 0f);
         }
 
@@ -402,14 +390,11 @@ namespace LooneyInvaders.Layers
         private async void ShowScore(float delay)
         {
             await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
-            _scoreNode = new CCNodeExt
-            {
-                Opacity = 0
-            };
-            ScheduleOnce(ShowScoreAlienScheduled, 0f);
+
+            ScheduleOnce(ShowScoreAliens, 0.05f);
         }
 
-        private void ShowScoreAlienScheduled(float d)
+        private void ShowScoreAliens(float d)
         {
             if (_isWeHaveScores
                 && _alienScore > 0
@@ -423,13 +408,15 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
+            _scoreNode = _scoreNode ?? new CCNodeExt
+            {
+                Opacity = 0
+            };
             _scoreNode.Opacity = 255;
             _scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
             _scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
             _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-            _shareYourScore = _scoreNode.AddImage(0, 80,
-                "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
-
+            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/game-over-screen-extinction-level-share-your-score-text.png", 3);
             //current score
             _scoreNode.AddImageLabelCentered(155, 380, _alienScore.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 314, _alienWave.ToString(), 50);
@@ -464,7 +451,7 @@ namespace LooneyInvaders.Layers
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             _mainMenu.OnClick += MainMenu_OnClick;
 
-            if (!_isWeHaveScores && LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null)
+            if (!_isWeHaveScores)// && LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null)
             {
                 // no or weak internet connection
                 _shareYourScore.Visible = false;
@@ -510,7 +497,7 @@ namespace LooneyInvaders.Layers
 
 
                 _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
-                _no.OnClick += no_OnClick;
+                _no.OnClick += No_OnClick;
 
                 _mainMenu.Visible = false;
                 _btnContinue.Visible = false;
@@ -552,7 +539,6 @@ namespace LooneyInvaders.Layers
             {
                 child.Opacity = _scoreNode.Opacity;
             }
-
             _youAreDefeated.Opacity = (byte)(255 - _scoreNode.Opacity);
         }
 
@@ -561,7 +547,7 @@ namespace LooneyInvaders.Layers
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-            AdManager.HideBanner();
+            //AdManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
@@ -579,16 +565,9 @@ namespace LooneyInvaders.Layers
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
-        //CCNodeExt shareNode;
-        //CCSpriteTwoStateButton shareScoreBoard;
-        //CCSpriteTwoStateButton shareTwitter;
-        //CCSpriteTwoStateButton shareFacebook;
-
-        private CCNodeExt _sl;
-
         private void Yes_OnClick(object sender, EventArgs e)
         {
-            _sl = new CCNodeExt();
+            var _sl = new CCNodeExt();
 
             _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
 
@@ -626,16 +605,13 @@ namespace LooneyInvaders.Layers
             _scoreNode.Visible = false;
             AddChild(_sl);
 
-
             _shareYourScore.Visible = false;
             _yes.Visible = false;
             _no.Visible = false;
             SocialNetworkShareManager.ShareLayer("facebook", this);
 
-
             _scoreNode.Visible = true;
             RemoveChild(_sl);
-
 
             Player.Instance.Credits += _alienWave * 1000;
             foreach (var spr in _creditsLabels)
@@ -648,12 +624,12 @@ namespace LooneyInvaders.Layers
         }
 
 
-        private void ShowAd(float dt)
+        private void ShowFullScreenAd(float dt)
         {
-            _btnContinue.ChangeAvailability(false);
-            _mainMenu.ChangeAvailability(false);
+            //_btnContinue.ChangeAvailability(false);
+            //_mainMenu.ChangeAvailability(false);
 
-            AdManager.HideBanner();
+            //AdManager.HideBanner();
             AdManager.ShowInterstitial();
         }
 
@@ -664,26 +640,29 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            AdManager.ShowBannerBottom();
+            //AdManager.ShowBannerBottom();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             ScheduleOnce(ShowScore, 2.3f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            AdManager.ShowBannerBottom();
+            //AdManager.ShowBannerBottom();
+            AdManager.HideInterstitial();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-            ScheduleOnce(ShowScoreAlienScheduled, 0.1f);
+            ScheduleOnce(ShowScoreAliens, 0.1f);
         }
 
-
-        private void no_OnClick(object sender, EventArgs e)
+        private void No_OnClick(object sender, EventArgs e)
         {
-            _shareYourScore.Visible = false;
-            _yes.Visible = false;
-            _no.Visible = false;
-            _btnContinue.Visible = true;
-            _mainMenu.Visible = true;
+            ScheduleOnce(_ =>
+            {
+                _shareYourScore.Visible = false;
+                _yes.Visible = false;
+                _no.Visible = false;
+                _btnContinue.Visible = true;
+                _mainMenu.Visible = true;
+            }, 0f);
         }
         
         private void Caught(string message)

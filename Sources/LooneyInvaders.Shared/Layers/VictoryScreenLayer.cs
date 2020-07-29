@@ -32,6 +32,7 @@ namespace LooneyInvaders.Layers
         private readonly CCSprite _defeated;
         private readonly CCSprite _justSavedTitle;
         private readonly CCSprite _cartoonBackground;
+        private readonly CCNodeExt _multiplierNode;
 
         private CCSpriteButton _okIGotIt;
         private CCSpriteButton _btnContinue;
@@ -44,8 +45,6 @@ namespace LooneyInvaders.Layers
         private CCSprite _multiplierArrow;
         private CCSprite[] _scoreBefore;
         private (int Count, List<string> Images) _loadingView = (0, new List<string>());
-
-        private CCNodeExt _multiplierNode;
 
         private readonly Battlegrounds _nextBattleGround;
         private readonly Enemies _nextEnemy;
@@ -325,11 +324,9 @@ namespace LooneyInvaders.Layers
             {
                 Visible = false
             };
-            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
+            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
             AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
 
             _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
@@ -340,13 +337,12 @@ namespace LooneyInvaders.Layers
                 GamePlayLayer.BestScoreTime = Time;
                 GamePlayLayer.BestScoreCountry = SelectedBattleground;
             }
-
             //submit score during shown victory image
             Player.Instance.Score += _score;
             Player.Instance.Credits += _score;
             Player.Instance.AddSavedCountry(SelectedBattleground);
             Player.Instance.SetDayScore(_score);
-
+            //Hack: Don't delete that?
             //Background = Background ?? new CCSprite();
             //Background.Opacity = 120;
 
@@ -390,7 +386,6 @@ namespace LooneyInvaders.Layers
             }
             _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
 
-            AdManager.ShowBannerBottom();
             GameEnvironment.PlayMusic(Music.Victory);
 
             if (Settings.Instance.VoiceoversEnabled)
@@ -398,7 +393,6 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce((_) => CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav"), 0f);
                 ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
-
             Settings.Instance.LastOfflineRegularScore = _score;
             Settings.Instance.LastOfflineTime = Convert.ToDouble(Time);
             Settings.Instance.LastOfflineAccuracy = Convert.ToDouble(Accuracy);
@@ -408,7 +402,7 @@ namespace LooneyInvaders.Layers
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
                 _isDoneWaitingForScores = true;
             }, 0f);
-            Schedule(AnimateLoadingView, 0.066f); //reached experimentally
+            Schedule(AnimateLoadingView, 0.065f); //reached experimentally
         }
 
         public override async Task ContinueInitializeAsync()
@@ -435,8 +429,10 @@ namespace LooneyInvaders.Layers
                      !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
                 {
-                    if (_cartoonBackground == null) { return; }
-                    if (!_cartoonBackground.Visible) { Unschedule(AnimateLoadingView); return; }
+                    if (_cartoonBackground == null)
+                    { return; }
+                    if (!_cartoonBackground.Visible)
+                    { Unschedule(AnimateLoadingView); return; }
 
                     Unschedule(AnimateLoadingView);
                     await AnimateFadeInAsync(() =>
@@ -526,8 +522,8 @@ namespace LooneyInvaders.Layers
                 _multiplierNode.AddImageLabelCentered(465, 415, WinsInSuccession.ToString(), 57);
                 _multiplierNode.AddImageLabelCentered(433, 338, WinsInSuccession + "X", 57);
                 _scoreBefore = _multiplierNode.AddImageLabel(40, 270, _score.ToString(), 57);
-                _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
-                _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[_scoreBefore.Length - 1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
+                _multiplierArrow = _multiplierNode.AddImage(Convert.ToInt32(_scoreBefore[^1].PositionX + 60), 272, "UI/victory-multiply-arrow.png", 4);
+                _multiplierNode.AddImageLabel(Convert.ToInt32(_scoreBefore[^1].PositionX + 200), 270, (_score * WinsInSuccession).ToString(), 57);
                 _multiplierNode.AddButton(1050, 540, "UI/victory-multiply-notification-cancel-button-untapped.png", "UI/victory-multiply-notification-cancel-button-tapped.png", 4).OnClick += ShowMultiplierAdCancel_Onclick;
                 _showAd = _multiplierNode.AddButton(40, 77, "UI/victory-multiply-notification-watch-button-untapped.png", "UI/victory-multiply-notification-watch-button-tapped.png", 4);
                 _showAd.OnClick += ShowMultiplierAd_Onclick;
@@ -914,7 +910,7 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _sl;
 
-        private async void Yes_OnClick(float obj)
+        private void Yes_OnClick(float obj)
         {
             _yes.ChangeVisibility(false);
             _no.ChangeVisibility(false);

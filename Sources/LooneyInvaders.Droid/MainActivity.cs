@@ -133,6 +133,8 @@ namespace LooneyInvaders.Droid
 
         protected override void AttachBaseContext(Context @base) => base.AttachBaseContext(@base);
 
+        public override void OnAttachedToWindow() => base.OnAttachedToWindow();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");

@@ -2030,7 +2030,7 @@ namespace LooneyInvaders.Layers
                     SelectedBattleground,
                     _score,
                     _wave);
-                await TransitionToLayerCartoonStyleAsync(newLayer, SelectedEnemy == Enemies.Aliens);
+                await TransitionToLayerCartoonStyleAsync(newLayer, true, SelectedEnemy == Enemies.Aliens);
             }
         }
 
