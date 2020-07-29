@@ -223,7 +223,7 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            if (lastAdWatchDayCount == 10)
+            if (lastAdWatchDayCount == 11)
             {
                 DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
                 return;
