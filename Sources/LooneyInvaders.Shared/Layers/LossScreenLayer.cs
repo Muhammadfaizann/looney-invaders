@@ -410,7 +410,7 @@ namespace LooneyInvaders.Layers
                     || Math.Abs(_alienScore - (double)LeaderboardManager.PlayerRankProDaily.GetLeaderboardItemField(Score)) < Tolerance)
                 && !_recordNotificationShown)
             {
-                ScheduleOnce((_) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
+                ScheduleOnce(_ => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
                 return;
             }
 
@@ -499,7 +499,7 @@ namespace LooneyInvaders.Layers
                     _scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : "green");
                 }
                 _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
-                _yes.OnClick += Yes_OnClick;
+                _yes.OnClick += (s, e) => { try { Yes_OnClick(); } catch { Caught("11"); } };
 
                 _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
                 _no.OnClick += No_OnClick;
@@ -569,65 +569,60 @@ namespace LooneyInvaders.Layers
             await TransitionToLayerCartoonStyleAsync(newLayer);
         }
 
-        private void Yes_OnClick(object sender, EventArgs e)
+        private void Yes_OnClick()
         {
-            try
+            CCNodeExt _sl = new CCNodeExt();
+
+            _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
+            _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
+            _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
+            _sl.AddImageLabel(420, 295, _alienScore.ToString(), 52);
+
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance)
             {
-                CCNodeExt _sl = new CCNodeExt();
-
-                _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
-                _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
-                _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
-                _sl.AddImageLabel(420, 295, _alienScore.ToString(), 52);
-
-                if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance)
-                {
-                    _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
-                }
-                else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-                {
-                    _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
-                }
-                if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance)
-                {
-                    _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
-                }
-                else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-                {
-                    _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
-                }
-                if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-                {
-                    _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankProDaily.Rank.ToString("0"), 52);
-                }
-                else
-                {
-                    _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
-                }
-
-                _scoreNode = _scoreNode ?? new CCNodeExt();
-                _scoreNode.Visible = false;
-                AddChild(_sl);
-
-                _shareYourScore.Visible = false;
-                _yes.Visible = false;
-                _no.Visible = false;
-                SocialNetworkShareManager.ShareLayer("facebook", this);
-
-                _scoreNode.Visible = true;
-                RemoveChild(_sl);
-
-                Player.Instance.Credits += _alienWave * 1000;
-                foreach (var spr in _creditsLabels)
-                {
-                    _scoreNode.RemoveChild(spr);
-                }
-                _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
-                _btnContinue.Visible = true;
-                _mainMenu.Visible = true;
+                _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
             }
-            catch (Exception ex)
-            { Debug.WriteLine("Err: " + ex.Message); }
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+            {
+                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
+            }
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance)
+            {
+                _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
+            }
+            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+            {
+                _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
+            }
+            if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+            {
+                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankProDaily.Rank.ToString("0"), 52);
+            }
+            else
+            {
+                _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
+            }
+
+            _scoreNode = _scoreNode ?? new CCNodeExt();
+            _scoreNode.Visible = false;
+            AddChild(_sl);
+
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
+            SocialNetworkShareManager.ShareLayer("facebook", this);
+
+            _scoreNode.Visible = true;
+            RemoveChild(_sl);
+
+            Player.Instance.Credits += _alienWave * 1000;
+            foreach (var spr in _creditsLabels)
+            {
+                _scoreNode.RemoveChild(spr);
+            }
+            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)

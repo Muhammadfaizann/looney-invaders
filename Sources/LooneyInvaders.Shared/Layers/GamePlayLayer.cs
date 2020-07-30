@@ -1111,7 +1111,6 @@ namespace LooneyInvaders.Layers
             {
                 ScheduleOnce(CalloutCountryName, 0.5f);
                 Schedule(CountDownUpdate, 1f);
-                AdManager.ShowBannerBottom();
             }
             else if (Settings.Instance.VoiceoversEnabled)
             {
@@ -1125,7 +1124,6 @@ namespace LooneyInvaders.Layers
                     ScheduleOnce(CalloutCountryNameVo, 3.55f);
                 }
                 Schedule(CountDownUpdate, 1f);
-                AdManager.ShowBannerBottom();
             }
         }
 
@@ -1329,7 +1327,6 @@ namespace LooneyInvaders.Layers
                     break;
                 case 0:
                     UnscheduleAll();
-                    AdManager.HideBanner();
                     if (SelectedEnemy == Enemies.Aliens)
                     {
                         GameEnvironment.PlayMusic(Music.BattleAlien1);
@@ -2004,15 +2001,11 @@ namespace LooneyInvaders.Layers
 
             if (_launchMode == LaunchMode.WeaponTest)
             {
-                AdManager.HideBanner();
-
                 var newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
                 TransitionToLayerCartoonStyle(newLayer);
             }
             else if (_launchMode == LaunchMode.WeaponsUpgradeTest)
             {
-                AdManager.HideBanner();
-
                 var newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
                     (int)SelectedWeapon,
                     CaliberSizeSelected,
@@ -2053,13 +2046,11 @@ namespace LooneyInvaders.Layers
             switch (_launchMode)
             {
                 case LaunchMode.WeaponTest:
-                    AdManager.HideBanner();
                     //weapon test
                     newLayer = new WeaponPickerLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon);
                     TransitionToLayerCartoonStyle(newLayer);
                     break;
                 case LaunchMode.WeaponsUpgradeTest:
-                    AdManager.HideBanner();
                     //weapon upgrade
                     newLayer = new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens,
                         (int)SelectedWeapon,
@@ -2070,7 +2061,6 @@ namespace LooneyInvaders.Layers
                     TransitionToLayerCartoonStyle(newLayer);
                     break;
                 case LaunchMode.SteeringTest:
-                    AdManager.HideBanner();
                     StartGame();
                     break;
                 case LaunchMode.Default:
