@@ -37,6 +37,7 @@ namespace LooneyInvaders.Layers
         
         private (int Count, List<string> Images) _loadingView = (0, new List<string>());
         private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14);
+        private bool _isNextLayerPreparing;
 
         public LossScreenLayer(Enemies selectedEnemy, Weapons selectedWeapon, Battlegrounds selectedBattleground, int alienScore = 0, int alienWave = 0)
         {
@@ -139,6 +140,7 @@ namespace LooneyInvaders.Layers
                 else
                 {
                     CCAudioEngine.SharedEngine.PreloadEffect("Sounds/You are dead VO_mono.wav");
+                    
                 }
                 CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Now get up and get your revenge VO_mono.wav");
             }
@@ -225,7 +227,9 @@ namespace LooneyInvaders.Layers
 
         private void CalloutRevenge(float dt)
         {
-            CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
+            if(_isNextLayerPreparing == false)
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
+            
         }
 
         private CCNodeExt _getRevengeNode;
@@ -234,6 +238,22 @@ namespace LooneyInvaders.Layers
         {
             _getRevengeNode = new CCNodeExt();
             _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
+            
+            if (Settings.Instance.VoiceoversEnabled)
+            {
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
+                ScheduleOnce(CalloutRevenge, 2f);
+            }
+            
+            // TODO: Find out if is it useful the second image
+            // if ()
+            // {
+            //     _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
+            // }
+            // else
+            // {
+            //     _getRevengeNode.AddImage(0, 380, "UI/You-are-dead-now-get-up-and-get-your-revenge.png", 3);
+            // }
 
             var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += MainMenu_OnClick;
@@ -249,14 +269,7 @@ namespace LooneyInvaders.Layers
             }
 
             AddChild(_getRevengeNode);
-
             Schedule(FadeRevengeNode);
-
-            if (Settings.Instance.VoiceoversEnabled)
-            {
-                CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
-                ScheduleOnce(CalloutRevenge, 2f);
-            }
         }
 
         private void FadeYouAreDefeated(float dt)
@@ -453,7 +466,7 @@ namespace LooneyInvaders.Layers
             _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
 
             _btnContinue = _scoreNode.AddButton(740, 90, "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--revenge-button-tapped.png");
-            _btnContinue.Visible = false; // Previously --- false --- Changed by Prabhjot
+            _btnContinue.Visible = false;
             _btnContinue.OnClick += BtnContinue_OnClick;
 
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
@@ -549,6 +562,7 @@ namespace LooneyInvaders.Layers
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
+            _isNextLayerPreparing = true;
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
@@ -560,6 +574,7 @@ namespace LooneyInvaders.Layers
 
         private async void Revenge_OnClick(object sender, EventArgs e)
         {
+            _isNextLayerPreparing = true;
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
