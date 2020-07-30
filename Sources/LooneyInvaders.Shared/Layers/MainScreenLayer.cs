@@ -675,7 +675,7 @@ namespace LooneyInvaders.Layers
             {
                 if (_needToForceRefreshLeaderboards)
                 {
-                    Task.Run(ForceLeaderboardManagerRefreshAsync);
+                    ForceLeaderboardManagerRefreshAsync();
                     _needToForceRefreshLeaderboards = false;
                 }
             }

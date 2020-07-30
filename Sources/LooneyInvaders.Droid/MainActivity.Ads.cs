@@ -34,11 +34,11 @@ namespace LooneyInvaders.Droid
         {
             base.OnResume();
 
-            if (_wasResumed)
+            //if (_wasResumed)
             {   //ToDo: find out what the problem with resuming (egl_swap)
                 Appodeal.OnResume(this, requiredAdTypes); //is it needed
             }
-            else _wasResumed = true;
+            //else _wasResumed = true;
         }
 
         public void ShowBannerTop() => RunOnUiThread(async () => await AdType.BannerTop.LoadAsync(this));

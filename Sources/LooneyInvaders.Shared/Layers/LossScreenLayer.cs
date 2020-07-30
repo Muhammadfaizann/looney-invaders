@@ -29,6 +29,7 @@ namespace LooneyInvaders.Layers
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
+        private bool _adWasWatched;
 
         private readonly int _alienScore;
         private readonly int _alienWave;
@@ -166,11 +167,7 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PlayMusic(Music.GameOverAlien);
                 GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
 
-                if (NetworkConnectionManager.IsInternetConnectionAvailable())
-                {
-                    ScheduleOnce(ShowScore, 2.3f);
-                }
-                else
+                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
                 {
                     GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
                     ScheduleOnce(ShowScoreAliens, 2.4f);
@@ -221,7 +218,7 @@ namespace LooneyInvaders.Layers
                         //_youAreDefeated.Visible = true;
                         _cartoonBackground.Visible = false;
                         RemoveChild(_cartoonBackground);
-                        ScheduleOnce(ShowFullScreenAd, 0.7f);
+                        ScheduleOnce(_ => ShowScore(true), 0.5f);
                     });
                 }, _animationMaxTime);
         }
@@ -301,6 +298,8 @@ namespace LooneyInvaders.Layers
 
         private void ShowRecordNotification()
         {
+            _recordNotificationShown = true;
+
             if (_isWeHaveScores && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance && LeaderboardManager.PlayerRankProMonthly.Rank == 1)
             {
                 Player.Instance.Credits += 45000;
@@ -370,7 +369,6 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _recordOkIGotIt = AddButton(42, 83, "UI/OK-I-got-it-button-untapped.png", "UI/OK-I-got-it-button-tapped.png", 610);
             _recordOkIGotIt.OnClick += RecordOkIGotIt_OnClick;
-            _recordNotificationShown = true;
         }
 
         private void RecordOkIGotIt_OnClick(object sender, EventArgs e)
@@ -381,17 +379,25 @@ namespace LooneyInvaders.Layers
             {
                 RemoveChild(_recordNotificationImage);
             }
-            ScheduleOnce(ShowScore, 0f);
+            ScheduleOnce(_ => ShowScore(false), 0f);
         }
 
         private int _waitForScoreCounter;
         private CCSprite[] _creditsLabels;
         
-        private async void ShowScore(float delay)
+        private async void ShowScore(bool showAd)
         {
             await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
 
-            ScheduleOnce(ShowScoreAliens, 0.05f);
+            if (showAd && !_adWasWatched)
+            {
+                ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.1f);
+            }
+            else
+            {
+                GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+                ScheduleOnce(ShowScoreAliens, 0.1f);
+            }
         }
 
         private void ShowScoreAliens(float d)
@@ -408,10 +414,12 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            _scoreNode = _scoreNode ?? new CCNodeExt
-            {
-                Opacity = 0
-            };
+            if(_adWasWatched) {
+                return;
+            }
+            _adWasWatched = true;
+
+            _scoreNode = _scoreNode ?? new CCNodeExt();
             _scoreNode.Opacity = 255;
             _scoreNode.AddImage(0, 225, "UI/game-over-screen-extinction-level-scoreboard-background-bars.png", 2);
             _scoreNode.AddImage(245, 225, "UI/game-over-screen-extinction-level-scoreboard-title-text.png", 3);
@@ -451,7 +459,7 @@ namespace LooneyInvaders.Layers
             _mainMenu = _scoreNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             _mainMenu.OnClick += MainMenu_OnClick;
 
-            if (!_isWeHaveScores)// && LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null)
+            if (!_isWeHaveScores || (LeaderboardManager.PlayerRankProDaily == null && LeaderboardManager.PlayerRankProWeekly == null && LeaderboardManager.PlayerRankProMonthly == null))
             {
                 // no or weak internet connection
                 _shareYourScore.Visible = false;
@@ -461,7 +469,6 @@ namespace LooneyInvaders.Layers
                 {
                     _scoreNode.AddImage(633, 251, "UI/victory-no-internet-connection-text.png", 3);
                     _scoreNode.AddImage(562, 280, "UI/Main-screen-off-line-notification.png", 3);
-
                 }
                 else
                 {
@@ -491,10 +498,8 @@ namespace LooneyInvaders.Layers
                     _scoreNode.AddImageLabelCentered(1011, 314, LeaderboardManager.PlayerRankProMonthly.LevelsCompleted.ToString(CultureInfo.InvariantCulture), 50, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : _alienWave > LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "red" : _alienWave < LeaderboardManager.PlayerRankProMonthly.LevelsCompleted ? "green" : "yellow");
                     _scoreNode.AddImageLabelCentered(1011, 247, LeaderboardManager.PlayerRankProMonthly.Rank.ToString(), 52, Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance ? null : "green");
                 }
-
                 _yes = _scoreNode.AddButton(834, 90, "UI/victory-yes-please-button-untapped.png", "UI/victory-yes-please-button-tapped.png");
                 _yes.OnClick += Yes_OnClick;
-
 
                 _no = _scoreNode.AddButton(520, 90, "UI/victory-no-thanks-button-untapped.png", "UI/victory-no-thanks-button-tapped.png");
                 _no.OnClick += No_OnClick;
@@ -547,7 +552,6 @@ namespace LooneyInvaders.Layers
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
-            //AdManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             var newLayer = new MainScreenLayer();
@@ -567,70 +571,63 @@ namespace LooneyInvaders.Layers
 
         private void Yes_OnClick(object sender, EventArgs e)
         {
-            var _sl = new CCNodeExt();
-
-            _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
-
-            _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
-
-            _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
-
-            _sl.AddImageLabel(420, 295, _alienScore.ToString(), 52);
-
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance)
+            try
             {
-                _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
-            }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-            {
-                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
-            }
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance)
-            {
-                _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
-            }
-            else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-            {
-                _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
-            }
-            if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
-            {
-                _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankRegularDaily?.Rank.ToString("0"), 52);
-            }
-            else
-            {
-                _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
-            }
+                CCNodeExt _sl = new CCNodeExt();
 
-            _scoreNode.Visible = false;
-            AddChild(_sl);
+                _sl.AddImageCentered(1136 / 2, 598, "UI/victory-i-just-made-impressive-score.png", 2);
+                _sl.AddImageCentered(1136 / 2, 86, "UI/social-share-game-advertisement-background-and-text.png", 2);
+                _sl.AddImageCentered(1136 / 2, 371, "UI/social-share-result-&_ranking-table.png", 2);
+                _sl.AddImageLabel(420, 295, _alienScore.ToString(), 52);
 
-            _shareYourScore.Visible = false;
-            _yes.Visible = false;
-            _no.Visible = false;
-            SocialNetworkShareManager.ShareLayer("facebook", this);
+                if (_isWeHaveScores && LeaderboardManager.PlayerRankProMonthly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProMonthly.Score) < Tolerance)
+                {
+                    _sl.AddImageLabelCentered(995, 295, LeaderboardManager.PlayerRankProMonthly.Rank.ToString("0"), 52);
+                }
+                else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+                {
+                    _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
+                }
+                if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance)
+                {
+                    _sl.AddImageLabelCentered(837, 295, LeaderboardManager.PlayerRankProWeekly.Rank.ToString("0"), 52);
+                }
+                else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+                {
+                    _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
+                }
+                if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
+                {
+                    _sl.AddImageLabelCentered(701, 295, LeaderboardManager.PlayerRankProDaily.Rank.ToString("0"), 52);
+                }
+                else
+                {
+                    _sl.AddImage(743, 295, "UI/victory-earth-level-not-ranked-text.png", 3);
+                }
 
-            _scoreNode.Visible = true;
-            RemoveChild(_sl);
+                _scoreNode = _scoreNode ?? new CCNodeExt();
+                _scoreNode.Visible = false;
+                AddChild(_sl);
 
-            Player.Instance.Credits += _alienWave * 1000;
-            foreach (var spr in _creditsLabels)
-            {
-                _scoreNode.RemoveChild(spr);
+                _shareYourScore.Visible = false;
+                _yes.Visible = false;
+                _no.Visible = false;
+                SocialNetworkShareManager.ShareLayer("facebook", this);
+
+                _scoreNode.Visible = true;
+                RemoveChild(_sl);
+
+                Player.Instance.Credits += _alienWave * 1000;
+                foreach (var spr in _creditsLabels)
+                {
+                    _scoreNode.RemoveChild(spr);
+                }
+                _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
+                _btnContinue.Visible = true;
+                _mainMenu.Visible = true;
             }
-            _creditsLabels = _scoreNode.AddImageLabel(450, 170, Player.Instance.Credits.ToString(), 57);
-            _btnContinue.Visible = true;
-            _mainMenu.Visible = true;
-        }
-
-
-        private void ShowFullScreenAd(float dt)
-        {
-            //_btnContinue.ChangeAvailability(false);
-            //_mainMenu.ChangeAvailability(false);
-
-            //AdManager.HideBanner();
-            AdManager.ShowInterstitial();
+            catch (Exception ex)
+            { Debug.WriteLine("Err: " + ex.Message); }
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e)
@@ -640,29 +637,28 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            //AdManager.ShowBannerBottom();
-            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-            ScheduleOnce(ShowScore, 2.3f);
+            if (!_adWasWatched)
+            {
+                GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
+                ScheduleOnce(ShowScoreAliens, 0.05f);
+            }
+            _adWasWatched = true;
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            //AdManager.ShowBannerBottom();
             AdManager.HideInterstitial();
             GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-            ScheduleOnce(ShowScoreAliens, 0.1f);
+            ScheduleOnce(ShowScoreAliens, 0.05f);
         }
 
         private void No_OnClick(object sender, EventArgs e)
         {
-            ScheduleOnce(_ =>
-            {
-                _shareYourScore.Visible = false;
-                _yes.Visible = false;
-                _no.Visible = false;
-                _btnContinue.Visible = true;
-                _mainMenu.Visible = true;
-            }, 0f);
+            _shareYourScore.Visible = false;
+            _yes.Visible = false;
+            _no.Visible = false;
+            _btnContinue.Visible = true;
+            _mainMenu.Visible = true;
         }
         
         private void Caught(string message)
