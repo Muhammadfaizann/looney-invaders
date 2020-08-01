@@ -32,7 +32,11 @@ namespace LooneyInvaders.App42
         public delegate void UnobservedTaskExceptionEventArgsDelegate(object sender, UnobservedTaskExceptionEventArgs args);
         public static event UnobservedTaskExceptionEventArgsDelegate GetTopScoresStatusChanged;
 
-        private Task GetGameTask(Action getGame) => Task.Run(() => getGame?.Invoke());
+        private Task GetGameTask(Action getGame) => Task.Run(() =>
+        {
+            try { getGame?.Invoke(); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
+        });
 
         private ScoreBoardService()
         {
@@ -68,14 +72,26 @@ namespace LooneyInvaders.App42
             return _service;
         }
 
-        private void WaitGameInitialization(ref Task gameTask)
+        private async Task WaitGameInitialization(Func<Task> gameTaskFunc)
         {
             var @event = GetTopScoresStatusChanged;
-            while (!gameTask.Wait(maxTimeToGetTopScoresMS))
+            var gameTask = gameTaskFunc();
+            await Task.WhenAny(gameTask, Task.Delay(maxTimeToGetTopScoresMS));
+
+            @event.Invoke(this, gameTask.IsCompleted ?
+                new UnobservedTaskExceptionEventArgs(new AggregateException("good")) :
+                new UnobservedTaskExceptionEventArgs(new AggregateException(string.Empty)));
+
+            /*while (!gameTask.IsCompleted)//Wait(maxTimeToGetTopScoresMS))
             {
+                if (timer.ElapsedMilliseconds > maxTimeToGetTopScoresMS)
+                {
+                    break;
+                }
+                gameTask = gameTaskFunc();
                 @event.Invoke(this, new UnobservedTaskExceptionEventArgs(new AggregateException(string.Empty)));
             }
-            @event.Invoke(this, new UnobservedTaskExceptionEventArgs(new AggregateException("good")));
+            @event.Invoke(this, new UnobservedTaskExceptionEventArgs(new AggregateException("good")));*/
         }
 
         public async Task SubmitScore(double score, double accuracy, double fastestTime, double levelsCompleted)
@@ -104,13 +120,13 @@ namespace LooneyInvaders.App42
                 }
                 try
                 {
-                    LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankRegularDaily = await GetPlayerRanking(App42Service,
                         looneyEarthNames.Item1, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankRegularWeekly = await GetPlayerRanking(App42Service,
                         looneyEarthNames.Item2, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankRegularMonthly = await GetPlayerRanking(App42Service,
                         looneyEarthNames.Item3, LeaderboardType.Regular);
-                    LeaderboardManager.PlayerRankRegularAlltime = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankRegularAlltime = await GetPlayerRanking(App42Service,
                         looneyEarthNames.Item4, LeaderboardType.Regular);
                 }
                 catch (Exception ex)
@@ -142,13 +158,13 @@ namespace LooneyInvaders.App42
                 }
                 try
                 {
-                    LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankProDaily = await GetPlayerRanking(App42Service,
                         looneyMoonNames.Item1, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankProWeekly = await GetPlayerRanking(App42Service,
                         looneyMoonNames.Item2, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankProMonthly = await GetPlayerRanking(App42Service,
                         looneyMoonNames.Item3, LeaderboardType.Pro);
-                    LeaderboardManager.PlayerRankProAlltime = GetPlayerRanking(App42Service,
+                    LeaderboardManager.PlayerRankProAlltime = await GetPlayerRanking(App42Service,
                         looneyMoonNames.Item4, LeaderboardType.Pro);
                 }
                 catch (Exception ex)
@@ -158,7 +174,7 @@ namespace LooneyInvaders.App42
             }
         }
 
-        public void RefreshLeaderboards(Leaderboard leaderboard)
+        public async void RefreshLeaderboards(Leaderboard leaderboard)
         {
             (string, string, string, string) gameNames;
             switch (leaderboard.Type)
@@ -179,23 +195,23 @@ namespace LooneyInvaders.App42
 
             if (leaderboard.Type == LeaderboardType.Regular)
             {
-                LeaderboardManager.PlayerRankRegularDaily = GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularWeekly = GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Regular);
-                LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Regular);
-                //LeaderboardManager.PlayerRankRegularMonthly = GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularDaily = await GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularWeekly = await GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Regular);
+                LeaderboardManager.PlayerRankRegularMonthly = await GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Regular);
+                //LeaderboardManager.PlayerRankRegularMonthly = await GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Regular);
             }
             else if (leaderboard.Type == LeaderboardType.Pro)
             {
-                LeaderboardManager.PlayerRankProDaily = GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProWeekly = GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Pro);
-                LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Pro);
-                //LeaderboardManager.PlayerRankProMonthly = GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProDaily = await GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProWeekly = await GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Pro);
+                LeaderboardManager.PlayerRankProMonthly = await GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Pro);
+                //LeaderboardManager.PlayerRankProMonthly = await GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Pro);
             }
 
             LeaderboardManager.FireOnLeaderboardsRefreshed();
         }
 
-        public void FillLeaderboard(app42ScoreBoardService scoreBoardService, LeaderboardType type, List<LeaderboardItem> scoreList, string gameName)
+        public async void FillLeaderboard(app42ScoreBoardService scoreBoardService, LeaderboardType type, List<LeaderboardItem> scoreList, string gameName)
         {
             scoreList.Clear();
 
@@ -204,7 +220,7 @@ namespace LooneyInvaders.App42
             var gameTask = GetGameTask(()=> game = scoreBoardService.GetTopNRankers(gameName, 10));
             try
             {
-                WaitGameInitialization(ref gameTask);
+                await WaitGameInitialization(() => gameTask);
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     for (var i = 0; i < game.GetScoreList().Count; i++)
@@ -233,13 +249,13 @@ namespace LooneyInvaders.App42
             }
         }
 
-        private LeaderboardItem GetPlayerRanking(app42ScoreBoardService scoreBoardService, string gameName, LeaderboardType type)
+        private async Task<LeaderboardItem> GetPlayerRanking(app42ScoreBoardService scoreBoardService, string gameName, LeaderboardType type)
         {
             Game game = null;
 
             var gameTask = GetGameTask(() => game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
                                                  ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name)));
-            WaitGameInitialization(ref gameTask);
+            await WaitGameInitialization(() => gameTask);
             if (game == null)
             {
                 try

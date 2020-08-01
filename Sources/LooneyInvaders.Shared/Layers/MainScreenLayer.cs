@@ -220,7 +220,7 @@ namespace LooneyInvaders.Layers
             Settings.Instance.ApplyValues(); // main menu background music starts to play here after setting the volume
             GameEnvironment.PlayMusic(Music.MainMenu);
 
-            LeaderboardManager.ClearOnLeaderboardsRefreshedEvent();
+            LeaderboardManager.ClearOnLeaderboardsRefreshedEvent(); //call once in the start of the app launch
             LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce(RefreshLeaderboard, 0.01f);
             NetworkConnectionManager.ConnectionChanged += (o, a) => // to show table immediately
             {
@@ -234,8 +234,9 @@ namespace LooneyInvaders.Layers
                 }
             };
             ScoreBoardService.GetTopScoresStatusChanged += (object n, UnobservedTaskExceptionEventArgs r) =>
-            {
-                if (string.IsNullOrEmpty(r.Exception.Message))
+            {//TODo
+                /*try {
+                if (!string.IsNullOrEmpty(r.Exception.Message))
                 {
                     SetScoresBackgroundAction = null;
                     Unschedule(CallAnimateScoresBackground);
@@ -258,7 +259,9 @@ namespace LooneyInvaders.Layers
                         Schedule(CallAnimateScoresBackground, 0.06f);
                         RefreshLeaderboard();
                     }, 0.01f);
-                }
+                }}
+                catch (Exception ex)
+                { var t = ex.Message; }*/
             };
 
             ScheduleOnce(RefreshLeaderboardOnStart, 0.03f);

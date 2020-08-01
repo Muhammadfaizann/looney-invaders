@@ -139,7 +139,7 @@ namespace LooneyInvaders.Model
                 Settings.Instance.LastOfflineProScore = 0;
                 Settings.Instance.LastOfflineAlienWave = 0;
             }
-                
+
             if (Settings.Instance.LastOfflineRegularScore > 0 && 
                 Settings.Instance.LastOfflineAccuracy > 0 &&
                 Settings.Instance.LastOfflineTime > 0)

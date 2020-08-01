@@ -98,6 +98,15 @@ namespace LooneyInvaders.Classes
 
         public CCSprite AddImage(int x, int y, string imageName, int zOrder, CCBlendFunc blendFunc)
         {
+            var sprite = GetImage(x, y, imageName, blendFunc);
+            
+            AddChild(sprite, zOrder);
+
+            return sprite;
+        }
+
+        public CCSprite GetImage(int x, int y, string imageName, CCBlendFunc blendFunc)
+        {
             //var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName);
             var sprite = new CCSprite();
             sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + imageName);
@@ -105,7 +114,6 @@ namespace LooneyInvaders.Classes
             sprite.BlendFunc = blendFunc;
             sprite.Position = new CCPoint(x, y);
             //sprite.IsColorModifiedByOpacity = true;
-            AddChild(sprite, zOrder);
 
             return sprite;
         }
@@ -410,9 +418,11 @@ namespace LooneyInvaders.Classes
             {
                 var imageIndex = imageNames.Count - currentIndex;
                 index = currentIndex - 1;
-                CCSprite image = AddImage(x, y, imageNames[imageIndex]);
+
+                CCSprite image = GetImage(x, y, imageNames[imageIndex], GameEnvironment.BlendFuncDefault);
                 RemoveChild(placeholder);
                 placeholder = image;
+                AddChild(placeholder, -100);
             }
             else
             {

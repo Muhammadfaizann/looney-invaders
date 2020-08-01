@@ -29,7 +29,7 @@ namespace LooneyInvaders.Layers
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
-        private bool _adWasWatched;
+        private bool _finishAfterWatchingAd;
 
         private readonly int _alienScore;
         private readonly int _alienWave;
@@ -169,12 +169,6 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PlayMusic(Music.GameOverAlien);
                 GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
 
-                if (!NetworkConnectionManager.IsInternetConnectionAvailable())
-                {
-                    GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-                    ScheduleOnce(ShowScoreAliens, 2.4f);
-                }
-
                 var millisecondsToWaitAnimation = 2000;
                 ScheduleOnce(async (_) =>
                 {
@@ -227,9 +221,10 @@ namespace LooneyInvaders.Layers
 
         private void CalloutRevenge(float dt)
         {
-            if(_isNextLayerPreparing == false)
+            if (!_isNextLayerPreparing)
+            {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
-            
+            }
         }
 
         private CCNodeExt _getRevengeNode;
@@ -244,16 +239,6 @@ namespace LooneyInvaders.Layers
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/You are dead VO_mono.wav");
                 ScheduleOnce(CalloutRevenge, 2f);
             }
-            
-            // TODO: Find out if is it useful the second image
-            // if ()
-            // {
-            //     _getRevengeNode.AddImage(0, 380, "UI/Loss scenes/You-are-dead-no-track-record-title.png", 3);
-            // }
-            // else
-            // {
-            //     _getRevengeNode.AddImage(0, 380, "UI/You-are-dead-now-get-up-and-get-your-revenge.png", 3);
-            // }
 
             var mainMenu = _getRevengeNode.AddButton(10, 90, "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-untapped.png", "UI/Loss scenes/You-are-dead-no-track-record--main-menu-button-tapped.png");
             mainMenu.OnClick += MainMenu_OnClick;
@@ -299,7 +284,10 @@ namespace LooneyInvaders.Layers
 
         private void RemoveRevengeNode(float dt)
         {
-            RemoveChild(_getRevengeNode);
+            if (_getRevengeNode != null)
+            {
+                RemoveChild(_getRevengeNode);
+            }
         }
 
         private CCNodeExt _scoreNode;
@@ -392,7 +380,7 @@ namespace LooneyInvaders.Layers
             {
                 RemoveChild(_recordNotificationImage);
             }
-            ScheduleOnce(_ => ShowScore(false), 0f);
+            ScheduleOnce(_ => ShowScore(false), 0.1f);
         }
 
         private int _waitForScoreCounter;
@@ -402,15 +390,11 @@ namespace LooneyInvaders.Layers
         {
             await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
 
-            if (showAd && !_adWasWatched)
+            if (showAd && !_finishAfterWatchingAd)
             {
                 ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.1f);
             }
-            else
-            {
-                GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-                ScheduleOnce(ShowScoreAliens, 0.1f);
-            }
+            else ScheduleOnce(ShowScoreAliens, 0.1f);
         }
 
         private void ShowScoreAliens(float d)
@@ -427,10 +411,10 @@ namespace LooneyInvaders.Layers
                 return;
             }
 
-            if(_adWasWatched) {
+            if(_finishAfterWatchingAd) {
                 return;
             }
-            _adWasWatched = true;
+            _finishAfterWatchingAd = true;
 
             _scoreNode = _scoreNode ?? new CCNodeExt();
             _scoreNode.Opacity = 255;
@@ -647,18 +631,12 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            if (!_adWasWatched)
-            {
-                GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
-                ScheduleOnce(ShowScoreAliens, 0.05f);
-            }
-            _adWasWatched = true;
+            ScheduleOnce(ShowScoreAliens, 0.05f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             AdManager.HideInterstitial();
-            GameEnvironment.PreloadSoundEffect(SoundEffect.ShowScore);
             ScheduleOnce(ShowScoreAliens, 0.05f);
         }
 

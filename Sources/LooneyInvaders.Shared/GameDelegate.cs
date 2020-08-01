@@ -55,7 +55,7 @@ namespace LooneyInvaders.Shared
             }
             set
             {
-                IsBusyLayerProperty = true;
+                //IsBusyLayerProperty = true;
                 lock (toSetLayer)
                 {
                     _layer = value;
@@ -68,7 +68,7 @@ namespace LooneyInvaders.Shared
                         CurrentScene = _layer.Scene;
                     }
                 }
-                IsBusyLayerProperty = false;
+                //IsBusyLayerProperty = false;
             }
         }
         public static bool IsCartoonFadeInOnLayer;

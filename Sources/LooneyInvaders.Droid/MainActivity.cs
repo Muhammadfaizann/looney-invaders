@@ -89,7 +89,7 @@ namespace LooneyInvaders.Droid
                     });
                     CheckGamePauseState = new Action(async () =>
                     {
-                        if (await isGamePaused(200))
+                        if (await isGamePaused(100))
                         {
                             RunOnUiThread(() =>
                             {
