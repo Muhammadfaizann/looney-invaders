@@ -23,5 +23,10 @@ namespace LooneyInvaders.Model
         {
             return Connectivity.NetworkAccess == Access.Internet;
         }
+
+        public static void ClearConnectionChangedEvent()
+        {
+            ConnectionChanged = null;
+        }
     }
 }

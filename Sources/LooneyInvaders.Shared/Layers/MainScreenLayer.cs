@@ -221,7 +221,7 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlayMusic(Music.MainMenu);
 
             LeaderboardManager.ClearOnLeaderboardsRefreshedEvent(); //call once in the start of the app launch
-            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => ScheduleOnce(RefreshLeaderboard, 0.01f);
+            LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => Task.Run(() => ScheduleOnce(RefreshLeaderboard, 0.01f));
             NetworkConnectionManager.ConnectionChanged += (o, a) => // to show table immediately
             {
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -234,10 +234,10 @@ namespace LooneyInvaders.Layers
                 }
             };
             ScoreBoardService.GetTopScoresStatusChanged += (object n, UnobservedTaskExceptionEventArgs r) =>
-            {//TODo
+            {
                 /*try {
-                if (!string.IsNullOrEmpty(r.Exception.Message))
-                {
+                if (string.IsNullOrEmpty(r.Exception.Message))
+                {   //show weak connection notification
                     SetScoresBackgroundAction = null;
                     Unschedule(CallAnimateScoresBackground);
                     ScheduleOnce((_) =>
@@ -249,7 +249,7 @@ namespace LooneyInvaders.Layers
                     }, 0.01f);
                 }
                 else if (!_leaderboardBackgroundPlaceholder.Visible && _imgWeakConnection.Visible)
-                {
+                {   //ToDo: Bass - check and fix
                     InitSetScoresBackgroundAction();
                     ScheduleOnce((_) =>
                     {
@@ -261,7 +261,7 @@ namespace LooneyInvaders.Layers
                     }, 0.01f);
                 }}
                 catch (Exception ex)
-                { var t = ex.Message; }*/
+                { var t = ex.Message; System.Diagnostics.Debug.WriteLine(ex); }*/
             };
 
             ScheduleOnce(RefreshLeaderboardOnStart, 0.03f);
@@ -856,7 +856,14 @@ namespace LooneyInvaders.Layers
         private void HideChangeNameNotification()
         {
             _imgChangeNameWindow.Visible = false;
-            
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            NetworkConnectionManager.ClearConnectionChangedEvent();
+            ScoreBoardService.ClearGetTopScoresStatusChangedEvent();
         }
     }
 }

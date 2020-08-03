@@ -36,7 +36,7 @@ namespace LooneyInvaders.Droid
 
             //if (_wasResumed)
             {   //ToDo: find out what the problem with resuming (egl_swap)
-                Appodeal.OnResume(this, requiredAdTypes); //is it needed
+                //Appodeal.OnResume(this, requiredAdTypes); //is it needed
             }
             //else _wasResumed = true;
         }

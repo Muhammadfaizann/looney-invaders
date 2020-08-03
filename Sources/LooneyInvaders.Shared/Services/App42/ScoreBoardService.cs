@@ -18,25 +18,28 @@ namespace LooneyInvaders.App42
         static (string, string, string, string) looneyEarthNames;
         static (string, string, string, string) looneyMoonNames;
 
-        static ScoreBoardService _instance;
         static app42ScoreBoardService _service;
+        static ScoreBoardService _instance;
         static GameService _gameService;
+        static Exception _lastException;
 
+        public static int OverallDelayMS => 5000;
         public static string App42ApiKey { get; private set; }
         public static string App42SecretKey { get; private set; }
         public static ScoreBoardService Instance => GetInstance();
         public static app42ScoreBoardService App42Service => GetService();
-        public static Exception LastException { get; private set; }
-        public static int OverallDelayMS => 5000;
+        public static Exception LastException
+        {
+            get => _lastException;
+            private set
+            {
+                _lastException = value;
+                System.Diagnostics.Debug.WriteLine(_lastException);
+            }
+        }
 
         public delegate void UnobservedTaskExceptionEventArgsDelegate(object sender, UnobservedTaskExceptionEventArgs args);
         public static event UnobservedTaskExceptionEventArgsDelegate GetTopScoresStatusChanged;
-
-        private Task GetGameTask(Action getGame) => Task.Run(() =>
-        {
-            try { getGame?.Invoke(); }
-            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
-        });
 
         private ScoreBoardService()
         {
@@ -72,16 +75,20 @@ namespace LooneyInvaders.App42
             return _service;
         }
 
-        private async Task WaitGameInitialization(Func<Task> gameTaskFunc)
+        public static void ClearGetTopScoresStatusChangedEvent()
+        {
+            GetTopScoresStatusChanged = null;
+        }
+
+        public async Task WaitGameInitialization(Func<Task<Game>> gameTaskFunc)
         {
             var @event = GetTopScoresStatusChanged;
             var gameTask = gameTaskFunc();
             await Task.WhenAny(gameTask, Task.Delay(maxTimeToGetTopScoresMS));
 
-            @event.Invoke(this, gameTask.IsCompleted ?
+            @event?.Invoke(this, (gameTask?.IsCompletedSuccessfully == true && gameTask?.Result != null) ?
                 new UnobservedTaskExceptionEventArgs(new AggregateException("good")) :
                 new UnobservedTaskExceptionEventArgs(new AggregateException(string.Empty)));
-
             /*while (!gameTask.IsCompleted)//Wait(maxTimeToGetTopScoresMS))
             {
                 if (timer.ElapsedMilliseconds > maxTimeToGetTopScoresMS)
@@ -191,21 +198,19 @@ namespace LooneyInvaders.App42
             FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreDaily, gameNames.Item1);
             FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreWeekly, gameNames.Item2);
             FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreMonthly, gameNames.Item3);
-            FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreAllTime, gameNames.Item4);
+            //FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreAllTime, gameNames.Item4);
 
             if (leaderboard.Type == LeaderboardType.Regular)
             {
                 LeaderboardManager.PlayerRankRegularDaily = await GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Regular);
                 LeaderboardManager.PlayerRankRegularWeekly = await GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Regular);
                 LeaderboardManager.PlayerRankRegularMonthly = await GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Regular);
-                //LeaderboardManager.PlayerRankRegularMonthly = await GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Regular);
             }
             else if (leaderboard.Type == LeaderboardType.Pro)
             {
                 LeaderboardManager.PlayerRankProDaily = await GetPlayerRanking(App42Service, gameNames.Item1, LeaderboardType.Pro);
                 LeaderboardManager.PlayerRankProWeekly = await GetPlayerRanking(App42Service, gameNames.Item2, LeaderboardType.Pro);
                 LeaderboardManager.PlayerRankProMonthly = await GetPlayerRanking(App42Service, gameNames.Item3, LeaderboardType.Pro);
-                //LeaderboardManager.PlayerRankProMonthly = await GetPlayerRanking(App42Service, gameNames.Item4, LeaderboardType.Pro);
             }
 
             LeaderboardManager.FireOnLeaderboardsRefreshed();
@@ -216,11 +221,12 @@ namespace LooneyInvaders.App42
             scoreList.Clear();
 
             Game game = null;
-
-            var gameTask = GetGameTask(()=> game = scoreBoardService.GetTopNRankers(gameName, 10));
             try
             {
-                await WaitGameInitialization(() => gameTask);
+                await WaitGameInitialization(() => Task.Run(() =>
+                {
+                    return game = TryGetGame(() => scoreBoardService.GetTopNRankers(gameName, 10));
+                }));
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
                     for (var i = 0; i < game.GetScoreList().Count; i++)
@@ -253,17 +259,19 @@ namespace LooneyInvaders.App42
         {
             Game game = null;
 
-            var gameTask = GetGameTask(() => game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
-                                                 ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name)));
-            await WaitGameInitialization(() => gameTask);
+            await WaitGameInitialization(() => Task.Run(() =>
+            {
+                return game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
+                           ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
+            }));
             if (game == null)
             {
                 try
                 {
                     game = _gameService.GetGameByName(gameName) ?? _gameService.CreateGame(gameName, gameName);
                 }
-				catch (Exception _ex)
-				{
+                catch (Exception _ex)
+                {
                     LastException = _ex;
                 }
             }
