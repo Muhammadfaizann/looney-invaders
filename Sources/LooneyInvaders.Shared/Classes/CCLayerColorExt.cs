@@ -227,12 +227,12 @@ namespace LooneyInvaders.Classes
 
             foreach (var images in list)
             {
-                var offsetX = maxRightCoord - images[images.Length - 1].PositionX -
-                                images[images.Length - 1].ContentSize.Width;
+                var offsetX = maxRightCoord - images[images.Length - 1].PositionX - images[images.Length - 1].ContentSize.Width;
 
                 if (Math.Abs(offsetX) < AppConstants.Tolerance)
+                {
                     continue;
-
+                }
                 foreach (var s in images)
                 {
                     s.PositionX += offsetX;

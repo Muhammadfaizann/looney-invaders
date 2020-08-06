@@ -23,6 +23,8 @@ namespace LooneyInvaders.App42
         static GameService _gameService;
         static Exception _lastException;
 
+        public const string EmptyDescription = "empty";
+
         public static int OverallDelayMS => 5000;
         public static string App42ApiKey { get; private set; }
         public static string App42SecretKey { get; private set; }
@@ -84,25 +86,17 @@ namespace LooneyInvaders.App42
         {
             var @event = GetTopScoresStatusChanged;
             var gameTask = gameTaskFunc();
-            await Task.WhenAny(gameTask, Task.Delay(maxTimeToGetTopScoresMS));
+            var delayTask = Task.Delay(maxTimeToGetTopScoresMS);
+            await Task.WhenAny(gameTask, delayTask);
 
-            @event?.Invoke(this, (gameTask?.IsCompletedSuccessfully == true && gameTask?.Result != null) ?
+            @event?.Invoke(this, (!delayTask.IsCompleted && gameTask.Result != null) ?
                 new UnobservedTaskExceptionEventArgs(new AggregateException("good")) :
                 new UnobservedTaskExceptionEventArgs(new AggregateException(string.Empty)));
-            /*while (!gameTask.IsCompleted)//Wait(maxTimeToGetTopScoresMS))
-            {
-                if (timer.ElapsedMilliseconds > maxTimeToGetTopScoresMS)
-                {
-                    break;
-                }
-                gameTask = gameTaskFunc();
-                @event.Invoke(this, new UnobservedTaskExceptionEventArgs(new AggregateException(string.Empty)));
-            }
-            @event.Invoke(this, new UnobservedTaskExceptionEventArgs(new AggregateException("good")));*/
         }
 
-        public async Task SubmitScore(double score, double accuracy, double fastestTime, double levelsCompleted)
+        public async Task<bool> SubmitScore(double score, double accuracy, double fastestTime, double levelsCompleted)
         {
+            var successful = false;
             if (Math.Abs(levelsCompleted + 1) < AppConstants.Tolerance) // regular scoreboard
             {
                 LeaderboardManager.PlayerRankRegularDaily = null;
@@ -120,11 +114,11 @@ namespace LooneyInvaders.App42
                         looneyEarthNames.Item2,
                         looneyEarthNames.Item3,
                         looneyEarthNames.Item4);
+                    successful = true;
                 }
                 catch (Exception ex)
-                {
-                    LastException = ex;
-                }
+                { LastException = ex; }
+
                 try
                 {
                     LeaderboardManager.PlayerRankRegularDaily = await GetPlayerRanking(App42Service,
@@ -137,9 +131,7 @@ namespace LooneyInvaders.App42
                         looneyEarthNames.Item4, LeaderboardType.Regular);
                 }
                 catch (Exception ex)
-                {
-                    LastException = ex;
-                }
+                { LastException = ex; }
             }
             else
             {
@@ -158,11 +150,11 @@ namespace LooneyInvaders.App42
                         looneyMoonNames.Item2,
                         looneyMoonNames.Item3,
                         looneyMoonNames.Item4);
+                    successful = true;
                 }
                 catch (Exception ex)
-                {
-                    LastException = ex;
-                }
+                { LastException = ex; }
+
                 try
                 {
                     LeaderboardManager.PlayerRankProDaily = await GetPlayerRanking(App42Service,
@@ -175,10 +167,10 @@ namespace LooneyInvaders.App42
                         looneyMoonNames.Item4, LeaderboardType.Pro);
                 }
                 catch (Exception ex)
-                {
-                    LastException = ex;
-                }
+                { LastException = ex; }
             }
+
+            return successful;
         }
 
         public async void RefreshLeaderboards(Leaderboard leaderboard)
@@ -195,10 +187,11 @@ namespace LooneyInvaders.App42
                 default: return;
             }
 
-            FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreDaily, gameNames.Item1);
-            FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreWeekly, gameNames.Item2);
-            FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreMonthly, gameNames.Item3);
-            //FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreAllTime, gameNames.Item4);
+            await Task.WhenAll(
+                FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreDaily, gameNames.Item1),
+                FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreWeekly, gameNames.Item2),
+                FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreMonthly, gameNames.Item3),
+                FillLeaderboard(App42Service, leaderboard.Type, leaderboard.ScoreAllTime, gameNames.Item4));
 
             if (leaderboard.Type == LeaderboardType.Regular)
             {
@@ -216,7 +209,7 @@ namespace LooneyInvaders.App42
             LeaderboardManager.FireOnLeaderboardsRefreshed();
         }
 
-        public async void FillLeaderboard(app42ScoreBoardService scoreBoardService, LeaderboardType type, List<LeaderboardItem> scoreList, string gameName)
+        public async Task FillLeaderboard(app42ScoreBoardService scoreBoardService, LeaderboardType type, List<LeaderboardItem> scoreList, string gameName)
         {
             scoreList.Clear();
 
@@ -225,7 +218,10 @@ namespace LooneyInvaders.App42
             {
                 await WaitGameInitialization(() => Task.Run(() =>
                 {
-                    return game = TryGetGame(() => scoreBoardService.GetTopNRankers(gameName, 10));
+                    var gg = TryGetGame(() => scoreBoardService.GetTopNRankers(gameName, 10));
+                    game = gg.IsEmpty() ? null : gg;
+
+                    return gg;
                 }));
                 if (game != null && game.GetScoreList() != null && game.GetScoreList().Count > 0)
                 {
@@ -246,13 +242,9 @@ namespace LooneyInvaders.App42
                 }
             }
             catch (App42NotFoundException ex)
-            {
-                LastException = ex;
-            }
+            { LastException = ex; }
             catch (Exception e)
-            {
-                LastException = e;
-            }
+            { LastException = e; }
         }
 
         private async Task<LeaderboardItem> GetPlayerRanking(app42ScoreBoardService scoreBoardService, string gameName, LeaderboardType type)
@@ -261,8 +253,11 @@ namespace LooneyInvaders.App42
 
             await WaitGameInitialization(() => Task.Run(() =>
             {
-                return game = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
-                           ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
+                var gg = TryGetGame(() => scoreBoardService.GetUserRanking(gameName, Player.Instance.Name))
+                         ?? TryGetGame(() => scoreBoardService.GetScoresByUser(gameName, Player.Instance.Name));
+                game = gg.IsEmpty() ? null : gg;
+
+                return gg;
             }));
             if (game == null)
             {
@@ -299,12 +294,11 @@ namespace LooneyInvaders.App42
                 }
             }
             catch (App42NotFoundException ex)
-            {
-                LastException = ex;
-            }
+            { LastException = ex; }
             catch (System.Net.WebException e)
             {
                 LastException = e;
+
                 return null;
             }
 
@@ -313,29 +307,26 @@ namespace LooneyInvaders.App42
 
         private Game TryGetGame(Func<Game> getter)
         {
-            try
-            {
-                return getter?.Invoke();
-            }
+            try { return getter?.Invoke(); }
             catch (App42NotFoundException ex)
             {
                 LastException = ex;
+                //returning empty
+                return new Game(){ description = EmptyDescription };
             }
             catch (System.Net.WebException e)
             {
                 LastException = e;
+                //returning null
                 return null;
             }
-            return null;
         }
 
         private async Task SaveUserScoreForGamesAsync(string gameUserName, double gameScore, TimeSpan delayOnError, params string[] gameNames)
         {
             var useCallbackApproach = false; //we can manage that
             if (gameNames.Length <= 0)
-            {
-                return;
-            }
+            { return; }
 
             foreach (var gameName in gameNames)
             {
@@ -358,7 +349,7 @@ namespace LooneyInvaders.App42
                     else
                     {
                         if (GetService().SaveUserScore(gameName, gameUserName, gameScore, _gameService))
-                            break;
+                        { break; }
                     }
 
                     await Task.Delay(delayOnError);

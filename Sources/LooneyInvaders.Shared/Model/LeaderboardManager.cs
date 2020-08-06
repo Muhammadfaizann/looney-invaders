@@ -128,9 +128,8 @@ namespace LooneyInvaders.Model
         {
             await RefreshLeaderboards(750); //delay to ensure inet connection isn't so weak
 
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable()) {
-                return;
-            }
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            { return; }
 
             if (Settings.Instance.LastOfflineProScore > 0 && 
                 Settings.Instance.LastOfflineAlienWave >= 0)
@@ -160,7 +159,7 @@ namespace LooneyInvaders.Model
         public static async Task<bool> SubmitScoreRegularAsync(double score, double accuracy, double fastestTime)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
-                return true;
+            { return true; }
 
             if (score > BestScoreRegularScore)
             {
@@ -172,19 +171,18 @@ namespace LooneyInvaders.Model
 
             if ( NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await SubmitScoreAsync(score, accuracy, fastestTime, -1);
-                BestScoreRegularSubmitted = true;
+                BestScoreRegularSubmitted = await SubmitScoreAsync(score, accuracy, fastestTime, -1);
+
                 return true;
             }
+
             return false;
         }
 
         public static async Task<bool> SubmitScoreProAsync(double score, double levelsCompleted)
         {
             if (Math.Abs(score) < AppConstants.Tolerance)
-            {
-                return true;
-            }
+            { return true; }
 
             if (score > BestScoreProScore)
             {
@@ -195,10 +193,11 @@ namespace LooneyInvaders.Model
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
             {
-                await SubmitScoreAsync(score, -1, -1, levelsCompleted);
-                BestScoreProSubmitted = true;
+                BestScoreProSubmitted = await SubmitScoreAsync(score, -1, -1, levelsCompleted);
+
                 return true;
             }
+
             return false;
         }
 
@@ -206,23 +205,21 @@ namespace LooneyInvaders.Model
         {
             if (BestScoreRegularSubmitted == false && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreRegularScore > 0)
             {
-                SubmitScoreAsync(BestScoreRegularScore, BestScoreRegularAccuracy, BestScoreRegularFastestTime, -1);
-                BestScoreRegularSubmitted = true;
+                Task.Run(async () => BestScoreRegularSubmitted = await SubmitScoreAsync(BestScoreRegularScore, BestScoreRegularAccuracy, BestScoreRegularFastestTime, -1));
             }
 
             if (BestScoreProSubmitted == false && NetworkConnectionManager.IsInternetConnectionAvailable() && BestScoreProScore > 0)
             {
-                SubmitScoreAsync(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted);
-                BestScoreProSubmitted = true;
+                Task.Run(async () => BestScoreProSubmitted = await SubmitScoreAsync(BestScoreProScore, -1, -1, BestScoreProLevelsCompleted));
             }
         }
 
         public static async Task RefreshLeaderboards(int millisecondsPreDelay = 0)
         {
             await Task.Delay(millisecondsPreDelay);
-            if (_isRefreshing || RefreshLeaderboardsHandler == null) {
-                return;
-            }
+
+            if (_isRefreshing || RefreshLeaderboardsHandler == null)
+            { return; }
             _isRefreshing = true;
 
             await Task.Run(() =>
@@ -282,9 +279,9 @@ namespace LooneyInvaders.Model
             return Convert.ToDouble(scoreString + levelsCompletedString);
         }
         
-        private static async Task SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
+        private static async Task<bool> SubmitScoreAsync(double score, double accuracy, double fastestTime, double levelsCompleted)
         {
-            await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
+            return await App42.ScoreBoardService.Instance.SubmitScore(score, accuracy, fastestTime, levelsCompleted);
         }
     }
 }

@@ -111,5 +111,8 @@ namespace LooneyInvaders.Extensions
 
             return game;
         }
+
+        public static bool IsEmpty(this Game game) =>
+            game?.description == App42.ScoreBoardService.EmptyDescription;
     }
 }

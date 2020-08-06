@@ -224,48 +224,62 @@ namespace LooneyInvaders.Layers
             LeaderboardManager.OnLeaderboardsRefreshed += (s, e) => Task.Run(() => ScheduleOnce(RefreshLeaderboard, 0.01f));
             NetworkConnectionManager.ConnectionChanged += (o, a) => // to show table immediately
             {
-                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                ScheduleOnce(_ =>
                 {
-                    ScheduleOnce((_) =>
+                    if (NetworkConnectionManager.IsInternetConnectionAvailable())
                     {
                         Schedule(CallAnimateScoresBackground, 0.06f);
-                        RefreshLeaderboard(false);
-                    }, 0.01f);
-                }
+                    }
+                    RefreshLeaderboard(false);
+                }, 0.1f);
+                
             };
+
+            var busy = false;
             ScoreBoardService.GetTopScoresStatusChanged += (object n, UnobservedTaskExceptionEventArgs r) =>
             {
-                /*try {
+                if (busy) { return; }
+                busy = true;
+
                 if (string.IsNullOrEmpty(r.Exception.Message))
                 {   //show weak connection notification
                     SetScoresBackgroundAction = null;
                     Unschedule(CallAnimateScoresBackground);
-                    ScheduleOnce((_) =>
+                    ScheduleAndRelax(() =>
                     {
                         _leaderboardBackgroundPlaceholder.Visible = false;
-                        ClearLeaderboard();
-                        SetupMainScreenBackground(true);
-                        SetupConnectionProblemNotification(true);
-                    }, 0.01f);
+                        if (!_imgWeakConnection.Visible)
+                        {
+                            ClearLeaderboard();
+                            SetupMainScreenBackground(true);
+                            SetupConnectionProblemNotification(true);
+                        }
+                    }, 0.1f);
                 }
                 else if (!_leaderboardBackgroundPlaceholder.Visible && _imgWeakConnection.Visible)
-                {   //ToDo: Bass - check and fix
+                {   //remove weak connection notification
                     InitSetScoresBackgroundAction();
-                    ScheduleOnce((_) =>
+                    UnscheduleAll();
+                    ScheduleAndRelax(() =>
                     {
                         _imgWeakConnection.Visible = false;
                         _leaderboardBackgroundPlaceholder.Visible = true;
-                        Unschedule(CallAnimateScoresBackground);
-                        Schedule(CallAnimateScoresBackground, 0.06f);
+
                         RefreshLeaderboard();
-                    }, 0.01f);
-                }}
-                catch (Exception ex)
-                { var t = ex.Message; System.Diagnostics.Debug.WriteLine(ex); }*/
+                        busy = false;
+                    }, 0.1f);
+                    Schedule(CallAnimateScoresBackground, 0.06f);
+                }
             };
 
             ScheduleOnce(RefreshLeaderboardOnStart, 0.03f);
             CheckForNotification();
+
+            void ScheduleAndRelax(Action toSchedule, float delay)
+            {
+                ScheduleOnce(_ => toSchedule(), delay);
+                busy = false;
+            }
 
             async void RefreshLeaderboardOnStart(float time)
             {
@@ -552,20 +566,24 @@ namespace LooneyInvaders.Layers
                 _leaderboardSprites.Add(AddLabelRightAligned(670, 280, LeaderboardManager.BestScoreProScore.ToString("######"), "Fonts/AktivGroteskBold", 12));
                 _leaderboardSprites.Add(AddLabelRightAligned(800, 280, LeaderboardManager.BestScoreProLevelsCompleted.ToString("####"), "Fonts/AktivGroteskBold", 12));
             }
+            else _leaderboardSprites.Add(AddLabel(530, 280, "NO SCORE", "Fonts/AktivGroteskBold", 12));
         }
 
-        private void SetupMainScreenBackground(bool noInternet)
+        private void SetupMainScreenBackground(bool noOrWeakInternet)
         {
-            if (noInternet) SetBackground("UI/Main-screen-background-spotlights-off.jpg");
+            if (noOrWeakInternet)
+            {
+                SetBackground("UI/Main-screen-background-spotlights-off.jpg");
+            }
 
             if (!_isShownLeaderboardPro)
             {
-                _btnRanking.ChangeImagesTo(noInternet ? "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png",
+                _btnRanking.ChangeImagesTo(noOrWeakInternet ? "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-earth-lvl-button-untapped.png",
                     "UI/Main-screen-world-ranking-earth-lvl-button-tapped.png");
             }
             else
             {
-                _btnRanking.ChangeImagesTo(noInternet ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
+                _btnRanking.ChangeImagesTo(noOrWeakInternet ? "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png" : "UI/Main-screen-world-ranking-extinction-lvl-button-untapped.png",
                     "UI/Main-screen-world-ranking-extinction-lvl-button-tapped.png");
             }
             _btnRanking.DisableClick();
@@ -678,7 +696,7 @@ namespace LooneyInvaders.Layers
             {
                 if (_needToForceRefreshLeaderboards)
                 {
-                    ForceLeaderboardManagerRefreshAsync();
+                    Task.Run(ForceLeaderboardManagerRefreshAsync);
                     _needToForceRefreshLeaderboards = false;
                 }
             }
