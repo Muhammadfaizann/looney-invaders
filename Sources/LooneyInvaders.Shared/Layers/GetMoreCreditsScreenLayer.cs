@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
@@ -137,7 +138,6 @@ namespace LooneyInvaders.Layers
             RefreshPlayerCreditsLabel();
 
             PurchaseManager.ClearEvents();
-            AdManager.ClearInterstitialEvents();
             AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
             AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
@@ -159,7 +159,7 @@ namespace LooneyInvaders.Layers
                     img.RemoveFromParent();
                 }
             }
-            _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 0);
+            _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
         }
 
         private void Btn4000_OnClick(float period)
@@ -245,7 +245,7 @@ namespace LooneyInvaders.Layers
             Schedule(RefreshBtn2000, 0.15f);
         }
 
-        private void RefreshBtn2000(float dt)
+        private async void RefreshBtn2000(float dt)
         {
             RemoveChildren(_h1, _h2, _m1, _m2, _s1, _s2);
 
@@ -294,10 +294,10 @@ namespace LooneyInvaders.Layers
             
             if (currentTimeSpan.Seconds <= 0)
             {
+                var timeToWaitBeforeShowError = 2000;
+                await Task.Delay(timeToWaitBeforeShowError);
                 if (!_adWasShownOrFailed)
                 {
-                    AdManager.HideInterstitial();
-                    AdManager.LoadInterstitial();
                     ShowErrorNotification("ads-not-quick-loaded-notification");
                 }
                 Player.Instance.IsAdInCountdown = false;
@@ -311,19 +311,21 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void AdMobManager_OnInterstitialAdOpened(object s, EventArgs e) => ScheduleOnce(InterstitialOpened, 0.01f);
+        private void AdMobManager_OnInterstitialAdOpened(object s, EventArgs e) => InterstitialOpened();
 
-        private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e) { }
+        private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e) => InterstitialOpened();
 
-        private void InterstitialOpened(float dt = 0.00f)
+        private void InterstitialOpened()
         {
+            if (!_adWasShownOrFailed)
+            {
+                Player.Instance.LastAdWatchTime = DateTime.Now;
+                Player.Instance.Credits += 2000;
+                ++Player.Instance.LastAdWatchDayCount;
+
+                ScheduleOnce(_ => RefreshPlayerCreditsLabel(), 0.05f);
+            }
             _adWasShownOrFailed = true;
-
-            Player.Instance.LastAdWatchTime = DateTime.Now;
-            Player.Instance.Credits += 2000;
-            ++Player.Instance.LastAdWatchDayCount;
-
-            RefreshPlayerCreditsLabel();
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
@@ -378,6 +380,7 @@ namespace LooneyInvaders.Layers
                 _notificationImage.Opacity = 210;
                 AddChild(_notificationImage, 600);
             }
+            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
             _notificationImage.Visible = true;
             PauseListeners();
 
@@ -387,10 +390,17 @@ namespace LooneyInvaders.Layers
                 //custom token source isn't still used since all events are paused
                 _notificationImage.Visible = false;
                 //cancel token where you want to hide _notificationImage
-                _notificationTokenSource.Cancel();
+                //_notificationTokenSource.Cancel();
 
                 ResumeListeners();
             }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            AdManager.ClearInterstitialEvents();
         }
     }
 }

@@ -1,24 +1,33 @@
 ﻿using System.Diagnostics;
 using AppodealXamariniOS;
+using Foundation;
 using LooneyInvaders.Model;
 
 namespace LooneyInvaders.iOS.Services.Ads
 {
     public class InterstitialDelegate : AppodealInterstitialDelegate
     {
+        [Export("interstitialDidDismiss")]
+        public new void InterstitialDidDismiss()
+        {
+            AdManager.InterstitialAdClosed();
+        }
+
+        [Export("interstitialWillPresent")]
+        public new void InterstitialWillPresent()
+        {
+            AdManager.InterstitialAdOpened();
+        }
+
         public override void InterstitialDidLoadAdIsPrecache(bool precache)
         {
-            base.InterstitialDidLoadAdIsPrecache(precache);
-
             Debug.WriteLine("InterstitialDidLoadAdisPrecache");
         }
 
-        public override void InterstitialDidFailToLoadAd()
+        [Export("interstitialDidFailToLoadAd")]
+        public new void InterstitialDidFailToLoadAd()
         {
-            base.InterstitialDidFailToLoadAd();
-
             AdManager.InterstitialAdFailedToLoad();
-            Debug.WriteLine("InterstitialDidFailToLoadAd");
         }
 
         public override void InterstitialDidFailToPresent()
@@ -26,29 +35,6 @@ namespace LooneyInvaders.iOS.Services.Ads
             base.InterstitialDidFailToPresent();
 
             Debug.WriteLine("InterstitialDidFailToPresent");
-        }
-
-        public override void InterstitialWillPresent()
-        {
-            base.InterstitialWillPresent();
-
-            AdManager.InterstitialAdOpened();
-            Debug.WriteLine("InterstitialWillPresent");
-        }
-
-        public override void InterstitialDidDismiss()
-        {
-            base.InterstitialDidDismiss();
-
-            AdManager.InterstitialAdClosed();
-            Debug.WriteLine("InterstitialDidDismiss");
-        }
-
-        public override void InterstitialDidClick()
-        {
-            base.InterstitialDidClick();
-
-            Debug.WriteLine("InterstitialDidClick");
         }
     }
 }

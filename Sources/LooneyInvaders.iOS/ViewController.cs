@@ -20,6 +20,8 @@ namespace LooneyInvaders.iOS
         private CMMotionManager _motionManager;
         private bool _adOnWindow;
 
+        private readonly InterstitialDelegate interstitialDelegate = new InterstitialDelegate();
+
         private IPurchaseService _svc;
         //string _googlePlayGamesClientId = "647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt.apps.googleusercontent.com";
 
@@ -78,7 +80,7 @@ namespace LooneyInvaders.iOS
             Appodeal.SetAutocache(false, AppDelegate.RequiredAdTypes);
             Appodeal.SetAutocache(true, AppodealAdType.Banner);
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
-            Appodeal.SetInterstitialDelegate(new InterstitialDelegate());
+            Appodeal.SetInterstitialDelegate(interstitialDelegate);
             Appodeal.SetBannerDelegate(new BannerDelegate());
             Appodeal.CacheAd(AppDelegate.RequiredAdTypes);
 

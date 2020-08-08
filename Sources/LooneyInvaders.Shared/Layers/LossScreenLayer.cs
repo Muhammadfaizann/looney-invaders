@@ -214,7 +214,7 @@ namespace LooneyInvaders.Layers
                         //_youAreDefeated.Visible = true;
                         _cartoonBackground.Visible = false;
                         RemoveChild(_cartoonBackground);
-                        ScheduleOnce(_ => ShowScore(true), 1.5f);
+                        ScheduleOnce(dt => ShowScore(true), 1.5f);
                     });
                 }, _animationMaxTime);
         }
