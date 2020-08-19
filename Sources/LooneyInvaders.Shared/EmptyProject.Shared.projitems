@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\PurchaseError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\TransactionStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AdManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\CreditsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\BattlegroundStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ButtonType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ControlType.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\SoundEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\Weapons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Explosion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\LoginResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\LoginState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\PageData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GameAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Bomb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Battleground.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceInfo\IDeviceInfoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook\IFacebookService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\PushNotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\IOpenSettingsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PNS\INotificationAllowedService.cs" />

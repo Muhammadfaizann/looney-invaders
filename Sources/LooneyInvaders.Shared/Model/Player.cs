@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Plugin.Settings;
 
 namespace LooneyInvaders.Model
@@ -6,7 +8,8 @@ namespace LooneyInvaders.Model
     public class Player
     {
         public bool IsProLevelSelected = false;
-
+        public Action OnCreditsChanged;
+        
         private static Player _instance;
         public static Player Instance => _instance ?? (_instance = new Player());
 
@@ -41,7 +44,17 @@ namespace LooneyInvaders.Model
         public int Credits
         {
             get => CrossSettings.Current.GetValueOrDefault("Credits", 0);
-            set => CrossSettings.Current.AddOrUpdateValue("Credits", value);
+            set
+            {
+                CrossSettings.Current.AddOrUpdateValue("Credits", value);
+                OnCreditsPropertyChanged();
+            }
+        }
+
+        public int CachedLikeCount
+        {
+            get => CrossSettings.Current.GetValueOrDefault(nameof(CachedLikeCount), 0);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(CachedLikeCount), value);
         }
         public bool Hacked
         {
@@ -208,6 +221,9 @@ namespace LooneyInvaders.Model
                 CrossSettings.Current.AddOrUpdateValue(keyName, score);
             }
         }
-
+        private void OnCreditsPropertyChanged()
+        {
+            OnCreditsChanged?.Invoke();
+        }
     }
 }
