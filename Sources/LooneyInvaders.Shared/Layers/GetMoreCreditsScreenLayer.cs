@@ -178,19 +178,15 @@ namespace LooneyInvaders.Layers
                 return;
             }
             
-            DisableButtonsOnLayer(_btn4000);
             var loginResponse = await GameDelegate.FacebookService.Login();
             
             if (loginResponse.LoginState == LoginState.Success)
             {
                 GameDelegate.FacebookService.OpenPage(PageData.PageUrl);
-                Player.Instance.CachedLikeCount = await GameDelegate.FacebookService.CountPageLikes(PageData.PageId);
+                var currentLikeCount = await GameDelegate.FacebookService.CountPageLikes(PageData.PageId);
+                Player.Instance.CachedLikeCount = currentLikeCount;
+                CreditsHelper.OnDisableCreditButton += Disable4000Button;
             }
-            
-            // Player.Instance.Credits += 4000;
-            // Player.Instance.FacebookLikeUsed = true;
-
-            
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
@@ -380,6 +376,11 @@ namespace LooneyInvaders.Layers
             }
         }
 
+        private void Disable4000Button()
+        {
+            DisableButtonsOnLayer(_btn4000);
+        }
+
         private TimeSpan CountTimeSpan(DateTime pastDateTime)
         {
             var currentDateTime = DateTime.Now;
@@ -414,7 +415,8 @@ namespace LooneyInvaders.Layers
         {
             base.OnExit();
             
-            Player.Instance.OnCreditsChanged += RefreshPlayerCreditsLabel;
+            CreditsHelper.OnDisableCreditButton -= Disable4000Button;
+            Player.Instance.OnCreditsChanged -= RefreshPlayerCreditsLabel;
             AdManager.ClearInterstitialEvents();
         }
     }

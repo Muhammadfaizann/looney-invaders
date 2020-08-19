@@ -221,6 +221,7 @@ namespace LooneyInvaders.Model
                 CrossSettings.Current.AddOrUpdateValue(keyName, score);
             }
         }
+        
         private void OnCreditsPropertyChanged()
         {
             OnCreditsChanged?.Invoke();

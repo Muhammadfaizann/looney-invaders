@@ -1,3 +1,4 @@
+using System;
 using LooneyInvaders.Model.Facebook;
 using LooneyInvaders.Shared;
 
@@ -5,6 +6,7 @@ namespace LooneyInvaders.Model
 {
     public static class CreditsHelper
     {
+        public static Action OnDisableCreditButton;
         public static async void AddIfCurrentLikeCountMore()
         {
             if (GameDelegate.FacebookService.LoginState == LoginState.Success )
@@ -15,6 +17,7 @@ namespace LooneyInvaders.Model
                 {
                     Player.Instance.Credits += 4000;
                     Player.Instance.FacebookLikeUsed = true;
+                    OnDisableCreditButton?.Invoke();
                 }
             }
         }

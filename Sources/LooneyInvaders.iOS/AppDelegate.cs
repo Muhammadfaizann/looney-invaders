@@ -86,8 +86,10 @@ namespace LooneyInvaders.iOS
 
         public  override void WillEnterForeground(UIApplication application)
         {
-            if(Player.Instance.FacebookLikeUsed == false)
+            if (Player.Instance.FacebookLikeUsed == false)
+            {
                 CreditsHelper.AddIfCurrentLikeCountMore();
+            }
         }
 
         public override void OnActivated(UIApplication application)
