@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using AppodealXamariniOS;
+using Facebook.CoreKit;
 using Foundation;
 using UIKit;
 using Microsoft.AppCenter;
@@ -8,8 +10,8 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using NotificationCenter;
 using AdType = AppodealXamariniOS.AppodealAdType;
+using LooneyInvaders.Services;
 using LooneyInvaders.Services.PNS;
-using Facebook.CoreKit;
 using LooneyInvaders.Model;
 using Settings = LooneyInvaders.Model.Settings;
 
@@ -36,7 +38,7 @@ namespace LooneyInvaders.iOS
             Appodeal.SetFramework(APDFramework.Xamarin, ObjCRuntime.Constants.Version);  //this is required method, just copy-paste it before init
             Appodeal.InitializeWithApiKey(AppodealApiKey, RequiredAdTypes, false);
             Profile.EnableUpdatesOnAccessTokenChange(true);
-            
+
             CrashAnalyticsAppInit();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -79,16 +81,14 @@ namespace LooneyInvaders.iOS
         {
             // Use this method to release shared resources, save user data, invalidate timers and store the application state.
             // If your application supports background exection this method is called instead of WillTerminate when the user quits.
-
             Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
-
         }
 
-        public  override void WillEnterForeground(UIApplication application)
+        public override void WillEnterForeground(UIApplication application)
         {
             if (Player.Instance.FacebookLikeUsed == false)
             {
-                CreditsHelper.AddIfCurrentLikeCountMore();
+                Task.Run(FacebookLikesHelper.AddCreditsIfPageIsLiked);
             }
         }
 

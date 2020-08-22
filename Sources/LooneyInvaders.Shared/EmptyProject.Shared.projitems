@@ -46,7 +46,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\PurchaseError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobilePurchases\TransactionStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AdManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\CreditsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\BattlegroundStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ButtonType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\ControlType.cs" />
@@ -59,8 +58,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\Weapons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Explosion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\LoginResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\LoginState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Facebook\PageData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GameAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Bomb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Battleground.cs" />
@@ -107,6 +104,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tracer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Permissions\IPermissionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CustomCancellationTokenSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\LoginState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook\FacebookLikesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />

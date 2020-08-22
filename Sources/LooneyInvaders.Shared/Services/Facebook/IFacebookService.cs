@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
+using LooneyInvaders.Model;
 using LooneyInvaders.Model.Facebook;
 
-namespace LooneyInvaders.Droid.Services
+namespace LooneyInvaders.Services
 {
     public interface IFacebookService
     {

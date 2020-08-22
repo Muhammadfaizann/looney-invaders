@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using CocosSharp;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Droid.Services;
 using LooneyInvaders.Layers;
+using LooneyInvaders.Services;
 
 namespace LooneyInvaders.Shared
 {

@@ -1,4 +1,4 @@
-namespace LooneyInvaders.Model.Facebook
+namespace LooneyInvaders.Model
 {
     public enum LoginState
     {
