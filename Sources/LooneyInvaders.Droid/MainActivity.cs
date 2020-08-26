@@ -21,10 +21,12 @@ using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 using JavaThread = Java.Lang.Thread;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using LooneyInvaders.Droid.Helpers;
+using LooneyInvaders.Droid.Services.Facebook;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
+using Xamarin.Facebook;
 
 /* //probably future setting
 Configure R8 to complete successfully despite warnings
@@ -142,6 +144,7 @@ namespace LooneyInvaders.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
 
+            FacebookSdk.SdkInitialize(this);
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
@@ -171,6 +174,7 @@ namespace LooneyInvaders.Droid
             GameDelegate.PermissionService = new Permissions.PermissionService(this);
             GameDelegate.DeviceInfoService = new DeviceInfo.DeviceInfoService(this);
             GameDelegate.OpenSettingsService = new PNS.OpenSettingsService(this);
+            GameDelegate.FacebookService = new FacebookService(this);
             TrackTime();
             // remove navigation bar
             var decorView = Window.DecorView;
