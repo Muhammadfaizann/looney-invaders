@@ -107,6 +107,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tracer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Permissions\IPermissionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CustomCancellationTokenSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook\FacebookLikesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />

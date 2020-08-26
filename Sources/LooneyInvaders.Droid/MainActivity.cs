@@ -16,6 +16,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
 using NotificationCenter;
+using Xamarin.Facebook;
 using Debug = System.Diagnostics.Debug;
 using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 using JavaThread = Java.Lang.Thread;
@@ -23,10 +24,10 @@ using LaunchMode = Android.Content.PM.LaunchMode;
 using LooneyInvaders.Droid.Helpers;
 using LooneyInvaders.Droid.Services.Facebook;
 using LooneyInvaders.Model;
+using LooneyInvaders.Services;
 using LooneyInvaders.Services.App42;
 using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
-using Xamarin.Facebook;
 
 /* //probably future setting
 Configure R8 to complete successfully despite warnings
@@ -143,8 +144,14 @@ namespace LooneyInvaders.Droid
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
-
+            //Facebook initialization
+            FacebookSdk.ApplicationName = FacebookLikesHelper.FBAppName;
+            FacebookSdk.ApplicationId = FacebookLikesHelper.FBAppId;
+            FacebookSdk.AutoInitEnabled = true; //doesn't work for some reason
+    #pragma warning disable CS0618 // Type or member is obsolete
             FacebookSdk.SdkInitialize(this);
+    #pragma warning restore CS0618 // Type or member is obsolete
+            FacebookSdk.FullyInitialize();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);

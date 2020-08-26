@@ -3,15 +3,15 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using LooneyInvaders.Model.Facebook;
 using Org.Json;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;
+using LooneyInvaders.Model.Facebook;
 using LoginResult = LooneyInvaders.Model.Facebook.LoginResult;
 
 namespace LooneyInvaders.Droid.Services.Facebook
 {
-     public class FacebookService : Java.Lang.Object, IFacebookService, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
+    public class FacebookService : Java.Lang.Object, IFacebookService, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
     {
         public LoginState LoginState { get; set; }
 
@@ -46,9 +46,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             {
                 int likes = 0;
                 var likesRequest = $"{pageId}/fan_count";
-                var response =
-                    GraphRequest.ExecuteAndWait(new GraphRequest(AccessToken.CurrentAccessToken, likesRequest));
-
+                var response = GraphRequest.ExecuteAndWait(new GraphRequest(AccessToken.CurrentAccessToken, likesRequest));
                 if (response != null && response.JSONObject is JSONObject jSON)
                 {
                     likes = jSON.GetInt("fan_count");
@@ -81,7 +79,9 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public void OnCompleted(GraphResponse response)
         {
             if (response?.JSONObject == null)
-                _loginCompletionSource?.TrySetResult(new LoginResult {LoginState = LoginState.Canceled});
+            {
+                _loginCompletionSource?.TrySetResult(new LoginResult { LoginState = LoginState.Canceled });
+            }
             else
             {
                 _loginResult = new LoginResult
@@ -114,10 +114,12 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public void OnSuccess(Java.Lang.Object result)
         {
             var facebookLoginResult = result.JavaCast<Xamarin.Facebook.Login.LoginResult>();
-            if (facebookLoginResult == null) return;
+            if (facebookLoginResult == null)
+            { return; }
 
             var parameters = new Bundle();
             parameters.PutString("fields", "id,email,picture.type(large)");
+
             var request = GraphRequest.NewMeRequest(facebookLoginResult.AccessToken, this);
             request.Parameters = parameters;
             request.ExecuteAsync();
