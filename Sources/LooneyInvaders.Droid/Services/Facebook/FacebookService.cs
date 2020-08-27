@@ -25,10 +25,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
 
         public LoginState LoginState { get; set; }
 
-        private FacebookService()
-        {
-        }
-        
+        private FacebookService() { }
+
         public FacebookService(Activity activity) : this()
         {
             _activity = activity;
@@ -41,7 +39,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public Task<LoginResult> Login()
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
-            LoginManager.Instance.LogOut();
+
             LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
             //LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
 
