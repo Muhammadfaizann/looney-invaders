@@ -2,18 +2,21 @@ using System.Threading.Tasks;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
-using LooneyInvaders.Droid.Services;
+using LooneyInvaders.Model;
 using LooneyInvaders.Model.Facebook;
+using LooneyInvaders.Services;
 using UIKit;
 
 namespace LooneyInvaders.iOS.Services
 {
     public class FacebookService : IFacebookService
     {
-        public LoginState LoginState { get; set; }
+        static readonly NSString FanCountNSString = new NSString("fan_count");
 
         readonly LoginManager _loginManager = new LoginManager();
-        readonly string[] _permissions = { @"public_profile", @"pages_manage_engagement"};
+        readonly string[] _permissions = { @"public_profile", @"pages_manage_engagement" };
+
+        public LoginState LoginState { get; set; }
 
         private LoginResult _loginResult;
         private TaskCompletionSource<LoginResult> _loginCompletionSource;
@@ -23,14 +26,16 @@ namespace LooneyInvaders.iOS.Services
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
             _loginManager.LogIn(_permissions, GetCurrentViewController(), LoginManagerLoginHandler);
+
             return _loginCompletionSource.Task;
         }
 
         public Task<int> CountPageLikes(string pageId)
         {
-            _likesCompletionSource = new TaskCompletionSource<int>();
-            var likesRequest = new GraphRequest(pageId, new NSDictionary(@"fields", @"fan_count"));
+            var likesRequest = new GraphRequest(pageId, new NSDictionary("fields", FanCountNSString.ToString()));
             likesRequest.Start(GetLikesRequestHandler);
+            _likesCompletionSource = new TaskCompletionSource<int>();
+
             return _likesCompletionSource.Task;
         }
 
@@ -42,9 +47,13 @@ namespace LooneyInvaders.iOS.Services
         private void LoginManagerLoginHandler(LoginManagerLoginResult result, NSError error)
         {
             if (result.IsCancelled)
-                _loginCompletionSource.TrySetResult(new LoginResult {LoginState = LoginState.Canceled});
+            {
+                _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Canceled });
+            }
             else if (error != null)
+            {
                 _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Failed, ErrorString = error.LocalizedDescription });
+            }
             else
             {
                 _loginResult = new LoginResult
@@ -53,8 +62,8 @@ namespace LooneyInvaders.iOS.Services
                     UserId = result.Token.UserId,
                     LoginState = LoginState.Success
                 };
-                
                 LoginState = LoginState.Success;
+
                 _loginCompletionSource.TrySetResult(_loginResult);
             }
         }
@@ -62,13 +71,16 @@ namespace LooneyInvaders.iOS.Services
         private void GetLikesRequestHandler(GraphRequestConnection connection, NSObject result, NSError error)
         {
             if (error != null)
+            {
                 _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Failed, ErrorString = error.LocalizedDescription });
+            }
             else
-            { 
-                var likes = result.ValueForKey((NSString) "fan_count");
-
+            {
+                var likes = result.ValueForKey(FanCountNSString);
                 if (int.TryParse(likes.Description, out var likeCount))
+                {
                     _likesCompletionSource.TrySetResult(likeCount);
+                }
             }
         }
         
@@ -76,7 +88,10 @@ namespace LooneyInvaders.iOS.Services
         {
             var viewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
             while (viewController.PresentedViewController != null)
+            {
                 viewController = viewController.PresentedViewController;
+            }
+
             return viewController;
         }
     }

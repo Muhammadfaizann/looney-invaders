@@ -6,37 +6,45 @@ using Android.Runtime;
 using Org.Json;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;
-using LooneyInvaders.Model.Facebook;
+using LooneyInvaders.Model;
+using LooneyInvaders.Services;
 using LoginResult = LooneyInvaders.Model.Facebook.LoginResult;
 
 namespace LooneyInvaders.Droid.Services.Facebook
 {
     public class FacebookService : Java.Lang.Object, IFacebookService, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
     {
-        public LoginState LoginState { get; set; }
+        static readonly string FanCountString = "fan_count";
 
         private readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
-        private readonly string[] _permissions = {@"public_profile", @"email", @"user_about_me"};
+        private readonly string[] _permissions = { "publish_actions"/*, "public_profile", "email"*/ };
         private readonly Activity _activity;
 
         private LoginResult _loginResult;
         private TaskCompletionSource<LoginResult> _loginCompletionSource;
 
-        public FacebookService()
+        public LoginState LoginState { get; set; }
+
+        private FacebookService()
         {
-            LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
         
-        public FacebookService(Activity activity)
+        public FacebookService(Activity activity) : this()
         {
             _activity = activity;
+
+            LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
+            LoginManager.Instance.SetLoginBehavior(LoginBehavior.DialogOnly);
             LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
 
         public Task<LoginResult> Login()
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
-            LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
+            LoginManager.Instance.LogOut();
+            LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
+            //LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
+
             return _loginCompletionSource.Task;
         }
 
@@ -45,11 +53,11 @@ namespace LooneyInvaders.Droid.Services.Facebook
             var likes = Task.Run(() =>
             {
                 int likes = 0;
-                var likesRequest = $"{pageId}/fan_count";
+                var likesRequest = $"{pageId}/{FanCountString}";
                 var response = GraphRequest.ExecuteAndWait(new GraphRequest(AccessToken.CurrentAccessToken, likesRequest));
                 if (response != null && response.JSONObject is JSONObject jSON)
                 {
-                    likes = jSON.GetInt("fan_count");
+                    likes = jSON.GetInt(FanCountString);
                 }
 
                 return likes;
@@ -63,6 +71,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             var uri = Android.Net.Uri.Parse(pageUrl);
             var intent = new Intent(Intent.ActionView, uri);
             intent.SetFlags(ActivityFlags.NewTask);
+
             Application.Context.StartActivity(intent);
         }
 

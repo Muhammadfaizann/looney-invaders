@@ -78,14 +78,14 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb302196534551091</string>
+				<string>fb3099682896807407</string>
 			</array>
 		</dict>
 	</array>
 	<key>FacebookAppID</key>
-	<string>302196534551091</string>
+	<string>3099682896807407</string>
 	<key>FacebookDisplayName</key>
-	<string>Binwell Social Demo</string>
+	<string>LooneyTest</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

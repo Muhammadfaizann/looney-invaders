@@ -144,14 +144,14 @@ namespace LooneyInvaders.Droid
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
-            //Facebook initialization
-            FacebookSdk.ApplicationName = FacebookLikesHelper.FBAppName;
-            FacebookSdk.ApplicationId = FacebookLikesHelper.FBAppId;
-            FacebookSdk.AutoInitEnabled = true; //doesn't work for some reason
+            //Facebook initialization //ToDo: Bass - check out is ApplicationName - FB app name or just package name
+            //FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);//Application.PackageName;
+            //FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
     #pragma warning disable CS0618 // Type or member is obsolete
-            FacebookSdk.SdkInitialize(this);
+            //FacebookSdk.SdkInitialize(this);
     #pragma warning restore CS0618 // Type or member is obsolete
-            FacebookSdk.FullyInitialize();
+            FacebookSdk.AutoLogAppEventsEnabled = true;
+
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);

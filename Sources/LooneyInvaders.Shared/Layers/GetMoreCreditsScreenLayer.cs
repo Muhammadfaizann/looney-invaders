@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
-using LooneyInvaders.Model.Facebook;
 using LooneyInvaders.Shared;
+using LooneyInvaders.Services;
 
 namespace LooneyInvaders.Layers
 {
@@ -177,21 +177,26 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
-            
-            var loginResponse = await GameDelegate.FacebookService.Login();
-            
-            if (loginResponse.LoginState == LoginState.Success)
+
+            try
             {
-                GameDelegate.FacebookService.OpenPage(PageData.PageUrl);
-                var currentLikeCount = await GameDelegate.FacebookService.CountPageLikes(PageData.PageId);
-                Player.Instance.CachedLikeCount = currentLikeCount;
-                CreditsHelper.OnDisableCreditButton += Disable4000Button;
+                var loginResponse = await GameDelegate.FacebookService.Login();
+                if (loginResponse.LoginState == LoginState.Success)
+                {
+                    Player.Instance.CachedFacebookLikesCount = await GameDelegate.FacebookService.CountPageLikes(FacebookLikesHelper.PageId); ;
+                    FacebookLikesHelper.DisableCreditButtonAction = FacebookLikesHelper.DisableCreditButtonAction ?? Disable4000Button;
+                    GameDelegate.FacebookService.OpenPage(FacebookLikesHelper.PageUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
         {
-            Shared.GameDelegate.ClearOnBackButtonEvent();
+            GameDelegate.ClearOnBackButtonEvent();
             Unschedule(RefreshBtn2000);
 
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
@@ -376,10 +381,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void Disable4000Button()
-        {
-            DisableButtonsOnLayer(_btn4000);
-        }
+        private void Disable4000Button() => DisableButtonsOnLayer(_btn4000);
 
         private TimeSpan CountTimeSpan(DateTime pastDateTime)
         {
@@ -415,7 +417,7 @@ namespace LooneyInvaders.Layers
         {
             base.OnExit();
             
-            CreditsHelper.OnDisableCreditButton -= Disable4000Button;
+            FacebookLikesHelper.DisableCreditButtonAction -= Disable4000Button;
             Player.Instance.OnCreditsChanged -= RefreshPlayerCreditsLabel;
             AdManager.ClearInterstitialEvents();
         }

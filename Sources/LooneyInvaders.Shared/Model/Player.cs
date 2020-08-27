@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Plugin.Settings;
 
 namespace LooneyInvaders.Model
@@ -51,10 +49,10 @@ namespace LooneyInvaders.Model
             }
         }
 
-        public int CachedLikeCount
+        public int CachedFacebookLikesCount
         {
-            get => CrossSettings.Current.GetValueOrDefault(nameof(CachedLikeCount), 0);
-            set => CrossSettings.Current.AddOrUpdateValue(nameof(CachedLikeCount), value);
+            get => CrossSettings.Current.GetValueOrDefault(nameof(CachedFacebookLikesCount), 0);
+            set => CrossSettings.Current.AddOrUpdateValue(nameof(CachedFacebookLikesCount), value);
         }
         public bool Hacked
         {
