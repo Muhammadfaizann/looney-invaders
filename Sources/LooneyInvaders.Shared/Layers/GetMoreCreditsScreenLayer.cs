@@ -381,7 +381,11 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void Disable4000Button() => DisableButtonsOnLayer(_btn4000);
+        private void Disable4000Button()
+        {
+            GameDelegate.FacebookService.Logout();
+            DisableButtonsOnLayer(_btn4000);
+        }
 
         private TimeSpan CountTimeSpan(DateTime pastDateTime)
         {
