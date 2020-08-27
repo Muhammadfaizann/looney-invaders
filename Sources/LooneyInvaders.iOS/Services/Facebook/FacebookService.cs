@@ -30,6 +30,11 @@ namespace LooneyInvaders.iOS.Services
             return _loginCompletionSource.Task;
         }
 
+        public void Logout()
+        {
+            _loginManager.LogOut();
+        }
+
         public Task<int> CountPageLikes(string pageId)
         {
             var likesRequest = new GraphRequest(pageId, new NSDictionary("fields", FanCountNSString.ToString()));

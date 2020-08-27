@@ -8,6 +8,7 @@ namespace LooneyInvaders.Services
     {
         LoginState LoginState { get; set; }
         Task<LoginResult> Login();
+        void Logout();
         Task<int> CountPageLikes(string pageId);
         void OpenPage(string pageUrl);
     }

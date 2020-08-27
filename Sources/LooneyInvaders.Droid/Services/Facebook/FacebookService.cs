@@ -48,6 +48,11 @@ namespace LooneyInvaders.Droid.Services.Facebook
             return _loginCompletionSource.Task;
         }
 
+        public void Logout()
+        {
+            LoginManager.Instance.LogOut();
+        }
+
         public Task<int> CountPageLikes(string pageId)
         {
             var likes = Task.Run(() =>
