@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -17,7 +18,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
         static readonly string FanCountString = "fan_count";
 
         private readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
-        private readonly string[] _permissions = { "publish_actions"/*, "public_profile", "email"*/ };
+        private readonly string[] _permissions = { /*"publish_actions"/*, "public_profile",*/ /*"email"*/ };
         private readonly Activity _activity;
 
         private LoginResult _loginResult;
@@ -32,7 +33,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             _activity = activity;
 
             LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
-            LoginManager.Instance.SetLoginBehavior(LoginBehavior.DialogOnly);
+            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebViewOnly);
             LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
 
@@ -40,16 +41,26 @@ namespace LooneyInvaders.Droid.Services.Facebook
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
 
-            LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
-            //LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
+            Task.Run(async () =>
+            {
+                LoginManager.Instance.LogOut();
+                await Task.Delay(700);
+
+                try
+                {
+                    LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
+                    //LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            });
 
             return _loginCompletionSource.Task;
         }
 
-        public void Logout()
-        {
-            LoginManager.Instance.LogOut();
-        }
+        public void Logout() => LoginManager.Instance.LogOut();
 
         public Task<int> CountPageLikes(string pageId)
         {

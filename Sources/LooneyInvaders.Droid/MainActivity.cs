@@ -145,11 +145,12 @@ namespace LooneyInvaders.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
             //Facebook initialization //ToDo: Bass - check out is ApplicationName - FB app name or just package name
-            //FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);//Application.PackageName;
-            //FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
+            FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);
+            FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
     #pragma warning disable CS0618 // Type or member is obsolete
-            //FacebookSdk.SdkInitialize(this);
+            FacebookSdk.SdkInitialize(this);
     #pragma warning restore CS0618 // Type or member is obsolete
+            FacebookSdk.FullyInitialize();
             FacebookSdk.AutoLogAppEventsEnabled = true;
 
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -173,6 +174,7 @@ namespace LooneyInvaders.Droid
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
+
             Tracer.Title = "LaunchingAppTime(ms)";
             TrackTime();
 
@@ -197,6 +199,10 @@ namespace LooneyInvaders.Droid
             GameDelegate.GetGyro = GetGyro;
             _sensorManager = (SensorManager)GetSystemService(SensorService);
 
+            using (var latent = PackageManager.GetLaunchIntentForPackage(PackageName))
+            {
+                Debug.WriteLine("Copy this default activity class name: " + latent.Component?.ClassName);
+            }
             GameDelegate.CloseAppAllowed = true;
             GameDelegate.CloseApp = CloseActivity;
             // clearing on iOS does not properly work

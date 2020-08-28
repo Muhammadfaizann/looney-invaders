@@ -11,6 +11,9 @@ namespace LooneyInvaders.Layers
 {
     public class GetMoreCreditsScreenLayer : CCLayerColorExt
     {
+        private readonly (string IsNotQuick, string IsNotavailable) AdsLoadErrorNotification
+            = ("ads-not-quick-loaded-notification", "ads-not-available-notification");
+
         private readonly int _selectedEnemy;
         private readonly int _selectedWeapon;
         private readonly int _caliberSizeSelected;
@@ -221,7 +224,9 @@ namespace LooneyInvaders.Layers
 
         private void Btn2000_OnClick(float period)
         {
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable()) {
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            {
+                ShowErrorNotification(AdsLoadErrorNotification.IsNotavailable);
                 return;
             }
 
@@ -234,7 +239,8 @@ namespace LooneyInvaders.Layers
 
             var lastAdWatchTime = Player.Instance.LastAdWatchTime;
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
-            if (lastAdWatchDayCount > 10) {
+            if (lastAdWatchDayCount > 10)
+            {
                 return;
             }
 
@@ -313,7 +319,7 @@ namespace LooneyInvaders.Layers
                 await Task.Delay(timeToWaitBeforeShowError);
                 if (!_adWasShownOrFailed)
                 {
-                    ShowErrorNotification("ads-not-quick-loaded-notification");
+                    ShowErrorNotification(AdsLoadErrorNotification.IsNotQuick);
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -345,7 +351,7 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            ScheduleOnce(_ => ShowErrorNotification("ads-not-available-notification"), 0f);
+            ScheduleOnce(_ => ShowErrorNotification(AdsLoadErrorNotification.IsNotavailable), 0f);
             _adWasShownOrFailed = true;
         }
 
