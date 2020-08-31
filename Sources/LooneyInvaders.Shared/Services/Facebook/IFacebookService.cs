@@ -11,5 +11,8 @@ namespace LooneyInvaders.Services
         void Logout();
         Task<int> CountPageLikes(string pageId);
         void OpenPage(string pageUrl);
+    #if __ANDROID__ //makes sence on Android only
+        void OnActivityResult(int requestCode, int resultCode, Android.Content.Intent data);
+    #endif
     }
 }

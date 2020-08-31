@@ -17,6 +17,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
 using NotificationCenter;
 using Xamarin.Facebook;
+using AppEventsLogger = Xamarin.Facebook.AppEvents.AppEventsLogger;
 using Debug = System.Diagnostics.Debug;
 using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 using JavaThread = Java.Lang.Thread;
@@ -24,7 +25,6 @@ using LaunchMode = Android.Content.PM.LaunchMode;
 using LooneyInvaders.Droid.Helpers;
 using LooneyInvaders.Droid.Services.Facebook;
 using LooneyInvaders.Model;
-using LooneyInvaders.Services;
 using LooneyInvaders.Services.App42;
 using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
@@ -151,6 +151,7 @@ namespace LooneyInvaders.Droid
             FacebookSdk.SdkInitialize(this);
     #pragma warning restore CS0618 // Type or member is obsolete
             FacebookSdk.FullyInitialize();
+            AppEventsLogger.InitializeLib(this, FacebookSdk.ApplicationId);
             FacebookSdk.AutoLogAppEventsEnabled = true;
 
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -347,8 +348,14 @@ namespace LooneyInvaders.Droid
             return base.OnKeyDown(keyCode, e);
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data) =>
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
             (_svc as PurchaseService)?.HandleActivityResult(requestCode, resultCode, data);
+
+            GameDelegate.FacebookService?.OnActivityResult(requestCode, (int)resultCode, data);
+
+            base.OnActivityResult(requestCode, resultCode, data);
+        }
 
         protected override void OnDestroy()
         {

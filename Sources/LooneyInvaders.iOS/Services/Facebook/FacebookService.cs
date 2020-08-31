@@ -2,10 +2,10 @@ using System.Threading.Tasks;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
+using UIKit;
 using LooneyInvaders.Model;
 using LooneyInvaders.Model.Facebook;
 using LooneyInvaders.Services;
-using UIKit;
 
 namespace LooneyInvaders.iOS.Services
 {
@@ -30,10 +30,7 @@ namespace LooneyInvaders.iOS.Services
             return _loginCompletionSource.Task;
         }
 
-        public void Logout()
-        {
-            _loginManager.LogOut();
-        }
+        public void Logout() => _loginManager.LogOut();
 
         public Task<int> CountPageLikes(string pageId)
         {

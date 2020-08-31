@@ -18,7 +18,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
         static readonly string FanCountString = "fan_count";
 
         private readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
-        private readonly string[] _permissions = { /*"publish_actions"/*, "public_profile",*/ /*"email"*/ };
+        //ToDo: Pavel - find out what the trick, which permission do we need to pass?
+        private readonly string[] _permissions = { /*"publish_actions",*/ "public_profile"/*, "email" */};
         private readonly Activity _activity;
 
         private LoginResult _loginResult;
@@ -40,22 +41,9 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public Task<LoginResult> Login()
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
-
-            Task.Run(async () =>
-            {
-                LoginManager.Instance.LogOut();
-                await Task.Delay(700);
-
-                try
-                {
-                    LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
-                    //LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            });
+            //ToDo: Pavel - find out what's the difference, which one do we need?
+            //LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
+            LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
 
             return _loginCompletionSource.Task;
         }
@@ -90,7 +78,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
         }
 
         public void OnActivityResult(int requestCode, int resultCode, Intent data)
-        {
+        {   //Hack: Pavel - look, that must be called on activity's OnActivityResult
+            //and can't be invoked here (using _activity) since OnActivityResult is protected
             _callbackManager?.OnActivityResult(requestCode, resultCode, data);
         }
 

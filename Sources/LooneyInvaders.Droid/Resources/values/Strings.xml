@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">626628644954724</string>
-    <string name="facebook_app_name">LooneyTestAndroid</string>
-    <string name="facebook_login_protocol_scheme">fb626628644954724</string>
+    <string name="facebook_app_id">3099682896807407</string>
+    <string name="facebook_app_name">LooneyTest</string>
+    <string name="facebook_login_protocol_scheme">fb3099682896807407</string>
     <!--<string name="ApplicationName">LooneyInvaders.Droid</string>-->
     <string name="android_app_name">Looney Invaders</string>
     <string name="app_id">647563278989</string>
