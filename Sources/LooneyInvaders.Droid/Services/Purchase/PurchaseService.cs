@@ -146,13 +146,13 @@ namespace CC.Mobile.Purchases
             {
                 SetResultAndReset(TransactionStatus.Cancelled);
             }
-            _inAppSvc.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
+            _inAppSvc.BillingHandler?.HandleActivityResult(requestCode, resultCode, data);
         }
 
         private void OnProductPurchased(int response, IAB.Purchase purchase, string purchaseData, string purchaseSignature)
         {
             _currentPurchase = new Purchase(_currentProduct, purchase.OrderId, TransactionStatus.Purchased);
-            _inAppSvc.BillingHandler.ConsumePurchase(purchase);
+            _inAppSvc.BillingHandler?.ConsumePurchase(purchase);
         }
 
         private void OnPurchaseFailedValidation(IAB.Purchase purchase, string purchaseData, string purchaseSignature)
