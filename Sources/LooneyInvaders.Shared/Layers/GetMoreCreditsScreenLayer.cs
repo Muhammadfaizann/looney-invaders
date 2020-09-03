@@ -409,12 +409,11 @@ namespace LooneyInvaders.Layers
 
         private async void ShowErrorNotification(string imageName)
         {
-            if (_notificationImage == null)
-            {
-                _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
-                _notificationImage.Opacity = 210;
-                AddChild(_notificationImage, 600);
-            }
+            _notificationImage?.RemoveFromParent();
+            _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
+            _notificationImage.Opacity = 210;
+            AddChild(_notificationImage, 600);
+
             _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
             _notificationImage.Visible = true;
             PauseListeners();
