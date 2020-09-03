@@ -40,6 +40,9 @@ namespace LooneyInvaders.Layers
         private CCSprite _s2;
         private bool _adWasShownOrFailed;
 
+        private CCNodeExt _facebookLoginBackground;
+        private CCSpriteButton _facebookLoginButton;
+
         private CustomCancellationTokenSource _notificationTokenSource;
 
         public GetMoreCreditsScreenLayer() : this(0, -1, -1, -1, -1, -1, -1) { }
@@ -52,7 +55,6 @@ namespace LooneyInvaders.Layers
         {
             GameDelegate.ClearOnBackButtonEvent();
             Player.Instance.OnCreditsChanged += RefreshPlayerCreditsLabel;
-            
             _selectedEnemy = selectedEnemy;
             _selectedWeapon = selectedWeapon;
             _caliberSizeSelected = caliberSizeSelected;
@@ -64,7 +66,7 @@ namespace LooneyInvaders.Layers
 
             var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
-            Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
+            GameDelegate.OnBackButton += BtnBack_OnClick;
 
             AddImage(307, 560, "UI/Get-more-credits-title-text.png");
 
@@ -154,6 +156,10 @@ namespace LooneyInvaders.Layers
             {
                 DisableButtonsOnLayer(_btn4000);
             }
+            
+            _facebookLoginBackground = new CCNodeExt();
+            _facebookLoginBackground.AddImage(0,0,"ads-not-available-notification");
+            AddChild(_facebookLoginBackground, 600);
         }
 
         private void RefreshPlayerCreditsLabel()
@@ -175,6 +181,8 @@ namespace LooneyInvaders.Layers
 
         private async void Btn4000_OnClick(float period)
         {
+            
+            
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
