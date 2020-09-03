@@ -34,7 +34,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             _activity = activity;
 
             LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
-            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
+            LoginManager.Instance.SetLoginBehavior(LoginBehavior.NativeWithFallback);
             LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
 
@@ -78,8 +78,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
         }
 
         public void OnActivityResult(int requestCode, int resultCode, Intent data)
-        {   //Hack: Pavel - look, that must be called on activity's OnActivityResult
-            //and can't be invoked here (using _activity) since OnActivityResult is protected
+        {
             _callbackManager?.OnActivityResult(requestCode, resultCode, data);
         }
 

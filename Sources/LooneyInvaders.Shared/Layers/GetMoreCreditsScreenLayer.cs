@@ -41,9 +41,9 @@ namespace LooneyInvaders.Layers
         private CCSprite _s2;
         private bool _adWasShownOrFailed;
 
-        private CCNodeExt _facebookLoginBackground;
-        private CCSpriteButton _facebookLoginButton;
-        private CCEventListenerTouchAllAtOnce _facebookLoginBackgroundTouchListener;
+        private readonly CCNodeExt _facebookLoginBackground;
+        private readonly CCSpriteButton _facebookLoginButton;
+        private readonly CCEventListenerTouchOneByOne _facebookLoginBackgroundTouchListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
 
@@ -75,28 +75,51 @@ namespace LooneyInvaders.Layers
             _btn1M = AddButton(0, 475, "UI/Get-more-credits-get-1000000-credits-button-untapped.png", "UI/Get-more-credits-get-1000000-credits-button-tapped.png");
             _btn1M.OnClick += Btn1m_OnClick;
             _btn1M.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 470, "UI/Get-more-credits-get-7_99-USD.png");
 
             _btn300K = AddButton(0, 381, "UI/Get-more-credits-get-300000-credits-button-untapped.png", "UI/Get-more-credits-get-300000-credits-button-tapped.png");
             _btn300K.OnClick += Btn300k_OnClick;
             _btn300K.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 379, "UI/Get-more-credits-get-4_99-USD.png");
 
             _btn100K = AddButton(0, 290, "UI/Get-more-credits-get-100000-credits-button-untapped.png", "UI/Get-more-credits-get-100000-credits-button-tapped.png");
             _btn100K.OnClick += Btn100k_OnClick;
             _btn100K.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 291, "UI/Get-more-credits-get-1_99-USD.png");
 
             _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
             _btn4000.OnClick += (s, e) => ScheduleOnce(Btn4000_OnClick, 0f);
             _btn4000.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(437, 199, "UI/Get-more-credits-like-us-on-facebook-text.png");
 
             _tenTimesText = AddImage(437, 83, "UI/Get-more-credits-watch-advertisement.png");
+
+            _facebookLoginBackgroundTouchListener = new CCEventListenerTouchOneByOne
+            {
+                OnTouchBegan = (touch, @event) =>
+                {
+                    if (_facebookLoginButton.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                    {   //here we touched the FB login button
+                        _facebookLoginButton.FireOnClick();
+                    }
+                    ScheduleOnce(_ =>
+                    {
+                        _facebookLoginBackground.Visible = false;
+                        _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
+
+                        RemoveEventListener(_facebookLoginBackgroundTouchListener);
+                        ResumeListeners();
+                    }, 0.4f);
+
+                    return false;
+                }
+            };
+            _facebookLoginBackground = new CCNodeExt() { Opacity = 210 };
+            _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 150, (int)GameDelegate.Layer.ContentSize.Height / 2, "UI/facebook-login-button", "UI/facebook-login-button", 605);
+            _facebookLoginButton.OnClick += OnFacebookLogin;
+            _facebookLoginBackground.Visible = false;
+            AddChild(_facebookLoginBackground, 600);
 
             // disable watch ad button
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
@@ -179,30 +202,11 @@ namespace LooneyInvaders.Layers
 
         private void Btn4000_OnClick(float period)
         {
-            _facebookLoginBackground?.RemoveFromParent();
-            _facebookLoginBackground = new CCNodeExt
-            {
-                Opacity = 120,
-            };
-            
+            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
+            _facebookLoginBackground.Visible = true;
             PauseListeners();
-            _facebookLoginBackgroundTouchListener = new CCEventListenerTouchAllAtOnce();
-            _facebookLoginBackgroundTouchListener.OnTouchesBegan += OnHideFacebookBackground;
-            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
-            _facebookLoginBackground.AddImage(0,0,"UI/facebook-login-background.png");
-            _facebookLoginButton?.RemoveFromParent();
-            _facebookLoginButton = _facebookLoginBackground.AddButton((int) GameDelegate.Layer.ContentSize.Width / 2 - 150, (int) GameDelegate.Layer.ContentSize.Height / 2, "UI/facebook-login-button", "UI/facebook-login-button", 605);
-            _facebookLoginButton.OnClick += OnFacebookLogin;
-            AddChild(_facebookLoginBackground, 600);
-        }
 
-        private async void OnHideFacebookBackground(List<CCTouch> ccTouches, CCEvent ccEvent)
-        {
-            await Task.Delay(400);
-            _facebookLoginBackgroundTouchListener.OnTouchesBegan -= OnHideFacebookBackground;
-            _facebookLoginButton.Visible = false;
-            _facebookLoginBackground.Visible = false;
-            ResumeListeners();
+            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
         }
 
         private async void OnFacebookLogin(object sender, EventArgs eventArgs)
@@ -227,9 +231,6 @@ namespace LooneyInvaders.Layers
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
-            
-            // _facebookLoginButton.OnClick -= OnFacebookLogin;
-            // _facebookLoginBackgroundTouchListener.OnTouchesBegan.Invoke(null,null);
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
@@ -453,6 +454,7 @@ namespace LooneyInvaders.Layers
                 //cancel token where you want to hide _notificationImage
                 //_notificationTokenSource.Cancel();
 
+                _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
                 ResumeListeners();
             }
         }
