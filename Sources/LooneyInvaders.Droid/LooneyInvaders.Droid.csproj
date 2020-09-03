@@ -8847,13 +8847,13 @@
     <AndroidAarLibrary Include="lib\installreferrer-2.1.aar" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login.png">
-      <Link>Assets/Content/Images/Hd/UI/facebook-login.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-button.png">
+      <Link>Assets/Content/Images/Hd/UI/facebook-login-button.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\login-facebooik-button.png">
-      <Link>Assets/Content/Images/Hd/UI/login-facebooik-button.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-background.png">
+      <Link>Assets/Content/Images/Hd/UI/facebook-login-background.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

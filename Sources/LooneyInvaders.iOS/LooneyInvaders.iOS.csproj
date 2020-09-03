@@ -5220,11 +5220,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\ads-not-quick-loaded-notification.png">
       <Link>Content\Images\Hd\UI\ads-not-quick-loaded-notification.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login.png">
-      <Link>Content\Images\Hd\UI\facebook-login.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-button.png">
+      <Link>Content\Images\Hd\UI\facebook-login-button.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\login-facebooik-button.png">
-      <Link>Content\Images\Hd\UI\login-facebooik-button.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
+      <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
     </BundleResource>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />

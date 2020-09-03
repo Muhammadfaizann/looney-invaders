@@ -34,7 +34,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             _activity = activity;
 
             LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
-            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebViewOnly);
+            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
             LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
 

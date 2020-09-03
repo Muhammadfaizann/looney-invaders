@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
@@ -42,6 +43,7 @@ namespace LooneyInvaders.Layers
 
         private CCNodeExt _facebookLoginBackground;
         private CCSpriteButton _facebookLoginButton;
+        private CCEventListenerTouchAllAtOnce _facebookLoginBackgroundTouchListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
 
@@ -156,10 +158,6 @@ namespace LooneyInvaders.Layers
             {
                 DisableButtonsOnLayer(_btn4000);
             }
-            
-            _facebookLoginBackground = new CCNodeExt();
-            _facebookLoginBackground.AddImage(0,0,"ads-not-available-notification");
-            AddChild(_facebookLoginBackground, 600);
         }
 
         private void RefreshPlayerCreditsLabel()
@@ -179,10 +177,36 @@ namespace LooneyInvaders.Layers
             _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
         }
 
-        private async void Btn4000_OnClick(float period)
+        private void Btn4000_OnClick(float period)
         {
+            _facebookLoginBackground?.RemoveFromParent();
+            _facebookLoginBackground = new CCNodeExt
+            {
+                Opacity = 120,
+            };
             
-            
+            PauseListeners();
+            _facebookLoginBackgroundTouchListener = new CCEventListenerTouchAllAtOnce();
+            _facebookLoginBackgroundTouchListener.OnTouchesBegan += OnHideFacebookBackground;
+            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
+            _facebookLoginBackground.AddImage(0,0,"UI/facebook-login-background.png");
+            _facebookLoginButton?.RemoveFromParent();
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int) GameDelegate.Layer.ContentSize.Width / 2 - 150, (int) GameDelegate.Layer.ContentSize.Height / 2, "UI/facebook-login-button", "UI/facebook-login-button", 605);
+            _facebookLoginButton.OnClick += OnFacebookLogin;
+            AddChild(_facebookLoginBackground, 600);
+        }
+
+        private async void OnHideFacebookBackground(List<CCTouch> ccTouches, CCEvent ccEvent)
+        {
+            await Task.Delay(400);
+            _facebookLoginBackgroundTouchListener.OnTouchesBegan -= OnHideFacebookBackground;
+            _facebookLoginButton.Visible = false;
+            _facebookLoginBackground.Visible = false;
+            ResumeListeners();
+        }
+
+        private async void OnFacebookLogin(object sender, EventArgs eventArgs)
+        {
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
@@ -203,6 +227,9 @@ namespace LooneyInvaders.Layers
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
+            
+            // _facebookLoginButton.OnClick -= OnFacebookLogin;
+            // _facebookLoginBackgroundTouchListener.OnTouchesBegan.Invoke(null,null);
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
