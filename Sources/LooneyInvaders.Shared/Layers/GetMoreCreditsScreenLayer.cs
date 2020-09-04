@@ -100,7 +100,7 @@ namespace LooneyInvaders.Layers
                 {
                     if (_facebookLoginButton.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
                     {   //here we touched the FB login button
-                        _facebookLoginButton.FireOnClick();
+                        _facebookLoginButton?.FireOnClick();
                     }
                     ScheduleOnce(_ =>
                     {
@@ -114,9 +114,9 @@ namespace LooneyInvaders.Layers
                     return false;
                 }
             };
-            _facebookLoginBackground = new CCNodeExt() { Opacity = 210 };
+            _facebookLoginBackground = new CCNodeExt() { Opacity = 65, IsOpacityCascaded = false };
             _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
-            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 150, (int)GameDelegate.Layer.ContentSize.Height / 2, "UI/facebook-login-button", "UI/facebook-login-button", 605);
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button", "UI/facebook-login-button", 605);
             _facebookLoginButton.OnClick += OnFacebookLogin;
             _facebookLoginBackground.Visible = false;
             AddChild(_facebookLoginBackground, 600);
@@ -204,8 +204,8 @@ namespace LooneyInvaders.Layers
         {
             _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
             _facebookLoginBackground.Visible = true;
-            PauseListeners();
 
+            PauseListeners();
             AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
         }
 
