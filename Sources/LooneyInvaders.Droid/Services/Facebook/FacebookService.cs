@@ -34,13 +34,15 @@ namespace LooneyInvaders.Droid.Services.Facebook
             _activity = activity;
 
             LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
-            LoginManager.Instance.SetLoginBehavior(LoginBehavior.NativeWithFallback);
+            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
             LoginManager.Instance.RegisterCallback(_callbackManager, this);
         }
 
         public Task<LoginResult> Login()
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
+            LoginManager.Instance.LogOut();
+            LoginManager.Instance.ReauthorizeDataAccess(_activity);
             //ToDo: Pavel - find out what's the difference, which one do we need?
             //LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
             LoginManager.Instance.LogInWithReadPermissions(_activity, _permissions);
@@ -96,9 +98,9 @@ namespace LooneyInvaders.Droid.Services.Facebook
             else
             {
                 _loginResult = new LoginResult
-                {
-                    FirstName = Profile.CurrentProfile.FirstName,
-                    LastName = Profile.CurrentProfile.LastName,
+                {   //ToDo: place here Looney Invders admin's test user name instead of strings
+                    FirstName = Profile.CurrentProfile?.FirstName ?? "ImSexy",
+                    LastName = Profile.CurrentProfile?.LastName ?? "AndIKnowIt",
                     Token = AccessToken.CurrentAccessToken.Token,
                     UserId = AccessToken.CurrentAccessToken.UserId,
                     LoginState = LoginState.Success
