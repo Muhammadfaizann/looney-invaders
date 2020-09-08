@@ -33,7 +33,7 @@ namespace LooneyInvaders.Layers
         private CCSprite _m2;
         private CCSprite _s1;
         private CCSprite _s2;
-        private bool _adWasShownOrFailed;
+        private bool _adWasFailed;
 
         private CustomCancellationTokenSource _notificationTokenSource;
 
@@ -188,6 +188,7 @@ namespace LooneyInvaders.Layers
             AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
             AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
+            AdManager.ClearInterstitialEvents();
 
             if (_selectedWeapon == -1)
             {
@@ -296,7 +297,7 @@ namespace LooneyInvaders.Layers
             {
                 var timeToWaitBeforeShowError = 2000;
                 await Task.Delay(timeToWaitBeforeShowError);
-                if (!_adWasShownOrFailed)
+                if (_adWasFailed)
                 {
                     ShowErrorNotification("ads-not-quick-loaded-notification");
                 }
@@ -313,25 +314,23 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdOpened(object s, EventArgs e) => InterstitialOpened();
 
-        private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e) => InterstitialOpened();
-
+        private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e)
+        {
+            
+        }
+        
         private void InterstitialOpened()
         {
-            if (!_adWasShownOrFailed)
-            {
-                Player.Instance.LastAdWatchTime = DateTime.Now;
-                Player.Instance.Credits += 2000;
-                ++Player.Instance.LastAdWatchDayCount;
-
-                ScheduleOnce(_ => RefreshPlayerCreditsLabel(), 0.05f);
-            }
-            _adWasShownOrFailed = true;
+            Player.Instance.LastAdWatchTime = DateTime.Now;
+            Player.Instance.Credits += 2000;
+            ++Player.Instance.LastAdWatchDayCount;
+            ScheduleOnce(_ => RefreshPlayerCreditsLabel(), 0.05f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             ScheduleOnce(_ => ShowErrorNotification("ads-not-available-notification"), 0f);
-            _adWasShownOrFailed = true;
+            _adWasFailed = true;
         }
 
         private async void Btn1m_OnClick(object sender, EventArgs e)
@@ -399,8 +398,6 @@ namespace LooneyInvaders.Layers
         public override void OnExit()
         {
             base.OnExit();
-
-            AdManager.ClearInterstitialEvents();
         }
     }
 }
