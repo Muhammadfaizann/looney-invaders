@@ -38,6 +38,12 @@ namespace LooneyInvaders.Layers
         private CCEventListenerTouchOneByOne _okGotItEventListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
+        private string _adsNotAvailableNotificationImageName = "Please-tap-button-again-notification";
+        private string _noAdsNotificationImageName = "no-ads-currently-available-notification-background";
+        private int _noAdsImagePositionX = 160;
+        private int _noAdsImagePositionY = 110;
+        private int _adsNotAvailableImagePositionX = 170;
+        private int _adsNotAvailableImagePositionY = 240;
 
         public GetMoreCreditsScreenLayer() : this(0, -1, -1, -1, -1, -1, -1) { }
 
@@ -109,8 +115,8 @@ namespace LooneyInvaders.Layers
                 
                 ScheduleOnce(_ =>
                 {
-                    ShowAdNotification("no-ads-currently-available-notification-background", false, 160, 110);
-                }, 0.1f);
+                    ShowAdNotification(_noAdsNotificationImageName, false, _noAdsImagePositionX, _noAdsImagePositionY);
+                }, 0.4f);
             }
             else
             {
@@ -305,7 +311,7 @@ namespace LooneyInvaders.Layers
                 await Task.Delay(timeToWaitBeforeShowError);
                 if (_adWasFailed)
                 {
-                    ShowAdNotification("ads-not-quick-loaded-notification", true);
+                    ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY);
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -335,7 +341,7 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            ScheduleOnce(_ => ShowAdNotification("ads-not-available-notification", true), 0f);
+            ScheduleOnce(_ => ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY), 0f);
             _adWasFailed = true;
         }
 
@@ -377,7 +383,7 @@ namespace LooneyInvaders.Layers
             return pastDateTime - currentDateTime;
         }
 
-        private async void ShowAdNotification(string imageName, bool isForTime, int x = 0, int y = 0)
+        private async void ShowAdNotification(string imageName, bool isForTime, int imagePositionX, int imagePositionY)
         {
             if (_notificationBackground == null)
             {
@@ -388,7 +394,7 @@ namespace LooneyInvaders.Layers
             
             if (_notificationImage == null)
             {
-                _notificationImage = AddImage(x, y, $"UI/{imageName}.png");
+                _notificationImage = AddImage(imagePositionX, imagePositionY, $"UI/{imageName}.png");
                 AddChild(_notificationImage, 1100);
             }
             
@@ -434,11 +440,11 @@ namespace LooneyInvaders.Layers
             if (_okGotItButton != null)
             {
                 _okGotItButton.Visible = false;
+                RemoveEventListener(_okGotItEventListener);
+                _okGotItButton.OnClick -= OnHideAdNotification;
             }
             
-            RemoveEventListener(_okGotItEventListener);
             ResumeListeners();
-            _okGotItButton.OnClick -= OnHideAdNotification;
         }
     }
 }

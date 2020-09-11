@@ -5213,9 +5213,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\username-notification.png">
       <Link>Content\Images\Hd\UI\username-notification.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\ads-not-available-notification.png">
-      <Link>Content\Images\Hd\UI\ads-not-available-notification.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\ads-not-quick-loaded-notification.png">
       <Link>Content\Images\Hd\UI\ads-not-quick-loaded-notification.png</Link>
     </BundleResource>
@@ -5230,6 +5227,9 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
       <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Please-tap-button-again-notification.png">
+      <Link>Content\Images\Hd\UI\Please-tap-button-again-notification.png</Link>
     </BundleResource>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
