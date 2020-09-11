@@ -35,7 +35,7 @@ namespace LooneyInvaders.Layers
         private CCSprite _s2;
         private bool _adWasFailed;
         private CCSpriteButton _okGotItButton;
-
+        private CCEventListenerTouchOneByOne _okGotItEventListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
 
@@ -55,12 +55,6 @@ namespace LooneyInvaders.Layers
             _firespeedSelected = fireSpeedSelected;
             _magazineSizeSelected = magazineSizeSelected;
             _livesSelected = livesSelected;
-            
-            ScheduleOnce(_ =>
-            {
-                ShowAdNotification("no-ads-currently-available-notification-background", false, 160, 110);
-            }, 0.1f);
-            
             SetBackground("UI/background.png");
 
             var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
@@ -111,6 +105,11 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(_ =>
                 {
                     DisableButton2000ForTime(Player.Instance.LastAdWatchTime.AddDays(1));
+                }, 0.1f);
+                
+                ScheduleOnce(_ =>
+                {
+                    ShowAdNotification("no-ads-currently-available-notification-background", false, 160, 110);
                 }, 0.1f);
             }
             else
@@ -393,6 +392,7 @@ namespace LooneyInvaders.Layers
                 AddChild(_notificationImage, 1100);
             }
             
+            PauseListeners();
             _notificationImage.Visible = true;
             _notificationBackground.Visible = true;
             
@@ -408,6 +408,21 @@ namespace LooneyInvaders.Layers
             {
                 _okGotItButton = AddButton(550, 150, "UI/OK-I-got-it-smaller-button-untapped", "UI/OK-I-got-it-smaller-button-tapped", 1300);
                 _okGotItButton.OnClick += OnHideAdNotification;
+                
+                _okGotItEventListener = new CCEventListenerTouchOneByOne
+                {
+                    OnTouchBegan = (touch, @event) =>
+                    {
+                        if (_okGotItButton.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                        {
+                            ScheduleOnce(_ => { _okGotItButton?.FireOnClick(); }, 0.4f);
+                        }
+
+                        return false;
+                    }
+                };
+                
+                AddEventListener(_okGotItEventListener, _okGotItButton);
             }
         }
 
@@ -421,6 +436,7 @@ namespace LooneyInvaders.Layers
                 _okGotItButton.Visible = false;
             }
             
+            RemoveEventListener(_okGotItEventListener);
             ResumeListeners();
             _okGotItButton.OnClick -= OnHideAdNotification;
         }
