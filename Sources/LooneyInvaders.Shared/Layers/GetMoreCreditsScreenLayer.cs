@@ -26,6 +26,7 @@ namespace LooneyInvaders.Layers
 
         private CCSprite[] _imgPlayerCreditsLabel;
         private CCSprite _notificationImage;
+        private CCSprite _noAdsNotification;
         private CCSprite _timeToNextAdsImg;
         private CCSprite _h1;
         private CCSprite _h2;
@@ -299,7 +300,7 @@ namespace LooneyInvaders.Layers
                 await Task.Delay(timeToWaitBeforeShowError);
                 if (_adWasFailed)
                 {
-                    ShowErrorNotification("ads-not-quick-loaded-notification");
+                    ShowAdNotificationForTime("ads-not-quick-loaded-notification");
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -329,7 +330,7 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            ScheduleOnce(_ => ShowErrorNotification("ads-not-available-notification"), 0f);
+            ScheduleOnce(_ => ShowAdNotificationForTime("ads-not-available-notification"), 0f);
             _adWasFailed = true;
         }
 
@@ -371,7 +372,7 @@ namespace LooneyInvaders.Layers
             return pastDateTime - currentDateTime;
         }
 
-        private async void ShowErrorNotification(string imageName)
+        private async void ShowAdNotificationForTime(string imageName)
         {
             if (_notificationImage == null)
             {
@@ -392,6 +393,16 @@ namespace LooneyInvaders.Layers
                 //_notificationTokenSource.Cancel();
 
                 ResumeListeners();
+            }
+        }
+
+        private void ShowAdNotification(string imageName)
+        {
+            if (_noAdsNotification == null)
+            {
+                _noAdsNotification = AddImage(0, 0, $"UI/{imageName}.png");
+                _noAdsNotification.Opacity = 210;
+                AddChild(_noAdsNotification, 600);
             }
         }
 

@@ -8609,6 +8609,17 @@
       <Link>Assets/Content/Images/Hd/UI/ads-not-quick-loaded-notification.png</Link>
     </AndroidAsset>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\no-ads-currently-available-notification-background.png">
+      <Link>Assets/Content/Images/Hd/UI/no-ads-currently-available-notification-background.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-tapped.png">
+      <Link>Assets/Content/Images/Hd/UI/OK-I-got-it-smaller-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
+      <Link>Assets/Content/Images/Hd/UI/OK-I-got-it-smaller-button-untapped.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.71.1620.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.71.1620.0\build\MonoAndroid90\Xamarin.GooglePlayServices.Basement.targets')" />
