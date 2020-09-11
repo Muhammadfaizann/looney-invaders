@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
@@ -26,8 +25,8 @@ namespace LooneyInvaders.Layers
 
         private CCSprite[] _imgPlayerCreditsLabel;
         private CCSprite _notificationImage;
-        private CCSprite _noAdsNotification;
         private CCSprite _timeToNextAdsImg;
+        private CCSprite _notificationBackground;
         private CCSprite _h1;
         private CCSprite _h2;
         private CCSprite _m1;
@@ -35,6 +34,8 @@ namespace LooneyInvaders.Layers
         private CCSprite _s1;
         private CCSprite _s2;
         private bool _adWasFailed;
+        private CCSpriteButton _okGotItButton;
+
 
         private CustomCancellationTokenSource _notificationTokenSource;
 
@@ -54,7 +55,12 @@ namespace LooneyInvaders.Layers
             _firespeedSelected = fireSpeedSelected;
             _magazineSizeSelected = magazineSizeSelected;
             _livesSelected = livesSelected;
-
+            
+            ScheduleOnce(_ =>
+            {
+                ShowAdNotification("no-ads-currently-available-notification-background", false, 160, 110);
+            }, 0.1f);
+            
             SetBackground("UI/background.png");
 
             var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
@@ -300,7 +306,7 @@ namespace LooneyInvaders.Layers
                 await Task.Delay(timeToWaitBeforeShowError);
                 if (_adWasFailed)
                 {
-                    ShowAdNotificationForTime("ads-not-quick-loaded-notification");
+                    ShowAdNotification("ads-not-quick-loaded-notification", true);
                 }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
@@ -330,7 +336,7 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            ScheduleOnce(_ => ShowAdNotificationForTime("ads-not-available-notification"), 0f);
+            ScheduleOnce(_ => ShowAdNotification("ads-not-available-notification", true), 0f);
             _adWasFailed = true;
         }
 
@@ -372,43 +378,51 @@ namespace LooneyInvaders.Layers
             return pastDateTime - currentDateTime;
         }
 
-        private async void ShowAdNotificationForTime(string imageName)
+        private async void ShowAdNotification(string imageName, bool isForTime, int x = 0, int y = 0)
         {
+            if (_notificationBackground == null)
+            {
+                _notificationBackground = AddImage(0, 0, "UI/facebook-login-background.png");
+                _notificationBackground.Opacity = 81;
+                AddChild(_notificationBackground, 1000);
+            }
+            
             if (_notificationImage == null)
             {
-                _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
-                _notificationImage.Opacity = 210;
-                AddChild(_notificationImage, 600);
+                _notificationImage = AddImage(x, y, $"UI/{imageName}.png");
+                AddChild(_notificationImage, 1100);
             }
-            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
+            
             _notificationImage.Visible = true;
-            PauseListeners();
-
-            using (_notificationTokenSource = new CustomCancellationTokenSource())
+            _notificationBackground.Visible = true;
+            
+            if (isForTime)
             {
-                await Task.Delay(2000, _notificationTokenSource.Token);
-                //custom token source isn't still used since all events are paused
-                _notificationImage.Visible = false;
-                //cancel token where you want to hide _notificationImage
-                //_notificationTokenSource.Cancel();
-
-                ResumeListeners();
+                using (_notificationTokenSource = new CustomCancellationTokenSource())
+                {
+                    await Task.Delay(2000, _notificationTokenSource.Token);
+                    OnHideAdNotification(null, null);
+                }
+            }
+            else
+            {
+                _okGotItButton = AddButton(550, 150, "UI/OK-I-got-it-smaller-button-untapped", "UI/OK-I-got-it-smaller-button-tapped", 1300);
+                _okGotItButton.OnClick += OnHideAdNotification;
             }
         }
 
-        private void ShowAdNotification(string imageName)
+        private void OnHideAdNotification(object sender, EventArgs e)
         {
-            if (_noAdsNotification == null)
+            _notificationImage.Visible = false;
+            _notificationBackground.Visible = false;
+            
+            if (_okGotItButton != null)
             {
-                _noAdsNotification = AddImage(0, 0, $"UI/{imageName}.png");
-                _noAdsNotification.Opacity = 210;
-                AddChild(_noAdsNotification, 600);
+                _okGotItButton.Visible = false;
             }
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
+            
+            ResumeListeners();
+            _okGotItButton.OnClick -= OnHideAdNotification;
         }
     }
 }

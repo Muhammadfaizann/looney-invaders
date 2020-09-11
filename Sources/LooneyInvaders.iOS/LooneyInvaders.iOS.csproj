@@ -5228,6 +5228,9 @@
     <BundleResource Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
       <Link>Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png</Link>
     </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
+      <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
+    </BundleResource>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
