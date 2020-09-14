@@ -219,7 +219,9 @@ namespace LooneyInvaders.Layers
 
         private void Btn2000_OnClick(float period)
         {
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable()) {
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
+            {
+                ScheduleOnce(_ => ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY), 0f);
                 return;
             }
 
@@ -229,19 +231,7 @@ namespace LooneyInvaders.Layers
                 Player.Instance.LastAdWatchTime = Convert.ToDateTime("1900-01-01");
                 Player.Instance.LastAdWatchDayCount = 0;
             }
-
-            var lastAdWatchTime = Player.Instance.LastAdWatchTime;
-            var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
-            if (lastAdWatchDayCount > 10) {
-                return;
-            }
-
-            if (lastAdWatchDayCount == 11)
-            {
-                DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
-                return;
-            }
-
+           
             Player.Instance.IsAdInCountdown = true;
             DisableButton2000ForTime(DateTime.Now.AddSeconds(6));
             ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.05f);
@@ -255,16 +245,16 @@ namespace LooneyInvaders.Layers
             _timeToNextAdsImg = AddImage(437, 83, "UI/next-ad-available-in-text.png");
 
             ScheduleOnce(_ => DisableButtonsOnLayer(_btn2000), 0f);
-            Schedule(RefreshBtn2000, 0.15f);
+            Schedule(RefreshBtn2000, 0.05f);
         }
 
         private async void RefreshBtn2000(float dt)
         {
             RemoveChildren(_h1, _h2, _m1, _m2, _s1, _s2);
-
             var currentTimeSpan = CountTimeSpan(Player.Instance.DateTimeOfCountdownPassed);
             var h1 = '0';
             var h2 = '0';
+            
             if (currentTimeSpan.Hours > 9)
             {
                 h1 = currentTimeSpan.Hours.ToString()[0];
@@ -305,14 +295,8 @@ namespace LooneyInvaders.Layers
             _s1 = AddImage(843, 83, $"UI/number_57_{s1}.png");
             _s2 = AddImage(870, 83, $"UI/number_57_{s2}.png");
             
-            if (currentTimeSpan.Seconds <= 0)
+            if (currentTimeSpan.Seconds <= 0 && currentTimeSpan.Hours == 0)
             {
-                var timeToWaitBeforeShowError = 2000;
-                await Task.Delay(timeToWaitBeforeShowError);
-                if (_adWasFailed)
-                {
-                    ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY);
-                }
                 Player.Instance.IsAdInCountdown = false;
                 RemoveChildren(_timeToNextAdsImg, _h1, _h2, _m1, _m2, _s1, _s2);
                 Unschedule(RefreshBtn2000);
@@ -321,6 +305,14 @@ namespace LooneyInvaders.Layers
                     EnableButtonsOnLayer(_btn2000);
                     _tenTimesText.Visible = true;
                 }, 0f);
+                
+                var timeToWaitBeforeShowError = 2000; 
+                await Task.Delay(timeToWaitBeforeShowError);
+                
+                if (_adWasFailed)
+                {
+                    ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY);
+                }
             }
         }
 
@@ -328,7 +320,18 @@ namespace LooneyInvaders.Layers
 
         private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e)
         {
+            var lastAdWatchTime = Player.Instance.LastAdWatchTime;
+            var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
             
+            if (lastAdWatchDayCount == 10)
+            {
+                ScheduleOnce(_ =>
+                {
+                    ShowAdNotification(_noAdsNotificationImageName, false, _noAdsImagePositionX, _noAdsImagePositionY);
+                }, 0.05f);
+                
+                DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
+            }
         }
         
         private void InterstitialOpened()
