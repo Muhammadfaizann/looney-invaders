@@ -36,7 +36,7 @@ namespace LooneyInvaders.Layers
             var btnTwitter = AddButton(300, 80, "UI/Game-info-follow-us-on-twitter-untapped.png", "UI/Game-info-follow-us-on-twitter-tapped.png");
             btnTwitter.OnClick += BtnTwitter_OnClick;
 
-            AdManager.ShowBannerBottom();
+            //AdManager.ShowBannerBottom();
 
             ScheduleOnce(FreeAllSpriteSheets, 0.54f);
         }

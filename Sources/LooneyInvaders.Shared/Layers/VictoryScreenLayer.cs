@@ -571,7 +571,7 @@ namespace LooneyInvaders.Layers
             RemoveChild(_multiplierNode);
             UnscheduleAllExcept((AnimateLoadingView, 0.06f));
 
-            AdManager.ShowBannerBottom();
+            //AdManager.ShowBannerBottom();
             ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
             ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
         }
@@ -579,7 +579,7 @@ namespace LooneyInvaders.Layers
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
-            AdManager.ShowBannerBottom();
+            //AdManager.ShowBannerBottom();
 
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
