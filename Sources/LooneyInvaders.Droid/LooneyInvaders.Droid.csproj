@@ -8602,11 +8602,29 @@
     <None Include="proguard-rules.pro" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\ads-not-available-notification.png">
-      <Link>Assets/Content/Images/Hd/UI/ads-not-available-notification.png</Link>
-    </AndroidAsset>
     <AndroidAsset Include="..\Content\Images\Hd\UI\ads-not-quick-loaded-notification.png">
       <Link>Assets/Content/Images/Hd/UI/ads-not-quick-loaded-notification.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\no-ads-currently-available-notification-background.png">
+      <Link>Assets/Content/Images/Hd/UI/no-ads-currently-available-notification-background.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-tapped.png">
+      <Link>Assets/Content/Images/Hd/UI/OK-I-got-it-smaller-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
+      <Link>Assets/Content/Images/Hd/UI/OK-I-got-it-smaller-button-untapped.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-background.png">
+      <Link>Assets/Content/Images/Hd/UI/facebook-login-background.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Please-tap-button-again-notification.png">
+      <Link>Assets/Content/Images/Hd/UI/Please-tap-button-again-notification.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -5213,11 +5213,23 @@
     <BundleResource Include="..\Content\Images\Hd\UI\username-notification.png">
       <Link>Content\Images\Hd\UI\username-notification.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\ads-not-available-notification.png">
-      <Link>Content\Images\Hd\UI\ads-not-available-notification.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\ads-not-quick-loaded-notification.png">
       <Link>Content\Images\Hd\UI\ads-not-quick-loaded-notification.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\no-ads-currently-available-notification-background.png">
+      <Link>Content\Images\Hd\UI\no-ads-currently-available-notification-background.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-tapped.png">
+      <Link>Content\Images\Hd\UI\OK-I-got-it-smaller-button-tapped.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
+      <Link>Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
+      <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Please-tap-button-again-notification.png">
+      <Link>Content\Images\Hd\UI\Please-tap-button-again-notification.png</Link>
     </BundleResource>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
