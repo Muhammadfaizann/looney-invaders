@@ -120,10 +120,10 @@ namespace LooneyInvaders.Layers
             };
             _facebookLoginBackground = new CCNodeExt() { Opacity = 65, IsOpacityCascaded = false };
             _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
-            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button", "UI/facebook-login-button", 605);
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button", "UI/facebook-login-button", 1400);
             _facebookLoginButton.OnClick += OnFacebookLogin;
             _facebookLoginBackground.Visible = false;
-            AddChild(_facebookLoginBackground, 600);
+            AddChild(_facebookLoginBackground, 1300);
 
             // disable watch ad button
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
