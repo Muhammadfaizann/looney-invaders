@@ -474,14 +474,11 @@ namespace LooneyInvaders.Layers
                 AddChild(_notificationImage, 1100);
             }
             _notificationImage?.RemoveFromParent();
-            _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
             _notificationImage.Opacity = 210;
             AddChild(_notificationImage, 600);
 
-            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
             _notificationImage.Visible = true;
             PauseListeners();
-            _notificationImage.Visible = true;
             _notificationBackground.Visible = true;
             
             if (isForTime)
@@ -517,7 +514,6 @@ namespace LooneyInvaders.Layers
                 //cancel token where you want to hide _notificationImage
                 //_notificationTokenSource.Cancel();
 
-                _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
                 ResumeListeners();
             }
         }
