@@ -11,9 +11,6 @@ namespace LooneyInvaders.Layers
 {
     public class GetMoreCreditsScreenLayer : CCLayerColorExt
     {
-        private readonly (string IsNotQuick, string IsNotavailable) AdsLoadErrorNotification
-            = ("ads-not-quick-loaded-notification", "ads-not-available-notification");
-
         private readonly int _selectedEnemy;
         private readonly int _selectedWeapon;
         private readonly int _caliberSizeSelected;
@@ -214,7 +211,6 @@ namespace LooneyInvaders.Layers
 
         private void Btn4000_OnClick(float period)
         {
-            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
             _facebookLoginBackground.Visible = true;
 
             PauseListeners();
@@ -473,12 +469,9 @@ namespace LooneyInvaders.Layers
                 _notificationImage = AddImage(imagePositionX, imagePositionY, $"UI/{imageName}.png");
                 AddChild(_notificationImage, 1100);
             }
-            _notificationImage?.RemoveFromParent();
-            _notificationImage.Opacity = 210;
-            AddChild(_notificationImage, 600);
-
-            _notificationImage.Visible = true;
+            
             PauseListeners();
+            _notificationImage.Visible = true;
             _notificationBackground.Visible = true;
             
             if (isForTime)
@@ -508,13 +501,6 @@ namespace LooneyInvaders.Layers
                 };
                 
                 AddEventListener(_okGotItEventListener, _okGotItButton);
-                await Task.Delay(2000, _notificationTokenSource.Token);
-                //custom token source isn't still used since all events are paused
-                _notificationImage.Visible = false;
-                //cancel token where you want to hide _notificationImage
-                //_notificationTokenSource.Cancel();
-
-                ResumeListeners();
             }
         }
 
