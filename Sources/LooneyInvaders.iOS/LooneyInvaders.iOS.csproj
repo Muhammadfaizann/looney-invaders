@@ -112,6 +112,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseService.cs" />
+    <Compile Include="Services\Facebook\FacebookService.cs" />
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
@@ -5225,6 +5226,9 @@
     <BundleResource Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
       <Link>Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png</Link>
     </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-button.png">
+      <Link>Content\Images\Hd\UI\facebook-login-button.png</Link>
+    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
       <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
     </BundleResource>
@@ -5243,6 +5247,26 @@
     <Folder Include="Services\Ads\" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Facebook.CoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xamarin.Facebook.CoreKit.iOS.7.1.1\lib\xamarinios10\Facebook.CoreKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook.LoginKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xamarin.Facebook.LoginKit.iOS.7.1.1\lib\xamarinios10\Facebook.LoginKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook.MarketingKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xamarin.Facebook.MarketingKit.iOS.5.11.1\lib\xamarinios10\Facebook.MarketingKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook.PlacesKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xamarin.Facebook.PlacesKit.iOS.5.12.0\lib\xamarinios10\Facebook.PlacesKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook.ShareKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xamarin.Facebook.ShareKit.iOS.7.1.1\lib\xamarinios10\Facebook.ShareKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.1.14.0\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
     </Reference>
@@ -5276,6 +5300,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />

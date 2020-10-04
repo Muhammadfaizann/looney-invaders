@@ -104,7 +104,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tracer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Permissions\IPermissionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CustomCancellationTokenSource.cs" />
+<<<<<<< HEAD
+=======
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\LoginState.cs" />
+>>>>>>> integration-facebook-sdk-ios
     <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook\FacebookLikesHelper.cs" />
   </ItemGroup>
   <ItemGroup>

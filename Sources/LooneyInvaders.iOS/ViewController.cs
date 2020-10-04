@@ -6,6 +6,7 @@ using CC.Mobile.Purchases;
 using CoreMotion;
 using Foundation;
 using UIKit;
+using LooneyInvaders.iOS.Services;
 using LooneyInvaders.iOS.Services.Ads;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
@@ -59,6 +60,7 @@ namespace LooneyInvaders.iOS
             _motionManager = new CMMotionManager();
             _motionManager.StartDeviceMotionUpdates();
 
+            GameDelegate.FacebookService = new FacebookService();
             GameDelegate.GetGyro = GetGyro;
             GameDelegate.UpdateGameView = UpdateGameViewState;
 

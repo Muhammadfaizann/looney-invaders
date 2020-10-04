@@ -16,11 +16,14 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
 using NotificationCenter;
+using Xamarin.Facebook;
+using AppEventsLogger = Xamarin.Facebook.AppEvents.AppEventsLogger;
 using Debug = System.Diagnostics.Debug;
 using CCLayerColorExt = LooneyInvaders.Classes.CCLayerColorExt;
 using JavaThread = Java.Lang.Thread;
 using LaunchMode = Android.Content.PM.LaunchMode;
 using LooneyInvaders.Droid.Helpers;
+using LooneyInvaders.Droid.Services.Facebook;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 using LooneyInvaders.Services.PNS;
@@ -141,6 +144,15 @@ namespace LooneyInvaders.Droid
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
+            //Facebook initialization //ToDo: Bass - check out is ApplicationName - FB app name or just package name
+            FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);
+            FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
+    #pragma warning disable CS0618 // Type or member is obsolete
+            FacebookSdk.SdkInitialize(this);
+    #pragma warning restore CS0618 // Type or member is obsolete
+            FacebookSdk.FullyInitialize();
+            AppEventsLogger.InitializeLib(this, FacebookSdk.ApplicationId);
+            FacebookSdk.AutoLogAppEventsEnabled = true;
 
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
@@ -163,6 +175,7 @@ namespace LooneyInvaders.Droid
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
+
             Tracer.Title = "LaunchingAppTime(ms)";
             TrackTime();
 
@@ -171,6 +184,7 @@ namespace LooneyInvaders.Droid
             GameDelegate.PermissionService = new Permissions.PermissionService(this);
             GameDelegate.DeviceInfoService = new DeviceInfo.DeviceInfoService(this);
             GameDelegate.OpenSettingsService = new PNS.OpenSettingsService(this);
+            GameDelegate.FacebookService = new FacebookService(this);
             TrackTime();
             // remove navigation bar
             var decorView = Window.DecorView;
@@ -186,6 +200,10 @@ namespace LooneyInvaders.Droid
             GameDelegate.GetGyro = GetGyro;
             _sensorManager = (SensorManager)GetSystemService(SensorService);
 
+            using (var latent = PackageManager.GetLaunchIntentForPackage(PackageName))
+            {
+                Debug.WriteLine("Copy this default activity class name: " + latent.Component?.ClassName);
+            }
             GameDelegate.CloseAppAllowed = true;
             GameDelegate.CloseApp = CloseActivity;
             // clearing on iOS does not properly work
@@ -330,8 +348,14 @@ namespace LooneyInvaders.Droid
             return base.OnKeyDown(keyCode, e);
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data) =>
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
             (_svc as PurchaseService)?.HandleActivityResult(requestCode, resultCode, data);
+
+            GameDelegate.FacebookService?.OnActivityResult(requestCode, (int)resultCode, data);
+
+            base.OnActivityResult(requestCode, resultCode, data);
+        }
 
         protected override void OnDestroy()
         {

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CocosSharp;
 using LooneyInvaders.Classes;
 using LooneyInvaders.Layers;
+using LooneyInvaders.Services;
 
 namespace LooneyInvaders.Shared
 {
@@ -37,6 +38,7 @@ namespace LooneyInvaders.Shared
         public static Services.Permissions.IPermissionService PermissionService;
         public static Services.DeviceInfo.IDeviceInfoService DeviceInfoService;
         public static Services.PNS.IOpenSettingsService OpenSettingsService;
+        public static IFacebookService FacebookService;
 
         public static bool IsBusyLayerProperty;
         public static bool UseAnimationClearing;

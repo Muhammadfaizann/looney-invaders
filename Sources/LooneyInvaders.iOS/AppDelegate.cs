@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using AppodealXamariniOS;
+using Facebook.CoreKit;
 using Foundation;
 using UIKit;
 using Microsoft.AppCenter;
@@ -8,8 +10,10 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using NotificationCenter;
 using AdType = AppodealXamariniOS.AppodealAdType;
-using LooneyInvaders.Model;
+using LooneyInvaders.Services;
 using LooneyInvaders.Services.PNS;
+using LooneyInvaders.Model;
+using Settings = LooneyInvaders.Model.Settings;
 
 namespace LooneyInvaders.iOS
 {
@@ -33,7 +37,8 @@ namespace LooneyInvaders.iOS
             // If not required for your application you can safely delete this method
             Appodeal.SetFramework(APDFramework.Xamarin, ObjCRuntime.Constants.Version);  //this is required method, just copy-paste it before init
             Appodeal.InitializeWithApiKey(AppodealApiKey, RequiredAdTypes, false);
-            
+            Profile.EnableUpdatesOnAccessTokenChange(true);
+
             CrashAnalyticsAppInit();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -76,26 +81,30 @@ namespace LooneyInvaders.iOS
         {
             // Use this method to release shared resources, save user data, invalidate timers and store the application state.
             // If your application supports background exection this method is called instead of WillTerminate when the user quits.
-
             Settings.Instance.TimeWhenPageAdsLeaved = DateTime.Now;
-
         }
 
         public override void WillEnterForeground(UIApplication application)
         {
-            // Called as part of the transiton from background to active state.
-            // Here you can undo many of the changes made on entering the background.
+            if (Player.Instance.FacebookLikeUsed == false)
+            {
+                Task.Run(FacebookLikesHelper.AddCreditsIfPageIsLiked);
+            }
         }
 
         public override void OnActivated(UIApplication application)
         {
-            // Restart any tasks that were paused (or not yet started) while the application was inactive. 
-            // If the application was previously in the background, optionally refresh the user interface.
+            AppEvents.ActivateApp();
         }
 
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+        
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
         }
 
         #region -- Private helpers -- 
@@ -122,7 +131,7 @@ namespace LooneyInvaders.iOS
             var notificationsAllowed = new NotificationAllowedService();
             Settings.Instance.IsPushNotificationEnabled = notificationsAllowed.IsNotificationsAllowed();
         }
-
+        
         #endregion
     }
 }

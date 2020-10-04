@@ -1,0 +1,52 @@
+<<<<<<< HEAD
+﻿using System;
+=======
+using System;
+>>>>>>> integration-facebook-sdk-ios
+using System.Threading.Tasks;
+using LooneyInvaders.Model;
+using LooneyInvaders.Shared;
+
+namespace LooneyInvaders.Services
+{
+    public static class FacebookLikesHelper
+    {
+        public const string PageId = "101000795058301";
+        public const string PageUrl = "https://www.facebook.com/Testing-API-by-maxoiduss-101000795058301";
+<<<<<<< HEAD
+#if ANDROID
+        public const string FBAppId = "3099682896807407";
+        public const string FBAppName = "LooneyTest";
+#endif
+=======
+
+>>>>>>> integration-facebook-sdk-ios
+        public static Action DisableCreditButtonAction;
+
+        public static async Task AddCreditsIfPageIsLiked()
+        {
+<<<<<<< HEAD
+            //if (GameDelegate.FacebookService.LoginState == LoginState.Success)
+            {//ToDo: Pavel - uncomment this after the merge
+                //var currentFBLikesCount = await GameDelegate.FacebookService.CountPageLikes(PageId);
+                //if (Player.Instance.CachedFacebookLikesCount < currentFBLikesCount)
+=======
+            if (GameDelegate.FacebookService.LoginState == LoginState.Success )
+            {
+                var currentFBLikesCount = await GameDelegate.FacebookService.CountPageLikes(PageId);
+                if (Player.Instance.CachedFacebookLikesCount < currentFBLikesCount)
+>>>>>>> integration-facebook-sdk-ios
+                {
+                    Player.Instance.Credits += 4000;
+                    Player.Instance.FacebookLikeUsed = true;
+
+                    DisableCreditButtonAction?.Invoke();
+                }
+            }
+        }
+    }
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> integration-facebook-sdk-ios

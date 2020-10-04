@@ -1,13 +1,19 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
 using LooneyInvaders.Classes;
+using LooneyInvaders.Shared;
+using LooneyInvaders.Services;
 
 namespace LooneyInvaders.Layers
 {
     public class GetMoreCreditsScreenLayer : CCLayerColorExt
     {
+        private readonly (string IsNotQuick, string IsNotavailable) AdsLoadErrorNotification
+            = ("ads-not-quick-loaded-notification", "ads-not-available-notification");
+
         private readonly int _selectedEnemy;
         private readonly int _selectedWeapon;
         private readonly int _caliberSizeSelected;
@@ -37,6 +43,10 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _okGotItButton;
         private CCEventListenerTouchOneByOne _okGotItEventListener;
 
+        private readonly CCNodeExt _facebookLoginBackground;
+        private readonly CCSpriteButton _facebookLoginButton;
+        private readonly CCEventListenerTouchOneByOne _facebookLoginBackgroundTouchListener;
+
         private CustomCancellationTokenSource _notificationTokenSource;
         private string _adsNotAvailableNotificationImageName = "Please-tap-button-again-notification";
         private string _noAdsNotificationImageName = "no-ads-currently-available-notification-background";
@@ -53,8 +63,8 @@ namespace LooneyInvaders.Layers
 
         public GetMoreCreditsScreenLayer(int creditsRequired, int selectedEnemy, int selectedWeapon, int caliberSizeSelected, int fireSpeedSelected, int magazineSizeSelected, int livesSelected)
         {
-            Shared.GameDelegate.ClearOnBackButtonEvent();
-            
+            GameDelegate.ClearOnBackButtonEvent();
+            Player.Instance.OnCreditsChanged += RefreshPlayerCreditsLabel;
             _selectedEnemy = selectedEnemy;
             _selectedWeapon = selectedWeapon;
             _caliberSizeSelected = caliberSizeSelected;
@@ -65,35 +75,58 @@ namespace LooneyInvaders.Layers
 
             var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
-            Shared.GameDelegate.OnBackButton += BtnBack_OnClick;
+            GameDelegate.OnBackButton += BtnBack_OnClick;
 
             AddImage(307, 560, "UI/Get-more-credits-title-text.png");
 
             _btn1M = AddButton(0, 475, "UI/Get-more-credits-get-1000000-credits-button-untapped.png", "UI/Get-more-credits-get-1000000-credits-button-tapped.png");
             _btn1M.OnClick += Btn1m_OnClick;
             _btn1M.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 470, "UI/Get-more-credits-get-7_99-USD.png");
 
             _btn300K = AddButton(0, 381, "UI/Get-more-credits-get-300000-credits-button-untapped.png", "UI/Get-more-credits-get-300000-credits-button-tapped.png");
             _btn300K.OnClick += Btn300k_OnClick;
             _btn300K.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 379, "UI/Get-more-credits-get-4_99-USD.png");
 
             _btn100K = AddButton(0, 290, "UI/Get-more-credits-get-100000-credits-button-untapped.png", "UI/Get-more-credits-get-100000-credits-button-tapped.png");
             _btn100K.OnClick += Btn100k_OnClick;
             _btn100K.ButtonType = ButtonType.CreditPurchase;
-
             AddImage(517, 291, "UI/Get-more-credits-get-1_99-USD.png");
 
             _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-untapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
             _btn4000.OnClick += (s, e) => ScheduleOnce(Btn4000_OnClick, 0f);
-            _btn4000.ButtonType = ButtonType.Silent;
-
+            _btn4000.ButtonType = ButtonType.CreditPurchase;
             AddImage(437, 199, "UI/Get-more-credits-like-us-on-facebook-text.png");
 
             _tenTimesText = AddImage(437, 83, "UI/Get-more-credits-watch-advertisement.png");
+
+            _facebookLoginBackgroundTouchListener = new CCEventListenerTouchOneByOne
+            {
+                OnTouchBegan = (touch, @event) =>
+                {
+                    if (_facebookLoginButton.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
+                    {   //here we touched the FB login button
+                        _facebookLoginButton?.FireOnClick();
+                    }
+                    ScheduleOnce(_ =>
+                    {
+                        _facebookLoginBackground.Visible = false;
+                        _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
+
+                        RemoveEventListener(_facebookLoginBackgroundTouchListener);
+                        ResumeListeners();
+                    }, 0.4f);
+
+                    return false;
+                }
+            };
+            _facebookLoginBackground = new CCNodeExt() { Opacity = 65, IsOpacityCascaded = false };
+            _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button", "UI/facebook-login-button", 605);
+            _facebookLoginButton.OnClick += OnFacebookLogin;
+            _facebookLoginBackground.Visible = false;
+            AddChild(_facebookLoginBackground, 600);
 
             // disable watch ad button
             if (Player.Instance.LastAdWatchDay.Date != DateTime.Now.Date)
@@ -158,8 +191,13 @@ namespace LooneyInvaders.Layers
 
             if (Player.Instance.FacebookLikeUsed)
             {
-                _btn4000 = AddButton(0, 199, "UI/Get-more-credits-get-4000-credits-button-tapped.png", "UI/Get-more-credits-get-4000-credits-button-tapped.png");
+                DisableButtonsOnLayer(_btn4000);
             }
+        }
+
+        private void RefreshPlayerCreditsLabel()
+        {
+            ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
         }
 
         private void RefreshPlayerCreditsLabel(float dt = 0f)
@@ -176,24 +214,40 @@ namespace LooneyInvaders.Layers
 
         private void Btn4000_OnClick(float period)
         {
-            if (!NetworkConnectionManager.IsInternetConnectionAvailable() || Player.Instance.FacebookLikeUsed)
+            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
+            _facebookLoginBackground.Visible = true;
+
+            PauseListeners();
+            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
+        }
+
+        private async void OnFacebookLogin(object sender, EventArgs eventArgs)
+        {
+            if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
                 return;
             }
-            DisableButtonsOnLayer(_btn4000);
 
-            GameEnvironment.OpenWebPage("http://www.facebook.com/looneyinvaders");
-            GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCreditPurchase);
-            Player.Instance.Credits += 4000;
-            Player.Instance.FacebookLikeUsed = true;
-
-            ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
+            try
+            {
+                var loginResponse = await GameDelegate.FacebookService.Login();
+                if (loginResponse.LoginState == LoginState.Success)
+                {
+                    Player.Instance.CachedFacebookLikesCount = await GameDelegate.FacebookService.CountPageLikes(FacebookLikesHelper.PageId); ;
+                    FacebookLikesHelper.DisableCreditButtonAction = FacebookLikesHelper.DisableCreditButtonAction ?? Disable4000Button;
+                    GameDelegate.FacebookService.OpenPage(FacebookLikesHelper.PageUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
         {
-            Shared.GameDelegate.ClearOnBackButtonEvent();
+            GameDelegate.ClearOnBackButtonEvent();
             Unschedule(RefreshBtn2000);
 
             AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
@@ -231,7 +285,20 @@ namespace LooneyInvaders.Layers
                 Player.Instance.LastAdWatchTime = Convert.ToDateTime("1900-01-01");
                 Player.Instance.LastAdWatchDayCount = 0;
             }
-           
+
+            var lastAdWatchTime = Player.Instance.LastAdWatchTime;
+            var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
+            if (lastAdWatchDayCount > 10)
+            {
+                return;
+            }
+
+            if (lastAdWatchDayCount == 11)
+            {
+                DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
+                return;
+            }
+
             Player.Instance.IsAdInCountdown = true;
             DisableButton2000ForTime(DateTime.Now.AddSeconds(6));
             ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.05f);
@@ -380,6 +447,12 @@ namespace LooneyInvaders.Layers
             }
         }
 
+        private void Disable4000Button()
+        {
+            GameDelegate.FacebookService.Logout();
+            DisableButtonsOnLayer(_btn4000);
+        }
+
         private TimeSpan CountTimeSpan(DateTime pastDateTime)
         {
             var currentDateTime = DateTime.Now;
@@ -400,7 +473,13 @@ namespace LooneyInvaders.Layers
                 _notificationImage = AddImage(imagePositionX, imagePositionY, $"UI/{imageName}.png");
                 AddChild(_notificationImage, 1100);
             }
-            
+            _notificationImage?.RemoveFromParent();
+            _notificationImage = AddImage(0, 0, $"UI/{imageName}.png");
+            _notificationImage.Opacity = 210;
+            AddChild(_notificationImage, 600);
+
+            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = false);
+            _notificationImage.Visible = true;
             PauseListeners();
             _notificationImage.Visible = true;
             _notificationBackground.Visible = true;
@@ -432,6 +511,14 @@ namespace LooneyInvaders.Layers
                 };
                 
                 AddEventListener(_okGotItEventListener, _okGotItButton);
+                await Task.Delay(2000, _notificationTokenSource.Token);
+                //custom token source isn't still used since all events are paused
+                _notificationImage.Visible = false;
+                //cancel token where you want to hide _notificationImage
+                //_notificationTokenSource.Cancel();
+
+                _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
+                ResumeListeners();
             }
         }
 
