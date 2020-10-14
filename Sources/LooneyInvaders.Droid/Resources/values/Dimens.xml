@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- from the appodeal -->
+    <dimen name="applovin_sdk_actionBarHeight">16dp</dimen>
+    <dimen name="applovin_sdk_mediationDebuggerDetailListItemTextSize">16dp</dimen>
+    <dimen name="applovin_sdk_mediationDebuggerSectionTextSize">16dp</dimen>
+    <dimen name="applovin_sdk_mediationDebuggerSectionHeight">32dp</dimen>
+</resources>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<!-- some mobvista colors required -->
 <resources>
+    <!-- from the appodeal -->
     <color name="mobvista_feeds_blank">#ffffff</color>
     <color name="mobvista_feeds_white">#ffffff</color>
     <color name="mobvista_feeds_gray">#9c9c9c</color>
@@ -13,4 +13,8 @@
     <color name="mobvista_nativex_por_cta_bg_pre">#9c9c9c</color>
     <color name="mobvista_nativex_land_cta_bg_nor">#ffffff</color>
     <color name="mobvista_nativex_sound_bg">#cccccc</color>
+    <color name="applovin_sdk_actionBarBackground">#9c9c9c</color>
+    <color name="applovin_sdk_textColorPrimary">#0022ff</color>
+    <color name="applovin_sdk_listViewBackground">#ffffff</color>
+    <color name="applovin_sdk_listViewSectionTextColor">#000099</color>
 </resources>
