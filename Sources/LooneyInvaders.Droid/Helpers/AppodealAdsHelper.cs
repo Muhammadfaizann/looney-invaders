@@ -7,13 +7,18 @@ namespace LooneyInvaders.Droid.Helpers
 {
     public static class AppodealAdsHelper
     {
-        public enum AdType
+        /*public struct AdType
         {
-            Interstitial = Appodeal.INTERSTITIAL,
-            Banner = Appodeal.BANNER_BOTTOM,
-            BannerTop = Appodeal.BANNER_TOP,
-            Rewarded = Appodeal.REWARDED_VIDEO
+            public static AdType Interstitial => Com.Appodeal.Ads.AdType.Interstitial;
+            public static Com.Appodeal.Ads.AdType Banner => Com.Appodeal.Ads.AdType.Banner;
+            public static Com.Appodeal.Ads.AdType BannerTop => Com.Appodeal.Ads.AdType.Banner;
+            public static Com.Appodeal.Ads.AdType Rewarded => Com.Appodeal.Ads.AdType.Rewarded;
+
+            //public static implicit operator int (AdType type) =>
+            //public static implicit operator AdType(Com.Appodeal.Ads.AdType type)
+            
         }
+        */
 
         public static int LoadingPauseMilliseconds { get; set; }
 

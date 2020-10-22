@@ -14,8 +14,7 @@ namespace LooneyInvaders.Droid
 
         private readonly int requiredAdTypes = (int)AdType.Interstitial
                                              | (int)AdType.Rewarded
-                                             | (int)AdType.Banner
-                                             | (int)AdType.BannerTop;
+                                             | (int)AdType.Banner;
         private bool _isAdsShoving;
         private bool _wasResumed;
 
@@ -23,32 +22,27 @@ namespace LooneyInvaders.Droid
         public void OnBannerFailedToLoad() { }
         public void OnBannerLoaded(int p0, bool p1) { }
         public void OnBannerShown() { }
+        public void OnBannerExpired() { }
+        public void OnBannerShowFailed() { }
 
         public void OnInterstitialLoaded(bool b) { }
         public void OnInterstitialFailedToLoad() => AdManager.InterstitialAdFailedToLoad();
         public void OnInterstitialShown() => AdManager.InterstitialAdOpened();
         public void OnInterstitialClosed() => AdManager.InterstitialAdClosed();
         public void OnInterstitialClicked() { }
+        public void OnInterstitialExpired() { }
+        public void OnInterstitialShowFailed() => AdManager.InterstitialAdFailedToLoad();
 
         protected override void OnResume()
         {
             base.OnResume();
-
-            //if (_wasResumed)
-            {   //ToDo: find out what the problem with resuming (egl_swap)
-                //Appodeal.OnResume(this, requiredAdTypes); //is it needed
-            }
-            //else _wasResumed = true;
         }
-
-        public void ShowBannerTop() => RunOnUiThread(async () => await AdType.BannerTop.LoadAsync(this));
 
         public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
 
         public void HideBanner() => RunOnUiThread(() =>
         {
             AdType.Banner.Hide(this);
-            AdType.BannerTop.Hide(this);
         });
 
         public void ShowInterstitial()

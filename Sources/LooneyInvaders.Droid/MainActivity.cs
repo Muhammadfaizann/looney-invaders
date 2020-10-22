@@ -158,7 +158,7 @@ namespace LooneyInvaders.Droid
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
             //Helpers.EglHelper.InitEgl();
-            AdManager.ShowBannerTopHandler = ShowBannerTop;
+            AdManager.ShowBannerTopHandler = ShowBannerBottom;
             AdManager.ShowBannerBottomHandler = ShowBannerBottom;
             AdManager.HideBannerHandler = HideBanner;
             AdManager.LoadInterstitialHandler = LoadInterstitial;
@@ -169,8 +169,6 @@ namespace LooneyInvaders.Droid
             Appodeal.SetBannerAnimation(true);
             Appodeal.SetSmartBanners(true);
             Appodeal.SetAutoCache(requiredAdTypes, false);
-            Appodeal.SetAutoCacheNativeIcons(false);
-            Appodeal.SetAutoCacheNativeMedia(false);
             //MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
