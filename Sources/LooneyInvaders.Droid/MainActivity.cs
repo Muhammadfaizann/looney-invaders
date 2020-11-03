@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using CC.Mobile.Purchases;
 using CocosSharp;
-using Com.Appodeal.Ads;
+//using Com.Appodeal.Ads;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -64,7 +64,7 @@ namespace LooneyInvaders.Droid
         LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden,
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization//, IInterstitialCallbacks, IBannerCallbacks
     {
         private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
         //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";
@@ -158,17 +158,17 @@ namespace LooneyInvaders.Droid
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
             //Helpers.EglHelper.InitEgl();
-            AdManager.ShowBannerTopHandler = ShowBannerBottom;
-            AdManager.ShowBannerBottomHandler = ShowBannerBottom;
+            AdManager.ShowBannerTopHandler = () => { };//ShowBannerBottom;
+            AdManager.ShowBannerBottomHandler = () => { };//ShowBannerBottom;
             AdManager.HideBannerHandler = HideBanner;
-            AdManager.LoadInterstitialHandler = LoadInterstitial;
+            AdManager.LoadInterstitialHandler = () => { };//LoadInterstitial;
             AdManager.ShowInterstitialHandler = ShowInterstitial;
-            AdManager.HideInterstitialHandler = HideInterstitial;
-            Appodeal.SetTesting(false);
+            AdManager.HideInterstitialHandler = () => { };//HideInterstitial;
+            /*Appodeal.SetTesting(false);
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
             Appodeal.SetBannerAnimation(true);
             Appodeal.SetSmartBanners(true);
-            Appodeal.SetAutoCache(requiredAdTypes, false);
+            Appodeal.SetAutoCache(requiredAdTypes, false);*/
             //MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
@@ -223,10 +223,10 @@ namespace LooneyInvaders.Droid
             TrackTime();
 
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
-            Appodeal.SetInterstitialCallbacks(this);
+            /*Appodeal.SetInterstitialCallbacks(this);
             Appodeal.SetBannerCallbacks(this);
             Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
-            Appodeal.Cache(this, requiredAdTypes);
+            Appodeal.Cache(this, requiredAdTypes);*/
             TrackTime();
             // set up in-game purchases
             InGamePurchasesAsync();

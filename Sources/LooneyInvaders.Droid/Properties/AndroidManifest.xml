@@ -9,7 +9,7 @@
 		<activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 		<!-- https://developers.google.com/ad-manager/mobile-ads-sdk/android/quick-start#update_your_androidmanifestxml - for Google Ad Manager publishers -->
 		<meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP" android:value="true" />
-		<activity android:name="com.adcolony.sdk.AdColonyInterstitialActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" />
+		<!--<activity android:name="com.adcolony.sdk.AdColonyInterstitialActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.adcolony.sdk.AdColonyAdViewActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout" android:hardwareAccelerated="true" android:screenOrientation="behind" />
 		<activity android:name="com.applovin.sdk.AppLovinWebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -60,7 +60,7 @@
 		<activity android:name="com.ironsource.sdk.controller.ControllerActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.ironsource.sdk.controller.InterstitialActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent" />
 		<activity android:name="com.ironsource.sdk.controller.OpenUrlActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent" />
-		<!-- suppress AndroidDomInspection -->
+		
 		<activity android:name="com.my.target.common.MyTargetActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 		<activity android:name="com.smaato.sdk.core.browser.SmaatoSdkBrowserActivity" android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize" />
 		<provider android:name="com.smaato.sdk.core.lifecycle.ProcessLifecycleOwnerInitializer" android:authorities="${applicationId}.smaato-lifecycle-process" android:exported="false" />
@@ -102,13 +102,10 @@
 		<service android:name="com.yandex.metrica.ConfigurationService" android:enabled="true" android:exported="false" android:process=":Metrica" tools:ignore="ExportedService">
 			<meta-data android:name="metrica:configuration:api:level" android:value="3" />
 			<intent-filter>
-				<!-- This action was used by old background location collecting and should not be used again -->
-				<!-- <action android:name="com.yandex.metrica.configuration.ACTION_START"/> -->
 				<action android:name="com.yandex.metrica.configuration.ACTION_INIT" />
 			</intent-filter>
 		</service>
 		<service android:name="com.yandex.metrica.ConfigurationJobService" android:enabled="true" android:exported="false" android:permission="android.permission.BIND_JOB_SERVICE" android:process=":Metrica"></service>
-		<!-- Yandex Mobile Metrica Analytics: main receiver -->
 		<receiver android:name="com.yandex.metrica.MetricaEventHandler" android:enabled="true" android:exported="true" tools:ignore="ExportedReceiver">
 			<intent-filter>
 				<action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -118,7 +115,8 @@
 			<intent-filter>
 				<action android:name="com.yandex.metrica.configuration.service.PLC" />
 			</intent-filter>
-		</receiver>
+		</receiver>-->
+		<!--new - old -->
 		<!--
 		<activity android:name="com.appodeal.ads.InterstitialActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 		<activity android:name="com.appodeal.ads.VideoActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
@@ -270,5 +268,6 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<!-- <permission android:name="com.init.looney_invaders.permission.C2D_MESSAGE" android:protectionLevel="signature" /> -->
 </manifest>

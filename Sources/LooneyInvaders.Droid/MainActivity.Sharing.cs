@@ -5,7 +5,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Hardware;
 using Android.Widget;
-using Com.Appodeal.Ads;
+//using Com.Appodeal.Ads;
 using Debug = System.Diagnostics.Debug;
 using FileProvider = Android.Support.V4.Content.FileProvider;
 using JavaFile = Java.IO.File;
@@ -13,7 +13,7 @@ using LooneyInvaders.Services.App42;
 
 namespace LooneyInvaders.Droid
 {
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization//, IInterstitialCallbacks, IBannerCallbacks
     {
         private static JavaFile StoreScreenShot(Bitmap picture)
         {

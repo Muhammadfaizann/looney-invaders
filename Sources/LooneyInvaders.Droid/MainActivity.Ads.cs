@@ -1,20 +1,20 @@
 ﻿using System;
 using Android.App;
 using Android.Hardware;
-using Com.Appodeal.Ads;
+//using Com.Appodeal.Ads;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 using static LooneyInvaders.Droid.Helpers.AppodealAdsHelper;
 
 namespace LooneyInvaders.Droid
 {
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization//, IInterstitialCallbacks, IBannerCallbacks
     {
         private const string AppodealApiKey = "c0502298783c2decd053ad8514ee4cf2fa08d25e1f676360";
 
-        private readonly int requiredAdTypes = (int)AdType.Interstitial
+        /*private readonly int requiredAdTypes = (int)AdType.Interstitial
                                              | (int)AdType.Rewarded
-                                             | (int)AdType.Banner;
+                                             | (int)AdType.Banner;*/
         private bool _isAdsShoving;
         private bool _wasResumed;
 
@@ -38,11 +38,11 @@ namespace LooneyInvaders.Droid
             base.OnResume();
         }
 
-        public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
+        //public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
 
         public void HideBanner() => RunOnUiThread(() =>
         {
-            AdType.Banner.Hide(this);
+            //AdType.Banner.Hide(this);
         });
 
         public void ShowInterstitial()
@@ -50,11 +50,11 @@ namespace LooneyInvaders.Droid
             _isAdsShoving = true;
             Settings.Instance.TimeWhenPageAdsLeaved = default(DateTime);
 
-            RunOnUiThread(async () => await AdType.Interstitial.LoadAsync(this));
+            //RunOnUiThread(async () => await AdType.Interstitial.LoadAsync(this));
         }
 
-        public void LoadInterstitial() => RunOnUiThread(async () => await AdType.Interstitial.LoadAsync(this, false));
+        //public void LoadInterstitial() => RunOnUiThread(async () => await AdType.Interstitial.LoadAsync(this, false));
 
-        public void HideInterstitial() => RunOnUiThread(() => AdType.Interstitial.Hide(this));
+        //public void HideInterstitial() => RunOnUiThread(() => AdType.Interstitial.Hide(this));
     }
 }

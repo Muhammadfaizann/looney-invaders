@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Hardware;
 using CC.Mobile.Purchases;
-using Com.Appodeal.Ads;
 using Debug = System.Diagnostics.Debug;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 
 namespace LooneyInvaders.Droid
 {
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
     {
         private IPurchaseService _svc;
 

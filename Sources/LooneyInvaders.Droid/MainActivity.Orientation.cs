@@ -3,12 +3,11 @@ using Android.App;
 using Android.Content.PM;
 using Android.Hardware;
 using Android.Views;
-using Com.Appodeal.Ads;
 using LooneyInvaders.Services.App42;
 
 namespace LooneyInvaders.Droid
 {
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
     {
         private SensorManager _sensorManager;
 

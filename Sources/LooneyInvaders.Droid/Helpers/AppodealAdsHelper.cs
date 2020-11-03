@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Android.App;
-using Com.Appodeal.Ads;
+//using Com.Appodeal.Ads;
 
 namespace LooneyInvaders.Droid.Helpers
 {
@@ -22,7 +22,7 @@ namespace LooneyInvaders.Droid.Helpers
 
         public static int LoadingPauseMilliseconds { get; set; }
 
-        public static async Task LoadAsync(this AdType type, Activity context, bool show = true)
+        /*public static async Task LoadAsync(this AdType type, Activity context, bool show = true)
         {
             ThrowIfActivityIsNull(context);
 
@@ -48,7 +48,7 @@ namespace LooneyInvaders.Droid.Helpers
             ThrowIfActivityIsNull(context);
 
             Appodeal.Hide(context, (int)type);
-        }
+        }*/
 
         private static void ThrowIfActivityIsNull(Activity context)
         {
