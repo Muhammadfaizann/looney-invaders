@@ -68,9 +68,10 @@ namespace LooneyInvaders.Model
         {
             if (Settings.Instance.Advertisements)
             {
-                if (NetworkConnectionManager.IsInternetConnectionAvailable())
-                { ShowInterstitialHandler?.Invoke(); }
-                else InterstitialAdFailedToLoad();
+                //if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                //{ ShowInterstitialHandler?.Invoke(); }
+                //else
+                    InterstitialAdFailedToLoad();
             }
         }
 
