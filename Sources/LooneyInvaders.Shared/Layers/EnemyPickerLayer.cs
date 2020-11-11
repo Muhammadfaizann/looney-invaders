@@ -291,7 +291,7 @@ namespace LooneyInvaders.Layers
             
             _isHoldAnimations = true;
             UnscheduleAll();
-            _selectedEnemy = (int)Enemies.Aliens;
+            //_selectedEnemy = (int)Enemies.Aliens;
             TransitionToLayer(new WeaponPickerLayer(_selectedEnemy));
         }
 
