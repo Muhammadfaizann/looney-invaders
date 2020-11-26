@@ -885,29 +885,29 @@
     <BundleResource Include="..\Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png">
       <Link>Content\Images\Hd\Enemies\Bush-mouth-open-bruises-bandages.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-evil-grimace.png">
-      <Link>Content\Images\Hd\Enemies\Hitler-evil-grimace.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-evil-grimace.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-evil-grimace.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-evil-smile.png">
-      <Link>Content\Images\Hd\Enemies\Hitler-evil-smile.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-evil-smile.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-evil-smile.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-mouth-closed.png">
-      <Link>Content\Images\Hd\Enemies\Hitler-mouth-closed.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-closed.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-closed.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-mouth-closed-bruises.png">
-      <Link>Content\Images\Hd\Enemies\Hitler-mouth-closed-bruises.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-closed-bruises.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-closed-bruises.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\hitler-mouth-closed-bruises-bandages.png">
-      <Link>Content\Images\Hd\Enemies\hitler-mouth-closed-bruises-bandages.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-closed-bruises-bandages.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-closed-bruises-bandages.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\Hitler-mouth-open.png">
-      <Link>Content\Images\Hd\Enemies\Hitler-mouth-open.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-open.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-open.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\hitler-mouth-open-bruises.png">
-      <Link>Content\Images\Hd\Enemies\hitler-mouth-open-bruises.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-open-bruises.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-open-bruises.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Enemies\hitler-mouth-open-bruises-bandages.png">
-      <Link>Content\Images\Hd\Enemies\hitler-mouth-open-bruises-bandages.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Enemies\Milosevic-mouth-open-bruises-bandages.png">
+      <Link>Content\Images\Hd\Enemies\Milosevic-mouth-open-bruises-bandages.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Enemies\Kim-evil-grimace.png">
       <Link>Content\Images\Hd\Enemies\Kim-evil-grimace.png</Link>
