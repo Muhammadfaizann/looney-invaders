@@ -384,7 +384,7 @@ namespace LooneyInvaders.Layers
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-george-bush-text.png");
                     ChangeSpriteImage(_imgEnemyLocked, "UI/Choose-your-enemy-george-bush-locked-text.png");
-                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.England) == 0;
+                    _imgEnemyLocked.Visible = Player.Instance.GetSavedCountries(Battlegrounds.Hague) == 0;
                 }
                 else if (_selectedEnemy == (int)Enemies.Putin)
                 {

@@ -1347,23 +1347,23 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\croatia_cartonic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\croatia_cartonic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\croatia_realistic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\croatia_realistic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\Hague_cartonic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\Hague_cartonic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\Hague_realistic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\Hague_realistic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1387,13 +1387,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\kosovo_cartonic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\kosovo_cartonic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\kosovo_realistic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\kosovo_realistic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -1457,23 +1457,23 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_cartonic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_cartonic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_realistic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_realistic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\slovenia_cartonic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\slovenia_cartonic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg">
-      <Link>Assets\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Battlegrounds\slovenia_realistic_1136x640.jpg">
+      <Link>Assets\Content\Images\Hd\Battlegrounds\slovenia_realistic_1136x640.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3147,13 +3147,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-denmark-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-denmark-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-croatia-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-croatia-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-england-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-england-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-the-hague-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-the-hague-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3167,8 +3167,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-france-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-france-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-kosovo-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-kosovo-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3202,13 +3202,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-norway-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-norway-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-bosnia-and-herzegovina-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-bosnia-and-herzegovina-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-poland-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-poland-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-slovenia-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-in-slovenia-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3987,8 +3987,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Get-ready-for-next-attack-german-troops.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Get-ready-for-next-attack-german-troops.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Get-ready-for-next-attack-serbia-troops.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Get-ready-for-next-attack-serbia-troops.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7037,8 +7037,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\denmark-lost-war.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Loss scenes\denmark-lost-war.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\Croatia-lost-war.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Loss scenes\Croatia-lost-war.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7052,8 +7052,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\france-lost-war.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Loss scenes\france-lost-war.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\Kosovo-lost-war.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Loss scenes\Kosovo-lost-war.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7092,13 +7092,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\norway-lost-war.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Loss scenes\norway-lost-war.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\Bosnia-and-Herzegovina-lost-war.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Loss scenes\Bosnia-and-Herzegovina-lost-war.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\poland-lost-war.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Loss scenes\poland-lost-war.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\Slovenia-lost-war.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Loss scenes\Slovenia-lost-war.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7117,8 +7117,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\UK-lost-war.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Loss scenes\UK-lost-war.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Loss scenes\Hague-lost-war.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Loss scenes\Hague-lost-war.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8142,53 +8142,43 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler 3 Scheisse.wav">
-      <Link>Assets\Content\Sounds\Hitler 3 Scheisse.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic 3 shit.wav">
+      <Link>Assets\Content\Sounds\milocevic 3 shit.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler 3 shit.wav">
-      <Link>Assets\Content\Sounds\Hitler 3 shit.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic 4 ha haa haa.wav">
+      <Link>Assets\Content\Sounds\milocevic 4 ha haa haa.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler 4 hah hah haa.wav">
-      <Link>Assets\Content\Sounds\Hitler 4 hah hah haa.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic 5 hahaDefend.wav">
+      <Link>Assets\Content\Sounds\milocevic 5 hahaDefend.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler 5 world is mine.wav">
-      <Link>Assets\Content\Sounds\Hitler 5 world is mine.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milocevic countries croatia.wav">
+      <Link>Assets\Content\Sounds\Milocevic countries croatia.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries Denmark.wav">
-      <Link>Assets\Content\Sounds\Hitler countries Denmark.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milocevic countries the hague.wav">
+      <Link>Assets\Content\Sounds\Milocevic countries the hague.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries England.wav">
-      <Link>Assets\Content\Sounds\Hitler countries England.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milocevic countries kosovo.wav">
+      <Link>Assets\Content\Sounds\Milocevic countries kosovo.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries France.wav">
-      <Link>Assets\Content\Sounds\Hitler countries France.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milocevic countries bosnia and herzegovina.wav">
+      <Link>Assets\Content\Sounds\Milocevic countries bosnia and herzegovina.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries Luxenberg.wav">
-      <Link>Assets\Content\Sounds\Hitler countries Luxenberg.wav</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries Norway.wav">
-      <Link>Assets\Content\Sounds\Hitler countries Norway.wav</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler countries Poland.wav">
-      <Link>Assets\Content\Sounds\Hitler countries Poland.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milocevic countries slovenia.wav">
+      <Link>Assets\Content\Sounds\Milocevic countries slovenia.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8197,18 +8187,18 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\hitler_get_wounded1.wav">
-      <Link>Assets\Content\Sounds\hitler_get_wounded1.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic_get_wounded1.wav">
+      <Link>Assets\Content\Sounds\milocevic_get_wounded1.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\hitler_get_wounded2.wav">
-      <Link>Assets\Content\Sounds\hitler_get_wounded2.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic_get_wounded2.wav">
+      <Link>Assets\Content\Sounds\milocevic_get_wounded2.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\hitler_get_wounded3.wav">
-      <Link>Assets\Content\Sounds\hitler_get_wounded3.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\milocevic_get_wounded3.wav">
+      <Link>Assets\Content\Sounds\milocevic_get_wounded3.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

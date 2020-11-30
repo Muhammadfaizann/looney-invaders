@@ -711,17 +711,17 @@
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\afganistan_realistic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\denmark_cartonic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\croatia_cartonic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\croatia_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\denmark_realistic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\croatia_realistic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\croatia_realistic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\england_cartonic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\Hague_cartonic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\Hague_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\england_realistic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\Hague_realistic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\Hague_realistic_1136x640.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\estonia_cartonic_1136x640.jpg</Link>
@@ -735,11 +735,11 @@
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\finland_realistic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\france_cartonic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\kosovo_cartonic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\kosovo_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\france_realistic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\kosovo_realistic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\kosovo_realistic_1136x640.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\georgia_cartonic_1136x640.jpg</Link>
@@ -777,17 +777,17 @@
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\libya_realistic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\norway_cartonic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_cartonic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\norway_realistic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_realistic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\Bosnia-and-Herzegovina_realistic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\poland_cartonic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\slovenia_cartonic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\slovenia_cartonic_1136x640.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg">
-      <Link>Content\Images\Hd\Battlegrounds\poland_realistic_1136x640.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\Battlegrounds\slovenia_realistic_1136x640.jpg">
+      <Link>Content\Images\Hd\Battlegrounds\slovenia_realistic_1136x640.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640.jpg">
       <Link>Content\Images\Hd\Battlegrounds\russia_cartonic_1136x640.jpg</Link>
@@ -1965,8 +1965,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\afghanistan-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\afghanistan-lost-war.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\denmark-lost-war.jpg">
-      <Link>Content\Images\Hd\UI\Loss scenes\denmark-lost-war.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Croatia-lost-war.jpg">
+      <Link>Content\Images\Hd\UI\Loss scenes\Croatia-lost-war.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\estonia-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\estonia-lost-war.jpg</Link>
@@ -1974,8 +1974,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Finland-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\Finland-lost-war.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\france-lost-war.jpg">
-      <Link>Content\Images\Hd\UI\Loss scenes\france-lost-war.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Kosovo-lost-war.jpg">
+      <Link>Content\Images\Hd\UI\Loss scenes\Kosovo-lost-war.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\georgia-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\georgia-lost-war.jpg</Link>
@@ -1998,11 +1998,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Moon-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\Moon-lost-war.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\norway-lost-war.jpg">
-      <Link>Content\Images\Hd\UI\Loss scenes\norway-lost-war.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Bosnia-and-Herzegovina-lost-war.jpg">
+      <Link>Content\Images\Hd\UI\Loss scenes\Bosnia-and-Herzegovina-lost-war.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\poland-lost-war.jpg">
-      <Link>Content\Images\Hd\UI\Loss scenes\poland-lost-war.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Slovenia-lost-war.jpg">
+      <Link>Content\Images\Hd\UI\Loss scenes\Slovenia-lost-war.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\russia-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\russia-lost-war.jpg</Link>
@@ -2013,8 +2013,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\syria-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\syria-lost-war.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\UK-lost-war.jpg">
-      <Link>Content\Images\Hd\UI\Loss scenes\UK-lost-war.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\Hague-lost-war.jpg">
+      <Link>Content\Images\Hd\UI\Loss scenes\Hague-lost-war.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Loss scenes\ukraine-lost-war.jpg">
       <Link>Content\Images\Hd\UI\Loss scenes\ukraine-lost-war.jpg</Link>
@@ -2319,11 +2319,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-afghanistan-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-afghanistan-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-denmark-text.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-denmark-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-croatia-text.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-croatia-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-england-text.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-england-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-the-hague-text.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-the-hague-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-estonia-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-estonia-text.png</Link>
@@ -2331,8 +2331,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-finland-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-finland-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-france-text.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-france-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-kosovo-text.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-kosovo-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-georgia-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-georgia-text.png</Link>
@@ -2352,11 +2352,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-libya-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-libya-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-norway-text.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-norway-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-bosnia-and-herzegovina-text.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-bosnia-and-herzegovina-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-poland-text.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-poland-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-slovenia-text.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-in-slovenia-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-in-russia-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-in-russia-text.png</Link>
@@ -2826,8 +2826,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\get-ready-for-next-attack-countdown-%285%29.png">
       <Link>Content\Images\Hd\UI\get-ready-for-next-attack-countdown-%285%29.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Get-ready-for-next-attack-german-troops.jpg">
-      <Link>Content\Images\Hd\UI\Get-ready-for-next-attack-german-troops.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Get-ready-for-next-attack-serbia-troops.jpg">
+      <Link>Content\Images\Hd\UI\Get-ready-for-next-attack-serbia-troops.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\get-ready-for-next-attack-moon-level-cartonic.jpg">
       <Link>Content\Images\Hd\UI\get-ready-for-next-attack-moon-level-cartonic.jpg</Link>
@@ -4803,47 +4803,41 @@
     <BundleResource Include="..\Content\Sounds\Gun - Hit 3.wav">
       <Link>Content\Sounds\Gun - Hit 3.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler 3 Scheisse.wav">
-      <Link>Content\Sounds\Hitler 3 Scheisse.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic 3 shit.wav">
+      <Link>Content\Sounds\milocevic 3 shit.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler 3 shit.wav">
-      <Link>Content\Sounds\Hitler 3 shit.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic 4 ha haa haa.wav">
+      <Link>Content\Sounds\milocevic 4 ha haa haa.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler 4 hah hah haa.wav">
-      <Link>Content\Sounds\Hitler 4 hah hah haa.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic 5 hahaDefend.wav">
+      <Link>Content\Sounds\milocevic 5 hahaDefend.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler 5 world is mine.wav">
-      <Link>Content\Sounds\Hitler 5 world is mine.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Milocevic countries croatia.wav">
+      <Link>Content\Sounds\Milocevic countries croatia.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries Denmark.wav">
-      <Link>Content\Sounds\Hitler countries Denmark.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Milocevic countries the hague.wav">
+      <Link>Content\Sounds\Milocevic countries the hague.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries England.wav">
-      <Link>Content\Sounds\Hitler countries England.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Milocevic countries kosovo.wav">
+      <Link>Content\Sounds\Milocevic countries kosovo.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries France.wav">
-      <Link>Content\Sounds\Hitler countries France.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Milocevic countries bosnia and herzegovina.wav">
+      <Link>Content\Sounds\Milocevic countries bosnia and herzegovina.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries Luxenberg.wav">
-      <Link>Content\Sounds\Hitler countries Luxenberg.wav</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries Norway.wav">
-      <Link>Content\Sounds\Hitler countries Norway.wav</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Hitler countries Poland.wav">
-      <Link>Content\Sounds\Hitler countries Poland.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Milocevic countries slovenia.wav">
+      <Link>Content\Sounds\Milocevic countries slovenia.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\Hitler_1_strenght_for_echo.wav">
       <Link>Content\Sounds\Hitler_1_strenght_for_echo.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\hitler_get_wounded1.wav">
-      <Link>Content\Sounds\hitler_get_wounded1.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic_get_wounded1.wav">
+      <Link>Content\Sounds\milocevic_get_wounded1.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\hitler_get_wounded2.wav">
-      <Link>Content\Sounds\hitler_get_wounded2.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic_get_wounded2.wav">
+      <Link>Content\Sounds\milocevic_get_wounded2.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\hitler_get_wounded3.wav">
-      <Link>Content\Sounds\hitler_get_wounded3.wav</Link>
+    <BundleResource Include="..\Content\Sounds\milocevic_get_wounded3.wav">
+      <Link>Content\Sounds\milocevic_get_wounded3.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\Hybrid Canon No Ammo.wav">
       <Link>Content\Sounds\Hybrid Canon No Ammo.wav</Link>

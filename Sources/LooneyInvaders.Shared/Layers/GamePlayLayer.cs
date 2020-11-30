@@ -329,12 +329,12 @@ namespace LooneyInvaders.Layers
                 case Enemies.Hitler:
                     VoiceMiss = null;
                     VoiceMissAlternate = null;
-                    VoiceEnemyHit = "Sounds/Hitler 3 shit.wav";
-                    VoicePlayerHit = "Sounds/Hitler 4 hah hah haa.wav";
-                    VoiceGameOver = "Sounds/Hitler 5 world is mine.wav";
-                    VoiceEnemyWound1 = "Sounds/hitler_get_wounded1.wav";
-                    VoiceEnemyWound2 = "Sounds/hitler_get_wounded2.wav";
-                    VoiceEnemyWound3 = "Sounds/hitler_get_wounded3.wav";
+                    VoiceEnemyHit = "Sounds/milocevic 3 shit.wav";
+                    VoicePlayerHit = "Sounds/milocevic 4 ha haa haa.wav";
+                    VoiceGameOver = "Sounds/milocevic 5 hahaDefend.wav";
+                    VoiceEnemyWound1 = "Sounds/milocevic_get_wounded1.wav";
+                    VoiceEnemyWound2 = "Sounds/milocevic_get_wounded2.wav";
+                    VoiceEnemyWound3 = "Sounds/milocevic_get_wounded3.wav";
                     EnemyMouthClosed = "Enemies/Milosevic-mouth-closed.png";
                     EnemyMouthClosedDamaged1 = "Enemies/Milosevic-mouth-closed-bruises.png";
                     EnemyMouthClosedDamaged2 = "Enemies/Milosevic-mouth-closed-bruises-bandages.png";
@@ -690,7 +690,7 @@ namespace LooneyInvaders.Layers
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceEnemyHit);
             CCAudioEngine.SharedEngine.PreloadEffect(VoicePlayerHit);
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceGameOver);
-            CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler 3 Scheisse.wav");
+            
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceEnemyWound1);
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceEnemyWound2);
             CCAudioEngine.SharedEngine.PreloadEffect(VoiceEnemyWound3);
@@ -865,7 +865,7 @@ namespace LooneyInvaders.Layers
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-south-korean-troops.jpg", 1);
                     break;
                 case Enemies.Hitler:
-                    AddImage(0, 0, "UI/Get-ready-for-next-attack-german-troops.jpg", 1);
+                    AddImage(0, 0, "UI/Get-ready-for-next-attack-serbia-troops.jpg", 1);
                     break;
                 case Enemies.Aliens:
                     if (Settings.Instance.BattlegroundStyle == BattlegroundStyle.Cartonic)
@@ -880,10 +880,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-afghanistan-text.png", 2);
                     break;
-                case Battlegrounds.Denmark:
+                case Battlegrounds.Croatia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-denmark-text.png", 2);
                     break;
-                case Battlegrounds.England:
+                case Battlegrounds.Hague:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-england-text.png", 2);
                     break;
                 case Battlegrounds.Estonia:
@@ -892,7 +892,7 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-finland-text.png", 2);
                     break;
-                case Battlegrounds.France:
+                case Battlegrounds.Kosovo:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-france-text.png", 2);
                     break;
                 case Battlegrounds.Georgia:
@@ -913,10 +913,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-libya-text.png", 2);
                     break;
-                case Battlegrounds.Norway:
+                case Battlegrounds.Bosnia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-norway-text.png", 2);
                     break;
-                case Battlegrounds.Poland:
+                case Battlegrounds.Slovenia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-poland-text.png", 2);
                     break;
                 case Battlegrounds.Russia:
@@ -945,10 +945,10 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Afganistan.wav");
                         break;
-                    case Battlegrounds.Denmark:
+                    case Battlegrounds.Croatia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
                         break;
-                    case Battlegrounds.England:
+                    case Battlegrounds.Hague:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
                         break;
                     case Battlegrounds.Estonia:
@@ -957,7 +957,7 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Finland.wav");
                         break;
-                    case Battlegrounds.France:
+                    case Battlegrounds.Kosovo:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
                         break;
                     case Battlegrounds.Georgia:
@@ -978,10 +978,10 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Libya.wav");
                         break;
-                    case Battlegrounds.Norway:
+                    case Battlegrounds.Bosnia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
                         break;
-                    case Battlegrounds.Poland:
+                    case Battlegrounds.Slovenia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
                         break;
                     case Battlegrounds.Russia:
@@ -1011,10 +1011,10 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Afghanistan VO_mono.wav");
                         break;
-                    case Battlegrounds.Denmark:
+                    case Battlegrounds.Croatia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Denmark VO_mono.wav");
                         break;
-                    case Battlegrounds.England:
+                    case Battlegrounds.Hague:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/England VO_mono.wav");
                         break;
                     case Battlegrounds.Estonia:
@@ -1023,7 +1023,7 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Finland VO_mono.wav");
                         break;
-                    case Battlegrounds.France:
+                    case Battlegrounds.Kosovo:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/France VO_mono.wav");
                         break;
                     case Battlegrounds.Georgia:
@@ -1044,10 +1044,10 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Libya VO_mono.wav");
                         break;
-                    case Battlegrounds.Norway:
+                    case Battlegrounds.Bosnia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Norway VO_mono.wav");
                         break;
-                    case Battlegrounds.Poland:
+                    case Battlegrounds.Slovenia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Poland VO_mono.wav");
                         break;
                     case Battlegrounds.Russia:
@@ -1134,10 +1134,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
                     break;
-                case Battlegrounds.Denmark:
+                case Battlegrounds.Croatia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
                     break;
-                case Battlegrounds.England:
+                case Battlegrounds.Hague:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
                     break;
                 case Battlegrounds.Estonia:
@@ -1146,7 +1146,7 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
                     break;
-                case Battlegrounds.France:
+                case Battlegrounds.Kosovo:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
                     break;
                 case Battlegrounds.Georgia:
@@ -1167,10 +1167,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
                     break;
-                case Battlegrounds.Norway:
+                case Battlegrounds.Bosnia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
                     break;
-                case Battlegrounds.Poland:
+                case Battlegrounds.Slovenia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
                     break;
                 case Battlegrounds.Russia:
@@ -1201,10 +1201,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Afghanistan VO_mono.wav");
                     break;
-                case Battlegrounds.Denmark:
+                case Battlegrounds.Croatia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Denmark VO_mono.wav");
                     break;
-                case Battlegrounds.England:
+                case Battlegrounds.Hague:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/England VO_mono.wav");
                     break;
                 case Battlegrounds.Estonia:
@@ -1213,7 +1213,7 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Finland VO_mono.wav");
                     break;
-                case Battlegrounds.France:
+                case Battlegrounds.Kosovo:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/France VO_mono.wav");
                     break;
                 case Battlegrounds.Georgia:
@@ -1234,10 +1234,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Libya VO_mono.wav");
                     break;
-                case Battlegrounds.Norway:
+                case Battlegrounds.Bosnia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Norway VO_mono.wav");
                     break;
-                case Battlegrounds.Poland:
+                case Battlegrounds.Slovenia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
                     break;
                 case Battlegrounds.Russia:
@@ -2812,11 +2812,7 @@ namespace LooneyInvaders.Layers
                                         if (VoiceEnemyHit != "" && _shitWait <= 0)
                                         {
                                             _shitWait = 1 + _random.Next(100) / 100f;
-                                            if (SelectedEnemy == Enemies.Hitler && _random.Next(4) == 0)
-                                            {
-                                                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler 3 Scheisse.wav");
-                                            }
-                                            else if (!String.IsNullOrEmpty(VoiceEnemyHit))
+                                            if (!String.IsNullOrEmpty(VoiceEnemyHit))
                                             {
                                                 CCAudioEngine.SharedEngine.PlayEffect(VoiceEnemyHit);
                                             }

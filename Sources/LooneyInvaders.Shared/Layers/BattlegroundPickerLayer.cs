@@ -65,11 +65,11 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {*/
-                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
-                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
-                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
-                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
-                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries slovenia.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries croatia.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries bosnia and herzegovina.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries kosovo.wav");
+                CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries the hague.wav");
                 /* }*/
             }
             else if (_selectedEnemy == (int)Enemies.Bush)
@@ -206,7 +206,7 @@ namespace LooneyInvaders.Layers
                  {*/
                 if (_selectedEnemy == (int)Enemies.Hitler)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
                 }
                 else if (_selectedEnemy == (int)Enemies.Bush)
                 {
@@ -235,39 +235,39 @@ namespace LooneyInvaders.Layers
 
             if (_selectedEnemy == (int)Enemies.Hitler)
             {
-                _images[0] = AddImage(568, 320, "Battlegrounds/poland_" + battlegroundStyle + "_1136x640.jpg", 0);
+                _images[0] = AddImage(568, 320, "Battlegrounds/slovenia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[0].Tag = (int)Battlegrounds.Poland;
+                _images[0].Tag = (int)Battlegrounds.Slovenia;
 
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Poland) > 0)
-                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Slovenia) > 0)
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/croatia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/denmark_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[1] = AddImage(568 + 1136, 320, "Battlegrounds/croatia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[1].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[1].Tag = (int)Battlegrounds.Denmark;
+                _images[1].Tag = (int)Battlegrounds.Croatia;
 
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Denmark) > 0)
-                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Croatia) > 0)
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/Bosnia-and-Herzegovina_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/norway_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[2] = AddImage(568 + 1136 * 2, 320, "Battlegrounds/Bosnia-and-Herzegovina_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[2].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[2].Tag = (int)Battlegrounds.Norway;
+                _images[2].Tag = (int)Battlegrounds.Bosnia;
 
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Norway) > 0)
-                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Bosnia) > 0)
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/kosovo_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/france_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[3] = AddImage(568 + 1136 * 3, 320, "Battlegrounds/kosovo_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[3].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[3].Tag = (int)Battlegrounds.France;
+                _images[3].Tag = (int)Battlegrounds.Kosovo;
 
-                if (Player.Instance.GetSavedCountries(Battlegrounds.France) > 0)
-                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Kosovo) > 0)
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/Hague_" + battlegroundStyle + "_1136x640.jpg", 0);
                 else
-                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/england_" + battlegroundStyle + "_1136x640.jpg", 0);
+                    _images[4] = AddImage(568 + 1136 * 4, 320, "Battlegrounds/Hague_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[4].AnchorPoint = new CCPoint(0.5f, 0.5f);
-                _images[4].Tag = (int)Battlegrounds.England;
+                _images[4].Tag = (int)Battlegrounds.Hague;
 
-                _selectedBattleground = (int)Battlegrounds.Poland;
+                _selectedBattleground = (int)Battlegrounds.Slovenia;
             }
             else if (_selectedEnemy == (int)Enemies.Bush)
             {
@@ -452,7 +452,7 @@ namespace LooneyInvaders.Layers
 
             if (_selectedEnemy == (int)Enemies.Hitler)
             {
-                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
+                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
             }
             else if (_selectedEnemy == (int)Enemies.Bush)
             {
@@ -590,33 +590,33 @@ namespace LooneyInvaders.Layers
         private void SetBattlegroundName()
         {
             _imgBattlegroundLocked.Visible = false;
-            if (_selectedBattleground == (int)Battlegrounds.Poland)
+            if (_selectedBattleground == (int)Battlegrounds.Slovenia)
             {
-                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-poland-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-slovenia-text");
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
             }
-            else if (_selectedBattleground == (int)Battlegrounds.Denmark)
+            else if (_selectedBattleground == (int)Battlegrounds.Croatia)
             {
-                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-denmark-text");
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Poland) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-croatia-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Slovenia) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
             }
-            else if (_selectedBattleground == (int)Battlegrounds.Norway)
+            else if (_selectedBattleground == (int)Battlegrounds.Bosnia)
             {
-                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-norway-text");
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Denmark) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-bosnia-and-herzegovina-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Croatia) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Noeway.wav");
             }
-            else if (_selectedBattleground == (int)Battlegrounds.France)
+            else if (_selectedBattleground == (int)Battlegrounds.Kosovo)
             {
-                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-france-text");
-                if (Player.Instance.GetSavedCountries(Battlegrounds.Norway) == 0) _imgBattlegroundLocked.Visible = true;
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-kosovo-text");
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Bosnia) == 0) _imgBattlegroundLocked.Visible = true;
                 //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
             }
-            else if (_selectedBattleground == (int)Battlegrounds.England)
+            else if (_selectedBattleground == (int)Battlegrounds.Hague)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-england-text");
-                if (Player.Instance.GetSavedCountries(Battlegrounds.France) == 0) _imgBattlegroundLocked.Visible = true;
+                if (Player.Instance.GetSavedCountries(Battlegrounds.Kosovo) == 0) _imgBattlegroundLocked.Visible = true;
                 // TODO: fali wav
             }
             else if (_selectedBattleground == (int)Battlegrounds.Vietnam)
@@ -919,25 +919,25 @@ namespace LooneyInvaders.Layers
                 }
                 else
                 {*/
-                if (_selectedBattleground == (int)Battlegrounds.Poland)
+                if (_selectedBattleground == (int)Battlegrounds.Slovenia)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
                 }
-                else if (_selectedBattleground == (int)Battlegrounds.Denmark)
+                else if (_selectedBattleground == (int)Battlegrounds.Croatia)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries croatia.wav");
                 }
-                else if (_selectedBattleground == (int)Battlegrounds.Norway)
+                else if (_selectedBattleground == (int)Battlegrounds.Bosnia)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries bosnia and herzegovina.wav");
                 }
-                else if (_selectedBattleground == (int)Battlegrounds.France)
+                else if (_selectedBattleground == (int)Battlegrounds.Kosovo)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries kosovo.wav");
                 }
-                else if (_selectedBattleground == (int)Battlegrounds.England)
+                else if (_selectedBattleground == (int)Battlegrounds.Hague)
                 {
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries the hague.wav");
                 }
                 else if (_selectedBattleground == (int)Battlegrounds.Vietnam)
                 {

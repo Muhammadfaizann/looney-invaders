@@ -67,11 +67,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     SetBackground("UI/Loss scenes/afghanistan-lost-war.jpg");
                     break;
-                case Battlegrounds.Denmark:
-                    SetBackground("UI/Loss scenes/denmark-lost-war.jpg");
+                case Battlegrounds.Croatia:
+                    SetBackground("UI/Loss scenes/Croatia-lost-war.jpg");
                     break;
-                case Battlegrounds.England:
-                    SetBackground("UI/Loss scenes/UK-lost-war.jpg");
+                case Battlegrounds.Hague:
+                    SetBackground("UI/Loss scenes/Hague-lost-war.jpg");
                     break;
                 case Battlegrounds.Estonia:
                     SetBackground("UI/Loss scenes/estonia-lost-war.jpg");
@@ -79,8 +79,8 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     SetBackground("UI/Loss scenes/Finland-lost-war.jpg");
                     break;
-                case Battlegrounds.France:
-                    SetBackground("UI/Loss scenes/france-lost-war.jpg");
+                case Battlegrounds.Kosovo:
+                    SetBackground("UI/Loss scenes/Kosovo-lost-war.jpg");
                     break;
                 case Battlegrounds.Georgia:
                     SetBackground("UI/Loss scenes/georgia-lost-war.jpg");
@@ -100,11 +100,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     SetBackground("UI/Loss scenes/libya-lost-war.jpg");
                     break;
-                case Battlegrounds.Norway:
-                    SetBackground("UI/Loss scenes/norway-lost-war.jpg");
+                case Battlegrounds.Bosnia:
+                    SetBackground("UI/Loss scenes/Bosnia-and-Herzegovina-lost-war.jpg");
                     break;
-                case Battlegrounds.Poland:
-                    SetBackground("UI/Loss scenes/poland-lost-war.jpg");
+                case Battlegrounds.Slovenia:
+                    SetBackground("UI/Loss scenes/Slovenia-lost-war.jpg");
                     break;
                 case Battlegrounds.Russia:
                     SetBackground("UI/Loss scenes/russia-lost-war.jpg");

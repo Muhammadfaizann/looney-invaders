@@ -12,20 +12,20 @@
 
             switch (battleGround)
             {
-                case Battlegrounds.Poland:
-                    imageName = "Battlegrounds/poland_" + battlegroundStyleName + "_1136x640.jpg";
+                case Battlegrounds.Slovenia:
+                    imageName = "Battlegrounds/slovenia_" + battlegroundStyleName + "_1136x640.jpg";
                     break;
-                case Battlegrounds.Denmark:
-                    imageName = "Battlegrounds/denmark_" + battlegroundStyleName + "_1136x640.jpg";
+                case Battlegrounds.Croatia:
+                    imageName = "Battlegrounds/croatia_" + battlegroundStyleName + "_1136x640.jpg";
                     break;
-                case Battlegrounds.Norway:
-                    imageName = "Battlegrounds/norway_" + battlegroundStyleName + "_1136x640.jpg";
+                case Battlegrounds.Bosnia:
+                    imageName = "Battlegrounds/Bosnia-and-Herzegovina_" + battlegroundStyleName + "_1136x640.jpg";
                     break;
-                case Battlegrounds.France:
-                    imageName = "Battlegrounds/france_" + battlegroundStyleName + "_1136x640.jpg";
+                case Battlegrounds.Kosovo:
+                    imageName = "Battlegrounds/kosovo_" + battlegroundStyleName + "_1136x640.jpg";
                     break;
-                case Battlegrounds.England:
-                    imageName = "Battlegrounds/england_" + battlegroundStyleName + "_1136x640.jpg";
+                case Battlegrounds.Hague:
+                    imageName = "Battlegrounds/Hague_" + battlegroundStyleName + "_1136x640.jpg";
                     break;
                 case Battlegrounds.Vietnam:
                     imageName = "Battlegrounds/vietnam_" + battlegroundStyleName + "_1136x640.jpg";
