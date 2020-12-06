@@ -615,7 +615,7 @@ namespace LooneyInvaders.Layers
             }
             else if (_selectedBattleground == (int)Battlegrounds.Hague)
             {
-                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-england-text");
+                ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-the-hague-text");
                 if (Player.Instance.GetSavedCountries(Battlegrounds.Kosovo) == 0) _imgBattlegroundLocked.Visible = true;
                 // TODO: fali wav
             }
