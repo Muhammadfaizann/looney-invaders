@@ -1902,35 +1902,35 @@
     <BundleResource Include="..\Content\Images\Hd\UI\George defeaded\victory-you-just-saved-vietnam.png">
       <Link>Content\Images\Hd\UI\George defeaded\victory-you-just-saved-vietnam.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-denmark.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-denmark.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-croatia.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-croatia.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-england.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-england.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-the-hague.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-the-hague.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-france.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-france.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-kosovo.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-kosovo.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-norway.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-norway.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-bosnia-and-herzegovina.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-bosnia-and-herzegovina.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-poland.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-poland.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-slovenia.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-slovenia.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-denmark.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-denmark.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-croatia.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-croatia.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-england.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-england.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-the-hague.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-the-hague.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-france.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-france.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-kosovo.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-kosovo.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-norway.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-norway.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-bosnia-and-herzegovina.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-bosnia-and-herzegovina.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-poland.png">
-      <Link>Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-poland.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-slovenia.png">
+      <Link>Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-slovenia.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Kim defeaded\victory-i-just-saved-great-britain.png">
       <Link>Content\Images\Hd\UI\Kim defeaded\victory-i-just-saved-great-britain.png</Link>
@@ -2139,8 +2139,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Afganistan-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Afganistan-victory-scene.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Denmark-victory-scene.jpg">
-      <Link>Content\Images\Hd\UI\Victory scenes\Denmark-victory-scene.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\croatia-victory-scene.jpg">
+      <Link>Content\Images\Hd\UI\Victory scenes\croatia-victory-scene.jpg</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Hague-victory-scene.jpg">
+      <Link>Content\Images\Hd\UI\Victory scenes\Hague-victory-scene.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\England&amp;Great-Britain-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\England&amp;Great-Britain-victory-scene.jpg</Link>
@@ -2151,8 +2154,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Finland-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Finland-victory-scene.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\France-victory-scene.jpg">
-      <Link>Content\Images\Hd\UI\Victory scenes\France-victory-scene.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Kosovo-victory-scene.jpg">
+      <Link>Content\Images\Hd\UI\Victory scenes\Kosovo-victory-scene.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Georgia-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Georgia-victory-scene.jpg</Link>
@@ -2169,11 +2172,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Libya-victory-scene.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg">
-      <Link>Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Bosnia-and-Herzegovina-victory-scene.jpg">
+      <Link>Content\Images\Hd\UI\Victory scenes\Bosnia-and-Herzegovina-victory-scene.jpg</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Poland-victory-scene.jpg">
-      <Link>Content\Images\Hd\UI\Victory scenes\Poland-victory-scene.jpg</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Slovenia-victory-scene.jpg">
+      <Link>Content\Images\Hd\UI\Victory scenes\Slovenia-victory-scene.jpg</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Victory scenes\Russia-victory-scene.jpg">
       <Link>Content\Images\Hd\UI\Victory scenes\Russia-victory-scene.jpg</Link>
@@ -4323,8 +4326,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\victory-notification-george-defeat-background-title-text.png">
       <Link>Content\Images\Hd\UI\victory-notification-george-defeat-background-title-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\victory-notification-hitler-defeat-background-title-text.png">
-      <Link>Content\Images\Hd\UI\victory-notification-hitler-defeat-background-title-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\victory-notification-slobodan-milosevic-defeat-background-title-text.png">
+      <Link>Content\Images\Hd\UI\victory-notification-slobodan-milosevic-defeat-background-title-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\victory-notification-kim-defeat-background-title-text.png">
       <Link>Content\Images\Hd\UI\victory-notification-kim-defeat-background-title-text.png</Link>
@@ -4674,8 +4677,8 @@
     <BundleResource Include="..\Content\Sounds\Credit purchase %2843%29.wav">
       <Link>Content\Sounds\Credit purchase %2843%29.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Denmark VO_mono.wav">
-      <Link>Content\Sounds\Denmark VO_mono.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Croatia VO_mono.wav">
+      <Link>Content\Sounds\Croatia VO_mono.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\Empty Canon.wav">
       <Link>Content\Sounds\Empty Canon.wav</Link>
@@ -4701,8 +4704,8 @@
     <BundleResource Include="..\Content\Sounds\Enemy hit Sound When killed %2821%29.wav">
       <Link>Content\Sounds\Enemy hit Sound When killed %2821%29.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\England VO_mono.wav">
-      <Link>Content\Sounds\England VO_mono.wav</Link>
+    <BundleResource Include="..\Content\Sounds\The Haque VO_mono.wav">
+      <Link>Content\Sounds\The Haque VO_mono.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\Estonia VO_mono.wav">
       <Link>Content\Sounds\Estonia VO_mono.wav</Link>
@@ -4737,8 +4740,8 @@
     <BundleResource Include="..\Content\Sounds\Forward button %28Menu Selection Select 2%29.wav">
       <Link>Content\Sounds\Forward button %28Menu Selection Select 2%29.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\France VO_mono.wav">
-      <Link>Content\Sounds\France VO_mono.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Kosovo VO_mono.wav">
+      <Link>Content\Sounds\Kosovo VO_mono.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\GAME OVER ALIEN.mp3">
       <Link>Content\Sounds\GAME OVER ALIEN.mp3</Link>
@@ -4944,8 +4947,8 @@
     <BundleResource Include="..\Content\Sounds\NEW LAZER 2.wav">
       <Link>Content\Sounds\NEW LAZER 2.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Norway VO_mono.wav">
-      <Link>Content\Sounds\Norway VO_mono.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Bosnia and Herzegovina VO_mono.wav">
+      <Link>Content\Sounds\Bosnia and Herzegovina VO_mono.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\Now get up and get your revenge VO_mono.wav">
       <Link>Content\Sounds\Now get up and get your revenge VO_mono.wav</Link>
@@ -4971,8 +4974,8 @@
     <BundleResource Include="..\Content\Sounds\Plus Sound 1.wav">
       <Link>Content\Sounds\Plus Sound 1.wav</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Sounds\Poland VO_mono.wav">
-      <Link>Content\Sounds\Poland VO_mono.wav</Link>
+    <BundleResource Include="..\Content\Sounds\Slovania VO_mono.wav">
+      <Link>Content\Sounds\Slovania VO_mono.wav</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Sounds\purchase 3.wav">
       <Link>Content\Sounds\purchase 3.wav</Link>

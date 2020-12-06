@@ -6472,8 +6472,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\victory-notification-hitler-defeat-background-title-text.png">
-      <Link>Assets\Content\Images\Hd\UI\victory-notification-hitler-defeat-background-title-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\victory-notification-slobodan-milosevic-defeat-background-title-text.png">
+      <Link>Assets\Content\Images\Hd\UI\victory-notification-slobodan-milosevic-defeat-background-title-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -6932,53 +6932,53 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-denmark.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-denmark.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-croatia.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-croatia.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-england.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-england.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-the-hague.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-the-hague.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-france.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-france.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-kosovo.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-kosovo.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-norway.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-norway.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-bosnia-and-herzegovina.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-bosnia-and-herzegovina.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-poland.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-i-just-saved-poland.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-slovenia.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-i-just-saved-slovenia.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-denmark.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-denmark.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-croatia.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-croatia.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-england.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-england.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-the-hague.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-the-hague.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-france.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-france.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-kosovo.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-kosovo.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-norway.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-norway.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-bosnia-and-herzegovina.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-bosnia-and-herzegovina.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-poland.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler defeaded\victory-you-just-saved-poland.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-slovenia.png">
+      <Link>Assets\Content\Images\Hd\UI\Milo defeaded\victory-you-just-saved-slovenia.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7327,8 +7327,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Denmark-victory-scene.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Denmark-victory-scene.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\croatia-victory-scene.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Victory scenes\croatia-victory-scene.jpg</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Hague-victory-scene.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Hague-victory-scene.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7347,8 +7352,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\France-victory-scene.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Victory scenes\France-victory-scene.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Kosovo-victory-scene.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Kosovo-victory-scene.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7377,13 +7382,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Norway-victory-scene.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Bosnia-and-Herzegovina-victory-scene.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Bosnia-and-Herzegovina-victory-scene.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Poland-victory-scene.jpg">
-      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Poland-victory-scene.jpg</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Victory scenes\Slovenia-victory-scene.jpg">
+      <Link>Assets\Content\Images\Hd\UI\Victory scenes\Slovenia-victory-scene.jpg</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7932,8 +7937,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Denmark VO_mono.wav">
-      <Link>Assets\Content\Sounds\Denmark VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Croatia VO_mono.wav">
+      <Link>Assets\Content\Sounds\Croatia VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7977,8 +7982,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\England VO_mono.wav">
-      <Link>Assets\Content\Sounds\England VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\The Haque VO_mono.wav">
+      <Link>Assets\Content\Sounds\The Haque VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8037,8 +8042,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\France VO_mono.wav">
-      <Link>Assets\Content\Sounds\France VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Kosovo VO_mono.wav">
+      <Link>Assets\Content\Sounds\Kosovo VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8377,8 +8382,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Norway VO_mono.wav">
-      <Link>Assets\Content\Sounds\Norway VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Bosnia and Herzegovina VO_mono.wav">
+      <Link>Assets\Content\Sounds\Bosnia and Herzegovina VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8422,8 +8427,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Poland VO_mono.wav">
-      <Link>Assets\Content\Sounds\Poland VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Slovania VO_mono.wav">
+      <Link>Assets\Content\Sounds\Slovania VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

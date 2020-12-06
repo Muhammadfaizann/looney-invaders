@@ -1012,10 +1012,10 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Afghanistan VO_mono.wav");
                         break;
                     case Battlegrounds.Croatia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Denmark VO_mono.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Croatia VO_mono.wav");
                         break;
                     case Battlegrounds.Hague:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/England VO_mono.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/The Haque VO_mono.wav");
                         break;
                     case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Estonia VO_mono.wav");
@@ -1024,7 +1024,7 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Finland VO_mono.wav");
                         break;
                     case Battlegrounds.Kosovo:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/France VO_mono.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kosovo VO_mono.wav");
                         break;
                     case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Georgia VO_mono.wav");
@@ -1045,10 +1045,10 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Libya VO_mono.wav");
                         break;
                     case Battlegrounds.Bosnia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Norway VO_mono.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bosnia and Herzegovina VO_mono.wav");
                         break;
                     case Battlegrounds.Slovenia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Poland VO_mono.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Slovania VO_mono.wav");
                         break;
                     case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Russia VO_mono.wav");
@@ -1202,10 +1202,10 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Afghanistan VO_mono.wav");
                     break;
                 case Battlegrounds.Croatia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Denmark VO_mono.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Croatia VO_mono.wav");
                     break;
                 case Battlegrounds.Hague:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/England VO_mono.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/The Haque VO_mono.wav");
                     break;
                 case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Estonia VO_mono.wav");
@@ -1214,7 +1214,7 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Finland VO_mono.wav");
                     break;
                 case Battlegrounds.Kosovo:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/France VO_mono.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kosovo VO_mono.wav");
                     break;
                 case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
@@ -1235,10 +1235,10 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Libya VO_mono.wav");
                     break;
                 case Battlegrounds.Bosnia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Norway VO_mono.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bosnia and Herzegovina VO_mono.wav");
                     break;
                 case Battlegrounds.Slovenia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slovania VO_mono.wav");
                     break;
                 case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Russia VO_mono.wav");
