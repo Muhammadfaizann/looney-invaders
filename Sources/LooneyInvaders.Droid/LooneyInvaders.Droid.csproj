@@ -591,11 +591,14 @@
     <Compile Include="Helpers\AppodealAdsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
-      <Link>Assets\Content\Images\Hd\Animations\Adolf-0.plist</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-0.plist">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-0.plist</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-1.plist">
-      <Link>Assets\Content\Images\Hd\Animations\Adolf-1.plist</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-1.plist">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-1.plist</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-2.plist">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-2.plist</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Alien-0.plist">
       <Link>Assets\Content\Images\Hd\Animations\Alien-0.plist</Link>
@@ -1054,13 +1057,18 @@
     <GoogleServicesJson Include="google-services.json" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.png">
-      <Link>Assets\Content\Images\Hd\Animations\Adolf-0.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-0.png">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-0.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-1.png">
-      <Link>Assets\Content\Images\Hd\Animations\Adolf-1.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-1.png">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-1.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-2.png">
+      <Link>Assets\Content\Images\Hd\Animations\Milo-2.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -3269,8 +3277,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-your-enemy-adolf-hitler-text.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-your-enemy-adolf-hitler-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-your-enemy-slobodan-milosevic-text.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-your-enemy-slobodan-milosevic-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4079,8 +4087,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Hitler-Strength-E00000.png">
-      <Link>Assets\Content\Images\Hd\UI\Hitler-Strength-E00000.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\MiloB00000.png">
+      <Link>Assets\Content\Images\Hd\UI\MiloB00000.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -7609,8 +7617,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Adolf Hitler VO_mono.wav">
-      <Link>Assets\Content\Sounds\Adolf Hitler VO_mono.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Slobodan Milosevic VO_mono.wav">
+      <Link>Assets\Content\Sounds\Slobodan Milosevic VO_mono.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -8184,8 +8192,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Sounds\Hitler_1_strenght_for_echo.wav">
-      <Link>Assets\Content\Sounds\Hitler_1_strenght_for_echo.wav</Link>
+    <AndroidAsset Include="..\Content\Sounds\Milo_speach_synced_with_animation_Enhanced.wav">
+      <Link>Assets\Content\Sounds\Milo_speach_synced_with_animation_Enhanced.wav</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

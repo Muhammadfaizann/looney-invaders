@@ -163,10 +163,10 @@ namespace LooneyInvaders.Model
                 _ssPutinTalkCount = (_ssPutinTalk?.Count).GetValueOrDefault(),
                 _ssAlienTalkCount = (_ssAlienTalk?.Count).GetValueOrDefault();
 
-            if (_ssAdolfTalkCount < 2)
+            if (_ssAdolfTalkCount < 3)
             {
-                Console.WriteLine("PRELOAD: Hitler talk {0}/2", _ssAdolfTalkCount + 1);
-                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Adolf-{_ssAdolfTalkCount}.plist";
+                Console.WriteLine("PRELOAD: Hitler talk {0}/3", _ssAdolfTalkCount + 1);
+                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssAdolfTalkCount}.plist";
                 var ss = new CCSpriteSheet(imagename);
                 _ssAdolfTalk.Add(ss);
                 return true;
@@ -216,7 +216,7 @@ namespace LooneyInvaders.Model
             var imageNamePrefix = "";
 
             if (enemy == Enemies.Bush) imageNamePrefix = "Bush-Safe-C_";
-            else if (enemy == Enemies.Hitler) imageNamePrefix = "Hitler-Strength-E";
+            else if (enemy == Enemies.Hitler) imageNamePrefix = "MiloB";
             else if (enemy == Enemies.Putin) imageNamePrefix = "Putin-Strength-D";
             else if (enemy == Enemies.Kim) imageNamePrefix = "Kim-Strength-D";
             else if (enemy == Enemies.Aliens) imageNamePrefix = "Alien-C-5_";
@@ -326,10 +326,10 @@ namespace LooneyInvaders.Model
                 _ssPutinTalkCount = (_ssPutinTalk?.Count).GetValueOrDefault(),
                 _ssAlienTalkCount = (_ssAlienTalk?.Count).GetValueOrDefault();
 
-            if (_ssAdolfTalkCount < 2)
+            if (_ssAdolfTalkCount < 3)
             {
-                Console.WriteLine("PRELOAD: Hitler talk {0}/2", _ssAdolfTalkCount + 1);
-                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Adolf-{_ssAdolfTalkCount}.plist";
+                Console.WriteLine("PRELOAD: Hitler talk {0}/3", _ssAdolfTalkCount + 1);
+                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssAdolfTalkCount}.plist";
                 var ss = Instance.CCSpriteSheetFactoryMethodAsync(imagename);
                 _ssAdolfTalk.Add(await ss);
                 return true;
