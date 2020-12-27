@@ -4,723 +4,963 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Hitler_rotation_image_00.png</key>
+            <key>MiloB00064.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{180,222}}</string>
+                <string>{{0,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_01.png</key>
+            <key>MiloB00065.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{183,1},{180,222}}</string>
+                <string>{{255,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_02.png</key>
+            <key>MiloB00066.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{365,1},{180,222}}</string>
+                <string>{{510,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_03.png</key>
+            <key>MiloB00067.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{547,1},{180,222}}</string>
+                <string>{{765,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_04.png</key>
+            <key>MiloB00068.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{729,1},{180,222}}</string>
+                <string>{{1020,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_05.png</key>
+            <key>MiloB00069.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{911,1},{180,222}}</string>
+                <string>{{1275,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_06.png</key>
+            <key>MiloB00070.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1093,1},{180,222}}</string>
+                <string>{{1530,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_07.png</key>
+            <key>MiloB00071.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1275,1},{180,222}}</string>
+                <string>{{1785,0},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_08.png</key>
+            <key>MiloB00072.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1457,1},{180,222}}</string>
+                <string>{{0,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_09.png</key>
+            <key>MiloB00073.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1639,1},{180,222}}</string>
+                <string>{{255,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_10.png</key>
+            <key>MiloB00074.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1,225},{180,222}}</string>
+                <string>{{510,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_11.png</key>
+            <key>MiloB00075.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{183,225},{180,222}}</string>
+                <string>{{765,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_12.png</key>
+            <key>MiloB00076.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{365,225},{180,222}}</string>
+                <string>{{1020,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_13.png</key>
+            <key>MiloB00077.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{547,225},{180,222}}</string>
+                <string>{{1275,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_14.png</key>
+            <key>MiloB00078.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{729,225},{180,222}}</string>
+                <string>{{1530,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_15.png</key>
+            <key>MiloB00079.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{911,225},{180,222}}</string>
+                <string>{{1785,255},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_16.png</key>
+            <key>MiloB00080.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1093,225},{180,222}}</string>
+                <string>{{0,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_17.png</key>
+            <key>MiloB00081.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1275,225},{180,222}}</string>
+                <string>{{255,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_18.png</key>
+            <key>MiloB00082.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1457,225},{180,222}}</string>
+                <string>{{510,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_19.png</key>
+            <key>MiloB00083.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1639,225},{180,222}}</string>
+                <string>{{765,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_20.png</key>
+            <key>MiloB00084.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1,449},{180,222}}</string>
+                <string>{{1020,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_21.png</key>
+            <key>MiloB00085.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{183,449},{180,222}}</string>
+                <string>{{1275,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_22.png</key>
+            <key>MiloB00086.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{365,449},{180,222}}</string>
+                <string>{{1530,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_23.png</key>
+            <key>MiloB00087.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{547,449},{180,222}}</string>
+                <string>{{1785,510},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_24.png</key>
+            <key>MiloB00088.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{729,449},{180,222}}</string>
+                <string>{{0,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_25.png</key>
+            <key>MiloB00089.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{911,449},{180,222}}</string>
+                <string>{{255,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_26.png</key>
+            <key>MiloB00090.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1093,449},{180,222}}</string>
+                <string>{{510,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_27.png</key>
+            <key>MiloB00091.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1275,449},{180,222}}</string>
+                <string>{{765,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_28.png</key>
+            <key>MiloB00092.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1457,449},{180,222}}</string>
+                <string>{{1020,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_29.png</key>
+            <key>MiloB00093.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1639,449},{180,222}}</string>
+                <string>{{1275,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_30.png</key>
+            <key>MiloB00094.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1,673},{180,222}}</string>
+                <string>{{1530,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_31.png</key>
+            <key>MiloB00095.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{183,673},{180,222}}</string>
+                <string>{{1785,765},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_32.png</key>
+            <key>MiloB00096.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{365,673},{180,222}}</string>
+                <string>{{0,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_33.png</key>
+            <key>MiloB00097.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{547,673},{180,222}}</string>
+                <string>{{255,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_34.png</key>
+            <key>MiloB00098.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{729,673},{180,222}}</string>
+                <string>{{510,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_35.png</key>
+            <key>MiloB00099.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{911,673},{180,222}}</string>
+                <string>{{765,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_36.png</key>
+            <key>MiloB00100.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1093,673},{180,222}}</string>
+                <string>{{1020,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_37.png</key>
+            <key>MiloB00101.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1275,673},{180,222}}</string>
+                <string>{{1275,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_38.png</key>
+            <key>MiloB00102.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1457,673},{180,222}}</string>
+                <string>{{1530,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_39.png</key>
+            <key>MiloB00103.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1639,673},{180,222}}</string>
+                <string>{{1785,1020},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_40.png</key>
+            <key>MiloB00104.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1,897},{180,222}}</string>
+                <string>{{0,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_41.png</key>
+            <key>MiloB00105.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{183,897},{180,222}}</string>
+                <string>{{255,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_42.png</key>
+            <key>MiloB00106.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{365,897},{180,222}}</string>
+                <string>{{510,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_43.png</key>
+            <key>MiloB00107.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{547,897},{180,222}}</string>
+                <string>{{765,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_44.png</key>
+            <key>MiloB00108.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{729,897},{180,222}}</string>
+                <string>{{1020,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_45.png</key>
+            <key>MiloB00109.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{911,897},{180,222}}</string>
+                <string>{{1275,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_46.png</key>
+            <key>MiloB00110.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1093,897},{180,222}}</string>
+                <string>{{1530,1275},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Hitler_rotation_image_47.png</key>
+            <key>MiloB00111.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>spriteSourceSize</key>
-                <string>{180,222}</string>
+                <string>{255,255}</string>
                 <key>textureRect</key>
-                <string>{{1275,897},{180,222}}</string>
+                <string>{{1785,1275},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00112.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{0,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00113.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{255,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00114.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{510,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00115.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{765,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00116.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1020,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00117.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1275,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00118.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1530,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00119.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1785,1530},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00120.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{0,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00121.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{255,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00122.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{510,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00123.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{765,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00124.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1020,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00125.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1275,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00126.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1530,1785},{255,255}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MiloB00127.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{255,255}</string>
+                <key>spriteSourceSize</key>
+                <string>{255,255}</string>
+                <key>textureRect</key>
+                <string>{{1785,1785},{255,255}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -734,13 +974,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>HitlerRotate-0.png</string>
+            <string>Milo-1.png</string>
             <key>size</key>
-            <string>{1820,1120}</string>
+            <string>{2040,2040}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:fc70ae46e26c04142b063bd45da57423:9a05231887b86e82a9d173b5eac22980:1854fa8e83d2e599313f34eac260c588$</string>
+            <string>$TexturePacker:SmartUpdate:db63f0b2230409af145b900b4a053961:61d892049f89537106a35776f47d1ff8:5af09d99f93bf595a027e17f3d4c0524$</string>
             <key>textureFileName</key>
-            <string>HitlerRotate-0.png</string>
+            <string>Milo-1.png</string>
         </dict>
     </dict>
 </plist>

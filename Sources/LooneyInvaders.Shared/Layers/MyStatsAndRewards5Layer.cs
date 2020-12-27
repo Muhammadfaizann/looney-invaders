@@ -38,25 +38,25 @@ namespace LooneyInvaders.Layers
 
 			AddImage(287, 560, "UI/My-stats-&-rewards-title-text.png");
             AddImage(829, 592, "UI/My-stats-&-rewards-page5_8--text.png");
-            AddImage(191, 495, "UI/My-stats-&-rewards-reward-adolf-hitler-text.png");
+            AddImage(191, 495, "UI/My-stats-&-rewards-slobodan-milosevic-text.png");
 
-            AddImage(191, 430, "UI/My-stats-&-rewards-poland-text.png");
-            if(Player.Instance.GetSavedCountries(Battlegrounds.Slovenia)>0) AddImage(415, 432, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(415, 432, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(191, 430, "UI/My-stats-&-rewards-slovenia-text.png");
+            if(Player.Instance.GetSavedCountries(Battlegrounds.Slovenia)>0) AddImage(445, 432, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(445, 432, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
-            AddImage(191, 368, "UI/My-stats-&-rewards-denmark-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Croatia) > 0) AddImage(415, 370, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(415, 370, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(191, 368, "UI/My-stats-&-rewards-croatia-text.png");
+            if (Player.Instance.GetSavedCountries(Battlegrounds.Croatia) > 0) AddImage(445, 370, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(445, 370, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
-            AddImage(191, 306, "UI/My-stats-&-rewards-norway-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Bosnia) > 0) AddImage(415, 308, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(415, 308, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(191, 306, "UI/My-stats-&-rewards-bosnia-and-herzegovina-text.png");
+            if (Player.Instance.GetSavedCountries(Battlegrounds.Bosnia) > 0) AddImage(780, 308, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(780, 308, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
-            AddImage(191, 244, "UI/My-stats-&-rewards-france-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Kosovo) > 0) AddImage(415, 246, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(415, 246, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(191, 244, "UI/My-stats-&-rewards-kosovo-text.png");
+            if (Player.Instance.GetSavedCountries(Battlegrounds.Kosovo) > 0) AddImage(445, 246, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(445, 246, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
-            AddImage(191, 182, "UI/My-stats-&-rewards-england-text.png");
-            if (Player.Instance.GetSavedCountries(Battlegrounds.Hague) > 0) AddImage(415, 184, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(415, 184, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
+            AddImage(191, 182, "UI/My-stats-&-rewards-the-hague-text.png");
+            if (Player.Instance.GetSavedCountries(Battlegrounds.Hague) > 0) AddImage(445, 184, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(445, 184, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
             var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Hitler, 0);
-            _imgGun = AddImage(635, 80, frame);
+            _imgGun = AddImage(675, 80, frame, -101);
             _imgGun.Scale = 2.0f;
 
             _imgGetActivationCode = AddImage(245, 50, "UI/My-stats-&-rewards-get-download-activation-code-text.png");                                    

@@ -22,7 +22,7 @@ namespace LooneyInvaders.Model
         private readonly List<CCSpriteSheet> _ssStandardRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssCompactRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssBazookaRotate = new List<CCSpriteSheet>();
-        private readonly List<CCSpriteSheet> _ssHitlerRotate = new List<CCSpriteSheet>();
+        private readonly List<CCSpriteSheet> _ssMiloRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssKimRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssPutinRotate = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssBushRotate = new List<CCSpriteSheet>();
@@ -90,7 +90,7 @@ namespace LooneyInvaders.Model
                 ssAll.AddRange(_ssStandardRotate);
                 ssAll.AddRange(_ssCompactRotate);
                 ssAll.AddRange(_ssBazookaRotate);
-                ssAll.AddRange(_ssHitlerRotate);
+                ssAll.AddRange(_ssMiloRotate);
                 ssAll.AddRange(_ssKimRotate);
                 ssAll.AddRange(_ssPutinRotate);
                 ssAll.AddRange(_ssBushRotate);
@@ -125,7 +125,7 @@ namespace LooneyInvaders.Model
                 _ssStandardRotate.Clear();
                 _ssCompactRotate.Clear();
                 _ssBazookaRotate.Clear();
-                _ssHitlerRotate.Clear();
+                _ssMiloRotate.Clear();
                 _ssKimRotate.Clear();
                 _ssPutinRotate.Clear();
                 _ssBushRotate.Clear();
@@ -474,7 +474,7 @@ namespace LooneyInvaders.Model
             int _ssStandardRotateCount = (_ssStandardRotate?.Count).GetValueOrDefault(),
                 _ssCompactRotateCount = (_ssCompactRotate?.Count).GetValueOrDefault(),
                 _ssBazookaRotateCount = (_ssBazookaRotate?.Count).GetValueOrDefault(),
-                _ssHitlerRotateCount = (_ssHitlerRotate?.Count).GetValueOrDefault(),
+                _ssMiloRotateCount = (_ssMiloRotate?.Count).GetValueOrDefault(),
                 _ssKimRotateCount = (_ssKimRotate?.Count).GetValueOrDefault(),
                 _ssPutinRotateCount = (_ssPutinRotate?.Count).GetValueOrDefault(),
                 _ssBushRotateCount = (_ssBushRotate?.Count).GetValueOrDefault();
@@ -506,12 +506,12 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == Enemies.Hitler && _ssHitlerRotateCount < 1)
+            if (enemy == Enemies.Hitler && _ssMiloRotateCount < 1)
             {
-                Console.WriteLine("PRELOAD: Hitler rotate {0}/1", _ssHitlerRotateCount + 1);
-                var filename = $"{GameEnvironment.ImageDirectory}Animations/HitlerRotate.plist";
+                Console.WriteLine("PRELOAD: Milo rotate {0}/1", _ssMiloRotateCount + 1);
+                var filename = $"{GameEnvironment.ImageDirectory}Animations/MiloRotate-0.plist";
                 var ss = new CCSpriteSheet(filename);
-                _ssHitlerRotate.Add(ss);
+                _ssMiloRotate.Add(ss);
                 return true;
             }
 
@@ -552,7 +552,7 @@ namespace LooneyInvaders.Model
             if (weapon == Weapons.Standard) imageNamePrefix = "standard_gun_rotation_image_";
             else if (weapon == Weapons.Compact) imageNamePrefix = "compact_sprayer_rotation_image_";
             else if (weapon == Weapons.Bazooka) imageNamePrefix = "Black_bazooka_rotation_image_";
-            else if (enemy == Enemies.Hitler) imageNamePrefix = "Hitler_rotation_image_";
+            else if (enemy == Enemies.Hitler) imageNamePrefix = "Milosevic_rotation_image_";
             else if (enemy == Enemies.Kim) imageNamePrefix = "kim_rotation_image_";
             else if (enemy == Enemies.Putin) imageNamePrefix = "putin_rotation_image_";
             else if (enemy == Enemies.Bush) imageNamePrefix = "Hitler_rotation_image_";
@@ -575,7 +575,7 @@ namespace LooneyInvaders.Model
             }
             else if (enemy == Enemies.Hitler)
             {
-                frame = GetFrameFromList(_ssHitlerRotate, 0, imageName);
+                frame = GetFrameFromList(_ssMiloRotate, 0, imageName);
             }
             else if (enemy == Enemies.Kim)
             {

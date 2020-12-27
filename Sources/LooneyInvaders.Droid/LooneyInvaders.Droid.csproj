@@ -699,11 +699,8 @@
     <AndroidAsset Include="..\Content\Images\Hd\Animations\GunRecoil.plist">
       <Link>Assets\Content\Images\Hd\Animations\GunRecoil.plist</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\HitlerRotate.plist">
-      <Link>Assets\Content\Images\Hd\Animations\HitlerRotate.plist</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\HitlerRotate-0.plist">
-      <Link>Assets\Content\Images\Hd\Animations\HitlerRotate-0.plist</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\MiloRotate-0.plist">
+      <Link>Assets\Content\Images\Hd\Animations\MiloRotate-0.plist</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\HybridBow-0.plist">
       <Link>Assets\Content\Images\Hd\Animations\HybridBow-0.plist</Link>
@@ -1232,8 +1229,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\Animations\HitlerRotate-0.png">
-      <Link>Assets\Content\Images\Hd\Animations\HitlerRotate-0.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\Animations\MiloRotate-0.png">
+      <Link>Assets\Content\Images\Hd\Animations\MiloRotate-0.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4377,8 +4374,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-denmark-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-denmark-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-croatia-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-croatia-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4387,8 +4384,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-england-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-england-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-the-hague-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-the-hague-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4402,8 +4399,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-france-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-france-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-kosovo-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-kosovo-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4467,8 +4464,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-norway-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-norway-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-bosnia-and-herzegovina-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-bosnia-and-herzegovina-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4682,13 +4679,13 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-poland-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-poland-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slovenia-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-slovenia-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-adolf-hitler-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-adolf-hitler-text.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slobodan-milosevic-text.png">
+      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-slobodan-milosevic-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

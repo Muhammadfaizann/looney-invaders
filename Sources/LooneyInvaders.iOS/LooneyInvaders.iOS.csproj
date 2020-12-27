@@ -460,11 +460,8 @@
     <BundleResource Include="..\Content\Images\Hd\Animations\GunRecoil.plist">
       <Link>Content\Images\Hd\Animations\GunRecoil.plist</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Animations\HitlerRotate-0.plist">
-      <Link>Content\Images\Hd\Animations\HitlerRotate-0.plist</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Animations\HitlerRotate.plist">
-      <Link>Content\Images\Hd\Animations\HitlerRotate.plist</Link>
+    <BundleResource Include="..\Content\Images\Hd\Animations\MiloRotate-0.plist">
+      <Link>Content\Images\Hd\Animations\MiloRotate-0.plist</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Animations\HybridBow-0.plist">
       <Link>Content\Images\Hd\Animations\HybridBow-0.plist</Link>
@@ -645,8 +642,8 @@
     <BundleResource Include="..\Content\Images\Hd\Animations\GunRecoil.png">
       <Link>Content\Images\Hd\Animations\GunRecoil.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\Animations\HitlerRotate-0.png">
-      <Link>Content\Images\Hd\Animations\HitlerRotate-0.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\Animations\MiloRotate-0.png">
+      <Link>Content\Images\Hd\Animations\MiloRotate-0.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\Animations\HybridBow-0.png">
       <Link>Content\Images\Hd\Animations\HybridBow-0.png</Link>
@@ -3063,14 +3060,14 @@
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-defeat-rate-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-defeat-rate-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-denmark-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-denmark-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-croatia-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-croatia-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-enemies-killed-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-enemies-killed-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-england-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-england-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-the-hague-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-the-hague-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-estonia-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-estonia-text.png</Link>
@@ -3078,8 +3075,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-finland-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-finland-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-france-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-france-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-kosovo-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-kosovo-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-george-bushes-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-george-bushes-text.png</Link>
@@ -3117,8 +3114,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-no-internet-connection-notification.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-no-internet-connection-notification.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-norway-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-norway-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-bosnia-and-herzegovina-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-bosnia-and-herzegovina-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-page1_8--text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-page1_8--text.png</Link>
@@ -3246,11 +3243,11 @@
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-page8_8--text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-page8_8--text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-poland-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-poland-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slovenia-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-slovenia-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-adolf-hitler-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-adolf-hitler-text.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-slobodan-milosevic-text.png">
+      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-slobodan-milosevic-text.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-big-bazooka-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-reward-big-bazooka-text.png</Link>
