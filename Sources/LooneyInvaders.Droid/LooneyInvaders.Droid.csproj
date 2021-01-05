@@ -69,7 +69,6 @@
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
-    <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bolts.AppLinks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -542,12 +541,6 @@
     </Reference>
     <Reference Include="Xamarin.Jetbrains.Annotations">
       <HintPath>..\packages\Xamarin.Jetbrains.Annotations.13.0.0.2\lib\monoandroid90\Xamarin.Jetbrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Kotlin.StdLib.Common">
-      <HintPath>..\packages\Xamarin.Kotlin.StdLib.Common.1.4.10\lib\monoandroid90\Xamarin.Kotlin.StdLib.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Kotlin.StdLib">
-      <HintPath>..\packages\Xamarin.Kotlin.StdLib.1.4.10\lib\monoandroid90\Xamarin.Kotlin.StdLib.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Essentials">
       <HintPath>..\packages\Xamarin.Essentials.1.5.3.2\lib\monoandroid10.0\Xamarin.Essentials.dll</HintPath>
@@ -8962,8 +8955,6 @@
   <Import Project="..\packages\Xamarin.AndroidX.Palette.1.0.0.2\build\monoandroid90\Xamarin.AndroidX.Palette.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Palette.1.0.0.2\build\monoandroid90\Xamarin.AndroidX.Palette.targets')" />
   <Import Project="..\packages\Xamarin.AndroidX.MediaRouter.1.1.0.2\build\monoandroid90\Xamarin.AndroidX.MediaRouter.targets" Condition="Exists('..\packages\Xamarin.AndroidX.MediaRouter.1.1.0.2\build\monoandroid90\Xamarin.AndroidX.MediaRouter.targets')" />
   <Import Project="..\packages\Xamarin.Jetbrains.Annotations.13.0.0.2\build\monoandroid90\Xamarin.Jetbrains.Annotations.targets" Condition="Exists('..\packages\Xamarin.Jetbrains.Annotations.13.0.0.2\build\monoandroid90\Xamarin.Jetbrains.Annotations.targets')" />
-  <Import Project="..\packages\Xamarin.Kotlin.StdLib.Common.1.4.10\build\monoandroid90\Xamarin.Kotlin.StdLib.Common.targets" Condition="Exists('..\packages\Xamarin.Kotlin.StdLib.Common.1.4.10\build\monoandroid90\Xamarin.Kotlin.StdLib.Common.targets')" />
-  <Import Project="..\packages\Xamarin.Kotlin.StdLib.1.4.10\build\monoandroid90\Xamarin.Kotlin.StdLib.targets" Condition="Exists('..\packages\Xamarin.Kotlin.StdLib.1.4.10\build\monoandroid90\Xamarin.Kotlin.StdLib.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Tasks.71.1601.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Tasks.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Tasks.71.1601.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Tasks.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Base.71.1610.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Base.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Base.71.1610.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Base.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Ads.Base.71.1720.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.Base.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Ads.Base.71.1720.4\build\MonoAndroid90\Xamarin.GooglePlayServices.Ads.Base.targets')" />
