@@ -8,7 +8,7 @@ namespace LooneyInvaders.Model
 {
     public class GameAnimation
     {
-        private readonly List<CCSpriteSheet> _ssAdolfTalk = new List<CCSpriteSheet>();
+        private readonly List<CCSpriteSheet> _ssMiloTalk = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssBushTalk = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssKimTalk = new List<CCSpriteSheet>();
         private readonly List<CCSpriteSheet> _ssPutinTalk = new List<CCSpriteSheet>();
@@ -78,7 +78,7 @@ namespace LooneyInvaders.Model
             try
             {
                 var ssAll = new List<CCSpriteSheet>();
-                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssAdolfTalk);
+                if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssMiloTalk);
                 if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssBushTalk);
                 if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssKimTalk);
                 if (!onlyRotations && _allowFreeingEnemies) ssAll.AddRange(_ssPutinTalk);
@@ -113,7 +113,7 @@ namespace LooneyInvaders.Model
                 }
 
                 ssAll.Clear();
-                if (!onlyRotations) _ssAdolfTalk.Clear();
+                if (!onlyRotations) _ssMiloTalk.Clear();
                 if (!onlyRotations) _ssBushTalk.Clear();
                 if (!onlyRotations) _ssKimTalk.Clear();
                 if (!onlyRotations) _ssPutinTalk.Clear();
@@ -157,18 +157,18 @@ namespace LooneyInvaders.Model
         {
             if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadEnemies) return false;
 
-            int _ssAdolfTalkCount = (_ssAdolfTalk?.Count).GetValueOrDefault(),
+            int _ssMiloTalkCount = (_ssMiloTalk?.Count).GetValueOrDefault(),
                 _ssBushTalkCount = (_ssBushTalk?.Count).GetValueOrDefault(),
                 _ssKimTalkCount = (_ssKimTalk?.Count).GetValueOrDefault(),
                 _ssPutinTalkCount = (_ssPutinTalk?.Count).GetValueOrDefault(),
                 _ssAlienTalkCount = (_ssAlienTalk?.Count).GetValueOrDefault();
 
-            if (_ssAdolfTalkCount < 3)
+            if (_ssMiloTalkCount < 3)
             {
-                Console.WriteLine("PRELOAD: Hitler talk {0}/3", _ssAdolfTalkCount + 1);
-                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssAdolfTalkCount}.plist";
+                Console.WriteLine("PRELOAD: Milo talk {0}/3", _ssMiloTalkCount + 1);
+                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssMiloTalkCount}.plist";
                 var ss = new CCSpriteSheet(imagename);
-                _ssAdolfTalk.Add(ss);
+                _ssMiloTalk.Add(ss);
                 return true;
             }
 
@@ -216,7 +216,7 @@ namespace LooneyInvaders.Model
             var imageNamePrefix = "";
 
             if (enemy == Enemies.Bush) imageNamePrefix = "Bush-Safe-C_";
-            else if (enemy == Enemies.Hitler) imageNamePrefix = "MiloB";
+            else if (enemy == Enemies.Milo) imageNamePrefix = "MiloB";
             else if (enemy == Enemies.Putin) imageNamePrefix = "Putin-Strength-D";
             else if (enemy == Enemies.Kim) imageNamePrefix = "Kim-Strength-D";
             else if (enemy == Enemies.Aliens) imageNamePrefix = "Alien-C-5_";
@@ -225,8 +225,8 @@ namespace LooneyInvaders.Model
             CCSpriteFrame frame = null;
             switch (enemy)
             {
-                case Enemies.Hitler:
-                    frame = GetFrameFromList(_ssAdolfTalk, (frameIndex - 1) / 77, imageName);
+                case Enemies.Milo:
+                    frame = GetFrameFromList(_ssMiloTalk, (frameIndex - 1) / 77, imageName);
                     break;
                 case Enemies.Bush:
                     frame = GetFrameFromList(_ssBushTalk, (frameIndex - 1) / 70, imageName);
@@ -320,18 +320,18 @@ namespace LooneyInvaders.Model
         {
             if (GameEnvironment.GetTotalRamSizeMb() < 500 || !allowPreloadEnemies) return false;
 
-            int _ssAdolfTalkCount = (_ssAdolfTalk?.Count).GetValueOrDefault(),
+            int _ssMiloTalkCount = (_ssMiloTalk?.Count).GetValueOrDefault(),
                 _ssBushTalkCount = (_ssBushTalk?.Count).GetValueOrDefault(),
                 _ssKimTalkCount = (_ssKimTalk?.Count).GetValueOrDefault(),
                 _ssPutinTalkCount = (_ssPutinTalk?.Count).GetValueOrDefault(),
                 _ssAlienTalkCount = (_ssAlienTalk?.Count).GetValueOrDefault();
 
-            if (_ssAdolfTalkCount < 3)
+            if (_ssMiloTalkCount < 3)
             {
-                Console.WriteLine("PRELOAD: Hitler talk {0}/3", _ssAdolfTalkCount + 1);
-                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssAdolfTalkCount}.plist";
+                Console.WriteLine("PRELOAD: Milo talk {0}/3", _ssMiloTalkCount + 1);
+                var imagename = $"{GameEnvironment.ImageDirectory}Animations/Milo-{_ssMiloTalkCount}.plist";
                 var ss = Instance.CCSpriteSheetFactoryMethodAsync(imagename);
-                _ssAdolfTalk.Add(await ss);
+                _ssMiloTalk.Add(await ss);
                 return true;
             }
 
@@ -506,7 +506,7 @@ namespace LooneyInvaders.Model
                 return true;
             }
 
-            if (enemy == Enemies.Hitler && _ssMiloRotateCount < 1)
+            if (enemy == Enemies.Milo && _ssMiloRotateCount < 1)
             {
                 Console.WriteLine("PRELOAD: Milo rotate {0}/1", _ssMiloRotateCount + 1);
                 var filename = $"{GameEnvironment.ImageDirectory}Animations/MiloRotate-0.plist";
@@ -552,10 +552,10 @@ namespace LooneyInvaders.Model
             if (weapon == Weapons.Standard) imageNamePrefix = "standard_gun_rotation_image_";
             else if (weapon == Weapons.Compact) imageNamePrefix = "compact_sprayer_rotation_image_";
             else if (weapon == Weapons.Bazooka) imageNamePrefix = "Black_bazooka_rotation_image_";
-            else if (enemy == Enemies.Hitler) imageNamePrefix = "Milosevic_rotation_image_";
+            else if (enemy == Enemies.Milo) imageNamePrefix = "Milosevic_rotation_image_";
             else if (enemy == Enemies.Kim) imageNamePrefix = "kim_rotation_image_";
             else if (enemy == Enemies.Putin) imageNamePrefix = "putin_rotation_image_";
-            else if (enemy == Enemies.Bush) imageNamePrefix = "Hitler_rotation_image_";
+            else if (enemy == Enemies.Bush) imageNamePrefix = "Bush_rotation_image_";
 
             var imageName = $"{imageNamePrefix}{frameIndex.ToString("00")}.png";
 
@@ -573,7 +573,7 @@ namespace LooneyInvaders.Model
             {
                 frame = GetFrameFromList(_ssBazookaRotate, frameIndex / 28, imageName);
             }
-            else if (enemy == Enemies.Hitler)
+            else if (enemy == Enemies.Milo)
             {
                 frame = GetFrameFromList(_ssMiloRotate, 0, imageName);
             }

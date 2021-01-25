@@ -2307,7 +2307,7 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground_George_Bush.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground_George_Bush.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png">
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan Milosevic.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-battleground-locked-text.png">

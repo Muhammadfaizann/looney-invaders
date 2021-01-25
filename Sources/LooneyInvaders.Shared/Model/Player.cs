@@ -169,7 +169,7 @@ namespace LooneyInvaders.Model
 
         public void GetQuickGame(out Enemies enemy, out Battlegrounds battleground, out Weapons weapon)
         {
-            enemy = (Enemies)CrossSettings.Current.GetValueOrDefault("QUICKGAME_enemy", (int)Enemies.Hitler);
+            enemy = (Enemies)CrossSettings.Current.GetValueOrDefault("QUICKGAME_enemy", (int)Enemies.Milo);
             battleground = (Battlegrounds)CrossSettings.Current.GetValueOrDefault("QUICKGAME_battleground", (int)Battlegrounds.Slovenia);
             weapon = (Weapons)CrossSettings.Current.GetValueOrDefault("QUICKGAME_weapon", (int)Weapons.Standard);
         }

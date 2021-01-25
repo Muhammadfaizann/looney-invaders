@@ -3122,7 +3122,7 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png">
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan Milosevic.png">
       <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png</Link>
     </AndroidAsset>
   </ItemGroup>

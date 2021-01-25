@@ -52,7 +52,7 @@ namespace LooneyInvaders.Layers
             //uncomment to go to extinction level
             //_selectedEnemy = (Convert.ChangeType(Enemies.Aliens, Enum.GetUnderlyingType(typeof(Enemies))) as int?).Value;
 
-            if (_selectedEnemy == (int)Enemies.Hitler)
+            if (_selectedEnemy == (int)Enemies.Milo)
             {
                 /*if (Settings.Instance.VoiceoversEnabled)
                 {
@@ -162,7 +162,7 @@ namespace LooneyInvaders.Layers
             FillBattlegrounds();
             SetBattlegroundName();
 
-            if (_selectedEnemy == (int)Enemies.Hitler) AddImage(85, 140, "UI/Choose-the-battleground-Adolf-Hitler.png", 0);
+            if (_selectedEnemy == (int)Enemies.Milo) AddImage(85, 140, "UI/Choose-the-battleground-Slobodan Milosevic.png", 0);
             else if (_selectedEnemy == (int)Enemies.Bush) AddImage(85, 140, "UI/Choose-the-battleground_George_Bush.png", 0);
             else if (_selectedEnemy == (int)Enemies.Putin) AddImage(85, 140, "UI/Choose-the-battleground-Vladimir-Putin.png", 2);
             else if (_selectedEnemy == (int)Enemies.Kim) AddImage(85, 140, "UI/Choose-the-battleground-Kim_Jong-un.png", 0);
@@ -184,7 +184,7 @@ namespace LooneyInvaders.Layers
             {
                 /* if (Settings.Instance.VoiceoversEnabled)
                  {
-                     if (_selectedEnemy == (int)ENEMIES.HITLER)
+                     if (_selectedEnemy == (int)ENEMIES.MILO)
                      {
                          CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
                      }
@@ -204,7 +204,7 @@ namespace LooneyInvaders.Layers
                  }
                  else
                  {*/
-                if (_selectedEnemy == (int)Enemies.Hitler)
+                if (_selectedEnemy == (int)Enemies.Milo)
                 {
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
                 }
@@ -233,7 +233,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.BattlegroundStyle == BattlegroundStyle.Cartonic) battlegroundStyle = "cartonic";
             else battlegroundStyle = "realistic";
 
-            if (_selectedEnemy == (int)Enemies.Hitler)
+            if (_selectedEnemy == (int)Enemies.Milo)
             {
                 _images[0] = AddImage(568, 320, "Battlegrounds/slovenia_" + battlegroundStyle + "_1136x640.jpg", 0);
                 _images[0].AnchorPoint = new CCPoint(0.5f, 0.5f);
@@ -450,7 +450,7 @@ namespace LooneyInvaders.Layers
             _isShowGameTipViewLoaded = false;
 
 
-            if (_selectedEnemy == (int)Enemies.Hitler)
+            if (_selectedEnemy == (int)Enemies.Milo)
             {
                 CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
             }
@@ -593,25 +593,21 @@ namespace LooneyInvaders.Layers
             if (_selectedBattleground == (int)Battlegrounds.Slovenia)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-slovenia-text");
-                //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
             }
             else if (_selectedBattleground == (int)Battlegrounds.Croatia)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-croatia-text");
                 if (Player.Instance.GetSavedCountries(Battlegrounds.Slovenia) == 0) _imgBattlegroundLocked.Visible = true;
-                //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
             }
             else if (_selectedBattleground == (int)Battlegrounds.Bosnia)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-bosnia-and-herzegovina-text");
                 if (Player.Instance.GetSavedCountries(Battlegrounds.Croatia) == 0) _imgBattlegroundLocked.Visible = true;
-                //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Noeway.wav");
             }
             else if (_selectedBattleground == (int)Battlegrounds.Kosovo)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-kosovo-text");
                 if (Player.Instance.GetSavedCountries(Battlegrounds.Bosnia) == 0) _imgBattlegroundLocked.Visible = true;
-                //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
             }
             else if (_selectedBattleground == (int)Battlegrounds.Hague)
             {
@@ -622,7 +618,6 @@ namespace LooneyInvaders.Layers
             else if (_selectedBattleground == (int)Battlegrounds.Vietnam)
             {
                 ChangeSpriteImage(_imgBattlegroundName, "UI/Choose-the-battleground-in-vietnam-text");
-                //CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Vietman.wav");
             }
             else if (_selectedBattleground == (int)Battlegrounds.Iraq)
             {

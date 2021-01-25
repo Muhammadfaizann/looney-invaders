@@ -67,7 +67,7 @@ namespace LooneyInvaders.Layers
 
             AddImage(0, 0, "UI/My-stats-&-rewards-page1-security-pattern.png", 480);
             AddImage(30, 0, "UI/My-stats-&-rewards-LOONEY-INVADER-time-zone-info-text.png", 485);
-            /* commented out by Adrijan - it caused chrashing and I needed to get to mystats 5 to switch hitler for milo
+            
             DrawWeekStatistic(LeaderboardType.Regular);
             DrawWeekStatistic(LeaderboardType.Pro);
             DrawMonthStatistic(LeaderboardType.Regular);
@@ -75,7 +75,6 @@ namespace LooneyInvaders.Layers
             GetBaseStatistics();
             
             ChangeBtnsState();
-            */
         }
 
         private void InitBestOfAllTime(LeaderboardType leaderboardType, CCNodeExt drawOn)

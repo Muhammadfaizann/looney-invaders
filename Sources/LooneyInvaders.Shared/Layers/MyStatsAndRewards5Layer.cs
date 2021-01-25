@@ -23,7 +23,7 @@ namespace LooneyInvaders.Layers
 
             SetBackground("UI/Curtain-and-paper-background.jpg");
 
-            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(null, Enemies.Hitler)) { }
+            while (GameAnimation.Instance.PreloadNextSpriteSheetRotate(null, Enemies.Milo)) { }
 
             var btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 100, ButtonType.Back);
             btnBack.OnClick += BtnBack_OnClick;
@@ -55,7 +55,7 @@ namespace LooneyInvaders.Layers
             AddImage(191, 182, "UI/My-stats-&-rewards-the-hague-text.png");
             if (Player.Instance.GetSavedCountries(Battlegrounds.Hague) > 0) AddImage(445, 184, "UI/My-stats-&-rewards-country-defended-symbol.png"); else AddImage(445, 184, "UI/My-stats-&-rewards-country-not-defended-symbol.png");
 
-            var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Hitler, 0);
+            var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Milo, 0);
             _imgGun = AddImage(675, 80, frame, -101);
             _imgGun.Scale = 2.0f;
 
@@ -101,7 +101,7 @@ namespace LooneyInvaders.Layers
             _lblCode = AddLabel(530, 76, "getting code..", "Fonts/AktivGroteskBold", 16, CCColor3B.Black);
 
             await Task.Run(() => {
-                _code = RewardsManager.GetEnemyRewardCode(Enemies.Hitler);
+                _code = RewardsManager.GetEnemyRewardCode(Enemies.Milo);
                 Schedule(DisplayCode, 0.1f);
             });
         }
@@ -137,7 +137,7 @@ namespace LooneyInvaders.Layers
             if (_currentGunFrame < 47) _currentGunFrame++;
             else _currentGunFrame = 0;
 
-            var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Hitler, _currentGunFrame);
+            var frame = GameAnimation.Instance.GetRotateFrame(null, Enemies.Milo, _currentGunFrame);
 
             ChangeSpriteImage(_imgGun, frame);
         }

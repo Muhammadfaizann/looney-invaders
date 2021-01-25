@@ -136,7 +136,7 @@ namespace LooneyInvaders.Layers
             if (isAliensEnabled) _images[enemyCount].Scale = 0.5f;
             else _images[enemyCount].Scale = 1f;
 
-            _images[enemyCount].Tag = (int)Enemies.Hitler;
+            _images[enemyCount].Tag = (int)Enemies.Milo;
             enemyPositionX += 420;
             enemyCount++;
 
@@ -177,7 +177,7 @@ namespace LooneyInvaders.Layers
             {
                 _centerImage = _images[0];
 
-                _selectedEnemy = (int)Enemies.Hitler;
+                _selectedEnemy = (int)Enemies.Milo;
                 _imgEnemyName = AddImage(255, -5, "UI/Choose-your-enemy-slobodan-milosevic-text.png", 500);
                 _imgEnemyName.Opacity = 0;
                 _startedTalking = false;
@@ -375,7 +375,7 @@ namespace LooneyInvaders.Layers
 
                 _selectedEnemy = _centerImage.Tag;
 
-                if (_selectedEnemy == (int)Enemies.Hitler)
+                if (_selectedEnemy == (int)Enemies.Milo)
                 {
                     ChangeSpriteImage(_imgEnemyName, "UI/Choose-your-enemy-slobodan-milosevic-text.png");
                     _imgEnemyLocked.Visible = false;
@@ -490,7 +490,7 @@ namespace LooneyInvaders.Layers
             if (Settings.Instance.VoiceoversEnabled)
             {
                 if (_centerImage.Tag == (int)Enemies.Bush) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/George Bush VO_mono.wav");
-                else if (_centerImage.Tag == (int)Enemies.Hitler) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slobodan Milosevic VO_mono.wav");
+                else if (_centerImage.Tag == (int)Enemies.Milo) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slobodan Milosevic VO_mono.wav");
                 else if (_centerImage.Tag == (int)Enemies.Putin) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Vladimir_Putin_VO_mono.wav");
                 else if (_centerImage.Tag == (int)Enemies.Kim) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim Jong-un VO_mono.wav");
                 else if (_centerImage.Tag == (int)Enemies.Aliens) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Space Invader VO_mono.wav");
@@ -526,7 +526,7 @@ namespace LooneyInvaders.Layers
             if (!_startedTalking)
             {
                 if (_centerImage.Tag == (int)Enemies.Bush) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush_1_safer_world.wav");
-                else if (_centerImage.Tag == (int)Enemies.Hitler) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milo_speach_synced_with_animation_Enhanced.wav");
+                else if (_centerImage.Tag == (int)Enemies.Milo) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milo_speach_synced_with_animation_Enhanced.wav");
                 else if (_centerImage.Tag == (int)Enemies.Putin) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin_1_Mighty_Independence.wav");
                 else if (_centerImage.Tag == (int)Enemies.Kim) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kim_1_National_Strength2_Enhanced.wav");
                 else if (_centerImage.Tag == (int)Enemies.Aliens) _soundId = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Alien_6_dialogue 2.wav");
@@ -540,7 +540,7 @@ namespace LooneyInvaders.Layers
             var imageNamePrefix = "";
 
             if (_centerImage.Tag == (int)Enemies.Bush) imageNamePrefix = "UI/Bush-Safe-C_";
-            else if (_centerImage.Tag == (int)Enemies.Hitler) imageNamePrefix = "UI/MiloB";
+            else if (_centerImage.Tag == (int)Enemies.Milo) imageNamePrefix = "UI/MiloB";
             else if (_centerImage.Tag == (int)Enemies.Putin) imageNamePrefix = "UI/Putin-Strength-D";
             else if (_centerImage.Tag == (int)Enemies.Kim) imageNamePrefix = "UI/Kim-Strength-D";
             else if (_centerImage.Tag == (int)Enemies.Aliens) imageNamePrefix = "UI/Alien-C-5_";
@@ -552,7 +552,7 @@ namespace LooneyInvaders.Layers
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
             }
-            else if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 144)
+            else if (_centerImage.Tag == (int)Enemies.Milo && _talkingSpriteIndex > 144)
             {
                 _talkingSpriteIndex = 0;
                 Unschedule(StartTalking);
@@ -577,7 +577,7 @@ namespace LooneyInvaders.Layers
 
             if (GameEnvironment.GetTotalRamSizeMb() > 500)
             {
-                if (_centerImage.Tag == (int)Enemies.Hitler && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 144)
+                if (_centerImage.Tag == (int)Enemies.Milo && _talkingSpriteIndex > 0 && _talkingSpriteIndex <= 144)
                 {
                     var frame = GameAnimation.Instance.GetEnemyTalkFrame((Enemies)_centerImage.Tag, _talkingSpriteIndex);
                     _centerImage.Scale = 2;
@@ -632,7 +632,7 @@ namespace LooneyInvaders.Layers
             _labelOpacity = 0;
 
             if (_centerImage.Tag == (int)Enemies.Bush) ChangeSpriteImage(_centerImage, "UI/Bush-Safe-C_00000.png");
-            else if (_centerImage.Tag == (int)Enemies.Hitler) ChangeSpriteImage(_centerImage, "UI/MiloB00000.png");
+            else if (_centerImage.Tag == (int)Enemies.Milo) ChangeSpriteImage(_centerImage, "UI/MiloB00000.png");
             else if (_centerImage.Tag == (int)Enemies.Putin) ChangeSpriteImage(_centerImage, "UI/Putin-Strength-D00000.png");
             else if (_centerImage.Tag == (int)Enemies.Kim) ChangeSpriteImage(_centerImage, "UI/Kim-Strength-D00000.png");
             else if (_centerImage.Tag == (int)Enemies.Aliens) ChangeSpriteImage(_centerImage, "UI/Alien-C-5_00000.png");

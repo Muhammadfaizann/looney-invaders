@@ -326,7 +326,7 @@ namespace LooneyInvaders.Layers
                     EnemyCollisionPoints.Add(new CCPoint(32, 60));
                     EnemyCollisionPoints.Add(new CCPoint(27, 62));
                     break;
-                case Enemies.Hitler:
+                case Enemies.Milo:
                     VoiceMiss = null;
                     VoiceMissAlternate = null;
                     VoiceEnemyHit = "Sounds/milocevic 3 shit.wav";
@@ -864,7 +864,7 @@ namespace LooneyInvaders.Layers
                 case Enemies.Kim:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-south-korean-troops.jpg", 1);
                     break;
-                case Enemies.Hitler:
+                case Enemies.Milo:
                     AddImage(0, 0, "UI/Get-ready-for-next-attack-serbia-troops.jpg", 1);
                     break;
                 case Enemies.Aliens:
@@ -946,10 +946,10 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Afganistan.wav");
                         break;
                     case Battlegrounds.Croatia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Denmark.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries croatia.wav");
                         break;
                     case Battlegrounds.Hague:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries England.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries the hague.wav");
                         break;
                     case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Estonia.wav");
@@ -958,7 +958,7 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Finland.wav");
                         break;
                     case Battlegrounds.Kosovo:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries France.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries kosovo.wav");
                         break;
                     case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Putin countries Georgia.wav");
@@ -979,10 +979,10 @@ namespace LooneyInvaders.Layers
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Libya.wav");
                         break;
                     case Battlegrounds.Bosnia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Norway.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries bosnia and herzegovina.wav");
                         break;
                     case Battlegrounds.Slovenia:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Hitler countries Poland.wav");
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Milocevic countries slovenia.wav");
                         break;
                     case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bush countries Russian.wav");
@@ -1135,10 +1135,10 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Afganistan.wav");
                     break;
                 case Battlegrounds.Croatia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Denmark.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries croatia.wav");
                     break;
                 case Battlegrounds.Hague:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries England.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries the hague.wav");
                     break;
                 case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Estonia.wav");
@@ -1147,7 +1147,7 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Finland.wav");
                     break;
                 case Battlegrounds.Kosovo:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries France.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries kosovo.wav");
                     break;
                 case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Putin countries Georgia.wav");
@@ -1168,10 +1168,10 @@ namespace LooneyInvaders.Layers
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Libya.wav");
                     break;
                 case Battlegrounds.Bosnia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Norway.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries bosnia and herzegovina.wav");
                     break;
                 case Battlegrounds.Slovenia:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Hitler countries Poland.wav");
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Milocevic countries slovenia.wav");
                     break;
                 case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bush countries Russian.wav");
