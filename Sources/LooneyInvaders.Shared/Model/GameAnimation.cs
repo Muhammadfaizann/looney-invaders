@@ -226,7 +226,7 @@ namespace LooneyInvaders.Model
             switch (enemy)
             {
                 case Enemies.Milo:
-                    frame = GetFrameFromList(_ssMiloTalk, (frameIndex - 1) / 77, imageName);
+                    frame = GetFrameFromList(_ssMiloTalk, (frameIndex - 1) / 63, imageName);
                     break;
                 case Enemies.Bush:
                     frame = GetFrameFromList(_ssBushTalk, (frameIndex - 1) / 70, imageName);
