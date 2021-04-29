@@ -288,12 +288,12 @@ namespace LooneyInvaders.Layers
             {
                 return;
             }
-
-            if (lastAdWatchDayCount == 11)
+            //ToDo: Bass/Hmulko - check the useless of the code below
+            /*if (lastAdWatchDayCount == 11)
             {
                 DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
                 return;
-            }
+            }*/
 
             Player.Instance.IsAdInCountdown = true;
             DisableButton2000ForTime(DateTime.Now.AddSeconds(6));

@@ -9,6 +9,7 @@ namespace LooneyInvaders.Model
         public static ShowBannerDelegate ShowBannerTopHandler;
         public static ShowBannerDelegate ShowBannerBottomHandler;
         public static ShowBannerDelegate HideBannerHandler;
+
         public static ShowBannerDelegate LoadInterstitialHandler;
         public static ShowBannerDelegate ShowInterstitialHandler;
         public static ShowBannerDelegate HideInterstitialHandler;
@@ -36,42 +37,45 @@ namespace LooneyInvaders.Model
 
         public static void ShowBannerTop()
         {
-            if (Settings.Instance.Advertisements)
+            /*if (Settings.Instance.Advertisements)
             {
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 { ShowBannerTopHandler?.Invoke(); }
-            }
+            }*/
         }
 
         public static void ShowBannerBottom()
         {
-            if (Settings.Instance.Advertisements)
+            /*if (Settings.Instance.Advertisements)
             {
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
                 { ShowBannerBottomHandler?.Invoke(); }
-            }
+            }*/
         }
 
         public static void HideBanner()
         {
-            if (Settings.Instance.Advertisements)
-            { HideBannerHandler?.Invoke(); }
+            /*if (Settings.Instance.Advertisements)
+            { HideBannerHandler?.Invoke(); }*/
         }
 
         public static void LoadInterstitial()
         {
             if (Settings.Instance.Advertisements)
-            { LoadInterstitialHandler?.Invoke(); }
+            {
+                LoadInterstitialHandler?.Invoke();
+            }
         }
 
         public static void ShowInterstitial()
         {
             if (Settings.Instance.Advertisements)
             {
-                //if (NetworkConnectionManager.IsInternetConnectionAvailable())
-                //{ ShowInterstitialHandler?.Invoke(); }
-                //else
-                    InterstitialAdFailedToLoad();
+                if (NetworkConnectionManager.IsInternetConnectionAvailable())
+                {
+                    ShowInterstitialHandler?.Invoke();
+                }
+                else InterstitialAdFailedToLoad();
             }
         }
 

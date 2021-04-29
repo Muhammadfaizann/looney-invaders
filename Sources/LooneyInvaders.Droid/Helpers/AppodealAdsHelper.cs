@@ -1,32 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Android.App;
-//using Com.Appodeal.Ads;
+using Com.Appodeal.Ads;
 
 namespace LooneyInvaders.Droid.Helpers
 {
     public static class AppodealAdsHelper
     {
-        /*public struct AdType
-        {
-            public static AdType Interstitial => Com.Appodeal.Ads.AdType.Interstitial;
-            public static Com.Appodeal.Ads.AdType Banner => Com.Appodeal.Ads.AdType.Banner;
-            public static Com.Appodeal.Ads.AdType BannerTop => Com.Appodeal.Ads.AdType.Banner;
-            public static Com.Appodeal.Ads.AdType Rewarded => Com.Appodeal.Ads.AdType.Rewarded;
-
-            //public static implicit operator int (AdType type) =>
-            //public static implicit operator AdType(Com.Appodeal.Ads.AdType type)
-            
-        }
-        */
+        public static int ToInt(this AdType type) => type.Code;
 
         public static int LoadingPauseMilliseconds { get; set; }
 
-        /*public static async Task LoadAsync(this AdType type, Activity context, bool show = true)
+        public static async Task LoadAsync(this AdType type, Activity context, bool show = true)
         {
             ThrowIfActivityIsNull(context);
 
-            var ad = (int)type;
+            var ad = type.ToInt();
             if (!Appodeal.IsLoaded(ad))
             {
                 Appodeal.Cache(context, ad);
@@ -47,8 +36,8 @@ namespace LooneyInvaders.Droid.Helpers
         {
             ThrowIfActivityIsNull(context);
 
-            Appodeal.Hide(context, (int)type);
-        }*/
+            Appodeal.Hide(context, type.ToInt());
+        }
 
         private static void ThrowIfActivityIsNull(Activity context)
         {

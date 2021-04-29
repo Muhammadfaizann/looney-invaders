@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using CC.Mobile.Purchases;
 using CocosSharp;
-//using Com.Appodeal.Ads;
+using Com.Appodeal.Ads;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -44,7 +44,6 @@ Edit the .csproj file in a text editor and add --pg-conf proguard-rules.pro to t
         <AndroidR8ExtraArguments>--pg-conf proguard-rules.pro</AndroidR8ExtraArguments>
     </PropertyGroup>
 */
-//[assembly: UsesLibrary("org.apache.http.legacy", false)]
 namespace LooneyInvaders.Droid
 {
     public class CustomExceptionHandler : Java.Lang.Object, JavaThread.IUncaughtExceptionHandler
@@ -64,10 +63,11 @@ namespace LooneyInvaders.Droid
         LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden,
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization//, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks//, IBannerCallbacks
     {
         private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
-        //const string API_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgeKpYmhtzBDiUXng7xxSw8GBUrkMsjdxWjb4tutL7t0Ms+zNa9e5Et3QlwSVr9Fusn15Wfc9C01cQkLMRRmwcdtR4sGbEwyk127RfdW2/iWYRDP2CypIQj0uApwg3Uay24mjQNnSphXG2KXC+Olv/ZnU7KCamnPlcGngX596ZjKluInnn4ZTqZdNM1nCfJyLxsFA7sWbttyYKHR6i0fNbdKon0SJ2CY/KuA6H1E0MMuaEvm6keS59bP3FWlbNsaT3lw4RFoT40cYa8lgzNeS5Y2GXXYAHdZQj6d4dPSErjevloRf/h7V6CZBrbGRZBMfWn5PZamg0P0d5I0ewMZ/FQIDAQAB";
+
+        private static bool ActivityCreated = false;
 
         public CCGameView GameView;
         public Action CheckGamePauseState;
@@ -140,11 +140,14 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            if (ActivityCreated) { return; }
+            ActivityCreated = true; //workaround in cases the app tends to go OnCreate once it was created
+
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
-            //Facebook initialization //ToDo: Bass - check out is ApplicationName - FB app name or just package name
+
             FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);
             FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
     #pragma warning disable CS0618 // Type or member is obsolete
@@ -157,19 +160,20 @@ namespace LooneyInvaders.Droid
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
-            //Helpers.EglHelper.InitEgl();
-            AdManager.ShowBannerTopHandler = () => { };//ShowBannerBottom;
-            AdManager.ShowBannerBottomHandler = () => { };//ShowBannerBottom;
-            AdManager.HideBannerHandler = HideBanner;
-            AdManager.LoadInterstitialHandler = () => { };//LoadInterstitial;
+            //Helpers.EglHelper.InitEgl();//ToDo: remove EglHelper in the future
+            //////////////////////////////
+            /*AdManager.ShowBannerTopHandler = ShowBannerBottom;
+            AdManager.ShowBannerBottomHandler = ShowBannerBottom;
+            AdManager.HideBannerHandler = HideBanner;*/
+            AdManager.LoadInterstitialHandler = LoadInterstitial;
             AdManager.ShowInterstitialHandler = ShowInterstitial;
-            AdManager.HideInterstitialHandler = () => { };//HideInterstitial;
-            /*Appodeal.SetTesting(false);
+            AdManager.HideInterstitialHandler = HideInterstitial;
+            Appodeal.SetTesting(false);
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
-            Appodeal.SetBannerAnimation(true);
-            Appodeal.SetSmartBanners(true);
-            Appodeal.SetAutoCache(requiredAdTypes, false);*/
-            //MobileAds.Initialize(this, "ca-app-pub-5373308786713201~4768370178");
+            //Appodeal.SetBannerAnimation(true);
+            //Appodeal.SetSmartBanners(true);
+            Appodeal.SetAutoCache(requiredAdTypes, true);
+
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -186,11 +190,23 @@ namespace LooneyInvaders.Droid
             TrackTime();
             // remove navigation bar
             var decorView = Window.DecorView;
-            var newUiOptions = (int)decorView.SystemUiVisibility;
-            newUiOptions |= (int)SystemUiFlags.HideNavigation;
-            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
-            newUiOptions |= (int)SystemUiFlags.Fullscreen;
-            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+            if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+            {
+    #pragma warning disable CS0618 // Type or member is obsolete
+                var newUiOptions = (int)decorView.SystemUiVisibility;
+    #pragma warning restore CS0618 // Type or member is obsolete
+                newUiOptions |= (int)SystemUiFlags.HideNavigation;
+                newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+                newUiOptions |= (int)SystemUiFlags.Fullscreen;
+    #pragma warning disable CS0618 // Type or member is obsolete
+                decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+    #pragma warning restore CS0618 // Type or member is obsolete
+            }
+            else
+            {
+                Window.SetDecorFitsSystemWindows(false);
+                //ToDo: Bass/Hmulko - check Android 30 for proper behaviour
+            }
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
             TrackTime();
@@ -209,7 +225,19 @@ namespace LooneyInvaders.Droid
             GameDelegate.UpdateGameView = UpdateGameViewState;
 
             var designedSize = new Point();
-            WindowManager.DefaultDisplay.GetSize(designedSize);
+            if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+            {
+    #pragma warning disable CS0618 // Type or member is obsolete
+                WindowManager.DefaultDisplay.GetSize(designedSize);
+    #pragma warning restore CS0618 // Type or member is obsolete
+            }
+            else
+            {
+                var designedSizeRect = WindowManager.CurrentWindowMetrics.Bounds;
+                designedSize.X = designedSizeRect.Width();
+                designedSize.Y = designedSizeRect.Height();
+            }
+
             if (designedSize.X > 0)
             {
                 GameDelegate.DesignSize.Width = designedSize.X;
@@ -223,10 +251,10 @@ namespace LooneyInvaders.Droid
             TrackTime();
 
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
-            /*Appodeal.SetInterstitialCallbacks(this);
-            Appodeal.SetBannerCallbacks(this);
+            Appodeal.SetInterstitialCallbacks(this);
+            //Appodeal.SetBannerCallbacks(this);
             Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
-            Appodeal.Cache(this, requiredAdTypes);*/
+            Appodeal.Cache(this, requiredAdTypes);
             TrackTime();
             // set up in-game purchases
             InGamePurchasesAsync();
@@ -377,7 +405,9 @@ namespace LooneyInvaders.Droid
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 var vibrator = (Vibrator)GetSystemService(VibratorService);
+    #pragma warning disable XA0001 // Find issues with Android API usage
                 vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
+    #pragma warning restore XA0001 // Find issues with Android API usage
             }
         }
 
@@ -398,7 +428,7 @@ namespace LooneyInvaders.Droid
 
         private void CloseActivity()
         {
-            //ToDo: Bass - here's the place to save everything before definetely close the app
+            //Here's the place to save everything before definetely close the app
             //Quitting guide: https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
             Debug.WriteLine("quitting game");
 
