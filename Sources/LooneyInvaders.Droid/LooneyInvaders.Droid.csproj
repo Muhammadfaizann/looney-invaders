@@ -47,7 +47,7 @@
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidLinkSkip>Xamarin.Firebase.Messaging;Xamarin.Firebase.Iid;Xamarin.Firebase.Iid.Interop;Microsoft.AppCenter.Push.Android;CocosSharp;OpenTK;AppodealXamarinAndroid</AndroidLinkSkip>
+    <AndroidLinkSkip></AndroidLinkSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
