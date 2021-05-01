@@ -26,7 +26,6 @@ using LooneyInvaders.Droid.Helpers;
 using LooneyInvaders.Droid.Services.Facebook;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
-using LooneyInvaders.Services.PNS;
 using LooneyInvaders.Shared;
 
 /* //probably future setting
@@ -143,7 +142,7 @@ namespace LooneyInvaders.Droid
             if (ActivityCreated) { return; }
             ActivityCreated = true; //workaround in cases the app tends to go OnCreate once it was created
 
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject.ToString()}");
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject}");
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
@@ -156,7 +155,6 @@ namespace LooneyInvaders.Droid
             FacebookSdk.FullyInitialize();
             AppEventsLogger.InitializeLib(this, FacebookSdk.ApplicationId);
             FacebookSdk.AutoLogAppEventsEnabled = true;
-
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
@@ -246,6 +244,7 @@ namespace LooneyInvaders.Droid
             {
                 GameDelegate.DesignSize.Height = designedSize.Y;
             }
+
             var size = new Point();
             WindowManager.DefaultDisplay.GetRealSize(size);
             TrackTime();
@@ -353,6 +352,7 @@ namespace LooneyInvaders.Droid
         public override void OnTrimMemory([GeneratedEnum] TrimMemory level)
         {
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+
             if (level != TrimMemory.Complete)
             {
                 Java.Lang.JavaSystem.Gc();
@@ -409,13 +409,6 @@ namespace LooneyInvaders.Droid
                 vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
     #pragma warning restore XA0001 // Find issues with Android API usage
             }
-        }
-
-        private void CheckNotificationPremissions()
-        {
-            var notificationsAllowed = new NotificationAllowedService();
-            var res = notificationsAllowed.IsNotificationsAllowed();
-            Settings.Instance.IsPushNotificationEnabled = res;
         }
 
         private void SetSessionInfo()

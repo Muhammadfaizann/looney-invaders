@@ -1,15 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="49">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
-	<application android:label="@string/android_app_name" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false" android:allowBackup="false" android:fullBackupContent="false" tools:node="replace">
-		<!--android:networkSecurityConfig="@xml/network_security_config"-->
+	<application android:label="@string/android_app_name" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false" android:allowBackup="false" android:fullBackupContent="false" tools:node="replace" android:networkSecurityConfig="@xml/network_security_config">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<!-- <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/app_id" /> -->
 		<!-- <activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" /> -->
 		<!-- https://developers.google.com/ad-manager/mobile-ads-sdk/android/quick-start#update_your_androidmanifestxml - for Google Ad Manager publishers -->
 		<!-- <meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP" android:value="true" /> -->
-		<!-- <activity android:name="com.adcolony.sdk.AdColonyInterstitialActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" /> -->
 		<activity android:name="com.adcolony.sdk.AdColonyInterstitialActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.adcolony.sdk.AdColonyAdViewActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode" android:hardwareAccelerated="true" android:screenOrientation="behind" />
@@ -165,18 +163,14 @@
 		<!--		</activity>-->
 	</application>
 	<uses-permission android:name="android.permission.REORDER_TASKS" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<!-- We really need to ensure ACCESS_COARSE_LOCATION must be removed -->
+	<uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+	<!-- We will have to remove ACCESS_COARSE_LOCATION location from here if Google reject the app on review -->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-	<uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<!-- <permission android:name="com.init.looney_invaders.permission.C2D_MESSAGE" android:protectionLevel="signature" /> -->
+	<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
 </manifest>

@@ -283,6 +283,8 @@ namespace LooneyInvaders.Layers
 
             async void RefreshLeaderboardOnStart(float time)
             {
+                _permissionService?.GetPermissions();
+
                 if (noInternet) RefreshLeaderboard(time);
                 else await ForceLeaderboardManagerRefreshAsync();
             }
@@ -332,12 +334,7 @@ namespace LooneyInvaders.Layers
             HideProNotification(sender, e);
         }
 
-        private async Task ForceLeaderboardManagerRefreshAsync()
-        {
-            _permissionService?.GetPermissions();
-
-            await LeaderboardManager.RefreshLeaderboards();
-        }
+        private async Task ForceLeaderboardManagerRefreshAsync() => await LeaderboardManager.RefreshLeaderboards();
 
         private void BtnScoreboardPro_OnClick(object sender, EventArgs e)
         {
@@ -591,10 +588,7 @@ namespace LooneyInvaders.Layers
             ChangeSpriteButtonImage(_btnRanking);
         }
 
-        private void RefreshLeaderboard(float time)
-        {
-            RefreshLeaderboard();
-        }
+        private void RefreshLeaderboard(float time) => RefreshLeaderboard();
 
         private void RefreshLeaderboard(bool scheduled = true)
         {
