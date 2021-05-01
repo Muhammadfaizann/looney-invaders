@@ -13,7 +13,7 @@ using LooneyInvaders.Services.App42;
 
 namespace LooneyInvaders.Droid
 {
-    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization//, IInterstitialCallbacks, IBannerCallbacks
+    public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization
     {
         private static JavaFile StoreScreenShot(Bitmap picture)
         {

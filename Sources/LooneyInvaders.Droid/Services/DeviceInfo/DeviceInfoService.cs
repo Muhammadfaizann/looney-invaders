@@ -37,7 +37,10 @@ namespace LooneyInvaders.DeviceInfo
                     ? (Build.VERSION.SdkInt < BuildVersionCodes.O)
                         ? (mTelephonyMgr?.DeviceId ?? none)
                         : (mTelephonyMgr?.Imei ?? none)
-                    : none.WithAction(() => ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, MPermission.ReadPhoneState.GetHashCode()));
+                    : none.WithAction(async () => await activity.RunOnUiThreadAsync(() =>
+                    {
+                        ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, 1488);
+                    }));
 
             var deviceInfo = new DeviceInfoModel
             {

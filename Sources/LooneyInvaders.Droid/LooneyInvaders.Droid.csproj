@@ -623,6 +623,9 @@
     </Compile>
     <Compile Include="Helpers\AppodealAdsHelper.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="MainActivity.Permissions.cs">
+      <DependentUpon>..\MainActivity.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Adolf-0.plist">
