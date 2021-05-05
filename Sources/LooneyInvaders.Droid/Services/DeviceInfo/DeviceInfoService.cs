@@ -26,7 +26,7 @@ namespace LooneyInvaders.DeviceInfo
         {
             const string none = "-";
             var androidID = Android.Provider.Settings.Secure.GetString(activity.ApplicationContext.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
-			var osVersion = "Android " + (Build.VERSION.Release ?? none);
+            var osVersion = "Android " + (Build.VERSION.Release ?? none);
             var manufacturer = Build.Manufacturer;
             var model = Build.Model;
 
@@ -39,7 +39,13 @@ namespace LooneyInvaders.DeviceInfo
                         : (mTelephonyMgr?.Imei ?? none)
                     : none.WithAction(async () => await activity.RunOnUiThreadAsync(() =>
                     {
-                        ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, 1488);
+                        var dialogBuilder = new AlertDialog.Builder(activity);
+                        dialogBuilder.SetTitle("Warning");
+                        dialogBuilder.SetMessage("You'll be asked to grant managing your phone info (as calls) or not.\n" +
+                            "This data is used just for drawing graph with your phone ID as a name.\n" +
+                            "No user data will be collected or stolen.");
+                        dialogBuilder.SetPositiveButton("Ok", handler: (s, ea) => ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, 1488));
+                        dialogBuilder.Create().Show();
                     }));
 
             var deviceInfo = new DeviceInfoModel

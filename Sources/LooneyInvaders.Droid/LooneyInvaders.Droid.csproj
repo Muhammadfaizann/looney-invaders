@@ -47,7 +47,6 @@
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidLinkSkip></AndroidLinkSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
@@ -514,7 +513,6 @@
     <Reference Include="Xamarin.Essentials">
       <HintPath>..\packages\Xamarin.Essentials.1.5.3.2\lib\monoandroid10.0\Xamarin.Essentials.dll</HintPath>
     </Reference>
-    <Reference Include="Java.Interop" />
     <Reference Include="Xamarin.AndroidX.MultiDex">
       <HintPath>..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\lib\monoandroid90\Xamarin.AndroidX.MultiDex.dll</HintPath>
     </Reference>
@@ -1055,6 +1053,12 @@
     </AndroidAsset>
     <AndroidAsset Include="..\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png">
       <Link>Assets\Content\Images\Hd\UI\victory-i-just-made-impressive-score.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\link-to-appodeal-privacy.png">
+      <Link>Assets\Content\Images\Hd\UI\link-to-appodeal-privacy.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\link-to-appodeal-privacy-tapped.png">
+      <Link>Assets\Content\Images\Hd\UI\link-to-appodeal-privacy-tapped.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

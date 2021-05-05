@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="49">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="50">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:label="@string/android_app_name" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false" android:allowBackup="false" android:fullBackupContent="false" tools:node="replace" android:networkSecurityConfig="@xml/network_security_config">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
@@ -64,6 +64,74 @@
 		<activity android:name="com.ironsource.sdk.controller.ControllerActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" />
 		<activity android:name="com.ironsource.sdk.controller.InterstitialActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent" />
 		<activity android:name="com.ironsource.sdk.controller.OpenUrlActivity" android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent" />
+		<receiver android:name="io.presage.common.profig.schedule.ProfigAlarmReceiver" />
+		<service android:name="io.presage.common.profig.schedule.ProfigSyncIntentService" android:exported="false" />
+		<service android:name="io.presage.common.profig.schedule.ProfigJobService" android:exported="false" android:permission="android.permission.BIND_JOB_SERVICE" />
+		<activity android:name="io.presage.interstitial.ui.InterstitialActivity" android:configChanges="orientation|screenSize" android:exported="false" android:theme="@style/Presage.AdScreen.Translucent" />
+		<activity android:name="io.presage.interstitial.ui.InterstitialAndroid8TransparentActivity" android:configChanges="orientation|screenSize" android:exported="false" android:theme="@style/Presage.AdScreen.Translucent" />
+		<activity android:name="io.presage.interstitial.ui.InterstitialAndroid8RotableActivity" android:configChanges="orientation|screenSize" android:exported="false" android:theme="@style/Presage.AdScreen" />
+		<activity android:name="io.presage.mraid.browser.ShortcutActivity" android:theme="@style/Presage.AdScreen">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		<activity android:name="io.presage.mraid.browser.Android8AndLaterShortcutActivity" android:exported="false" android:theme="@style/Presage.AdScreen">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.ogury.cm.ConsentActivity" android:configChanges="orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+		<activity android:name="com.android.billingclient.api.ProxyBillingActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+		<receiver android:name="io.presage.core.receiver.UserPresentReceiver" android:enabled="true" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.USER_PRESENT" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.BootCompletedReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.TimeSetReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.TIME_SET" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.CarrierConfigChangedReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.telephony.action.CARRIER_CONFIG_CHANGED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.NextAlarmClockChangedReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.EventReminderReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.EVENT_REMINDER" />
+				<data android:scheme="content" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.BluetoothReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+				<action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+				<action android:name="android.hardware.usb.action.USB_ACCESSORY_DETACHED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.PackageFullyRemovedReceiver" android:enabled="false" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+				<data android:scheme="package" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="io.presage.core.receiver.AlarmReceiver" android:enabled="true" android:exported="true" />
+		<activity android:name="io.presage.core.activity.SBActivity" android:taskAffinity="io.presage.core.activity.ABActivity" android:theme="@android:style/Theme.Translucent" />
+		<service android:name="io.presage.core.service.SdkService" android:enabled="true" android:exported="false" />
+		<service android:name="io.presage.core.service.SdkJobService" android:permission="android.permission.BIND_JOB_SERVICE" />
+		<service android:name="io.presage.core.service.SMJobService" android:permission="android.permission.BIND_JOB_SERVICE" />
 		<!-- suppress AndroidDomInspection -->
 		<activity android:name="com.my.target.common.MyTargetActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 		<activity android:name="com.smaato.sdk.core.browser.SmaatoSdkBrowserActivity" android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize" />
@@ -162,6 +230,7 @@
 		<!--			</intent-filter>-->
 		<!--		</activity>-->
 	</application>
+	<uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 	<uses-permission android:name="android.permission.REORDER_TASKS" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.VIBRATE" />

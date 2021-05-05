@@ -36,7 +36,7 @@ namespace LooneyInvaders.Model
         }
 
         public static void ShowBannerTop()
-        {
+        {   // Do not delete this bunch of code
             /*if (Settings.Instance.Advertisements)
             {
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -45,7 +45,7 @@ namespace LooneyInvaders.Model
         }
 
         public static void ShowBannerBottom()
-        {
+        {   // Do not delete this bunch of code
             /*if (Settings.Instance.Advertisements)
             {
                 if (NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -54,7 +54,7 @@ namespace LooneyInvaders.Model
         }
 
         public static void HideBanner()
-        {
+        {   // Do not delete this bunch of code
             /*if (Settings.Instance.Advertisements)
             { HideBannerHandler?.Invoke(); }*/
         }

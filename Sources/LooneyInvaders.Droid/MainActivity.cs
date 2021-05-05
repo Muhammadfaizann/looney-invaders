@@ -68,6 +68,8 @@ namespace LooneyInvaders.Droid
 
         private static bool ActivityCreated = false;
 
+        
+
         public CCGameView GameView;
         public Action CheckGamePauseState;
 
@@ -147,6 +149,7 @@ namespace LooneyInvaders.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
 
+            Android.Webkit.CookieManager.Instance.SetAcceptCookie(true);
             FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);
             FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
     #pragma warning disable CS0618 // Type or member is obsolete
@@ -160,17 +163,33 @@ namespace LooneyInvaders.Droid
             Crashes.SetEnabledAsync(true);
             //Helpers.EglHelper.InitEgl();//ToDo: remove EglHelper in the future
             //////////////////////////////
+            {
+                /*try
+                {
+                    var oguryB = new Com.Appodeal.Ads.Adapters.Ogury.OguryNetwork.Builder();
+                    _ = oguryB.Build();
+                }
+                catch (Exception e)
+                { var t = e; }
+                try
+                {
+                    var c = new Com.Appodeal.Ads.Adapters.Ogury.Interstitial.OguryInterstitial();
+                    c.Show(this, null);
+                }
+                catch (Exception _e)
+                { var t = _e; }*/
+            }
             /*AdManager.ShowBannerTopHandler = ShowBannerBottom;
             AdManager.ShowBannerBottomHandler = ShowBannerBottom;
             AdManager.HideBannerHandler = HideBanner;*/
             AdManager.LoadInterstitialHandler = LoadInterstitial;
             AdManager.ShowInterstitialHandler = ShowInterstitial;
             AdManager.HideInterstitialHandler = HideInterstitial;
-            Appodeal.SetTesting(false);
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
             //Appodeal.SetBannerAnimation(true);
             //Appodeal.SetSmartBanners(true);
             Appodeal.SetAutoCache(requiredAdTypes, true);
+            Appodeal.SetTesting(false);
 
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
@@ -252,7 +271,8 @@ namespace LooneyInvaders.Droid
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
             Appodeal.SetInterstitialCallbacks(this);
             //Appodeal.SetBannerCallbacks(this);
-            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes);
+            //ToDo: check does it really prevent from prcoessing user consent and bewaring him
+            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes, false);
             Appodeal.Cache(this, requiredAdTypes);
             TrackTime();
             // set up in-game purchases
@@ -273,7 +293,7 @@ namespace LooneyInvaders.Droid
             TrackTime();
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
-            //GameView.RenderOnUIThread = true;
+            //GameView.RenderOnUIThread = true; //ToDo: not sure it's needed, remove in the future
             GameView.ViewCreated += GameDelegate.LoadGame;
             TrackTime();
             Debug.WriteLine("Activity created(OnCreate passed)");
@@ -421,8 +441,8 @@ namespace LooneyInvaders.Droid
 
         private void CloseActivity()
         {
-            //Here's the place to save everything before definetely close the app
-            //Quitting guide: https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
+            //Here's the place to save everything before definetely close the app. Quitting guide:
+            //https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
             Debug.WriteLine("quitting game");
 
             FinishAndRemoveTask();

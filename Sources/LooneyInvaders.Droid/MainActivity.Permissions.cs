@@ -45,8 +45,7 @@ namespace LooneyInvaders.Droid
             }
             permissionQuestsNeedToAsk.ForEach(p => p.Asked = true); // we need to ask all
 
-            Task.Run(async () => await permissionService.GetPermissions(permissionQuestsNeedToAsk.ToArray()))
-                .ConfigureAwait(false);
+            _ = Task.Run(async () => await permissionService.GetPermissions(permissionQuestsNeedToAsk.ToArray()));
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {

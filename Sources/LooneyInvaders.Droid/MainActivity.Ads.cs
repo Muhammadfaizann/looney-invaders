@@ -15,7 +15,7 @@ namespace LooneyInvaders.Droid
         private readonly int requiredAdTypes = AdType.Interstitial.ToInt();
         private bool _isAdsShoving;
         private bool _wasResumed;
-
+        // Do not delete this bunch of code
         /*public void OnBannerClicked() { }
         public void OnBannerFailedToLoad() { }
         public void OnBannerLoaded(int p0, bool p1) { }
@@ -37,7 +37,7 @@ namespace LooneyInvaders.Droid
         }
 
         //public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
-
+        // Do not delete this bunch of code
         /*public void HideBanner() => RunOnUiThread(() =>
         {
             AdType.Banner.Hide(this);
