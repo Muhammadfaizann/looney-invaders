@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.init.looney_invaders" android:versionName="1" android:installLocation="auto" android:versionCode="50">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.init.looney_invaders" android:versionName="1.1" android:installLocation="auto" android:versionCode="2000000065">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:label="@string/android_app_name" android:icon="@drawable/Icon" android:largeHeap="true" android:hardwareAccelerated="false" android:allowBackup="false" android:fullBackupContent="false" tools:node="replace" android:networkSecurityConfig="@xml/network_security_config">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
@@ -241,5 +241,4 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
 </manifest>
