@@ -69,6 +69,7 @@
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidProguardMappingFile>$(OutputPath)mapping.txt</AndroidProguardMappingFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bolts.AppLinks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
