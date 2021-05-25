@@ -18,7 +18,7 @@ namespace LooneyInvaders.Droid
         {
             try
             {
-                _svc = new PurchaseService(ApiKey);
+                _svc = new PurchaseService(PurchaseApiKey);
 
                 await _svc.Init(this);
                 var svcResume = _svc.Resume();

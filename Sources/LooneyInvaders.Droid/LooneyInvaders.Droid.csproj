@@ -49,6 +49,7 @@
     <AndroidUseAapt2>true</AndroidUseAapt2>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
     <DebugType></DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -69,7 +70,7 @@
     <AndroidSigningKeyPass>mojasifra</AndroidSigningKeyPass>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidPackageFormat>aab</AndroidPackageFormat>
-    <AndroidProguardMappingFile>$(OutputPath)mapping.txt</AndroidProguardMappingFile>
+    <AndroidProguardMappingFile>bin\mapping.txt</AndroidProguardMappingFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bolts.AppLinks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">

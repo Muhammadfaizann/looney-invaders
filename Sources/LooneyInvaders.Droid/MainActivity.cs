@@ -56,7 +56,7 @@ namespace LooneyInvaders.Droid
     [Activity(
         Label = "Looney Invaders",
         MainLauncher = true,
-        Icon = "@drawable/icon",
+        Icon = IconAppName,
         Theme = "@android:style/Theme.Holo.NoActionBar.Fullscreen",
         AlwaysRetainTaskState = true,
         LaunchMode = LaunchMode.SingleTop,
@@ -64,11 +64,11 @@ namespace LooneyInvaders.Droid
         ScreenOrientation = ScreenOrientation.SensorLandscape)]
     public partial class MainActivity : Activity, ISensorEventListener, IApp42ServiceInitialization, IInterstitialCallbacks//, IBannerCallbacks
     {
-        private const string ApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
-
         private static bool ActivityCreated = false;
 
-        
+        private const string PurchaseApiKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Hv7vhVm/h274S6ok1M1cm+mGUMVzk3OK/rNIG07bvMaLCPXmHpidGCqs8/IaWlnfpsEuny0eZuAYzrpiupi+OvSEX+gqjVLvExh1yh+qOQvXhvwS6YbAl+czFxdMS0Tb6LtJ5dcUDoLJR+oLpV63+SCU9hdL0yP9gm87zxPAF0KalEA72Wr3pyRMdzeD6nZy/3gDJq9CDxMyyo695TvPt5AEeeDJIcIifA/XV0Z9wtnFWWGCmPuX+ZN99CojG2HaXnBg65TuqNal8S9z5IACxkSGbe3CKzwbYZmuvBiF8TXX+5y0u1f44eoiwg2JKkOmc5F9OxlX6BVX+SAxn4/wwIDAQAB";
+
+        public const string IconAppName = "@drawable/icon";
 
         public CCGameView GameView;
         public Action CheckGamePauseState;
@@ -163,22 +163,6 @@ namespace LooneyInvaders.Droid
             Crashes.SetEnabledAsync(true);
             //Helpers.EglHelper.InitEgl();//ToDo: remove EglHelper in the future
             //////////////////////////////
-            {
-                /*try
-                {
-                    var oguryB = new Com.Appodeal.Ads.Adapters.Ogury.OguryNetwork.Builder();
-                    _ = oguryB.Build();
-                }
-                catch (Exception e)
-                { var t = e; }
-                try
-                {
-                    var c = new Com.Appodeal.Ads.Adapters.Ogury.Interstitial.OguryInterstitial();
-                    c.Show(this, null);
-                }
-                catch (Exception _e)
-                { var t = _e; }*/
-            }
             /*AdManager.ShowBannerTopHandler = ShowBannerBottom;
             AdManager.ShowBannerBottomHandler = ShowBannerBottom;
             AdManager.HideBannerHandler = HideBanner;*/

@@ -3,17 +3,19 @@ using System.Threading.Tasks;
 using System.Linq;
 using Android.App;
 using Android.OS;
-using Android.Support.V4.Content.Res;
 using LooneyInvaders.Droid.Extensions;
 using LooneyInvaders.Services.Permissions;
 using static Android.Content.PM.Permission;
-using static Android.Resource.Mipmap;
 using ActivityCompat = Android.Support.V4.App.ActivityCompat;
 using ContextCompat = Android.Support.V4.Content.ContextCompat;
 using Permission = Android.Manifest.Permission;
+using Main = LooneyInvaders.Droid.MainActivity;
 
 namespace LooneyInvaders.Permissions
 {
+    /// <summary>
+    /// You should provide all permissions at a time - the first one will be asked otherwise
+    /// </summary>
     public class PermissionService : IPermissionService
     {
         public class PermissionQuest // All crucial info about permission.
@@ -28,15 +30,15 @@ namespace LooneyInvaders.Permissions
             }
         }
 
-        private readonly int RequestCode = new System.Random().Next(new System.Random().Next(), int.MaxValue);
+        private int RequestCode = new System.Random().Next(new System.Random().Next(), int.MaxValue);
 
         private readonly Activity activity;
 
         public readonly List<PermissionQuest> AndroidPermissionsAndExplanations = new List<PermissionQuest> {
             new PermissionQuest(Permission.ReadExternalStorage, "access to your files - to show your game score, without grant that can't be done;\n", false),
-            new PermissionQuest(Permission.WriteExternalStorage, "access to your files - to save your game score;\n", false),
-            new PermissionQuest(Permission.AccessCoarseLocation, "access your location - for analytics service or ads service proper work\n," +
-                "you can discard to avoid analytics collection;\nthe app doesn't collect any user data, please read our privacy policy;", false)};
+            new PermissionQuest(Permission.WriteExternalStorage, "access to your files - to save your game score, without grant that can't be done;\n", false),
+            new PermissionQuest(Permission.AccessCoarseLocation, "access your location - for analytics service or ads service proper work, " +
+                "you can discard to avoid analytics work - the app is just a game and doesn't collect any user data;\n", false)};
 
         public PermissionService(Activity activity)
         {
@@ -79,23 +81,25 @@ namespace LooneyInvaders.Permissions
             if (nonGrantedRequestRequiredPermissions.Count > 0)
             {
                 // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
+                // this thread waiting for the user's response. After the user
                 // sees the explanation, try again to request the permission.
                 var explanations = "";
                 nonGrantedRequestRequiredPermissions.ForEach(q => explanations += q.Explanation);
 
-                var title = $"You need to grant that required permission to use full functionality of the game";
-                var explanation = $"For example: {explanations}";
+                var title = $"You need to grant that required permissions to use full functionality of the game";
+                var explanation = $"For example: {explanations}\nPlease read our privacy policy.";
+                var iconPaths = Main.IconAppName.Trim('@').Split('/', System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 await activity.RunOnUiThreadAsync(() =>
                 {   // we can use another user dialog type to inform user
                     var dialogBuilder = new AlertDialog.Builder(activity);
                     dialogBuilder.SetTitle(title);
                     dialogBuilder.SetMessage(explanation);
-                    dialogBuilder.SetIcon(ResourcesCompat.GetDrawable(activity.Resources, SymDefAppIcon, activity.Theme));
+                    dialogBuilder.SetIcon(activity.GetDrawable(activity.Resources.GetIdentifier(iconPaths.LastOrDefault() ?? "", iconPaths.FirstOrDefault() ?? "", activity.PackageName)));
                     dialogBuilder.SetPositiveButton("Ok", handler: (s, ea) => RequestPermissions(nonGrantedRequestRequiredPermissions));
                     dialogBuilder.Create().Show();
                 });
+                await Task.Run(() => { });
             }
 
             if (nonGrantedPermissions.Count > 0)
@@ -106,7 +110,7 @@ namespace LooneyInvaders.Permissions
             void RequestPermissions(List<PermissionQuest> quests) =>
                 ActivityCompat.RequestPermissions(activity,
                     quests.Select(p => p.Permission).ToArray(),
-                    RequestCode);
+                    RequestCode++);
         }
     }
 }

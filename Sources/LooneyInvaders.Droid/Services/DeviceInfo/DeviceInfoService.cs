@@ -41,7 +41,7 @@ namespace LooneyInvaders.DeviceInfo
                     {
                         var dialogBuilder = new AlertDialog.Builder(activity);
                         dialogBuilder.SetTitle("Warning");
-                        dialogBuilder.SetMessage("You'll be asked to grant managing your phone info (as calls) or not.\n" +
+                        dialogBuilder.SetMessage("You'll be asked to grant managing your phone info (as calls).\n" +
                             "This data is used just for drawing graph with your phone ID as a name.\n" +
                             "No user data will be collected or stolen.");
                         dialogBuilder.SetPositiveButton("Ok", handler: (s, ea) => ActivityCompat.RequestPermissions(activity, new string[] { MPermission.ReadPhoneState }, 1488));
