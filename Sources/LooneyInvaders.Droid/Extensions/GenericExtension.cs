@@ -6,9 +6,9 @@ namespace LooneyInvaders.Droid.Extensions
 {
     public static class GenericExtension
     {
-        public static TResult WithAction<TResult>(this TResult obj, Action action)
+        public static TResult WithAction<TResult>(this TResult obj, Action<TResult> action)
         {
-            action?.Invoke();
+            action?.Invoke(obj);
 
             return obj;
         }

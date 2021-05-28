@@ -31,11 +31,6 @@ namespace LooneyInvaders.Droid
         public void OnInterstitialExpired() { }
         public void OnInterstitialShowFailed() => AdManager.InterstitialAdFailedToLoad();
 
-        protected override void OnResume()
-        {
-            base.OnResume();
-        }
-
         //public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
         // Do not delete this bunch of code
         /*public void HideBanner() => RunOnUiThread(() =>

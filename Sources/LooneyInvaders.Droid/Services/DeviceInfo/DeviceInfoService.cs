@@ -37,7 +37,7 @@ namespace LooneyInvaders.DeviceInfo
                     ? (Build.VERSION.SdkInt < BuildVersionCodes.O)
                         ? (mTelephonyMgr?.DeviceId ?? none)
                         : (mTelephonyMgr?.Imei ?? none)
-                    : none.WithAction(async () => await activity.RunOnUiThreadAsync(() =>
+                    : none.WithAction(async _ => await activity.RunOnUiThreadAsync(() =>
                     {
                         var dialogBuilder = new AlertDialog.Builder(activity);
                         dialogBuilder.SetTitle("Warning");

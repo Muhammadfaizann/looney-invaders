@@ -583,7 +583,7 @@ namespace LooneyInvaders.Layers
             }
             else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
             {
-                _sl.AddImageCentered(995, 295, "UI/number_52_NA.png", 2);
+                _sl.AddImageCentered(995, 320, "UI/number_52_NA.png", 2);
             }
             if (_isWeHaveScores && LeaderboardManager.PlayerRankProWeekly != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProWeekly.Score) < Tolerance)
             {
@@ -591,7 +591,7 @@ namespace LooneyInvaders.Layers
             }
             else if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
             {
-                _sl.AddImageCentered(837, 295, "UI/number_52_NA.png", 2);
+                _sl.AddImageCentered(837, 320, "UI/number_52_NA.png", 2);
             }
             if (_isWeHaveScores && LeaderboardManager.PlayerRankProDaily != null && Math.Abs(_alienScore - LeaderboardManager.PlayerRankProDaily.Score) < Tolerance)
             {

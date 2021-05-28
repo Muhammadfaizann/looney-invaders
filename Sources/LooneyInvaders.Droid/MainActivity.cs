@@ -170,10 +170,11 @@ namespace LooneyInvaders.Droid
             AdManager.ShowInterstitialHandler = ShowInterstitial;
             AdManager.HideInterstitialHandler = HideInterstitial;
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
+            Appodeal.DisableLocationPermissionCheck();
             //Appodeal.SetBannerAnimation(true);
             //Appodeal.SetSmartBanners(true);
             Appodeal.SetAutoCache(requiredAdTypes, true);
-            Appodeal.SetTesting(false);
+            Appodeal.SetTesting(true);
 
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
@@ -386,6 +387,8 @@ namespace LooneyInvaders.Droid
 
             base.OnActivityResult(requestCode, resultCode, data);
         }
+
+        protected override void OnResume() => base.OnResume();
 
         protected override void OnDestroy()
         {
