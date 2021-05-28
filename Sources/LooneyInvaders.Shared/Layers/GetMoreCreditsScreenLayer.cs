@@ -156,7 +156,10 @@ namespace LooneyInvaders.Layers
                 {
                     ScheduleOnce(_ =>
                     {
-                        DisableButton2000ForTime(Player.Instance.DateTimeOfCountdownPassed);
+                        if(Player.Instance.DateTimeOfCountdownPassed > DateTime.Now)
+                        {
+                            DisableButton2000ForTime(Player.Instance.DateTimeOfCountdownPassed);
+                        }
                     }, 0.1f);
                 }
             }
@@ -392,8 +395,11 @@ namespace LooneyInvaders.Layers
                 {
                     ShowAdNotification(_noAdsNotificationImageName, false, _noAdsImagePositionX, _noAdsImagePositionY);
                 }, 0.05f);
-                
-                DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
+
+                ScheduleOnce(_ =>
+                {
+                    DisableButton2000ForTime(lastAdWatchTime.AddDays(1));
+                }, 0.05f);
             }
         }
         
