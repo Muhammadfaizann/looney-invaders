@@ -173,8 +173,11 @@ namespace LooneyInvaders.Droid
             //Appodeal.SetBannerAnimation(true);
             //Appodeal.SetSmartBanners(true);
             Appodeal.SetAutoCache(requiredAdTypes, true);
+#if DEBUG
+            Appodeal.SetTesting(true);
+#else
             Appodeal.SetTesting(false);
-
+#endif
             CallInitOnApp42ServiceBuilder();
             SetSessionInfo();
             CheckNotificationPremissions();
@@ -193,15 +196,15 @@ namespace LooneyInvaders.Droid
             var decorView = Window.DecorView;
             if (Build.VERSION.SdkInt < BuildVersionCodes.R)
             {
-    #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                 var newUiOptions = (int)decorView.SystemUiVisibility;
-    #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
                 newUiOptions |= (int)SystemUiFlags.HideNavigation;
                 newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
                 newUiOptions |= (int)SystemUiFlags.Fullscreen;
-    #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                 decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
-    #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -228,9 +231,9 @@ namespace LooneyInvaders.Droid
             var designedSize = new Point();
             if (Build.VERSION.SdkInt < BuildVersionCodes.R)
             {
-    #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                 WindowManager.DefaultDisplay.GetSize(designedSize);
-    #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else
             {
@@ -341,9 +344,9 @@ namespace LooneyInvaders.Droid
                 }
                 else
                 {
-    #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
                     if (!pm.IsScreenOn)
-    #pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
                         return false;
                 }
 
@@ -409,9 +412,9 @@ namespace LooneyInvaders.Droid
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 var vibrator = (Vibrator)GetSystemService(VibratorService);
-    #pragma warning disable XA0001 // Find issues with Android API usage
+#pragma warning disable XA0001 // Find issues with Android API usage
                 vibrator.Vibrate(VibrationEffect.CreateOneShot(500, 10));
-    #pragma warning restore XA0001 // Find issues with Android API usage
+#pragma warning restore XA0001 // Find issues with Android API usage
             }
         }
 
