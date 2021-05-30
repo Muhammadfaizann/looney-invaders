@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Plugin.Settings;
 using CocosSharp;
 
@@ -334,13 +335,17 @@ namespace LooneyInvaders.Model
         public int GetSessionsCount() => CrossSettings.Current.GetValueOrDefault("sessionscount", 0);
         public void SetSessionsCount(int count) => CrossSettings.Current.AddOrUpdateValue("sessionscount", count);
 
-        public void CheckIfChangeNamePopupShown()
+        public bool NeedToShowChangePlayerNamePopup()
         {
             var count = GetSessionsCount();
-            if ((count == 3 || count == 5 || count == 10) && !Player.Instance.NameChanged)
+
+            if ((!Player.Instance.NameChanged && GameConstants.PlayerSettings.NameChangingSessionNumbers.Any(n => count == n)) ||
+                (!Player.Instance.NameChanged && Player.Instance.WinCount > 0 && !Player.Instance.IsChangeNamePopupShown))
             {
-                Player.Instance.IsChangeNamePopupShown = false;
+                return Player.Instance.IsChangeNamePopupShown = true;
             }
+
+            return false;
         }
 
         private bool _isAskForNotificationToday;

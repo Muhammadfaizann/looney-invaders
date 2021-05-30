@@ -54,10 +54,10 @@ namespace LooneyInvaders.Model
             get => CrossSettings.Current.GetValueOrDefault(nameof(CachedFacebookLikesCount), 0);
             set => CrossSettings.Current.AddOrUpdateValue(nameof(CachedFacebookLikesCount), value);
         }
-        public bool Hacked
+        public bool Hakkeroitu
         {
-            get => CrossSettings.Current.GetValueOrDefault("Hacked", false);
-            set => CrossSettings.Current.AddOrUpdateValue("Hacked", value);
+            get => CrossSettings.Current.GetValueOrDefault("Hakkeroitu", false);
+            set => CrossSettings.Current.AddOrUpdateValue("Hakkeroitu", value);
         }
         
         public bool IsNameChanged
@@ -133,7 +133,7 @@ namespace LooneyInvaders.Model
         
         public bool IsChangeNamePopupShown
         {
-            get => CrossSettings.Current.GetValueOrDefault(nameof(IsChangeNamePopupShown), true);
+            get => CrossSettings.Current.GetValueOrDefault(nameof(IsChangeNamePopupShown), false);
             set => CrossSettings.Current.AddOrUpdateValue(nameof(IsChangeNamePopupShown), value);
         }
 

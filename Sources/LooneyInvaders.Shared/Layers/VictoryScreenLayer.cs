@@ -62,11 +62,8 @@ namespace LooneyInvaders.Layers
             _delayOnRepeatMS = 500f;
             _nextEnemy = selectedEnemy;
 
-            Player.Instance.WinCount += 1;
+            Player.Instance.WinCount++;
             
-            if (Player.Instance.WinCount == 3)
-                Player.Instance.IsChangeNamePopupShown = false;
-
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:

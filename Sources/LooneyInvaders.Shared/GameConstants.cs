@@ -2,11 +2,16 @@
 {
     public static class GameConstants
     {
-		public static class NavigationParam
-		{
-			public static string MainScreen = "MainScreen";
-			public static string GameScreen = "GameScreen";
-		}
+        public static class NavigationParam
+        {
+            public static string MainScreen = "MainScreen";
+            public static string GameScreen = "GameScreen";
+        }
+
+        public static class PlayerSettings
+        {
+            public static int[] NameChangingSessionNumbers = { 3, 5, 10 };
+        }
 
         public static class App42
         {

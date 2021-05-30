@@ -68,7 +68,10 @@ namespace LooneyInvaders.Layers
         private CCSpriteButton _btnYesChangeName;
         private CCSpriteButton _btnDontChangeName;
         private CCLabel _labelPlayerName;
-        private CCLabel _sessionCount;
+
+#pragma warning disable IDE0052 //Assigned but never used warning
+        private readonly CCLabel _sessionCount;
+#pragma warning restore IDE0052
 
         protected bool LeaderboardTableIsEmpty => !_leaderboardSprites.Any() && !_imgOffline.Visible;
 
@@ -76,13 +79,9 @@ namespace LooneyInvaders.Layers
         {
             Shared.GameDelegate.ClearOnBackButtonEvent();
 
-            if (!Player.Instance.IsNameChanged)
+            if (Settings.Instance.NeedToShowChangePlayerNamePopup())
             {
-                if (!Player.Instance.IsChangeNamePopupShown)
-                {
-                    ScheduleOnce(ShowChangeNameNotification, 0.7f);
-                    Player.Instance.IsChangeNamePopupShown = true;
-                }
+                ScheduleOnce(ShowChangeNameNotification, 0.7f);
             }
 
             if (NetworkConnectionManager.IsInternetConnectionAvailable())
@@ -836,8 +835,7 @@ namespace LooneyInvaders.Layers
         {
             _imgChangeNameWindow = new CCNodeExt();
             _imgChangeNameWindow.AddImage(14, 48, "UI/username-notification.png", 500);
-           
-            
+
             _btnYesChangeName = _imgChangeNameWindow.AddButton(35, 70, "UI/push-notification-yes-button-untapped.png", "UI/push-notification-yes-button-tapped.png", 510);
             _btnYesChangeName.OnClick -= OnChangeName;
             _btnYesChangeName.OnClick += OnChangeName;
