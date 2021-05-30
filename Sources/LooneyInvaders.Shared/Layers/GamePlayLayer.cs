@@ -178,7 +178,7 @@ namespace LooneyInvaders.Layers
         private bool _isCannonMoving;
         private bool _isCannonShooting;
 
-        internal bool _needToBeHacked;
+        internal bool _needToBeH_acked;
 
         private readonly CCEventListenerTouchAllAtOnce _touchListener;
 
@@ -1380,7 +1380,7 @@ namespace LooneyInvaders.Layers
                 if (_launchMode == LaunchMode.SteeringTest)
                 {
                     AddImage(0, 0, "UI/Curtain-background-just-curtain.png", 100);
-                    HandleGameHacked(true);
+                    HandleGameplayHakkeroitu(true);
                 }
 
                 if (SelectedEnemy == Enemies.Aliens)
@@ -1431,7 +1431,7 @@ namespace LooneyInvaders.Layers
                     }
                     _ammos.Add(ammo);
                 }
-                AddAllEnemies(2, Player.Instance.Hacked);
+                AddAllEnemies(2, Player.Instance.Hakkeroitu);
 
                 _goingDown = 240;
                 _enemyCurrentSpeed = 0; //enemySpeed;
@@ -2152,7 +2152,7 @@ namespace LooneyInvaders.Layers
             _goingDownCurrentSpeed = _goingDownSpeed;
             _firstGoingDown = true;
 
-            AddAllEnemies(_wave > 8 ? 4 : _wave > 5 ? 3 : 2, Player.Instance.Hacked);
+            AddAllEnemies(_wave > 8 ? 4 : _wave > 5 ? 3 : 2, Player.Instance.Hakkeroitu);
 
             if (_wave > 7)
             {
@@ -4063,7 +4063,7 @@ namespace LooneyInvaders.Layers
 
                 if (_enemies.Count == 0 && _launchMode == LaunchMode.SteeringTest)
                 {
-                    HandleGameHacked();
+                    HandleGameplayHakkeroitu();
                 }
 
                 if (_enemies.Count == 0 && _bombs.Count == 0 && _playerExplosion == null && !_waveTransfer)
@@ -4297,9 +4297,9 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void HandleGameHacked(bool forceToBeHacked = false)
+        private void HandleGameplayHakkeroitu(bool forceToBeHacked = false)
         {
-            if (!forceToBeHacked && !_needToBeHacked)
+            if (!forceToBeHacked && !_needToBeH_acked)
             {
                 return;
             }
@@ -4308,13 +4308,13 @@ namespace LooneyInvaders.Layers
             {
                 if (forceToBeHacked)
                 {
-                    Player.Instance.Hacked = _needToBeHacked;
-                    _needToBeHacked = true;
+                    Player.Instance.Hakkeroitu = _needToBeH_acked;
+                    _needToBeH_acked = true;
                 }
-                else if (Player.Instance.Hacked)
+                else if (Player.Instance.Hakkeroitu)
                 {
-                    //switch off hack mode
-                    Player.Instance.Hacked = _needToBeHacked = false;
+                    //switch off h_ack mode
+                    Player.Instance.Hakkeroitu = _needToBeH_acked = false;
                 }
             }
         }

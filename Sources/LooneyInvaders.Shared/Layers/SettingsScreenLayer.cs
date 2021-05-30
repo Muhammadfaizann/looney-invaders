@@ -520,7 +520,7 @@ namespace LooneyInvaders.Layers
             _bgStyleTappedTimes++;
             if (_bgStyleTappedTimes >= AppConstants.TappingsCount)
             {
-                Player.Instance.Hacked = false;
+                Player.Instance.Hakkeroitu = false;
             }
 
             if (_btnBattleGroundStyle.State == 1) Settings.Instance.BattlegroundStyle = BattlegroundStyle.Realistic;
