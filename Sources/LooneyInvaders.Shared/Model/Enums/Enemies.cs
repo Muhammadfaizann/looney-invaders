@@ -4,7 +4,7 @@
     {
         Putin,
         Kim,
-        Hitler,
+        Milo,
         Bush,
         Aliens,
         Trump

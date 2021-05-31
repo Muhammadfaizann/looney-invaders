@@ -127,7 +127,7 @@ namespace LooneyInvaders.Model
         {
             var enemyId = "";
 
-            if (enemy == Enemies.Hitler) enemyId = "hitler";
+            if (enemy == Enemies.Milo) enemyId = "milo";
             else if (enemy == Enemies.Bush) enemyId = "bush";
             else if (enemy == Enemies.Putin) enemyId = "putin";
             else if (enemy == Enemies.Kim) enemyId = "kim";

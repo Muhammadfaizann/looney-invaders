@@ -1,6 +1,6 @@
 ﻿namespace LooneyInvaders.Model
 {
-    /*  public enum BATTLEGROUNDS : int { POLAND, DENMARK, NORWAY, FRANCE, ENGLAND, // Hitler
+    /*  public enum BATTLEGROUNDS : int { SLOVENIA, CROATIA, BOSNIA, KOSOVO, HAAGUE, // Milo
                                         VIETNAM, IRAQ, AFGHANISTAN, LIBYA, RUSSIA, // Bush
                                         GEORGIA, UKRAINE, SYRIA, ESTONIA, FINLAND, // Putin
                                         SOUTH_KOREA, ISRAEL, JAPAN, GREAT_BRITAIN, UNITED_STATES, // Kim
@@ -11,15 +11,15 @@
 
     public enum Battlegrounds
     {
-        Libya,
-        Denmark,
-        Norway,
-        France,
-        England, // Hitler
+        Slovenia,
+        Croatia,
+        Bosnia,
+        Kosovo,
+        Hague, // Milo
         Vietnam,
         Iraq,
         Afghanistan,
-        Poland,
+        Libya,
         Russia, // Bush
         Georgia,
         Ukraine,

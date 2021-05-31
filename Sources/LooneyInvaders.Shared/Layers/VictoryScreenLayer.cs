@@ -69,10 +69,10 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     _nextBattleGround = Battlegrounds.Libya;
                     break;
-                case Battlegrounds.Denmark:
-                    _nextBattleGround = Battlegrounds.Norway;
+                case Battlegrounds.Croatia:
+                    _nextBattleGround = Battlegrounds.Bosnia;
                     break;
-                case Battlegrounds.England:
+                case Battlegrounds.Hague:
                     _nextEnemy = Enemies.Bush;
                     _nextBattleGround = Battlegrounds.Vietnam;
                     break;
@@ -83,8 +83,8 @@ namespace LooneyInvaders.Layers
                     _nextEnemy = Enemies.Kim;
                     _nextBattleGround = Battlegrounds.SouthKorea;
                     break;
-                case Battlegrounds.France:
-                    _nextBattleGround = Battlegrounds.England;
+                case Battlegrounds.Kosovo:
+                    _nextBattleGround = Battlegrounds.Hague;
                     break;
                 case Battlegrounds.Georgia:
                     _nextBattleGround = Battlegrounds.Ukraine;
@@ -104,11 +104,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     _nextBattleGround = Battlegrounds.Russia;
                     break;
-                case Battlegrounds.Norway:
-                    _nextBattleGround = Battlegrounds.France;
+                case Battlegrounds.Bosnia:
+                    _nextBattleGround = Battlegrounds.Kosovo;
                     break;
-                case Battlegrounds.Poland:
-                    _nextBattleGround = Battlegrounds.Denmark;
+                case Battlegrounds.Slovenia:
+                    _nextBattleGround = Battlegrounds.Croatia;
                     break;
                 case Battlegrounds.Russia:
                     _nextEnemy = Enemies.Putin;
@@ -151,11 +151,11 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Afghanistan:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Afghanistan VO_mono.wav");
                         break;
-                    case Battlegrounds.Denmark:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Denmark VO_mono.wav");
+                    case Battlegrounds.Croatia:
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Croatia VO_mono.wav");
                         break;
-                    case Battlegrounds.England:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/England VO_mono.wav");
+                    case Battlegrounds.Hague:
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/The Haque VO_mono.wav");
                         break;
                     case Battlegrounds.Estonia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Estonia VO_mono.wav");
@@ -163,8 +163,8 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Finland:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Finland VO_mono.wav");
                         break;
-                    case Battlegrounds.France:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/France VO_mono.wav");
+                    case Battlegrounds.Kosovo:
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Kosovo VO_mono.wav");
                         break;
                     case Battlegrounds.Georgia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Georgia VO_mono.wav");
@@ -184,11 +184,11 @@ namespace LooneyInvaders.Layers
                     case Battlegrounds.Libya:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Libya VO_mono.wav");
                         break;
-                    case Battlegrounds.Norway:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Norway VO_mono.wav");
+                    case Battlegrounds.Bosnia:
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Bosnia and Herzegovina VO_mono.wav");
                         break;
-                    case Battlegrounds.Poland:
-                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Poland VO_mono.wav");
+                    case Battlegrounds.Slovenia:
+                        CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Slovania VO_mono.wav");
                         break;
                     case Battlegrounds.Russia:
                         CCAudioEngine.SharedEngine.PreloadEffect("Sounds/Russia VO_mono.wav");
@@ -218,16 +218,16 @@ namespace LooneyInvaders.Layers
                     SetBackground("UI/Victory scenes/Afganistan-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-afghanistan.png", 2);
                     break;
-                case Battlegrounds.Denmark:
-                    SetBackground("UI/Victory scenes/Denmark-victory-scene.jpg");
-                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-denmark.png", 2);
+                case Battlegrounds.Croatia:
+                    SetBackground("UI/Victory scenes/croatia-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-you-just-saved-croatia.png", 2);
                     break;
-                case Battlegrounds.England:
-                    SetBackground("UI/Victory scenes/England&Great-Britain-victory-scene.jpg");
-                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-england.png", 2);
-                    if (Player.Instance.GetSavedCountries(Battlegrounds.England) == 0)
+                case Battlegrounds.Hague:
+                    SetBackground("UI/Victory scenes/Hague-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-you-just-saved-the-hague.png", 2);
+                    if (Player.Instance.GetSavedCountries(Battlegrounds.Hague) == 0)
                     {
-                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-hitler-defeat-background-title-text.png", 3);
+                        _defeated = AddImageCentered(1136 / 2, 630 / 2, "UI/victory-notification-slobodan-milosevic-defeat-background-title-text.png", 3);
                         saved = true;
                     }
                     break;
@@ -244,9 +244,9 @@ namespace LooneyInvaders.Layers
                         saved = true;
                     }
                     break;
-                case Battlegrounds.France:
-                    SetBackground("UI/Victory scenes/France-victory-scene.jpg");
-                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-france.png", 2);
+                case Battlegrounds.Kosovo:
+                    SetBackground("UI/Victory scenes/Kosovo-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-you-just-saved-kosovo.png", 2);
                     break;
                 case Battlegrounds.Georgia:
                     SetBackground("UI/Victory scenes/Georgia-victory-scene.jpg");
@@ -272,13 +272,13 @@ namespace LooneyInvaders.Layers
                     SetBackground("UI/Victory scenes/Libya-victory-scene.jpg");
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-libya.png", 2);
                     break;
-                case Battlegrounds.Norway:
-                    SetBackground("UI/Victory scenes/Norway-victory-scene.jpg");
-                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-norway.png", 2);
+                case Battlegrounds.Bosnia:
+                    SetBackground("UI/Victory scenes/Bosnia-and-Herzegovina-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-you-just-saved-bosnia-and-herzegovina.png", 2);
                     break;
-                case Battlegrounds.Poland:
-                    SetBackground("UI/Victory scenes/Poland-victory-scene.jpg");
-                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-you-just-saved-poland.png", 2);
+                case Battlegrounds.Slovenia:
+                    SetBackground("UI/Victory scenes/Slovenia-victory-scene.jpg");
+                    _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-you-just-saved-slovenia.png", 2);
                     break;
                 case Battlegrounds.Russia:
                     SetBackground("UI/Victory scenes/Russia-victory-scene.jpg");
@@ -448,11 +448,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Afghanistan VO_mono.wav");
                     break;
-                case Battlegrounds.Denmark:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Denmark VO_mono.wav");
+                case Battlegrounds.Croatia:
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Croatia VO_mono.wav");
                     break;
-                case Battlegrounds.England:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/England VO_mono.wav");
+                case Battlegrounds.Hague:
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/The Haque VO_mono.wav");
                     break;
                 case Battlegrounds.Estonia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Estonia VO_mono.wav");
@@ -460,8 +460,8 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Finland VO_mono.wav");
                     break;
-                case Battlegrounds.France:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/France VO_mono.wav");
+                case Battlegrounds.Kosovo:
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Kosovo VO_mono.wav");
                     break;
                 case Battlegrounds.Georgia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Georgia VO_mono.wav");
@@ -481,11 +481,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Libya VO_mono.wav");
                     break;
-                case Battlegrounds.Norway:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Norway VO_mono.wav");
+                case Battlegrounds.Bosnia:
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Bosnia and Herzegovina VO_mono.wav");
                     break;
-                case Battlegrounds.Poland:
-                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Poland VO_mono.wav");
+                case Battlegrounds.Slovenia:
+                    CCAudioEngine.SharedEngine.PlayEffect("Sounds/Slovania VO_mono.wav");
                     break;
                 case Battlegrounds.Russia:
                     CCAudioEngine.SharedEngine.PlayEffect("Sounds/Russia VO_mono.wav");
@@ -919,11 +919,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Afghanistan:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-afghanistan.png", 2);
                     break;
-                case Battlegrounds.Denmark:
-                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-denmark.png", 2);
+                case Battlegrounds.Croatia:
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-i-just-saved-croatia.png", 2);
                     break;
-                case Battlegrounds.England:
-                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-england.png", 2);
+                case Battlegrounds.Hague:
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-i-just-saved-the-hague.png", 2);
                     break;
                 case Battlegrounds.Estonia:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-estonia.png", 2);
@@ -931,8 +931,8 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Finland:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-finland.png", 2);
                     break;
-                case Battlegrounds.France:
-                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-france.png", 2);
+                case Battlegrounds.Kosovo:
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-i-just-saved-kosovo.png", 2);
                     break;
                 case Battlegrounds.Georgia:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/Putin defeaded/victory-i-just-saved-georgia.png", 2);
@@ -952,11 +952,11 @@ namespace LooneyInvaders.Layers
                 case Battlegrounds.Libya:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-libya.png", 2);
                     break;
-                case Battlegrounds.Norway:
-                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-norway.png", 2);
+                case Battlegrounds.Bosnia:
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-i-just-saved-bosnia-and-herzegovina.png", 2);
                     break;
-                case Battlegrounds.Poland:
-                    _sl.AddImageCentered(1136 / 2, 598, "UI/Hitler defeaded/victory-i-just-saved-poland.png", 2);
+                case Battlegrounds.Slovenia:
+                    _sl.AddImageCentered(1136 / 2, 598, "UI/Milo defeaded/victory-i-just-saved-slovenia.png", 2);
                     break;
                 case Battlegrounds.Russia:
                     _sl.AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-i-just-saved-russia.png", 2);

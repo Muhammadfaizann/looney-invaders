@@ -59,7 +59,7 @@ namespace LooneyInvaders.Layers
             AddImage(829, 592, "UI/My-stats-&-rewards-page1_8--text.png", 485);
 
             AddImage(190, 150, "UI/My-stats-&-rewards-page1-diagram-window.png");
-
+            
             for (var i = 0; i < 9; i++)
             {
                 AddImage(305, 188 + i * 35, "UI/My-stats-&-rewards-page1-diagram-horizontal-bar.png");
@@ -67,13 +67,13 @@ namespace LooneyInvaders.Layers
 
             AddImage(0, 0, "UI/My-stats-&-rewards-page1-security-pattern.png", 480);
             AddImage(30, 0, "UI/My-stats-&-rewards-LOONEY-INVADER-time-zone-info-text.png", 485);
-
+            
             DrawWeekStatistic(LeaderboardType.Regular);
             DrawWeekStatistic(LeaderboardType.Pro);
             DrawMonthStatistic(LeaderboardType.Regular);
             DrawMonthStatistic(LeaderboardType.Pro);
             GetBaseStatistics();
-
+            
             ChangeBtnsState();
         }
 
