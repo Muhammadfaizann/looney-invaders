@@ -34,7 +34,8 @@ namespace LooneyInvaders.Layers
         private readonly int _alienScore;
         private readonly int _alienWave;
         private readonly float _delayOnRepeatMS;
-        
+
+        private int _idOfRevengeVoice = 0;
         private (int Count, List<string> Images) _loadingView = (0, new List<string>());
         private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14);
         private bool _isNextLayerPreparing;
@@ -223,7 +224,7 @@ namespace LooneyInvaders.Layers
         {
             if (!_isNextLayerPreparing)
             {
-                CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
+                _idOfRevengeVoice = CCAudioEngine.SharedEngine.PlayEffect("Sounds/Now get up and get your revenge VO_mono.wav");
             }
         }
 
@@ -392,6 +393,10 @@ namespace LooneyInvaders.Layers
 
             if (showAd && !_finishAfterWatchingAd)
             {
+                while (CCAudioEngine.SharedEngine.EffectPlaying(_idOfRevengeVoice))
+                {
+                    await Task.Delay(25);
+                }
                 ScheduleOnce(_ => AdManager.ShowInterstitial(), 0.1f);
             }
             else ScheduleOnce(ShowScoreAliens, 0.1f);
