@@ -398,7 +398,7 @@ namespace LooneyInvaders.Classes
                     _animationTimer.Restart();
                 }
                 var elapsed = _animationTimer.Elapsed;
-                if (elapsed > timeToCallback)
+                if (elapsed.Milliseconds > timeToCallback.Value.Milliseconds)
                 {
                     _animationTimer.Stop();
                     timeToStop = true;

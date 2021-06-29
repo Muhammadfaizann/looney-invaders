@@ -141,7 +141,7 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            if (ActivityCreated) { return; }
+            //if (ActivityCreated) { return; }
             ActivityCreated = true; //workaround in cases the app tends to go OnCreate once it was created
 
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject}");
@@ -175,7 +175,7 @@ namespace LooneyInvaders.Droid
             //Appodeal.SetSmartBanners(true);
             Appodeal.SetAutoCache(requiredAdTypes, true);
 #if DEBUG
-            Appodeal.SetTesting(true);
+            Appodeal.SetTesting(false);
 #else
             Appodeal.SetTesting(false);
 #endif

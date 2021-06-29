@@ -51,8 +51,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.647563278989-2c9afc4img7s0t38khukl5ilb8i6k4bt</string>
-				<string>com.sinremorse.looneyinvaders</string>
+				<string>fb3099682896807407</string>
 			</array>
 		</dict>
 	</array>
@@ -68,31 +67,6 @@
 	</array>
 	<key>AppCenterAppDelegateForwarderEnabled</key>
 	<string>0</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb3099682896807407</string>
-			</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>3099682896807407</string>
-	<key>FacebookDisplayName</key>
-	<string>LooneyTest</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-api</string>
-		<string>fbauth2</string>
-		<string>fbshareextension</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -120,5 +94,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>FacebookAppID</key>
+	<string>237675254510489</string>
+	<key>FacebookDisplayName</key>
+	<string>LI game app like connection</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>

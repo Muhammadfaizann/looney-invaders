@@ -24,7 +24,7 @@ namespace LooneyInvaders.Layers
 
         private readonly int _score;
         private readonly float _delayOnRepeatMS;
-        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(14); //for loading view
+        private readonly TimeSpan _animationMaxTime = TimeSpan.FromSeconds(10); //for loading view
 
         private bool _isWeHaveScores;
         private bool _isDoneWaitingForScores;
