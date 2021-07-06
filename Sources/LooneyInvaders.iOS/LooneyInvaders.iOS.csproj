@@ -2307,8 +2307,8 @@
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground_George_Bush.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground_George_Bush.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan Milosevic.png">
-      <Link>Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png</Link>
+    <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan-Milosevic.png">
+      <Link>Content\Images\Hd\UI\Choose-the-battleground-Slobodan-Milosevic.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Choose-the-battleground-battleground-locked-text.png">
       <Link>Content\Images\Hd\UI\Choose-the-battleground-battleground-locked-text.png</Link>
@@ -3048,9 +3048,7 @@
     <BundleResource Include="..\Content\Images\Hd\UI\multiplier-text.png">
       <Link>Content\Images\Hd\UI\multiplier-text.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-adolf-hitlers-text.png">
-      <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-adolf-hitlers-text.png</Link>
-    </BundleResource>
+   
     <BundleResource Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-afganistan-text.png">
       <Link>Content\Images\Hd\UI\My-stats-&amp;-rewards-afganistan-text.png</Link>
     </BundleResource>
@@ -3842,9 +3840,6 @@
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-bush-untapped.png">
       <Link>Content\Images\Hd\UI\Pause-screen-bush-untapped.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-Hitler.png">
-      <Link>Content\Images\Hd\UI\Pause-screen-Hitler.png</Link>
     </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\Pause-screen-kim.png">
       <Link>Content\Images\Hd\UI\Pause-screen-kim.png</Link>

@@ -3122,8 +3122,8 @@
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan Milosevic.png">
-      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-Adolf-Hitler.png</Link>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\Choose-the-battleground-Slobodan-Milosevic.png">
+      <Link>Assets\Content\Images\Hd\UI\Choose-the-battleground-Slobodan-Milosevic.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -4349,11 +4349,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\multiplier-text.png">
       <Link>Assets\Content\Images\Hd\UI\multiplier-text.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\My-stats-&amp;-rewards-adolf-hitlers-text.png">
-      <Link>Assets\Content\Images\Hd\UI\My-stats-&amp;-rewards-adolf-hitlers-text.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
@@ -5674,11 +5669,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-bush-untapped.png">
       <Link>Assets\Content\Images\Hd\UI\Pause-screen-bush-untapped.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\Pause-screen-Hitler.png">
-      <Link>Assets\Content\Images\Hd\UI\Pause-screen-Hitler.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
