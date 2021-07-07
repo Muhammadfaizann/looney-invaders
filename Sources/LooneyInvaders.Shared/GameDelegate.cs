@@ -57,7 +57,6 @@ namespace LooneyInvaders.Shared
             }
             set
             {
-                //IsBusyLayerProperty = true;
                 lock (toSetLayer)
                 {
                     _layer = value;
@@ -70,19 +69,18 @@ namespace LooneyInvaders.Shared
                         CurrentScene = _layer.Scene;
                     }
                 }
-                //IsBusyLayerProperty = false;
             }
         }
         public static bool IsCartoonFadeInOnLayer;
 
         public static void TrackTime(string extraInfo = "")
         {
-            if (!UseTimeTracking) {
-                return;
-            }
+            if (!UseTimeTracking) return;
 
             if (Timer != null)
+            {
                 Tracer.TrackerAppendUntil($"{(++Counter).ToString("D4")}{extraInfo}-{Timer.ElapsedMilliseconds}");
+            }
         }
 
         public static CCScene CurrentScene { get; private set; }
@@ -139,14 +137,10 @@ namespace LooneyInvaders.Shared
             //    contentSearchPaths.Add("Images/Ld");
             //    CCSprite.DefaultTexelToContentSizeRatio = 1.0f;
             //}
-
-            // TODO: ovo sloziti kak se spada
             //contentSearchPaths.Add("Images/Hd");
 
             CCSprite.DefaultTexelToContentSizeRatio = 1.0f;
             //gameView.ContentManager.SearchPaths = contentSearchPaths;
-
-            // TODO: TESTIRANJE, MAKNUTI
             //LooneyInvaders.Model.Weapon.ResetAllSettings();
             //LooneyInvaders.Model.Settings.Instance.Advertisements = false;
             //LooneyInvaders.Model.Player.Instance.Credits = 1000000;
@@ -204,7 +198,9 @@ namespace LooneyInvaders.Shared
             currentLayer?.Pause();
 
             if (GameView != null && UpdateGameView != null)
+            {
                 UpdateGameView(true);
+            }
         }
 
         public static void QuitGame()

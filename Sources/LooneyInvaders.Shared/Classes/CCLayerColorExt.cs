@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace LooneyInvaders.Classes
     public class CCLayerColorExt : CCLayerColor
     {
         private readonly Stopwatch _animationTimer = new Stopwatch();
+        private readonly List<Action<float>> _scheduledActions = new List<Action<float>>();
 
         private bool _buttonDown;
         private CCPoint _position;
@@ -26,6 +28,8 @@ namespace LooneyInvaders.Classes
         public bool EnableMultiTouch { get; set; }
 
         public CCSprite Background;
+
+        public readonly int TransitionDelayMS = 65; //reached experimentally
 
         public override CCPoint Position
         {
@@ -62,9 +66,11 @@ namespace LooneyInvaders.Classes
             if (Background != null)
             {
                 RemoveChild(Background);
-                //ToDo: Bass - useful? disposing object that will be used soon
+                //ToDo: Bass - check this disposing moment on iOS
                 if (Shared.GameDelegate.UseAnimationClearing)
+                {
                     Background.Dispose();
+                }
             }
             Background = new CCSprite($"{GameEnvironment.ImageDirectory}{imageName}", CCRect.Zero)
             {
@@ -106,7 +112,7 @@ namespace LooneyInvaders.Classes
         }
 
         public CCSprite GetImage(int x, int y, string imageName, CCBlendFunc blendFunc)
-        {
+        {   //call it only via Schedule or ScheduleOnce
             //var sprite = new CCSprite(GameEnvironment.ImageDirectory + imageName);
             var sprite = new CCSprite();
             sprite.Texture = new CCTexture2D(GameEnvironment.ImageDirectory + imageName);
@@ -369,36 +375,63 @@ namespace LooneyInvaders.Classes
 
         public new void Schedule(Action<float> selector)
         {
+            _scheduledActions.Add(selector);
             base.Unschedule(selector);
             base.Schedule(selector);
         }
 
-        public void UnscheduleAllExcept(params (Action<float> action, float timeout)[] except)
+        public new void Unschedule(Action<float> selector)
         {
-            base.UnscheduleAll();
-            foreach (var (action, timeout) in except)
-            {
-                Schedule(action, timeout);
-            }
+            _scheduledActions.Remove(selector);
+            base.Unschedule(selector);
         }
 
-        public virtual void LoopAnimateWithCCSprites(List<string> imageNames,
+        public new void UnscheduleAll()
+        {
+            _scheduledActions.Clear();
+            base.UnscheduleAll();
+        }
+
+        public void UnscheduleAllExcept(params Action<float>[] actions)
+        {
+            var toUnscheduleList = new List<Action<float>>(_scheduledActions.Except(actions));
+            toUnscheduleList.ForEach(selector => Unschedule(selector));
+        }
+
+        public void LoopAnimateWithCCSprites(
+            List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder,
+            Func<bool?> proceedCondition = null, Func<bool, Task> finalCallbackTask = null,
+            TimeSpan? maxTimeToCallback = null)
+        {
+            LoopAnimateWithCCSprites(imageNames, x, y, ref index, ref placeholder, proceedCondition, finalCallbackTask, null, maxTimeToCallback);
+        }
+
+        public void LoopAnimateWithCCSprites(
+            List<string> imageNames, int x, int y, ref int index, ref CCSprite placeholder,
+            Func<bool?> proceedCondition = null, Action<bool> finalCallback = null,
+            TimeSpan? maxTimeToCallback = null)
+        {
+            LoopAnimateWithCCSprites(imageNames, x, y, ref index, ref placeholder, proceedCondition, null, finalCallback, maxTimeToCallback);
+        }
+
+        public void LoopAnimateWithCCSprites(List<string> imageNames,
             int x, int y,
             ref int index,
             ref CCSprite placeholder,
             Func<bool?> proceedCondition = null,
+            Func<bool, Task> finalCallbackTask = null,
             Action<bool> finalCallback = null,
-            TimeSpan? timeToCallback = null)
+            TimeSpan? maxTimeToCallback = null)
         {
             var timeToStop = false;
-            if (timeToCallback != null)
+            if (maxTimeToCallback != null)
             {
                 if (!_animationTimer.IsRunning)
                 {
                     _animationTimer.Restart();
                 }
                 var elapsed = _animationTimer.Elapsed;
-                if (elapsed.Milliseconds > timeToCallback.Value.Milliseconds)
+                if (elapsed.TotalMilliseconds > maxTimeToCallback.Value.TotalMilliseconds)
                 {
                     _animationTimer.Stop();
                     timeToStop = true;
@@ -409,7 +442,12 @@ namespace LooneyInvaders.Classes
             placeholder.Visible = needToProceed;
             if (timeToStop || !needToProceed)
             {
+                if (finalCallbackTask != null)
+                {
+                    Task.Run(async () => await finalCallbackTask.Invoke(timeToStop)).Wait();
+                }
                 finalCallback?.Invoke(timeToStop);
+
                 return;
             }
             // animation - image replacement
@@ -459,9 +497,7 @@ namespace LooneyInvaders.Classes
             counter.Set(county);
         }
 
-        public virtual void UnscheduleOnLayer()
-        {
-        }
+        public virtual void UnscheduleOnLayer() { }
 
         internal void FireOnTouchBegan()
         {
@@ -781,13 +817,22 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        public virtual void ContinueInitialize() { }
+        public virtual void ContinueInitialize() => Debug.WriteLine("Initialize continued: " + GetType().Name);
 
-        public virtual async Task ContinueInitializeAsync() => await Task.CompletedTask;
+        public virtual async Task ContinueInitializeAsync()
+        {
+            Debug.WriteLine("Initialize async continued: " + GetType().Name);
+
+            await Task.CompletedTask;
+        }
+
+        public virtual void WillExit() { }
 
         public void TransitionToLayer(CCLayerColorExt layer, bool dispose = false)
         {
             layer.ContinueInitialize();
+
+            WillExit();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
 
@@ -803,10 +848,10 @@ namespace LooneyInvaders.Classes
         public async Task TransitionToLayerAsync(CCLayerColorExt layer, bool dispose = false)
         {
             await layer.ContinueInitializeAsync();
+
+            WillExit();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
-
-            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             var gameScene = new CCScene(GameView);
             gameScene.AddLayer(layer);
@@ -823,10 +868,10 @@ namespace LooneyInvaders.Classes
         public void TransitionToLayerCartoonStyle(CCLayerColorExt layer, bool usePause = false, bool dispose = false)
         {
             layer.ContinueInitialize();
+
+            WillExit();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
-
-            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             Enabled = false;
             LayerTransitionTarget = layer;
@@ -873,13 +918,16 @@ namespace LooneyInvaders.Classes
             actions[1] = usePause ? new CCCallFunc(ReplaceSceneWithoutFadeIn) : new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            var state = transitionImageSource.RunAction(seq);
-            ScheduleOnce(PlayEffect1, 0.09f);
-            ScheduleOnce(PlayEffect2, 0.18f);
-            ScheduleOnce(PlayEffect3, 0.27f);
-            ScheduleOnce(PlayEffect4, 0.36f);
-            ScheduleOnce(PlayEffect5, 0.45f);
-            ScheduleOnce(PlayEffect6, 0.54f);
+            _ = Task.Run(() =>
+            {
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1), 0.09f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2), 0.18f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3), 0.27f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4), 0.36f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5), 0.45f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6), 0.54f);
+            });
+            transitionImageSource?.RunAction(seq);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -898,10 +946,9 @@ namespace LooneyInvaders.Classes
             }
             else layer.ContinueInitialize();
 
+            WillExit();
             Shared.GameDelegate.Layer = layer;
             GC.Collect();
-
-            //dispose = !Shared.GameDelegate.UseAnimationClearing;
 
             Enabled = false;
             LayerTransitionTarget = layer;
@@ -948,18 +995,21 @@ namespace LooneyInvaders.Classes
             actions[1] = usePause ? new CCCallFunc(ReplaceSceneWithoutFadeIn) : new CCCallFunc(ReplaceScene);
 
             var seq = new CCSequence(actions);
-            var soundTask = new Task(() =>
+            _ = Task.Run(() =>
             {
-                ScheduleOnce(PlayEffect1, 0.09f);
-                ScheduleOnce(PlayEffect2, 0.18f);
-                ScheduleOnce(PlayEffect3, 0.27f);
-                ScheduleOnce(PlayEffect4, 0.36f);
-                ScheduleOnce(PlayEffect5, 0.45f);
-                ScheduleOnce(PlayEffect6, 0.54f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1), 0.09f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2), 0.18f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3), 0.27f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4), 0.36f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5), 0.45f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6), 0.54f);
             });
-            soundTask.Start();
+            //soundTask.Start();
 
-            (await _transitionImage?.RunActionAsync(seq))?.Update(1f);
+            //(await _transitionImage?.RunActionAsync(seq))?.Update(1f);
+            _transitionImage?.RunAction(seq);//?.Update(1f);
+
+            await Task.Delay(500);
 
 #if __IOS__ && DEBUG
             Console.WriteLine($"||MEMORY||total: {Foundation.NSProcessInfo.ProcessInfo.PhysicalMemory}|current_process :{System.Diagnostics.Process.GetCurrentProcess().WorkingSet64}");
@@ -967,40 +1017,7 @@ namespace LooneyInvaders.Classes
             if (dispose) Dispose();
         }
 
-        private void PlayEffect1(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1);
-        }
-
-        private void PlayEffect2(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2);
-        }
-
-        private void PlayEffect3(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3);
-        }
-
-        private void PlayEffect4(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4);
-        }
-
-        private void PlayEffect5(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5);
-        }
-
-        private void PlayEffect6(float dt)
-        {
-            GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop6);
-        }
-
-        private void RemoveTransitionImage()
-        {
-            _transitionImage.RemoveFromParent();
-        }
+        private void RemoveTransitionImage() => _transitionImage.RemoveFromParent();
 
         protected void RemoveChildren(params CCSprite[] sprites)
         {
@@ -1010,7 +1027,7 @@ namespace LooneyInvaders.Classes
             }
         }
 
-        protected async Task AnimateFadeInAsync(Action prepAction = null)
+        protected void AnimateFadeIn(Action prepAction = null)
         {
             var framesTarget = new List<CCSpriteFrame>
             {
@@ -1047,37 +1064,42 @@ namespace LooneyInvaders.Classes
             actions[0] = new CCRepeat(new CCAnimate(animationTarget), 1);
             actions[1] = new CCCallFunc(RemoveTransitionImage);
 
-            prepAction?.Invoke();
+            ScheduleOnce(_ => prepAction?.Invoke(), 0f);
 
             var seq = new CCSequence(actions);
-            var soundTask = new Task(() =>
+            _ = Task.Run(() =>
             {
-                ScheduleOnce(PlayEffect5, 0.09f);
-                ScheduleOnce(PlayEffect4, 0.18f);
-                ScheduleOnce(PlayEffect3, 0.27f);
-                ScheduleOnce(PlayEffect2, 0.36f);
-                ScheduleOnce(PlayEffect1, 0.45f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop5), 0.09f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop4), 0.18f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop3), 0.27f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop2), 0.36f);
+                ScheduleOnce(_ => GameEnvironment.PlaySoundEffect(SoundEffect.TransitionLoop1), 0.45f);
             });
-            soundTask.Start();
 
-            (await _transitionImage?.RunActionAsync(seq))?.Update(1f);
+            _transitionImage?.RunAction(seq);//?.Update(1f);
+            //(await _transitionImage?.RunActionAsync(seq))?.Update(1f);
 
-            _transitionImage?.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
+            //_transitionImage?.RunAction(new CCRepeat(new CCAnimate(animationTarget), 1));
         }
 
-        protected void ReplaceSceneByTargetLayer()
+        protected async void ReplaceSceneByTargetLayer()
         {
             var newScene = new CCScene(GameView);
             newScene.AddLayer(LayerTransitionTarget);
+
             if (Scene != null)
             {
-                Director.ReplaceScene(newScene);
+                try
+                {
+                    await Director.ReplaceSceneAsync(newScene);//ReplaceScene(newScene);
+                }
+                catch (Exception ex) { Debug.WriteLine(ex.StackTrace); }
             }
             ScheduleOnce((_) =>
             {
                 RemoveAllChildren();
                 Dispose();
-            }, 1f);
+            }, 2.5f);
         }
 
         public void ReplaceSceneWithoutFadeIn()
@@ -1092,13 +1114,13 @@ namespace LooneyInvaders.Classes
             ReplaceSceneByTargetLayer();
         }
 
-        public override async void OnEnterTransitionDidFinish()
+        public override void OnEnterTransitionDidFinish()
         {
             base.OnEnterTransitionDidFinish();
 
             if (IsCartoonFadeIn)
             {
-                await AnimateFadeInAsync();
+                AnimateFadeIn();
             }
             IsCartoonFadeIn = Shared.GameDelegate.IsCartoonFadeInOnLayer;
         }

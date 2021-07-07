@@ -13,6 +13,7 @@ namespace LooneyInvaders.Layers
 {
     public class VictoryScreenLayer : CCLayerColorExt
     {
+        public Stopwatch secs;
         public Battlegrounds SelectedBattleground;
         public Enemies SelectedEnemy;
         public Weapons SelectedWeapon;
@@ -315,7 +316,7 @@ namespace LooneyInvaders.Layers
                     _justSavedTitle = AddImageCentered(1136 / 2, 598, "UI/George defeaded/victory-you-just-saved-vietnam.png", 2);
                     break;
             }
-            _justSavedTitle = _justSavedTitle ?? new CCSprite();
+            _justSavedTitle ??= new CCSprite();
             _justSavedTitle.Visible = false;
             _multiplierNode = new CCNodeExt
             {
@@ -339,9 +340,6 @@ namespace LooneyInvaders.Layers
             Player.Instance.Credits += _score;
             Player.Instance.AddSavedCountry(SelectedBattleground);
             Player.Instance.SetDayScore(_score);
-            //Hack: Don't delete that?
-            //Background = Background ?? new CCSprite();
-            //Background.Opacity = 120;
 
             if (!saved)
             {
@@ -360,11 +358,11 @@ namespace LooneyInvaders.Layers
                 {
                     if (Settings.Instance.VoiceoversEnabled)
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("1"); } }, 2.3f);
+                        ScheduleOnce(_ => ShowScore(1), 2.0f);
                     }
                     else
                     {
-                        ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("2"); } }, 1.0f);
+                        ScheduleOnce(_ => ShowScore(2), 1.0f);
                     }
                 }
             }
@@ -374,7 +372,7 @@ namespace LooneyInvaders.Layers
                 GameEnvironment.PreloadSoundEffect(SoundEffect.RewardNotification);
                 if (Settings.Instance.VoiceoversEnabled)
                 {
-                    ScheduleOnce(ShowDefeated, 2.8f);
+                    ScheduleOnce(ShowDefeated, 2.5f);
                 }
                 else
                 {
@@ -387,32 +385,33 @@ namespace LooneyInvaders.Layers
 
             if (Settings.Instance.VoiceoversEnabled)
             {
-                ScheduleOnce((_) => CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav"), 0f);
+                ScheduleOnce(_ => CCAudioEngine.SharedEngine.PlayEffect("Sounds/You just saved VO_mono.wav"), 0f);
                 ScheduleOnce(CalloutCountryNameVo, 1.5f);
             }
             Settings.Instance.LastOfflineRegularScore = _score;
             Settings.Instance.LastOfflineTime = Convert.ToDouble(Time);
             Settings.Instance.LastOfflineAccuracy = Convert.ToDouble(Accuracy);
 
-            ScheduleOnce(async (_) =>
+            Task.Run(async () =>
             {
                 _isWeHaveScores = await LeaderboardManager.SubmitScoreRegularAsync(_score, Convert.ToDouble(Accuracy), Convert.ToDouble(Time));
                 _isDoneWaitingForScores = true;
-            }, 0f);
-            Schedule(AnimateLoadingView, 0.065f); //reached experimentally
+            });
+
+            secs = new Stopwatch();
+            secs.Restart();
+
+            Schedule(AnimateLoadingView, TransitionDelayMS / 1000f);
         }
 
         public override async Task ContinueInitializeAsync()
         {
-            await Task.Delay(15); //some small delay
+            await Task.Delay(TransitionDelayMS);
             await base.ContinueInitializeAsync();
         }
 
-        private void Caught(string message)
-        {
-            var s = message;
-            Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {s}");
-        }
+        private void Caught(string message) =>
+            Debug.WriteLine($"WARNING: got exception {nameof(Caught)} with {message}");
 
         private void AnimateLoadingView(float obj)
         {
@@ -424,20 +423,26 @@ namespace LooneyInvaders.Layers
                      !_multiplierNode.Visible &&
                      !(_btnContinue?.Visible).GetValueOrDefault() &&
                      !(_shareYourScore?.Visible).GetValueOrDefault(),
+                finalCallbackTask:
                 async (_) =>
-                {
-                    if (_cartoonBackground == null)
-                    { return; }
-                    if (!_cartoonBackground.Visible)
-                    { Unschedule(AnimateLoadingView); return; }
+                {   //final callback
+                    await Task.Delay(TransitionDelayMS);
+
+                    if (_cartoonBackground == null) return;
 
                     Unschedule(AnimateLoadingView);
-                    await AnimateFadeInAsync(() =>
+
+                    Debug.WriteLine("FINAL CALLBACK - secs = " + secs.Elapsed.Seconds);
+
+                    if (!_cartoonBackground.Visible) return;
+
+                    ScheduleOnce(_ => AnimateFadeIn(() =>
                     {
                         _justSavedTitle.Visible = true;
                         _cartoonBackground.Visible = false;
+
                         RemoveChild(_cartoonBackground);
-                    });
+                    }), 0f);
                 }, _animationMaxTime);
         }
 
@@ -553,37 +558,39 @@ namespace LooneyInvaders.Layers
         {
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
-            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
-            ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
-            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("3"); } }, 0.2f);
+            UnscheduleAllExcept(AnimateLoadingView);
+            ScheduleOnce(_ => _cartoonBackground.Visible = false, 0f);
+            ScheduleOnce(_ => ShowScore(3), 0.2f);
         }
 
         private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e) { }
 
         private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
+            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
             Player.Instance.Credits += _score * WinsInSuccession - _score;
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
-            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
+            UnscheduleAllExcept(AnimateLoadingView);
 
             //AdManager.ShowBannerBottom();
             ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
-            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("4"); } }, 0.5f);
+            ScheduleOnce(_ => ShowScore(4), 0.5f);
         }
 
         private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
+            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             //AdManager.ShowBannerBottom();
 
             _multiplierNode.RemoveAllChildren();
             RemoveChild(_multiplierNode);
 
-            UnscheduleAllExcept((AnimateLoadingView, 0.06f));
+            UnscheduleAllExcept(AnimateLoadingView);
             ScheduleOnce((_) => _cartoonBackground.Visible = false, 0f);
-            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("5"); } }, 0.2f);
+            ScheduleOnce(_ => ShowScore(5), 0.2f);
         }
 
         private void ShowDefeated(float dt)
@@ -608,7 +615,7 @@ namespace LooneyInvaders.Layers
             }
             else
             {
-                ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("6"); } }, 0.2f);
+                ScheduleOnce(_ => ShowScore(6), 0.2f);
             }
         }
 
@@ -710,7 +717,7 @@ namespace LooneyInvaders.Layers
             {
                 RemoveChild(_recordNotificationImage);
             }
-            ScheduleOnce((obj) => { try { ShowScore(); } catch { Caught("7"); } }, 0f);
+            ScheduleOnce(_ => ShowScore(7), 0f);
         }
         #endregion
 
@@ -721,45 +728,45 @@ namespace LooneyInvaders.Layers
 
         private CCSprite[] _creditsLabels;
 
-        private async void ShowScore()
+        private async void ShowScore(int debugInfo)
         {
-            await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
-            _scoreNode = new CCNodeExt
+            Debug.WriteLine($"ShowScore is number {debugInfo}");
+
+            try
             {
-                Opacity = 0
-            };
+                await WaitScoreBoardServiceResponseWhile(() => !_isDoneWaitingForScores, (() => _waitForScoreCounter, (val) => _waitForScoreCounter = val), _delayOnRepeatMS);
+            }
+            catch { Caught(debugInfo.ToString()); }
+
+            _scoreNode = new CCNodeExt { Opacity = 0 };
             ScheduleOnce(ShowScoreScheduled, 0.5f);
         }
 
         private void ShowScoreScheduled(float obj)
         {
-            try
-            {
-                if (_isWeHaveScores
+            if (_isWeHaveScores
                     && (Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularAlltimeField(Score)) < AppConstants.Tolerance
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularMonthlyField(Score)) < AppConstants.Tolerance
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularWeeklyField(Score)) < AppConstants.Tolerance
                         || Math.Abs(_score - (double)LeaderboardManager.GetPlayerRankRegularDailyField(Score)) < AppConstants.Tolerance)
                     && !_recordNotificationShown)
-                {
-                    ScheduleOnce((_) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
-                    return;
-                }
-                _scoreNode.Opacity = 255;
-                _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
-                _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
-                _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
-                _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
-            }
-            catch (Exception ex)
             {
-                var mess = ex.Message;
-                Caught($" {nameof(ShowScore)} - first try!");
+                ScheduleOnce((_) => { try { ShowRecordNotification(); } catch { Caught("9"); } }, 0.5f);
+                return;
             }
+            _scoreNode.Opacity = 255;
+            _scoreNode.AddImage(0, 225, "UI/victory-earth-level-scoreboard-background-bars.png", 2);
+            _scoreNode.AddImage(245, 225, "UI/victory-earth-level-scoreboard-title-text.png", 3);
+            _scoreNode.AddImage(0, 162, "UI/victory-available-credits-text.png", 3);
+            _shareYourScore = _scoreNode.AddImage(0, 80, "UI/victory-earth-level-share-your-score-text.png", 3);
+
+            if (_creditsLabels != null) return; //Score is shown already
+
             //current score
             _scoreNode.AddImageLabelCentered(155, 432, _score.ToString(), 52);
             _scoreNode.AddImageLabelCentered(155, 367, Time.ToString("0") + "s", 50);
             _scoreNode.AddImageLabelCentered(155, 311, Accuracy.ToString("0") + "%", 50);
+
             if (_isWeHaveScores && LeaderboardManager.PlayerRankRegularMonthly != null && Math.Abs(_score - LeaderboardManager.PlayerRankRegularMonthly.Score) < AppConstants.Tolerance)
             {
                 _scoreNode.AddImage(0, 490, "UI/victory-earth-level-personal-best-of-month-title-text.png", 3);
@@ -856,21 +863,15 @@ namespace LooneyInvaders.Layers
             GameEnvironment.PlaySoundEffect(SoundEffect.ShowScore);
             Schedule(FadeScore);
 
-            void yes_OnClick_Handler(object sender, EventArgs ea)
-            {
-                ScheduleOnce(Yes_OnClick, 0f);
-            }
-
-            void no_OnClick_Handler(object sender, EventArgs ea)
-            {
-                ScheduleOnce(No_OnClick, 0f);
-            }
+            void yes_OnClick_Handler(object sender, EventArgs ea) => ScheduleOnce(Yes_OnClick, 0f);
+            void no_OnClick_Handler(object sender, EventArgs ea) => ScheduleOnce(No_OnClick, 0.1f);
         }
 
         private void FadeScore(float dt)
         {
             _scoreNode.Opacity += 5;
             _justSavedTitle.Opacity -= 5;
+
             if (_scoreNode.Opacity > 250)
             {
                 _scoreNode.Opacity = 255;
@@ -885,10 +886,7 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private async void BtnContinue_OnClick(object sender, EventArgs e)
-        {
-            await NextLevel();
-        }
+        private async void BtnContinue_OnClick(object sender, EventArgs e) => await NextLevel();
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
@@ -1040,9 +1038,10 @@ namespace LooneyInvaders.Layers
 
         private void No_OnClick(float obj)
         {
+            _yes.ChangeVisibility(false);
+            _no.ChangeVisibility(false);
             _shareYourScore.Visible = false;
-            _yes.Visible = false;
-            _no.Visible = false;
+
             _btnContinue.Visible = true;
             _mainMenu.Visible = true;
         }

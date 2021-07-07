@@ -868,9 +868,9 @@ namespace LooneyInvaders.Layers
             _imgChangeNameWindow.Visible = false;
         }
 
-        public override void OnExit()
+        public override void WillExit()
         {
-            base.OnExit();
+            base.WillExit();
 
             NetworkConnectionManager.ClearConnectionChangedEvent();
             ScoreBoardService.ClearGetTopScoresStatusChangedEvent();

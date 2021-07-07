@@ -7,8 +7,8 @@ namespace LooneyInvaders.Services
 {
     public static class FacebookLikesHelper
     {
-        public const string PageId = "101000795058301";
-        public const string PageUrl = "https://www.facebook.com/Testing-API-by-maxoiduss-101000795058301";
+        public const string PageId = "113479102321556";//"101000795058301";
+        public const string PageUrl = "https://www.facebook.com/looneyinvaders";//"https://www.facebook.com/Testing-API-by-maxoiduss-101000795058301";
 
         public static Action DisableCreditButtonAction;
 

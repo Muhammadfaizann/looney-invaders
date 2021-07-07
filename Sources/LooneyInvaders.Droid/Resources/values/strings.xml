@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="facebook_app_id">237675254510489</string>
+    <!-- <string name="facebook_app_secret">769ec86563937e687d8229b8ad845980</string> -->
     <string name="facebook_app_name">LI game app like connection</string>
     <string name="facebook_login_protocol_scheme">fb237675254510489</string>
     <!--<string name="ApplicationName">LooneyInvaders.Droid</string>-->

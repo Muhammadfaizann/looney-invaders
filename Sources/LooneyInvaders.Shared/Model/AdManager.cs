@@ -17,6 +17,7 @@ namespace LooneyInvaders.Model
         public static event EventHandler OnInterstitialAdOpened;
         public static event EventHandler OnInterstitialAdClosed;
         public static event EventHandler OnInterstitialAdFailedToLoad;
+        public static event EventHandler OnInterstitialAdFailedToPreload;
 
         public static void ClearInterstitialEvents()
         {
@@ -100,6 +101,13 @@ namespace LooneyInvaders.Model
         public static void InterstitialAdFailedToLoad()
         {
             OnInterstitialAdFailedToLoad?.Invoke(null, EventArgs.Empty);
+            System.Diagnostics.Debug.WriteLine($"{nameof(OnInterstitialAdFailedToLoad)} called");
+        }
+
+        public static void InterstitialAdFailedToPreload()
+        {
+            OnInterstitialAdFailedToPreload?.Invoke(null, EventArgs.Empty);
+            System.Diagnostics.Debug.WriteLine($"{nameof(OnInterstitialAdFailedToPreload)} called");
         }
     }
 }

@@ -108,17 +108,14 @@ namespace LooneyInvaders.Droid
                     GameView.MobilePlatformUpdatePaused();
                 }
             }
-            catch (Exception ex)
-            {
-                var mess = ex.Message;
-                Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewState)}: {mess}");
-            }
+            catch (Exception ex) { Debug.WriteLine($"FaultOn_{nameof(UpdateGameViewState)}: {ex.Message}"); }
 
             async Task<bool> isGamePaused(int delayMS)
             {
-                if (GameDelegate.IsBusyLayerProperty) { return false; }
+                if (GameDelegate.IsBusyLayerProperty) return false;
 
                 GameDelegate.IsBusyLayerProperty = true;
+
                 await Task.Delay(delayMS);
 
                 var enabled = (GameDelegate.Layer as CCLayerColorExt)?.Enabled == true;
@@ -141,7 +138,7 @@ namespace LooneyInvaders.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            //if (ActivityCreated) { return; }
+            if (ActivityCreated) { Debug.WriteLine("!!! MAIN ACTIVITY CREATED ONE MORE TIME !!!"); /*return;*/ }
             ActivityCreated = true; //workaround in cases the app tends to go OnCreate once it was created
 
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject}");
@@ -156,6 +153,11 @@ namespace LooneyInvaders.Droid
             FacebookSdk.SdkInitialize(this);
     #pragma warning restore CS0618 // Type or member is obsolete
             FacebookSdk.FullyInitialize();
+            FacebookSdk.ClearLoggingBehaviors();
+            FacebookSdk.IsDebugEnabled = true;
+            FacebookSdk.MonitorEnabled = true;
+            FacebookSdk.IgnoreAppSwitchToLoggedOut = true;
+            FacebookSdk.LegacyTokenUpgradeSupported = true;
             AppEventsLogger.InitializeLib(this, FacebookSdk.ApplicationId);
             FacebookSdk.AutoLogAppEventsEnabled = true;
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -171,11 +173,13 @@ namespace LooneyInvaders.Droid
             AdManager.HideInterstitialHandler = HideInterstitial;
             Appodeal.LogLevel = Com.Appodeal.Ads.Utils.Log.LogLevel.Verbose;
             Appodeal.DisableLocationPermissionCheck();
+            Appodeal.SetTriggerOnLoadedOnPrecache(requiredAdTypes, false);
+            Appodeal.SharedAdsInstanceAcrossActivities = true;
             //Appodeal.SetBannerAnimation(true);
             //Appodeal.SetSmartBanners(true);
-            Appodeal.SetAutoCache(requiredAdTypes, true);
+            Appodeal.SetAutoCache(requiredAdTypes, false);
 #if DEBUG
-            Appodeal.SetTesting(false);
+            Appodeal.SetTesting(true);
 #else
             Appodeal.SetTesting(false);
 #endif
@@ -259,8 +263,7 @@ namespace LooneyInvaders.Droid
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
             Appodeal.SetInterstitialCallbacks(this);
             //Appodeal.SetBannerCallbacks(this);
-            //ToDo: check does it really prevent from prcoessing user consent and bewaring him
-            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes, false);
+            Appodeal.Initialize(this, AppodealApiKey, requiredAdTypes, hasConsent: false);
             Appodeal.Cache(this, requiredAdTypes);
             TrackTime();
             // set up in-game purchases
@@ -281,12 +284,11 @@ namespace LooneyInvaders.Droid
             TrackTime();
             // start the game
             GameView = (CCGameView)FindViewById(Resource.Id.GameView) ?? GameView;
-            //GameView.RenderOnUIThread = true; //ToDo: not sure it's needed, remove in the future
             GameView.ViewCreated += GameDelegate.LoadGame;
             TrackTime();
             Debug.WriteLine("Activity created(OnCreate passed)");
 
-            static void TrackTime() { GameDelegate.TrackTime(); }
+            static void TrackTime() => GameDelegate.TrackTime();
         }
 
         protected override void OnPostResume()
@@ -297,6 +299,7 @@ namespace LooneyInvaders.Droid
 
             var acc = _sensorManager.GetDefaultSensor(SensorType.Accelerometer);
             _sensorManager.RegisterListener(this, acc, SensorDelay.Game);
+
             var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
             _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
         }

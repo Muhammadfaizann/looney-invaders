@@ -1089,7 +1089,7 @@ namespace LooneyInvaders.Layers
                 AddImageLabelRightAligned(1136 / 2 + 92, 509, ((int)SelectedBattleground + 1).ToString(), 55);
                 AddImageLabelCentered(1136 / 2 + 125, 509, "20", 55);
             }
-            //ToDo: look, steering test starts and what is going..
+
             _countdown = 6;
 
             if (SelectedEnemy == Enemies.Aliens)
@@ -1900,14 +1900,12 @@ namespace LooneyInvaders.Layers
         {
             _gamePauseFriendlyCheckMark.ChangeState();
             _gamePauseFriendlyCheckMark.SetStateImages();
+
             Settings.Instance.GamePauseFriendly = _gamePauseFriendlyCheckMark.State == 1;
         }
 
         //Touch response for whole screen
-        private void GamePlayLayer_OnTouchBegan(object sender, EventArgs e)
-        {
-            FireBtnPressed();
-        }
+        private void GamePlayLayer_OnTouchBegan(object sender, EventArgs e) => FireBtnPressed();
 
         //Touch response for bottom area on screen
         private void GamePlayLayer_OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
@@ -2074,15 +2072,13 @@ namespace LooneyInvaders.Layers
                         Convert.ToDecimal((_bulletsFired - _bulletsMissed) * 100) / Convert.ToDecimal(_bulletsFired),
                         _lives.Count,
                         WinsInSuccession + 1);
-                    await TransitionToLayerCartoonStyleAsync(newLayer, true, usePause: true);
+                    //TransitionToLayerCartoonStyle(newLayer, usePause: true);
+                    await TransitionToLayerCartoonStyleAsync(newLayer, isAsyncContinuation: true, usePause: true);
                     break;
             }
         }
 
-        private void SetGameDuration()
-        {
-            Settings.Instance.SetTodaySessionDuration((int)_elapsedTime);
-        }
+        private void SetGameDuration() => Settings.Instance.SetTodaySessionDuration((int)_elapsedTime);
 
         private readonly CCLabel _label = null;
 

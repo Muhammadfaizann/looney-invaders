@@ -99,8 +99,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
             {
                 _loginResult = new LoginResult
                 {   //ToDo: place here Looney Invders admin's test user name instead of strings
-                    FirstName = Profile.CurrentProfile?.FirstName ?? "ImSexy",
-                    LastName = Profile.CurrentProfile?.LastName ?? "AndIKnowIt",
+                    FirstName = Profile.CurrentProfile?.FirstName ?? "Maxoiduss",
+                    LastName = Profile.CurrentProfile?.LastName ?? "Wisemahnn",
                     Token = AccessToken.CurrentAccessToken.Token,
                     UserId = AccessToken.CurrentAccessToken.UserId,
                     LoginState = LoginState.Success
@@ -127,8 +127,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public void OnSuccess(Java.Lang.Object result)
         {
             var facebookLoginResult = result.JavaCast<Xamarin.Facebook.Login.LoginResult>();
-            if (facebookLoginResult == null)
-            { return; }
+
+            if (facebookLoginResult == null) return;
 
             var parameters = new Bundle();
             parameters.PutString("fields", "id,email,picture.type(large)");

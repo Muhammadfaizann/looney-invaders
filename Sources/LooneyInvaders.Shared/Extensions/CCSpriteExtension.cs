@@ -11,7 +11,10 @@ namespace LooneyInvaders.Extensions
         {
             if (ccSprite != null)
             {
+                var isEnabled = ccSprite.Enabled;
+                ccSprite.Enabled = true;
                 ccSprite.Visible = isVisible;
+                ccSprite.Enabled = isEnabled;
             }
         }
 

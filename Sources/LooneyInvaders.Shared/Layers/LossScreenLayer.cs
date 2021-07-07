@@ -174,10 +174,12 @@ namespace LooneyInvaders.Layers
                 ScheduleOnce(async (_) =>
                 {
                     _isWeHaveScores = await LeaderboardManager.SubmitScoreProAsync(_alienScore, _alienWave);
+
                     await Task.Delay(millisecondsToWaitAnimation);
+
                     _isDoneWaitingForScores = true;
                 }, 0f);
-                Schedule(AnimateLoadingView, 0.065f); //reached experimentally
+                Schedule(AnimateLoadingView, TransitionDelayMS / 1000f);
             }
             else
             {
@@ -188,7 +190,7 @@ namespace LooneyInvaders.Layers
 
         public override async Task ContinueInitializeAsync()
         {
-            await Task.Delay(15); //some small delay
+            await Task.Delay(TransitionDelayMS);
             await base.ContinueInitializeAsync();
         }
 
@@ -203,20 +205,21 @@ namespace LooneyInvaders.Layers
                       !(_btnContinue?.Visible).GetValueOrDefault() &&
                       !(_shareYourScore?.Visible).GetValueOrDefault(),
                 async (_) =>
-                {
-                    if (_cartoonBackground == null)
-                    { return; }
-                    if (!_cartoonBackground.Visible)
-                    { Unschedule(AnimateLoadingView); return; }
+                {   //final callback
+                    if (_cartoonBackground == null) return;
 
                     Unschedule(AnimateLoadingView);
-                    await AnimateFadeInAsync(() =>
+
+                    if (!_cartoonBackground.Visible) return;
+
+                    ScheduleOnce(_ => AnimateFadeIn(() =>
                     {
                         //_youAreDefeated.Visible = true;
                         _cartoonBackground.Visible = false;
+
                         RemoveChild(_cartoonBackground);
                         ScheduleOnce(dt => ShowScore(true), 1.5f);
-                    });
+                    }), 0f);
                 }, _animationMaxTime);
         }
 
@@ -292,7 +295,6 @@ namespace LooneyInvaders.Layers
         }
 
         private CCNodeExt _scoreNode;
-
         private CCSprite _recordNotification;
         private CCSprite _recordNotificationImage;
         private CCSpriteButton _recordOkIGotIt;

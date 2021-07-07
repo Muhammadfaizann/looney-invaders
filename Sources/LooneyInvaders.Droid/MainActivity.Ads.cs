@@ -24,19 +24,12 @@ namespace LooneyInvaders.Droid
         public void OnBannerShowFailed() { }*/
 
         public void OnInterstitialLoaded(bool b) { }
-        public void OnInterstitialFailedToLoad() => AdManager.InterstitialAdFailedToLoad();
+        public void OnInterstitialFailedToLoad() => AdManager.InterstitialAdFailedToPreload();
         public void OnInterstitialShown() => AdManager.InterstitialAdOpened();
         public void OnInterstitialClosed() => AdManager.InterstitialAdClosed();
         public void OnInterstitialClicked() { }
         public void OnInterstitialExpired() { }
         public void OnInterstitialShowFailed() => AdManager.InterstitialAdFailedToLoad();
-
-        //public void ShowBannerBottom() => RunOnUiThread(async () => await AdType.Banner.LoadAsync(this));
-        // Do not delete this bunch of code
-        /*public void HideBanner() => RunOnUiThread(() =>
-        {
-            AdType.Banner.Hide(this);
-        });*/
 
         public void ShowInterstitial()
         {
