@@ -7,7 +7,7 @@ namespace LooneyInvaders.Droid.Helpers
 {
     public static class AppodealAdsHelper
     {
-        public static int ToInt(this AdType type) => type.NotifyType;//type.Code;
+        public static int ToInt(this AdType type) => type.Code;//NotifyType;//type.Code;
 
         public static int LoadingPauseMilliseconds { get; set; }
 

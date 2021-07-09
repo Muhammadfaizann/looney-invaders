@@ -146,7 +146,7 @@ namespace LooneyInvaders.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
             JavaThread.DefaultUncaughtExceptionHandler = new CustomExceptionHandler();
 
-            Android.Webkit.CookieManager.Instance.SetAcceptCookie(true);
+            //Android.Webkit.CookieManager.Instance.SetAcceptCookie(true);
             FacebookSdk.ApplicationName = Resources.GetString(Resource.String.facebook_app_name);
             FacebookSdk.ApplicationId = Resources.GetString(Resource.String.facebook_app_id);
     #pragma warning disable CS0618 // Type or member is obsolete

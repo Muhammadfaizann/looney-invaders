@@ -581,6 +581,10 @@
     <Reference Include="AppodealXamarinAndroid">
       <HintPath>..\..\References\Android\AppodealXamarinAndroid.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Google.BillingClient">
+      <HintPath>..\packages\Xamarin.Android.Google.BillingClient.4.0.0\lib\monoandroid90\Xamarin.Android.Google.BillingClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Java.Interop" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="App42_CSHARP_SDK_2.3">

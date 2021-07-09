@@ -128,11 +128,11 @@
 		<service android:name="com.ogury.analytics.service.SdkJobService" android:permission="android.permission.BIND_JOB_SERVICE" />
 		<service android:name="com.ogury.analytics.service.SMJobService" android:permission="android.permission.BIND_JOB_SERVICE" />
 		<activity android:name="com.android.billingclient.api.ProxyBillingActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-		<receiver android:name="io.presage.core.receiver.UserPresentReceiver" android:enabled="true" android:exported="true">
+		<!-- <receiver android:name="io.presage.core.receiver.UserPresentReceiver" android:enabled="true" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.USER_PRESENT" />
 			</intent-filter>
-		</receiver>
+		</receiver> -->
 		<receiver android:name="io.presage.core.receiver.BootCompletedReceiver" android:enabled="false" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
