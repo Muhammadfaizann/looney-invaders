@@ -15,15 +15,17 @@ namespace LooneyInvaders.Droid.Services.Facebook
 {
     public class FacebookService : Java.Lang.Object, IFacebookService, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
     {
-        static readonly string FanCountString = "fan_count";
+        static readonly string LikesCountString = "fan_count";
 
         private readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
-        //ToDo: Pavel - find out what the trick, which permission do we need to pass?
-        private readonly string[] _permissions = { /*"publish_actions",*/ "public_profile"/*, "email" */};
+        // it's required to pass FB review to use pages_read_engagement
+        private readonly string[] _permissions = { "public_profile", "pages_read_engagement"/*, "email" */};
         private readonly Activity _activity;
 
         private LoginResult _loginResult;
         private TaskCompletionSource<LoginResult> _loginCompletionSource;
+
+        public event EventHandler OnResult;
 
         public LoginState LoginState { get; set; }
 
@@ -33,15 +35,15 @@ namespace LooneyInvaders.Droid.Services.Facebook
         {
             _activity = activity;
 
-            LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone);
-            LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
-            LoginManager.Instance.RegisterCallback(_callbackManager, this);
+            LoginManager.Instance.SetDefaultAudience(DefaultAudience.Everyone)
+                                 .SetLoginBehavior(LoginBehavior.WebOnly)
+                                 .RegisterCallback(_callbackManager, this);
         }
 
         public Task<LoginResult> Login()
         {
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
-            LoginManager.Instance.LogOut();
+
             LoginManager.Instance.ReauthorizeDataAccess(_activity);
             //ToDo: Pavel - find out what's the difference, which one do we need?
             //LoginManager.Instance.LogInWithPublishPermissions(_activity, _permissions);
@@ -50,25 +52,26 @@ namespace LooneyInvaders.Droid.Services.Facebook
             return _loginCompletionSource.Task;
         }
 
-        public void Logout() => LoginManager.Instance.LogOut();
-
-        public Task<int> CountPageLikes(string pageId)
+        public void Logout()
         {
-            var likes = Task.Run(() =>
-            {
-                int likes = 0;
-                var likesRequest = $"{pageId}/{FanCountString}";
-                var response = GraphRequest.ExecuteAndWait(new GraphRequest(AccessToken.CurrentAccessToken, likesRequest));
-                if (response != null && response.JSONObject is JSONObject jSON)
-                {
-                    likes = jSON.GetInt(FanCountString);
-                }
+            LoginManager.Instance.LogOut();
 
-                return likes;
-            });
-            
-            return likes;
+            OnResult = null;
         }
+
+        public Task<int> CountPageLikes(string pageId) => Task.Run(async () =>
+        {
+            int likes = -1;
+            var likesRequest = $"{pageId}?{LikesCountString}";
+            var response = await Task.Run(() => GraphRequest.ExecuteAndWait(new GraphRequest(AccessToken.CurrentAccessToken, likesRequest)));
+            if (response != null && response.JSONObject is JSONObject jSON)
+            {
+                likes = jSON.GetInt(LikesCountString);
+            }
+            OnResult?.Invoke(this, EventArgs.Empty);
+
+            return likes;
+        });
 
         public void OpenPage(string pageUrl)
         {
@@ -84,10 +87,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             _callbackManager?.OnActivityResult(requestCode, resultCode, data);
         }
 
-        public void OnCompleted(JSONObject data, GraphResponse response)
-        {
-            OnCompleted(response);
-        }
+        public void OnCompleted(JSONObject data, GraphResponse response) => OnCompleted(response);
 
         public void OnCompleted(GraphResponse response)
         {
@@ -98,7 +98,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
             else
             {
                 _loginResult = new LoginResult
-                {   //ToDo: place here Looney Invders admin's test user name instead of strings
+                {
                     FirstName = Profile.CurrentProfile?.FirstName ?? "Maxoiduss",
                     LastName = Profile.CurrentProfile?.LastName ?? "Wisemahnn",
                     Token = AccessToken.CurrentAccessToken.Token,
@@ -113,6 +113,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
         public void OnCancel()
         {
             _loginCompletionSource?.TrySetResult(new LoginResult {LoginState = LoginState.Canceled});
+            OnResult?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnError(FacebookException exception)
@@ -122,9 +123,10 @@ namespace LooneyInvaders.Droid.Services.Facebook
                 LoginState = LoginState.Failed,
                 ErrorString = exception?.Message
             });
+            OnResult?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnSuccess(Java.Lang.Object result)
+        public async void OnSuccess(Java.Lang.Object result)
         {
             var facebookLoginResult = result.JavaCast<Xamarin.Facebook.Login.LoginResult>();
 
@@ -135,7 +137,8 @@ namespace LooneyInvaders.Droid.Services.Facebook
 
             var request = GraphRequest.NewMeRequest(facebookLoginResult.AccessToken, this);
             request.Parameters = parameters;
-            request.ExecuteAsync();
+
+            await request.ExecuteAsync().GetAsync();
         }
     }
 }

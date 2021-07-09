@@ -626,6 +626,7 @@
     <Compile Include="MainActivity.Permissions.cs">
       <DependentUpon>..\MainActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\Alerts\AlertService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\Animations\Milo-0.plist">
@@ -1062,11 +1063,24 @@
     <AndroidAsset Include="..\Content\Images\Hd\UI\link-to-appodeal-privacy-tapped.png">
       <Link>Assets\Content\Images\Hd\UI\link-to-appodeal-privacy-tapped.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-button-tapped.png">
+      <Link>Assets\Content\Images\Hd\UI\facebook-login-button-tapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-button-untapped.png">
+      <Link>Assets\Content\Images\Hd\UI\facebook-login-button-untapped.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\we-need-to-wait-some-time-button.png">
+      <Link>Assets\Content\Images\Hd\UI\we-need-to-wait-some-time-button.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Images\Hd\UI\victory-multiply-notification-cancel-small-button-untapped.png">
+      <Link>Assets\Content\Images\Hd\UI\victory-multiply-notification-cancel-small-button-untapped.png</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Images\Ld\" />
     <Folder Include="Services\Permissions\" />
     <Folder Include="Services\Purchase\" />
+    <Folder Include="Services\Alerts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -8872,11 +8886,6 @@
   <ItemGroup>
     <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-background.png">
       <Link>Assets/Content/Images/Hd/UI/facebook-login-background.png</Link>
-    </AndroidAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="..\Content\Images\Hd\UI\facebook-login-button.png">
-      <Link>Assets/Content/Images/Hd/UI/facebook-login-button.png</Link>
     </AndroidAsset>
   </ItemGroup>
   <ItemGroup>

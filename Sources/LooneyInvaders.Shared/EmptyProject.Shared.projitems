@@ -106,6 +106,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CustomCancellationTokenSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Enums\LoginState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook\FacebookLikesHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Alerts\IAlertService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
@@ -114,5 +115,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Services\PNS\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\App42\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\Permissions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\Alerts\" />
   </ItemGroup>
 </Project>

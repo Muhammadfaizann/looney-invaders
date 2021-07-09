@@ -139,7 +139,7 @@ namespace LooneyInvaders.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             if (ActivityCreated) { Debug.WriteLine("!!! MAIN ACTIVITY CREATED ONE MORE TIME !!!"); /*return;*/ }
-            ActivityCreated = true; //workaround in cases the app tends to go OnCreate once it was created
+            ActivityCreated = true; //return here - workaround in cases the app tends to go OnCreate once it was created
 
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => Tracer.Trace($"{e.ExceptionObject}");
             TaskScheduler.UnobservedTaskException += (sender, e) => Tracer.Trace($"{e.Exception?.Message} {e.Exception?.StackTrace}");
@@ -153,13 +153,13 @@ namespace LooneyInvaders.Droid
             FacebookSdk.SdkInitialize(this);
     #pragma warning restore CS0618 // Type or member is obsolete
             FacebookSdk.FullyInitialize();
-            FacebookSdk.ClearLoggingBehaviors();
-            FacebookSdk.IsDebugEnabled = true;
-            FacebookSdk.MonitorEnabled = true;
-            FacebookSdk.IgnoreAppSwitchToLoggedOut = true;
-            FacebookSdk.LegacyTokenUpgradeSupported = true;
             AppEventsLogger.InitializeLib(this, FacebookSdk.ApplicationId);
+            FacebookSdk.SetLimitEventAndDataUsage(this, true);
             FacebookSdk.AutoLogAppEventsEnabled = true;
+            FacebookSdk.CodelessDebugLogEnabled = true;
+            FacebookSdk.HasCustomTabsPrefetching = false;
+            FacebookSdk.IgnoreAppSwitchToLoggedOut = false;
+            FacebookSdk.ClearLoggingBehaviors();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start("51b755ae-47b2-472a-b134-ea89837cad38", typeof(Analytics), typeof(Crashes));
             Crashes.SetEnabledAsync(true);
@@ -177,7 +177,7 @@ namespace LooneyInvaders.Droid
             Appodeal.SharedAdsInstanceAcrossActivities = true;
             //Appodeal.SetBannerAnimation(true);
             //Appodeal.SetSmartBanners(true);
-            Appodeal.SetAutoCache(requiredAdTypes, false);
+            Appodeal.SetAutoCache(requiredAdTypes, true);
 #if DEBUG
             Appodeal.SetTesting(true);
 #else
@@ -195,6 +195,7 @@ namespace LooneyInvaders.Droid
             GameDelegate.PermissionService = new Permissions.PermissionService(this);
             GameDelegate.DeviceInfoService = new DeviceInfo.DeviceInfoService(this);
             GameDelegate.OpenSettingsService = new PNS.OpenSettingsService(this);
+            GameDelegate.AlertService = new Alerts.AlertService(this);
             GameDelegate.FacebookService = new FacebookService(this);
             TrackTime();
             // remove navigation bar
@@ -291,6 +292,8 @@ namespace LooneyInvaders.Droid
             static void TrackTime() => GameDelegate.TrackTime();
         }
 
+        protected override void OnResume() => base.OnResume();
+
         protected override void OnPostResume()
         {
             base.OnPostResume();
@@ -302,6 +305,8 @@ namespace LooneyInvaders.Droid
 
             var mag = _sensorManager.GetDefaultSensor(SensorType.MagneticField);
             _sensorManager.RegisterListener(this, mag, SensorDelay.Game);
+
+            _ = LooneyInvaders.Services.FacebookLikesHelper.AddCreditsIfPageIsLiked();
         }
 
         protected override void OnPause()
@@ -394,8 +399,6 @@ namespace LooneyInvaders.Droid
             base.OnActivityResult(requestCode, resultCode, data);
         }
 
-        protected override void OnResume() => base.OnResume();
-
         protected override void OnDestroy()
         {
             if (_svc != null)
@@ -409,6 +412,8 @@ namespace LooneyInvaders.Droid
                 GameView.ViewCreated -= GameDelegate.LoadGame;
             }
             JavaThread.DefaultUncaughtExceptionHandler = null;
+
+            CleanWebCache();
 
             base.OnDestroy();
         }
@@ -438,9 +443,16 @@ namespace LooneyInvaders.Droid
             //https://stackoverflow.com/questions/6330200/how-to-quit-android-application-programmatically
             Debug.WriteLine("quitting game");
 
+            CleanWebCache();
             FinishAndRemoveTask();
             FinishAffinity();
             Process.KillProcess(Process.MyPid());
+        }
+
+        private void CleanWebCache()
+        {
+            Android.Webkit.CookieManager.Instance.RemoveSessionCookie();
+            Android.Webkit.WebStorage.Instance.DeleteAllData();
         }
     }
 }

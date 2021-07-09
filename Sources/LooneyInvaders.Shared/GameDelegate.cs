@@ -25,19 +25,14 @@ namespace LooneyInvaders.Shared
 
         public static event EventHandler OnBackButton;
 
-        public static void FireBackButtonPressed()
-        {
-            OnBackButton?.Invoke(null, EventArgs.Empty);
-        }
+        public static void FireBackButtonPressed() => OnBackButton?.Invoke(null, EventArgs.Empty);
 
-        public static void ClearOnBackButtonEvent()
-        {
-            OnBackButton = null;
-        }
+        public static void ClearOnBackButtonEvent() => OnBackButton = null;
 
         public static Services.Permissions.IPermissionService PermissionService;
         public static Services.DeviceInfo.IDeviceInfoService DeviceInfoService;
         public static Services.PNS.IOpenSettingsService OpenSettingsService;
+        public static Services.Alerts.IAlertService AlertService;
         public static IFacebookService FacebookService;
 
         public static bool IsBusyLayerProperty;

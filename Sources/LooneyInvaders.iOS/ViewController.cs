@@ -53,14 +53,13 @@ namespace LooneyInvaders.iOS
         {
             base.ViewDidLoad();
 
-            if (GameView == null)
-            {
-                return;
-            }
+            if (GameView == null) return;
+
             _motionManager = new CMMotionManager();
             _motionManager.StartDeviceMotionUpdates();
 
             GameDelegate.FacebookService = new FacebookService();
+            GameDelegate.AlertService = new Alerts.AlertService();
             GameDelegate.GetGyro = GetGyro;
             GameDelegate.UpdateGameView = UpdateGameViewState;
 

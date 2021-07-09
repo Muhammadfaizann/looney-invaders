@@ -6,6 +6,7 @@ using UIKit;
 using LooneyInvaders.Model;
 using LooneyInvaders.Model.Facebook;
 using LooneyInvaders.Services;
+using LooneyInvaders.iOS.Extensions;
 
 namespace LooneyInvaders.iOS.Services
 {
@@ -14,7 +15,8 @@ namespace LooneyInvaders.iOS.Services
         static readonly NSString FanCountNSString = new NSString("fan_count");
 
         readonly LoginManager _loginManager = new LoginManager();
-        readonly string[] _permissions = { @"public_profile", @"pages_manage_engagement" };
+        // it's required to pass FB review to use pages_read_engagement
+        readonly string[] _permissions = { @"public_profile", @"pages_read_engagement" /*@"pages_manage_engagement"*/ };
 
         public LoginState LoginState { get; set; }
 
@@ -22,15 +24,30 @@ namespace LooneyInvaders.iOS.Services
         private TaskCompletionSource<LoginResult> _loginCompletionSource;
         private TaskCompletionSource<int> _likesCompletionSource;
 
+        public event System.EventHandler OnResult;
+
+        public FacebookService()
+        {
+            _loginManager.DefaultAudience = DefaultAudience.Everyone;
+            _loginManager.AuthType = LoginAuthType.Reauthorize;
+        }
+
         public Task<LoginResult> Login()
         {
+            var current = this.GetCurrentViewController();
+            //_loginManager.ReauthorizeDataAccess(current, new LoginManagerLoginResultBlockHandler(LoginManagerLoginHandler));
             _loginCompletionSource = new TaskCompletionSource<LoginResult>();
-            _loginManager.LogIn(_permissions, GetCurrentViewController(), LoginManagerLoginHandler);
+            _loginManager.LogIn(_permissions, current, LoginManagerLoginHandler);
 
             return _loginCompletionSource.Task;
         }
 
-        public void Logout() => _loginManager.LogOut();
+        public void Logout()
+        {
+            _loginManager.LogOut();
+
+            OnResult = null;
+        }
 
         public Task<int> CountPageLikes(string pageId)
         {
@@ -41,20 +58,19 @@ namespace LooneyInvaders.iOS.Services
             return _likesCompletionSource.Task;
         }
 
-        public void OpenPage(string pageUrl)
-        {
-            UIApplication.SharedApplication.OpenUrl(new NSUrl(pageUrl));
-        }
+        public void OpenPage(string pageUrl) => UIApplication.SharedApplication.OpenUrl(new NSUrl(pageUrl));
 
         private void LoginManagerLoginHandler(LoginManagerLoginResult result, NSError error)
         {
-            if (result.IsCancelled)
+            if (result != null && result.IsCancelled)
             {
                 _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Canceled });
+                OnResult?.Invoke(this, System.EventArgs.Empty);
             }
             else if (error != null)
             {
                 _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Failed, ErrorString = error.LocalizedDescription });
+                OnResult?.Invoke(this, System.EventArgs.Empty);
             }
             else
             {
@@ -75,26 +91,18 @@ namespace LooneyInvaders.iOS.Services
             if (error != null)
             {
                 _loginCompletionSource.TrySetResult(new LoginResult { LoginState = LoginState.Failed, ErrorString = error.LocalizedDescription });
+                _likesCompletionSource.TrySetResult(-1);
             }
             else
             {
                 var likes = result.ValueForKey(FanCountNSString);
-                if (int.TryParse(likes.Description, out var likeCount))
+                if (int.TryParse(likes.Description, out var likesCount))
                 {
-                    _likesCompletionSource.TrySetResult(likeCount);
+                    _likesCompletionSource.TrySetResult(likesCount);
                 }
+                else _likesCompletionSource.TrySetResult(-1);
             }
-        }
-        
-        private static UIViewController GetCurrentViewController()
-        {
-            var viewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-            while (viewController.PresentedViewController != null)
-            {
-                viewController = viewController.PresentedViewController;
-            }
-
-            return viewController;
+            OnResult?.Invoke(this, System.EventArgs.Empty);
         }
     }
 }

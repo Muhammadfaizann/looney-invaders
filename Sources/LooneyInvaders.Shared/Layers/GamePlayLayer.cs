@@ -1808,12 +1808,12 @@ namespace LooneyInvaders.Layers
 
             if (Test)
             {
-                AdMobManager.HideBanner();
+                AdManager.HideBanner();
                 this.TransitionToLayerCartoonStyle(new WeaponUpgradeScreenLayer((int)SelectedEnemyForPickerScreens, (int)SelectedWeapon, CaliberSizeSelected, FireSpeedSelected, MagazineSizeSelected, LivesSelected));
             }
             else
             {
-                AdMobManager.HideBanner();
+                AdManager.HideBanner();
                 this.TransitionToLayerCartoonStyle(new MainScreenLayer());
             }   
             */

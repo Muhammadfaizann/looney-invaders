@@ -105,6 +105,7 @@
     <CodesignEntitlements />
     <CodesignResourceRules />
     <CodesignExtraArgs />
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />
@@ -332,6 +333,20 @@
     <Compile Include="ViewController.Sharing.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-button-tapped.png">
+      <Link>Content\Images\Hd\UI\facebook-login-button-tapped.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-button-untapped.png">
+      <Link>Content\Images\Hd\UI\facebook-login-button-untapped.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\we-need-to-wait-some-time-button.png">
+      <Link>Content\Images\Hd\UI\we-need-to-wait-some-time-button.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\Content\Images\Hd\UI\victory-multiply-notification-cancel-small-button-untapped.png">
+      <Link>Content\Images\Hd\UI\victory-multiply-notification-cancel-small-button-untapped.png</Link>
+    </BundleResource>
+    <Compile Include="Services\Alerts\AlertService.cs" />
+    <Compile Include="Extensions\CommonExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Content\Fonts\AktivGroteskBold-12.fnt">
@@ -5226,9 +5241,6 @@
     <BundleResource Include="..\Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png">
       <Link>Content\Images\Hd\UI\OK-I-got-it-smaller-button-untapped.png</Link>
     </BundleResource>
-    <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-button.png">
-      <Link>Content\Images\Hd\UI\facebook-login-button.png</Link>
-    </BundleResource>
     <BundleResource Include="..\Content\Images\Hd\UI\facebook-login-background.png">
       <Link>Content\Images\Hd\UI\facebook-login-background.png</Link>
     </BundleResource>
@@ -5245,26 +5257,16 @@
   <ItemGroup>
     <Folder Include="Content\Images\Ld\" />
     <Folder Include="Services\Ads\" />
+    <Folder Include="Services\Alerts\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Facebook.CoreKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Xamarin.Facebook.CoreKit.iOS.7.1.1\lib\xamarinios10\Facebook.CoreKit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Facebook.LoginKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Xamarin.Facebook.LoginKit.iOS.7.1.1\lib\xamarinios10\Facebook.LoginKit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Facebook.MarketingKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Xamarin.Facebook.MarketingKit.iOS.5.11.1\lib\xamarinios10\Facebook.MarketingKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Facebook.PlacesKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Xamarin.Facebook.PlacesKit.iOS.5.12.0\lib\xamarinios10\Facebook.PlacesKit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Facebook.ShareKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Xamarin.Facebook.ShareKit.iOS.7.1.1\lib\xamarinios10\Facebook.ShareKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -5300,7 +5302,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -5330,6 +5331,18 @@
     </Reference>
     <Reference Include="AppodealXamariniOS">
       <HintPath>..\..\References\iOS\AppodealXamariniOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.CoreKit">
+      <HintPath>..\packages\Xamarin.Facebook.CoreKit.iOS.9.0.1.5\lib\xamarinios10\Facebook.CoreKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.LoginKit">
+      <HintPath>..\packages\Xamarin.Facebook.LoginKit.iOS.9.0.1.5\lib\xamarinios10\Facebook.LoginKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.ShareKit">
+      <HintPath>..\packages\Xamarin.Facebook.ShareKit.iOS.9.0.1.5\lib\xamarinios10\Facebook.ShareKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook.GamingServicesKit">
+      <HintPath>..\packages\Xamarin.Facebook.GamingServicesKit.iOS.9.0.1.5\lib\xamarinios10\Xamarin.Facebook.GamingServicesKit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,13 @@ namespace LooneyInvaders.iOS
             // If not required for your application you can safely delete this method
             Appodeal.SetFramework(APDFramework.Xamarin, ObjCRuntime.Constants.Version);  //this is required method, just copy-paste it before init
             Appodeal.InitializeWithApiKey(AppodealApiKey, RequiredAdTypes, false);
+
+            Facebook.CoreKit.ApplicationDelegate.InitializeSdk(null);
+            Facebook.CoreKit.Settings.LimitEventAndDataUsage = true;
+            Facebook.CoreKit.Settings.AutoLogAppEventsEnabled = true;
+            Facebook.CoreKit.Settings.AdvertiserIdCollectionEnabled = true;
+            Facebook.CoreKit.Settings.GraphErrorRecoveryEnabled = true;
+            Facebook.CoreKit.Settings.EnableLoggingBehavior(LoggingBehavior.AccessTokens);
             Profile.EnableUpdatesOnAccessTokenChange(true);
 
             CrashAnalyticsAppInit();

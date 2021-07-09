@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -322,10 +322,10 @@ namespace LooneyInvaders.Layers
             {
                 Visible = false
             };
-            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
-            AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.ClearInterstitialEvents(AdManager_OnInterstitialAdOpened, AdManager_OnInterstitialAdClosed, AdManager_OnInterstitialAdFailedToLoad);
+            AdManager.OnInterstitialAdOpened += AdManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed += AdManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad += AdManager_OnInterstitialAdFailedToLoad;
 
             _score = Convert.ToInt32(Math.Pow(1f / Convert.ToDouble(Time), 0.9f) * Math.Pow(Convert.ToDouble(Accuracy), Convert.ToDouble(Accuracy) / 500f) * 25000);
             if (_score > GamePlayLayer.BestScore)
@@ -563,11 +563,11 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(_ => ShowScore(3), 0.2f);
         }
 
-        private void AdMobManager_OnInterstitialAdOpened(object sender, EventArgs e) { }
+        private void AdManager_OnInterstitialAdOpened(object sender, EventArgs e) { }
 
-        private void AdMobManager_OnInterstitialAdClosed(object sender, EventArgs e)
+        private void AdManager_OnInterstitialAdClosed(object sender, EventArgs e)
         {
-            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
+            AdManager.ClearInterstitialEvents(AdManager_OnInterstitialAdOpened, AdManager_OnInterstitialAdClosed, AdManager_OnInterstitialAdFailedToLoad);
             Player.Instance.Credits += _score * WinsInSuccession - _score;
             GameEnvironment.PlaySoundEffect(SoundEffect.RewardNotification);
             _multiplierNode.RemoveAllChildren();
@@ -579,9 +579,9 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(_ => ShowScore(4), 0.5f);
         }
 
-        private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
+        private void AdManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
-            AdManager.ClearInterstitialEvents(AdMobManager_OnInterstitialAdOpened, AdMobManager_OnInterstitialAdClosed, AdMobManager_OnInterstitialAdFailedToLoad);
+            AdManager.ClearInterstitialEvents(AdManager_OnInterstitialAdOpened, AdManager_OnInterstitialAdClosed, AdManager_OnInterstitialAdFailedToLoad);
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
             //AdManager.ShowBannerBottom();
 
@@ -890,9 +890,9 @@ namespace LooneyInvaders.Layers
 
         private async void MainMenu_OnClick(object sender, EventArgs e)
         {
-            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdManager_OnInterstitialAdFailedToLoad;
             AdManager.HideBanner();
             CCAudioEngine.SharedEngine.StopAllEffects();
 
@@ -1048,9 +1048,9 @@ namespace LooneyInvaders.Layers
 
         private async Task NextLevel()
         {
-            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdManager_OnInterstitialAdFailedToLoad;
             CCAudioEngine.SharedEngine.StopAllEffects();
 
             if (_nextBattleGround == Battlegrounds.Moon)

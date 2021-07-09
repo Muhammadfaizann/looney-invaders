@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Timers;
 using System.Threading.Tasks;
 using CocosSharp;
 using LooneyInvaders.Model;
@@ -38,10 +39,11 @@ namespace LooneyInvaders.Layers
         private CCSprite _s2;
         private bool _adWasFailed;
         private CCSpriteButton _okGotItButton;
+        private CCSpriteButton _facebookLoginButton;
         private CCEventListenerTouchOneByOne _okGotItEventListener;
 
         private readonly CCNodeExt _facebookLoginBackground;
-        private readonly CCSpriteButton _facebookLoginButton;
+        private readonly CCSpriteButton _closeFacebookLoginButton;
         private readonly CCEventListenerTouchOneByOne _facebookLoginBackgroundTouchListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
@@ -51,6 +53,7 @@ namespace LooneyInvaders.Layers
         private int _noAdsImagePositionY = 110;
         private int _adsNotAvailableImagePositionX = 170;
         private int _adsNotAvailableImagePositionY = 240;
+        private int _facebookLoginWaitMaxTimeMS = 10000;
 
         public GetMoreCreditsScreenLayer() : this(0, -1, -1, -1, -1, -1, -1) { }
 
@@ -98,7 +101,10 @@ namespace LooneyInvaders.Layers
 
             _tenTimesText = AddImage(437, 83, "UI/Get-more-credits-watch-advertisement.png");
 
-            _facebookLoginBackgroundTouchListener = new CCEventListenerTouchOneByOne
+            GameDelegate.FacebookService.OnResult -= (o, e) => OnFacebookBackgroundResultCall();
+            GameDelegate.FacebookService.OnResult += (o, e) => OnFacebookBackgroundResultCall();
+
+            _facebookLoginBackgroundTouchListener ??= new CCEventListenerTouchOneByOne
             {
                 OnTouchBegan = (touch, @event) =>
                 {
@@ -106,23 +112,15 @@ namespace LooneyInvaders.Layers
                     {   //here we touched the FB login button
                         _facebookLoginButton?.FireOnClick();
                     }
-                    ScheduleOnce(_ =>
-                    {
-                        _facebookLoginBackground.Visible = false;
-                        _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
-
-                        RemoveEventListener(_facebookLoginBackgroundTouchListener);
-                        ResumeListeners();
-                    }, 0.4f);
+                    else OnFacebookBackgroundResultCall();
 
                     return false;
                 }
             };
             _facebookLoginBackground = new CCNodeExt() { Opacity = 65, IsOpacityCascaded = false };
             _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
-            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button", "UI/facebook-login-button", 1400);
-            _facebookLoginButton.OnClick += OnFacebookLogin;
             _facebookLoginBackground.Visible = false;
+            _closeFacebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 + 255, (int)GameDelegate.Layer.ContentSize.Height / 2 + 40, "UI/victory-multiply-notification-cancel-small-button-untapped.png", "UI/victory-multiply-notification-cancel-small-button-untapped.png", 1450);
             AddChild(_facebookLoginBackground, 1300);
 
             // disable watch ad button
@@ -183,9 +181,9 @@ namespace LooneyInvaders.Layers
             RefreshPlayerCreditsLabel();
 
             PurchaseManager.ClearEvents();
-            AdManager.OnInterstitialAdOpened += AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed += AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad += AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened += AdManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed += AdManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad += AdManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
             PurchaseManager.OnPurchaseFinished += PurchaseManager_OnPurchaseFinished;
 
@@ -195,10 +193,19 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void RefreshPlayerCreditsLabel()
+        private void OnFacebookBackgroundResultCall(Timer timer = null) => ScheduleOnce(_ =>
         {
-            ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
-        }
+            _facebookLoginBackground.Visible = false;
+            _imgPlayerCreditsLabel.ToList().ForEach(l => l.Visible = true);
+
+            RemoveEventListener(_facebookLoginBackgroundTouchListener);
+            ResumeListeners();
+
+            timer?.Stop();
+            timer?.Dispose();
+        }, 0.1f);
+
+        private void RefreshPlayerCreditsLabel() => ScheduleOnce(RefreshPlayerCreditsLabel, 0.01f);
 
         private void RefreshPlayerCreditsLabel(float dt = 0f)
         {
@@ -212,36 +219,52 @@ namespace LooneyInvaders.Layers
             _imgPlayerCreditsLabel = AddImageLabel(_imgPlayerCreditsXCoord, 0, Player.Instance.Credits.ToString(), 77);
         }
 
-        private void Btn4000_OnClick(float period)
-        {
-            _facebookLoginBackground.Visible = true;
-
-            PauseListeners();
-            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
-        }
-
         private async void OnFacebookLogin(object sender, EventArgs eventArgs)
         {
             if (!NetworkConnectionManager.IsInternetConnectionAvailable())
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
+
                 return;
             }
 
             try
             {
                 var loginResponse = await GameDelegate.FacebookService.Login();
+
+                _ = Task.Run (() => ScheduleOnce(_ =>
+                {   // change login FB button image to "wait connection"
+                    _facebookLoginButton.RemoveFromParent();
+                    _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/we-need-to-wait-some-time-button", "UI/we-need-to-wait-some-time-button", 1400);
+                    _closeFacebookLoginButton.Visible = false;
+                }, 0f));
+
                 if (loginResponse.LoginState == LoginState.Success)
                 {
-                    Player.Instance.CachedFacebookLikesCount = await GameDelegate.FacebookService.CountPageLikes(FacebookLikesHelper.PageId); ;
-                    FacebookLikesHelper.DisableCreditButtonAction = FacebookLikesHelper.DisableCreditButtonAction ?? Disable4000Button;
-                    GameDelegate.FacebookService.OpenPage(FacebookLikesHelper.PageUrl);
+                    var timer = new Timer(_facebookLoginWaitMaxTimeMS);
+                    timer.Elapsed += (o, e) => OnFacebookBackgroundResultCall(timer);
+                    timer.Start();
+
+                    Player.Instance.CachedFacebookLikesCount = await GameDelegate.FacebookService.CountPageLikes(FacebookLikesHelper.PageId);
+                    FacebookLikesHelper.DisableCreditButtonAction ??= Disable4000Button;
+
+                    if (Player.Instance.CachedFacebookLikesCount >= 0)
+                    {
+                        GameDelegate.FacebookService.OpenPage(FacebookLikesHelper.PageUrl);
+                    }
+                    else
+                    {
+                        await Task.Delay(500);
+                        GameDelegate.AlertService.ShowAlert("Get troubles with response from FB server");
+                    }
+                }
+                else
+                {
+                    await Task.Delay(500);
+                    GameDelegate.AlertService.ShowAlert("Unseccessful login attempt");
                 }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.StackTrace); }
         }
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
@@ -249,9 +272,9 @@ namespace LooneyInvaders.Layers
             GameDelegate.ClearOnBackButtonEvent();
             Unschedule(RefreshBtn2000);
 
-            AdManager.OnInterstitialAdOpened -= AdMobManager_OnInterstitialAdOpened;
-            AdManager.OnInterstitialAdClosed -= AdMobManager_OnInterstitialAdClosed;
-            AdManager.OnInterstitialAdFailedToLoad -= AdMobManager_OnInterstitialAdFailedToLoad;
+            AdManager.OnInterstitialAdOpened -= AdManager_OnInterstitialAdOpened;
+            AdManager.OnInterstitialAdClosed -= AdManager_OnInterstitialAdClosed;
+            AdManager.OnInterstitialAdFailedToLoad -= AdManager_OnInterstitialAdFailedToLoad;
             PurchaseManager.OnPurchaseFinished -= PurchaseManager_OnPurchaseFinished;
             AdManager.ClearInterstitialEvents();
 
@@ -268,6 +291,18 @@ namespace LooneyInvaders.Layers
             {
                 TransitionToLayer(new WeaponUpgradeScreenLayer(_selectedEnemy, _selectedWeapon, _caliberSizeSelected, _firespeedSelected, _magazineSizeSelected, _livesSelected));
             }
+        }
+
+        private void Btn4000_OnClick(float period)
+        {
+            _facebookLoginButton?.RemoveFromParent();
+            _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button-tapped", "UI/ffacebook-login-button-untapped", 1400);
+            _facebookLoginButton.OnClick -= OnFacebookLogin;
+            _facebookLoginButton.OnClick += OnFacebookLogin;
+            _closeFacebookLoginButton.Visible = _facebookLoginBackground.Visible = true;
+
+            PauseListeners();
+            AddEventListener(_facebookLoginBackgroundTouchListener, _facebookLoginBackground);
         }
 
         private void Btn2000_OnClick(float period)
@@ -376,9 +411,9 @@ namespace LooneyInvaders.Layers
             }
         }
 
-        private void AdMobManager_OnInterstitialAdOpened(object s, EventArgs e) => InterstitialOpened();
+        private void AdManager_OnInterstitialAdOpened(object s, EventArgs e) => InterstitialOpened();
 
-        private void AdMobManager_OnInterstitialAdClosed(object s, EventArgs e)
+        private void AdManager_OnInterstitialAdClosed(object s, EventArgs e)
         {
             var lastAdWatchTime = Player.Instance.LastAdWatchTime;
             var lastAdWatchDayCount = Player.Instance.LastAdWatchDayCount;
@@ -405,7 +440,7 @@ namespace LooneyInvaders.Layers
             ScheduleOnce(_ => RefreshPlayerCreditsLabel(), 0.05f);
         }
 
-        private void AdMobManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
+        private void AdManager_OnInterstitialAdFailedToLoad(object sender, EventArgs e)
         {
             ScheduleOnce(_ => ShowAdNotification(_adsNotAvailableNotificationImageName, true, _adsNotAvailableImagePositionX, _adsNotAvailableImagePositionY), 0f);
             _adWasFailed = true;
@@ -512,11 +547,20 @@ namespace LooneyInvaders.Layers
             if (_okGotItButton != null)
             {
                 _okGotItButton.Visible = false;
+
                 RemoveEventListener(_okGotItEventListener);
+
                 _okGotItButton.OnClick -= OnHideAdNotification;
             }
             
             ResumeListeners();
+        }
+
+        public override void WillExit()
+        {
+            base.WillExit();
+
+            GameDelegate.FacebookService.Logout();
         }
     }
 }

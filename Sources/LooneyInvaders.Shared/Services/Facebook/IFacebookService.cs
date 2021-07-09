@@ -6,6 +6,7 @@ namespace LooneyInvaders.Services
 {
     public interface IFacebookService
     {
+        event System.EventHandler OnResult;
         LoginState LoginState { get; set; }
         Task<LoginResult> Login();
         void Logout();
