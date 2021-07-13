@@ -19,7 +19,7 @@ namespace LooneyInvaders.Droid.Services.Facebook
 
         private readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
         // it's required to pass FB review to use pages_read_engagement
-        private readonly string[] _permissions = { "public_profile", "pages_read_engagement"/*, "email" */};
+        private readonly string[] _permissions = { "public_profile"/*, "pages_read_engagement"*/};
         private readonly Activity _activity;
 
         private LoginResult _loginResult;

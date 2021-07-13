@@ -16,7 +16,7 @@ namespace LooneyInvaders.iOS.Services
 
         readonly LoginManager _loginManager = new LoginManager();
         // it's required to pass FB review to use pages_read_engagement
-        readonly string[] _permissions = { @"public_profile", @"pages_read_engagement" /*@"pages_manage_engagement"*/ };
+        readonly string[] _permissions = { @"public_profile"/*, @"pages_read_engagement"*/ };
 
         public LoginState LoginState { get; set; }
 
