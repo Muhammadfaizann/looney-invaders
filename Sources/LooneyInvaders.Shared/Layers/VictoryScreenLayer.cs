@@ -1018,6 +1018,7 @@ namespace LooneyInvaders.Layers
             SocialNetworkShareManager.ShareLayer("facebook", this);
 
             _scoreNode.Visible = true;
+            _sl.Visible = false;
             RemoveChild(_sl);
 
             Player.Instance.Credits += 5000;

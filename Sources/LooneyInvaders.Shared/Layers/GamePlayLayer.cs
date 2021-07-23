@@ -881,10 +881,10 @@ namespace LooneyInvaders.Layers
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-afghanistan-text.png", 2);
                     break;
                 case Battlegrounds.Croatia:
-                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-denmark-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-croatia-text.png", 2);
                     break;
                 case Battlegrounds.Hague:
-                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-england-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-the-hague-text.png", 2);
                     break;
                 case Battlegrounds.Estonia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-estonia-text.png", 2);
@@ -893,7 +893,7 @@ namespace LooneyInvaders.Layers
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-finland-text.png", 2);
                     break;
                 case Battlegrounds.Kosovo:
-                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-france-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-kosovo-text.png", 2);
                     break;
                 case Battlegrounds.Georgia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-georgia-text.png", 2);
@@ -914,10 +914,10 @@ namespace LooneyInvaders.Layers
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-libya-text.png", 2);
                     break;
                 case Battlegrounds.Bosnia:
-                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-norway-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-bosnia-and-herzegovina-text.png", 2);
                     break;
                 case Battlegrounds.Slovenia:
-                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-poland-text.png", 2);
+                    AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-slovenia-text.png", 2);
                     break;
                 case Battlegrounds.Russia:
                     AddImageCentered(1136 / 2, 150, "UI/Choose-the-battleground-in-russia-text.png", 2);

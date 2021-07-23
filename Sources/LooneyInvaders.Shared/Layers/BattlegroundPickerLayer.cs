@@ -162,7 +162,7 @@ namespace LooneyInvaders.Layers
             FillBattlegrounds();
             SetBattlegroundName();
 
-            if (_selectedEnemy == (int)Enemies.Milo) AddImage(85, 140, "UI/Choose-the-battleground-Slobodan Milosevic.png", 0);
+            if (_selectedEnemy == (int)Enemies.Milo) AddImage(85, 140, "UI/Choose-the-battleground-Slobodan-Milosevic.png", 0);
             else if (_selectedEnemy == (int)Enemies.Bush) AddImage(85, 140, "UI/Choose-the-battleground_George_Bush.png", 0);
             else if (_selectedEnemy == (int)Enemies.Putin) AddImage(85, 140, "UI/Choose-the-battleground-Vladimir-Putin.png", 2);
             else if (_selectedEnemy == (int)Enemies.Kim) AddImage(85, 140, "UI/Choose-the-battleground-Kim_Jong-un.png", 0);
