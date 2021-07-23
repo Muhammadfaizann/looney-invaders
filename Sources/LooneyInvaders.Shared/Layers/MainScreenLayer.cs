@@ -288,7 +288,8 @@ namespace LooneyInvaders.Layers
                 else await ForceLeaderboardManagerRefreshAsync();
             }
 
-            _sessionCount = AddLabel(10, 10, Settings.Instance.GetSessionsCount().ToString(),"Fonts/AktivGroteskBold", 16f);
+            var ssCount = (Player.Instance.SessionsCountBeforeFirstVictory > 0 ? Settings.Instance.GetSessionsCount() - Player.Instance.SessionsCountBeforeFirstVictory : 0) + 1;
+            _sessionCount = AddLabel(10, 10, ssCount.ToString(),"Fonts/AktivGroteskBold", 16f);
         }
 
         private void CallAnimateScoresBackground(float parameter)

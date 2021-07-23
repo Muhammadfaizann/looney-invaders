@@ -61,6 +61,7 @@ namespace LooneyInvaders.Layers
                 _loadingViewPlaceholder = new CCSprite();
 
                 _cartoonBackground = AddImage(0, 0, "UI/screen-transition_stage_6.png");
+                _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", -200);
             }
 
             switch (SelectedBattleground)
@@ -126,8 +127,6 @@ namespace LooneyInvaders.Layers
                     SetBackground("UI/Loss scenes/vietnam-lost-war.jpg");
                     break;
                 case Battlegrounds.Moon:
-                    _youAreDefeated = AddImage(0, 380, "UI/Loss scenes/loss-screen-you-are-defeated-text.png", 3);
-                    _youAreDefeated.Opacity = 0;
                     SetBackground("UI/Loss scenes/Moon-lost-war.jpg");
                     break;
             }
@@ -214,7 +213,6 @@ namespace LooneyInvaders.Layers
 
                     ScheduleOnce(_ => AnimateFadeIn(() =>
                     {
-                        //_youAreDefeated.Visible = true;
                         _cartoonBackground.Visible = false;
 
                         RemoveChild(_cartoonBackground);

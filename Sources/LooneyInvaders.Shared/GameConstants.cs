@@ -10,7 +10,7 @@
 
         public static class PlayerSettings
         {
-            public static int[] NameChangingSessionNumbers = { 3, 5, 10 };
+            public static int[] NameChangingSessionNumbers = { 1, 3, 5, 10 };
         }
 
         public static class App42

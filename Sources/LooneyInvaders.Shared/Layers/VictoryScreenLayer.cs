@@ -64,7 +64,12 @@ namespace LooneyInvaders.Layers
             _nextEnemy = selectedEnemy;
 
             Player.Instance.WinCount++;
-            
+
+            if (Player.Instance.WinCount == 1)
+            {
+                Player.Instance.SessionsCountBeforeFirstVictory = Settings.Instance.GetSessionsCount();
+            }
+
             switch (SelectedBattleground)
             {
                 case Battlegrounds.Afghanistan:

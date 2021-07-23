@@ -337,10 +337,9 @@ namespace LooneyInvaders.Model
 
         public bool NeedToShowChangePlayerNamePopup()
         {
-            var count = GetSessionsCount();
+            var count = (Player.Instance.SessionsCountBeforeFirstVictory > 0 ? GetSessionsCount() - Player.Instance.SessionsCountBeforeFirstVictory : 0) + 1;
 
-            if ((!Player.Instance.NameChanged && GameConstants.PlayerSettings.NameChangingSessionNumbers.Any(n => count == n)) ||
-                (!Player.Instance.NameChanged && Player.Instance.WinCount > 0 && !Player.Instance.IsChangeNamePopupShown))
+            if (!Player.Instance.NameChanged && Player.Instance.WinCount > 0 && GameConstants.PlayerSettings.NameChangingSessionNumbers.Any(n => count == n))
             {
                 return Player.Instance.IsChangeNamePopupShown = true;
             }

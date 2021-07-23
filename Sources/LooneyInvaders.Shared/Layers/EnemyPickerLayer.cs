@@ -195,19 +195,13 @@ namespace LooneyInvaders.Layers
             else
             {
                 _isHoldAnimations = false;
-                this.ScheduleOnce(DelayedTalk, 1.0f); // Commented by ----------- Prabhjot -------------  uncommented by Adrijan
+                this.ScheduleOnce(DelayedTalk, 1.0f);
             }
         }
 
         private void ShowGameTip()
         {
             _isHoldAnimations = true;
-
-            //------------- Prabhjot ---------------//
-
-            //_btnBack.Enabled = false;
-            //_btnForward.Enabled = false;
-
             _isShowGameTipViewLoaded = true;
 
             _btnBack = AddButton(2, 578, "UI/back-button-tapped.png", "UI/back-button-untapped.png", 500, ButtonType.Back);
@@ -240,12 +234,8 @@ namespace LooneyInvaders.Layers
             _btnGameTipCheckMark.Enabled = false;
             _imgGameTipCheckMarkLabel.Visible = false;
 
-            //_btnBack.Enabled = true;
-            //_btnForward.Enabled = true;
             _isHoldAnimations = false;
 
-
-            //------------- Prabhjot ---------------//
             _btnBack = AddButton(2, 578, "UI/back-button-untapped.png", "UI/back-button-tapped.png", 500, ButtonType.Back);
             _btnForward = AddButton(930, 578, "UI/forward-button-untapped.png", "UI/forward-button-tapped.png", 500);
             _isShowGameTipViewLoaded = false;
@@ -261,7 +251,6 @@ namespace LooneyInvaders.Layers
 
         private async void BtnBack_OnClick(object sender, EventArgs e)
         {
-            //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
@@ -279,7 +268,6 @@ namespace LooneyInvaders.Layers
 
         private void BtnForward_OnClick(object sender, EventArgs e)
         {
-            //------------- Prabhjot ---------------//
             if (_isShowGameTipViewLoaded)
             {
                 GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapCannotTap);
@@ -291,6 +279,7 @@ namespace LooneyInvaders.Layers
             
             _isHoldAnimations = true;
             UnscheduleAll();
+            //Hack: uncomment to sudden extinction level
             //_selectedEnemy = (int)Enemies.Aliens;
             TransitionToLayer(new WeaponPickerLayer(_selectedEnemy));
         }

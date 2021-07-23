@@ -338,9 +338,8 @@ namespace LooneyInvaders.Layers
             }
 
             GameEnvironment.PlaySoundEffect(SoundEffect.MenuTapForward);
-            UserManager.ChangeUsername(inputName);
+            UserManager.ChangeUsername(inputName); //automatically update Player.Instance.NameChanged
             _lblInputLabel.Text = "Player name changed";
-            Player.Instance.IsNameChanged = true;
 
             LeaderboardManager.BestScoreProScore = 0;
             LeaderboardManager.BestScoreProLevelsCompleted = 0;

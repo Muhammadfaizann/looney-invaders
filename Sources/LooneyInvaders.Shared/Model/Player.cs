@@ -59,12 +59,6 @@ namespace LooneyInvaders.Model
             get => CrossSettings.Current.GetValueOrDefault("Hakkeroitu", false);
             set => CrossSettings.Current.AddOrUpdateValue("Hakkeroitu", value);
         }
-        
-        public bool IsNameChanged
-        {
-            get => CrossSettings.Current.GetValueOrDefault(nameof(IsNameChanged), false);
-            set => CrossSettings.Current.AddOrUpdateValue(nameof(IsNameChanged), value);
-        }
 
         public DateTime GetFixedDate(DateTime value)
         {
@@ -105,6 +99,12 @@ namespace LooneyInvaders.Model
         {
             get => CrossSettings.Current.GetValueOrDefault("FacebookLikeUsed", false);
             set => CrossSettings.Current.AddOrUpdateValue("FacebookLikeUsed", value);
+        }
+
+        public int SessionsCountBeforeFirstVictory
+        {
+            get => CrossSettings.Current.GetValueOrDefault("sessionscountfirstvictory", 0);
+            set => CrossSettings.Current.AddOrUpdateValue("sessionscountfirstvictory", value);
         }
 
         public bool GetWeapon(Weapons weapon)
