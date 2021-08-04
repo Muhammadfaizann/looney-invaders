@@ -40,10 +40,10 @@ namespace LooneyInvaders.Layers
         private bool _adWasFailed;
         private CCSpriteButton _okGotItButton;
         private CCSpriteButton _facebookLoginButton;
+        private CCSpriteButton _closeFacebookLoginButton;
         private CCEventListenerTouchOneByOne _okGotItEventListener;
 
         private readonly CCNodeExt _facebookLoginBackground;
-        private readonly CCSpriteButton _closeFacebookLoginButton;
         private readonly CCEventListenerTouchOneByOne _facebookLoginBackgroundTouchListener;
 
         private CustomCancellationTokenSource _notificationTokenSource;
@@ -120,7 +120,6 @@ namespace LooneyInvaders.Layers
             _facebookLoginBackground = new CCNodeExt() { Opacity = 65, IsOpacityCascaded = false };
             _facebookLoginBackground.AddImage(0, 0, "UI/facebook-login-background.png");
             _facebookLoginBackground.Visible = false;
-            _closeFacebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 + 255, (int)GameDelegate.Layer.ContentSize.Height / 2 + 40, "UI/victory-multiply-notification-cancel-small-button-untapped.png", "UI/victory-multiply-notification-cancel-small-button-untapped.png", 1450);
             AddChild(_facebookLoginBackground, 1300);
 
             // disable watch ad button
@@ -297,6 +296,7 @@ namespace LooneyInvaders.Layers
         {
             _facebookLoginButton?.RemoveFromParent();
             _facebookLoginButton = _facebookLoginBackground.AddButton((int)GameDelegate.Layer.ContentSize.Width / 2 - 270, (int)GameDelegate.Layer.ContentSize.Height / 2 - 45, "UI/facebook-login-button-tapped", "UI/ffacebook-login-button-untapped", 1400);
+            _closeFacebookLoginButton = _facebookLoginBackground.AddButton((int)_facebookLoginButton.BoundingBoxTransformedToWorld.Right().X - 40, (int)_facebookLoginButton.BoundingBoxTransformedToWorld.Top().Y - 40, "UI/victory-multiply-notification-cancel-small-button-untapped.png", "UI/victory-multiply-notification-cancel-small-button-untapped.png", 1450);
             _facebookLoginButton.OnClick -= OnFacebookLogin;
             _facebookLoginButton.OnClick += OnFacebookLogin;
             _closeFacebookLoginButton.Visible = _facebookLoginBackground.Visible = true;

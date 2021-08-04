@@ -7,9 +7,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.sinremorse.looneyinvaders</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.90</string>
+	<string>1.94</string>
 	<key>CFBundleVersion</key>
-	<string>1.90</string>
+	<string>1.94</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -97,7 +97,9 @@
 	<key>FacebookAppID</key>
 	<string>237675254510489</string>
 	<key>FacebookDisplayName</key>
-	<string>LI game app like connection</string>
+	<string>Looney Invaders game</string>
+	<key>CFBundleExecutable</key>
+	<string>Looney Invaders</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

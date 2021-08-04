@@ -42,6 +42,7 @@
     <MtouchArch>i386</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <MtouchLink>None</MtouchLink>
+    <MtouchSdkVersion>14.4</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,8 +75,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer: Teemu Ruotsalainen (WWY3H8269W)</CodesignKey>
-    <CodesignProvision>LIProvisionsFile</CodesignProvision>
+    <CodesignKey>Apple Distribution: SIN &amp; REMORSE Oy (37LBDCY5KN)</CodesignKey>
+    <CodesignProvision>Apple Distribution Looney Invaders</CodesignProvision>
     <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <MtouchLink>Full</MtouchLink>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -5344,51 +5345,17 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-60%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-72.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-72%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-50.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-50%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-40.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-40%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-167.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-1024.png">
-      <Visible>false</Visible>
-    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_58px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_80px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_120px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_29px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_58px-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_40px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_80px-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_76px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_152px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_167px.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\app_icon_1024px.png" />
   </ItemGroup>
   <Import Project="..\LooneyInvaders.Shared\EmptyProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
