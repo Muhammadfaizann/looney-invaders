@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AppodealXamariniOS;
-using UIKit;
+using LooneyInvaders.iOS.Extensions;
 
 namespace LooneyInvaders.iOS.Services.Ads
 {
@@ -11,17 +11,18 @@ namespace LooneyInvaders.iOS.Services.Ads
             Interstitial = AppodealShowStyle.Interstitial,
             BannerTop = AppodealShowStyle.BannerTop,
             Banner = AppodealShowStyle.BannerBottom,
-            Rewarded = AppodealAdType.RewardedVideo
+            Rewarded = AppodealShowStyle.RewardedVideo
         }
 
         public static int LoadingPauseMilliseconds { get; set; }
 
         public static async Task LoadAsync(this AdType type, bool show = true)
         {
-            var ad = (AppodealShowStyle)type;
+            var ad = (AppodealShowStyle)type.To<AppodealShowStyle>();
             if (!Appodeal.IsReadyForShowWithStyle(ad))
             {
-                Appodeal.CacheAd(type.ToAppodealType());
+                var toCache = (AppodealAdType)type.To<AppodealAdType>();
+                Appodeal.CacheAd(toCache);
 
                 if (show)
                 {
@@ -31,23 +32,28 @@ namespace LooneyInvaders.iOS.Services.Ads
 
             if (show)
             {
-                if (UIApplication.SharedApplication.Windows[0]?.RootViewController is ViewController root)
-                {
-                    Appodeal.ShowAd(ad, root);
-                }
+                var root = ad.GetCurrentViewController();
+                Appodeal.ShowAd(ad, root);
             }
         }
 
-        private static AppodealAdType ToAppodealType(this AdType type)
+        private static System.Enum To<T>(this AdType type) where T : System.Enum
         {
-            switch (type)
+            if (typeof (T) == typeof(AppodealAdType))
             {
-                case AdType.Banner:
-                case AdType.BannerTop: return AppodealAdType.Banner;
-                case AdType.Interstitial: return AppodealAdType.Interstitial;
-                case AdType.Rewarded: return AppodealAdType.RewardedVideo;
-                default: return AppodealAdType.Banner;
+                return type switch
+                {
+                    AdType.Banner or AdType.BannerTop => AppodealAdType.Banner,
+                    AdType.Interstitial => AppodealAdType.Interstitial,
+                    AdType.Rewarded => AppodealAdType.RewardedVideo,
+                    _ => AppodealAdType.Interstitial,
+                };
             }
+            else if (typeof(T) == typeof(AppodealShowStyle))
+            {
+                return (AppodealShowStyle)type;
+            }
+            else throw new System.InvalidCastException("Error on casting in a method: " + nameof(To));
         }
     }
 }

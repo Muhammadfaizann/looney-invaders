@@ -75,14 +75,13 @@ namespace LooneyInvaders.iOS
             AdManager.ShowInterstitialHandler = ShowInterstitial;
             Appodeal.SetLogLevel(APDLogLevel.Verbose);
             Appodeal.SetTestingEnabled(false);
-            Appodeal.SetBannerAnimationEnabled(true);
-            Appodeal.SetBannerBackgroundVisible(false);
-            Appodeal.SetSmartBannersEnabled(true);
-            Appodeal.SetAutocache(false, AppDelegate.RequiredAdTypes);
-            Appodeal.SetAutocache(true, AppodealAdType.Banner);
+            //Appodeal.SetBannerAnimationEnabled(true);
+            //Appodeal.SetBannerBackgroundVisible(false);
+            //Appodeal.SetSmartBannersEnabled(true);
+            Appodeal.SetAutocache(true, AppDelegate.RequiredAdTypes);
             AppodealAdsHelper.LoadingPauseMilliseconds = 1500;
             Appodeal.SetInterstitialDelegate(interstitialDelegate);
-            Appodeal.SetBannerDelegate(new BannerDelegate());
+            //Appodeal.SetBannerDelegate(new BannerDelegate());
             Appodeal.CacheAd(AppDelegate.RequiredAdTypes);
 
             _svc = new PurchaseService();

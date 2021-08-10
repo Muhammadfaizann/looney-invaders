@@ -1,14 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using CC.Mobile.Purchases;
-using CoreMotion;
-using Foundation;
-using UIKit;
+﻿using UIKit;
+using AppodealXamariniOS;
 using LooneyInvaders.iOS.Services.Ads;
 using LooneyInvaders.Model;
 using LooneyInvaders.Services.App42;
 using static LooneyInvaders.iOS.Services.Ads.AppodealAdsHelper;
-using AppodealXamariniOS;
 
 namespace LooneyInvaders.iOS
 {

@@ -25,9 +25,8 @@ namespace LooneyInvaders.iOS
         //private const string HockeyappKey = "7b026ab1c1fd4dc8bea25d9b232d618f";
         private const string AppodealApiKey = "91c63f844fc0bd37c391b011852f0fc7ebf890f98e02b7a6";
 
-        public static readonly AdType RequiredAdTypes = AdType.Interstitial
-                                                      | AdType.RewardedVideo
-                                                      | AdType.Banner;
+        public static readonly AdType RequiredAdTypes = AdType.Interstitial;
+                                                      //| AdType.Banner;
 
         public override UIWindow Window { get; set; }
 
